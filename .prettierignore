@@ -1,0 +1,6 @@
+templates/
+services/
+.next/
+.node_modules/
+.github/
+pnpm-lock.yaml

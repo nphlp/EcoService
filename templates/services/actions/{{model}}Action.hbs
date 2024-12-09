@@ -1,0 +1,87 @@
+"use server";
+
+import {{modelName}}Service from "@services/class/{{modelName}}Class";
+import { Count{{modelName}}Props, Count{{modelName}}Response, Create{{modelName}}Props, Create{{modelName}}Response, Delete{{modelName}}Props, Delete{{modelName}}Response, FindMany{{modelName}}Props, FindMany{{modelName}}Response, FindUnique{{modelName}}Props, FindUnique{{modelName}}Response, Update{{modelName}}Props, Update{{modelName}}Response, Upsert{{modelName}}Props, Upsert{{modelName}}Response } from "@services/types/{{modelName}}Type";
+
+export const Create{{modelName}} = async <T extends Create{{modelName}}Props>(props: T): Promise<Create{{modelName}}Response<T>> => {
+    try {
+        const { data, error } = await {{modelName}}Service.create(props);
+        if (!data || error) throw new Error(error);
+        return data;
+    } catch (error) {
+        throw new Error("Create{{modelName}} -> " + (error as Error).message);
+    }
+};
+
+export const Upsert{{modelName}} = async <T extends Upsert{{modelName}}Props>(props: T): Promise<Upsert{{modelName}}Response<T>> => {
+    try {
+        const { data, error } = await {{modelName}}Service.upsert(props);
+        if (!data || error) throw new Error(error);
+        return data;
+    } catch (error) {
+        throw new Error("Upsert{{modelName}} -> " + (error as Error).message);
+    }
+};
+
+export const Update{{modelName}} = async <T extends Update{{modelName}}Props>(props: T): Promise<Update{{modelName}}Response<T>> => {
+    try {
+        const { data, error } = await {{modelName}}Service.update(props);
+        if (!data || error) throw new Error(error);
+        return data;
+    } catch (error) {
+        throw new Error("Update{{modelName}} -> " + (error as Error).message);
+    }
+};
+
+export const Delete{{modelName}} = async <T extends Delete{{modelName}}Props>(props: T): Promise<Delete{{modelName}}Response<T>> => {
+    try {
+        const { data, error } = await {{modelName}}Service.delete(props);
+        if (!data || error) throw new Error(error);
+        return data;
+    } catch (error) {
+        throw new Error("Delete{{modelName}} -> " + (error as Error).message);
+    }
+};
+
+/**
+ * WARNING: do not use this for fetching data -> use API routes with caching instead
+ */
+export const Select{{modelName}} = async <T extends FindUnique{{modelName}}Props>(
+    props: T
+): Promise<FindUnique{{modelName}}Response<T>> => {
+    try {
+        const { data, error } = await {{modelName}}Service.findUnique(props);
+        if (error) throw new Error(error);
+        return data ?? null;
+    } catch (error) {
+        throw new Error("Select{{modelName}} -> " + (error as Error).message);
+    }
+};
+
+/**
+ * WARNING: do not use this for fetching data -> use API routes with caching instead
+ */
+export const Select{{modelName}}List = async <T extends FindMany{{modelName}}Props>(
+    props: T
+): Promise<FindMany{{modelName}}Response<T>> => {
+    try {
+        const { data, error } = await {{modelName}}Service.findMany(props);
+        if (!data || error) throw new Error(error);
+        return data;
+    } catch (error) {
+        throw new Error("Select{{modelName}}List -> " + (error as Error).message);
+    }
+};
+
+/**
+ * WARNING: do not use this for fetching data -> use API routes with caching instead
+ */
+export const Select{{modelName}}Amount = async (props: Count{{modelName}}Props): Promise<Count{{modelName}}Response> => {
+    try {
+        const { data, error } = await {{modelName}}Service.count(props);
+        if (!data || error) throw new Error(error);
+        return data;
+    } catch (error) {
+        throw new Error("Select{{modelName}}Amount -> " + (error as Error).message);
+    }
+};

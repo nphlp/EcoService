@@ -1,0 +1,74 @@
+import {{modelName}}Service from "@services/class/{{modelName}}Class";
+import { Count{{modelName}}Props, Count{{modelName}}Response, FindMany{{modelName}}Props, FindMany{{modelName}}Response, FindUnique{{modelName}}Props, FindUnique{{modelName}}Response } from "@services/types/{{modelName}}Type";
+import { parseAndDecodeParams, revalidate } from "@utils/FetchConfig";
+import { unstable_cache as cache } from "next/cache";
+import { NextRequest, NextResponse } from "next/server";
+
+// ============== API Routes Types ============== //
+
+export type {{modelName}}Routes<Input> = {
+    "/{{modelNameLower}}": {
+        params: FindMany{{modelName}}Props,
+        response: FindMany{{modelName}}Response<Input extends FindMany{{modelName}}Props ? Input : never>
+    },
+    "/{{modelNameLower}}/unique": {
+        params: FindUnique{{modelName}}Props,
+        response: FindUnique{{modelName}}Response<Input extends FindUnique{{modelName}}Props ? Input : never>
+    },
+    "/{{modelNameLower}}/count": {
+        params: Count{{modelName}}Props,
+        response: Count{{modelName}}Response
+    }
+}
+
+// ==================== Find Many ==================== //
+
+const {{modelNameLower}}ListCached = cache(async <T extends FindMany{{modelName}}Props>(params: T) => {{modelName}}Service.findMany(params), ["{{modelNameLower}}"], {
+    revalidate,
+    tags: ["{{modelNameLower}}"],
+});
+
+export const Select{{modelName}}List = async <T extends FindMany{{modelName}}Props>(request: NextRequest) => {
+    try {
+        const params: T = parseAndDecodeParams(request);
+        const response = await {{modelNameLower}}ListCached<T>(params);
+        return NextResponse.json(response, { status: 200 });
+    } catch (error) {
+        return NextResponse.json({ error: "get{{modelName}}ListCached -> " + (error as Error).message }, { status: 500 });
+    }
+};
+
+// ==================== Find Unique ==================== //
+
+const {{modelNameLower}}UniqueCached = cache(
+    async <T extends FindUnique{{modelName}}Props>(params: T) => {{modelName}}Service.findUnique(params),
+    ["{{modelNameLower}}/unique"],
+    { revalidate, tags: ["{{modelNameLower}}/unique"] },
+);
+
+export const Select{{modelName}}Unique = async <T extends FindUnique{{modelName}}Props>(request: NextRequest) => {
+    try {
+        const params: T = parseAndDecodeParams(request);
+        const response = await {{modelNameLower}}UniqueCached<T>(params);
+        return NextResponse.json(response, { status: 200 });
+    } catch (error) {
+        return NextResponse.json({ error: "get{{modelName}}UniqueCached -> " + (error as Error).message }, { status: 500 });
+    }
+};
+
+// ==================== Count ==================== //
+
+const {{modelNameLower}}CountCached = cache(async (params: Count{{modelName}}Props) => {{modelName}}Service.count(params), ["{{modelNameLower}}/count"], {
+    revalidate,
+    tags: ["{{modelNameLower}}/count"],
+});
+
+export const Select{{modelName}}Count = async (request: NextRequest) => {
+    try {
+        const params: Count{{modelName}}Props = parseAndDecodeParams(request);
+        const response = await {{modelNameLower}}CountCached(params);
+        return NextResponse.json(response, { status: 200 });
+    } catch (error) {
+        return NextResponse.json({ error: "get{{modelName}}CountCached -> " + (error as Error).message }, { status: 500 });
+    }
+};

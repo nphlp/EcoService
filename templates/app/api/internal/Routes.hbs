@@ -1,0 +1,7 @@
+{{#each models}}
+import { {{this.name}}Routes } from "@services/api/{{this.name}}Api";
+{{/each}}
+
+export type Routes<Input> = 
+{{#each models}}{{#if @first}}    {{/if}}{{this.name}}Routes<Input>{{#unless @last}} &
+    {{/unless}}{{/each}};
