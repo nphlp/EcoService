@@ -3,6 +3,9 @@
 import Link from "next/link";
 import ButtonClient from "./Button";
 import { useSession } from "@lib/client";
+import { Leaf } from "lucide-react";
+import { useState } from "react";
+import { combo } from "@lib/combo";
 
 type HeaderClientProps = {
     className?: string;
@@ -11,15 +14,22 @@ type HeaderClientProps = {
 export default function HeaderClient(props: HeaderClientProps) {
     const { className } = props;
 
+    const [visibilityMenu, setVisibilityMenu] = useState<boolean>(false);
+
     const { data: session } = useSession();
 
     return (
         <header className={className}>
             {/* Mobile */}
             <nav className="md:hidden">
-                <Link href="/">Home</Link>
-                <Link href="/register">Register</Link>
-                <Link href="/login">Login</Link>
+                <ButtonClient type="button" label="show-menu" onClick={() => setVisibilityMenu(!visibilityMenu)}>
+                    <Leaf  />
+                </ButtonClient>
+                <div className={combo(!visibilityMenu && "hidden")}>
+                    <Link href="/">Home</Link>
+                    <Link href="/register">Register</Link>
+                    <Link href="/login">Login</Link>
+                </div>
             </nav>
 
             {/* Desktop */}
