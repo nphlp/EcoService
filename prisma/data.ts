@@ -43,14 +43,44 @@ export const userData: UserData[] = [
 
 interface FruitData {
     name: FruitType["name"];
+    description: FruitType["description"];
+    image: FruitType["image"];
 }
 
 export const fruitData: FruitData[] = [
-    { name: "Apple" },
-    { name: "Banana" },
-    { name: "Cherry" },
-    { name: "Mango" },
-    { name: "Orange" },
-    { name: "Pineapple" },
-    { name: "Strawberry" },
+    {
+        name: "Apple",
+        description: "A spherical fruit with a red or green skin and a whitish flesh.",
+        image: "/fruit/apple.webp",
+    },
+    {
+        name: "Banana",
+        description: "A long curved fruit that grows in clusters and has soft pulpy flesh and yellow skin when ripe.",
+        image: "/fruit/banana.webp",
+    },
+    {
+        name: "Cherry",
+        description: "A small, round stone fruit that is typically bright or dark red.",
+        image: "/fruit/cherry.webp",
+    },
+    {
+        name: "Mango",
+        description: "A large oval tropical fruit with smooth yellowish-red skin, hard central stone, and soft, juicy orange-yellow flesh.",
+        image: "/fruit/mango.webp",
+    },
+    {
+        name: "Orange",
+        description: "A round juicy citrus fruit with a tough bright reddish-yellow rind.",
+        image: "/fruit/orange.webp",
+    },
+    {
+        name: "Pineapple",
+        description: "A tropical fruit with a tough segmented skin and sweet, juicy, yellow flesh.",
+        image: "/fruit/pineapple.webp",
+    },
+    {
+        name: "Strawberry",
+        description: "A sweet soft red fruit with a seed-studded surface.",
+        image: "/fruit/strawberry.webp",
+    },
 ];

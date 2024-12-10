@@ -107,7 +107,7 @@ There is three types of users.
 ## Init
 
 ```bash
-pnpm install && pnpm dlx prisma generate && pnpm dlx prisma migrate deploy && pnpm run reload
+pnpm install && pnpm dlx prisma generate && pnpm dlx prisma migrate deploy && pnpm run reload # do not add reload in prod
 ```
 
 ## Build

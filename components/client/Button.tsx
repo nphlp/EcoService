@@ -96,8 +96,8 @@ export default function ButtonClient(props: ButtonClientProps) {
             <button
                 type={type}
                 className={classList}
-                id={label ?? id}
-                name={label ?? name}
+                id={id ?? label}
+                name={name ?? label}
                 onClick={onClick}
                 disabled={isLoading}
             >

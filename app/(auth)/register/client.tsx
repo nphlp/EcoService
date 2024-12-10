@@ -25,7 +25,7 @@ export default function RegisterClient() {
         setIsLoading(true);
 
         if (!firstname || !lastname || !email || !password) {
-            setMessage("Please fill all fields");
+            setMessage("Please fill all fields.");
             setMode("warning");
             setIsLoading(false);
             return;

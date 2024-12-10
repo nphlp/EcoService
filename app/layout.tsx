@@ -19,9 +19,9 @@ export default function RootLayout({
     return (
         <html lang="en" className="h-full overflow-hidden">
             <body className={combo("flex h-full flex-col items-center justify-center overflow-hidden", inter.className)}>
-                <HeaderClient className="flex h-12 w-full flex-row items-center justify-center" />
-                <main className="flex size-full flex-col items-center justify-center overflow-y-auto overflow-x-hidden">
-                    {children}
+                <HeaderClient />
+                <main className="flex size-full flex-col items-center justify-center overflow-hidden">
+                    <div className="flex w-full flex-col items-center justify-start overflow-y-auto p-4">{children}</div>
                 </main>
             </body>
         </html>

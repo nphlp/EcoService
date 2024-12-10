@@ -11,13 +11,11 @@ export default async function ProfilePage() {
         redirect("/login");
     }
 
-    console.log(session);
-
     const expirationDate = new Date(session.session.expiresAt);
     const expirationFormatted = expirationDate.toLocaleTimeString().split(":").slice(0, 2).join("h");
 
     return (
-        <div className="grid grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 gap-5 lg:grid-cols-3">
             <Card className="w-[280px] space-y-3">
                 <h1 className="text-xl font-bold">Profile</h1>
                 <div className="space-y-2">

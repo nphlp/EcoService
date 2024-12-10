@@ -37,10 +37,12 @@ export const fixtures = async () => {
             });
         }
 
-        for (const { name } of fruitData) {
+        for (const { name, description, image } of fruitData) {
             await Prisma.fruit.create({
                 data: {
                     name,
+                    description,
+                    image
                 },
             });
         }

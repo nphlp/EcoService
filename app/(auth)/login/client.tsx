@@ -23,7 +23,7 @@ export default function LoginClient() {
         setIsLoading(true);
 
         if (!email || !password) {
-            setMessage("Please fill all fields");
+            setMessage("Please fill all fields.");
             setMode("warning");
             setIsLoading(false);
             return;

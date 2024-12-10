@@ -87,6 +87,8 @@ model Verification {
 model Fruit {
     id   String @id @unique @default(nanoid())
     name String
+    description String
+    image String
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
