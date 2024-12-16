@@ -1,8 +1,8 @@
 import { Image as ImageTemplate } from "lucide-react";
 import Image from "next/image";
 import Card from "./Card";
-import fs from 'fs';
-import path from 'path';
+import fs from "fs";
+import path from "path";
 
 export const ImageCard = (props: { children: React.ReactNode }) => {
     const { children } = props;
@@ -16,7 +16,9 @@ const fileExists = (filePath: string) => {
 export const Img = (props: { src: string; alt: string }) => {
     const { src, alt } = props;
 
-    if (!fileExists(src)) {
+    const absolutePath = path.join(process.cwd(), "public", src);
+
+    if (!fileExists(absolutePath)) {
         return <ImageTemplate width={300} height={200} />;
     }
 
