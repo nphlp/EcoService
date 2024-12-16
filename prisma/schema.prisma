@@ -13,7 +13,14 @@ model User {
     email         String  @unique
     emailVerified Boolean
     image         String?
-    role          Role    @default(USER)
+
+    phone    String?
+    stripeId String? // payment gateway id
+    Adress   Address[]
+    Order    Order[]
+
+    role    Role      @default(USER)
+    Product Product[] // for vendor only
 
     // One to Many
     Session Session[]
@@ -27,8 +34,101 @@ model User {
 
 enum Role {
     USER
-    MODO
+    VENDOR
+    EMPLOYEE
     ADMIN
+}
+
+model Product {
+    id          String @id @unique @default(nanoid())
+    name        String
+    description String
+    image       String
+    price       Float
+    stock       Int
+
+    vendorId String
+    user     User   @relation(fields: [vendorId], references: [id], onDelete: Cascade)
+
+    quantity Quatity[]
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@map("product")
+}
+
+model Quatity {
+    id String @id @unique @default(nanoid())
+    quantity Int
+
+    productId String
+    product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+    orderId String
+    order   Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@map("quantity")
+}
+
+model Order {
+    id String @id @unique @default(nanoid())
+    // orderNumber String
+
+    items         Json
+    orderStatus   OrderStatus   @default(PENDING)
+    paymentStatus PaymentStatus @default(PENDING)
+
+    // Many to One
+    userId String
+    user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    quantity Quatity[]
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@map("order")
+}
+
+enum OrderStatus {
+    PENDING // in cart
+    ACCEPTED // order paid
+    PREPARING // preparing for shipment
+    DELIVERING // in delivering
+    COMPLETED // delivered
+    CANCELLED // order cancelled
+    RETURNING // order retturning
+    REFOUNDED // order refunded
+}
+
+enum PaymentStatus {
+    PENDING
+    ACCEPTED
+    REFUSED
+    REFUNDED
+}
+
+model Address {
+    id      String @id @unique @default(nanoid())
+    address String
+    postal  String
+    city    String
+    country String
+
+    isPrimary Boolean
+
+    // Many to One
+    userId String
+    user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@map("address")
 }
 
 model Session {
@@ -60,11 +160,11 @@ model Account {
     accessToken  String?
     refreshToken String?
 
-    accessTokenExpiresAt    DateTime?
-    refreshTokenExpiresAt    DateTime?
+    accessTokenExpiresAt  DateTime?
+    refreshTokenExpiresAt DateTime?
 
-    scope        String?
-    password     String?
+    scope    String?
+    password String?
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
@@ -85,10 +185,10 @@ model Verification {
 }
 
 model Fruit {
-    id   String @id @unique @default(nanoid())
-    name String
+    id          String @id @unique @default(nanoid())
+    name        String
     description String
-    image String
+    image       String
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt

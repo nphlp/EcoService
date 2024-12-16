@@ -10,19 +10,21 @@ export default async function ServerFruitPage() {
                 <h1 className="text-2xl font-bold">Fruit List</h1>
                 <p>
                     Here is a list of fruits fetched and rendered on the server
-                    side.
+                    side. The list is sorted alphabetically.
                 </p>
             </div>
             <div className="grid columns-1 grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
-                {fruitList?.map(({ name, description, image }, index) => (
-                    <ImageCard key={index}>
-                        <Img src={image} alt={name} />
-                        <div className="w-[200px] space-y-1 p-4">
-                            <Title>{name}</Title>
-                            <Text>{description}</Text>
-                        </div>
-                    </ImageCard>
-                ))}
+                {fruitList
+                    ? fruitList.map(({ name, description, image }, index) => (
+                          <ImageCard key={index}>
+                              <Img src={image} alt={name} />
+                              <div className="w-[200px] space-y-1 p-4">
+                                  <Title>{name}</Title>
+                                  <Text>{description}</Text>
+                              </div>
+                          </ImageCard>
+                      ))
+                    : "No fruits found."}
             </div>
         </div>
     );

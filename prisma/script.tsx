@@ -4,13 +4,12 @@ import { fruitData, userData } from "./data";
 export const fixtures = async () => {
     try {
         // User table
-        for (const { name, email, emailVerified, image, role, password } of userData) {
+        for (const { name, email, emailVerified, role, password } of userData) {
             const createdUser = await Prisma.user.create({
                 data: {
                     name,
                     email,
                     emailVerified,
-                    image,
                     role,
                     Account: {
                         create: {

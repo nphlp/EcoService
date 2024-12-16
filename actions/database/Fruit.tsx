@@ -21,7 +21,9 @@ export const SelectFruitById = async (
             return null;
         }
 
-        return fruitDataRaw;
+        const fruitData: FruitType = fruitDataRaw
+
+        return fruitData;
     } catch (error) {
         throw new Error("SelectFruitById -> " + (error as Error).message);
     }
@@ -29,13 +31,15 @@ export const SelectFruitById = async (
 
 export const SelectEveryFruit = async (): Promise<FruitType[] | null> => {
     try {
-        const fruitDataRaw = await Prisma.fruit.findMany();
+        const fruitDataListRaw = await Prisma.fruit.findMany();
 
-        if (!fruitDataRaw) {
+        if (!fruitDataListRaw.length) {
             return null;
         }
 
-        return fruitDataRaw;
+        const fruitDataList: FruitType[] = fruitDataListRaw.sort((a, b) => a.name.localeCompare(b.name));
+
+        return fruitDataList;
     } catch (error) {
         throw new Error("SelectEveryFruit -> " + (error as Error).message);
     }
