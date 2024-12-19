@@ -1,7 +1,9 @@
 "use server"
 
-import { FruitType, SelectFruitByIdProps } from "@actions/types/Fruit";
+import { FruitType, SelectFruitByIdProps, SelectRandomFruitReturn } from "@actions/types/Fruit";
 import Prisma from "@lib/prisma";
+import fs from "fs";
+import path from "path";
 
 export const SelectFruitById = async (
     props: SelectFruitByIdProps
@@ -47,20 +49,32 @@ export const SelectEveryFruit = async (): Promise<FruitType[] | null> => {
     }
 };
 
-export const SelectRandomFruit = async (): Promise<FruitType | null> => {
+export const SelectRandomFruit = async (): Promise<SelectRandomFruitReturn | null> => {
     try {
         const fruitDataListRaw = await Prisma.fruit.findMany();
+        const fileExists = (filePath: string) => {
+            return fs.existsSync(path.resolve(filePath));
+        };
 
         if (!fruitDataListRaw.length) {
             return null;
         }
-
         const randomIndex = Math.floor(Math.random() * fruitDataListRaw.length);
 
-        const fruitData: FruitType = fruitDataListRaw[randomIndex];
+        const fruitDataRaw: FruitType = fruitDataListRaw[randomIndex];
+
+
+        const absolutePath = path.join(process.cwd(), "public", fruitDataRaw.image);
+        const fruitData: SelectRandomFruitReturn = { ...fruitDataRaw };
+
+        if (!fileExists(absolutePath)) {
+            fruitData.image = null;
+        }
 
         return fruitData;
+
     } catch (error) {
         throw new Error("SelectRandomFruit -> " + (error as Error).message);
     }
+
 }
