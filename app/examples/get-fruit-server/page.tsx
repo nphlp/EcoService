@@ -1,8 +1,10 @@
 import { SelectEveryFruit } from "@actions/database/Fruit";
-import { ImageCard, Text, Title } from "@comps/server/ImageCommon";
-import { Img } from "@comps/server/ImageCard";
+import { Content, ImageCard, Img, Text, Title } from "@comps/server/ImageCard";
 
-export default async function ServerFruitPage() {
+// Server component (can be async function)
+export default async function FruitPage() {
+
+    // This server comonent can use a server action directly to fetch data
     const fruitList = await SelectEveryFruit();
 
     return (
@@ -18,10 +20,10 @@ export default async function ServerFruitPage() {
                     ? fruitList.map(({ name, description, image }, index) => (
                         <ImageCard key={index}>
                             <Img src={image} alt={name} />
-                            <div className="w-[200px] space-y-1 p-4">
+                            <Content>
                                 <Title>{name}</Title>
                                 <Text>{description}</Text>
-                            </div>
+                            </Content>
                         </ImageCard>
                     ))
                     : "No fruits found."}

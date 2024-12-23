@@ -2,7 +2,7 @@ import { combo } from "@lib/combo";
 
 export type FeedbackProps = {
     message: string;
-    mode: "success" | "warning" | "error" | "";
+    mode: "success" | "info" | "warning" | "error" | "";
 };
 
 export default function FeedbackClient(props: FeedbackProps) {
@@ -14,6 +14,7 @@ export default function FeedbackClient(props: FeedbackProps) {
 
     const modeStyle = {
         success: "text-green-600 border-green-400 bg-green-100",
+        info: "text-blue-600 border-blue-400 bg-blue-100",
         warning: "text-orange-600 border-orange-400 bg-orange-100",
         error: "text-red-600 border-red-400 bg-red-100",
     };

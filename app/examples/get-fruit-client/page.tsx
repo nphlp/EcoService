@@ -1,8 +1,9 @@
 "use client";
 
-import ClientFruitPage from "./client";
+import FruitPageClient from "./client";
 
-export default function ServerFruitPage() {
+// Server component
+export default function FruitPage() {
     return (
         <div className="space-y-4">
             <div>
@@ -11,7 +12,9 @@ export default function ServerFruitPage() {
                     Here is a list of fruits fetched and rendered on the <span className="font-bold">client side</span>. Click the following button to fetch some fruits.
                 </p>
             </div>
-            <ClientFruitPage />
+
+            {/* Render a client component */}
+            <FruitPageClient />
         </div>
     );
 }

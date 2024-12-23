@@ -63,7 +63,7 @@ Follow this link: [Coding chart](https://github.com/nansphilip/EcoService/blob/m
 - Run Prisma database migrations
 
   ```bash
-  pnpm dlx prisma migrate dev --name initial-migration
+  pnpm dlx prisma migrate dev
   ```
 
 - Insert fixtures
@@ -72,7 +72,7 @@ Follow this link: [Coding chart](https://github.com/nansphilip/EcoService/blob/m
   pnpm run fixtures
   ```
 
-- If needed you can reload or reset
+- (optional) If needed you can reload or reset
 
   ```bash
   pnpm run reload
@@ -88,9 +88,7 @@ Follow this link: [Coding chart](https://github.com/nansphilip/EcoService/blob/m
   pnpm run dev
   ```
 
-- (optional)
-
-  Clear your `localhost:3000` browser cookies is you have an error
+- (optional) Clear your `localhost:3000` browser cookies is you have an error
 
 ## Fixtures
 

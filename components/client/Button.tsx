@@ -10,7 +10,6 @@ export type ButtonClientProps = {
     label: string;
     id?: string;
     name?: string;
-    href?: string | never;
     loadingLabel?: string;
     isLoading?: boolean;
     variant?: "default" | "outline" | "ghost" | "underline" | "none";

@@ -42,7 +42,6 @@ export default function HeaderClient() {
             href: "/profile",
             sessionActive: true,
         },
-        { title: "Cropper", label: "cropper", href: "/cropper" },
     ];
 
     return (
@@ -68,7 +67,10 @@ export default function HeaderClient() {
                     variant="none"
                     padding="none"
                     ring={false}
-                    className={combo("absolute inset-0 z-40 rounded-none bg-black opacity-10", !visibilityMenu && "hidden")}
+                    className={combo(
+                        "absolute inset-0 z-40 rounded-none bg-black opacity-10",
+                        !visibilityMenu && "hidden"
+                    )}
                     onClick={() => setVisibilityMenu(false)}
                 >
                     {""}
@@ -126,7 +128,10 @@ export default function HeaderClient() {
                                     label={label}
                                     ring={false}
                                     variant="ghost"
-                                    className={combo("px-8", path === href && "font-bold")}
+                                    className={combo(
+                                        "px-8",
+                                        path === href && "font-bold"
+                                    )}
                                 >
                                     {title}
                                 </ButtonClient>

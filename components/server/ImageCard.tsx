@@ -1,18 +1,29 @@
+import Card from "@comps/server/Card";
+import { combo } from "@lib/combo";
 import { Image as ImageTemplate } from "lucide-react";
 import Image from "next/image";
-import fs from "fs";
-import path from "path";
 
-const fileExists = (filePath: string) => {
-    return fs.existsSync(path.resolve(filePath));
+export const ImageCard = (props: {
+    className?: string;
+    children: React.ReactNode;
+}) => {
+    const { className, children } = props;
+    return (
+        <Card className={combo("w-fit overflow-hidden p-0", className)}>
+            {children}
+        </Card>
+    );
 };
 
-export const Img = (props: { src: string; alt: string }) => {
-    const { src, alt } = props;
+export const Img = (props: {
+    src: string | null;
+    alt: string;
+    height?: number;
+    width?: number;
+}) => {
+    const { src, height, width, alt } = props;
 
-    const absolutePath = path.join(process.cwd(), "public", src);
-
-    if (!fileExists(absolutePath)) {
+    if (!src) {
         return <ImageTemplate width={300} height={200} />;
     }
 
@@ -21,10 +32,25 @@ export const Img = (props: { src: string; alt: string }) => {
             <Image
                 src={src}
                 alt={alt}
-                width={300}
-                height={200}
+                width={width ?? 300}
+                height={height ?? 200}
                 className="object-cover"
             />
         </div>
     );
+};
+
+export const Content = (props: { children: React.ReactNode }) => {
+    const { children } = props;
+    return <div className="w-[300px] space-y-1 p-4">{children}</div>;
+};
+
+export const Title = (props: { children: React.ReactNode }) => {
+    const { children } = props;
+    return <h2 className="text-lg font-bold">{children}</h2>;
+};
+
+export const Text = (props: { children: React.ReactNode }) => {
+    const { children } = props;
+    return <p className="line-clamp-3 text-wrap text-sm">{children}</p>;
 };
