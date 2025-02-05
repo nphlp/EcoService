@@ -50,7 +50,7 @@ model Product {
     vendorId String
     user     User   @relation(fields: [vendorId], references: [id], onDelete: Cascade)
 
-    quantity Quatity[]
+    quantity Quantity[]
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
@@ -58,7 +58,7 @@ model Product {
     @@map("product")
 }
 
-model Quatity {
+model Quantity {
     id String @id @unique @default(nanoid())
     quantity Int
 
@@ -78,7 +78,7 @@ model Order {
     id String @id @unique @default(nanoid())
     // orderNumber String
 
-    items         Json
+    // items         Json
     orderStatus   OrderStatus   @default(PENDING)
     paymentStatus PaymentStatus @default(PENDING)
 
@@ -86,7 +86,7 @@ model Order {
     userId String
     user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-    quantity Quatity[]
+    quantity Quantity[]
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
