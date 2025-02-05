@@ -59,7 +59,7 @@ export default function InputClient(props: InputProps) {
     }
 
     return (
-        <div className={combo("flex flex-col gap-1", classDiv)}>
+        <div className={combo("flex w-full flex-col gap-1", classDiv)}>
             <label
                 className={combo("text-gray-600", classLabel)}
                 htmlFor={labelLowerCased}
