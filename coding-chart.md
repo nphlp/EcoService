@@ -8,43 +8,32 @@ Vous trouverez ci-dessous, les règles d'usage de git et de formatage du code.
 
 - `main` : branche de production, c'est à partir de cette branche qu'est déployé le site internet
 - `dev` : branche de développement, c'est la branche sur laquelle toutes les features sont ajoutées unes à unes
-- `feature/nom-de-la-feature` : branche de développement d'une seule fonctionnalité, manipulée par un seul développeur
+- `feat/{nom-developpeur}-{nom-feature}` : branche de développement d'une seule fonctionnalité, manipulée par un seul développeur \
+  Exemple: `feat/nans-add-header`
 
 > [!IMPORTANT]
-> Les branches `main` et `dev` sont manipulées avec douceur et gentillesse par le `lead dev`.
+> Les branches `main` et `dev` sont manipulées par le `lead dev` uniquement. \
+> Les branches `feat` sont créées et manipuléees par les développeurs eux-mêmes.
 
-> [!NOTE]
-> Chaque branche `feature` est créé et manipulée par un seul développeur.
+### Commits & Push
 
-<br>
-
-### Commits
+> [!WARNING]
+> **Aucune manipulation** sur `git` ne doit être faite au hasard.
 
 C'est un confort pour toute l'équipe de suivre une typologie de nommage de `commits`. On peut aisément savoir ce que représente chaque `commit` :
 
 - Avancement sur la feature : `feat: new feature`
 - Correction sur la feature : `fix: issue solved`
-- Commit de fusion : `merge: get last updates from dev`
 
-> [!TIP]
-> Si vous avez un micro-ajustement à faire quelques secondes après avoir `commit` et `push`, vous pouvez modifier inclure vos modifications dans le `commit` précédent pour conserver un historique propre. Il y a trois commandes à faire :
-> - `git add .` pour ajouter les modifications en attente
-> - `git commit --amend --no-edit` pour inclure les modifications dans le dernier commit `--amend`, sans renommer le message `--no-edit`
-> - `git push --force` pour ÉCRASER le **_commit distant_** avec le **_commit local_**
+> [!NOTE]
+> Il est nécessaire de `commit` et `push` le plus régulièrement possible. \
+> Par exemple :
+> - dès qu'un ajout fonctionne
+> - dès qu'une erreur est corrigée
+> - dès qu'une fonctionnalité est terminée
+> - en fin de journée
 > 
-> **ATTENTION** : cette manipulation réécrit l'historique (à cause du `--force`) ! Ce genre de manipulation est irréversible. À proscrire sur `dev` et `main`.
-
-<br>
-
-### Changement de poste de travail
-
-Il est vivement recommandé de `commit` et `push` sur la **_branche distante_** (dépôt Github) les modifications que vous venez de faire sur votre **_branche locale_** (votre ordinateur). Il faut ensuite `pull` le ou les derniers `commits` à votre arrivée sur un autre poste de travail.
-
-> [!WARNING]
-> Si vous n'avez pas `push` un `commit` sur un ordinateur et que vous essayez de `pull` votre **_branche distante_** : une bifurcation peut avoir lieu. Vous avez donc deux branches avec des commits différents : la fusion des branches devient très complexe.
-
-<br>
-<br>
+> Si vous travailler sur différents postes, vous devez être en plus rigoureux sur le `commit` et le `push` pour éviter les `conflits` entre vos ordinateurs.
 
 ## Mise à jour des branches
 

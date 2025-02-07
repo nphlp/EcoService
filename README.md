@@ -54,6 +54,19 @@ Follow this link: [Coding chart](https://github.com/nansphilip/EcoService/blob/m
   PLUNK_API_KEY=plunk-private-key
   ```
 
+  - Stripe API
+
+  ```md
+  ### Stripe Webhook events
+  [x] account.updated
+  [x] charge.dispute.created
+  [x] checkout.session.completed
+  [x] payment_intent.payment_failed
+  [x] payment_intent.succeeded
+  [x] payout.failed
+  [x] payout.paid
+  ```
+
 - Generate the Prisma client
 
   ```bash
