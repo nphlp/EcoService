@@ -2,10 +2,11 @@ import Card from "@comps/server/Card";
 import { combo } from "@lib/combo";
 import { Image as ImageTemplate } from "lucide-react";
 import Image from "next/image";
+import { ReactNode } from "react";
 
 export const ImageCard = (props: {
     className?: string;
-    children: React.ReactNode;
+    children: ReactNode;
 }) => {
     const { className, children } = props;
     return (
@@ -40,17 +41,17 @@ export const Img = (props: {
     );
 };
 
-export const Content = (props: { children: React.ReactNode }) => {
+export const Content = (props: { children: ReactNode }) => {
     const { children } = props;
     return <div className="w-[300px] space-y-1 p-4">{children}</div>;
 };
 
-export const Title = (props: { children: React.ReactNode }) => {
+export const Title = (props: { children: ReactNode }) => {
     const { children } = props;
     return <h2 className="text-lg font-bold">{children}</h2>;
 };
 
-export const Text = (props: { children: React.ReactNode }) => {
+export const Text = (props: { children: ReactNode }) => {
     const { children } = props;
     return <p className="line-clamp-3 text-wrap text-sm">{children}</p>;
 };
