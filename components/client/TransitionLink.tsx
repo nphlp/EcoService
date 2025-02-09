@@ -95,6 +95,7 @@ export const TransitionLink = (props: TransitionLinkProps) => {
 
     useEffect(() => {
         transitionOut();
+    // eslint-disable-next-line
     }, [path]);
 
     return (

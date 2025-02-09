@@ -22,14 +22,9 @@ export default function ModalClient(props: ModalClientProps) {
                 type="button"
                 aria-label="close-modal"
                 onClick={() => setModalVisible(false)}
-                className="absolute left-0 top-0 z-50 h-screen w-screen bg-black opacity-50"
+                className="absolute left-0 top-0 z-50 h-screen w-screen bg-black/50 backdrop-blur-sm"
             />
-            <Card
-                className={combo(
-                    "relative z-50 bg-white opacity-100",
-                    className
-                )}
-            >
+            <Card className={combo("relative z-50 bg-white", className)}>
                 {children}
             </Card>
         </div>

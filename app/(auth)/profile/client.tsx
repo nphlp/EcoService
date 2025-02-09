@@ -174,6 +174,8 @@ export default function ProfileClient() {
                     <div className="flex flex-row items-end gap-1.5">
                         <InputClient
                             label="password"
+                            placeholder="My new password"
+                            classInput="w-full"
                             type={toggleVisibility ? "text" : "password"}
                             onChange={(e) => setPassword(e.target.value)}
                             value={password}

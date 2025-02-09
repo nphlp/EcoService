@@ -2,6 +2,11 @@
 
 Complete auth and user management
 
+## Team
+
+- Read me
+- Coding chart
+
 ## Features
 
 - [ ] Auth page

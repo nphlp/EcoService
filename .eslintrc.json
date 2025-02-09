@@ -1,17 +1,11 @@
 {
     "root": true,
-    "plugins": ["tailwindcss", "prettier"],
+    "plugins": ["tailwindcss"],
     "extends": [
         "next/core-web-vitals",
         "next/typescript",
-        "plugin:tailwindcss/recommended",
-        "plugin:prettier/recommended"
+        "plugin:tailwindcss/recommended"
     ],
-    "rules": {
-        "prettier/prettier": "error",
-        "no-unused-vars": "error",
-        "no-console": "warn"
-    },
     "overrides": [
         {
             "files": ["*.ts", "*.tsx", "*.js"],

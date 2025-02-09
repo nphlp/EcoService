@@ -21,15 +21,11 @@ Follow this link: [Coding chart](https://github.com/nansphilip/EcoService/blob/m
   pnpm install
   ```
 
-- Creates a database user and a password
+- Creates a database user and a password, and grants privileges to the user
 
   ```sql
   CREATE USER 'eco-service-user'@'localhost' IDENTIFIED BY 'eco-service-password';
-  ```
 
-  - Allows user to connect to database
-
-  ```sql
   GRANT ALL PRIVILEGES ON *.* TO 'eco-service-user'@'localhost';
   ```
 
@@ -37,22 +33,41 @@ Follow this link: [Coding chart](https://github.com/nansphilip/EcoService/blob/m
 
   - Database connection ([Prisma Docs](https://www.prisma.io/docs/getting-started/setup-prisma/add-to-existing-project/relational-databases/connect-your-database-typescript-mysql))
 
-  ```js
-  DATABASE_URL=mysql://eco-service-user:eco-service-password@localhost:3306/eco-service-db
-  ```
-
   - Session secret ([Better Auth Docs](https://www.better-auth.com/docs/installation))
-
-  ```js
-  BETTER_AUTH_SECRET=session-encryption-key
-  BETTER_AUTH_URL=http://localhost:3000
-  ```
 
   - Plunk private key ([Plunk Docs](https://docs.useplunk.com/getting-started/introduction))
 
-  ```js
-  PLUNK_API_KEY=plunk-private-key
-  ```
+  - Stripe API
+
+    1. Create a [Stripe Account](https://dashboard.stripe.com) (an IBAN is required, even for development/testing accounts)
+    2. Go to the [Workbench section](https://dashboard.stripe.com/test/workbench/overview) and get your API keys
+    3. Create a [Webhook endpoint](https://dashboard.stripe.com/test/workbench/webhooks) with the following events:
+
+       - [x] account.updated
+       - [x] charge.dispute.created
+       - [x] checkout.session.completed
+       - [x] payment_intent.payment_failed
+       - [x] payment_intent.succeeded
+       - [x] payout.failed
+       - [x] payout.paid
+  
+  - Create your `.env` file
+
+    ```.env
+    DATABASE_URL=mysql://eco-service-user:eco-service-password@localhost:3306/eco-service-db
+
+    BETTER_AUTH_SECRET=session-encryption-key
+    BETTER_AUTH_URL=http://localhost:3000
+
+    PLUNK_API_KEY=plunk-private-key
+
+    NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_test_xxxxx
+    STRIPE_SECRET_KEY=sk_test_pk_test_xxxxx
+
+    STRIPE_WEBHOOK_SECRET=whsec_xxxxx
+
+    NEXT_PUBLIC_APP_URL=http://localhost:3000
+    ```
 
 - Generate the Prisma client
 
@@ -94,11 +109,12 @@ Follow this link: [Coding chart](https://github.com/nansphilip/EcoService/blob/m
 
 There is three types of users.
 
-| Email                         | Password   | User type |
-| ----------------------------- | ---------- | --------- |
-| alice.dupont@example.com      | User1234!  | User      |
-| gabriel.rousseau@example.com  | Modo1234!  | Modo      |
-| isabelle.petit@example.com    | Admin1234! | Admin     |
+| Email                | Password      | User type |
+| -------------------- | ------------- | --------- |
+| user@example.com     | Password1234! | User      |
+| vendor@example.com   | Password1234! | Vendor    |
+| employee@example.com | Password1234! | Employee  |
+| admin@example.com    | Password1234! | Admin     |
 
 # Deployment
 

@@ -15,7 +15,12 @@ model User {
     image         String?
 
     phone    String?
-    stripeId String? // payment gateway id
+
+    stripeId        String? // Regular Stripe Customer ID
+    stripeConnectId String? // Stripe Connect Account ID
+    isOnboarded     Boolean @default(false) // Track if seller has completed Stripe onboarding
+    isSeller        Boolean @default(false) // Track if user wants to be a seller
+
     Adress   Address[]
     Order    Order[]
 
@@ -145,6 +150,7 @@ model Session {
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
+    @@index([userId])
     @@map("session")
 }
 

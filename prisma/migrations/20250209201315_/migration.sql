@@ -7,6 +7,9 @@ CREATE TABLE `user` (
     `image` VARCHAR(191) NULL,
     `phone` VARCHAR(191) NULL,
     `stripeId` VARCHAR(191) NULL,
+    `stripeConnectId` VARCHAR(191) NULL,
+    `isOnboarded` BOOLEAN NOT NULL DEFAULT false,
+    `isSeller` BOOLEAN NOT NULL DEFAULT false,
     `role` ENUM('USER', 'VENDOR', 'EMPLOYEE', 'ADMIN') NOT NULL DEFAULT 'USER',
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,
@@ -86,6 +89,7 @@ CREATE TABLE `session` (
     `updatedAt` DATETIME(3) NOT NULL,
 
     UNIQUE INDEX `session_id_key`(`id`),
+    INDEX `session_userId_idx`(`userId`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 

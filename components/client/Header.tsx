@@ -124,7 +124,7 @@ export default function HeaderClient() {
                                 <ButtonClient
                                     key={index}
                                     type="link"
-                                    pageTransition={true}
+                                    pageTransition={href === "/" ? true : false}
                                     href={href}
                                     label={label}
                                     ring={false}
