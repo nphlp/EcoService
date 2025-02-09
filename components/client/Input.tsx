@@ -1,13 +1,14 @@
 "use client";
 
 import { combo } from "@lib/combo";
+import { ChangeEvent, FocusEvent } from "react";
 
 type InputProps = {
     label: string;
     type: "text" | "email" | "password" | "file";
     placeholder?: string | boolean;
-    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-    onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
+    onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+    onBlur?: (e: FocusEvent<HTMLInputElement>) => void;
 
     classDiv?: string;
     classLabel?: string;
