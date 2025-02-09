@@ -1,7 +1,17 @@
 {
     "root": true,
-    "plugins": ["tailwindcss"],
-    "extends": ["next/core-web-vitals", "next/typescript", "plugin:tailwindcss/recommended"],
+    "plugins": ["tailwindcss", "prettier"],
+    "extends": [
+        "next/core-web-vitals",
+        "next/typescript",
+        "plugin:tailwindcss/recommended",
+        "plugin:prettier/recommended"
+    ],
+    "rules": {
+        "prettier/prettier": "error",
+        "no-unused-vars": "error",
+        "no-console": "warn"
+    },
     "overrides": [
         {
             "files": ["*.ts", "*.tsx", "*.js"],
@@ -10,7 +20,14 @@
     ],
     "settings": {
         "tailwindcss": {
-            "callees": ["classnames", "combo"]
+            "callees": [
+                "className",
+                "classList",
+                "combo",
+                "classDiv",
+                "classLabel",
+                "classInput"
+            ]
         }
     }
 }
