@@ -1,10 +1,11 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { ReactNode } from "react";
 import { RouterProvider } from "react-aria-components";
 
 type ClientProvidersProps = {
-    children: React.ReactNode;
+    children: ReactNode;
 }
 
 export function ClientProviders(props: ClientProvidersProps) {

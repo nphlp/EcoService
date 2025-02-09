@@ -2,12 +2,13 @@
 
 import Card from "@comps/server/Card";
 import { combo } from "@lib/combo";
+import { ReactNode } from "react";
 
 type ModalClientProps = {
     modalVisible: boolean;
     setModalVisible: (visible: boolean) => void;
     className?: string;
-    children: React.ReactNode;
+    children: ReactNode;
 };
 
 export default function ModalClient(props: ModalClientProps) {

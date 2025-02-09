@@ -7,7 +7,7 @@ import InputClient from "@comps/client/Input";
 import Card from "@comps/server/Card";
 import FeedbackClient, { FeedbackProps } from "@comps/server/Feedback";
 import { Content, ImageCard, Img, Text, Title } from "@comps/server/ImageCard";
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 
 export default function AddFruitClient() {
     const [isLoading, setIsLoading] = useState(false);
@@ -18,7 +18,7 @@ export default function AddFruitClient() {
     const [description, setDescription] = useState("");
     const [image, setImage] = useState<File | null>();
 
-    const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleImageChange = async (e: ChangeEvent<HTMLInputElement>) => {
         const imageFile = e.target.files?.[0] as File;
 
         if (!imageFile) {

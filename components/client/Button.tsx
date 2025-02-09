@@ -2,38 +2,47 @@
 
 import Loader from "@comps/server/Loader";
 import { combo } from "@lib/combo";
-import Link from "next/link";
+import Link, { LinkProps } from "next/link";
+import { ButtonHTMLAttributes, ReactNode } from "react";
+import { TransitionLink } from "./TransitionLink";
+
+type ButtonType = Exclude<
+    ButtonHTMLAttributes<HTMLButtonElement>["type"],
+    undefined
+>;
 
 export type ButtonClientProps = {
-    type: "link" | "button" | "submit";
-    children: React.ReactNode;
     label: string;
+    children: ReactNode;
+    className?: string;
+
     id?: string;
     name?: string;
-    loadingLabel?: string;
+
     isLoading?: boolean;
+    loadingLabel?: string;
+
     variant?: "default" | "outline" | "ghost" | "underline" | "none";
     padding?: "sm" | "md" | "lg" | "none";
     ring?: boolean;
-    className?: string;
-    onClick?: () => void;
+    pageTransition?: boolean | never;
 } & (
-    | {
+    | ({
           // If type "link"
           type: "link";
           href: string;
-      }
-    | {
-          // If type "button" or "submit"
-          type: "button" | "submit";
-          href?: never;
-      }
+          pageTransition?: boolean;
+      } & Omit<LinkProps, "href">)
+    | ({
+          // If type "button"
+          type: ButtonType;
+          pageTransition?: never;
+      } & Omit<ButtonHTMLAttributes<HTMLButtonElement>, "type">)
 );
 
 export default function ButtonClient(props: ButtonClientProps) {
     const {
-        type = "button",
-        href,
+        type,
         label,
         id,
         name,
@@ -43,8 +52,9 @@ export default function ButtonClient(props: ButtonClientProps) {
         padding = "md",
         ring = true,
         className,
+        pageTransition = false,
         children,
-        onClick,
+        ...others
     } = props;
 
     const varianteStyle = {
@@ -71,18 +81,35 @@ export default function ButtonClient(props: ButtonClientProps) {
         className
     );
 
-    if (type === "link" && href) {
+    // If type is "link"
+    if (type === "link") {
+        const { href } = props;
+        if (pageTransition) {
+            return (
+                <TransitionLink
+                    href={href}
+                    className={classList}
+                    aria-label={label}
+                    {...(others as Omit<LinkProps, "href">)}
+                >
+                    {children}
+                </TransitionLink>
+            );
+        }
         return (
             <Link
                 href={href}
                 className={classList}
-                onClick={onClick}
                 aria-label={label}
+                {...(others as Omit<LinkProps, "href">)}
             >
                 {children}
             </Link>
         );
-    } else if (type === "button" || type === "submit") {
+    }
+
+    // If type is "button"
+    else {
         const loaderColor =
             (variant === "default" && "white") ||
             (variant === "outline" && "gray") ||
@@ -97,8 +124,8 @@ export default function ButtonClient(props: ButtonClientProps) {
                 className={classList}
                 id={id ?? label}
                 name={name ?? label}
-                onClick={onClick}
                 disabled={isLoading}
+                {...(others as Omit<ButtonHTMLAttributes<HTMLButtonElement>, "type">)}
             >
                 {isLoading ? (
                     <>
