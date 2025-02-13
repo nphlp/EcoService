@@ -78,8 +78,6 @@ model Product {
     @@map("product")
 }
 
-
-
 model Quantity {
     id String @id @unique @default(nanoid())
     quantity Int
