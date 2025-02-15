@@ -44,6 +44,18 @@ enum Role {
     ADMIN
 }
 
+model Category {
+    id          String    @id @unique @default(nanoid())
+    name        String
+    description String?
+    products    Product[] @relation("CategoryToProduct") // Relation avec les produits
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@map("categories")
+}
+
 model Product {
     id          String @id @unique @default(nanoid())
     name        String
@@ -52,10 +64,13 @@ model Product {
     price       Float
     stock       Int
 
-    vendorId String
-    user     User   @relation(fields: [vendorId], references: [id], onDelete: Cascade)
+    vendorId    String
+    user        User   @relation(fields: [vendorId], references: [id], onDelete: Cascade)
 
-    quantity Quantity[]
+    quantity    Quantity[]
+
+    categoryId  String? // Ajout de la clé étrangère
+    category    Category? @relation("CategoryToProduct", fields: [categoryId], references: [id])
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
@@ -201,3 +216,5 @@ model Fruit {
 
     @@map("fruits")
 }
+
+

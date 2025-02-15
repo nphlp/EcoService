@@ -1,5 +1,5 @@
 import Prisma from "@lib/prisma";
-import { fruitData, userData } from "./data";
+import { categoryData, fruitData, productData, userData } from "./data";
 
 export const fixtures = async () => {
     try {
@@ -46,6 +46,46 @@ export const fixtures = async () => {
             });
         }
 
+        for (const { name, description } of categoryData) {
+            await Prisma.category.create({
+                data: {
+                    name,
+                    description
+                },
+            });
+        }
+
+        // Create products
+        const vendor = await Prisma.user.findFirst({
+            where: { role: "VENDOR" }
+        });
+
+        if (!vendor) {
+            throw new Error("No vendor found");
+        }
+
+        for (const { name, description, image, price, stock, category } of productData) {
+            const categoryRecord = await Prisma.category.findFirst({
+                where: { name: category }
+            });
+
+            if (!categoryRecord) {
+                throw new Error(`Category ${category} not found`);
+            }
+
+            await Prisma.product.create({
+                data: {
+                    name,
+                    description,
+                    image,
+                    price,
+                    stock,
+                    vendorId: vendor.id,
+                    categoryId: categoryRecord.id
+                }
+            });
+        }
+
         return true;
     } catch (error) {
         console.error("An error occurred ->", error);
@@ -60,6 +100,7 @@ export const reset = async () => {
         await Prisma.account.deleteMany({});
         await Prisma.user.deleteMany({});
         await Prisma.fruit.deleteMany({});
+        await Prisma.category.deleteMany({});
 
         return true;
     } catch (error) {

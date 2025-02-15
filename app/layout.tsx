@@ -4,6 +4,7 @@ import { Inter } from "next/font/google";
 import HeaderClient from "@comps/client/Header";
 import { combo } from "@lib/combo";
 import { ReactNode } from "react";
+import { NuqsAdapter } from "nuqs/adapters/next/app";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -12,18 +13,29 @@ export const metadata: Metadata = {
     description: "A fully auth-ready application template for Next.js.",
 };
 
-export default function RootLayout({
-    children,
-}: Readonly<{
+type RootLayoutProps = {
     children: ReactNode;
-}>) {
+};
+
+export default function RootLayout(props: RootLayoutProps) {
+    const { children } = props;
+
     return (
         <html lang="en" className="h-full overflow-hidden">
-            <body className={combo("flex h-full flex-col items-center justify-center overflow-hidden", inter.className)}>
-                <HeaderClient />
-                <main className="flex size-full flex-col items-center justify-center overflow-hidden">
-                    <div className="flex w-full flex-col items-center justify-start overflow-y-auto p-4">{children}</div>
-                </main>
+            <body
+                className={combo(
+                    "flex h-full flex-col items-center justify-center overflow-hidden",
+                    inter.className,
+                )}
+            >
+                <NuqsAdapter>
+                    <HeaderClient />
+                    <main className="flex size-full flex-col items-center justify-center overflow-hidden">
+                        <div className="flex w-full flex-col items-center justify-start overflow-y-auto p-4">
+                            {children}
+                        </div>
+                    </main>
+                </NuqsAdapter>
             </body>
         </html>
     );
