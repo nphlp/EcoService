@@ -1,34 +1,14 @@
-// import Link from "next/link";
-import { SelectCategoryList } from "@actions/database/Categories";
-import CategoriesClient from "./client";
+import { SelectProductList } from "@actions/database/Product";
+import CatalogueClient from "./client";
 
-// Composant server
-export default async function CategoriesPage() {
-    const categorieList = await SelectCategoryList({
-        take: 4,
-    });
+export default async function CataloguePage() {
+    const produitList = await SelectProductList({});
 
-    return (
-        <div className="w-full">
-            <h1 className="mb-4 text-2xl font-bold">Catégories</h1>
-
-            {/* On pourrait afficher les catégories ici directement et ne pas utiliser de client */}
-            <CategoriesClient categorieList={categorieList} />
-
-            {/* <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                {categorieList.map((category) => (
-                    <Link key={category.id} href={`/categories/${category.id}`}>
-                        <div className="cursor-pointer rounded-lg bg-blue-50 p-4 shadow-sm transition hover:bg-blue-100">
-                            <h2 className="text-lg font-semibold">
-                                {category.name}
-                            </h2>
-                            <p className="text-gray-600">
-                                {category.description}
-                            </p>
-                        </div>
-                    </Link>
-                ))}
-            </div> */}
+    return (        
+        // TODO: check if h-screen is fine
+        <div className="h-screen w-full">
+            <h1 className="mb-6 text-3xl font-bold text-gray-800">Catalogue</h1>
+            <CatalogueClient produitList={produitList} />
         </div>
     );
 }

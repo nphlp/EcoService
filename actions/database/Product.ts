@@ -11,6 +11,7 @@ import {
     productUpdateSchema,
 } from "@actions/types/Product";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
+import { Prisma } from "@prisma/client";
 
 /**
  * Creates a new product in the database
@@ -64,14 +65,23 @@ export const SelectProduct = async (props: {
     }
 };
 
+type SelectProductListProps = Pick<Prisma.ProductFindManyArgs, "orderBy" | "take" | "skip" | "where">;
+
+
 /**
  * Retrieves all products from the database
  * @returns Promise resolving to an array of products or null if none found
  * @throws Error if an unexpected error occurs
  */
-export const SelectProductList = async (): Promise<ProductType[] | null> => {
+export const SelectProductList = async (props:SelectProductListProps): Promise<ProductType[] | null> => {
     try {
-        const productDataList: ProductType[] = await PrismaInstance.product.findMany();
+        const { orderBy, take, skip, where } = props;
+        const productDataList: ProductType[] = await PrismaInstance.product.findMany({
+            orderBy,
+            where,
+            take,
+            skip
+        });
 
         return productDataList.length ? productDataList : null;
     } catch (error) {

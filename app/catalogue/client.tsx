@@ -1,67 +1,79 @@
 "use client";
 
-import { SelectCategoryList } from "@actions/database/Categories";
-import { CategoryType } from "@actions/types/Category";
-import Link from "next/link";
-import { useState } from "react";
+import { SelectProductList } from "@actions/database/Product";
+import { ProductType } from "@actions/types/Product";
+import Card from "@comps/server/Card";
+import { useEffect, useState } from "react";
 
-type CategoriesClientProps = {
-    categorieList: CategoryType[] | null;
+type CatalogueClientProps = {
+    produitList: ProductType[] | null;
 };
 
 // Composant client
-export default function CategoriesClient(props: CategoriesClientProps) {
-    const { categorieList } = props;
+export default function CatalogueClient(props: CatalogueClientProps) {
+    const produitListInit = props.produitList;
 
-    const [categories, setCategories] = useState(categorieList);
+    type OrderType = "asc" | "desc" | "";
+
+    const [produitList, setProduitList] = useState(produitListInit);
+    const [order, setOrder] = useState<OrderType>("");
     const [loading, setLoading] = useState(false);
 
-    const handleClick = async () => {
-        // Active le loader
-        setLoading(true);
+    useEffect(() => {
+        const fetchProduitList = async () => {
+            setLoading(true);
+            const newProductList = await SelectProductList({
+                ...(order && { orderBy: { price: order } })
+            });
+            if (!newProductList) return;
+            setProduitList(newProductList);
+            setLoading(false);
+        };
+        
+        fetchProduitList();
+    }, [order]);
 
-        // Récupère les catégories sur le serveur
-        const data = await SelectCategoryList({
-            take: 4,
-            skip: 4 * 1,
-        });
+    return (
+        <section>
+            <div>
+                <h2 className="text-lg font-semibold">Filtre</h2>
+                <select
+                    className="rounded-md border p-2 text-gray-700 shadow-sm"
+                    onChange={(e) => setOrder(e.target.value as OrderType)}
+                    value={order}
+                >
+                    <option value="">Non trié</option>
+                    <option value="asc">Prix croissant</option>
+                    <option value="desc">Prix décroissant</option>
+                </select>
+            </div>
 
-        // Met à jour les catégories sur la page
-        setCategories(data);
-
-        // Désactive le loader
-        setLoading(false);
-    };
-
-    return loading ? (
-        <p className="text-gray-500">Chargement...</p>
-    ) : (
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            {categories ? (
-                categories.map((category) => (
-                    <Link key={category.id} href={`/catalogue/${category.id}`}>
-                        <div className="cursor-pointer rounded-lg bg-blue-50 p-4 shadow-sm transition hover:bg-blue-100">
+            {(!loading && produitList) ? (
+                <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3">
+                    {produitList.map((produit, index) => (
+                        <Card
+                            key={index}
+                            className="rounded-xl bg-white p-4 shadow-lg"
+                        >
                             <h2 className="text-lg font-semibold">
-                                {category.name}
+                                {produit.name}
                             </h2>
                             <p className="text-gray-600">
-                                {category.description}
+                                Prix : {produit.price} €
                             </p>
-                        </div>
-                    </Link>
-                ))
+                        </Card>
+                    ))}
+                </div>
             ) : (
-                <div>Il n&apos;y a pas de catégories.</div>
+                <div className="mt-6 text-center text-gray-500">
+                    Aucun produit disponible pour le moment.
+                </div>
             )}
-            <div className="col-span-2 flex justify-center">
-                <button
-                    className="rounded bg-gray-100 px-3 py-1"
-                    type="button"
-                    onClick={handleClick}
-                >
-                    Inverser l&apos;ordre
-                </button>
-            </div>
-        </div>
+            {loading && (
+                <div className="mt-6 text-center text-gray-500">
+                    Chargement...
+                </div>
+            )}
+        </section>
     );
 }
