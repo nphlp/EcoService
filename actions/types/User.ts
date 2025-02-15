@@ -1,5 +1,3 @@
-"use server";
-
 import { User, $Enums } from "@prisma/client";
 import { z, ZodString, ZodType } from "zod";
 

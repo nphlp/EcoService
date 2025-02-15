@@ -1,7 +1,7 @@
+import { GetSession } from "@lib/auth";
 import { stripe } from "@lib/stripe";
 import { NextResponse } from "next/server";
-import { GetSession } from "@lib/auth";
-import prisma from "@lib/prisma"; // Import Prisma pour gérer la BDD
+import PrismaInstance from "@lib/prisma";
 
 export async function GET() {
     try {
@@ -42,7 +42,7 @@ export async function POST(request: Request) {
         }
 
         // Vérifier si la catégorie existe en BDD
-        const categoryExists = await prisma.category.findUnique({
+        const categoryExists = await PrismaInstance.category.findUnique({
             where: { id: categoryId },
         });
 
@@ -89,7 +89,7 @@ export async function POST(request: Request) {
         console.log("Creating product with image URL:", imageUrl);
 
         // ✅ Créer le produit en BDD avec la catégorie
-        const product = await prisma.product.create({
+        const product = await PrismaInstance.product.create({
             data: {
                 name,
                 description,

@@ -1,5 +1,3 @@
-"use server";
-
 import { Address } from "@prisma/client";
 import { z, ZodString, ZodType } from "zod";
 

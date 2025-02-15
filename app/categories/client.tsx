@@ -1,19 +1,19 @@
 "use client";
 
-import { GetCategories } from "@actions/database/Categories";
-import { Category } from "@prisma/client";
+import { SelectCategoryList } from "@actions/database/Categories";
+import { CategoryType } from "@actions/types/Category";
 import Link from "next/link";
 import { useState } from "react";
 
 type CategoriesClientProps = {
-    categorieList: Category[];
+    categorieList: CategoryType[] | null;
 };
 
 // Composant client
 export default function CategoriesClient(props: CategoriesClientProps) {
     const { categorieList } = props;
 
-    const [categories, setCategories] = useState<Category[]>(categorieList);
+    const [categories, setCategories] = useState(categorieList);
     const [loading, setLoading] = useState(false);
     const [order, setOrder] = useState<"asc" | "desc">("asc");
 
@@ -22,7 +22,7 @@ export default function CategoriesClient(props: CategoriesClientProps) {
         setLoading(true);
 
         // Récupère les catégories sur le serveur
-        const data = await GetCategories({ order });
+        const data = await SelectCategoryList({ order });
 
         // Met à jour les catégories sur la page
         setCategories(data);
@@ -38,7 +38,7 @@ export default function CategoriesClient(props: CategoriesClientProps) {
         <p className="text-gray-500">Chargement...</p>
     ) : (
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            {categories.map((category) => (
+            {categories ? categories.map((category) => (
                 <Link key={category.id} href={`/categories/${category.id}`}>
                     <div className="cursor-pointer rounded-lg bg-blue-50 p-4 shadow-sm transition hover:bg-blue-100">
                         <h2 className="text-lg font-semibold">
@@ -47,7 +47,10 @@ export default function CategoriesClient(props: CategoriesClientProps) {
                         <p className="text-gray-600">{category.description}</p>
                     </div>
                 </Link>
-            ))}
+            ))
+        :
+        <div>Il n&apos;y a pas de catégories.</div>
+        }
             <div className="col-span-2 flex justify-center">
                 <button
                     className="rounded bg-gray-100 px-3 py-1"

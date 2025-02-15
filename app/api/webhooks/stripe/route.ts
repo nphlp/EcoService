@@ -1,7 +1,7 @@
 import { stripe } from "@lib/stripe";
-import prisma from "@lib/prisma";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
+import PrismaInstance from "@lib/prisma";
 
 export async function POST(request: Request) {
     const body = await request.text();
@@ -30,7 +30,7 @@ export async function POST(request: Request) {
             case "account.updated":
                 const account = event.data.object;
                 if (account.details_submitted && account.charges_enabled) {
-                    await prisma.user.updateMany({
+                    await PrismaInstance.user.updateMany({
                         where: { stripeConnectId: account.id },
                         data: {
                             isOnboarded: true,

@@ -1,14 +1,14 @@
 "use server";
 
-import Prisma from "@lib/prisma";
+import PrismaInstance from "@lib/prisma";
 import {
-    UserId,
     UserCommon,
-    UserType,
     userCommonSchema,
-    userUpdateSchema,
+    UserId,
     userIdObjectSchema,
+    UserType,
     UserUpdate,
+    userUpdateSchema,
 } from "@actions/types/User";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 
@@ -24,7 +24,7 @@ export const CreateUser = async (
     try {
         const data = userCommonSchema.parse(props);
 
-        const userData: UserType = await Prisma.user.create({ data });
+        const userData: UserType = await PrismaInstance.user.create({ data });
 
         return userData;
     } catch (error) {
@@ -48,7 +48,7 @@ export const SelectUser = async (props: {
     try {
         const { id } = userIdObjectSchema.parse(props);
 
-        const userData: UserType | null = await Prisma.user.findUnique({
+        const userData: UserType | null = await PrismaInstance.user.findUnique({
             where: { id },
         });
 
@@ -69,7 +69,7 @@ export const SelectUser = async (props: {
  */
 export const SelectUserList = async (): Promise<UserType[] | null> => {
     try {
-        const userDataList: UserType[] = await Prisma.user.findMany();
+        const userDataList: UserType[] = await PrismaInstance.user.findMany();
 
         return userDataList.length ? userDataList : null;
     } catch (error) {
@@ -93,7 +93,7 @@ export const UpdateUser = async (
     try {
         const { id, data } = userUpdateSchema.parse(props);
 
-        const userData: UserType = await Prisma.user.update({
+        const userData: UserType = await PrismaInstance.user.update({
             where: { id },
             data,
         });
@@ -120,7 +120,7 @@ export const DeleteUser = async (props: {
     try {
         const { id } = userIdObjectSchema.parse(props);
 
-        const userData: UserType = await Prisma.user.delete({
+        const userData: UserType = await PrismaInstance.user.delete({
             where: { id },
         });
 

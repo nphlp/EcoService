@@ -1,14 +1,14 @@
 "use server";
 
-import Prisma from "@lib/prisma";
+import PrismaInstance from "@lib/prisma";
 import {
-    ProductId,
     ProductCommon,
-    ProductType,
     productCommonSchema,
-    productUpdateSchema,
+    ProductId,
     productIdObjectSchema,
+    ProductType,
     ProductUpdate,
+    productUpdateSchema,
 } from "@actions/types/Product";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 
@@ -24,7 +24,7 @@ export const CreateProduct = async (
     try {
         const data = productCommonSchema.parse(props);
 
-        const productData: ProductType = await Prisma.product.create({ data });
+        const productData: ProductType = await PrismaInstance.product.create({ data });
 
         return productData;
     } catch (error) {
@@ -48,7 +48,7 @@ export const SelectProduct = async (props: {
     try {
         const { id } = productIdObjectSchema.parse(props);
 
-        const productData: ProductType | null = await Prisma.product.findUnique(
+        const productData: ProductType | null = await PrismaInstance.product.findUnique(
             {
                 where: { id },
             }
@@ -71,7 +71,7 @@ export const SelectProduct = async (props: {
  */
 export const SelectProductList = async (): Promise<ProductType[] | null> => {
     try {
-        const productDataList: ProductType[] = await Prisma.product.findMany();
+        const productDataList: ProductType[] = await PrismaInstance.product.findMany();
 
         return productDataList.length ? productDataList : null;
     } catch (error) {
@@ -95,7 +95,7 @@ export const UpdateProduct = async (
     try {
         const { id, data } = productUpdateSchema.parse(props);
 
-        const productData: ProductType = await Prisma.product.update({
+        const productData: ProductType = await PrismaInstance.product.update({
             where: { id },
             data,
         });
@@ -122,7 +122,7 @@ export const DeleteProduct = async (props: {
     try {
         const { id } = productIdObjectSchema.parse(props);
 
-        const productData: ProductType = await Prisma.product.delete({
+        const productData: ProductType = await PrismaInstance.product.delete({
             where: { id },
         });
 

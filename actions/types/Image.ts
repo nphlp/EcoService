@@ -1,5 +1,3 @@
-"use server";
-
 export type ImageExtension = "png" | "jpg" | "jpeg" | "webp";
 
 export interface ImageValidationProps {

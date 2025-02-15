@@ -1,11 +1,10 @@
 // import Link from "next/link";
+import { SelectCategoryList } from "@actions/database/Categories";
 import CategoriesClient from "./client";
-
-import { GetCategories } from "@actions/database/Categories";
 
 // Composant server
 export default async function CategoriesPage() {
-    const categorieList = await GetCategories({ order: "asc" });
+    const categorieList = await SelectCategoryList({ order: "asc" });
 
     return (
         <div className="w-full">

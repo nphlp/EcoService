@@ -1,14 +1,14 @@
 "use server";
 
-import Prisma from "@lib/prisma";
+import PrismaInstance from "@lib/prisma";
 import {
-    VerificationId,
     VerificationCommon,
-    VerificationType,
     verificationCommonSchema,
-    verificationUpdateSchema,
+    VerificationId,
     verificationIdObjectSchema,
+    VerificationType,
     VerificationUpdate,
+    verificationUpdateSchema,
 } from "@actions/types/Verification";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 
@@ -24,7 +24,7 @@ export const CreateVerification = async (
     try {
         const data = verificationCommonSchema.parse(props);
 
-        const verificationData: VerificationType = await Prisma.verification.create({ data });
+        const verificationData: VerificationType = await PrismaInstance.verification.create({ data });
 
         return verificationData;
     } catch (error) {
@@ -48,7 +48,7 @@ export const SelectVerification = async (props: {
     try {
         const { id } = verificationIdObjectSchema.parse(props);
 
-        const verificationData: VerificationType | null = await Prisma.verification.findUnique({
+        const verificationData: VerificationType | null = await PrismaInstance.verification.findUnique({
             where: { id },
         });
 
@@ -69,7 +69,7 @@ export const SelectVerification = async (props: {
  */
 export const SelectVerificationList = async (): Promise<VerificationType[] | null> => {
     try {
-        const verificationDataList: VerificationType[] = await Prisma.verification.findMany();
+        const verificationDataList: VerificationType[] = await PrismaInstance.verification.findMany();
 
         return verificationDataList.length ? verificationDataList : null;
     } catch (error) {
@@ -93,7 +93,7 @@ export const UpdateVerification = async (
     try {
         const { id, data } = verificationUpdateSchema.parse(props);
 
-        const verificationData: VerificationType = await Prisma.verification.update({
+        const verificationData: VerificationType = await PrismaInstance.verification.update({
             where: { id },
             data,
         });
@@ -120,7 +120,7 @@ export const DeleteVerification = async (props: {
     try {
         const { id } = verificationIdObjectSchema.parse(props);
 
-        const verificationData: VerificationType = await Prisma.verification.delete({
+        const verificationData: VerificationType = await PrismaInstance.verification.delete({
             where: { id },
         });
 

@@ -1,11 +1,11 @@
 import { NextResponse } from "next/server";
-import prisma from "@lib/prisma";
+import PrismaInstance from "@lib/prisma";
 
 export async function GET(req: Request, { params }: { params: { id: string } }) {
     const { id } = params;
 
     try {
-        const category = await prisma.category.findUnique({
+        const category = await PrismaInstance.category.findUnique({
             where: { id },
             include: { products: true },
         });

@@ -1,14 +1,14 @@
 "use server";
 
-import Prisma from "@lib/prisma";
+import PrismaInstance from "@lib/prisma";
 import {
-    SessionId,
     SessionCommon,
-    SessionType,
     sessionCommonSchema,
-    sessionUpdateSchema,
+    SessionId,
     sessionIdObjectSchema,
+    SessionType,
     SessionUpdate,
+    sessionUpdateSchema,
 } from "@actions/types/Session";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 
@@ -24,7 +24,7 @@ export const CreateSession = async (
     try {
         const data = sessionCommonSchema.parse(props);
 
-        const sessionData: SessionType = await Prisma.session.create({ data });
+        const sessionData: SessionType = await PrismaInstance.session.create({ data });
 
         return sessionData;
     } catch (error) {
@@ -48,7 +48,7 @@ export const SelectSession = async (props: {
     try {
         const { id } = sessionIdObjectSchema.parse(props);
 
-        const sessionData: SessionType | null = await Prisma.session.findUnique({
+        const sessionData: SessionType | null = await PrismaInstance.session.findUnique({
             where: { id },
         });
 
@@ -69,7 +69,7 @@ export const SelectSession = async (props: {
  */
 export const SelectSessionList = async (): Promise<SessionType[] | null> => {
     try {
-        const sessionDataList: SessionType[] = await Prisma.session.findMany();
+        const sessionDataList: SessionType[] = await PrismaInstance.session.findMany();
 
         return sessionDataList.length ? sessionDataList : null;
     } catch (error) {
@@ -93,7 +93,7 @@ export const UpdateSession = async (
     try {
         const { id, data } = sessionUpdateSchema.parse(props);
 
-        const sessionData: SessionType = await Prisma.session.update({
+        const sessionData: SessionType = await PrismaInstance.session.update({
             where: { id },
             data,
         });
@@ -120,7 +120,7 @@ export const DeleteSession = async (props: {
     try {
         const { id } = sessionIdObjectSchema.parse(props);
 
-        const sessionData: SessionType = await Prisma.session.delete({
+        const sessionData: SessionType = await PrismaInstance.session.delete({
             where: { id },
         });
 

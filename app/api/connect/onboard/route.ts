@@ -1,8 +1,8 @@
-import { stripe } from "@lib/stripe";
-import { NextResponse } from "next/server";
 import { GetSession } from "@lib/auth";
-import prisma from "@lib/prisma";
+import { stripe } from "@lib/stripe";
 import { StripeError } from "@stripe/stripe-js";
+import { NextResponse } from "next/server";
+import PrismaInstance from "@lib/prisma";
 
 export async function POST(request: Request) {
     try {
@@ -23,7 +23,7 @@ export async function POST(request: Request) {
         console.log("Session validated for user:", session.user.email);
 
         // Check if user exists in database
-        const user = await prisma.user.findUnique({
+        const user = await PrismaInstance.user.findUnique({
             where: { id: session.user.id },
         });
 
@@ -70,7 +70,7 @@ export async function POST(request: Request) {
                 console.log("Stripe Connect account created:", account.id);
 
                 // Update user with the new Connect account ID
-                await prisma.user.update({
+                await PrismaInstance.user.update({
                     where: { id: session.user.id },
                     data: { stripeConnectId: account.id },
                 });

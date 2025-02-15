@@ -3,8 +3,8 @@ import PaymentButton from "@comps/client/PaymentButton";
 import ProductManager from "@comps/client/ProductManager";
 import SellerOnboard from "@comps/client/SellerOnboard";
 import { GetSession } from "@lib/auth";
-import prisma from "@lib/prisma";
 import { redirect } from "next/navigation";
+import PrismaInstance from "@lib/prisma";
 
 export default async function StripePage() {
     const session = await GetSession();
@@ -14,14 +14,14 @@ export default async function StripePage() {
     }
 
     const user = session
-        ? await prisma.user.findUnique({
+        ? await PrismaInstance.user.findUnique({
               where: { id: session.user.id },
               select: { isSeller: true, isOnboarded: true },
           })
         : null;
 
     // Fetch a seller that has completed onboarding
-    const seller = await prisma.user.findFirst({
+    const seller = await PrismaInstance.user.findFirst({
         where: {
             isSeller: true,
             isOnboarded: true,
