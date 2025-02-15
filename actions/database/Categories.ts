@@ -11,6 +11,7 @@ import {
     categoryUpdateSchema,
 } from "@actions/types/Category";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
+import { Prisma } from "@prisma/client";
 
 /**
  * Creates a new category in the database
@@ -61,11 +62,7 @@ export const SelectCategory = async (props: {
     }
 };
 
-type SelectCategoryListProps = {
-    order?: "asc" | "desc";
-    take?: number;
-    skip?: number;
-};
+type SelectCategoryListProps = Pick<Prisma.CategoryFindManyArgs, "orderBy" | "take" | "skip" | "where">;
 
 /**
  * Retrieves all categories from the database
@@ -76,12 +73,13 @@ export const SelectCategoryList = async (
     props: SelectCategoryListProps,
 ): Promise<CategoryType[] | null> => {
     try {
-        const { order, take = 10, skip = 0 } = props;
+        const { orderBy, take = 10, skip = 0, where } = props;
         const categoryDataList: CategoryType[] = await PrismaInstance.category.findMany(
             {
-                ...(order && { orderBy: { name: order } }),
+                orderBy,
+                where,
                 take,
-                skip,
+                skip
             },
         );
         return categoryDataList.length ? categoryDataList : null;

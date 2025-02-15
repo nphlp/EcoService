@@ -24,8 +24,8 @@ export default function HeaderClient() {
     const linkList: Link[] = [
         { title: "Home", label: "home", href: "/" },
         { title: "Examples", label: "examples", href: "/examples" },
-        { title: "Categories", label: "categories", href: "/categories" },
-        { title: "Param Example", label: "param-example", href: "/categories/param-example" },
+        { title: "Catalogue", label: "catalogue", href: "/catalogue" },
+        { title: "Param Example", label: "param-example", href: "/examples/url-params" },
         {
             title: "Register",
             label: "register",

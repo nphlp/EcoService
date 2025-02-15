@@ -17,7 +17,7 @@ export default async function ParamsExamplePage(props: PageProps) {
 
     // Generate a new URL with cutsomized params
     const nextPage = dataCached.page === 1 ? 2 : 1;
-    const generateUrl = urlSerializer("/categories/param-example", {
+    const generateUrl = urlSerializer("/examples/url-params", {
         page: nextPage,
     });
 

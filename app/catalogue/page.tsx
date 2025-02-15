@@ -4,7 +4,9 @@ import CategoriesClient from "./client";
 
 // Composant server
 export default async function CategoriesPage() {
-    const categorieList = await SelectCategoryList({ order: "asc" });
+    const categorieList = await SelectCategoryList({
+        take: 4,
+    });
 
     return (
         <div className="w-full">
