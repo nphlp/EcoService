@@ -1,16 +1,17 @@
 "use server";
 
-import Prisma from "@lib/prisma";
+import PrismaInstance from "@lib/prisma";
 import {
-    ProductId,
     ProductCommon,
-    ProductType,
     productCommonSchema,
-    productUpdateSchema,
+    ProductId,
     productIdObjectSchema,
+    ProductType,
     ProductUpdate,
+    productUpdateSchema,
 } from "@actions/types/Product";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
+import { Prisma } from "@prisma/client";
 
 /**
  * Creates a new product in the database
@@ -24,7 +25,7 @@ export const CreateProduct = async (
     try {
         const data = productCommonSchema.parse(props);
 
-        const productData: ProductType = await Prisma.product.create({ data });
+        const productData: ProductType = await PrismaInstance.product.create({ data });
 
         return productData;
     } catch (error) {
@@ -48,7 +49,7 @@ export const SelectProduct = async (props: {
     try {
         const { id } = productIdObjectSchema.parse(props);
 
-        const productData: ProductType | null = await Prisma.product.findUnique(
+        const productData: ProductType | null = await PrismaInstance.product.findUnique(
             {
                 where: { id },
             }
@@ -64,14 +65,23 @@ export const SelectProduct = async (props: {
     }
 };
 
+type SelectProductListProps = Pick<Prisma.ProductFindManyArgs, "orderBy" | "take" | "skip" | "where">;
+
+
 /**
  * Retrieves all products from the database
  * @returns Promise resolving to an array of products or null if none found
  * @throws Error if an unexpected error occurs
  */
-export const SelectProductList = async (): Promise<ProductType[] | null> => {
+export const SelectProductList = async (props:SelectProductListProps): Promise<ProductType[] | null> => {
     try {
-        const productDataList: ProductType[] = await Prisma.product.findMany();
+        const { orderBy, take, skip, where } = props;
+        const productDataList: ProductType[] = await PrismaInstance.product.findMany({
+            orderBy,
+            where,
+            take,
+            skip
+        });
 
         return productDataList.length ? productDataList : null;
     } catch (error) {
@@ -95,7 +105,7 @@ export const UpdateProduct = async (
     try {
         const { id, data } = productUpdateSchema.parse(props);
 
-        const productData: ProductType = await Prisma.product.update({
+        const productData: ProductType = await PrismaInstance.product.update({
             where: { id },
             data,
         });
@@ -122,7 +132,7 @@ export const DeleteProduct = async (props: {
     try {
         const { id } = productIdObjectSchema.parse(props);
 
-        const productData: ProductType = await Prisma.product.delete({
+        const productData: ProductType = await PrismaInstance.product.delete({
             where: { id },
         });
 

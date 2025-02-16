@@ -1,4 +1,3 @@
-"use server";
 import { Product } from "@prisma/client";
 import { z, ZodString, ZodType } from "zod";
 
@@ -41,6 +40,7 @@ export const productCommonSchema: ZodType<ProductCommon> = z.object({
   price: z.number(),
   stock: z.number(),
   vendorId: z.string(),
+  categoryId: z.string(),
 });
 
 export const productTimestampsSchema: ZodType<ProductTimestamps> = z.object({

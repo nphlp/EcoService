@@ -1,7 +1,7 @@
+import { GetSession } from "@lib/auth";
 import { stripe } from "@lib/stripe";
 import { NextResponse } from "next/server";
-import { GetSession } from "@lib/auth";
-import prisma from "@lib/prisma";
+import PrismaInstance from "@lib/prisma";
 
 export async function POST(request: Request) {
     try {
@@ -42,7 +42,7 @@ export async function POST(request: Request) {
         const { price, sellerId } = body;
 
         console.log("Looking up seller:", sellerId);
-        const seller = await prisma.user.findUnique({
+        const seller = await PrismaInstance.user.findUnique({
             where: { id: sellerId },
         });
 
@@ -65,8 +65,8 @@ export async function POST(request: Request) {
                 },
             ],
             mode: "payment",
-            success_url: `${process.env.NEXT_PUBLIC_APP_URL}/success?session_id={CHECKOUT_SESSION_ID}`,
-            cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}`,
+            success_url: `${process.env.BASE_URL}/success?session_id={CHECKOUT_SESSION_ID}`,
+            cancel_url: `${process.env.BASE_URL}`,
             customer_email: session.user.email,
             payment_intent_data: {
                 application_fee_amount: 123,

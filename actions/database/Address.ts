@@ -1,14 +1,14 @@
 "use server";
 
-import Prisma from "@lib/prisma";
+import PrismaInstance from "@lib/prisma";
 import {
-    AddressId,
     AddressCommon,
-    AddressType,
     addressCommonSchema,
-    addressUpdateSchema,
+    AddressId,
     addressIdObjectSchema,
+    AddressType,
     AddressUpdate,
+    addressUpdateSchema,
 } from "@actions/types/Address";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 
@@ -24,7 +24,7 @@ export const CreateAddress = async (
     try {
         const data = addressCommonSchema.parse(props);
 
-        const addressData: AddressType = await Prisma.address.create({ data });
+        const addressData: AddressType = await PrismaInstance.address.create({ data });
 
         return addressData;
     } catch (error) {
@@ -48,7 +48,7 @@ export const SelectAddress = async (props: {
     try {
         const { id } = addressIdObjectSchema.parse(props);
 
-        const addressData: AddressType | null = await Prisma.address.findUnique({
+        const addressData: AddressType | null = await PrismaInstance.address.findUnique({
             where: { id },
         });
 
@@ -69,7 +69,7 @@ export const SelectAddress = async (props: {
  */
 export const SelectAddressList = async (): Promise<AddressType[] | null> => {
     try {
-        const addressDataList: AddressType[] = await Prisma.address.findMany();
+        const addressDataList: AddressType[] = await PrismaInstance.address.findMany();
 
         return addressDataList.length ? addressDataList : null;
     } catch (error) {
@@ -93,7 +93,7 @@ export const UpdateAddress = async (
     try {
         const { id, data } = addressUpdateSchema.parse(props);
 
-        const addressData: AddressType = await Prisma.address.update({
+        const addressData: AddressType = await PrismaInstance.address.update({
             where: { id },
             data,
         });
@@ -120,7 +120,7 @@ export const DeleteAddress = async (props: {
     try {
         const { id } = addressIdObjectSchema.parse(props);
 
-        const addressData: AddressType = await Prisma.address.delete({
+        const addressData: AddressType = await PrismaInstance.address.delete({
             where: { id },
         });
 

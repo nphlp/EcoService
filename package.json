@@ -3,15 +3,21 @@
     "version": "0.1.0",
     "private": true,
     "scripts": {
-        "dev": "next dev --turbopack",
+        "dev": "tsx scripts/help.ts tip && next dev --turbopack",
         "build": "next build",
         "start": "next start",
         "lint": "next lint",
         "type": "tsc --noEmit",
         "format": "pnpm exec prettier . --write",
-        "fixtures": "tsx prisma/fixtures.tsx",
-        "reset": "tsx prisma/reset.tsx",
-        "reload": "tsx prisma/reload.tsx"
+        "db:setup": "tsx scripts/db.ts setup.sql",
+        "db:reset": "tsx scripts/db.ts reset.sql",
+        "prisma:generate": "pnpm dlx prisma generate",
+        "prisma:migrate": "pnpm dlx prisma migrate dev",
+        "prisma:deploy": "pnpm dlx prisma migrate deploy",
+        "fixtures:setup": "tsx scripts/fixtures.ts setup",
+        "fixtures:reset": "tsx scripts/fixtures.ts reset",
+        "fixtures:reload": "tsx scripts/fixtures.ts reload",
+        "help": "tsx scripts/help.ts help"
     },
     "dependencies": {
         "@plunk/node": "^3.0.3",

@@ -31,9 +31,9 @@ export default function RootLayout(props: RootLayoutProps) {
                 <NuqsAdapter>
                     <HeaderClient />
                     <main className="flex size-full flex-col items-center justify-center overflow-hidden">
-                        <div className="flex w-full flex-col items-center justify-start overflow-y-auto p-4">
+                        {/* <div className="flex w-full flex-col items-center justify-start overflow-y-auto p-4"> */}
                             {children}
-                        </div>
+                        {/* </div> */}
                     </main>
                 </NuqsAdapter>
             </body>

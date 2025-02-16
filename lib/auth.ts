@@ -1,13 +1,13 @@
-import Prisma from "@lib/prisma";
 import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { headers } from "next/headers";
 import { SendEmail } from "./plunk";
+import PrismaInstance from "@lib/prisma";
 
-const baseUrl = process.env.BETTER_AUTH_URL;
+const baseUrl = process.env.BASE_URL;
 
 export const auth = betterAuth({
-    database: prismaAdapter(Prisma, {
+    database: prismaAdapter(PrismaInstance, {
         provider: "mysql",
     }),
     trustedOrigins: [

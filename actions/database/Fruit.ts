@@ -1,14 +1,14 @@
 "use server";
 
+import PrismaInstance from "@lib/prisma";
 import {
-    SelectFruitByIdProps,
-    FruitTypeReturn,
     CreateFruitProps,
     FruitType,
+    FruitTypeReturn,
+    SelectFruitByIdProps,
 } from "@actions/types/Fruit";
 import { FileExists } from "@actions/utils/FileExists";
 import { ImageUploads } from "@actions/utils/ImageUploads";
-import Prisma from "@lib/prisma";
 
 export const CreateFruit = async (
     props: CreateFruitProps
@@ -30,7 +30,7 @@ export const CreateFruit = async (
             return null;
         }
 
-        const fruitData: FruitType = await Prisma.fruit.create({
+        const fruitData: FruitType = await PrismaInstance.fruit.create({
             data: {
                 name,
                 description,
@@ -54,7 +54,7 @@ export const SelectFruitById = async (
             throw new Error("Some parameters are missing");
         }
 
-        const fruitDataRaw = await Prisma.fruit.findUnique({
+        const fruitDataRaw = await PrismaInstance.fruit.findUnique({
             where: {
                 id,
             },
@@ -80,7 +80,7 @@ export const SelectFruitById = async (
 
 export const SelectEveryFruit = async (): Promise<FruitTypeReturn[] | null> => {
     try {
-        const fruitDataListRaw = await Prisma.fruit.findMany();
+        const fruitDataListRaw = await PrismaInstance.fruit.findMany();
 
         if (!fruitDataListRaw.length) {
             return null;
@@ -106,7 +106,7 @@ export const SelectEveryFruit = async (): Promise<FruitTypeReturn[] | null> => {
 
 export const SelectRandomFruit = async (): Promise<FruitTypeReturn | null> => {
     try {
-        const fruitDataListRaw = await Prisma.fruit.findMany();
+        const fruitDataListRaw = await PrismaInstance.fruit.findMany();
 
         if (!fruitDataListRaw.length) {
             return null;

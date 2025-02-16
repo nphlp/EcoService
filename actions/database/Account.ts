@@ -1,14 +1,14 @@
 "use server";
 
-import Prisma from "@lib/prisma";
+import PrismaInstance from "@lib/prisma";
 import {
-    AccountId,
     AccountCommon,
-    AccountType,
     accountCommonSchema,
-    accountUpdateSchema,
+    AccountId,
     accountIdObjectSchema,
+    AccountType,
     AccountUpdate,
+    accountUpdateSchema,
 } from "@actions/types/Account";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 
@@ -24,7 +24,7 @@ export const CreateAccount = async (
     try {
         const data = accountCommonSchema.parse(props);
 
-        const accountData: AccountType = await Prisma.account.create({ data });
+        const accountData: AccountType = await PrismaInstance.account.create({ data });
 
         return accountData;
     } catch (error) {
@@ -48,7 +48,7 @@ export const SelectAccount = async (props: {
     try {
         const { id } = accountIdObjectSchema.parse(props);
 
-        const accountData: AccountType | null = await Prisma.account.findUnique({
+        const accountData: AccountType | null = await PrismaInstance.account.findUnique({
             where: { id },
         });
 
@@ -69,7 +69,7 @@ export const SelectAccount = async (props: {
  */
 export const SelectAccountList = async (): Promise<AccountType[] | null> => {
     try {
-        const accountDataList: AccountType[] = await Prisma.account.findMany();
+        const accountDataList: AccountType[] = await PrismaInstance.account.findMany();
 
         return accountDataList.length ? accountDataList : null;
     } catch (error) {
@@ -93,7 +93,7 @@ export const UpdateAccount = async (
     try {
         const { id, data } = accountUpdateSchema.parse(props);
 
-        const accountData: AccountType = await Prisma.account.update({
+        const accountData: AccountType = await PrismaInstance.account.update({
             where: { id },
             data,
         });
@@ -120,7 +120,7 @@ export const DeleteAccount = async (props: {
     try {
         const { id } = accountIdObjectSchema.parse(props);
 
-        const accountData: AccountType = await Prisma.account.delete({
+        const accountData: AccountType = await PrismaInstance.account.delete({
             where: { id },
         });
 

@@ -1,14 +1,14 @@
 "use server";
 
-import Prisma from "@lib/prisma";
+import PrismaInstance from "@lib/prisma";
 import {
-    OrderId,
     OrderCommon,
-    OrderType,
     orderCommonSchema,
-    orderUpdateSchema,
+    OrderId,
     orderIdObjectSchema,
+    OrderType,
     OrderUpdate,
+    orderUpdateSchema,
 } from "@actions/types/Order";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 
@@ -24,7 +24,7 @@ export const CreateOrder = async (
     try {
         const data = orderCommonSchema.parse(props);
 
-        const orderData: OrderType = await Prisma.order.create({ data });
+        const orderData: OrderType = await PrismaInstance.order.create({ data });
 
         return orderData;
     } catch (error) {
@@ -48,7 +48,7 @@ export const SelectOrder = async (props: {
     try {
         const { id } = orderIdObjectSchema.parse(props);
 
-        const orderData: OrderType | null = await Prisma.order.findUnique({
+        const orderData: OrderType | null = await PrismaInstance.order.findUnique({
             where: { id },
         });
 
@@ -69,7 +69,7 @@ export const SelectOrder = async (props: {
  */
 export const SelectOrderList = async (): Promise<OrderType[] | null> => {
     try {
-        const orderDataList: OrderType[] = await Prisma.order.findMany();
+        const orderDataList: OrderType[] = await PrismaInstance.order.findMany();
 
         return orderDataList.length ? orderDataList : null;
     } catch (error) {
@@ -93,7 +93,7 @@ export const UpdateOrder = async (
     try {
         const { id, data } = orderUpdateSchema.parse(props);
 
-        const orderData: OrderType = await Prisma.order.update({
+        const orderData: OrderType = await PrismaInstance.order.update({
             where: { id },
             data,
         });
@@ -120,7 +120,7 @@ export const DeleteOrder = async (props: {
     try {
         const { id } = orderIdObjectSchema.parse(props);
 
-        const orderData: OrderType = await Prisma.order.delete({
+        const orderData: OrderType = await PrismaInstance.order.delete({
             where: { id },
         });
 
