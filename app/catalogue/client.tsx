@@ -1,12 +1,13 @@
 "use client";
 
-import { SelectProductList } from "@actions/database/Product";
 import { ProductType } from "@actions/types/Product";
 import Card from "@comps/server/Card";
 import Loader from "@comps/server/Loader";
+import { combo } from "@lib/combo";
 import { useQueryState } from "nuqs";
 import { useEffect, useState } from "react";
 import { PageParam, PriceOrderParam } from "./type";
+import { SelectProductList } from "@actions/database/Product";
 
 type CatalogueClientProps = {
     produitList: ProductType[] | null;
@@ -27,6 +28,8 @@ export default function CatalogueClient(props: CatalogueClientProps) {
     );
     const [page, setPage] = useQueryState("page", PageParam["page"]);
 
+    // Fetch data from database
+    // TODO: optimize re-render amount
     useEffect(() => {
         (async () => {
             setLoading(true);
@@ -52,8 +55,8 @@ export default function CatalogueClient(props: CatalogueClientProps) {
     console.log("Rendering");
 
     return (
-        <section className="h-full space-y-4">
-            <div className="flex flex-row items-center justify-start gap-4">
+        <div className="flex h-full flex-col justify-start gap-4 overflow-hidden">
+            <div className="flex flex-row items-center justify-start gap-4 px-4">
                 <select
                     className="rounded-md border p-2 text-gray-700 shadow-sm"
                     onChange={(e) => setPriceOrder(e.target.value)}
@@ -75,27 +78,31 @@ export default function CatalogueClient(props: CatalogueClientProps) {
             </div>
 
             {!loading ? (
-                <ProductList produitList={produitList} />
+                // TODO: Fix scroll bottom cutted edge
+                <ProductList produitList={produitList} className="flex-1 space-y-4 overflow-y-auto px-4" />
             ) : (
-                <div className="flex size-full items-center justify-center">
+                <div className="flex w-full flex-1 items-center justify-center px-4">
                     <Loader className="size-8 border-4" />
                 </div>
             )}
-        </section>
+        </div>
     );
 }
 
 type ProductListProps = {
     produitList: ProductType[] | null;
+    className?: string;
 };
 
 const ProductList = (props: ProductListProps) => {
-    const { produitList } = props;
+    const { produitList, className } = props;
 
     return produitList ? (
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+        <div className={combo(
+            // "grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3",
+            className)}>
             {produitList.map((produit, index) => (
-                <Card key={index} className="rounded-xl bg-white p-4 shadow-lg">
+                <Card key={index} className="h-[200px] rounded-xl bg-white p-4 shadow-lg">
                     <h2 className="text-lg font-semibold">{produit.name}</h2>
                     <p className="text-gray-600">Prix : {produit.price} €</p>
                 </Card>

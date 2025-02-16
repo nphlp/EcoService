@@ -24,16 +24,18 @@ export default async function ParamsExamplePage(props: PageProps) {
     // console.log("Generated URL", "\n", generateUrl);
 
     return (
-        <div className="space-y-8">
-            <ParamsExampleTitle />
-            <ParamsExampleClient />
-            <div className="flex justify-center">
-                <Link
-                    href={generateUrl}
-                    className="block w-fit rounded bg-blue-500 px-4 py-2 text-white"
-                >
-                    Go to page {nextPage}
-                </Link>
+        <div className="flex w-full flex-col items-center justify-start overflow-y-auto p-4">
+            <div className="space-y-8">
+                <ParamsExampleTitle />
+                <ParamsExampleClient />
+                <div className="flex justify-center">
+                    <Link
+                        href={generateUrl}
+                        className="block w-fit rounded bg-blue-500 px-4 py-2 text-white"
+                    >
+                        Go to page {nextPage}
+                    </Link>
+                </div>
             </div>
         </div>
     );

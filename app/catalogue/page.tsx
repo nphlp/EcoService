@@ -11,7 +11,7 @@ export default async function CataloguePage(props: CataloguePageProps) {
 
     const dataCached = await queryParamCached.parse(searchParams);
 
-    const take = 6;
+    const take = 8;
 
     const produitList = await SelectProductList({
         ...(dataCached.priceOrder !== "" && {
@@ -26,8 +26,8 @@ export default async function CataloguePage(props: CataloguePageProps) {
     console.log(dataCached.page, produitList?.map((produit) => produit.name));
 
     return (
-        <div className="w-full">
-            <h1 className="mb-6 text-3xl font-bold text-gray-800">Catalogue</h1>
+        <div className="size-full space-y-4 overflow-hidden py-4">
+            <h1 className="px-4 text-2xl font-bold">Catalogue</h1>
             <CatalogueClient produitList={produitList} take={take} />
         </div>
     );

@@ -31,40 +31,38 @@ export default async function StripePage() {
     });
 
     return (
-        <div className="flex flex-col items-center justify-center gap-4">
-            <h1 className="text-2xl font-bold">
-                Hello {session.user.name.split(" ")[0]} !
-            </h1>
-
-            <div className="flex flex-col items-center gap-4">
-                <h2 className="text-xl">Acheter</h2>
-                {seller ? (
-                    <PaymentButton
-                        priceId="price_1QXgsvJ7wWUWkxFlGtww4CKm"
-                        sellerId={seller.id}
-                    />
-                ) : (
-                    <p className="text-sm text-gray-500">
-                        No sellers available at the moment
-                    </p>
-                )}
-            </div>
-
-            <div className="mt-8 w-full max-w-4xl">
-                <SellerOnboard
-                    isSeller={user?.isSeller ?? false}
-                    isOnboarded={user?.isOnboarded ?? false}
-                />
-            </div>
-
-            {user?.isSeller && user?.isOnboarded && (
-                <div className="mt-8 w-full max-w-4xl">
-                    <h2 className="mb-4 text-xl">Product Management</h2>
-                    <ProductManager />
+        <div className="flex w-full flex-col items-center justify-start overflow-y-auto p-4">
+            <div className="flex flex-col items-center justify-center gap-4">
+                <h1 className="text-2xl font-bold">
+                    Hello {session.user.name.split(" ")[0]} !
+                </h1>
+                <div className="flex flex-col items-center gap-4">
+                    <h2 className="text-xl">Acheter</h2>
+                    {seller ? (
+                        <PaymentButton
+                            priceId="price_1QXgsvJ7wWUWkxFlGtww4CKm"
+                            sellerId={seller.id}
+                        />
+                    ) : (
+                        <p className="text-sm text-gray-500">
+                            No sellers available at the moment
+                        </p>
+                    )}
                 </div>
-            )}
-
-            <LogoutClient variant="outline" />
+                <div className="mt-8 w-full max-w-4xl">
+                    <SellerOnboard
+                        isSeller={user?.isSeller ?? false}
+                        isOnboarded={user?.isOnboarded ?? false}
+                    />
+                </div>
+                {user?.isSeller && user?.isOnboarded && (
+                    <div className="mt-8 w-full max-w-4xl">
+                        <h2 className="mb-4 text-xl">Product Management</h2>
+                        <ProductManager />
+                    </div>
+                )}
+                <LogoutClient variant="outline" />
+            </div>
         </div>
     );
 }

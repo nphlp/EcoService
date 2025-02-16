@@ -25,7 +25,6 @@ export default function HeaderClient() {
         { title: "Home", label: "home", href: "/" },
         { title: "Examples", label: "examples", href: "/examples" },
         { title: "Catalogue", label: "catalogue", href: "/catalogue" },
-        { title: "Param Example", label: "param-example", href: "/examples/url-params" },
         {
             title: "Register",
             label: "register",
