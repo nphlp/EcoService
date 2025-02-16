@@ -4,7 +4,7 @@ import { headers } from "next/headers";
 import { SendEmail } from "./plunk";
 import PrismaInstance from "@lib/prisma";
 
-const baseUrl = process.env.BETTER_AUTH_URL;
+const baseUrl = process.env.BASE_URL;
 
 export const auth = betterAuth({
     database: prismaAdapter(PrismaInstance, {

@@ -1,5 +1,5 @@
-import { categoryData, fruitData, productData, userData } from "./data";
 import PrismaInstance from "@lib/prisma";
+import { categoryData, fruitData, productData, userData } from "./data";
 
 export const fixtures = async () => {
     try {
@@ -108,3 +108,53 @@ export const reset = async () => {
         return false;
     }
 };
+
+const reload = async () => {
+    try {
+        const resultReset = await reset();
+        if (!resultReset) {
+            throw new Error("Reset failed...");
+        }
+
+        const resultFixtures = await fixtures();
+        if (!resultFixtures) {
+            throw new Error("Fixtures failed...");
+        }
+
+        console.log("Fixtures reloaded with success");
+        return true;
+    } catch (error) {
+        console.error("An error occurred ->", error);
+        return false;
+    }
+};
+
+// Command handler
+const command = process.argv[2];
+
+switch (command) {
+    case "setup":
+        fixtures().then((success) => {
+            if (success) {
+                console.log("Fixtures created with success");
+            }
+            process.exit(success ? 0 : 1);
+        });
+        break;
+    case "reset":
+        reset().then((success) => {
+            if (success) {
+                console.log("Database reset with success");
+            }
+            process.exit(success ? 0 : 1);
+        });
+        break;
+    case "reload":
+        reload().then((success) => {
+            process.exit(success ? 0 : 1);
+        });
+        break;
+    default:
+        console.error("Invalid command. Use 'setup', 'reset', or 'reload'");
+        process.exit(1);
+}
