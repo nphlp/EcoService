@@ -26,8 +26,7 @@ export default async function CataloguePage(props: CataloguePageProps) {
     console.log(dataCached.page, produitList?.map((produit) => produit.name));
 
     return (
-        // TODO: check if h-screen is fine
-        <div className="h-screen w-full">
+        <div className="w-full">
             <h1 className="mb-6 text-3xl font-bold text-gray-800">Catalogue</h1>
             <CatalogueClient produitList={produitList} take={take} />
         </div>

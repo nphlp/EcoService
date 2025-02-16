@@ -3,6 +3,7 @@
 import { SelectProductList } from "@actions/database/Product";
 import { ProductType } from "@actions/types/Product";
 import Card from "@comps/server/Card";
+import Loader from "@comps/server/Loader";
 import { useQueryState } from "nuqs";
 import { useEffect, useState } from "react";
 import { PageParam, PriceOrderParam } from "./type";
@@ -26,36 +27,33 @@ export default function CatalogueClient(props: CatalogueClientProps) {
     );
     const [page, setPage] = useQueryState("page", PageParam["page"]);
 
-    const fetchProduitList = async () => {
-        setLoading(true);
-
-        const newProductList = await SelectProductList({
-            ...(priceOrder !== "" && {
-                orderBy: { price: priceOrder as "asc" | "desc" },
-            }),
-            ...(page > 1 && {
-                skip: (page - 1) * take,
-            }),
-            take,
-        });
-
-        if (newProductList) {
-            setProduitList(newProductList);
-        }
-
-        setLoading(false);
-    };
-
     useEffect(() => {
-        fetchProduitList();
-    }, [priceOrder, page]);
+        (async () => {
+            setLoading(true);
+
+            const newProductList = await SelectProductList({
+                ...(priceOrder !== "" && {
+                    orderBy: { price: priceOrder as "asc" | "desc" },
+                }),
+                ...(page > 1 && {
+                    skip: (page - 1) * take,
+                }),
+                take,
+            });
+
+            if (newProductList) {
+                setProduitList(newProductList);
+            }
+
+            setLoading(false);
+        })();
+    }, [priceOrder, take, page]);
 
     console.log("Rendering");
 
     return (
-        <section>
-            <div>
-                <h2 className="text-lg font-semibold">Filtre</h2>
+        <section className="h-full space-y-4">
+            <div className="flex flex-row items-center justify-start gap-4">
                 <select
                     className="rounded-md border p-2 text-gray-700 shadow-sm"
                     onChange={(e) => setPriceOrder(e.target.value)}
@@ -76,32 +74,36 @@ export default function CatalogueClient(props: CatalogueClientProps) {
                 </select>
             </div>
 
-            {!loading && produitList ? (
-                <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3">
-                    {produitList.map((produit, index) => (
-                        <Card
-                            key={index}
-                            className="rounded-xl bg-white p-4 shadow-lg"
-                        >
-                            <h2 className="text-lg font-semibold">
-                                {produit.name}
-                            </h2>
-                            <p className="text-gray-600">
-                                Prix : {produit.price} €
-                            </p>
-                        </Card>
-                    ))}
-                </div>
+            {!loading ? (
+                <ProductList produitList={produitList} />
             ) : (
-                <div className="mt-6 text-center text-gray-500">
-                    Aucun produit disponible pour le moment.
-                </div>
-            )}
-            {loading && (
-                <div className="mt-6 text-center text-gray-500">
-                    Chargement...
+                <div className="flex size-full items-center justify-center">
+                    <Loader className="size-8 border-4" />
                 </div>
             )}
         </section>
     );
 }
+
+type ProductListProps = {
+    produitList: ProductType[] | null;
+};
+
+const ProductList = (props: ProductListProps) => {
+    const { produitList } = props;
+
+    return produitList ? (
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+            {produitList.map((produit, index) => (
+                <Card key={index} className="rounded-xl bg-white p-4 shadow-lg">
+                    <h2 className="text-lg font-semibold">{produit.name}</h2>
+                    <p className="text-gray-600">Prix : {produit.price} €</p>
+                </Card>
+            ))}
+        </div>
+    ) : (
+        <div className="flex size-full items-center justify-center">
+            Aucun produit disponible pour le moment.
+        </div>
+    );
+};
