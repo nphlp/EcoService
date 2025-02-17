@@ -65,7 +65,7 @@ export const SelectProduct = async (props: {
     }
 };
 
-type SelectProductListProps = Pick<Prisma.ProductFindManyArgs, "orderBy" | "take" | "skip" | "where">;
+type SelectProductListProps = Pick<Prisma.ProductFindManyArgs, "orderBy" | "take" | "skip">;
 
 
 /**
@@ -75,10 +75,9 @@ type SelectProductListProps = Pick<Prisma.ProductFindManyArgs, "orderBy" | "take
  */
 export const SelectProductList = async (props:SelectProductListProps): Promise<ProductType[] | null> => {
     try {
-        const { orderBy, take, skip, where } = props;
+        const { orderBy, take = 10, skip = 0 } = props;
         const productDataList: ProductType[] = await PrismaInstance.product.findMany({
             orderBy,
-            where,
             take,
             skip
         });
@@ -92,6 +91,24 @@ export const SelectProductList = async (props:SelectProductListProps): Promise<P
         throw new Error("SelectProductList -> " + (error as Error).message);
     }
 };
+
+/**
+ * Retrieves the total number of products in the database
+ * @returns Promise resolving to the total number of products or null if an error occurs
+ * @throws Error if an unexpected error occurs
+ */
+export const SelectProductAmount = async (): Promise<number | null> => {
+    try {
+        const productDataList = await PrismaInstance.product.count();
+        return productDataList;
+    } catch (error) {
+        if (error instanceof PrismaClientKnownRequestError) {
+            console.log("SelectProductAmount -> ", error);
+            return null;
+        }
+        throw new Error("SelectProductAmount -> " + (error as Error).message);
+    }
+}
 
 /**
  * Updates a product's information in the database
