@@ -1,4 +1,4 @@
-import { Category } from "@prisma/client";
+import { Category, Prisma } from "@prisma/client";
 import { z, ZodString, ZodType } from "zod";
 
 // ======================== //
@@ -16,12 +16,18 @@ export type CategoryCommon = Omit<Category, "id" | "createdAt" | "updatedAt">;
 
 /** Represents data structure for updating a category */
 export type CategoryUpdate = {
-  id: Category["id"];
-  data: CategoryCommon;
+    id: Category["id"];
+    data: CategoryCommon;
 };
 
 /** Represents system-managed timestamp fields */
 export type CategoryTimestamps = Pick<Category, "createdAt" | "updatedAt">;
+
+/** Find many options for categories */
+export type SelectCategoryListProps = Pick<
+    Prisma.CategoryFindManyArgs,
+    "orderBy" | "take" | "skip" | "where"
+>;
 
 // ===================== //
 // ==== Zod Schemas ==== //
@@ -30,20 +36,32 @@ export type CategoryTimestamps = Pick<Category, "createdAt" | "updatedAt">;
 export const categoryIdSchema: ZodString = z.string();
 
 export const categoryIdObjectSchema: ZodType<CategoryId> = z.object({
-  id: z.string(),
+    id: z.string(),
 });
 
 export const categoryCommonSchema: ZodType<CategoryCommon> = z.object({
-  name: z.string(),
-  description: z.string(),
+    name: z.string(),
+    description: z.string(),
 });
 
 export const categoryTimestampsSchema: ZodType<CategoryTimestamps> = z.object({
-  createdAt: z.date(),
-  updatedAt: z.date(),
+    createdAt: z.date(),
+    updatedAt: z.date(),
 });
 
 export const categoryUpdateSchema: ZodType<CategoryUpdate> = z.object({
-  id: categoryIdSchema,
-  data: categoryCommonSchema,
+    id: categoryIdSchema,
+    data: categoryCommonSchema,
 });
+
+export const selectCategoryListSchema: ZodType<SelectCategoryListProps> =
+    z.object({
+        orderBy: z.object({
+            name: z.enum(["asc", "desc"]),
+        }).optional(),
+        take: z.number().min(1).max(100).optional(),
+        skip: z.number().min(0).optional(),
+        where: z.object({
+            name: z.string(),
+        }).optional(),
+    });

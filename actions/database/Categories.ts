@@ -9,9 +9,10 @@ import {
     CategoryType,
     CategoryUpdate,
     categoryUpdateSchema,
+    SelectCategoryListProps,
+    selectCategoryListSchema,
 } from "@actions/types/Category";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
-import { Prisma } from "@prisma/client";
 
 /**
  * Creates a new category in the database
@@ -64,11 +65,6 @@ export const SelectCategory = async (props: {
     }
 };
 
-type SelectCategoryListProps = Pick<
-    Prisma.CategoryFindManyArgs,
-    "orderBy" | "take" | "skip"
->;
-
 /**
  * Retrieves all categories from the database
  * @returns Promise resolving to an array of categories or null if none found
@@ -78,12 +74,19 @@ export const SelectCategoryList = async (
     props: SelectCategoryListProps,
 ): Promise<CategoryType[] | null> => {
     try {
-        const { orderBy, take = 10, skip = 0 } = props;
+        const {
+            orderBy,
+            take = 10,
+            skip = 0,
+            where,
+        } = selectCategoryListSchema.parse(props);
+
         const categoryDataList: CategoryType[] =
             await PrismaInstance.category.findMany({
-                orderBy,
-                take,
-                skip,
+                ...(orderBy && { orderBy }),
+                ...(take && { take }),
+                ...(skip && { skip }),
+                ...(where && { where }),
             });
         return categoryDataList.length ? categoryDataList : null;
     } catch (error) {

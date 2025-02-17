@@ -3,6 +3,7 @@ import {
     createSearchParamsCache,
     createSerializer,
     parseAsInteger,
+    parseAsString,
     parseAsStringEnum,
 } from "nuqs/server";
 
@@ -22,7 +23,11 @@ export type PriceOrderParamType = {
     priceOrder: "asc" | "desc" | "not";
 };
 
-export type QueryParamType = PageParamType & PriceOrderParamType & ItemsPerPageParamType;
+export type CategoryParamType = {
+    category: string;
+};
+
+export type QueryParamType = PageParamType & PriceOrderParamType & ItemsPerPageParamType & CategoryParamType;
 
 // ============================= //
 //        Custom parsers         //
@@ -57,10 +62,15 @@ export const PriceOrderParam = {
     priceOrder: parseAsStringEnum(["asc", "desc", "not"]).withDefault("not"),
 };
 
+export const CategoryParam = {
+    category: parseAsString.withDefault(""),
+};
+
 export const QueryParam = {
     ...PageParam,
     ...ItemsPerPageParam,
     ...PriceOrderParam,
+    ...CategoryParam,
 };
 
 // ============================= //
