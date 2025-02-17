@@ -9,9 +9,10 @@ import {
     CategoryType,
     CategoryUpdate,
     categoryUpdateSchema,
+    SelectCategoryListProps,
+    selectCategoryListSchema,
 } from "@actions/types/Category";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
-import { Prisma } from "@prisma/client";
 
 /**
  * Creates a new category in the database
@@ -24,9 +25,11 @@ export const CreateCategory = async (
 ): Promise<CategoryType | null> => {
     try {
         const data = categoryCommonSchema.parse(props);
-        const categoryData: CategoryType = await PrismaInstance.category.create({
-            data,
-        });
+        const categoryData: CategoryType = await PrismaInstance.category.create(
+            {
+                data,
+            },
+        );
         return categoryData;
     } catch (error) {
         if (error instanceof PrismaClientKnownRequestError) {
@@ -62,8 +65,6 @@ export const SelectCategory = async (props: {
     }
 };
 
-type SelectCategoryListProps = Pick<Prisma.CategoryFindManyArgs, "orderBy" | "take" | "skip" | "where">;
-
 /**
  * Retrieves all categories from the database
  * @returns Promise resolving to an array of categories or null if none found
@@ -73,15 +74,20 @@ export const SelectCategoryList = async (
     props: SelectCategoryListProps,
 ): Promise<CategoryType[] | null> => {
     try {
-        const { orderBy, take = 10, skip = 0, where } = props;
-        const categoryDataList: CategoryType[] = await PrismaInstance.category.findMany(
-            {
-                orderBy,
-                where,
-                take,
-                skip
-            },
-        );
+        const {
+            orderBy,
+            take = 10,
+            skip = 0,
+            where,
+        } = selectCategoryListSchema.parse(props);
+
+        const categoryDataList: CategoryType[] =
+            await PrismaInstance.category.findMany({
+                ...(orderBy && { orderBy }),
+                ...(take && { take }),
+                ...(skip && { skip }),
+                ...(where && { where }),
+            });
         return categoryDataList.length ? categoryDataList : null;
     } catch (error) {
         if (error instanceof PrismaClientKnownRequestError) {
@@ -89,6 +95,24 @@ export const SelectCategoryList = async (
             return null;
         }
         throw new Error("SelectCategoryList -> " + (error as Error).message);
+    }
+};
+
+/**
+ * Retrieves the total number of categories in the database
+ * @returns Promise resolving to the total number of categories or null if an error occurs
+ * @throws Error if an unexpected error occurs
+ */
+export const SelectCategoryAmount = async (): Promise<number | null> => {
+    try {
+        const categoryDataList = await PrismaInstance.category.count();
+        return categoryDataList;
+    } catch (error) {
+        if (error instanceof PrismaClientKnownRequestError) {
+            console.log("SelectCategoryAmount -> ", error);
+            return null;
+        }
+        throw new Error("SelectCategoryAmount -> " + (error as Error).message);
     }
 };
 
@@ -103,10 +127,12 @@ export const UpdateCategory = async (
 ): Promise<CategoryType | null> => {
     try {
         const { id, data } = categoryUpdateSchema.parse(props);
-        const categoryData: CategoryType = await PrismaInstance.category.update({
-            where: { id },
-            data,
-        });
+        const categoryData: CategoryType = await PrismaInstance.category.update(
+            {
+                where: { id },
+                data,
+            },
+        );
         return categoryData;
     } catch (error) {
         if (error instanceof PrismaClientKnownRequestError) {
@@ -128,9 +154,11 @@ export const DeleteCategory = async (props: {
 }): Promise<CategoryType | null> => {
     try {
         const { id } = categoryIdObjectSchema.parse(props);
-        const categoryData: CategoryType = await PrismaInstance.category.delete({
-            where: { id },
-        });
+        const categoryData: CategoryType = await PrismaInstance.category.delete(
+            {
+                where: { id },
+            },
+        );
         return categoryData;
     } catch (error) {
         if (error instanceof PrismaClientKnownRequestError) {

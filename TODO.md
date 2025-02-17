@@ -7,6 +7,10 @@ Complete auth and user management
 - Read me
 - Coding chart
 
+## Security
+
+- [ ] Middleware to protect server actions
+
 ## Features
 
 - [ ] Auth page

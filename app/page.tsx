@@ -1,11 +1,14 @@
-import ImageRatio from "@comps/server/ImageRatio";
 import { SliderClient } from "@comps/client/Slider";
+import ImageRatio from "@comps/server/ImageRatio";
 
 export default async function HomePage() {
+
+    const imageClass = "h-[60px] sm:h-[80px] md:h-[100px] lg:h-[120px] xl:h-[140px] rounded";
+
     return (
         <div className="size-full overflow-y-auto py-4">
             <section className="flex flex-row items-center justify-between gap-12 bg-primary p-16">
-                <div className="text-nowrap text-6xl font-bold text-secondary">
+                <div className="text-nowrap text-lg font-bold text-secondary sm:text-xl md:text-2xl lg:text-4xl xl:text-6xl">
                     <div>Passez au</div>
                     <div>zéro déchet</div>
                 </div>
@@ -14,29 +17,29 @@ export default async function HomePage() {
                         <ImageRatio
                             src="/illustration/cafe.jpg"
                             alt="cafe"
-                            className="h-[200px] rounded"
+                            className={imageClass}
                         />
                         <ImageRatio
                             src="/illustration/pots.jpg"
                             alt="pots"
-                            className="h-[200px] rounded"
+                            className={imageClass}
                         />
                     </div>
                     <div className="flex flex-row items-center justify-evenly">
                         <ImageRatio
                             src="/illustration/produit 2.jpg"
                             alt="produit"
-                            className="h-[200px] rounded"
+                            className={imageClass}
                         />
                         <ImageRatio
                             src="/illustration/coton 3.jpg"
                             alt="coton"
-                            className="h-[200px] rounded"
+                            className={imageClass}
                         />
                         <ImageRatio
                             src="/illustration/pshit 2.jpg"
                             alt="pshit"
-                            className="h-[200px] rounded"
+                            className={imageClass}
                         />
                     </div>
                 </div>

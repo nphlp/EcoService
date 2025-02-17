@@ -1,6 +1,9 @@
-import { SelectProductList } from "@actions/database/Product";
-import CatalogueClient from "./client";
-import { QueryParamType, queryParamCached } from "./type";
+import { SelectCategoryList } from "@actions/database/Categories";
+import { SelectProductAmount, SelectProductList } from "@actions/database/Product";
+import CatalogueClient from "./components/CatalogueClient";
+import FilterProvider from "./components/FilterProvider";
+import FilterSelectClient from "./components/FilterSelectClient";
+import { QueryParamType, queryParamCached } from "./components/FilterTypes";
 
 type CataloguePageProps = {
     searchParams: Promise<QueryParamType>;
@@ -10,25 +13,42 @@ export default async function CataloguePage(props: CataloguePageProps) {
     const { searchParams } = props;
 
     const dataCached = await queryParamCached.parse(searchParams);
+    const { priceOrder, page, take, category } = dataCached;
 
-    const take = 8;
+    const productAmount = await SelectProductAmount({
+        where: category ? { categoryId: category } : undefined,
+    });
+    if (!productAmount) {
+        throw new Error("We don't have any product...");
+    }
 
-    const produitList = await SelectProductList({
-        ...(dataCached.priceOrder !== "" && {
-            orderBy: { price: dataCached.priceOrder as "asc" | "desc" },
+    const productList = await SelectProductList({
+        ...(priceOrder !== "not" && {
+            orderBy: { price: priceOrder },
         }),
-        ...(dataCached.page > 1 && {
-            skip: (dataCached.page - 1) * take,
+        ...(page > 1 && {
+            skip: (page - 1) * take,
         }),
         take,
+        where: category ? { categoryId: category } : undefined,
     });
 
-    console.log(dataCached.page, produitList?.map((produit) => produit.name));
+    const categoryList = await SelectCategoryList({
+        orderBy: { name: "asc" },
+    });
+    if (!categoryList) {
+        throw new Error("We don't have any category...");
+    }
 
     return (
-        <div className="size-full space-y-4 overflow-hidden py-4">
-            <h1 className="px-4 text-2xl font-bold">Catalogue</h1>
-            <CatalogueClient produitList={produitList} take={take} />
-        </div>
+        <FilterProvider productList={productList} productAmount={productAmount}>
+            <div className="size-full space-y-4 overflow-hidden py-4">
+                <h1 className="px-4 text-2xl font-bold">Catalogue</h1>
+                <div className="flex h-full flex-col justify-start gap-4 overflow-hidden">
+                    <FilterSelectClient categoryList={categoryList} />
+                    <CatalogueClient />
+                </div>
+            </div>
+        </FilterProvider>
     );
 }
