@@ -2,8 +2,8 @@ import ButtonClient from "@comps/client/Button";
 
 export default function Page() {
     return (
-        <div className="flex w-full flex-col items-center justify-start overflow-y-auto p-4">
-            <div className="space-y-4">
+        <div className="flex min-h-full w-full flex-col items-center justify-center bg-white p-6">
+            <div className="space-y-4 ">
                 <h1 className="text-2xl font-bold">Data Manipulation</h1>
                 <p>Here are some examples of data manipulation.</p>
                 <div className="space-y-2">

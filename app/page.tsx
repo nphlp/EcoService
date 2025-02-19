@@ -6,7 +6,7 @@ export default async function HomePage() {
     const imageClass = "h-[60px] sm:h-[80px] md:h-[100px] lg:h-[120px] xl:h-[140px] rounded";
 
     return (
-        <div className="size-full overflow-y-auto py-4">
+        <div className="min-h-full w-full bg-white">
             <section className="flex flex-row items-center justify-between gap-12 bg-primary p-16">
                 <div className="text-nowrap text-lg font-bold text-secondary sm:text-xl md:text-2xl lg:text-4xl xl:text-6xl">
                     <div>Passez au</div>
@@ -44,7 +44,42 @@ export default async function HomePage() {
                     </div>
                 </div>
             </section>
-            <section className="p-8">
+            <section className="space-y-3 p-8">
+                <h2 className="text-center text-2xl font-bold">
+                    Nos produits
+                </h2>
+                <SliderClient
+                    imageList={[
+                        "/illustration/pshit 1.jpg",
+                        "/illustration/pshit 2.jpg",
+                        "/illustration/coton 1.jpg",
+                        "/illustration/coton 2.jpg",
+                        "/illustration/coton 3.jpg",
+                        "/illustration/lessive 1.jpg",
+                        "/illustration/lessive 2.jpg",
+                    ]}
+                />
+            </section>
+            <section className="space-y-3 bg-primary p-8">
+                <h2 className="text-center text-2xl font-bold text-white">
+                    Nos produits
+                </h2>
+                <SliderClient
+                    imageList={[
+                        "/illustration/pshit 1.jpg",
+                        "/illustration/pshit 2.jpg",
+                        "/illustration/coton 1.jpg",
+                        "/illustration/coton 2.jpg",
+                        "/illustration/coton 3.jpg",
+                        "/illustration/lessive 1.jpg",
+                        "/illustration/lessive 2.jpg",
+                    ]}
+                />
+            </section>
+            <section className="space-y-3 p-8">
+                <h2 className="text-center text-2xl font-bold">
+                    Nos produits
+                </h2>
                 <SliderClient
                     imageList={[
                         "/illustration/pshit 1.jpg",

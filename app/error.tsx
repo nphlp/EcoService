@@ -17,14 +17,16 @@ export default function ErrorPage(props: ErrorProps) {
     }, [error]);
 
     return (
-        <div className="space-y-4">
-            <h2 className="text-2xl font-bold">
-                Oups! Something went wrong...
-            </h2>
-            <div>{error.message}</div>
-            <ButtonClient type="button" label="reset" onClick={reset}>
-                Try Again
-            </ButtonClient>
+        <div className="flex min-h-full w-full flex-col items-center justify-center bg-white">
+            <div className="space-y-4">
+                <h2 className="text-2xl font-bold">
+                    Oups! Something went wrong...
+                </h2>
+                <div>{error.message}</div>
+                <ButtonClient type="button" label="reset" onClick={reset}>
+                    Try Again
+                </ButtonClient>
+            </div>
         </div>
     );
 }

@@ -27,7 +27,8 @@ export default function AddFruitClient() {
             return;
         }
 
-        if (imageFile.size >  1 * 1024 * 1024) { // 1MB
+        if (imageFile.size > 1 * 1024 * 1024) {
+            // 1MB
             setMessage("Image file too large.");
             setMode("warning");
             return;
@@ -81,57 +82,55 @@ export default function AddFruitClient() {
     };
 
     return (
-        <div className="flex w-full flex-col items-center justify-start overflow-y-auto p-4">
-            <div className="space-y-4">
-                <ImageCard>
-                    <Img
-                        src={image ? URL.createObjectURL(image) : null}
-                        alt="Preview"
-                    />
-                    <Content>
-                        <Title>{name !== "" ? name : "Fruit Preview"}</Title>
-                        <Text>
-                            {description !== ""
-                                ? description
-                                : "Lorem ipsum dolor sit amet consectetur adipisicing elit. Ullam excepturi unde expedita debitis ea ducimus..."}
-                        </Text>
-                    </Content>
-                </ImageCard>
-                <Card className="flex flex-col items-center gap-4">
-                    <h1 className="text-center text-xl font-bold">Add fruit</h1>
-                    <div className="text-wrap text-center text-xs text-gray-500">
-                        Fill the fields to add a new fruit.
-                    </div>
-                    <InputClient
-                        type="text"
-                        label="name"
-                        classDiv="w-full"
-                        onChange={(e) => setName(e.target.value)}
-                        value={name}
-                    />
-                    <InputClient
-                        type="text"
-                        label="description"
-                        classDiv="w-full"
-                        onChange={(e) => setDescription(e.target.value)}
-                        value={description}
-                    />
-                    <InputClient
-                        label="file"
-                        type="file"
-                        onChange={handleImageChange}
-                    />
-                    <FeedbackClient message={message} mode={mode} />
-                    <ButtonClient
-                        type="button"
-                        label="add-fruit"
-                        onClick={handleSubmit}
-                        isLoading={isLoading}
-                    >
-                        Add new fruit
-                    </ButtonClient>
-                </Card>
-            </div>
+        <div className="space-y-4">
+            <ImageCard>
+                <Img
+                    src={image ? URL.createObjectURL(image) : null}
+                    alt="Preview"
+                />
+                <Content>
+                    <Title>{name !== "" ? name : "Fruit Preview"}</Title>
+                    <Text>
+                        {description !== ""
+                            ? description
+                            : "Lorem ipsum dolor sit amet consectetur adipisicing elit. Ullam excepturi unde expedita debitis ea ducimus..."}
+                    </Text>
+                </Content>
+            </ImageCard>
+            <Card className="flex flex-col items-center gap-4">
+                <h1 className="text-center text-xl font-bold">Add fruit</h1>
+                <div className="text-wrap text-center text-xs text-gray-500">
+                    Fill the fields to add a new fruit.
+                </div>
+                <InputClient
+                    type="text"
+                    label="name"
+                    classDiv="w-full"
+                    onChange={(e) => setName(e.target.value)}
+                    value={name}
+                />
+                <InputClient
+                    type="text"
+                    label="description"
+                    classDiv="w-full"
+                    onChange={(e) => setDescription(e.target.value)}
+                    value={description}
+                />
+                <InputClient
+                    label="file"
+                    type="file"
+                    onChange={handleImageChange}
+                />
+                <FeedbackClient message={message} mode={mode} />
+                <ButtonClient
+                    type="button"
+                    label="add-fruit"
+                    onClick={handleSubmit}
+                    isLoading={isLoading}
+                >
+                    Add new fruit
+                </ButtonClient>
+            </Card>
         </div>
     );
 }

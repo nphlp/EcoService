@@ -15,7 +15,7 @@ export default async function ProfilePage() {
     const expirationFormatted = expirationDate.toLocaleTimeString().split(":").slice(0, 2).join("h");
 
     return (
-        <div className="flex w-full flex-col items-center justify-start overflow-y-auto p-4">
+        <div className="flex min-h-full w-full flex-col items-center justify-center bg-white p-6">
             <div className="grid grid-cols-1 gap-5 lg:grid-cols-3">
                 <Card className="w-[280px] space-y-3">
                     <h1 className="text-xl font-bold">Profile</h1>
