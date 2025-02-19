@@ -28,7 +28,7 @@ export default function FilterSelectClient(props: FilterSelectClientProps) {
     } = useContext(FilterContext);
 
     return (
-        <div className="flex flex-row items-center justify-start gap-4 px-4">
+        <div className="flex flex-row items-center justify-start gap-4 px-6">
             <Select
                 label="Trier par prix"
                 labelClass="text-sm text-gray-500"

@@ -1,10 +1,10 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
-import Image from "next/image";
-import { Filter } from "lucide-react";
 import Card from "@comps/server/Card";
 import { combo } from "@lib/combo";
+import { Filter } from "lucide-react";
+import Image from "next/image";
+import { useEffect, useRef, useState } from "react";
 import ButtonClient from "./Button";
 
 interface Product {
@@ -236,7 +236,7 @@ export default function ProductManager() {
                                 )}
                             </div>
                             <div className="mt-4 text-center">
-                                <h3 className="text-xl text-[#0E073B]">
+                                <h3 className="text-xl text-primary">
                                     {product.name}
                                 </h3>
                                 <p className="mt-1 text-lg">
