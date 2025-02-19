@@ -67,17 +67,14 @@ export const auth = betterAuth({
         //     enabled: true,
         //     maxAge: 60 * 5
         // }
-    },
+    }
 });
-
-const { api } = auth;
-const { getSession: getSessionThroughApi } = api;
 
 /**
  * Get the session from server side
  */
 export const GetSession = async () => {
-    const session = await getSessionThroughApi({
+    const session = await auth.api.getSession({
         headers: await headers(),
     });
     return session;

@@ -1,5 +1,8 @@
 import { SelectCategoryList } from "@actions/database/Categories";
-import { SelectProductAmount, SelectProductList } from "@actions/database/Product";
+import {
+    SelectProductAmount,
+    SelectProductList,
+} from "@actions/database/Product";
 import CatalogueClient from "./components/CatalogueClient";
 import FilterProvider from "./components/FilterProvider";
 import FilterSelectClient from "./components/FilterSelectClient";
@@ -41,14 +44,17 @@ export default async function CataloguePage(props: CataloguePageProps) {
     }
 
     return (
-        <FilterProvider productList={productList} productAmount={productAmount}>
-            <div className="size-full space-y-4 overflow-hidden py-4">
-                <h1 className="px-4 text-2xl font-bold">Catalogue</h1>
-                <div className="flex h-full flex-col justify-start gap-4 overflow-hidden">
+        <div className="flex size-full flex-col gap-4 bg-white">
+            <h1 className="px-6 pt-6 text-4xl font-bold">Catalogue</h1>
+            <div className="flex flex-1 flex-col justify-start gap-4 overflow-hidden">
+                <FilterProvider
+                    productList={productList}
+                    productAmount={productAmount}
+                >
                     <FilterSelectClient categoryList={categoryList} />
                     <CatalogueClient />
-                </div>
+                </FilterProvider>
             </div>
-        </FilterProvider>
+        </div>
     );
 }

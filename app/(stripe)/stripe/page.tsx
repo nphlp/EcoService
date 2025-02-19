@@ -3,8 +3,8 @@ import PaymentButton from "@comps/client/PaymentButton";
 import ProductManager from "@comps/client/ProductManager";
 import SellerOnboard from "@comps/client/SellerOnboard";
 import { GetSession } from "@lib/auth";
-import { redirect } from "next/navigation";
 import PrismaInstance from "@lib/prisma";
+import { redirect } from "next/navigation";
 
 export default async function StripePage() {
     const session = await GetSession();
@@ -31,38 +31,36 @@ export default async function StripePage() {
     });
 
     return (
-        <div className="flex w-full flex-col items-center justify-start overflow-y-auto p-4">
-            <div className="flex flex-col items-center justify-center gap-4">
-                <h1 className="text-2xl font-bold">
-                    Hello {session.user.name.split(" ")[0]} !
-                </h1>
-                <div className="flex flex-col items-center gap-4">
-                    <h2 className="text-xl">Acheter</h2>
-                    {seller ? (
-                        <PaymentButton
-                            priceId="price_1QXgsvJ7wWUWkxFlGtww4CKm"
-                            sellerId={seller.id}
-                        />
-                    ) : (
-                        <p className="text-sm text-gray-500">
-                            No sellers available at the moment
-                        </p>
-                    )}
-                </div>
-                <div className="mt-8 w-full max-w-4xl">
-                    <SellerOnboard
-                        isSeller={user?.isSeller ?? false}
-                        isOnboarded={user?.isOnboarded ?? false}
+        <div className="flex min-h-full w-full flex-col items-center justify-center gap-4 bg-white p-6">
+            <h1 className="text-2xl font-bold">
+                Hello {session.user.name.split(" ")[0]} !
+            </h1>
+            <div className="flex flex-col items-center gap-4">
+                <h2 className="text-xl">Acheter</h2>
+                {seller ? (
+                    <PaymentButton
+                        priceId="price_1QXgsvJ7wWUWkxFlGtww4CKm"
+                        sellerId={seller.id}
                     />
-                </div>
-                {user?.isSeller && user?.isOnboarded && (
-                    <div className="mt-8 w-full max-w-4xl">
-                        <h2 className="mb-4 text-xl">Product Management</h2>
-                        <ProductManager />
-                    </div>
+                ) : (
+                    <p className="text-sm text-gray-500">
+                        No sellers available at the moment
+                    </p>
                 )}
-                <LogoutClient variant="outline" />
             </div>
+            <div className="mt-8 w-full max-w-4xl">
+                <SellerOnboard
+                    isSeller={user?.isSeller ?? false}
+                    isOnboarded={user?.isOnboarded ?? false}
+                />
+            </div>
+            {user?.isSeller && user?.isOnboarded && (
+                <div className="mt-8 w-full max-w-4xl">
+                    <h2 className="mb-4 text-xl">Product Management</h2>
+                    <ProductManager />
+                </div>
+            )}
+            <LogoutClient variant="outline" />
         </div>
     );
 }

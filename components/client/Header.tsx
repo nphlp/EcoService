@@ -1,11 +1,11 @@
 "use client";
 
-import ButtonClient from "./Button";
 import { useSession } from "@lib/client";
-import { Leaf } from "lucide-react";
-import { useState } from "react";
 import { combo } from "@lib/combo";
+import { Leaf } from "lucide-react";
 import { usePathname } from "next/navigation";
+import { useState } from "react";
+import ButtonClient from "./Button";
 
 export default function HeaderClient() {
     const [visibilityMenu, setVisibilityMenu] = useState<boolean>(false);
@@ -56,7 +56,7 @@ export default function HeaderClient() {
                     padding="none"
                     className={combo(
                         "absolute bottom-5 right-5 z-50 rounded-full border-2 border-gray-500 bg-white p-3 shadow-md",
-                        visibilityMenu && "hidden"
+                        visibilityMenu && "hidden",
                     )}
                     onClick={() => setVisibilityMenu(true)}
                 >
@@ -70,7 +70,7 @@ export default function HeaderClient() {
                     ring={false}
                     className={combo(
                         "absolute inset-0 z-40 rounded-none bg-black opacity-10",
-                        !visibilityMenu && "hidden"
+                        !visibilityMenu && "hidden",
                     )}
                     onClick={() => setVisibilityMenu(false)}
                 >
@@ -79,7 +79,7 @@ export default function HeaderClient() {
                 <nav
                     className={combo(
                         "absolute bottom-0 left-0 z-50 w-full px-4 pb-4",
-                        !visibilityMenu && "hidden"
+                        !visibilityMenu && "hidden",
                     )}
                 >
                     <div className="flex w-full flex-col items-center justify-center gap-2 rounded-2xl border-[1.5px] border-gray-300 bg-white p-4 shadow-md">
@@ -99,7 +99,7 @@ export default function HeaderClient() {
                                     >
                                         {title}
                                     </ButtonClient>
-                                )
+                                ),
                         )}
                         <ButtonClient
                             className="w-full"
@@ -115,8 +115,8 @@ export default function HeaderClient() {
             </header>
 
             {/* Desktop */}
-            <header className="max-md:hidden">
-                <nav className="flex flex-row gap-5 pt-4">
+            <header className="bg-white text-center max-md:hidden">
+                <nav className="flex flex-row items-center justify-center gap-5 py-4">
                     {linkList.map(
                         ({ sessionActive, href, label, title }, index) =>
                             (sessionActive === undefined ||
@@ -132,12 +132,12 @@ export default function HeaderClient() {
                                     variant="ghost"
                                     className={combo(
                                         "px-8",
-                                        path === href && "font-bold"
+                                        path === href && "font-bold",
                                     )}
                                 >
                                     {title}
                                 </ButtonClient>
-                            )
+                            ),
                     )}
                 </nav>
             </header>

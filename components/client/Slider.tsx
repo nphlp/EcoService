@@ -10,6 +10,7 @@ import "swiper/css/pagination";
 
 type SliderClientProps = {
     imageList: string[];
+    slidesPerView?: number;
     className?: string;
 };
 
@@ -18,13 +19,13 @@ type SliderClientProps = {
  * @doc [Demos and examples](https://swiperjs.com/demos)
  */
 export const SliderClient = (props: SliderClientProps) => {
-    const { imageList, className } = props;
+    const { imageList, className, slidesPerView = 3 } = props;
 
     return (
         <Swiper
             className={combo(className)}
             spaceBetween={32}
-            slidesPerView={3}
+            slidesPerView={slidesPerView}
             pagination={{
                 enabled: true,
                 dynamicBullets: true,

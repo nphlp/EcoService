@@ -1,12 +1,12 @@
 "use client";
 
 import { SelectProductAmount, SelectProductList } from "@actions/database/Product";
+import { ProductType } from "@actions/types/Product";
+import Card from "@comps/server/Card";
 import Loader from "@comps/server/Loader";
+import { combo } from "@lib/combo";
 import { useContext, useEffect } from "react";
 import { FilterContext } from "./FilterProvider";
-import Card from "@comps/server/Card";
-import { combo } from "@lib/combo";
-import { ProductType } from "@actions/types/Product";
 
 export default function CatalogueClient() {
     const { productList, setProductList, setProductAmount, priceOrder, page, take, category } =
@@ -49,18 +49,16 @@ export default function CatalogueClient() {
     return (
         <ProductList
             produitList={productList}
-            className="flex-1 overflow-y-auto px-4"
         />
     );
 }
 
 type ProductListProps = {
     produitList: ProductType[] | null;
-    className?: string;
 };
 
 const ProductList = (props: ProductListProps) => {
-    const { produitList, className } = props;
+    const { produitList } = props;
 
     if (!produitList) {
         return (
@@ -73,14 +71,13 @@ const ProductList = (props: ProductListProps) => {
     return (
         <div
             className={combo(
-                "grid grid-cols-2 gap-4 lg:grid-cols-4",
-                className,
+                "grid flex-1 grid-cols-2 gap-4 overflow-y-auto px-6 pb-6 lg:grid-cols-4",
             )}
         >
             {produitList.map((produit, index) => (
                 <Card
                     key={index}
-                    className="h-[200px] rounded-xl bg-white p-4 shadow-lg"
+                    className="h-[200px] rounded-xl bg-white shadow-lg"
                 >
                     <h2 className="text-lg font-semibold">{produit.name}</h2>
                     <p className="text-gray-600">Prix : {produit.price} €</p>

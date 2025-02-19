@@ -10,6 +10,7 @@ Complete auth and user management
 ## Security
 
 - [ ] Middleware to protect server actions
+- [ ] Use `fetch` for data fetching instead of server actions
 
 ## Features
 
