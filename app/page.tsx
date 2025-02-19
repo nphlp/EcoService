@@ -1,53 +1,33 @@
 import { SliderClient } from "@comps/client/Slider";
 import ImageRatio from "@comps/server/ImageRatio";
+import { combo } from "@lib/combo";
 
 export default async function HomePage() {
 
-    const imageClass = "h-[60px] sm:h-[80px] md:h-[100px] lg:h-[120px] xl:h-[140px] rounded";
-
+    const imageClass = "h-[100px] sm:h-[150px] md:h-[120px] lg:h-[160px] xl:h-[220px] rounded";
+    
     return (
         <div className="min-h-full w-full bg-white">
             <section className="flex flex-row items-center justify-between gap-12 bg-primary p-16">
-                <div className="text-nowrap text-lg font-bold text-secondary sm:text-xl md:text-2xl lg:text-4xl xl:text-6xl">
-                    <div>Passez au</div>
-                    <div>zéro déchet</div>
+                <div className="w-full text-nowrap text-2xl font-bold sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl">
+                    <div className="text-white">Passez au</div>
+                    <div className="text-secondary">zéro déchet</div>
                 </div>
-                <div className="w-full space-y-4">
-                    <div className="flex flex-row items-center justify-evenly">
-                        <ImageRatio
-                            src="/illustration/cafe.jpg"
-                            alt="cafe"
-                            className={imageClass}
-                        />
-                        <ImageRatio
-                            src="/illustration/pots.jpg"
-                            alt="pots"
-                            className={imageClass}
-                        />
-                    </div>
-                    <div className="flex flex-row items-center justify-evenly">
-                        <ImageRatio
-                            src="/illustration/produit 2.jpg"
-                            alt="produit"
-                            className={imageClass}
-                        />
-                        <ImageRatio
-                            src="/illustration/coton 3.jpg"
-                            alt="coton"
-                            className={imageClass}
-                        />
-                        <ImageRatio
-                            src="/illustration/pshit 2.jpg"
-                            alt="pshit"
-                            className={imageClass}
-                        />
-                    </div>
+                <div className="flex flex-row items-center justify-center gap-4">
+                    <ImageRatio
+                        src="/illustration/produit 2.jpg"
+                        alt="produit"
+                        className={imageClass}
+                    />
+                    <ImageRatio
+                        src="/illustration/coton 3.jpg"
+                        alt="coton"
+                        className={combo("max-md:hidden",imageClass)}
+                    />
                 </div>
             </section>
             <section className="space-y-3 p-8">
-                <h2 className="text-center text-2xl font-bold">
-                    Nos produits
-                </h2>
+                <h2 className="text-center text-2xl font-bold">Nos produits</h2>
                 <SliderClient
                     imageList={[
                         "/illustration/pshit 1.jpg",
@@ -77,9 +57,7 @@ export default async function HomePage() {
                 />
             </section>
             <section className="space-y-3 p-8">
-                <h2 className="text-center text-2xl font-bold">
-                    Nos produits
-                </h2>
+                <h2 className="text-center text-2xl font-bold">Nos produits</h2>
                 <SliderClient
                     imageList={[
                         "/illustration/pshit 1.jpg",
