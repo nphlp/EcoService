@@ -55,7 +55,7 @@ export const PageParam = {
 };
 
 export const ItemsPerPageParam = {
-    take: parseAsItemsPerPage.withDefault(10),
+    take: parseAsItemsPerPage.withDefault(20),
 };
 
 export const PriceOrderParam = {

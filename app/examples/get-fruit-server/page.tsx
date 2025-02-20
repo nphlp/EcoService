@@ -2,12 +2,12 @@ import { SelectEveryFruit } from "@actions/database/Fruit";
 import { Content, ImageCard, Img, Text, Title } from "@comps/server/ImageCard";
 
 // Server component (can be async function)
-export default async function FruitPage() {
+export default async function Page() {
     // This server comonent can use a server action directly to fetch data
     const fruitList = await SelectEveryFruit();
 
     return (
-        <div className="flex min-h-full w-full flex-col items-center justify-center bg-white p-6">
+        <div className="flex flex-1 flex-col items-center justify-center p-6">
             <div className="space-y-4">
                 <div>
                     <h1 className="text-2xl font-bold">Fruit List</h1>

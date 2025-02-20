@@ -1,7 +1,7 @@
 import { GetSession } from "@lib/auth";
+import PrismaInstance from "@lib/prisma";
 import { stripe } from "@lib/stripe";
 import { NextResponse } from "next/server";
-import PrismaInstance from "@lib/prisma";
 
 export async function GET() {
     try {
@@ -62,7 +62,7 @@ export async function POST(request: Request) {
 
                 // Upload file to Stripe
                 const fileUpload = await stripe.files.create({
-                    purpose: "product_image",
+                    purpose: 'dispute_evidence',
                     file: {
                         data: buffer,
                         name: image.name,

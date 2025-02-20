@@ -1,6 +1,7 @@
 import "@/globals.css";
+import { SelectCategoryList } from "@actions/database/Categories";
+import HeaderClient from "@comps/client/Header/Header";
 import FooterClient from "@comps/server/Footer";
-import HeaderClient from "@comps/client/Header";
 import { combo } from "@lib/combo";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
@@ -14,12 +15,18 @@ export const metadata: Metadata = {
     description: "A fully auth-ready application template for Next.js.",
 };
 
-type RootLayoutProps = {
+type LayoutProps = {
     children: ReactNode;
 };
 
-export default function RootLayout(props: RootLayoutProps) {
+export default async function Layout(props: LayoutProps) {
     const { children } = props;
+
+    const categorieList = await SelectCategoryList({ orderBy: { name: "asc" } });
+
+    if (!categorieList) {
+        return <div>Mmmm... It seems there is not data.</div>;
+    }
 
     return (
         <html lang="en" className="flex h-full flex-col overflow-hidden">
@@ -30,18 +37,24 @@ export default function RootLayout(props: RootLayoutProps) {
                 )}
             >
                 <NuqsAdapter>
-                    <HeaderClient />
-                    <main className="w-full flex-1 overflow-y-auto overflow-x-hidden">
-                        {children}
-                        <FooterClient />
+                    <HeaderClient categorieList={categorieList} />
+                    <main className="pointer-events-none relative z-10 w-full flex-1 overflow-y-auto overflow-x-hidden">
+                        <div className="pointer-events-auto flex min-h-full w-full flex-col bg-white">
+                            {children}
+                        </div>
+                        <div className="h-[300px] w-full bg-transparent">
+                            <div className="h-4 bg-gradient-to-b from-gray-900/50 to-transparent" />
+                        </div>
                     </main>
+                    <FooterClient className="pointer-events-auto absolute bottom-0 h-[300px] w-full bg-primary" />
                 </NuqsAdapter>
             </body>
         </html>
     );
 }
 
-{/* 
+{
+    /* 
 Method center/scroll
 - justify-center (y-axis) if the content is not scrollable
 - justify-start (y-axis) if the content is scrollable
@@ -51,4 +64,5 @@ Method center/scroll
         {children}
     </div>
 </main>
-*/}
+*/
+}

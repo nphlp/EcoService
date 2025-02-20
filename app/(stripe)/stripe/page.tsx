@@ -6,7 +6,7 @@ import { GetSession } from "@lib/auth";
 import PrismaInstance from "@lib/prisma";
 import { redirect } from "next/navigation";
 
-export default async function StripePage() {
+export default async function Page() {
     const session = await GetSession();
 
     if (!session) {
@@ -31,7 +31,7 @@ export default async function StripePage() {
     });
 
     return (
-        <div className="flex min-h-full w-full flex-col items-center justify-center gap-4 bg-white p-6">
+        <div className="flex flex-1 flex-col items-center justify-center gap-4 p-6">
             <h1 className="text-2xl font-bold">
                 Hello {session.user.name.split(" ")[0]} !
             </h1>

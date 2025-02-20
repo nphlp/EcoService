@@ -3,42 +3,42 @@
 import ButtonClient, { ButtonClientProps } from "@comps/client/Button";
 import { signOut } from "@lib/client";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { ButtonHTMLAttributes } from "react";
+
+type ButtonType = Exclude<
+    ButtonHTMLAttributes<HTMLButtonElement>["type"],
+    undefined
+>;
 
 type LogoutClientProps = {
-    className?: string;
-    variant?: ButtonClientProps["variant"];
-    padding?: ButtonClientProps["padding"];
-};
+    onClick?: () => void;
+} & Omit<
+    Extract<ButtonClientProps, { type: ButtonType }>,
+    "onClick" | "type" | "label" | "children"
+>;
 
 export default function LogoutClient(props: LogoutClientProps) {
-    const { variant, padding } = props;
-
-    const [isLoading, setIsLoading] = useState(false);
+    const { onClick, ...others } = props;
 
     const router = useRouter();
 
     const handleClick = async () => {
-        setIsLoading(true);
-        const { data, error } = await signOut();
+        const { data } = await signOut();
 
         if (data) {
             router.push("/");
-        } else if (error) {
-            console.log(data);
+        } else {
+            throw new Error("Something went wrong...");
         }
 
-        setIsLoading(false);
+        onClick?.();
     };
-
     return (
         <ButtonClient
             type="button"
-            variant={variant}
-            label="Logout"
-            padding={padding}
-            isLoading={isLoading}
+            label="logout"
             onClick={handleClick}
+            {...others}
         >
             Logout
         </ButtonClient>

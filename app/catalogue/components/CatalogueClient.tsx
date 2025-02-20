@@ -1,6 +1,9 @@
 "use client";
 
-import { SelectProductAmount, SelectProductList } from "@actions/database/Product";
+import {
+    SelectProductAmount,
+    SelectProductList,
+} from "@actions/database/Product";
 import { ProductType } from "@actions/types/Product";
 import Card from "@comps/server/Card";
 import Loader from "@comps/server/Loader";
@@ -9,13 +12,21 @@ import { useContext, useEffect } from "react";
 import { FilterContext } from "./FilterProvider";
 
 export default function CatalogueClient() {
-    const { productList, setProductList, setProductAmount, priceOrder, page, take, category } =
-        useContext(FilterContext);
+    const {
+        productList,
+        setProductList,
+        setProductAmount,
+        priceOrder,
+        page,
+        take,
+        category,
+    } = useContext(FilterContext);
 
     useEffect(() => {
         const fetch = async () => {
             const data = await SelectProductList({
-                orderBy: priceOrder !== "not" ? { price: priceOrder } : undefined,
+                orderBy:
+                    priceOrder !== "not" ? { price: priceOrder } : undefined,
                 skip: page > 1 ? (page - 1) * take : undefined,
                 take,
                 where: category ? { categoryId: category } : undefined,
@@ -35,7 +46,15 @@ export default function CatalogueClient() {
         if (productList === "isLoading") {
             fetch();
         }
-    }, [productList, setProductList, setProductAmount, priceOrder, page, take, category]);
+    }, [
+        productList,
+        setProductList,
+        setProductAmount,
+        priceOrder,
+        page,
+        take,
+        category,
+    ]);
 
     if (productList === "isLoading") {
         return (
@@ -45,12 +64,7 @@ export default function CatalogueClient() {
         );
     }
 
-    // TODO: Fix scroll bottom cutted edge
-    return (
-        <ProductList
-            produitList={productList}
-        />
-    );
+    return <ProductList produitList={productList} />;
 }
 
 type ProductListProps = {
@@ -71,7 +85,7 @@ const ProductList = (props: ProductListProps) => {
     return (
         <div
             className={combo(
-                "grid flex-1 grid-cols-2 gap-4 overflow-y-auto px-6 pb-6 lg:grid-cols-4",
+                "grid grid-cols-1 gap-4 overflow-y-auto px-6 pb-6 sm:grid-cols-2 lg:grid-cols-4",
             )}
         >
             {produitList.map((produit, index) => (
