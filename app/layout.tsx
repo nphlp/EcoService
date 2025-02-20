@@ -1,5 +1,5 @@
 import "@/globals.css";
-import FooterClient from "@comps/client/Footer";
+import FooterClient from "@comps/server/Footer";
 import HeaderClient from "@comps/client/Header";
 import { combo } from "@lib/combo";
 import type { Metadata } from "next";

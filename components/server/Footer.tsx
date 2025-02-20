@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export default function FooterClient() {
     return (
-        <footer className="block h-[300px] w-full">
+        <footer className="h-[300px] w-full">
             <div className="h-4 bg-gradient-to-b from-primary/40 to-transparent"></div>
             <div
                 className={combo(
