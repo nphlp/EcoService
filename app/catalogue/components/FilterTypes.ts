@@ -27,7 +27,11 @@ export type CategoryParamType = {
     category: string;
 };
 
-export type QueryParamType = PageParamType & PriceOrderParamType & ItemsPerPageParamType & CategoryParamType;
+export type SearchParamType = {
+    search: string;
+};
+
+export type QueryParamType = PageParamType & PriceOrderParamType & ItemsPerPageParamType & CategoryParamType & SearchParamType;
 
 // ============================= //
 //        Custom parsers         //
@@ -66,11 +70,16 @@ export const CategoryParam = {
     category: parseAsString.withDefault(""),
 };
 
+export const SearchParam = {
+    search: parseAsString.withDefault(""),
+};
+
 export const QueryParam = {
     ...PageParam,
     ...ItemsPerPageParam,
     ...PriceOrderParam,
     ...CategoryParam,
+    ...SearchParam,
 };
 
 // ============================= //

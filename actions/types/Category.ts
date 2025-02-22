@@ -29,14 +29,17 @@ export type SelectCategoryListProps = Pick<
     "orderBy" | "take" | "skip" | "where"
 >;
 
+/** Count options for categories */
+export type SelectCategoryAmountProps = Pick<Prisma.CategoryCountArgs, "where">;
+
 // ===================== //
 // ==== Zod Schemas ==== //
 // ===================== //
 
-export const categoryIdSchema: ZodString = z.string();
+export const categoryIdSchema: ZodString = z.string().nanoid();
 
 export const categoryIdObjectSchema: ZodType<CategoryId> = z.object({
-    id: z.string(),
+    id: z.string().nanoid(),
 });
 
 export const categoryCommonSchema: ZodType<CategoryCommon> = z.object({
@@ -65,3 +68,11 @@ export const selectCategoryListSchema: ZodType<SelectCategoryListProps> =
             name: z.string(),
         }).optional(),
     });
+
+export const selectCategoryAmountSchema: ZodType<SelectCategoryAmountProps> = z.object({
+    where: z
+        .object({
+            // Types to validate
+        })
+        .optional(),
+});

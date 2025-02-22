@@ -1,7 +1,10 @@
 "use server";
 
-import PrismaInstance from "@lib/prisma";
 import {
+    SelectSessionAmountProps,
+    selectSessionAmountSchema,
+    SelectSessionListProps,
+    selectSessionListSchema,
     SessionCommon,
     sessionCommonSchema,
     SessionId,
@@ -10,13 +13,14 @@ import {
     SessionUpdate,
     sessionUpdateSchema,
 } from "@actions/types/Session";
+import PrismaInstance from "@lib/prisma";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
+import { ZodError } from "zod";
 
 /**
- * Creates a new session in the database
- * @param props - The session properties to create
- * @returns Promise resolving to the created session or null if creation fails
- * @throws Error if an unexpected error occurs
+ * Creates a new session
+ * @param props Session properties
+ * @returns Created session or null
  */
 export const CreateSession = async (
     props: SessionCommon
@@ -28,23 +32,20 @@ export const CreateSession = async (
 
         return sessionData;
     } catch (error) {
-        if (error instanceof PrismaClientKnownRequestError) {
-            console.log("CreateSession -> ", error);
+        console.error("CreateSession -> " + (error as Error).message);
+        if (error instanceof ZodError || error instanceof PrismaClientKnownRequestError) {
             return null;
         }
-        throw new Error("CreateSession -> " + (error as Error).message);
+        throw new Error("Something went wrong...");
     }
 };
 
 /**
- * Retrieves a session by its ID
- * @param props - Object containing the session ID
- * @returns Promise resolving to the found session or null if not found
- * @throws Error if an unexpected error occurs
+ * Retrieves a session by ID
+ * @param props Session ID
+ * @returns Found session or null
  */
-export const SelectSession = async (props: {
-    id: SessionId;
-}): Promise<SessionType | null> => {
+export const SelectSession = async (props: SessionId): Promise<SessionType | null> => {
     try {
         const { id } = sessionIdObjectSchema.parse(props);
 
@@ -54,38 +55,76 @@ export const SelectSession = async (props: {
 
         return sessionData;
     } catch (error) {
-        if (error instanceof PrismaClientKnownRequestError) {
-            console.log("SelectSession -> ", error);
+        console.error("SelectSession -> " + (error as Error).message);
+        if (error instanceof ZodError || error instanceof PrismaClientKnownRequestError) {
             return null;
         }
-        throw new Error("SelectSession -> " + (error as Error).message);
+        throw new Error("Something went wrong...");
     }
 };
 
 /**
- * Retrieves all sessions from the database
- * @returns Promise resolving to an array of sessions or null if none found
- * @throws Error if an unexpected error occurs
+ * Retrieves a list of sessions with filters
+ * @param props Filter and pagination options
+ * @returns List of sessions or null
  */
-export const SelectSessionList = async (): Promise<SessionType[] | null> => {
+export const SelectSessionList = async (
+    props: SelectSessionListProps
+): Promise<SessionType[] | null> => {
     try {
-        const sessionDataList: SessionType[] = await PrismaInstance.session.findMany();
+        const {
+            orderBy,
+            take = 10,
+            skip = 0,
+            where,
+        } = selectSessionListSchema.parse(props);
+
+        const sessionDataList: SessionType[] = await PrismaInstance.session.findMany({
+            ...(orderBy && { orderBy }),
+            ...(take && { take }),
+            ...(skip && { skip }),
+            ...(where && { where }),
+        });
 
         return sessionDataList.length ? sessionDataList : null;
     } catch (error) {
-        if (error instanceof PrismaClientKnownRequestError) {
-            console.log("SelectSessionList -> ", error);
+        console.error("SelectSessionList -> " + (error as Error).message);
+        if (error instanceof ZodError || error instanceof PrismaClientKnownRequestError) {
             return null;
         }
-        throw new Error("SelectSessionList -> " + (error as Error).message);
+        throw new Error("Something went wrong...");
     }
 };
 
 /**
- * Updates a session's information in the database
- * @param props - Object containing the session ID and updated data
- * @returns Promise resolving to the updated session or null if update fails
- * @throws Error if an unexpected error occurs
+ * Counts sessions with filters
+ * @param props Filter options
+ * @returns Count of sessions or null
+ */
+export const SelectSessionAmount = async (
+    props: SelectSessionAmountProps
+): Promise<number | null> => {
+    try {
+        const { where } = selectSessionAmountSchema.parse(props);
+
+        const sessionAmount = await PrismaInstance.session.count({
+            ...(where && { where }),
+        });
+
+        return sessionAmount;
+    } catch (error) {
+        console.error("SelectSessionAmount -> " + (error as Error).message);
+        if (error instanceof ZodError || error instanceof PrismaClientKnownRequestError) {
+            return null;
+        }
+        throw new Error("Something went wrong...");
+    }
+};
+
+/**
+ * Updates a session
+ * @param props Session ID and new data
+ * @returns Updated session or null
  */
 export const UpdateSession = async (
     props: SessionUpdate
@@ -100,23 +139,20 @@ export const UpdateSession = async (
 
         return sessionData;
     } catch (error) {
-        if (error instanceof PrismaClientKnownRequestError) {
-            console.log("UpdateSession -> ", error);
+        console.error("UpdateSession -> " + (error as Error).message);
+        if (error instanceof ZodError || error instanceof PrismaClientKnownRequestError) {
             return null;
         }
-        throw new Error("UpdateSession -> " + (error as Error).message);
+        throw new Error("Something went wrong...");
     }
 };
 
 /**
- * Deletes a session from the database
- * @param props - Object containing the session ID to delete
- * @returns Promise resolving to the deleted session or null if deletion fails
- * @throws Error if an unexpected error occurs
+ * Deletes a session
+ * @param props Session ID
+ * @returns Deleted session or null
  */
-export const DeleteSession = async (props: {
-    id: SessionId;
-}): Promise<SessionType | null> => {
+export const DeleteSession = async (props: SessionId): Promise<SessionType | null> => {
     try {
         const { id } = sessionIdObjectSchema.parse(props);
 
@@ -126,10 +162,10 @@ export const DeleteSession = async (props: {
 
         return sessionData;
     } catch (error) {
-        if (error instanceof PrismaClientKnownRequestError) {
-            console.log("DeleteSession -> ", error);
+        console.error("DeleteSession -> " + (error as Error).message);
+        if (error instanceof ZodError || error instanceof PrismaClientKnownRequestError) {
             return null;
         }
-        throw new Error("DeleteSession -> " + (error as Error).message);
+        throw new Error("Something went wrong...");
     }
 };

@@ -1,6 +1,5 @@
 "use server";
 
-import PrismaInstance from "@lib/prisma";
 import {
     OrderCommon,
     orderCommonSchema,
@@ -9,14 +8,19 @@ import {
     OrderType,
     OrderUpdate,
     orderUpdateSchema,
+    SelectOrderAmountProps,
+    selectOrderAmountSchema,
+    SelectOrderListProps,
+    selectOrderListSchema,
 } from "@actions/types/Order";
+import PrismaInstance from "@lib/prisma";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
+import { ZodError } from "zod";
 
 /**
- * Creates a new order in the database
- * @param props - The order properties to create
- * @returns Promise resolving to the created order or null if creation fails
- * @throws Error if an unexpected error occurs
+ * Creates a new order
+ * @param props Order properties
+ * @returns Created order or null
  */
 export const CreateOrder = async (
     props: OrderCommon
@@ -28,23 +32,20 @@ export const CreateOrder = async (
 
         return orderData;
     } catch (error) {
-        if (error instanceof PrismaClientKnownRequestError) {
-            console.log("CreateOrder -> ", error);
+        console.error("CreateOrder -> " + (error as Error).message);
+        if (error instanceof ZodError || error instanceof PrismaClientKnownRequestError) {
             return null;
         }
-        throw new Error("CreateOrder -> " + (error as Error).message);
+        throw new Error("Something went wrong...");
     }
 };
 
 /**
- * Retrieves an order by its ID
- * @param props - Object containing the order ID
- * @returns Promise resolving to the found order or null if not found
- * @throws Error if an unexpected error occurs
+ * Retrieves an order by ID
+ * @param props Order ID
+ * @returns Found order or null
  */
-export const SelectOrder = async (props: {
-    id: OrderId;
-}): Promise<OrderType | null> => {
+export const SelectOrder = async (props: OrderId): Promise<OrderType | null> => {
     try {
         const { id } = orderIdObjectSchema.parse(props);
 
@@ -54,38 +55,76 @@ export const SelectOrder = async (props: {
 
         return orderData;
     } catch (error) {
-        if (error instanceof PrismaClientKnownRequestError) {
-            console.log("SelectOrder -> ", error);
+        console.error("SelectOrder -> " + (error as Error).message);
+        if (error instanceof ZodError || error instanceof PrismaClientKnownRequestError) {
             return null;
         }
-        throw new Error("SelectOrder -> " + (error as Error).message);
+        throw new Error("Something went wrong...");
     }
 };
 
 /**
- * Retrieves all orders from the database
- * @returns Promise resolving to an array of orders or null if none found
- * @throws Error if an unexpected error occurs
+ * Retrieves a list of orders with filters
+ * @param props Filter and pagination options
+ * @returns List of orders or null
  */
-export const SelectOrderList = async (): Promise<OrderType[] | null> => {
+export const SelectOrderList = async (
+    props: SelectOrderListProps
+): Promise<OrderType[] | null> => {
     try {
-        const orderDataList: OrderType[] = await PrismaInstance.order.findMany();
+        const {
+            orderBy,
+            take = 10,
+            skip = 0,
+            where,
+        } = selectOrderListSchema.parse(props);
+
+        const orderDataList: OrderType[] = await PrismaInstance.order.findMany({
+            ...(orderBy && { orderBy }),
+            ...(take && { take }),
+            ...(skip && { skip }),
+            ...(where && { where }),
+        });
 
         return orderDataList.length ? orderDataList : null;
     } catch (error) {
-        if (error instanceof PrismaClientKnownRequestError) {
-            console.log("SelectOrderList -> ", error);
+        console.error("SelectOrderList -> " + (error as Error).message);
+        if (error instanceof ZodError || error instanceof PrismaClientKnownRequestError) {
             return null;
         }
-        throw new Error("SelectOrderList -> " + (error as Error).message);
+        throw new Error("Something went wrong...");
     }
 };
 
 /**
- * Updates an order's information in the database
- * @param props - Object containing the order ID and updated data
- * @returns Promise resolving to the updated order or null if update fails
- * @throws Error if an unexpected error occurs
+ * Counts orders with filters
+ * @param props Filter options
+ * @returns Count of orders or null
+ */
+export const SelectOrderAmount = async (
+    props: SelectOrderAmountProps
+): Promise<number | null> => {
+    try {
+        const { where } = selectOrderAmountSchema.parse(props);
+
+        const orderAmount = await PrismaInstance.order.count({
+            ...(where && { where }),
+        });
+
+        return orderAmount;
+    } catch (error) {
+        console.error("SelectOrderAmount -> " + (error as Error).message);
+        if (error instanceof ZodError || error instanceof PrismaClientKnownRequestError) {
+            return null;
+        }
+        throw new Error("Something went wrong...");
+    }
+};
+
+/**
+ * Updates an order
+ * @param props Order ID and new data
+ * @returns Updated order or null
  */
 export const UpdateOrder = async (
     props: OrderUpdate
@@ -100,23 +139,20 @@ export const UpdateOrder = async (
 
         return orderData;
     } catch (error) {
-        if (error instanceof PrismaClientKnownRequestError) {
-            console.log("UpdateOrder -> ", error);
+        console.error("UpdateOrder -> " + (error as Error).message);
+        if (error instanceof ZodError || error instanceof PrismaClientKnownRequestError) {
             return null;
         }
-        throw new Error("UpdateOrder -> " + (error as Error).message);
+        throw new Error("Something went wrong...");
     }
 };
 
 /**
- * Deletes an order from the database
- * @param props - Object containing the order ID to delete
- * @returns Promise resolving to the deleted order or null if deletion fails
- * @throws Error if an unexpected error occurs
+ * Deletes an order
+ * @param props Order ID
+ * @returns Deleted order or null
  */
-export const DeleteOrder = async (props: {
-    id: OrderId;
-}): Promise<OrderType | null> => {
+export const DeleteOrder = async (props: OrderId): Promise<OrderType | null> => {
     try {
         const { id } = orderIdObjectSchema.parse(props);
 
@@ -126,10 +162,10 @@ export const DeleteOrder = async (props: {
 
         return orderData;
     } catch (error) {
-        if (error instanceof PrismaClientKnownRequestError) {
-            console.log("DeleteOrder -> ", error);
+        console.error("DeleteOrder -> " + (error as Error).message);
+        if (error instanceof ZodError || error instanceof PrismaClientKnownRequestError) {
             return null;
         }
-        throw new Error("DeleteOrder -> " + (error as Error).message);
+        throw new Error("Something went wrong...");
     }
 };

@@ -36,10 +36,10 @@ export type SelectProductAmountProps = Pick<Prisma.ProductCountArgs, "where">;
 // ==== Zod Schemas ==== //
 // ===================== //
 
-export const productIdSchema: ZodString = z.string();
+export const productIdSchema: ZodString = z.string().nanoid();
 
 export const productIdObjectSchema: ZodType<ProductId> = z.object({
-    id: z.string(),
+    id: z.string().nanoid(),
 });
 
 export const productCommonSchema: ZodType<ProductCommon> = z.object({
@@ -73,7 +73,10 @@ export const selectProductListSchema: ZodType<SelectProductListProps> =
         skip: z.number().min(0).optional(),
         where: z
             .object({
-                categoryId: z.string(),
+                categoryId: z.string().optional(),
+                name: z.object({
+                    contains: z.string(),
+                }).optional(),
             })
             .optional(),
     });
@@ -82,7 +85,10 @@ export const selectProductAmountSchema: ZodType<SelectProductAmountProps> =
     z.object({
         where: z
             .object({
-                categoryId: z.string(),
+                categoryId: z.string().optional(),
+                name: z.object({
+                    contains: z.string(),
+                }).optional(),
             })
             .optional(),
     });

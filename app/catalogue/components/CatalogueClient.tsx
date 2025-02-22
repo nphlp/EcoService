@@ -6,8 +6,10 @@ import {
 } from "@actions/database/Product";
 import { ProductType } from "@actions/types/Product";
 import Card from "@comps/server/Card";
+import ImageRatio from "@comps/server/ImageRatio";
 import Loader from "@comps/server/Loader";
 import { combo } from "@lib/combo";
+import Link from "next/link";
 import { useContext, useEffect } from "react";
 import { FilterContext } from "./FilterProvider";
 
@@ -20,6 +22,7 @@ export default function CatalogueClient() {
         page,
         take,
         category,
+        search,
     } = useContext(FilterContext);
 
     useEffect(() => {
@@ -29,7 +32,14 @@ export default function CatalogueClient() {
                     priceOrder !== "not" ? { price: priceOrder } : undefined,
                 skip: page > 1 ? (page - 1) * take : undefined,
                 take,
-                where: category ? { categoryId: category } : undefined,
+                where: {
+                    ...(category && { categoryId: category }),
+                    ...(search && {
+                        name: {
+                            contains: search
+                        },
+                    }),
+                },
             });
 
             const productAmount = await SelectProductAmount({
@@ -54,6 +64,7 @@ export default function CatalogueClient() {
         page,
         take,
         category,
+        search,
     ]);
 
     if (productList === "isLoading") {
@@ -88,14 +99,22 @@ const ProductList = (props: ProductListProps) => {
                 "grid grid-cols-1 gap-4 overflow-y-auto px-6 pb-6 sm:grid-cols-2 lg:grid-cols-4",
             )}
         >
-            {produitList.map((produit, index) => (
-                <Card
+            {produitList.map(({ id, name, image, price }, index) => (
+                <Link
                     key={index}
-                    className="h-[200px] rounded-xl bg-white shadow-lg"
+                    href={`/produit/${id}`}
+                    className="outline-none ring-transparent focus:ring-offset-2 focus-visible:ring-2 focus-visible:ring-teal-400"
                 >
-                    <h2 className="text-lg font-semibold">{produit.name}</h2>
-                    <p className="text-gray-600">Prix : {produit.price} €</p>
-                </Card>
+                    <Card className="overflow-hidden p-0" key={index}>
+                        <ImageRatio src={image} alt={name} />
+                        <div className="p-4">
+                            <div className="text-lg font-bold">{name}</div>
+                            <div className="text-sm text-gray-500">
+                                {price} €
+                            </div>
+                        </div>
+                    </Card>
+                </Link>
             ))}
         </div>
     );

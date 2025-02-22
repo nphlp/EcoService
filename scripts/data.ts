@@ -157,7 +157,7 @@ export const productData: ProductData[] = [
     {
         name: "Panier de fruits bio",
         description: "Assortiment de fruits de saison bio",
-        image: "/products/fruit-basket.webp", 
+        image: "/illustration/produit 1.jpg", 
         price: 25.99,
         stock: 50,
         category: "Fruits & Légumes"
@@ -165,7 +165,7 @@ export const productData: ProductData[] = [
     {
         name: "Légumes locaux",
         description: "Mix de légumes frais de producteurs locaux",
-        image: "/products/local-vegetables.webp",
+        image: "/illustration/produit 2.jpg",
         price: 18.50,
         stock: 40,
         category: "Fruits & Légumes"
@@ -173,7 +173,7 @@ export const productData: ProductData[] = [
     {
         name: "Herbes aromatiques", 
         description: "Assortiment d'herbes fraîches bio",
-        image: "/products/herbs.webp",
+        image: "/illustration/produit 3.jpg",
         price: 4.99,
         stock: 30,
         category: "Fruits & Légumes"
@@ -183,7 +183,7 @@ export const productData: ProductData[] = [
     {
         name: "Fromage fermier",
         description: "Fromage artisanal de vache",
-        image: "/products/cheese.webp",
+        image: "/illustration/produit 4.jpg",
         price: 7.99,
         stock: 25,
         category: "Produits Laitiers"
@@ -191,7 +191,7 @@ export const productData: ProductData[] = [
     {
         name: "Yaourt bio",
         description: "Pack de yaourts nature bio",
-        image: "/products/yogurt.webp",
+        image: "/illustration/produit 5.jpg",
         price: 4.50,
         stock: 60,
         category: "Produits Laitiers"
@@ -199,7 +199,7 @@ export const productData: ProductData[] = [
     {
         name: "Beurre fermier",
         description: "Beurre traditionnel de baratte",
-        image: "/products/butter.webp",
+        image: "/illustration/coton 1.jpg",
         price: 3.99,
         stock: 45,
         category: "Produits Laitiers"
@@ -209,7 +209,7 @@ export const productData: ProductData[] = [
     {
         name: "Pain au levain",
         description: "Pain traditionnel au levain naturel",
-        image: "/products/sourdough.webp",
+        image: "/illustration/coton 2.jpg",
         price: 4.50,
         stock: 30,
         category: "Boulangerie"
@@ -217,7 +217,7 @@ export const productData: ProductData[] = [
     {
         name: "Croissants",
         description: "Lot de 4 croissants pur beurre",
-        image: "/products/croissant.webp",
+        image: "/illustration/coton 3.jpg",
         price: 6.99,
         stock: 40,
         category: "Boulangerie"
@@ -225,7 +225,7 @@ export const productData: ProductData[] = [
     {
         name: "Baguette tradition",
         description: "Baguette artisanale à l'ancienne",
-        image: "/products/baguette.webp",
+        image: "/illustration/cafe.jpg",
         price: 1.50,
         stock: 100,
         category: "Boulangerie"
@@ -235,7 +235,7 @@ export const productData: ProductData[] = [
     {
         name: "Filet de bœuf",
         description: "Filet de bœuf local race Charolaise",
-        image: "/products/beef.webp",
+        image: "/illustration/eolienne.jpg",
         price: 32.99,
         stock: 20,
         category: "Viandes & Poissons"
@@ -243,7 +243,7 @@ export const productData: ProductData[] = [
     {
         name: "Saumon frais",
         description: "Filet de saumon de l'Atlantique",
-        image: "/products/salmon.webp",
+        image: "/illustration/espace 1.jpg",
         price: 24.99,
         stock: 25,
         category: "Viandes & Poissons"
@@ -251,7 +251,7 @@ export const productData: ProductData[] = [
     {
         name: "Poulet fermier",
         description: "Poulet fermier Label Rouge",
-        image: "/products/chicken.webp",
+        image: "/illustration/feuille.jpg",
         price: 15.99,
         stock: 30,
         category: "Viandes & Poissons"
@@ -261,7 +261,7 @@ export const productData: ProductData[] = [
     {
         name: "Huile d'olive",
         description: "Huile d'olive extra vierge bio",
-        image: "/products/olive-oil.webp",
+        image: "/illustration/pots.jpg",
         price: 12.99,
         stock: 40,
         category: "Épicerie"
@@ -269,7 +269,7 @@ export const productData: ProductData[] = [
     {
         name: "Miel local",
         description: "Miel toutes fleurs local",
-        image: "/products/honey.webp",
+        image: "/illustration/pshit 1.jpg",
         price: 8.50,
         stock: 35,
         category: "Épicerie"
@@ -277,7 +277,7 @@ export const productData: ProductData[] = [
     {
         name: "Pâtes artisanales",
         description: "Pâtes fraîches aux œufs",
-        image: "/products/pasta.webp",
+        image: "/illustration/pshit 2.jpg",
         price: 5.99,
         stock: 50,
         category: "Épicerie"
@@ -287,7 +287,7 @@ export const productData: ProductData[] = [
     {
         name: "Vin rouge bio",
         description: "Vin rouge biodynamique local",
-        image: "/products/red-wine.webp",
+        image: "/illustration/produit 3.jpg",
         price: 15.99,
         stock: 60,
         category: "Boissons"
@@ -295,7 +295,7 @@ export const productData: ProductData[] = [
     {
         name: "Jus de pomme",
         description: "Jus de pomme pressé artisanal",
-        image: "/products/apple-juice.webp",
+        image: "/illustration/produit 4.jpg",
         price: 4.50,
         stock: 45,
         category: "Boissons"
@@ -303,7 +303,7 @@ export const productData: ProductData[] = [
     {
         name: "Bière artisanale",
         description: "Bière blonde locale",
-        image: "/products/beer.webp",
+        image: "/illustration/produit 5.jpg",
         price: 3.99,
         stock: 70,
         category: "Boissons"
@@ -313,7 +313,7 @@ export const productData: ProductData[] = [
     {
         name: "Farine sans gluten",
         description: "Farine de riz bio sans gluten",
-        image: "/products/gluten-free-flour.webp",
+        image: "/illustration/coton 1.jpg",
         price: 6.99,
         stock: 40,
         category: "Bio & Sans Gluten"
@@ -321,7 +321,7 @@ export const productData: ProductData[] = [
     {
         name: "Granola bio",
         description: "Granola bio aux fruits secs",
-        image: "/products/granola.webp",
+        image: "/illustration/coton 2.jpg",
         price: 8.99,
         stock: 35,
         category: "Bio & Sans Gluten"
@@ -329,7 +329,7 @@ export const productData: ProductData[] = [
     {
         name: "Cookies vegan",
         description: "Cookies bio sans gluten vegan",
-        image: "/products/vegan-cookies.webp",
+        image: "/illustration/coton 3.jpg",
         price: 5.50,
         stock: 45,
         category: "Bio & Sans Gluten"
@@ -339,7 +339,7 @@ export const productData: ProductData[] = [
     {
         name: "Légumes surgelés",
         description: "Mix de légumes bio surgelés",
-        image: "/products/frozen-vegetables.webp",
+        image: "/illustration/cafe.jpg",
         price: 6.99,
         stock: 50,
         category: "Surgelés"
@@ -347,7 +347,7 @@ export const productData: ProductData[] = [
     {
         name: "Poisson surgelé",
         description: "Filets de cabillaud surgelés",
-        image: "/products/frozen-fish.webp",
+        image: "/illustration/eolienne.jpg",
         price: 14.99,
         stock: 30,
         category: "Surgelés"
@@ -355,7 +355,7 @@ export const productData: ProductData[] = [
     {
         name: "Glace artisanale",
         description: "Crème glacée vanille de Madagascar",
-        image: "/products/ice-cream.webp",
+        image: "/illustration/espace 1.jpg",
         price: 7.99,
         stock: 25,
         category: "Surgelés"
@@ -365,7 +365,7 @@ export const productData: ProductData[] = [
     {
         name: "Savon naturel",
         description: "Savon artisanal aux huiles essentielles",
-        image: "/products/soap.webp",
+        image: "/illustration/terre-main.jpg",
         price: 5.99,
         stock: 55,
         category: "Hygiène & Beauté"
@@ -373,7 +373,7 @@ export const productData: ProductData[] = [
     {
         name: "Shampooing solide",
         description: "Shampooing solide bio zéro déchet",
-        image: "/products/shampoo.webp",
+        image: "/illustration/produit 1.jpg",
         price: 8.99,
         stock: 40,
         category: "Hygiène & Beauté"
@@ -381,7 +381,7 @@ export const productData: ProductData[] = [
     {
         name: "Crème visage",
         description: "Crème hydratante bio",
-        image: "/products/face-cream.webp",
+        image: "/illustration/produit 2.jpg",
         price: 19.99,
         stock: 30,
         category: "Hygiène & Beauté"
@@ -391,7 +391,7 @@ export const productData: ProductData[] = [
     {
         name: "Lessive écologique",
         description: "Lessive naturelle concentrée",
-        image: "/products/laundry.webp",
+        image: "/illustration/lessive 1.jpg",
         price: 12.99,
         stock: 45,
         category: "Maison & Entretien"
@@ -399,7 +399,7 @@ export const productData: ProductData[] = [
     {
         name: "Éponges naturelles",
         description: "Lot de 3 éponges biodégradables",
-        image: "/products/sponges.webp",
+        image: "/illustration/lessive 2.jpg",
         price: 6.99,
         stock: 60,
         category: "Maison & Entretien"
@@ -407,269 +407,7 @@ export const productData: ProductData[] = [
     {
         name: "Spray multi-usage",
         description: "Nettoyant écologique tout usage",
-        image: "/products/cleaner.webp",
-        price: 4.99,
-        stock: 50,
-        category: "Maison & Entretien"
-    },
-
-    // DEUXIÈME COPIE
-
-    // Fruits & Légumes
-    {
-        name: "Panier de fruits bio",
-        description: "Assortiment de fruits de saison bio",
-        image: "/products/fruit-basket.webp",
-        price: 25.99,
-        stock: 50,
-        category: "Fruits & Légumes"
-    },
-    {
-        name: "Légumes locaux",
-        description: "Mix de légumes frais de producteurs locaux",
-        image: "/products/local-vegetables.webp",
-        price: 18.50,
-        stock: 40,
-        category: "Fruits & Légumes"
-    },
-    {
-        name: "Herbes aromatiques",
-        description: "Assortiment d'herbes fraîches bio",
-        image: "/products/herbs.webp",
-        price: 4.99,
-        stock: 30,
-        category: "Fruits & Légumes"
-    },
-
-    // Produits Laitiers
-    {
-        name: "Fromage fermier",
-        description: "Fromage artisanal de vache",
-        image: "/products/cheese.webp",
-        price: 7.99,
-        stock: 25,
-        category: "Produits Laitiers"
-    },
-    {
-        name: "Yaourt bio",
-        description: "Pack de yaourts nature bio",
-        image: "/products/yogurt.webp",
-        price: 4.50,
-        stock: 60,
-        category: "Produits Laitiers"
-    },
-    {
-        name: "Beurre fermier",
-        description: "Beurre traditionnel de baratte",
-        image: "/products/butter.webp",
-        price: 3.99,
-        stock: 45,
-        category: "Produits Laitiers"
-    },
-
-    // Boulangerie
-    {
-        name: "Pain au levain",
-        description: "Pain traditionnel au levain naturel",
-        image: "/products/sourdough.webp",
-        price: 4.50,
-        stock: 30,
-        category: "Boulangerie"
-    },
-    {
-        name: "Croissants",
-        description: "Lot de 4 croissants pur beurre",
-        image: "/products/croissant.webp",
-        price: 6.99,
-        stock: 40,
-        category: "Boulangerie"
-    },
-    {
-        name: "Baguette tradition",
-        description: "Baguette artisanale à l'ancienne",
-        image: "/products/baguette.webp",
-        price: 1.50,
-        stock: 100,
-        category: "Boulangerie"
-    },
-
-    // Viandes & Poissons
-    {
-        name: "Filet de bœuf",
-        description: "Filet de bœuf local race Charolaise",
-        image: "/products/beef.webp",
-        price: 32.99,
-        stock: 20,
-        category: "Viandes & Poissons"
-    },
-    {
-        name: "Saumon frais",
-        description: "Filet de saumon de l'Atlantique",
-        image: "/products/salmon.webp",
-        price: 24.99,
-        stock: 25,
-        category: "Viandes & Poissons"
-    },
-    {
-        name: "Poulet fermier",
-        description: "Poulet fermier Label Rouge",
-        image: "/products/chicken.webp",
-        price: 15.99,
-        stock: 30,
-        category: "Viandes & Poissons"
-    },
-
-    // Épicerie
-    {
-        name: "Huile d'olive",
-        description: "Huile d'olive extra vierge bio",
-        image: "/products/olive-oil.webp",
-        price: 12.99,
-        stock: 40,
-        category: "Épicerie"
-    },
-    {
-        name: "Miel local",
-        description: "Miel toutes fleurs local",
-        image: "/products/honey.webp",
-        price: 8.50,
-        stock: 35,
-        category: "Épicerie"
-    },
-    {
-        name: "Pâtes artisanales",
-        description: "Pâtes fraîches aux œufs",
-        image: "/products/pasta.webp",
-        price: 5.99,
-        stock: 50,
-        category: "Épicerie"
-    },
-
-    // Boissons
-    {
-        name: "Vin rouge bio",
-        description: "Vin rouge biodynamique local",
-        image: "/products/red-wine.webp",
-        price: 15.99,
-        stock: 60,
-        category: "Boissons"
-    },
-    {
-        name: "Jus de pomme",
-        description: "Jus de pomme pressé artisanal",
-        image: "/products/apple-juice.webp",
-        price: 4.50,
-        stock: 45,
-        category: "Boissons"
-    },
-    {
-        name: "Bière artisanale",
-        description: "Bière blonde locale",
-        image: "/products/beer.webp",
-        price: 3.99,
-        stock: 70,
-        category: "Boissons"
-    },
-
-    // Bio & Sans Gluten
-    {
-        name: "Farine sans gluten",
-        description: "Farine de riz bio sans gluten",
-        image: "/products/gluten-free-flour.webp",
-        price: 6.99,
-        stock: 40,
-        category: "Bio & Sans Gluten"
-    },
-    {
-        name: "Granola bio",
-        description: "Granola bio aux fruits secs",
-        image: "/products/granola.webp",
-        price: 8.99,
-        stock: 35,
-        category: "Bio & Sans Gluten"
-    },
-    {
-        name: "Cookies vegan",
-        description: "Cookies bio sans gluten vegan",
-        image: "/products/vegan-cookies.webp",
-        price: 5.50,
-        stock: 45,
-        category: "Bio & Sans Gluten"
-    },
-
-    // Surgelés
-    {
-        name: "Légumes surgelés",
-        description: "Mix de légumes bio surgelés",
-        image: "/products/frozen-vegetables.webp",
-        price: 6.99,
-        stock: 50,
-        category: "Surgelés"
-    },
-    {
-        name: "Poisson surgelé",
-        description: "Filets de cabillaud surgelés",
-        image: "/products/frozen-fish.webp",
-        price: 14.99,
-        stock: 30,
-        category: "Surgelés"
-    },
-    {
-        name: "Glace artisanale",
-        description: "Crème glacée vanille de Madagascar",
-        image: "/products/ice-cream.webp",
-        price: 7.99,
-        stock: 25,
-        category: "Surgelés"
-    },
-
-    // Hygiène & Beauté
-    {
-        name: "Savon naturel",
-        description: "Savon artisanal aux huiles essentielles",
-        image: "/products/soap.webp",
-        price: 5.99,
-        stock: 55,
-        category: "Hygiène & Beauté"
-    },
-    {
-        name: "Shampooing solide",
-        description: "Shampooing solide bio zéro déchet",
-        image: "/products/shampoo.webp",
-        price: 8.99,
-        stock: 40,
-        category: "Hygiène & Beauté"
-    },
-    {
-        name: "Crème visage",
-        description: "Crème hydratante bio",
-        image: "/products/face-cream.webp",
-        price: 19.99,
-        stock: 30,
-        category: "Hygiène & Beauté"
-    },
-
-    // Maison & Entretien
-    {
-        name: "Lessive écologique",
-        description: "Lessive naturelle concentrée",
-        image: "/products/laundry.webp",
-        price: 12.99,
-        stock: 45,
-        category: "Maison & Entretien"
-    },
-    {
-        name: "Éponges naturelles",
-        description: "Lot de 3 éponges biodégradables",
-        image: "/products/sponges.webp",
-        price: 6.99,
-        stock: 60,
-        category: "Maison & Entretien"
-    },
-    {
-        name: "Spray multi-usage",
-        description: "Nettoyant écologique tout usage",
-        image: "/products/cleaner.webp",
+        image: "/illustration/brosse-a-dent.jpg",
         price: 4.99,
         stock: 50,
         category: "Maison & Entretien"

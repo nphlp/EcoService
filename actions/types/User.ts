@@ -1,4 +1,4 @@
-import { User, $Enums } from "@prisma/client";
+import { $Enums, Prisma, User } from "@prisma/client";
 import { z, ZodString, ZodType } from "zod";
 
 // ==================== //
@@ -23,16 +23,25 @@ export type UserUpdate = {
 /** Represents system-managed timestamp fields */
 export type UserTimestamps = Pick<User, "createdAt" | "updatedAt">;
 
+/** Find many options for users */
+export type SelectUserListProps = Pick<
+    Prisma.UserFindManyArgs,
+    "orderBy" | "take" | "skip" | "where"
+>;
+
+/** Count options for users */
+export type SelectUserAmountProps = Pick<Prisma.UserCountArgs, "where">;
+
 // ===================== //
 // ==== Zod Schemas ==== //
 // ===================== //
 
 /** Schema for validating user UUID */
-export const userIdSchema: ZodString = z.string().uuid();
+export const userIdSchema: ZodString = z.string().nanoid();
 
 /** Schema for validating user ID object structure */
 export const userIdObjectSchema: ZodType<UserId> = z.object({
-    id: z.string().uuid(),
+    id: z.string().nanoid(),
 });
 
 /** Schema for validating common user properties */
@@ -59,4 +68,27 @@ export const userTimestampsSchema: ZodType<UserTimestamps> = z.object({
 export const userUpdateSchema: ZodType<UserUpdate> = z.object({
     id: userIdSchema,
     data: userCommonSchema,
+});
+
+export const selectUserListSchema: ZodType<SelectUserListProps> = z.object({
+    orderBy: z
+        .object({
+            // Types to validate
+        })
+        .optional(),
+    take: z.number().min(1).max(100).optional(),
+    skip: z.number().min(0).optional(),
+    where: z
+        .object({
+            // Types to validate
+        })
+        .optional(),
+});
+
+export const selectUserAmountSchema: ZodType<SelectUserAmountProps> = z.object({
+    where: z
+        .object({
+            // Types to validate
+        })
+        .optional(),
 });

@@ -1,7 +1,10 @@
 "use server";
 
-import PrismaInstance from "@lib/prisma";
 import {
+    SelectVerificationAmountProps,
+    selectVerificationAmountSchema,
+    SelectVerificationListProps,
+    selectVerificationListSchema,
     VerificationCommon,
     verificationCommonSchema,
     VerificationId,
@@ -10,13 +13,14 @@ import {
     VerificationUpdate,
     verificationUpdateSchema,
 } from "@actions/types/Verification";
+import PrismaInstance from "@lib/prisma";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
+import { ZodError } from "zod";
 
 /**
- * Creates a new verification in the database
- * @param props - The verification properties to create
- * @returns Promise resolving to the created verification or null if creation fails
- * @throws Error if an unexpected error occurs
+ * Creates a new verification
+ * @param props Verification properties
+ * @returns Created verification or null
  */
 export const CreateVerification = async (
     props: VerificationCommon
@@ -28,23 +32,20 @@ export const CreateVerification = async (
 
         return verificationData;
     } catch (error) {
-        if (error instanceof PrismaClientKnownRequestError) {
-            console.log("CreateVerification -> ", error);
+        console.error("CreateVerification -> " + (error as Error).message);
+        if (error instanceof ZodError || error instanceof PrismaClientKnownRequestError) {
             return null;
         }
-        throw new Error("CreateVerification -> " + (error as Error).message);
+        throw new Error("Something went wrong...");
     }
 };
 
 /**
- * Retrieves a verification by its ID
- * @param props - Object containing the verification ID
- * @returns Promise resolving to the found verification or null if not found
- * @throws Error if an unexpected error occurs
+ * Retrieves a verification by ID
+ * @param props Verification ID
+ * @returns Found verification or null
  */
-export const SelectVerification = async (props: {
-    id: VerificationId;
-}): Promise<VerificationType | null> => {
+export const SelectVerification = async (props: VerificationId): Promise<VerificationType | null> => {
     try {
         const { id } = verificationIdObjectSchema.parse(props);
 
@@ -54,38 +55,76 @@ export const SelectVerification = async (props: {
 
         return verificationData;
     } catch (error) {
-        if (error instanceof PrismaClientKnownRequestError) {
-            console.log("SelectVerification -> ", error);
+        console.error("SelectVerification -> " + (error as Error).message);
+        if (error instanceof ZodError || error instanceof PrismaClientKnownRequestError) {
             return null;
         }
-        throw new Error("SelectVerification -> " + (error as Error).message);
+        throw new Error("Something went wrong...");
     }
 };
 
 /**
- * Retrieves all verifications from the database
- * @returns Promise resolving to an array of verifications or null if none found
- * @throws Error if an unexpected error occurs
+ * Retrieves a list of verifications with filters
+ * @param props Filter and pagination options
+ * @returns List of verifications or null
  */
-export const SelectVerificationList = async (): Promise<VerificationType[] | null> => {
+export const SelectVerificationList = async (
+    props: SelectVerificationListProps
+): Promise<VerificationType[] | null> => {
     try {
-        const verificationDataList: VerificationType[] = await PrismaInstance.verification.findMany();
+        const {
+            orderBy,
+            take = 10,
+            skip = 0,
+            where,
+        } = selectVerificationListSchema.parse(props);
+
+        const verificationDataList: VerificationType[] = await PrismaInstance.verification.findMany({
+            ...(orderBy && { orderBy }),
+            ...(take && { take }),
+            ...(skip && { skip }),
+            ...(where && { where }),
+        });
 
         return verificationDataList.length ? verificationDataList : null;
     } catch (error) {
-        if (error instanceof PrismaClientKnownRequestError) {
-            console.log("SelectVerificationList -> ", error);
+        console.error("SelectVerificationList -> " + (error as Error).message);
+        if (error instanceof ZodError || error instanceof PrismaClientKnownRequestError) {
             return null;
         }
-        throw new Error("SelectVerificationList -> " + (error as Error).message);
+        throw new Error("Something went wrong...");
     }
 };
 
 /**
- * Updates a verification's information in the database
- * @param props - Object containing the verification ID and updated data
- * @returns Promise resolving to the updated verification or null if update fails
- * @throws Error if an unexpected error occurs
+ * Counts verifications with filters
+ * @param props Filter options
+ * @returns Count of verifications or null
+ */
+export const SelectVerificationAmount = async (
+    props: SelectVerificationAmountProps
+): Promise<number | null> => {
+    try {
+        const { where } = selectVerificationAmountSchema.parse(props);
+
+        const verificationAmount = await PrismaInstance.verification.count({
+            ...(where && { where }),
+        });
+
+        return verificationAmount;
+    } catch (error) {
+        console.error("SelectVerificationAmount -> " + (error as Error).message);
+        if (error instanceof ZodError || error instanceof PrismaClientKnownRequestError) {
+            return null;
+        }
+        throw new Error("Something went wrong...");
+    }
+};
+
+/**
+ * Updates a verification
+ * @param props Verification ID and new data
+ * @returns Updated verification or null
  */
 export const UpdateVerification = async (
     props: VerificationUpdate
@@ -100,23 +139,20 @@ export const UpdateVerification = async (
 
         return verificationData;
     } catch (error) {
-        if (error instanceof PrismaClientKnownRequestError) {
-            console.log("UpdateVerification -> ", error);
+        console.error("UpdateVerification -> " + (error as Error).message);
+        if (error instanceof ZodError || error instanceof PrismaClientKnownRequestError) {
             return null;
         }
-        throw new Error("UpdateVerification -> " + (error as Error).message);
+        throw new Error("Something went wrong...");
     }
 };
 
 /**
- * Deletes a verification from the database
- * @param props - Object containing the verification ID to delete
- * @returns Promise resolving to the deleted verification or null if deletion fails
- * @throws Error if an unexpected error occurs
+ * Deletes a verification
+ * @param props Verification ID
+ * @returns Deleted verification or null
  */
-export const DeleteVerification = async (props: {
-    id: VerificationId;
-}): Promise<VerificationType | null> => {
+export const DeleteVerification = async (props: VerificationId): Promise<VerificationType | null> => {
     try {
         const { id } = verificationIdObjectSchema.parse(props);
 
@@ -126,10 +162,10 @@ export const DeleteVerification = async (props: {
 
         return verificationData;
     } catch (error) {
-        if (error instanceof PrismaClientKnownRequestError) {
-            console.log("DeleteVerification -> ", error);
+        console.error("DeleteVerification -> " + (error as Error).message);
+        if (error instanceof ZodError || error instanceof PrismaClientKnownRequestError) {
             return null;
         }
-        throw new Error("DeleteVerification -> " + (error as Error).message);
+        throw new Error("Something went wrong...");
     }
 };

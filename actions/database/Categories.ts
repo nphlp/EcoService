@@ -1,6 +1,5 @@
 "use server";
 
-import PrismaInstance from "@lib/prisma";
 import {
     CategoryCommon,
     categoryCommonSchema,
@@ -9,46 +8,46 @@ import {
     CategoryType,
     CategoryUpdate,
     categoryUpdateSchema,
+    SelectCategoryAmountProps,
+    selectCategoryAmountSchema,
     SelectCategoryListProps,
     selectCategoryListSchema,
 } from "@actions/types/Category";
+import PrismaInstance from "@lib/prisma";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
+import { ZodError } from "zod";
 
 /**
- * Creates a new category in the database
- * @param props - The category properties to create
- * @returns Promise resolving to the created category or null if creation fails
- * @throws Error if an unexpected error occurs
+ * Creates a new category
+ * @param props Category properties
+ * @returns Created category or null
  */
 export const CreateCategory = async (
     props: CategoryCommon,
 ): Promise<CategoryType | null> => {
     try {
         const data = categoryCommonSchema.parse(props);
-        const categoryData: CategoryType = await PrismaInstance.category.create(
-            {
-                data,
-            },
-        );
+
+        const categoryData: CategoryType = await PrismaInstance.category.create({ data });
+
         return categoryData;
     } catch (error) {
-        if (error instanceof PrismaClientKnownRequestError) {
-            console.log("CreateCategory -> ", error);
+        console.error("CreateCategory -> " + (error as Error).message);
+        if (error instanceof ZodError || error instanceof PrismaClientKnownRequestError) {
             return null;
         }
-        throw new Error("CreateCategory -> " + (error as Error).message);
+        throw new Error("Something went wrong...");
     }
 };
 
 /**
- * Retrieves a category by its ID
- * @param props - Object containing the category ID
- * @returns Promise resolving to the found category or null if not found
- * @throws Error if an unexpected error occurs
+ * Retrieves a category by ID
+ * @param props Category ID
+ * @returns Found category or null
  */
-export const SelectCategory = async (props: {
-    id: CategoryId;
-}): Promise<CategoryType | null> => {
+export const SelectCategory = async (
+    props: CategoryId,
+): Promise<CategoryType | null> => {
     try {
         const { id } = categoryIdObjectSchema.parse(props);
         const categoryData: CategoryType | null =
@@ -57,18 +56,18 @@ export const SelectCategory = async (props: {
             });
         return categoryData;
     } catch (error) {
-        if (error instanceof PrismaClientKnownRequestError) {
-            console.log("SelectCategory -> ", error);
+        console.error("SelectCategory -> " + (error as Error).message);
+        if (error instanceof ZodError || error instanceof PrismaClientKnownRequestError) {
             return null;
         }
-        throw new Error("SelectCategory -> " + (error as Error).message);
+        throw new Error("Something went wrong...");
     }
 };
 
 /**
- * Retrieves all categories from the database
- * @returns Promise resolving to an array of categories or null if none found
- * @throws Error if an unexpected error occurs
+ * Retrieves a list of categories with filters
+ * @param props Filter and pagination options
+ * @returns List of categories or null
  */
 export const SelectCategoryList = async (
     props: SelectCategoryListProps,
@@ -90,37 +89,43 @@ export const SelectCategoryList = async (
             });
         return categoryDataList.length ? categoryDataList : null;
     } catch (error) {
-        if (error instanceof PrismaClientKnownRequestError) {
-            console.log("SelectCategoryList -> ", error);
+        console.error("SelectCategoryList -> " + (error as Error).message);
+        if (error instanceof ZodError || error instanceof PrismaClientKnownRequestError) {
             return null;
         }
-        throw new Error("SelectCategoryList -> " + (error as Error).message);
+        throw new Error("Something went wrong...");
     }
 };
 
 /**
- * Retrieves the total number of categories in the database
- * @returns Promise resolving to the total number of categories or null if an error occurs
- * @throws Error if an unexpected error occurs
+ * Counts categories with filters
+ * @param props Filter options
+ * @returns Count of categories or null
  */
-export const SelectCategoryAmount = async (): Promise<number | null> => {
+export const SelectCategoryAmount = async (
+    props: SelectCategoryAmountProps,
+): Promise<number | null> => {
     try {
-        const categoryDataList = await PrismaInstance.category.count();
-        return categoryDataList;
+        const { where } = selectCategoryAmountSchema.parse(props);
+
+        const categoryAmount = await PrismaInstance.category.count({
+            ...(where && { where }),
+        });
+
+        return categoryAmount;
     } catch (error) {
-        if (error instanceof PrismaClientKnownRequestError) {
-            console.log("SelectCategoryAmount -> ", error);
+        console.error("SelectCategoryAmount -> " + (error as Error).message);
+        if (error instanceof ZodError || error instanceof PrismaClientKnownRequestError) {
             return null;
         }
-        throw new Error("SelectCategoryAmount -> " + (error as Error).message);
+        throw new Error("Something went wrong...");
     }
 };
 
 /**
- * Updates a category's information in the database
- * @param props - Object containing the category ID and updated data
- * @returns Promise resolving to the updated category or null if update fails
- * @throws Error if an unexpected error occurs
+ * Updates a category
+ * @param props Category ID and new data
+ * @returns Updated category or null
  */
 export const UpdateCategory = async (
     props: CategoryUpdate,
@@ -135,23 +140,22 @@ export const UpdateCategory = async (
         );
         return categoryData;
     } catch (error) {
-        if (error instanceof PrismaClientKnownRequestError) {
-            console.log("UpdateCategory -> ", error);
+        console.error("UpdateCategory -> " + (error as Error).message);
+        if (error instanceof ZodError || error instanceof PrismaClientKnownRequestError) {
             return null;
         }
-        throw new Error("UpdateCategory -> " + (error as Error).message);
+        throw new Error("Something went wrong...");
     }
 };
 
 /**
- * Deletes a category from the database
- * @param props - Object containing the category ID to delete
- * @returns Promise resolving to the deleted category or null if deletion fails
- * @throws Error if an unexpected error occurs
+ * Deletes a category
+ * @param props Category ID
+ * @returns Deleted category or null
  */
-export const DeleteCategory = async (props: {
-    id: CategoryId;
-}): Promise<CategoryType | null> => {
+export const DeleteCategory = async (
+    props: CategoryId,
+): Promise<CategoryType | null> => {
     try {
         const { id } = categoryIdObjectSchema.parse(props);
         const categoryData: CategoryType = await PrismaInstance.category.delete(
@@ -161,10 +165,10 @@ export const DeleteCategory = async (props: {
         );
         return categoryData;
     } catch (error) {
-        if (error instanceof PrismaClientKnownRequestError) {
-            console.log("DeleteCategory -> ", error);
+        console.error("DeleteCategory -> " + (error as Error).message);
+        if (error instanceof ZodError || error instanceof PrismaClientKnownRequestError) {
             return null;
         }
-        throw new Error("DeleteCategory -> " + (error as Error).message);
+        throw new Error("Something went wrong...");
     }
 };

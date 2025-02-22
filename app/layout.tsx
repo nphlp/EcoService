@@ -53,8 +53,8 @@ export default async function Layout(props: LayoutProps) {
     );
 }
 
-{
-    /* 
+/* 
+
 Method center/scroll
 - justify-center (y-axis) if the content is not scrollable
 - justify-start (y-axis) if the content is scrollable
@@ -64,5 +64,5 @@ Method center/scroll
         {children}
     </div>
 </main>
+
 */
-}

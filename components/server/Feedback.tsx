@@ -19,5 +19,5 @@ export default function FeedbackClient(props: FeedbackProps) {
         error: "text-red-600 border-red-400 bg-red-100",
     };
 
-    return <div className={combo("w-full text-wrap rounded-md border-[1.5px] px-3 py-1 text-center text-sm", modeStyle[mode])}>{message}</div>;
+    return <div className={combo("w-full text-wrap rounded-md border px-3 py-1 text-center text-sm", modeStyle[mode])}>{message}</div>;
 }

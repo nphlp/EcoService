@@ -3,8 +3,8 @@
 import { combo } from "@lib/combo";
 import { FilterContext } from "./FilterProvider";
 
-import { ChangeEventHandler, ReactNode, useContext } from "react";
 import { CategoryType } from "@actions/types/Category";
+import { ChangeEventHandler, ReactNode, useContext } from "react";
 import { ItemsPerPageParamType, PriceOrderParamType } from "./FilterTypes";
 
 type FilterSelectClientProps = {
@@ -27,15 +27,16 @@ export default function FilterSelectClient(props: FilterSelectClientProps) {
         productAmount,
     } = useContext(FilterContext);
 
-    const divClass = "w-1/4";
+    const divClass = "w-1/4 space-y-2";
+    const labelClass = "text-sm text-gray-500 text-gray-200 ";
     const selectClass = "rounded-md border p-2 text-gray-700 shadow-sm w-full";
 
     return (
-        <div className="flex flex-row items-center justify-start gap-4 px-6">
+        <div className="flex flex-row items-center justify-start gap-4 bg-primary px-6 py-4">
             <Select
                 label="Catégorie"
                 divClass={divClass}
-                labelClass="text-sm text-gray-500"
+                labelClass={labelClass}
                 selectClass={selectClass}
                 onChange={(e) => {
                     setPage(1);
@@ -54,7 +55,7 @@ export default function FilterSelectClient(props: FilterSelectClientProps) {
             <Select
                 label="Trier par prix"
                 divClass={divClass}
-                labelClass="text-sm text-gray-500"
+                labelClass={labelClass}
                 selectClass={selectClass}
                 onChange={(e) => {
                     setProductList("isLoading");
@@ -71,7 +72,7 @@ export default function FilterSelectClient(props: FilterSelectClientProps) {
             <Select
                 label="Page"
                 divClass={divClass}
-                labelClass="text-sm text-gray-500"
+                labelClass={labelClass}
                 selectClass={selectClass}
                 onChange={(e) => {
                     setProductList("isLoading");
@@ -91,7 +92,7 @@ export default function FilterSelectClient(props: FilterSelectClientProps) {
             <Select
                 label="Produits par page"
                 divClass={divClass}
-                labelClass="text-sm text-gray-500"
+                labelClass={labelClass}
                 selectClass={selectClass}
                 onChange={(e) => {
                     setPage(1);

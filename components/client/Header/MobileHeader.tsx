@@ -23,7 +23,7 @@ export default function MobileHeader(props: MobileHeaderProps) {
                 variant="none"
                 padding="none"
                 className={combo(
-                    "absolute bottom-5 right-5 z-50 rounded-full border-2 border-gray-500 bg-white p-3 shadow-md",
+                    "absolute bottom-5 right-5 z-50 rounded-full border border-gray-500 bg-white p-3 shadow-md",
                     visibilityMenu && "hidden",
                 )}
                 onClick={() => setVisibilityMenu(true)}
@@ -50,7 +50,7 @@ export default function MobileHeader(props: MobileHeaderProps) {
                     !visibilityMenu && "hidden",
                 )}
             >
-                <div className="flex w-full flex-col items-center justify-center gap-2 rounded-2xl border-[1.5px] border-gray-300 bg-white p-4 shadow-md">
+                <div className="flex w-full flex-col items-center justify-center gap-2 rounded-2xl border border-gray-300 bg-white p-4 shadow-md">
                     <ButtonClient
                         type="link"
                         href="/"

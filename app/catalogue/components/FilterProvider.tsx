@@ -17,6 +17,8 @@ import {
     PageParamType,
     PriceOrderParam,
     PriceOrderParamType,
+    SearchParam,
+    SearchParamType,
 } from "./FilterTypes";
 import { ProductType } from "@actions/types/Product";
 
@@ -42,6 +44,8 @@ type FilterContextType = {
     setTake: SetterFunction<ItemsPerPageParamType["take"]>;
     category: CategoryParamType["category"];
     setCategory: SetterFunction<CategoryParamType["category"]>;
+    search: SearchParamType["search"];
+    setSearch: SetterFunction<SearchParamType["search"]>;
 };
 
 export const FilterContext = createContext<FilterContextType>(
@@ -67,6 +71,8 @@ export default function FilterProvider(props: FilterProviderProps) {
     const [page, setPage] = useQueryState("page", PageParam["page"]);
     const [take, setTake] = useQueryState("take", ItemsPerPageParam["take"]);
     const [category, setCategory] = useQueryState("category", CategoryParam["category"]);
+    const [search, setSearch] = useQueryState("search", SearchParam["search"]);
+    
     return (
         <FilterContext.Provider
             value={{
@@ -82,6 +88,8 @@ export default function FilterProvider(props: FilterProviderProps) {
                 setTake,
                 category,
                 setCategory,
+                search,
+                setSearch,
             }}
         >
             {children}
