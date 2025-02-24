@@ -3,9 +3,9 @@
 import FruitPageClient from "./client";
 
 // Server component
-export default function FruitPage() {
+export default function Page() {
     return (
-        <div className="flex min-h-full w-full flex-col items-center justify-center bg-white p-6">
+        <div className="flex flex-1 flex-col items-center justify-center p-6">
             <div className="space-y-4">
                 <div>
                     <h1 className="text-2xl font-bold">Fruit List</h1>

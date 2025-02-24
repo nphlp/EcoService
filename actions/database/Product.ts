@@ -1,6 +1,5 @@
 "use server";
 
-import PrismaInstance from "@lib/prisma";
 import {
     ProductCommon,
     productCommonSchema,
@@ -14,13 +13,14 @@ import {
     SelectProductListProps,
     selectProductListSchema,
 } from "@actions/types/Product";
+import PrismaInstance from "@lib/prisma";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
+import { ZodError } from "zod";
 
 /**
- * Creates a new product in the database
- * @param props - The product properties to create
- * @returns Promise resolving to the created product or null if creation fails
- * @throws Error if an unexpected error occurs
+ * Creates a new product
+ * @param props Product properties
+ * @returns Created product or null
  */
 export const CreateProduct = async (
     props: ProductCommon,
@@ -34,23 +34,22 @@ export const CreateProduct = async (
 
         return productData;
     } catch (error) {
-        if (error instanceof PrismaClientKnownRequestError) {
-            console.log("CreateProduct -> ", error);
+        console.error("CreateProduct -> " + (error as Error).message);
+        if (error instanceof ZodError || error instanceof PrismaClientKnownRequestError) {
             return null;
         }
-        throw new Error("CreateProduct -> " + (error as Error).message);
+        throw new Error("Something went wrong...");
     }
 };
 
 /**
- * Retrieves a product by its ID
- * @param props - Object containing the product ID
- * @returns Promise resolving to the found product or null if not found
- * @throws Error if an unexpected error occurs
+ * Retrieves a product by ID
+ * @param props Product ID
+ * @returns Found product or null
  */
-export const SelectProduct = async (props: {
-    id: ProductId;
-}): Promise<ProductType | null> => {
+export const SelectProduct = async (
+    props: ProductId,
+): Promise<ProductType | null> => {
     try {
         const { id } = productIdObjectSchema.parse(props);
 
@@ -61,18 +60,18 @@ export const SelectProduct = async (props: {
 
         return productData;
     } catch (error) {
-        if (error instanceof PrismaClientKnownRequestError) {
-            console.log("SelectProduct -> ", error);
+        console.error("SelectProduct -> " + (error as Error).message);
+        if (error instanceof ZodError || error instanceof PrismaClientKnownRequestError) {
             return null;
         }
-        throw new Error("SelectProduct -> " + (error as Error).message);
+        throw new Error("Something went wrong...");
     }
 };
 
 /**
- * Retrieves all products from the database
- * @returns Promise resolving to an array of products or null if none found
- * @throws Error if an unexpected error occurs
+ * Retrieves a list of products with filters
+ * @param props Filter and pagination options
+ * @returns List of products or null
  */
 export const SelectProductList = async (
     props: SelectProductListProps,
@@ -95,18 +94,18 @@ export const SelectProductList = async (
 
         return productDataList.length ? productDataList : null;
     } catch (error) {
-        if (error instanceof PrismaClientKnownRequestError) {
-            console.log("SelectProductList -> ", error);
+        console.error("SelectProductList -> " + (error as Error).message);
+        if (error instanceof ZodError || error instanceof PrismaClientKnownRequestError) {
             return null;
         }
-        throw new Error("SelectProductList -> " + (error as Error).message);
+        throw new Error("Something went wrong...");
     }
 };
 
 /**
- * Retrieves the total number of products in the database
- * @returns Promise resolving to the total number of products or null if an error occurs
- * @throws Error if an unexpected error occurs
+ * Counts products with filters
+ * @param props Filter options
+ * @returns Count of products or null
  */
 export const SelectProductAmount = async (
     props: SelectProductAmountProps,
@@ -114,25 +113,24 @@ export const SelectProductAmount = async (
     try {
         const { where } = selectProductAmountSchema.parse(props);
 
-        const productDataList = await PrismaInstance.product.count({
-            where,
+        const productAmount = await PrismaInstance.product.count({
+            ...(where && { where }),
         });
 
-        return productDataList;
+        return productAmount;
     } catch (error) {
-        if (error instanceof PrismaClientKnownRequestError) {
-            console.log("SelectProductAmount -> ", error);
+        console.error("SelectProductAmount -> " + (error as Error).message);
+        if (error instanceof ZodError || error instanceof PrismaClientKnownRequestError) {
             return null;
         }
-        throw new Error("SelectProductAmount -> " + (error as Error).message);
+        throw new Error("Something went wrong...");
     }
 };
 
 /**
- * Updates a product's information in the database
- * @param props - Object containing the product ID and updated data
- * @returns Promise resolving to the updated product or null if update fails
- * @throws Error if an unexpected error occurs
+ * Updates a product
+ * @param props Product ID and new data
+ * @returns Updated product or null
  */
 export const UpdateProduct = async (
     props: ProductUpdate,
@@ -147,23 +145,22 @@ export const UpdateProduct = async (
 
         return productData;
     } catch (error) {
-        if (error instanceof PrismaClientKnownRequestError) {
-            console.log("UpdateProduct -> ", error);
+        console.error("UpdateProduct -> " + (error as Error).message);
+        if (error instanceof ZodError || error instanceof PrismaClientKnownRequestError) {
             return null;
         }
-        throw new Error("UpdateProduct -> " + (error as Error).message);
+        throw new Error("Something went wrong...");
     }
 };
 
 /**
- * Deletes a product from the database
- * @param props - Object containing the product ID to delete
- * @returns Promise resolving to the deleted product or null if deletion fails
- * @throws Error if an unexpected error occurs
+ * Deletes a product
+ * @param props Product ID
+ * @returns Deleted product or null
  */
-export const DeleteProduct = async (props: {
-    id: ProductId;
-}): Promise<ProductType | null> => {
+export const DeleteProduct = async (
+    props: ProductId,
+): Promise<ProductType | null> => {
     try {
         const { id } = productIdObjectSchema.parse(props);
 
@@ -173,10 +170,10 @@ export const DeleteProduct = async (props: {
 
         return productData;
     } catch (error) {
-        if (error instanceof PrismaClientKnownRequestError) {
-            console.log("DeleteProduct -> ", error);
+        console.error("DeleteProduct -> " + (error as Error).message);
+        if (error instanceof ZodError || error instanceof PrismaClientKnownRequestError) {
             return null;
         }
-        throw new Error("DeleteProduct -> " + (error as Error).message);
+        throw new Error("Something went wrong...");
     }
 };

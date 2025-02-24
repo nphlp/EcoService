@@ -11,7 +11,7 @@ export default function Card(props: CardProps) {
     return (
         <div
             className={combo(
-                "rounded-xl border-[1.5px] border-gray-300 bg-white p-5 shadow-md",
+                "rounded-xl border border-gray-300 bg-white p-5 shadow-md",
                 className
             )}
         >

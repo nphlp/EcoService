@@ -357,7 +357,7 @@ export default function ProductManager() {
                                     Image
                                 </label>
                                 <div className="mt-2 flex w-full items-center justify-center">
-                                    <label className="flex w-full cursor-pointer flex-col items-center rounded-xl border-2 border-dashed border-white/20 bg-white/10 px-4 py-6 transition-colors hover:bg-white/[0.12]">
+                                    <label className="flex w-full cursor-pointer flex-col items-center rounded-xl border border-dashed border-white/20 bg-white/10 px-4 py-6 transition-colors hover:bg-white/[0.12]">
                                         <div className="flex flex-col items-center">
                                             <svg
                                                 className="size-8 text-gray-400"

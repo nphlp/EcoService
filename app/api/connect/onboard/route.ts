@@ -1,8 +1,8 @@
 import { GetSession } from "@lib/auth";
+import PrismaInstance from "@lib/prisma";
 import { stripe } from "@lib/stripe";
 import { StripeError } from "@stripe/stripe-js";
 import { NextResponse } from "next/server";
-import PrismaInstance from "@lib/prisma";
 
 export async function POST(request: Request) {
     try {
@@ -80,8 +80,7 @@ export async function POST(request: Request) {
                 console.error("Error details:", {
                     type: (error as StripeError).type,
                     message: (error as StripeError).message,
-                    code: (error as StripeError).code,
-                    requestId: (error as StripeError).requestId,
+                    code: (error as StripeError).code
                 });
                 
                 if ((error as StripeError).type === "invalid_request_error") {
@@ -117,8 +116,7 @@ export async function POST(request: Request) {
         console.error("Full error details:", {
             type: (error as StripeError).type,
             message: (error as StripeError).message,
-            code: (error as StripeError).code,
-            requestId: (error as StripeError).requestId,
+            code: (error as StripeError).code
         });
 
         return NextResponse.json(

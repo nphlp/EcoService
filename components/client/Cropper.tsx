@@ -60,7 +60,7 @@ export default function ImageCropperModalClient(
     if (!imageFile) return null;
 
     return (
-        <div className="absolute flex size-[600px] flex-col items-center justify-center gap-4 rounded-xl border-2 bg-white p-6 shadow-xl">
+        <div className="absolute flex size-[600px] flex-col items-center justify-center gap-4 rounded-xl border bg-white p-6 shadow-xl">
             <p className="text-xl font-bold">Resize module</p>
             <Cropper
                 // Overriding

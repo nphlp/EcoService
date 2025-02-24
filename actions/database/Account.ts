@@ -1,6 +1,5 @@
 "use server";
 
-import PrismaInstance from "@lib/prisma";
 import {
     AccountCommon,
     accountCommonSchema,
@@ -9,14 +8,19 @@ import {
     AccountType,
     AccountUpdate,
     accountUpdateSchema,
+    SelectAccountAmountProps,
+    selectAccountAmountSchema,
+    SelectAccountListProps,
+    selectAccountListSchema,
 } from "@actions/types/Account";
+import PrismaInstance from "@lib/prisma";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
+import { ZodError } from "zod";
 
 /**
- * Creates a new account in the database
- * @param props - The account properties to create
- * @returns Promise resolving to the created account or null if creation fails
- * @throws Error if an unexpected error occurs
+ * Creates a new account
+ * @param props Account properties
+ * @returns Created account or null
  */
 export const CreateAccount = async (
     props: AccountCommon
@@ -28,23 +32,20 @@ export const CreateAccount = async (
 
         return accountData;
     } catch (error) {
-        if (error instanceof PrismaClientKnownRequestError) {
-            console.log("CreateAccount -> ", error);
+        console.error("CreateAccount -> " + (error as Error).message);
+        if (error instanceof ZodError || error instanceof PrismaClientKnownRequestError) {
             return null;
         }
-        throw new Error("CreateAccount -> " + (error as Error).message);
+        throw new Error("Something went wrong...");
     }
 };
 
 /**
- * Retrieves an account by its ID
- * @param props - Object containing the account ID
- * @returns Promise resolving to the found account or null if not found
- * @throws Error if an unexpected error occurs
+ * Retrieves an account by ID
+ * @param props Account ID
+ * @returns Found account or null
  */
-export const SelectAccount = async (props: {
-    id: AccountId;
-}): Promise<AccountType | null> => {
+export const SelectAccount = async (props: AccountId): Promise<AccountType | null> => {
     try {
         const { id } = accountIdObjectSchema.parse(props);
 
@@ -54,38 +55,74 @@ export const SelectAccount = async (props: {
 
         return accountData;
     } catch (error) {
-        if (error instanceof PrismaClientKnownRequestError) {
-            console.log("SelectAccount -> ", error);
+        console.error("SelectAccount -> " + (error as Error).message);
+        if (error instanceof ZodError || error instanceof PrismaClientKnownRequestError) {
             return null;
         }
-        throw new Error("SelectAccount -> " + (error as Error).message);
+        throw new Error("Something went wrong...");
     }
 };
 
 /**
- * Retrieves all accounts from the database
- * @returns Promise resolving to an array of accounts or null if none found
- * @throws Error if an unexpected error occurs
+ * Retrieves a list of accounts with filters
+ * @param props Filter and pagination options
+ * @returns List of accounts or null
  */
-export const SelectAccountList = async (): Promise<AccountType[] | null> => {
+export const SelectAccountList = async (
+    props: SelectAccountListProps
+): Promise<AccountType[] | null> => {
     try {
-        const accountDataList: AccountType[] = await PrismaInstance.account.findMany();
+        const {
+            orderBy,
+            take = 10,
+            skip = 0,
+            where,
+        } = selectAccountListSchema.parse(props);
+
+        const accountDataList: AccountType[] = await PrismaInstance.account.findMany({
+            ...(orderBy && { orderBy }),
+            ...(take && { take }),
+            ...(skip && { skip }),
+            ...(where && { where }),
+        });
 
         return accountDataList.length ? accountDataList : null;
     } catch (error) {
-        if (error instanceof PrismaClientKnownRequestError) {
-            console.log("SelectAccountList -> ", error);
+        console.error("SelectAccountList -> " + (error as Error).message);
+        if (error instanceof ZodError || error instanceof PrismaClientKnownRequestError) {
             return null;
         }
-        throw new Error("SelectAccountList -> " + (error as Error).message);
+        throw new Error("Something went wrong...");
     }
 };
 
 /**
- * Updates an account's information in the database
- * @param props - Object containing the account ID and updated data
- * @returns Promise resolving to the updated account or null if update fails
- * @throws Error if an unexpected error occurs
+ * Counts accounts with filters
+ * @param props Filter options
+ * @returns Count of accounts or null
+ */
+export const SelectAccountAmount = async (
+    props: SelectAccountAmountProps
+): Promise<number | null> => {
+    try {
+        const { where } = selectAccountAmountSchema.parse(props);
+        const accountAmount = await PrismaInstance.account.count({
+            ...(where && { where }),
+        });
+        return accountAmount;
+    } catch (error) {
+        console.error("SelectAccountAmount -> " + (error as Error).message);
+        if (error instanceof ZodError || error instanceof PrismaClientKnownRequestError) {
+            return null;
+        }
+        throw new Error("Something went wrong...");
+    }
+};
+
+/**
+ * Updates an account
+ * @param props Account ID and new data
+ * @returns Updated account or null
  */
 export const UpdateAccount = async (
     props: AccountUpdate
@@ -100,23 +137,22 @@ export const UpdateAccount = async (
 
         return accountData;
     } catch (error) {
-        if (error instanceof PrismaClientKnownRequestError) {
-            console.log("UpdateAccount -> ", error);
+        console.error("UpdateAccount -> " + (error as Error).message);
+        if (error instanceof ZodError || error instanceof PrismaClientKnownRequestError) {
             return null;
         }
-        throw new Error("UpdateAccount -> " + (error as Error).message);
+        throw new Error("Something went wrong...");
     }
 };
 
 /**
- * Deletes an account from the database
- * @param props - Object containing the account ID to delete
- * @returns Promise resolving to the deleted account or null if deletion fails
- * @throws Error if an unexpected error occurs
+ * Deletes an account
+ * @param props Account ID
+ * @returns Deleted account or null
  */
-export const DeleteAccount = async (props: {
-    id: AccountId;
-}): Promise<AccountType | null> => {
+export const DeleteAccount = async (
+    props: AccountId
+): Promise<AccountType | null> => {
     try {
         const { id } = accountIdObjectSchema.parse(props);
 
@@ -126,10 +162,10 @@ export const DeleteAccount = async (props: {
 
         return accountData;
     } catch (error) {
-        if (error instanceof PrismaClientKnownRequestError) {
-            console.log("DeleteAccount -> ", error);
+        console.error("DeleteAccount -> " + (error as Error).message);
+        if (error instanceof ZodError || error instanceof PrismaClientKnownRequestError) {
             return null;
         }
-        throw new Error("DeleteAccount -> " + (error as Error).message);
+        throw new Error("Something went wrong...");
     }
 };

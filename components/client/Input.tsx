@@ -9,6 +9,7 @@ type InputProps = {
     placeholder?: string | boolean;
     onChange: (e: ChangeEvent<HTMLInputElement>) => void;
     onBlur?: (e: FocusEvent<HTMLInputElement>) => void;
+    ring?: boolean;
 
     classDiv?: string;
     classLabel?: string;
@@ -30,6 +31,7 @@ export default function InputClient(props: InputProps) {
         value,
         type = "text",
         placeholder = false,
+        ring = true,
         onBlur,
         classDiv,
         classLabel,
@@ -50,7 +52,9 @@ export default function InputClient(props: InputProps) {
     if (type === "file") {
         return (
             <input
-                className="h-6 cursor-pointer rounded border text-xs ring-teal-400 ring-offset-2 transition-all duration-150 file:pointer-events-none file:h-6 file:cursor-pointer file:border-none file:text-xs file:transition-all file:duration-150 hover:bg-gray-50 hover:file:bg-gray-200 focus:ring-2"
+                className={combo(
+                    ring && "ring-teal-400 focus:ring-2 focus:ring-offset-2",
+                    "h-6 cursor-pointer rounded border text-xs transition-all duration-150 file:pointer-events-none file:h-6 file:cursor-pointer file:border-none file:text-xs file:transition-all file:duration-150 hover:bg-gray-50 hover:file:bg-gray-200")}
                 name="profilePicture"
                 type="file"
                 accept="image/*"
@@ -69,7 +73,8 @@ export default function InputClient(props: InputProps) {
             </label>
             <input
                 className={combo(
-                    "rounded-md border-[1.5px] border-gray-300 px-2 outline-none ring-transparent ring-offset-0 transition-all duration-150 focus:ring-2 focus:ring-teal-300 focus:ring-offset-2",
+                    ring &&"ring-transparent ring-offset-0 focus:ring-2 focus:ring-teal-400 focus:ring-offset-2",
+                    "rounded-md border border-gray-300 px-2 outline-none transition-all duration-150",
                     classInput
                 )}
                 type={type}

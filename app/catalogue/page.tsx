@@ -8,15 +8,14 @@ import FilterProvider from "./components/FilterProvider";
 import FilterSelectClient from "./components/FilterSelectClient";
 import { QueryParamType, queryParamCached } from "./components/FilterTypes";
 
-type CataloguePageProps = {
+type PageProps = {
     searchParams: Promise<QueryParamType>;
 };
 
-export default async function CataloguePage(props: CataloguePageProps) {
+export default async function Page(props: PageProps) {
     const { searchParams } = props;
 
-    const dataCached = await queryParamCached.parse(searchParams);
-    const { priceOrder, page, take, category } = dataCached;
+    const { priceOrder, page, take, category, search } = await queryParamCached.parse(searchParams);
 
     const productAmount = await SelectProductAmount({
         where: category ? { categoryId: category } : undefined,
@@ -33,7 +32,14 @@ export default async function CataloguePage(props: CataloguePageProps) {
             skip: (page - 1) * take,
         }),
         take,
-        where: category ? { categoryId: category } : undefined,
+        where: {
+            ...(category && { categoryId: category }),
+            ...(search && {
+                name: {
+                    contains: search,
+                },
+            }),
+        },
     });
 
     const categoryList = await SelectCategoryList({
@@ -44,8 +50,8 @@ export default async function CataloguePage(props: CataloguePageProps) {
     }
 
     return (
-        <div className="flex size-full flex-col gap-4 bg-white">
-            <h1 className="px-6 pt-6 text-4xl font-bold">Catalogue</h1>
+        <div className="flex flex-1 flex-col">
+            <h1 className="bg-primary px-6 pt-6 text-4xl font-bold text-secondary">Catalogue</h1>
             <div className="flex flex-1 flex-col justify-start gap-4 overflow-hidden">
                 <FilterProvider
                     productList={productList}

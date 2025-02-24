@@ -1,11 +1,18 @@
+import { GetSession } from "@lib/auth";
 import { stripe } from "@lib/stripe";
 import { NextResponse } from "next/server";
-import { GetSession } from "@lib/auth";
+
+interface ProductUpdateData {
+    name: string;
+    description: string;
+    images?: string[];
+}
 
 export async function PUT(
     request: Request,
-    { params }: { params: { id: string } }
+    { params }: { params: Promise<{ id: string }> }
 ) {
+    const { id } = await params;
     try {
         const session = await GetSession();
         if (!session?.user?.id) {
@@ -28,7 +35,6 @@ export async function PUT(
             );
         }
 
-        const productId = params.id;
         let imageUrl: string | undefined;
 
         if (image) {
@@ -41,7 +47,7 @@ export async function PUT(
 
                 // Upload file to Stripe
                 const fileUpload = await stripe.files.create({
-                    purpose: "product_image",
+                    purpose: 'dispute_evidence',
                     file: {
                         data: buffer,
                         name: image.name,
@@ -67,7 +73,7 @@ export async function PUT(
         }
 
         // Update product
-        const updateData = {
+        const updateData: ProductUpdateData = {
             name,
             description,
         };
@@ -76,33 +82,34 @@ export async function PUT(
             updateData.images = [imageUrl];
         }
 
-        const product = await stripe.products.update(productId, updateData);
+        await stripe.products.update(id, updateData);
 
         // Update or create new price if amount changed
-        const existingProduct = await stripe.products.retrieve(productId, {
+        const existingProduct = await stripe.products.retrieve(id, {
             expand: ["default_price"],
         });
 
-        const currentAmount = (existingProduct.default_price as any)
-            ?.unit_amount;
+        const currentAmount = typeof existingProduct.default_price === 'object' && existingProduct.default_price
+            ? existingProduct.default_price.unit_amount
+            : null;
         const newAmount = Math.round(parseFloat(amount) * 100);
 
         if (currentAmount !== newAmount) {
             // Create new price
             const price = await stripe.prices.create({
-                product: productId,
+                product: id,
                 unit_amount: newAmount,
                 currency: "eur",
             });
 
             // Update product with new default price
-            await stripe.products.update(productId, {
+            await stripe.products.update(id, {
                 default_price: price.id,
             });
         }
 
         // Retrieve the complete updated product
-        const completeProduct = await stripe.products.retrieve(productId, {
+        const completeProduct = await stripe.products.retrieve(id, {
             expand: ["default_price"],
         });
 
@@ -118,8 +125,9 @@ export async function PUT(
 
 export async function DELETE(
     request: Request,
-    { params }: { params: { id: string } }
+    { params }: { params: Promise<{ id: string }> }
 ) {
+    const { id } = await params;
     try {
         const session = await GetSession();
         if (!session?.user?.id) {
@@ -129,10 +137,8 @@ export async function DELETE(
             );
         }
 
-        const productId = params.id;
-
         // Archive the product instead of deleting it
-        await stripe.products.update(productId, {
+        await stripe.products.update(id, {
             active: false,
         });
 

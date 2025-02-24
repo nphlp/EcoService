@@ -66,7 +66,7 @@ export default function RegisterClient() {
                     <ButtonClient
                         type="button"
                         label="togglePasswordVisibility"
-                        className="border-[1.5px] border-gray-300 p-0.5"
+                        className="border border-gray-300 p-0.5"
                         variant="outline"
                         padding="none"
                         onClick={() => setToggleVisibility(!toggleVisibility)}

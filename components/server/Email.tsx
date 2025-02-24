@@ -11,7 +11,7 @@ export default function EmailTemplate(props: EmailTemplateProps) {
         <Html>
             <Tailwind>
                 <Body className="bg-white font-sans">
-                    <Container className="mx-auto mt-[50px] w-min min-w-[320px] rounded-2xl border-[1.5px] border-solid border-gray-300 p-5 shadow-md">
+                    <Container className="mx-auto mt-[50px] w-min min-w-[320px] rounded-2xl border border-solid border-gray-300 p-5 shadow-md">
                         <Section className="mb-4 text-center text-2xl font-bold text-black">Hey, welcome!</Section>
                         <Section className="mb-5 text-center text-sm text-gray-500">
                             Please, verify your email by clicking the following button.

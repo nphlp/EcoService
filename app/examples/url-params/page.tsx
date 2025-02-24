@@ -7,7 +7,7 @@ type PageProps = {
     searchParams: Promise<QueryParamType>;
 };
 
-export default async function ParamsExamplePage(props: PageProps) {
+export default async function Page(props: PageProps) {
     const { searchParams } = props;
 
     // The cached value is shared to the nested components
@@ -24,7 +24,7 @@ export default async function ParamsExamplePage(props: PageProps) {
     // console.log("Generated URL", "\n", generateUrl);
 
     return (
-        <div className="flex min-h-full w-full flex-col items-center justify-center bg-white p-6">
+        <div className="flex flex-1 flex-col items-center justify-center p-6">
             <div className="space-y-8">
                 <ParamsExampleTitle />
                 <ParamsExampleClient />

@@ -1,7 +1,10 @@
 "use server";
 
-import PrismaInstance from "@lib/prisma";
 import {
+    SelectUserAmountProps,
+    selectUserAmountSchema,
+    SelectUserListProps,
+    selectUserListSchema,
     UserCommon,
     userCommonSchema,
     UserId,
@@ -10,13 +13,14 @@ import {
     UserUpdate,
     userUpdateSchema,
 } from "@actions/types/User";
+import PrismaInstance from "@lib/prisma";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
+import { ZodError } from "zod";
 
 /**
- * Creates a new user in the database
- * @param props - The user properties to create
- * @returns Promise resolving to the created user or null if creation fails
- * @throws Error if an unexpected error occurs
+ * Creates a new user
+ * @param props User properties
+ * @returns Created user or null
  */
 export const CreateUser = async (
     props: UserCommon
@@ -28,23 +32,20 @@ export const CreateUser = async (
 
         return userData;
     } catch (error) {
-        if (error instanceof PrismaClientKnownRequestError) {
-            console.log("CreateUser -> ", error);
+        console.error("CreateUser -> " + (error as Error).message);
+        if (error instanceof ZodError || error instanceof PrismaClientKnownRequestError) {
             return null;
         }
-        throw new Error("CreateUser -> " + (error as Error).message);
+        throw new Error("Something went wrong...");
     }
 };
 
 /**
- * Retrieves a user by their ID
- * @param props - Object containing the user ID
- * @returns Promise resolving to the found user or null if not found
- * @throws Error if an unexpected error occurs
+ * Retrieves a user by ID
+ * @param props User ID
+ * @returns Found user or null
  */
-export const SelectUser = async (props: {
-    id: UserId;
-}): Promise<UserType | null> => {
+export const SelectUser = async (props: UserId): Promise<UserType | null> => {
     try {
         const { id } = userIdObjectSchema.parse(props);
 
@@ -54,38 +55,76 @@ export const SelectUser = async (props: {
 
         return userData;
     } catch (error) {
-        if (error instanceof PrismaClientKnownRequestError) {
-            console.log("SelectUserById -> ", error);
+        console.error("SelectUser -> " + (error as Error).message);
+        if (error instanceof ZodError || error instanceof PrismaClientKnownRequestError) {
             return null;
         }
-        throw new Error("SelectUserById -> " + (error as Error).message);
+        throw new Error("Something went wrong...");
     }
 };
 
 /**
- * Retrieves all users from the database
- * @returns Promise resolving to an array of users or null if none found
- * @throws Error if an unexpected error occurs
+ * Retrieves a list of users with filters
+ * @param props Filter and pagination options
+ * @returns List of users or null
  */
-export const SelectUserList = async (): Promise<UserType[] | null> => {
+export const SelectUserList = async (
+    props: SelectUserListProps
+): Promise<UserType[] | null> => {
     try {
-        const userDataList: UserType[] = await PrismaInstance.user.findMany();
+        const {
+            orderBy,
+            take = 10,
+            skip = 0,
+            where,
+        } = selectUserListSchema.parse(props);
+
+        const userDataList: UserType[] = await PrismaInstance.user.findMany({
+            ...(orderBy && { orderBy }),
+            ...(take && { take }),
+            ...(skip && { skip }),
+            ...(where && { where }),
+        });
 
         return userDataList.length ? userDataList : null;
     } catch (error) {
-        if (error instanceof PrismaClientKnownRequestError) {
-            console.log("SelectUserList -> ", error);
+        console.error("SelectUserList -> " + (error as Error).message);
+        if (error instanceof ZodError || error instanceof PrismaClientKnownRequestError) {
             return null;
         }
-        throw new Error("SelectUserList -> " + (error as Error).message);
+        throw new Error("Something went wrong...");
     }
 };
 
 /**
- * Updates a user's information in the database
- * @param props - Object containing the user ID and updated data
- * @returns Promise resolving to the updated user or null if update fails
- * @throws Error if an unexpected error occurs
+ * Counts users with filters
+ * @param props Filter options
+ * @returns Count of users or null
+ */
+export const SelectUserAmount = async (
+    props: SelectUserAmountProps
+): Promise<number | null> => {
+    try {
+        const { where } = selectUserAmountSchema.parse(props);
+
+        const userAmount = await PrismaInstance.user.count({
+            ...(where && { where }),
+        });
+
+        return userAmount;
+    } catch (error) {
+        console.error("SelectUserAmount -> " + (error as Error).message);
+        if (error instanceof ZodError || error instanceof PrismaClientKnownRequestError) {
+            return null;
+        }
+        throw new Error("Something went wrong...");
+    }
+};
+
+/**
+ * Updates a user
+ * @param props User ID and new data
+ * @returns Updated user or null
  */
 export const UpdateUser = async (
     props: UserUpdate
@@ -100,23 +139,20 @@ export const UpdateUser = async (
 
         return userData;
     } catch (error) {
-        if (error instanceof PrismaClientKnownRequestError) {
-            console.log("UpdateUser -> ", error);
+        console.error("UpdateUser -> " + (error as Error).message);
+        if (error instanceof ZodError || error instanceof PrismaClientKnownRequestError) {
             return null;
         }
-        throw new Error("UpdateUser -> " + (error as Error).message);
+        throw new Error("Something went wrong...");
     }
 };
 
 /**
- * Deletes a user from the database
- * @param props - Object containing the user ID to delete
- * @returns Promise resolving to the deleted user or null if deletion fails
- * @throws Error if an unexpected error occurs
+ * Deletes a user
+ * @param props User ID
+ * @returns Deleted user or null
  */
-export const DeleteUser = async (props: {
-    id: UserId;
-}): Promise<UserType | null> => {
+export const DeleteUser = async (props: UserId): Promise<UserType | null> => {
     try {
         const { id } = userIdObjectSchema.parse(props);
 
@@ -126,10 +162,10 @@ export const DeleteUser = async (props: {
 
         return userData;
     } catch (error) {
-        if (error instanceof PrismaClientKnownRequestError) {
-            console.log("DeleteUser -> ", error);
+        console.error("DeleteUser -> " + (error as Error).message);
+        if (error instanceof ZodError || error instanceof PrismaClientKnownRequestError) {
             return null;
         }
-        throw new Error("DeleteUser -> " + (error as Error).message);
+        throw new Error("Something went wrong...");
     }
 };

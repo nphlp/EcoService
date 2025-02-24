@@ -3,7 +3,7 @@
 import Loader from "@comps/server/Loader";
 import { combo } from "@lib/combo";
 import Link, { LinkProps } from "next/link";
-import { ButtonHTMLAttributes, ReactNode } from "react";
+import { ButtonHTMLAttributes, LinkHTMLAttributes, ReactNode } from "react";
 import { TransitionLink } from "./TransitionLink";
 
 type ButtonType = Exclude<
@@ -32,7 +32,7 @@ export type ButtonClientProps = {
           type: "link";
           href: string;
           pageTransition?: boolean;
-      } & Omit<LinkProps, "href">)
+      } & Omit<LinkHTMLAttributes<HTMLAnchorElement>, "href">)
     | ({
           // If type "button"
           type: ButtonType;
@@ -54,12 +54,15 @@ export default function ButtonClient(props: ButtonClientProps) {
         className,
         pageTransition = false,
         children,
+        onMouseEnter,
+        onMouseLeave,
         ...others
     } = props;
 
     const varianteStyle = {
         default: "bg-black text-gray-100 hover:bg-gray-800",
-        outline: "border text-gray-800 hover:bg-gray-100",
+        outline:
+            "border text-gray-800 hover:bg-gray-100 bg-white border-gray-300",
         ghost: "hover:bg-gray-200",
         underline: "hover:underline",
         none: "",
@@ -77,8 +80,8 @@ export default function ButtonClient(props: ButtonClientProps) {
         varianteStyle[variant],
         paddingStyle[padding],
         ring &&
-            "ring-transparent focus:ring-2 focus:ring-teal-300 focus:ring-offset-2",
-        className
+            "ring-transparent focus:ring-offset-2 focus-visible:ring-2 focus-visible:ring-teal-400",
+        className,
     );
 
     // If type is "link"
@@ -87,10 +90,12 @@ export default function ButtonClient(props: ButtonClientProps) {
         if (pageTransition) {
             return (
                 <TransitionLink
+                    id={id}
                     href={href}
                     className={classList}
                     aria-label={label}
-                    {...(others as Omit<LinkProps, "href">)}
+                    {...(others as Omit<LinkProps, "href"> &
+                        LinkHTMLAttributes<HTMLAnchorElement>)}
                 >
                     {children}
                 </TransitionLink>
@@ -98,10 +103,12 @@ export default function ButtonClient(props: ButtonClientProps) {
         }
         return (
             <Link
+                id={id}
                 href={href}
                 className={classList}
                 aria-label={label}
-                {...(others as Omit<LinkProps, "href">)}
+                {...(others as Omit<LinkProps, "href"> &
+                    LinkHTMLAttributes<HTMLAnchorElement>)}
             >
                 {children}
             </Link>
@@ -125,7 +132,12 @@ export default function ButtonClient(props: ButtonClientProps) {
                 id={id ?? label}
                 name={name ?? label}
                 disabled={isLoading}
-                {...(others as Omit<ButtonHTMLAttributes<HTMLButtonElement>, "type">)}
+                onMouseEnter={onMouseEnter}
+                onMouseLeave={onMouseLeave}
+                {...(others as Omit<
+                    ButtonHTMLAttributes<HTMLButtonElement>,
+                    "type"
+                >)}
             >
                 {isLoading ? (
                     <>

@@ -3,8 +3,8 @@
 import { combo } from "@lib/combo";
 import { FilterContext } from "./FilterProvider";
 
-import { ChangeEventHandler, ReactNode, useContext } from "react";
 import { CategoryType } from "@actions/types/Category";
+import { ChangeEventHandler, ReactNode, useContext } from "react";
 import { ItemsPerPageParamType, PriceOrderParamType } from "./FilterTypes";
 
 type FilterSelectClientProps = {
@@ -27,15 +27,41 @@ export default function FilterSelectClient(props: FilterSelectClientProps) {
         productAmount,
     } = useContext(FilterContext);
 
+    const divClass = "w-1/4 space-y-2";
+    const labelClass = "text-sm text-gray-500 text-gray-200 ";
+    const selectClass = "rounded-md border p-2 text-gray-700 shadow-sm w-full";
+
     return (
-        <div className="flex flex-row items-center justify-start gap-4 px-6">
+        <div className="flex flex-row items-center justify-start gap-4 bg-primary px-6 py-4">
+            <Select
+                label="Catégorie"
+                divClass={divClass}
+                labelClass={labelClass}
+                selectClass={selectClass}
+                onChange={(e) => {
+                    setPage(1);
+                    setProductList("isLoading");
+                    setCategory(e.target.value);
+                }}
+                value={category}
+            >
+                <option value="">Toutes</option>
+                {categoryList.map((category, index) => (
+                    <option key={index} value={category.id}>
+                        {category.name}
+                    </option>
+                ))}
+            </Select>
             <Select
                 label="Trier par prix"
-                labelClass="text-sm text-gray-500"
-                selectClass="rounded-md border p-2 text-gray-700 shadow-sm"
+                divClass={divClass}
+                labelClass={labelClass}
+                selectClass={selectClass}
                 onChange={(e) => {
                     setProductList("isLoading");
-                    setPriceOrder(e.target.value as PriceOrderParamType["priceOrder"]);
+                    setPriceOrder(
+                        e.target.value as PriceOrderParamType["priceOrder"],
+                    );
                 }}
                 value={priceOrder}
             >
@@ -45,8 +71,9 @@ export default function FilterSelectClient(props: FilterSelectClientProps) {
             </Select>
             <Select
                 label="Page"
-                labelClass="text-sm text-gray-500"
-                selectClass="rounded-md border p-2 text-gray-700 shadow-sm"
+                divClass={divClass}
+                labelClass={labelClass}
+                selectClass={selectClass}
                 onChange={(e) => {
                     setProductList("isLoading");
                     setPage(Number(e.target.value));
@@ -64,12 +91,15 @@ export default function FilterSelectClient(props: FilterSelectClientProps) {
             </Select>
             <Select
                 label="Produits par page"
-                labelClass="text-sm text-gray-500"
-                selectClass="rounded-md border p-2 text-gray-700 shadow-sm"
+                divClass={divClass}
+                labelClass={labelClass}
+                selectClass={selectClass}
                 onChange={(e) => {
                     setPage(1);
                     setProductList("isLoading");
-                    setTake(Number(e.target.value) as ItemsPerPageParamType["take"]);
+                    setTake(
+                        Number(e.target.value) as ItemsPerPageParamType["take"],
+                    );
                 }}
                 value={take}
             >
@@ -77,24 +107,6 @@ export default function FilterSelectClient(props: FilterSelectClientProps) {
                 <option value="20">20</option>
                 <option value="50">50</option>
                 <option value="100">100</option>
-            </Select>
-            <Select
-                label="Catégorie"
-                labelClass="text-sm text-gray-500"
-                selectClass="rounded-md border p-2 text-gray-700 shadow-sm"
-                onChange={(e) => {
-                    setPage(1);
-                    setProductList("isLoading");
-                    setCategory(e.target.value);
-                }}
-                value={category}
-            >
-                <option value="">Toutes</option>
-                {categoryList.map((category, index) => (
-                    <option key={index} value={category.id}>
-                        {category.name}
-                    </option>
-                ))}
             </Select>
         </div>
     );
