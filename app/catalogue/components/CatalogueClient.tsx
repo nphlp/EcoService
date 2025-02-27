@@ -10,20 +10,22 @@ import ImageRatio from "@comps/server/ImageRatio";
 import Loader from "@comps/server/Loader";
 import { combo } from "@lib/combo";
 import Link from "next/link";
-import { useContext, useEffect } from "react";
-import { FilterContext } from "./FilterProvider";
+import { useEffect } from "react";
+import { useCatalogueStore } from "./CatalogueProvider";
 
 export default function CatalogueClient() {
     const {
+        page,
+        take,
+        priceOrder,
+        category,
+        search,
         productList,
         setProductList,
         setProductAmount,
-        priceOrder,
-        page,
-        take,
-        category,
-        search,
-    } = useContext(FilterContext);
+    } = useCatalogueStore((state) => state);
+
+    console.log("=========", page, take, priceOrder, category, search);
 
     useEffect(() => {
         const fetch = async () => {
@@ -36,7 +38,7 @@ export default function CatalogueClient() {
                     ...(category && { categoryId: category }),
                     ...(search && {
                         name: {
-                            contains: search
+                            contains: search,
                         },
                     }),
                 },

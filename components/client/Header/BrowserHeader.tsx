@@ -1,6 +1,6 @@
 "use client";
 
-import { urlSerializer } from "@app/catalogue/components/FilterTypes";
+import { urlSerializer } from "@app/catalogue/components/QueryTypes";
 import Logo from "@comps/server/Logo";
 import { BetterSessionClient } from "@lib/client";
 import { combo } from "@lib/combo";
@@ -14,7 +14,7 @@ import {
     UserRound,
 } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
-import { ReactNode, useState } from "react";
+import { MouseEvent, ReactNode, useState } from "react";
 import ButtonClient from "../Button";
 import InputClient from "../Input";
 import LogoutClient from "../Logout";
@@ -75,9 +75,10 @@ const NavSection = () => {
                             initial={{ width: 0 }}
                             animate={{ width: isHomeHovered ? "75%" : 0 }}
                             transition={{
-                                duration: 0.3,
+                                duration: 0.5,
                                 ease: "easeInOut",
                                 type: "spring",
+                                bounce: 0.7,
                             }}
                             className="absolute bottom-0 left-0.5 h-0.5 rounded bg-black"
                         />
@@ -243,9 +244,22 @@ const SubSection = (props: SubSectionProps) => {
     const { categorieList, session } = props;
     const { categorieOpen, searchOpen, accountOpen, setSearchOpen } =
         useHeaderStore();
+    // const { setCategory, setProductList } = useCatalogueStore((state) => state);
 
     const [isHovered, setIsHovered] = useState(false);
     const [searchValue, setSearchValue] = useState("");
+
+    const handleCategory = (e:  MouseEvent<HTMLAnchorElement, globalThis.MouseEvent>, id: string) => {
+        e.preventDefault();
+
+        // if (path === "/catalogue") {
+        //     setProductList("isLoading");
+        //     setCategory(id);
+        // }
+
+        const url = urlSerializer("/catalogue", { category: id });
+        router.push(url);
+    };
 
     const handleSearch = (formData: FormData) => {
         const search = String(formData.get("search"));
@@ -273,11 +287,11 @@ const SubSection = (props: SubSectionProps) => {
                         type="link"
                         label={name}
                         href={urlSerializer("/catalogue", { category: id })}
+                        onClick={(e) => handleCategory(e, id)}
                         variant="outline"
                     >
                         {name}
                     </ButtonClient>
-                    // TODO: make an underline animation when hover
                 ))}
             </MotionSection>
 
@@ -412,7 +426,7 @@ const MotionSection = (props: MotionSectionProps) => {
                 setCategorieOpen(false);
             }}
         >
-            <div className="flex h-full flex-row flex-wrap items-center justify-center gap-3 bg-gray-100 p-4">
+            <div className="flex h-full flex-row flex-wrap items-center justify-center gap-3 bg-gray-100 px-4 py-8">
                 {children}
             </div>
         </motion.div>

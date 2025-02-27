@@ -4,7 +4,7 @@ import {
     createSerializer,
     parseAsInteger,
     parseAsString,
-    parseAsStringEnum,
+    parseAsStringEnum
 } from "nuqs/server";
 
 // ========================= //
