@@ -51,16 +51,16 @@ Install the project in three steps: `software requirements`, `environment variab
 
 ### Project setup
 
-- First take a look to the local scripts
-
-    ```bash
-    pnpm run help
-    ```
-
 - Install project dependencies
 
     ```bash
     pnpm install
+    ```
+
+- Then take a look to the local scripts
+
+    ```bash
+    pnpm run help
     ```
 
 - Creates a Mysql user and a password and grants privileges
