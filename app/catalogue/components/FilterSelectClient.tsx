@@ -1,10 +1,11 @@
 "use client";
 
-import { CategoryType } from "@actions/types/Category";
 import { combo } from "@lib/combo";
-import { ChangeEventHandler, ReactNode } from "react";
-import { useCatalogueStore } from "./CatalogueProvider";
-import { ItemsPerPageParamType, PriceOrderParamType } from "./QueryTypes";
+import { FilterContext } from "./FilterProvider";
+
+import { CategoryType } from "@actions/types/Category";
+import { ChangeEventHandler, ReactNode, useContext } from "react";
+import { ItemsPerPageParamType, PriceOrderParamType } from "./FilterTypes";
 
 type FilterSelectClientProps = {
     categoryList: CategoryType[];
@@ -14,17 +15,17 @@ export default function FilterSelectClient(props: FilterSelectClientProps) {
     const { categoryList } = props;
 
     const {
-        page,
-        take,
+        setProductList,
         priceOrder,
-        category,
-        setPage,
-        setTake,
         setPriceOrder,
+        page,
+        setPage,
+        take,
+        setTake,
+        category,
         setCategory,
         productAmount,
-        setProductList,
-    } = useCatalogueStore((state) => state);
+    } = useContext(FilterContext);
 
     const divClass = "w-1/4 space-y-2";
     const labelClass = "text-sm text-gray-500 text-gray-200 ";

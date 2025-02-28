@@ -4,9 +4,9 @@ import {
     SelectProductList,
 } from "@actions/database/Product";
 import CatalogueClient from "./components/CatalogueClient";
+import FilterProvider from "./components/FilterProvider";
 import FilterSelectClient from "./components/FilterSelectClient";
-import { QueryParamType, queryParamCached } from "./components/QueryTypes";
-import { CatalogueStoreProvider } from "./components/CatalogueProvider";
+import { QueryParamType, queryParamCached } from "./components/FilterTypes";
 
 type PageProps = {
     searchParams: Promise<QueryParamType>;
@@ -53,15 +53,13 @@ export default async function Page(props: PageProps) {
         <div className="flex flex-1 flex-col">
             <h1 className="bg-primary px-6 pt-6 text-4xl font-bold text-secondary">Catalogue</h1>
             <div className="flex flex-1 flex-col justify-start gap-4 overflow-hidden">
-                <CatalogueStoreProvider
-                    initialValues={{
-                        productList,
-                        productAmount,
-                    }}
+                <FilterProvider
+                    productList={productList}
+                    productAmount={productAmount}
                 >
                     <FilterSelectClient categoryList={categoryList} />
                     <CatalogueClient />
-                </CatalogueStoreProvider>
+                </FilterProvider>
             </div>
         </div>
     );
