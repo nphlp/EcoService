@@ -1,6 +1,5 @@
 "use client";
 
-import { useCatalogueStore } from "@app/catalogue/components/CatalogueStore";
 import { urlSerializer } from "@app/catalogue/components/FilterTypes";
 import Logo from "@comps/server/Logo";
 import { BetterSessionClient } from "@lib/client";
@@ -14,6 +13,8 @@ import ButtonClient from "../Button";
 import InputClient from "../Input";
 import LogoutClient from "../Logout";
 import { useHeaderStore } from "./HeaderStore";
+import { useCatalogueStore } from "@app/catalogue/components/useCatalogueStore";
+import { useCatalogueParams } from "@app/catalogue/components/useCatalogueParams";
 
 type BrowserHeaderProps = {
     session: BetterSessionClient | null;
@@ -221,21 +222,18 @@ const SubSection = (props: SubSectionProps) => {
     const [isHovered, setIsHovered] = useState(false);
     const [searchValue, setSearchValue] = useState("");
 
-    const { resetStore, setCategoryStore, setSearchStore, setProductListStore } = useCatalogueStore();
+    const { setCategory, setSearch } = useCatalogueParams();
+    const { setProductList } = useCatalogueStore();
 
     const handleCategory = (e: MouseEvent<HTMLAnchorElement, globalThis.MouseEvent>, id: string) => {
         e.preventDefault();
 
         if (path === "/catalogue") {
-            setCategoryStore(id);
-            setProductListStore("isLoading");
+            setCategory(id);
+            setProductList("isLoading");
             return;
         }
 
-        // Reset Zustand store values before navigating
-        resetStore();
-
-        // Navigate to catalogue with category
         router.push(urlSerializer("/catalogue", { category: id }));
     };
 
@@ -243,19 +241,15 @@ const SubSection = (props: SubSectionProps) => {
         const search = String(formData.get("search"));
 
         if (path === "/catalogue") {
-            setSearchStore(search);
-            setProductListStore("isLoading");
+            setSearch(search);
+            setProductList("isLoading");
             return;
         }
-
-        // Reset Zustand store values before navigating
-        resetStore();
 
         // Close search panel and await panel closing animation to finish
         setSearchOpen(false);
         setTimeout(() => setSearchValue(""), 300);
 
-        // Navigate to catalogue with search
         router.push(urlSerializer("/catalogue", { search }));
     };
 

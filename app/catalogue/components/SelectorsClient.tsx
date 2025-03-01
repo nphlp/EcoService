@@ -1,24 +1,23 @@
 "use client";
 
-import { combo } from "@lib/combo";
-import { FilterContext } from "./FilterProvider";
-
 import { CategoryType } from "@actions/types/Category";
+import { combo } from "@lib/combo";
 import { ChangeEventHandler, ReactNode, useContext } from "react";
+import { CatalogueContext } from "./ContextProvider";
 import { ItemsPerPageParamType, PriceOrderParamType } from "./FilterTypes";
-import { useCatalogueStore } from "./CatalogueStore";
+import { useCatalogueParams } from "./useCatalogueParams";
+import { useCatalogueStore } from "./useCatalogueStore";
 
-type FilterSelectClientProps = {
+type SelectorsClientProps = {
     categoryList: CategoryType[];
 };
 
-export default function FilterSelectClient(props: FilterSelectClientProps) {
+export default function SelectorsClient(props: SelectorsClientProps) {
     const { categoryList } = props;
 
-    const { priceOrder, page, take, category, productAmount } = useContext(FilterContext);
-
-    const { setProductListStore, setPriceOrderStore, setPageStore, setTakeStore, setCategoryStore } =
-        useCatalogueStore();
+    const { productAmountLocal } = useContext(CatalogueContext);
+    const { setProductList } = useCatalogueStore();
+    const { priceOrder, page, take, category, setCategory, setPage, setPriceOrder, setTake } = useCatalogueParams();
 
     const divClass = "w-1/4 space-y-2";
     const labelClass = "text-sm text-gray-500 text-gray-200 ";
@@ -32,9 +31,9 @@ export default function FilterSelectClient(props: FilterSelectClientProps) {
                 labelClass={labelClass}
                 selectClass={selectClass}
                 onChange={(e) => {
-                    setPageStore(1);
-                    setProductListStore("isLoading");
-                    setCategoryStore(e.target.value);
+                    setPage(1);
+                    setProductList("isLoading");
+                    setCategory(e.target.value);
                 }}
                 value={category}
             >
@@ -51,8 +50,8 @@ export default function FilterSelectClient(props: FilterSelectClientProps) {
                 labelClass={labelClass}
                 selectClass={selectClass}
                 onChange={(e) => {
-                    setProductListStore("isLoading");
-                    setPriceOrderStore(e.target.value as PriceOrderParamType["priceOrder"]);
+                    setProductList("isLoading");
+                    setPriceOrder(e.target.value as PriceOrderParamType["priceOrder"]);
                 }}
                 value={priceOrder}
             >
@@ -66,12 +65,12 @@ export default function FilterSelectClient(props: FilterSelectClientProps) {
                 labelClass={labelClass}
                 selectClass={selectClass}
                 onChange={(e) => {
-                    setProductListStore("isLoading");
-                    setPageStore(Number(e.target.value));
+                    setProductList("isLoading");
+                    setPage(Number(e.target.value));
                 }}
                 value={page}
             >
-                {Array.from({ length: Math.ceil(productAmount / take) }, (_, index) => (
+                {Array.from({ length: Math.ceil(productAmountLocal / take) }, (_, index) => (
                     <option key={index + 1} value={index + 1}>
                         {index + 1}
                     </option>
@@ -83,9 +82,9 @@ export default function FilterSelectClient(props: FilterSelectClientProps) {
                 labelClass={labelClass}
                 selectClass={selectClass}
                 onChange={(e) => {
-                    setPageStore(1);
-                    setProductListStore("isLoading");
-                    setTakeStore(Number(e.target.value) as ItemsPerPageParamType["take"]);
+                    setPage(1);
+                    setProductList("isLoading");
+                    setTake(Number(e.target.value) as ItemsPerPageParamType["take"]);
                 }}
                 value={take}
             >

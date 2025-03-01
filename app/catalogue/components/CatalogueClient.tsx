@@ -8,13 +8,14 @@ import Loader from "@comps/server/Loader";
 import { combo } from "@lib/combo";
 import Link from "next/link";
 import { useContext, useEffect } from "react";
-import { FilterContext } from "./FilterProvider";
-import { useCatalogueStore } from "./CatalogueStore";
+import { CatalogueContext } from "./ContextProvider";
+import { useCatalogueParams } from "./useCatalogueParams";
+import { useCatalogueStore } from "./useCatalogueStore";
 
 export default function CatalogueClient() {
-    const { productList, priceOrder, page, take, category, search } = useContext(FilterContext);
-
-    const { setProductListStore, setProductAmountStore } = useCatalogueStore();
+    const { productListLocal } = useContext(CatalogueContext);
+    const { setProductList, setProductAmount } = useCatalogueStore();
+    const { priceOrder, page, take, category, search } = useCatalogueParams();
 
     useEffect(() => {
         const fetch = async () => {
@@ -39,16 +40,16 @@ export default function CatalogueClient() {
                 throw new Error("We don't have any product...");
             }
 
-            setProductListStore(data);
-            setProductAmountStore(productAmount);
+            setProductList(data);
+            setProductAmount(productAmount);
         };
 
-        if (productList === "isLoading") {
+        if (productListLocal === "isLoading") {
             fetch();
         }
-    }, [productList, setProductListStore, setProductAmountStore, priceOrder, page, take, category, search]);
+    }, [productListLocal, setProductList, setProductAmount, priceOrder, page, take, category, search]);
 
-    if (productList === "isLoading") {
+    if (productListLocal === "isLoading") {
         return (
             <div className="flex w-full flex-1 items-center justify-center px-4">
                 <Loader className="size-8 border-4" />
@@ -56,7 +57,7 @@ export default function CatalogueClient() {
         );
     }
 
-    return <ProductList produitList={productList} />;
+    return <ProductList produitList={productListLocal} />;
 }
 
 type ProductListProps = {
