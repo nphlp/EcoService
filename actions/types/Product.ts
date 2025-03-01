@@ -24,10 +24,7 @@ export type ProductUpdate = {
 export type ProductTimestamps = Pick<Product, "createdAt" | "updatedAt">;
 
 /** Find many options for products */
-export type SelectProductListProps = Pick<
-    Prisma.ProductFindManyArgs,
-    "orderBy" | "take" | "skip" | "where"
->;
+export type SelectProductListProps = Pick<Prisma.ProductFindManyArgs, "orderBy" | "take" | "skip" | "where">;
 
 /** Count options for products */
 export type SelectProductAmountProps = Pick<Prisma.ProductCountArgs, "where">;
@@ -62,33 +59,35 @@ export const productUpdateSchema: ZodType<ProductUpdate> = z.object({
     data: productCommonSchema,
 });
 
-export const selectProductListSchema: ZodType<SelectProductListProps> =
-    z.object({
-        orderBy: z
-            .object({
-                price: z.enum(["asc", "desc"]),
-            })
-            .optional(),
-        take: z.number().min(1).max(100).optional(),
-        skip: z.number().min(0).optional(),
-        where: z
-            .object({
-                categoryId: z.string().optional(),
-                name: z.object({
+export const selectProductListSchema: ZodType<SelectProductListProps> = z.object({
+    orderBy: z
+        .object({
+            price: z.enum(["asc", "desc"]),
+        })
+        .optional(),
+    take: z.number().min(1).max(100).optional(),
+    skip: z.number().min(0).optional(),
+    where: z
+        .object({
+            categoryId: z.string().optional(),
+            name: z
+                .object({
                     contains: z.string(),
-                }).optional(),
-            })
-            .optional(),
-    });
+                })
+                .optional(),
+        })
+        .optional(),
+});
 
-export const selectProductAmountSchema: ZodType<SelectProductAmountProps> =
-    z.object({
-        where: z
-            .object({
-                categoryId: z.string().optional(),
-                name: z.object({
+export const selectProductAmountSchema: ZodType<SelectProductAmountProps> = z.object({
+    where: z
+        .object({
+            categoryId: z.string().optional(),
+            name: z
+                .object({
                     contains: z.string(),
-                }).optional(),
-            })
-            .optional(),
-    });
+                })
+                .optional(),
+        })
+        .optional(),
+});

@@ -1,10 +1,4 @@
-import {
-    createSearchParamsCache,
-    createSerializer,
-    parseAsBoolean,
-    parseAsInteger,
-    parseAsString,
-} from "nuqs/server";
+import { createSearchParamsCache, createSerializer, parseAsBoolean, parseAsInteger, parseAsString } from "nuqs/server";
 
 // ========================= //
 //    Query params types     //

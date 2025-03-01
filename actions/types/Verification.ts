@@ -12,10 +12,7 @@ export type VerificationType = Verification;
 export type VerificationId = Pick<Verification, "id">;
 
 /** Represents common verification properties without system-managed fields */
-export type VerificationCommon = Omit<
-    Verification,
-    "id" | "createdAt" | "updatedAt"
->;
+export type VerificationCommon = Omit<Verification, "id" | "createdAt" | "updatedAt">;
 
 /** Represents data structure for updating a verification */
 export type VerificationUpdate = {
@@ -24,22 +21,13 @@ export type VerificationUpdate = {
 };
 
 /** Represents system-managed timestamp fields */
-export type VerificationTimestamps = Pick<
-    Verification,
-    "createdAt" | "updatedAt"
->;
+export type VerificationTimestamps = Pick<Verification, "createdAt" | "updatedAt">;
 
 /** Find many options for verifications */
-export type SelectVerificationListProps = Pick<
-    Prisma.VerificationFindManyArgs,
-    "orderBy" | "take" | "skip" | "where"
->;
+export type SelectVerificationListProps = Pick<Prisma.VerificationFindManyArgs, "orderBy" | "take" | "skip" | "where">;
 
 /** Count options for verifications */
-export type SelectVerificationAmountProps = Pick<
-    Prisma.VerificationCountArgs,
-    "where"
->;
+export type SelectVerificationAmountProps = Pick<Prisma.VerificationCountArgs, "where">;
 
 // ===================== //
 // ==== Zod Schemas ==== //
@@ -61,11 +49,10 @@ export const verificationCommonSchema: ZodType<VerificationCommon> = z.object({
 });
 
 /** Schema for validating timestamp fields */
-export const verificationTimestampsSchema: ZodType<VerificationTimestamps> =
-    z.object({
-        createdAt: z.date(),
-        updatedAt: z.date(),
-    });
+export const verificationTimestampsSchema: ZodType<VerificationTimestamps> = z.object({
+    createdAt: z.date(),
+    updatedAt: z.date(),
+});
 
 /** Schema for validating verification update operations */
 export const verificationUpdateSchema: ZodType<VerificationUpdate> = z.object({
@@ -73,27 +60,25 @@ export const verificationUpdateSchema: ZodType<VerificationUpdate> = z.object({
     data: verificationCommonSchema,
 });
 
-export const selectVerificationListSchema: ZodType<SelectVerificationListProps> =
-    z.object({
-        orderBy: z
-            .object({
-                // Types to validate
-            })
-            .optional(),
-        take: z.number().min(1).max(100).optional(),
-        skip: z.number().min(0).optional(),
-        where: z
-            .object({
-                // Types to validate
-            })
-            .optional(),
-    });
+export const selectVerificationListSchema: ZodType<SelectVerificationListProps> = z.object({
+    orderBy: z
+        .object({
+            // Types to validate
+        })
+        .optional(),
+    take: z.number().min(1).max(100).optional(),
+    skip: z.number().min(0).optional(),
+    where: z
+        .object({
+            // Types to validate
+        })
+        .optional(),
+});
 
-export const selectVerificationAmountSchema: ZodType<SelectVerificationAmountProps> =
-    z.object({
-        where: z
-            .object({
-                // Types to validate
-            })
-            .optional(),
-    });
+export const selectVerificationAmountSchema: ZodType<SelectVerificationAmountProps> = z.object({
+    where: z
+        .object({
+            // Types to validate
+        })
+        .optional(),
+});

@@ -10,10 +10,7 @@ export async function POST(request: Request) {
         const session = await GetSession();
         if (!session) {
             console.log("No session found");
-            return NextResponse.json(
-                { error: "Unauthorized" },
-                { status: 401 }
-            );
+            return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
         }
         console.log("Session found:", session.user.email);
 
@@ -25,18 +22,12 @@ export async function POST(request: Request) {
             console.log("Parsed request body:", body);
         } catch (error) {
             console.error("Error parsing request body:", error);
-            return NextResponse.json(
-                { error: "Invalid request body" },
-                { status: 400 }
-            );
+            return NextResponse.json({ error: "Invalid request body" }, { status: 400 });
         }
 
         if (!body || !body.price || !body.sellerId) {
             console.log("Missing required fields in body:", body);
-            return NextResponse.json(
-                { error: "Missing required fields: price and sellerId" },
-                { status: 400 }
-            );
+            return NextResponse.json({ error: "Missing required fields: price and sellerId" }, { status: 400 });
         }
 
         const { price, sellerId } = body;
@@ -48,10 +39,7 @@ export async function POST(request: Request) {
 
         if (!seller?.stripeConnectId) {
             console.log("Invalid seller or missing stripeConnectId:", seller);
-            return NextResponse.json(
-                { error: "Invalid seller" },
-                { status: 400 }
-            );
+            return NextResponse.json({ error: "Invalid seller" }, { status: 400 });
         }
         console.log("Found seller with stripeConnectId");
 
@@ -82,7 +70,7 @@ export async function POST(request: Request) {
         console.error("Checkout error:", error);
         return NextResponse.json(
             { error: (error as Error).message || "Error creating checkout session" },
-            { status: 500 }
+            { status: 500 },
         );
     }
 }

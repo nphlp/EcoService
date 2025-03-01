@@ -84,10 +84,7 @@ export default function AddFruitClient() {
     return (
         <div className="space-y-4">
             <ImageCard>
-                <Img
-                    src={image ? URL.createObjectURL(image) : null}
-                    alt="Preview"
-                />
+                <Img src={image ? URL.createObjectURL(image) : null} alt="Preview" />
                 <Content>
                     <Title>{name !== "" ? name : "Fruit Preview"}</Title>
                     <Text>
@@ -99,9 +96,7 @@ export default function AddFruitClient() {
             </ImageCard>
             <Card className="flex flex-col items-center gap-4">
                 <h1 className="text-center text-xl font-bold">Add fruit</h1>
-                <div className="text-wrap text-center text-xs text-gray-500">
-                    Fill the fields to add a new fruit.
-                </div>
+                <div className="text-wrap text-center text-xs text-gray-500">Fill the fields to add a new fruit.</div>
                 <InputClient
                     type="text"
                     label="name"
@@ -116,18 +111,9 @@ export default function AddFruitClient() {
                     onChange={(e) => setDescription(e.target.value)}
                     value={description}
                 />
-                <InputClient
-                    label="file"
-                    type="file"
-                    onChange={handleImageChange}
-                />
+                <InputClient label="file" type="file" onChange={handleImageChange} />
                 <FeedbackClient message={message} mode={mode} />
-                <ButtonClient
-                    type="button"
-                    label="add-fruit"
-                    onClick={handleSubmit}
-                    isLoading={isLoading}
-                >
+                <ButtonClient type="button" label="add-fruit" onClick={handleSubmit} isLoading={isLoading}>
                     Add new fruit
                 </ButtonClient>
             </Card>

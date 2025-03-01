@@ -6,10 +6,7 @@ import Link, { LinkProps } from "next/link";
 import { ButtonHTMLAttributes, LinkHTMLAttributes, ReactNode } from "react";
 import { TransitionLink } from "./TransitionLink";
 
-type ButtonType = Exclude<
-    ButtonHTMLAttributes<HTMLButtonElement>["type"],
-    undefined
->;
+type ButtonType = Exclude<ButtonHTMLAttributes<HTMLButtonElement>["type"], undefined>;
 
 export type ButtonClientProps = {
     label: string;
@@ -61,8 +58,7 @@ export default function ButtonClient(props: ButtonClientProps) {
 
     const varianteStyle = {
         default: "bg-black text-gray-100 hover:bg-gray-800",
-        outline:
-            "border text-gray-800 hover:bg-gray-100 bg-white border-gray-300",
+        outline: "border text-gray-800 hover:bg-gray-100 bg-white border-gray-300",
         ghost: "hover:bg-gray-200",
         underline: "hover:underline",
         none: "",
@@ -79,8 +75,7 @@ export default function ButtonClient(props: ButtonClientProps) {
         "flex flex-row items-center justify-center gap-2 rounded-md outline-none transition-all duration-150",
         varianteStyle[variant],
         paddingStyle[padding],
-        ring &&
-            "ring-transparent focus:ring-offset-2 focus-visible:ring-2 focus-visible:ring-teal-400",
+        ring && "ring-transparent focus:ring-offset-2 focus-visible:ring-2 focus-visible:ring-teal-400",
         className,
     );
 
@@ -94,8 +89,7 @@ export default function ButtonClient(props: ButtonClientProps) {
                     href={href}
                     className={classList}
                     aria-label={label}
-                    {...(others as Omit<LinkProps, "href"> &
-                        LinkHTMLAttributes<HTMLAnchorElement>)}
+                    {...(others as Omit<LinkProps, "href"> & LinkHTMLAttributes<HTMLAnchorElement>)}
                 >
                     {children}
                 </TransitionLink>
@@ -107,8 +101,7 @@ export default function ButtonClient(props: ButtonClientProps) {
                 href={href}
                 className={classList}
                 aria-label={label}
-                {...(others as Omit<LinkProps, "href"> &
-                    LinkHTMLAttributes<HTMLAnchorElement>)}
+                {...(others as Omit<LinkProps, "href"> & LinkHTMLAttributes<HTMLAnchorElement>)}
             >
                 {children}
             </Link>
@@ -134,10 +127,7 @@ export default function ButtonClient(props: ButtonClientProps) {
                 disabled={isLoading}
                 onMouseEnter={onMouseEnter}
                 onMouseLeave={onMouseLeave}
-                {...(others as Omit<
-                    ButtonHTMLAttributes<HTMLButtonElement>,
-                    "type"
-                >)}
+                {...(others as Omit<ButtonHTMLAttributes<HTMLButtonElement>, "type">)}
             >
                 {isLoading ? (
                     <>

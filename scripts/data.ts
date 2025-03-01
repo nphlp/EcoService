@@ -54,20 +54,17 @@ interface FruitData {
 export const fruitData: FruitData[] = [
     {
         name: "Apple",
-        description:
-            "A spherical fruit with a red or green skin and a whitish flesh.",
+        description: "A spherical fruit with a red or green skin and a whitish flesh.",
         image: "/fruit/apple.webp",
     },
     {
         name: "Banana",
-        description:
-            "A long curved fruit that grows in clusters and has soft pulpy flesh and yellow skin when ripe.",
+        description: "A long curved fruit that grows in clusters and has soft pulpy flesh and yellow skin when ripe.",
         image: "/fruit/banana.webp",
     },
     {
         name: "Cherry",
-        description:
-            "A small, round stone fruit that is typically bright or dark red.",
+        description: "A small, round stone fruit that is typically bright or dark red.",
         image: "/fruit/cherry.webp",
     },
     {
@@ -78,14 +75,12 @@ export const fruitData: FruitData[] = [
     },
     {
         name: "Orange",
-        description:
-            "A round juicy citrus fruit with a tough bright reddish-yellow rind.",
+        description: "A round juicy citrus fruit with a tough bright reddish-yellow rind.",
         image: "/fruit/orange.webp",
     },
     {
         name: "Pineapple",
-        description:
-            "A tropical fruit with a tough segmented skin and sweet, juicy, yellow flesh.",
+        description: "A tropical fruit with a tough segmented skin and sweet, juicy, yellow flesh.",
         image: "/fruit/pineapple.webp",
     },
     {
@@ -103,44 +98,44 @@ interface CategoryData {
 export const categoryData: CategoryData[] = [
     {
         name: "Fruits & Légumes",
-        description: "Produits frais issus de l'agriculture locale et biologique"
+        description: "Produits frais issus de l'agriculture locale et biologique",
     },
     {
         name: "Produits Laitiers",
-        description: "Lait, fromages, yaourts et autres produits laitiers"
+        description: "Lait, fromages, yaourts et autres produits laitiers",
     },
     {
         name: "Boulangerie",
-        description: "Pains frais, viennoiseries et pâtisseries artisanales"
+        description: "Pains frais, viennoiseries et pâtisseries artisanales",
     },
     {
         name: "Viandes & Poissons",
-        description: "Viandes fraîches, poissons et fruits de mer"
+        description: "Viandes fraîches, poissons et fruits de mer",
     },
     {
         name: "Épicerie",
-        description: "Produits d'épicerie fine et produits de base"
+        description: "Produits d'épicerie fine et produits de base",
     },
     {
         name: "Boissons",
-        description: "Boissons fraîches, jus, vins et spiritueux"
+        description: "Boissons fraîches, jus, vins et spiritueux",
     },
     {
         name: "Bio & Sans Gluten",
-        description: "Produits biologiques et alternatives sans gluten"
+        description: "Produits biologiques et alternatives sans gluten",
     },
     {
         name: "Surgelés",
-        description: "Produits surgelés de qualité"
+        description: "Produits surgelés de qualité",
     },
     {
         name: "Hygiène & Beauté",
-        description: "Produits d'hygiène et cosmétiques naturels"
+        description: "Produits d'hygiène et cosmétiques naturels",
     },
     {
         name: "Maison & Entretien",
-        description: "Produits d'entretien écologiques et accessoires"
-    }
+        description: "Produits d'entretien écologiques et accessoires",
+    },
 ];
 
 interface ProductData {
@@ -157,26 +152,26 @@ export const productData: ProductData[] = [
     {
         name: "Panier de fruits bio",
         description: "Assortiment de fruits de saison bio",
-        image: "/illustration/produit 1.jpg", 
+        image: "/illustration/produit 1.jpg",
         price: 25.99,
         stock: 50,
-        category: "Fruits & Légumes"
+        category: "Fruits & Légumes",
     },
     {
         name: "Légumes locaux",
         description: "Mix de légumes frais de producteurs locaux",
         image: "/illustration/produit 2.jpg",
-        price: 18.50,
+        price: 18.5,
         stock: 40,
-        category: "Fruits & Légumes"
+        category: "Fruits & Légumes",
     },
     {
-        name: "Herbes aromatiques", 
+        name: "Herbes aromatiques",
         description: "Assortiment d'herbes fraîches bio",
         image: "/illustration/produit 3.jpg",
         price: 4.99,
         stock: 30,
-        category: "Fruits & Légumes"
+        category: "Fruits & Légumes",
     },
 
     // Produits Laitiers
@@ -186,15 +181,15 @@ export const productData: ProductData[] = [
         image: "/illustration/produit 4.jpg",
         price: 7.99,
         stock: 25,
-        category: "Produits Laitiers"
+        category: "Produits Laitiers",
     },
     {
         name: "Yaourt bio",
         description: "Pack de yaourts nature bio",
         image: "/illustration/produit 5.jpg",
-        price: 4.50,
+        price: 4.5,
         stock: 60,
-        category: "Produits Laitiers"
+        category: "Produits Laitiers",
     },
     {
         name: "Beurre fermier",
@@ -202,7 +197,7 @@ export const productData: ProductData[] = [
         image: "/illustration/coton 1.jpg",
         price: 3.99,
         stock: 45,
-        category: "Produits Laitiers"
+        category: "Produits Laitiers",
     },
 
     // Boulangerie
@@ -210,9 +205,9 @@ export const productData: ProductData[] = [
         name: "Pain au levain",
         description: "Pain traditionnel au levain naturel",
         image: "/illustration/coton 2.jpg",
-        price: 4.50,
+        price: 4.5,
         stock: 30,
-        category: "Boulangerie"
+        category: "Boulangerie",
     },
     {
         name: "Croissants",
@@ -220,15 +215,15 @@ export const productData: ProductData[] = [
         image: "/illustration/coton 3.jpg",
         price: 6.99,
         stock: 40,
-        category: "Boulangerie"
+        category: "Boulangerie",
     },
     {
         name: "Baguette tradition",
         description: "Baguette artisanale à l'ancienne",
         image: "/illustration/cafe.jpg",
-        price: 1.50,
+        price: 1.5,
         stock: 100,
-        category: "Boulangerie"
+        category: "Boulangerie",
     },
 
     // Viandes & Poissons
@@ -238,7 +233,7 @@ export const productData: ProductData[] = [
         image: "/illustration/eolienne.jpg",
         price: 32.99,
         stock: 20,
-        category: "Viandes & Poissons"
+        category: "Viandes & Poissons",
     },
     {
         name: "Saumon frais",
@@ -246,7 +241,7 @@ export const productData: ProductData[] = [
         image: "/illustration/espace 1.jpg",
         price: 24.99,
         stock: 25,
-        category: "Viandes & Poissons"
+        category: "Viandes & Poissons",
     },
     {
         name: "Poulet fermier",
@@ -254,7 +249,7 @@ export const productData: ProductData[] = [
         image: "/illustration/feuille.jpg",
         price: 15.99,
         stock: 30,
-        category: "Viandes & Poissons"
+        category: "Viandes & Poissons",
     },
 
     // Épicerie
@@ -264,15 +259,15 @@ export const productData: ProductData[] = [
         image: "/illustration/pots.jpg",
         price: 12.99,
         stock: 40,
-        category: "Épicerie"
+        category: "Épicerie",
     },
     {
         name: "Miel local",
         description: "Miel toutes fleurs local",
         image: "/illustration/pshit 1.jpg",
-        price: 8.50,
+        price: 8.5,
         stock: 35,
-        category: "Épicerie"
+        category: "Épicerie",
     },
     {
         name: "Pâtes artisanales",
@@ -280,7 +275,7 @@ export const productData: ProductData[] = [
         image: "/illustration/pshit 2.jpg",
         price: 5.99,
         stock: 50,
-        category: "Épicerie"
+        category: "Épicerie",
     },
 
     // Boissons
@@ -290,15 +285,15 @@ export const productData: ProductData[] = [
         image: "/illustration/produit 3.jpg",
         price: 15.99,
         stock: 60,
-        category: "Boissons"
+        category: "Boissons",
     },
     {
         name: "Jus de pomme",
         description: "Jus de pomme pressé artisanal",
         image: "/illustration/produit 4.jpg",
-        price: 4.50,
+        price: 4.5,
         stock: 45,
-        category: "Boissons"
+        category: "Boissons",
     },
     {
         name: "Bière artisanale",
@@ -306,7 +301,7 @@ export const productData: ProductData[] = [
         image: "/illustration/produit 5.jpg",
         price: 3.99,
         stock: 70,
-        category: "Boissons"
+        category: "Boissons",
     },
 
     // Bio & Sans Gluten
@@ -316,7 +311,7 @@ export const productData: ProductData[] = [
         image: "/illustration/coton 1.jpg",
         price: 6.99,
         stock: 40,
-        category: "Bio & Sans Gluten"
+        category: "Bio & Sans Gluten",
     },
     {
         name: "Granola bio",
@@ -324,15 +319,15 @@ export const productData: ProductData[] = [
         image: "/illustration/coton 2.jpg",
         price: 8.99,
         stock: 35,
-        category: "Bio & Sans Gluten"
+        category: "Bio & Sans Gluten",
     },
     {
         name: "Cookies vegan",
         description: "Cookies bio sans gluten vegan",
         image: "/illustration/coton 3.jpg",
-        price: 5.50,
+        price: 5.5,
         stock: 45,
-        category: "Bio & Sans Gluten"
+        category: "Bio & Sans Gluten",
     },
 
     // Surgelés
@@ -342,7 +337,7 @@ export const productData: ProductData[] = [
         image: "/illustration/cafe.jpg",
         price: 6.99,
         stock: 50,
-        category: "Surgelés"
+        category: "Surgelés",
     },
     {
         name: "Poisson surgelé",
@@ -350,7 +345,7 @@ export const productData: ProductData[] = [
         image: "/illustration/eolienne.jpg",
         price: 14.99,
         stock: 30,
-        category: "Surgelés"
+        category: "Surgelés",
     },
     {
         name: "Glace artisanale",
@@ -358,7 +353,7 @@ export const productData: ProductData[] = [
         image: "/illustration/espace 1.jpg",
         price: 7.99,
         stock: 25,
-        category: "Surgelés"
+        category: "Surgelés",
     },
 
     // Hygiène & Beauté
@@ -368,7 +363,7 @@ export const productData: ProductData[] = [
         image: "/illustration/terre-main.jpg",
         price: 5.99,
         stock: 55,
-        category: "Hygiène & Beauté"
+        category: "Hygiène & Beauté",
     },
     {
         name: "Shampooing solide",
@@ -376,7 +371,7 @@ export const productData: ProductData[] = [
         image: "/illustration/produit 1.jpg",
         price: 8.99,
         stock: 40,
-        category: "Hygiène & Beauté"
+        category: "Hygiène & Beauté",
     },
     {
         name: "Crème visage",
@@ -384,7 +379,7 @@ export const productData: ProductData[] = [
         image: "/illustration/produit 2.jpg",
         price: 19.99,
         stock: 30,
-        category: "Hygiène & Beauté"
+        category: "Hygiène & Beauté",
     },
 
     // Maison & Entretien
@@ -394,7 +389,7 @@ export const productData: ProductData[] = [
         image: "/illustration/lessive 1.jpg",
         price: 12.99,
         stock: 45,
-        category: "Maison & Entretien"
+        category: "Maison & Entretien",
     },
     {
         name: "Éponges naturelles",
@@ -402,7 +397,7 @@ export const productData: ProductData[] = [
         image: "/illustration/lessive 2.jpg",
         price: 6.99,
         stock: 60,
-        category: "Maison & Entretien"
+        category: "Maison & Entretien",
     },
     {
         name: "Spray multi-usage",
@@ -410,6 +405,6 @@ export const productData: ProductData[] = [
         image: "/illustration/brosse-a-dent.jpg",
         price: 4.99,
         stock: 50,
-        category: "Maison & Entretien"
-    }
+        category: "Maison & Entretien",
+    },
 ];

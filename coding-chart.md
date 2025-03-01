@@ -15,8 +15,7 @@ Vous trouverez ci-dessous, les règles d'usage de git et de formatage du code.
 
 ## Commits & Push
 
-> [!WARNING]
-> **Aucune manipulation** sur `git` ne doit être faite au hasard.
+> [!WARNING] > **Aucune manipulation** sur `git` ne doit être faite au hasard.
 
 C'est un confort pour toute l'équipe de suivre une typologie de nommage de `commits`. On peut aisément savoir ce que représente chaque `commit` :
 
@@ -26,11 +25,12 @@ C'est un confort pour toute l'équipe de suivre une typologie de nommage de `com
 > [!NOTE]
 > Il est nécessaire de `commit` et `push` le plus régulièrement possible. \
 > Par exemple :
+>
 > - dès qu'un ajout fonctionne
 > - dès qu'une erreur est corrigée
 > - dès qu'une fonctionnalité est terminée
 > - en fin de journée
-> 
+>
 > Si vous travailler sur différents postes, vous devez être en plus rigoureux sur le `commit` et le `push` pour éviter les `conflits` entre vos ordinateurs.
 
 ## Mettre à jour sa branche `feat`
@@ -43,9 +43,9 @@ Voici les étapes à suivre pour faire un **rebase** facilement et rapidement.
 
 > [!NOTE]
 > Le **rebase** positionne les `commits` de votre branche `feat` à la suite des `commits` de la branche `dev` pour garder un historique linéaire. \
-> 
+>
 > Le **merge** est a éviter car il crée un `commit` de `merge` qui rend la compréhension de l'historique plus difficile. \
-> 
+>
 > ![Différence entre rebase et main](/public/rebase-or-merge.png)
 
 > [!TIP]
@@ -62,6 +62,7 @@ git pull
 2. Regrouper vos commits
 
 Revenez sur votre branche
+
 ```zsh
 git checkout your-branch
 ```
@@ -69,12 +70,13 @@ git checkout your-branch
 Ensuite, regroupez vos commits. Cela signifie combiner tous vos commits en un seul.
 
 Il y a deux options pour regrouper plusieurs commits :
+
 - **Option 1 :** remplacez `n` dans `HEAD~n` par le nombre de commits que vous voulez regrouper **en une seule fois**.
 - **Option 2 :** répétez `HEAD~` plusieurs fois pour regrouper vos commits **un par un**.
 
 > [!WARNING]
 > Utilisez le flag `--soft` avec `reset` pour **défaire** vos commits en les mettant en statut **staged**. \
-> 
+>
 > N'utilisez pas le flag `--hard`, il supprimera vos modifications.
 
 ```zsh

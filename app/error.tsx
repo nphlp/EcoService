@@ -19,9 +19,7 @@ export default function Page(props: PageProps) {
     return (
         <div className="flex flex-1 flex-col items-center justify-center">
             <div className="space-y-4">
-                <h2 className="text-2xl font-bold">
-                    Oups! Something went wrong...
-                </h2>
+                <h2 className="text-2xl font-bold">Oups! Something went wrong...</h2>
                 <div>{error.message}</div>
                 <ButtonClient type="button" label="reset" onClick={reset}>
                     Try Again

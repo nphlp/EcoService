@@ -22,9 +22,7 @@ import { ZodError } from "zod";
  * @param props Account properties
  * @returns Created account or null
  */
-export const CreateAccount = async (
-    props: AccountCommon
-): Promise<AccountType | null> => {
+export const CreateAccount = async (props: AccountCommon): Promise<AccountType | null> => {
     try {
         const data = accountCommonSchema.parse(props);
 
@@ -68,16 +66,9 @@ export const SelectAccount = async (props: AccountId): Promise<AccountType | nul
  * @param props Filter and pagination options
  * @returns List of accounts or null
  */
-export const SelectAccountList = async (
-    props: SelectAccountListProps
-): Promise<AccountType[] | null> => {
+export const SelectAccountList = async (props: SelectAccountListProps): Promise<AccountType[] | null> => {
     try {
-        const {
-            orderBy,
-            take = 10,
-            skip = 0,
-            where,
-        } = selectAccountListSchema.parse(props);
+        const { orderBy, take = 10, skip = 0, where } = selectAccountListSchema.parse(props);
 
         const accountDataList: AccountType[] = await PrismaInstance.account.findMany({
             ...(orderBy && { orderBy }),
@@ -101,9 +92,7 @@ export const SelectAccountList = async (
  * @param props Filter options
  * @returns Count of accounts or null
  */
-export const SelectAccountAmount = async (
-    props: SelectAccountAmountProps
-): Promise<number | null> => {
+export const SelectAccountAmount = async (props: SelectAccountAmountProps): Promise<number | null> => {
     try {
         const { where } = selectAccountAmountSchema.parse(props);
         const accountAmount = await PrismaInstance.account.count({
@@ -124,9 +113,7 @@ export const SelectAccountAmount = async (
  * @param props Account ID and new data
  * @returns Updated account or null
  */
-export const UpdateAccount = async (
-    props: AccountUpdate
-): Promise<AccountType | null> => {
+export const UpdateAccount = async (props: AccountUpdate): Promise<AccountType | null> => {
     try {
         const { id, data } = accountUpdateSchema.parse(props);
 
@@ -150,9 +137,7 @@ export const UpdateAccount = async (
  * @param props Account ID
  * @returns Deleted account or null
  */
-export const DeleteAccount = async (
-    props: AccountId
-): Promise<AccountType | null> => {
+export const DeleteAccount = async (props: AccountId): Promise<AccountType | null> => {
     try {
         const { id } = accountIdObjectSchema.parse(props);
 

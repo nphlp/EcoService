@@ -31,7 +31,11 @@ export type SearchParamType = {
     search: string;
 };
 
-export type QueryParamType = PageParamType & PriceOrderParamType & ItemsPerPageParamType & CategoryParamType & SearchParamType;
+export type QueryParamType = PageParamType &
+    PriceOrderParamType &
+    ItemsPerPageParamType &
+    CategoryParamType &
+    SearchParamType;
 
 // ============================= //
 //        Custom parsers         //
@@ -47,7 +51,7 @@ const parseAsItemsPerPage = createParser({
     },
     serialize: (value: ItemsPerPageParamType["take"]) => {
         return String(value);
-    }
+    },
 });
 
 // ============================= //

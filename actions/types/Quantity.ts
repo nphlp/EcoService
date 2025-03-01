@@ -24,10 +24,7 @@ export type QuantityUpdate = {
 export type QuantityTimestamps = Pick<Quantity, "createdAt" | "updatedAt">;
 
 /** Find many options for quantities */
-export type SelectQuantityListProps = Pick<
-    Prisma.QuantityFindManyArgs,
-    "orderBy" | "take" | "skip" | "where"
->;
+export type SelectQuantityListProps = Pick<Prisma.QuantityFindManyArgs, "orderBy" | "take" | "skip" | "where">;
 
 /** Count options for quantities */
 export type SelectQuantityAmountProps = Pick<Prisma.QuantityCountArgs, "where">;

@@ -24,10 +24,7 @@ export type AddressUpdate = {
 export type AddressTimestamps = Pick<Address, "createdAt" | "updatedAt">;
 
 /** Find many options for addresses */
-export type SelectAddressListProps = Pick<
-    Prisma.AddressFindManyArgs,
-    "orderBy" | "take" | "skip" | "where"
->;
+export type SelectAddressListProps = Pick<Prisma.AddressFindManyArgs, "orderBy" | "take" | "skip" | "where">;
 
 /** Count options for addresses */
 export type SelectAddressAmountProps = Pick<Prisma.AddressCountArgs, "where">;
@@ -66,27 +63,25 @@ export const addressUpdateSchema: ZodType<AddressUpdate> = z.object({
     data: addressCommonSchema,
 });
 
-export const selectAddressListSchema: ZodType<SelectAddressListProps> =
-    z.object({
-        orderBy: z
-            .object({
-                // Types to validate
-            })
-            .optional(),
-        take: z.number().min(1).max(100).optional(),
-        skip: z.number().min(0).optional(),
-        where: z
-            .object({
-                // Types to validate
-            })
-            .optional(),
-    });
+export const selectAddressListSchema: ZodType<SelectAddressListProps> = z.object({
+    orderBy: z
+        .object({
+            // Types to validate
+        })
+        .optional(),
+    take: z.number().min(1).max(100).optional(),
+    skip: z.number().min(0).optional(),
+    where: z
+        .object({
+            // Types to validate
+        })
+        .optional(),
+});
 
-export const selectAddressAmountSchema: ZodType<SelectAddressAmountProps> =
-    z.object({
-        where: z
-            .object({
-                // Types to validate
-            })
-            .optional(),
-    });
+export const selectAddressAmountSchema: ZodType<SelectAddressAmountProps> = z.object({
+    where: z
+        .object({
+            // Types to validate
+        })
+        .optional(),
+});

@@ -1,11 +1,8 @@
 import { SelectCategoryList } from "@actions/database/Categories";
-import {
-    SelectProductAmount,
-    SelectProductList,
-} from "@actions/database/Product";
+import { SelectProductAmount, SelectProductList } from "@actions/database/Product";
 import CatalogueClient from "./components/CatalogueClient";
-import FilterProvider from "./components/FilterProvider";
-import FilterSelectClient from "./components/FilterSelectClient";
+import CatalogueContextProvider from "./components/ContextProvider";
+import SelectorsClient from "./components/SelectorsClient";
 import { QueryParamType, queryParamCached } from "./components/FilterTypes";
 
 type PageProps = {
@@ -53,13 +50,10 @@ export default async function Page(props: PageProps) {
         <div className="flex flex-1 flex-col">
             <h1 className="bg-primary px-6 pt-6 text-4xl font-bold text-secondary">Catalogue</h1>
             <div className="flex flex-1 flex-col justify-start gap-4 overflow-hidden">
-                <FilterProvider
-                    productList={productList}
-                    productAmount={productAmount}
-                >
-                    <FilterSelectClient categoryList={categoryList} />
+                <CatalogueContextProvider productList={productList} productAmount={productAmount}>
+                    <SelectorsClient categoryList={categoryList} />
                     <CatalogueClient />
-                </FilterProvider>
+                </CatalogueContextProvider>
             </div>
         </div>
     );

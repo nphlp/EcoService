@@ -29,10 +29,7 @@ export default async function Page(props: PageProps) {
                 <ParamsExampleTitle />
                 <ParamsExampleClient />
                 <div className="flex justify-center">
-                    <Link
-                        href={generateUrl}
-                        className="block w-fit rounded bg-blue-500 px-4 py-2 text-white"
-                    >
+                    <Link href={generateUrl} className="block w-fit rounded bg-blue-500 px-4 py-2 text-white">
                         Go to page {nextPage}
                     </Link>
                 </div>

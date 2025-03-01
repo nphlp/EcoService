@@ -50,9 +50,7 @@ export default async function Page() {
                         </div>
                         <div>
                             <div className="text-xs font-bold">Session</div>
-                            <div className="text-sm text-gray-700">
-                                expires at {expirationFormatted}
-                            </div>
+                            <div className="text-sm text-gray-700">expires at {expirationFormatted}</div>
                         </div>
                     </div>
                     <div className="flex items-center justify-center">

@@ -24,10 +24,7 @@ export type CategoryUpdate = {
 export type CategoryTimestamps = Pick<Category, "createdAt" | "updatedAt">;
 
 /** Find many options for categories */
-export type SelectCategoryListProps = Pick<
-    Prisma.CategoryFindManyArgs,
-    "orderBy" | "take" | "skip" | "where"
->;
+export type SelectCategoryListProps = Pick<Prisma.CategoryFindManyArgs, "orderBy" | "take" | "skip" | "where">;
 
 /** Count options for categories */
 export type SelectCategoryAmountProps = Pick<Prisma.CategoryCountArgs, "where">;
@@ -57,17 +54,20 @@ export const categoryUpdateSchema: ZodType<CategoryUpdate> = z.object({
     data: categoryCommonSchema,
 });
 
-export const selectCategoryListSchema: ZodType<SelectCategoryListProps> =
-    z.object({
-        orderBy: z.object({
+export const selectCategoryListSchema: ZodType<SelectCategoryListProps> = z.object({
+    orderBy: z
+        .object({
             name: z.enum(["asc", "desc"]),
-        }).optional(),
-        take: z.number().min(1).max(100).optional(),
-        skip: z.number().min(0).optional(),
-        where: z.object({
+        })
+        .optional(),
+    take: z.number().min(1).max(100).optional(),
+    skip: z.number().min(0).optional(),
+    where: z
+        .object({
             name: z.string(),
-        }).optional(),
-    });
+        })
+        .optional(),
+});
 
 export const selectCategoryAmountSchema: ZodType<SelectCategoryAmountProps> = z.object({
     where: z

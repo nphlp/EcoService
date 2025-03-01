@@ -22,9 +22,7 @@ import { ZodError } from "zod";
  * @param props Session properties
  * @returns Created session or null
  */
-export const CreateSession = async (
-    props: SessionCommon
-): Promise<SessionType | null> => {
+export const CreateSession = async (props: SessionCommon): Promise<SessionType | null> => {
     try {
         const data = sessionCommonSchema.parse(props);
 
@@ -68,16 +66,9 @@ export const SelectSession = async (props: SessionId): Promise<SessionType | nul
  * @param props Filter and pagination options
  * @returns List of sessions or null
  */
-export const SelectSessionList = async (
-    props: SelectSessionListProps
-): Promise<SessionType[] | null> => {
+export const SelectSessionList = async (props: SelectSessionListProps): Promise<SessionType[] | null> => {
     try {
-        const {
-            orderBy,
-            take = 10,
-            skip = 0,
-            where,
-        } = selectSessionListSchema.parse(props);
+        const { orderBy, take = 10, skip = 0, where } = selectSessionListSchema.parse(props);
 
         const sessionDataList: SessionType[] = await PrismaInstance.session.findMany({
             ...(orderBy && { orderBy }),
@@ -101,9 +92,7 @@ export const SelectSessionList = async (
  * @param props Filter options
  * @returns Count of sessions or null
  */
-export const SelectSessionAmount = async (
-    props: SelectSessionAmountProps
-): Promise<number | null> => {
+export const SelectSessionAmount = async (props: SelectSessionAmountProps): Promise<number | null> => {
     try {
         const { where } = selectSessionAmountSchema.parse(props);
 
@@ -126,9 +115,7 @@ export const SelectSessionAmount = async (
  * @param props Session ID and new data
  * @returns Updated session or null
  */
-export const UpdateSession = async (
-    props: SessionUpdate
-): Promise<SessionType | null> => {
+export const UpdateSession = async (props: SessionUpdate): Promise<SessionType | null> => {
     try {
         const { id, data } = sessionUpdateSchema.parse(props);
 

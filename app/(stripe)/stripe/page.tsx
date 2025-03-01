@@ -32,27 +32,17 @@ export default async function Page() {
 
     return (
         <div className="flex flex-1 flex-col items-center justify-center gap-4 p-6">
-            <h1 className="text-2xl font-bold">
-                Hello {session.user.name.split(" ")[0]} !
-            </h1>
+            <h1 className="text-2xl font-bold">Hello {session.user.name.split(" ")[0]} !</h1>
             <div className="flex flex-col items-center gap-4">
                 <h2 className="text-xl">Acheter</h2>
                 {seller ? (
-                    <PaymentButton
-                        priceId="price_1QXgsvJ7wWUWkxFlGtww4CKm"
-                        sellerId={seller.id}
-                    />
+                    <PaymentButton priceId="price_1QXgsvJ7wWUWkxFlGtww4CKm" sellerId={seller.id} />
                 ) : (
-                    <p className="text-sm text-gray-500">
-                        No sellers available at the moment
-                    </p>
+                    <p className="text-sm text-gray-500">No sellers available at the moment</p>
                 )}
             </div>
             <div className="mt-8 w-full max-w-4xl">
-                <SellerOnboard
-                    isSeller={user?.isSeller ?? false}
-                    isOnboarded={user?.isOnboarded ?? false}
-                />
+                <SellerOnboard isSeller={user?.isSeller ?? false} isOnboarded={user?.isOnboarded ?? false} />
             </div>
             {user?.isSeller && user?.isOnboarded && (
                 <div className="mt-8 w-full max-w-4xl">

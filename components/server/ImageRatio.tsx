@@ -15,31 +15,15 @@ export default function ImageRatio(props: ImageRatioProps) {
 
     if (!src) {
         return (
-            <div
-                className={combo(
-                    "relative aspect-[3/2] overflow-hidden",
-                    className,
-                )}
-            >
+            <div className={combo("relative aspect-[3/2] overflow-hidden", className)}>
                 <ImageTemplate className="size-full" />
             </div>
         );
     }
 
     return (
-        <div
-            className={combo(
-                "relative aspect-[3/2] overflow-hidden",
-                className,
-            )}
-        >
-            <Image
-                src={src}
-                alt={alt}
-                className="object-cover"
-                fill
-                loading={loading}
-            />
+        <div className={combo("relative aspect-[3/2] overflow-hidden", className)}>
+            <Image src={src} alt={alt} className="object-cover" fill loading={loading} />
         </div>
     );
 }

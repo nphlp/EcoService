@@ -1,7 +1,6 @@
 import { queryParamCached } from "./type";
 
 export default function ParamsExampleTitle() {
-
     // The cached data went to the parent component
     const dataCached = queryParamCached.all();
 

@@ -18,26 +18,16 @@ async function executeSqlFile(password: string, filename: string) {
     const sqlPath = join(process.cwd(), "prisma", "sql", filename);
     const sqlContent = readFileSync(sqlPath, "utf-8");
 
-    const mysql = spawn(
-        "mysql",
-        ["-u", "root", `--password=${password}`, "-e", sqlContent],
-        {
-            stdio: ["pipe", "pipe", "pipe"],
-        },
-    );
+    const mysql = spawn("mysql", ["-u", "root", `--password=${password}`, "-e", sqlContent], {
+        stdio: ["pipe", "pipe", "pipe"],
+    });
 
     mysql.stdout.on("data", (data) => {
         console.log(data.toString());
     });
 
     mysql.stderr.on("data", (data) => {
-        if (
-            !data
-                .toString()
-                .includes(
-                    "Using a password on the command line interface can be insecure",
-                )
-        ) {
+        if (!data.toString().includes("Using a password on the command line interface can be insecure")) {
             console.error(data.toString());
         }
     });

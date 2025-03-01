@@ -16,7 +16,7 @@ export async function POST(request: Request) {
                     error: "Unauthorized - Please log in again",
                     details: "Invalid session data",
                 },
-                { status: 401 }
+                { status: 401 },
             );
         }
 
@@ -34,7 +34,7 @@ export async function POST(request: Request) {
                     error: "User not found",
                     details: "User does not exist in database",
                 },
-                { status: 404 }
+                { status: 404 },
             );
         }
 
@@ -59,10 +59,7 @@ export async function POST(request: Request) {
                     },
                     tos_acceptance: {
                         date: Math.floor(Date.now() / 1000),
-                        ip:
-                            request.headers.get("x-forwarded-for") ||
-                            request.headers.get("x-real-ip") ||
-                            "127.0.0.1",
+                        ip: request.headers.get("x-forwarded-for") || request.headers.get("x-real-ip") || "127.0.0.1",
                     },
                 });
 
@@ -80,19 +77,17 @@ export async function POST(request: Request) {
                 console.error("Error details:", {
                     type: (error as StripeError).type,
                     message: (error as StripeError).message,
-                    code: (error as StripeError).code
+                    code: (error as StripeError).code,
                 });
-                
+
                 if ((error as StripeError).type === "invalid_request_error") {
                     return NextResponse.json(
                         {
                             error: "Le service est temporairement indisponible",
                             details:
-                                process.env.NODE_ENV === "development"
-                                    ? (error as StripeError).message
-                                    : undefined,
+                                process.env.NODE_ENV === "development" ? (error as StripeError).message : undefined,
                         },
-                        { status: 503 }
+                        { status: 503 },
                     );
                 }
                 throw error;
@@ -116,16 +111,15 @@ export async function POST(request: Request) {
         console.error("Full error details:", {
             type: (error as StripeError).type,
             message: (error as StripeError).message,
-            code: (error as StripeError).code
+            code: (error as StripeError).code,
         });
 
         return NextResponse.json(
             {
                 error: (error as Error).message || "Error creating Connect account",
-                details:
-                    process.env.NODE_ENV === "development" ? error : undefined,
+                details: process.env.NODE_ENV === "development" ? error : undefined,
             },
-            { status: 500 }
+            { status: 500 },
         );
     }
 }

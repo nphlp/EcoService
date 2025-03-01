@@ -44,12 +44,7 @@ export default function FruitPageClient() {
                     : "No fruits found."}
             </div>
             <div className="flex items-center justify-center">
-                <ButtonClient
-                    type="button"
-                    label="new-fruit"
-                    isLoading={isLoading}
-                    onClick={fetchRandomFruit}
-                >
+                <ButtonClient type="button" label="new-fruit" isLoading={isLoading} onClick={fetchRandomFruit}>
                     Get new fruit
                 </ButtonClient>
             </div>

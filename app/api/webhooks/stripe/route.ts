@@ -11,18 +11,11 @@ export async function POST(request: Request) {
     const signature = headersAwaited.get("stripe-signature");
 
     if (!signature) {
-        return NextResponse.json(
-            { error: "No signature provided" },
-            { status: 400 }
-        );
+        return NextResponse.json({ error: "No signature provided" }, { status: 400 });
     }
 
     try {
-        const event = stripe.webhooks.constructEvent(
-            body,
-            signature,
-            process.env.STRIPE_WEBHOOK_SECRET!
-        );
+        const event = stripe.webhooks.constructEvent(body, signature, process.env.STRIPE_WEBHOOK_SECRET!);
 
         console.log("Webhook event received:", event.type);
 
@@ -52,9 +45,6 @@ export async function POST(request: Request) {
         return NextResponse.json({ received: true });
     } catch (error) {
         console.error("Webhook error:", error);
-        return NextResponse.json(
-            { error: "Webhook handler failed" },
-            { status: 400 }
-        );
+        return NextResponse.json({ error: "Webhook handler failed" }, { status: 400 });
     }
 }

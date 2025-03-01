@@ -2,16 +2,10 @@
 
 import { promises as fs } from "fs";
 import { StringToSlug } from "./StringToSlug";
-import {
-    ImageValidationProps,
-    ImageUploadsProps,
-    ImageValidationReturn,
-} from "@actions/types/Image";
+import { ImageValidationProps, ImageUploadsProps, ImageValidationReturn } from "@actions/types/Image";
 import { FileExists } from "./FileExists";
 
-export const ImageValidation = async (
-    props: ImageValidationProps
-): Promise<ImageValidationReturn> => {
+export const ImageValidation = async (props: ImageValidationProps): Promise<ImageValidationReturn> => {
     try {
         const { imageFile } = props;
 
@@ -20,9 +14,7 @@ export const ImageValidation = async (
         }
 
         // Image metadata
-        const imageExtension =
-            imageFile.name.split(".").pop() ??
-            imageFile.type.replace("image/", "");
+        const imageExtension = imageFile.name.split(".").pop() ?? imageFile.type.replace("image/", "");
         const imageSize = imageFile.size;
 
         // Image rules
@@ -47,9 +39,7 @@ export const ImageValidation = async (
     }
 };
 
-export const ImageUploads = async (
-    props: ImageUploadsProps
-): Promise<string | null> => {
+export const ImageUploads = async (props: ImageUploadsProps): Promise<string | null> => {
     try {
         const { imageFile, imageName, folderName } = props;
 
@@ -61,8 +51,7 @@ export const ImageUploads = async (
 
         const imageSlugedName = await StringToSlug(imageName);
 
-        const imageSlugedNameWithExtension =
-            imageSlugedName + "." + imageExtension;
+        const imageSlugedNameWithExtension = imageSlugedName + "." + imageExtension;
 
         // Convert image to buffer
         const imageBuffer = await imageFile.arrayBuffer();
@@ -78,10 +67,7 @@ export const ImageUploads = async (
         }
 
         // Import image to public folder
-        await fs.writeFile(
-            `${process.cwd()}/public/${imageFilePath}`,
-            Buffer.from(imageBuffer)
-        );
+        await fs.writeFile(`${process.cwd()}/public/${imageFilePath}`, Buffer.from(imageBuffer));
 
         return imageFilePath;
     } catch (error) {

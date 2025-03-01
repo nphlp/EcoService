@@ -10,15 +10,10 @@ export default function FooterClient(props: FooterProps) {
     const { className } = props;
 
     return (
-        <footer
-            className={combo(
-                "flex flex-row items-center justify-center gap-36",
-                className,
-            )}
-        >
+        <footer className={combo("flex flex-row items-center justify-center gap-36", className)}>
             <div className="flex flex-col items-center justify-center gap-4">
                 <div className="flex size-[108px] items-center justify-center rounded-full bg-white">
-                <Logo className="size-24" />
+                    <Logo className="size-24" />
                 </div>
                 <h1 className="text-4xl font-bold uppercase text-white">Circle</h1>
             </div>

@@ -49,12 +49,7 @@ export default function LoginClient() {
     return (
         <div className="flex flex-col items-center justify-center gap-4">
             <div className="space-y-2">
-                <InputClient
-                    label="email"
-                    type="email"
-                    onChange={(e) => setEmail(e.target.value)}
-                    value={email}
-                />
+                <InputClient label="email" type="email" onChange={(e) => setEmail(e.target.value)} value={email} />
                 <div className="flex flex-row items-end gap-1.5">
                     <InputClient
                         label="password"
@@ -86,12 +81,7 @@ export default function LoginClient() {
                 Not registered yet?
             </ButtonClient>
             <FeedbackClient message={message} mode={mode} />
-            <ButtonClient
-                type="button"
-                onClick={handleSubmit}
-                label="login"
-                isLoading={isLoading}
-            >
+            <ButtonClient type="button" onClick={handleSubmit} label="login" isLoading={isLoading}>
                 Login
             </ButtonClient>
         </div>

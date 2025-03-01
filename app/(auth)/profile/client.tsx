@@ -49,18 +49,10 @@ export default function ProfileClient() {
                 setModalVisible={setModalVisible}
                 className="max-w-[350px] space-y-3"
             >
-                <h2 className="text-center text-xl font-bold">
-                    Email confirmation
-                </h2>
-                <div className="text-sm">
-                    Please, make sure you have confirmed your email address.
-                </div>
+                <h2 className="text-center text-xl font-bold">Email confirmation</h2>
+                <div className="text-sm">Please, make sure you have confirmed your email address.</div>
                 <div className="flex flex-col items-center">
-                    <ButtonClient
-                        type="button"
-                        label="close"
-                        onClick={() => setModalVisible(false)}
-                    >
+                    <ButtonClient type="button" label="close" onClick={() => setModalVisible(false)}>
                         Close
                     </ButtonClient>
                 </div>
@@ -92,20 +84,14 @@ export default function ProfileClient() {
                     </div>
                 </div>
                 {sessionList ? (
-                    sessionList.map(({ id,token, userAgent }, index) => (
+                    sessionList.map(({ id, token, userAgent }, index) => (
                         <div key={index}>
                             <div className="flex flex-row gap-2 text-xs">
-                                <span className="font-bold">
-                                    Session {index + 1}
-                                </span>
-                                <span className="italic text-gray-500">
-                                    {session?.session.id === id && "Current"}
-                                </span>
+                                <span className="font-bold">Session {index + 1}</span>
+                                <span className="italic text-gray-500">{session?.session.id === id && "Current"}</span>
                             </div>
                             <div className="flex flex-row items-center justify-between gap-1">
-                                <div className="line-clamp-1 text-sm text-gray-700">
-                                    {userAgent}
-                                </div>
+                                <div className="line-clamp-1 text-sm text-gray-700">{userAgent}</div>
                                 {session?.session.token !== token && (
                                     <ButtonClient
                                         type="button"
@@ -113,9 +99,7 @@ export default function ProfileClient() {
                                         padding="none"
                                         className="p-0.5"
                                         label="revoke-current-session"
-                                        onClick={async () =>
-                                            await revokeSession({ token })
-                                        }
+                                        onClick={async () => await revokeSession({ token })}
                                     >
                                         <CircleX className="size-5 stroke-gray-600 transition-all duration-150 hover:stroke-red-600" />
                                     </ButtonClient>
@@ -126,9 +110,7 @@ export default function ProfileClient() {
                 ) : (
                     <div className="flex h-full flex-row items-center justify-center gap-2">
                         <Loader />
-                        <span className="text-sm text-gray-500">
-                            Loading sessions...
-                        </span>
+                        <span className="text-sm text-gray-500">Loading sessions...</span>
                     </div>
                 )}
             </Card>
@@ -163,9 +145,7 @@ export default function ProfileClient() {
                         type="button"
                         label="update-name"
                         padding="sm"
-                        onClick={async () =>
-                            await changeEmail({ newEmail: email })
-                        }
+                        onClick={async () => await changeEmail({ newEmail: email })}
                     >
                         Update email
                     </ButtonClient>
@@ -186,14 +166,10 @@ export default function ProfileClient() {
                             className="border border-gray-300 p-0.5"
                             variant="outline"
                             padding="none"
-                            onClick={() =>
-                                setToggleVisibility(!toggleVisibility)
-                            }
+                            onClick={() => setToggleVisibility(!toggleVisibility)}
                         >
                             {toggleVisibility && <Eye className="size-5" />}
-                            {!toggleVisibility && (
-                                <EyeClosed className="size-5" />
-                            )}
+                            {!toggleVisibility && <EyeClosed className="size-5" />}
                         </ButtonClient>
                     </div>
                     <ButtonClient

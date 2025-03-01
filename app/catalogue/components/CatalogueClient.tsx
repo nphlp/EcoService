@@ -1,9 +1,6 @@
 "use client";
 
-import {
-    SelectProductAmount,
-    SelectProductList,
-} from "@actions/database/Product";
+import { SelectProductAmount, SelectProductList } from "@actions/database/Product";
 import { ProductType } from "@actions/types/Product";
 import Card from "@comps/server/Card";
 import ImageRatio from "@comps/server/ImageRatio";
@@ -11,32 +8,26 @@ import Loader from "@comps/server/Loader";
 import { combo } from "@lib/combo";
 import Link from "next/link";
 import { useContext, useEffect } from "react";
-import { FilterContext } from "./FilterProvider";
+import { CatalogueContext } from "./ContextProvider";
+import { useCatalogueParams } from "./useCatalogueParams";
+import { useCatalogueStore } from "./useCatalogueStore";
 
 export default function CatalogueClient() {
-    const {
-        productList,
-        setProductList,
-        setProductAmount,
-        priceOrder,
-        page,
-        take,
-        category,
-        search,
-    } = useContext(FilterContext);
+    const { productListLocal } = useContext(CatalogueContext);
+    const { setProductList, setProductAmount } = useCatalogueStore();
+    const { priceOrder, page, take, category, search } = useCatalogueParams();
 
     useEffect(() => {
         const fetch = async () => {
             const data = await SelectProductList({
-                orderBy:
-                    priceOrder !== "not" ? { price: priceOrder } : undefined,
+                orderBy: priceOrder !== "not" ? { price: priceOrder } : undefined,
                 skip: page > 1 ? (page - 1) * take : undefined,
                 take,
                 where: {
                     ...(category && { categoryId: category }),
                     ...(search && {
                         name: {
-                            contains: search
+                            contains: search,
                         },
                     }),
                 },
@@ -53,21 +44,12 @@ export default function CatalogueClient() {
             setProductAmount(productAmount);
         };
 
-        if (productList === "isLoading") {
+        if (productListLocal === "isLoading") {
             fetch();
         }
-    }, [
-        productList,
-        setProductList,
-        setProductAmount,
-        priceOrder,
-        page,
-        take,
-        category,
-        search,
-    ]);
+    }, [productListLocal, setProductList, setProductAmount, priceOrder, page, take, category, search]);
 
-    if (productList === "isLoading") {
+    if (productListLocal === "isLoading") {
         return (
             <div className="flex w-full flex-1 items-center justify-center px-4">
                 <Loader className="size-8 border-4" />
@@ -75,7 +57,7 @@ export default function CatalogueClient() {
         );
     }
 
-    return <ProductList produitList={productList} />;
+    return <ProductList produitList={productListLocal} />;
 }
 
 type ProductListProps = {
@@ -87,18 +69,12 @@ const ProductList = (props: ProductListProps) => {
 
     if (!produitList) {
         return (
-            <div className="flex size-full items-center justify-center">
-                Aucun produit disponible pour le moment.
-            </div>
+            <div className="flex size-full items-center justify-center">Aucun produit disponible pour le moment.</div>
         );
     }
 
     return (
-        <div
-            className={combo(
-                "grid grid-cols-1 gap-4 overflow-y-auto px-6 pb-6 sm:grid-cols-2 lg:grid-cols-4",
-            )}
-        >
+        <div className={combo("grid grid-cols-1 gap-4 overflow-y-auto px-6 pb-6 sm:grid-cols-2 lg:grid-cols-4")}>
             {produitList.map(({ id, name, image, price }, index) => (
                 <Link
                     key={index}
@@ -109,9 +85,7 @@ const ProductList = (props: ProductListProps) => {
                         <ImageRatio src={image} alt={name} />
                         <div className="p-4">
                             <div className="text-lg font-bold">{name}</div>
-                            <div className="text-sm text-gray-500">
-                                {price} €
-                            </div>
+                            <div className="text-sm text-gray-500">{price} €</div>
                         </div>
                     </Card>
                 </Link>

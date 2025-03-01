@@ -5,7 +5,7 @@ export async function middleware(request: NextRequest) {
     // const session = await GetSession();
 
     // if (!session) {
-        // return NextResponse.redirect(new URL("/login", request.url));
+    // return NextResponse.redirect(new URL("/login", request.url));
     // }
 
     return NextResponse.redirect(new URL("/", request.url));

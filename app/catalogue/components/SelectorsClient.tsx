@@ -1,31 +1,23 @@
 "use client";
 
-import { combo } from "@lib/combo";
-import { FilterContext } from "./FilterProvider";
-
 import { CategoryType } from "@actions/types/Category";
+import { combo } from "@lib/combo";
 import { ChangeEventHandler, ReactNode, useContext } from "react";
+import { CatalogueContext } from "./ContextProvider";
 import { ItemsPerPageParamType, PriceOrderParamType } from "./FilterTypes";
+import { useCatalogueParams } from "./useCatalogueParams";
+import { useCatalogueStore } from "./useCatalogueStore";
 
-type FilterSelectClientProps = {
+type SelectorsClientProps = {
     categoryList: CategoryType[];
 };
 
-export default function FilterSelectClient(props: FilterSelectClientProps) {
+export default function SelectorsClient(props: SelectorsClientProps) {
     const { categoryList } = props;
 
-    const {
-        setProductList,
-        priceOrder,
-        setPriceOrder,
-        page,
-        setPage,
-        take,
-        setTake,
-        category,
-        setCategory,
-        productAmount,
-    } = useContext(FilterContext);
+    const { productAmountLocal } = useContext(CatalogueContext);
+    const { setProductList } = useCatalogueStore();
+    const { priceOrder, page, take, category, setCategory, setPage, setPriceOrder, setTake } = useCatalogueParams();
 
     const divClass = "w-1/4 space-y-2";
     const labelClass = "text-sm text-gray-500 text-gray-200 ";
@@ -59,9 +51,7 @@ export default function FilterSelectClient(props: FilterSelectClientProps) {
                 selectClass={selectClass}
                 onChange={(e) => {
                     setProductList("isLoading");
-                    setPriceOrder(
-                        e.target.value as PriceOrderParamType["priceOrder"],
-                    );
+                    setPriceOrder(e.target.value as PriceOrderParamType["priceOrder"]);
                 }}
                 value={priceOrder}
             >
@@ -80,14 +70,11 @@ export default function FilterSelectClient(props: FilterSelectClientProps) {
                 }}
                 value={page}
             >
-                {Array.from(
-                    { length: Math.ceil(productAmount / take) },
-                    (_, index) => (
-                        <option key={index + 1} value={index + 1}>
-                            {index + 1}
-                        </option>
-                    ),
-                )}
+                {Array.from({ length: Math.ceil(productAmountLocal / take) }, (_, index) => (
+                    <option key={index + 1} value={index + 1}>
+                        {index + 1}
+                    </option>
+                ))}
             </Select>
             <Select
                 label="Produits par page"
@@ -97,9 +84,7 @@ export default function FilterSelectClient(props: FilterSelectClientProps) {
                 onChange={(e) => {
                     setPage(1);
                     setProductList("isLoading");
-                    setTake(
-                        Number(e.target.value) as ItemsPerPageParamType["take"],
-                    );
+                    setTake(Number(e.target.value) as ItemsPerPageParamType["take"]);
                 }}
                 value={take}
             >
@@ -123,26 +108,13 @@ type SelectProps = {
 };
 
 const Select = (props: SelectProps) => {
-    const {
-        label,
-        onChange,
-        value,
-        divClass,
-        labelClass,
-        selectClass,
-        children,
-    } = props;
+    const { label, onChange, value, divClass, labelClass, selectClass, children } = props;
 
     return (
         <label className={combo(divClass)}>
-            <div className={combo("text-sm text-gray-500", labelClass)}>
-                {label}
-            </div>
+            <div className={combo("text-sm text-gray-500", labelClass)}>{label}</div>
             <select
-                className={combo(
-                    "rounded-md border p-2 text-gray-700 shadow-sm",
-                    selectClass,
-                )}
+                className={combo("rounded-md border p-2 text-gray-700 shadow-sm", selectClass)}
                 onChange={onChange}
                 value={value}
             >
