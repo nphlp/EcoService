@@ -1,21 +1,22 @@
-import { BetterSessionClient } from "@lib/client";
-import { useState } from "react";
-import ButtonClient from "../Button";
-import LogoutClient from "../Logout";
-import { Leaf } from "lucide-react";
+import { useSession } from "@lib/client";
 import { combo } from "@lib/combo";
+import { Leaf } from "lucide-react";
+import { useState } from "react";
+import ButtonClient from "../../client/Button";
+import LogoutClient from "../../client/Logout";
 
 type MobileHeaderProps = {
-    session: BetterSessionClient | null;
+    className?: string;
 };
 
 export default function MobileHeader(props: MobileHeaderProps) {
-    const { session } = props;
+    const { className } = props;
+    const { data: session } = useSession();
 
     const [visibilityMenu, setVisibilityMenu] = useState<boolean>(false);
 
     return (
-        <>
+        <div className={className}>
             <ButtonClient
                 type="button"
                 label="show-menu"
@@ -118,6 +119,6 @@ export default function MobileHeader(props: MobileHeaderProps) {
                     </ButtonClient>
                 </div>
             </nav>
-        </>
+        </div>
     );
 }

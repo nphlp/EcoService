@@ -5,7 +5,6 @@ import { CategoryParam, ItemsPerPageParam, PageParam, PriceOrderParam, SearchPar
 
 /**
  * Use Query States
- * Useful function from nuqs to get the query states.
  */
 export const useCatalogueParams = () => {
     const [priceOrder, setPriceOrder] = useQueryState("priceOrder", PriceOrderParam["priceOrder"]);

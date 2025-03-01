@@ -13,6 +13,9 @@ export type CatalogueStoreType = {
     setProductAmount: (productAmount?: number) => void;
 };
 
+/**
+ * Use Catalogue Store
+ */
 export const useCatalogueStore = create<CatalogueStoreType>()((set) => ({
     // State
     productList: undefined,
