@@ -7,13 +7,14 @@ import ImageRatio from "@comps/server/ImageRatio";
 import Loader from "@comps/server/Loader";
 import { combo } from "@lib/combo";
 import Link from "next/link";
-import { useEffect } from "react";
-import { useCatalogueParams } from "./useCatalogueParams";
-import { useCatalogueStore } from "./useCatalogueStore";
+import { useContext, useEffect } from "react";
+import { FilterContext } from "./FilterProvider";
+import { useCatalogueStore } from "./CatalogueStore";
 
 export default function CatalogueClient() {
-    const { priceOrder, page, take, category, search } = useCatalogueParams();
-    const { productList, setProductList, setProductAmount } = useCatalogueStore((state) => state);
+    const { productList, priceOrder, page, take, category, search } = useContext(FilterContext);
+
+    const { setProductListStore, setProductAmountStore } = useCatalogueStore();
 
     useEffect(() => {
         const fetch = async () => {
@@ -38,14 +39,14 @@ export default function CatalogueClient() {
                 throw new Error("We don't have any product...");
             }
 
-            setProductList(data);
-            setProductAmount(productAmount);
+            setProductListStore(data);
+            setProductAmountStore(productAmount);
         };
 
         if (productList === "isLoading") {
             fetch();
         }
-    }, [productList, setProductList, setProductAmount, priceOrder, page, take, category, search]);
+    }, [productList, setProductListStore, setProductAmountStore, priceOrder, page, take, category, search]);
 
     if (productList === "isLoading") {
         return (

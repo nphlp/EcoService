@@ -1,7 +1,7 @@
 "use client";
 
-import { urlSerializer, useCatalogueParams } from "@app/catalogue/components/useCatalogueParams";
-import { useCatalogueStore } from "@app/catalogue/components/useCatalogueStore";
+import { useCatalogueStore } from "@app/catalogue/components/CatalogueStore";
+import { urlSerializer } from "@app/catalogue/components/FilterTypes";
 import Logo from "@comps/server/Logo";
 import { BetterSessionClient } from "@lib/client";
 import { combo } from "@lib/combo";
@@ -221,17 +221,19 @@ const SubSection = (props: SubSectionProps) => {
     const [isHovered, setIsHovered] = useState(false);
     const [searchValue, setSearchValue] = useState("");
 
-    const { setCategory, setSearch } = useCatalogueParams();
-    const { setProductList} = useCatalogueStore((state) => state);
+    const { resetStore, setCategoryStore, setSearchStore, setProductListStore } = useCatalogueStore();
 
     const handleCategory = (e: MouseEvent<HTMLAnchorElement, globalThis.MouseEvent>, id: string) => {
         e.preventDefault();
 
         if (path === "/catalogue") {
-            setCategory(id);
-            setProductList("isLoading");
+            setCategoryStore(id);
+            setProductListStore("isLoading");
             return;
         }
+
+        // Reset Zustand store values before navigating
+        resetStore();
 
         // Navigate to catalogue with category
         router.push(urlSerializer("/catalogue", { category: id }));
@@ -241,10 +243,13 @@ const SubSection = (props: SubSectionProps) => {
         const search = String(formData.get("search"));
 
         if (path === "/catalogue") {
-            setSearch(search);
-            setProductList("isLoading");
+            setSearchStore(search);
+            setProductListStore("isLoading");
             return;
         }
+
+        // Reset Zustand store values before navigating
+        resetStore();
 
         // Close search panel and await panel closing animation to finish
         setSearchOpen(false);
