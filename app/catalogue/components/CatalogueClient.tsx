@@ -12,18 +12,22 @@ import { combo } from "@lib/combo";
 import Link from "next/link";
 import { useContext, useEffect } from "react";
 import { FilterContext } from "./FilterProvider";
+import { useCatalogueStore } from "./CatalogueStore";
 
 export default function CatalogueClient() {
     const {
         productList,
-        setProductList,
-        setProductAmount,
         priceOrder,
         page,
         take,
         category,
         search,
     } = useContext(FilterContext);
+
+    const {
+        setProductListStore,
+        setProductAmountStore,
+    } = useCatalogueStore()
 
     useEffect(() => {
         const fetch = async () => {
@@ -49,8 +53,8 @@ export default function CatalogueClient() {
                 throw new Error("We don't have any product...");
             }
 
-            setProductList(data);
-            setProductAmount(productAmount);
+            setProductListStore(data);
+            setProductAmountStore(productAmount);
         };
 
         if (productList === "isLoading") {
@@ -58,8 +62,8 @@ export default function CatalogueClient() {
         }
     }, [
         productList,
-        setProductList,
-        setProductAmount,
+        setProductListStore,
+        setProductAmountStore,
         priceOrder,
         page,
         take,

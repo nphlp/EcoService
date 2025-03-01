@@ -1,5 +1,6 @@
 "use client";
 
+import { useCatalogueStore } from "@app/catalogue/components/CatalogueStore";
 import { urlSerializer } from "@app/catalogue/components/FilterTypes";
 import Logo from "@comps/server/Logo";
 import { BetterSessionClient } from "@lib/client";
@@ -14,7 +15,7 @@ import {
     UserRound,
 } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
-import { ReactNode, useState } from "react";
+import { MouseEvent, ReactNode, useState } from "react";
 import ButtonClient from "../Button";
 import InputClient from "../Input";
 import LogoutClient from "../Logout";
@@ -247,16 +248,50 @@ const SubSection = (props: SubSectionProps) => {
     const [isHovered, setIsHovered] = useState(false);
     const [searchValue, setSearchValue] = useState("");
 
+    const {
+        resetStore,
+        setCategoryStore,
+        setSearchStore,
+        setProductListStore,
+    } = useCatalogueStore();
+
+    const handleCategory = (
+        e: MouseEvent<HTMLAnchorElement, globalThis.MouseEvent>,
+        id: string,
+    ) => {
+        e.preventDefault();
+
+        if (path === "/catalogue") {
+            setCategoryStore(id);
+            setProductListStore("isLoading");
+            return;
+        }
+
+        // Reset Zustand store values before navigating
+        resetStore();
+        
+        // Navigate to catalogue with category
+        router.push(urlSerializer("/catalogue", { category: id }));
+    };
+
     const handleSearch = (formData: FormData) => {
         const search = String(formData.get("search"));
 
-        const url = urlSerializer("/catalogue", {
-            search,
-        });
+        if (path === "/catalogue") {
+            setSearchStore(search);
+            setProductListStore("isLoading");
+            return;
+        }
 
+        // Reset Zustand store values before navigating
+        resetStore()
+
+        // Close search panel and await panel closing animation to finish
         setSearchOpen(false);
         setTimeout(() => setSearchValue(""), 300);
-        router.push(url);
+        
+        // Navigate to catalogue with search
+        router.push(urlSerializer("/catalogue", { search }));
     };
 
     return (
@@ -273,6 +308,7 @@ const SubSection = (props: SubSectionProps) => {
                         type="link"
                         label={name}
                         href={urlSerializer("/catalogue", { category: id })}
+                        onClick={(e) => handleCategory(e, id)}
                         variant="outline"
                     >
                         {name}
@@ -393,7 +429,8 @@ type MotionSectionProps = {
 const MotionSection = (props: MotionSectionProps) => {
     const { children, open } = props;
 
-    const { setAccountOpen, setSearchOpen, setCategorieOpen } = useHeaderStore();
+    const { setAccountOpen, setSearchOpen, setCategorieOpen } =
+        useHeaderStore();
 
     return (
         <motion.div
