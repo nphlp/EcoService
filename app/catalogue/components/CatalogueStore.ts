@@ -23,15 +23,11 @@ export type StoreState = {
 
 export type StoreActions = {
     // Use State
-    setProductListStore: (
-        productList?: ProductType[] | "isLoading" | null,
-    ) => void;
+    setProductListStore: (productList?: ProductType[] | "isLoading" | null) => void;
     setProductAmountStore: (productAmount?: number) => void;
 
     // Use Query State
-    setPriceOrderStore: (
-        priceOrder?: PriceOrderParamType["priceOrder"],
-    ) => void;
+    setPriceOrderStore: (priceOrder?: PriceOrderParamType["priceOrder"]) => void;
     setPageStore: (page?: PageParamType["page"]) => void;
     setTakeStore: (take?: ItemsPerPageParamType["take"]) => void;
     setCategoryStore: (category?: CategoryParamType["category"]) => void;
@@ -47,11 +43,8 @@ export const useCatalogueStore = create<CatalogueStore>()((set) => ({
     // Use State
     productListStore: undefined,
     productAmountStore: undefined,
-    setProductListStore: (
-        productListStore?: ProductType[] | "isLoading" | null,
-    ) => set({ productListStore }),
-    setProductAmountStore: (productAmountStore?: number) =>
-        set({ productAmountStore }),
+    setProductListStore: (productListStore?: ProductType[] | "isLoading" | null) => set({ productListStore }),
+    setProductAmountStore: (productAmountStore?: number) => set({ productAmountStore }),
 
     // Use Query State
     priceOrderStore: undefined,
@@ -59,15 +52,11 @@ export const useCatalogueStore = create<CatalogueStore>()((set) => ({
     takeStore: undefined,
     categoryStore: undefined,
     searchStore: undefined,
-    setPriceOrderStore: (priceOrderStore?: PriceOrderParamType["priceOrder"]) =>
-        set({ priceOrderStore }),
+    setPriceOrderStore: (priceOrderStore?: PriceOrderParamType["priceOrder"]) => set({ priceOrderStore }),
     setPageStore: (pageStore?: PageParamType["page"]) => set({ pageStore }),
-    setTakeStore: (takeStore?: ItemsPerPageParamType["take"]) =>
-        set({ takeStore }),
-    setCategoryStore: (categoryStore?: CategoryParamType["category"]) =>
-        set({ categoryStore }),
-    setSearchStore: (searchStore?: SearchParamType["search"]) =>
-        set({ searchStore }),
+    setTakeStore: (takeStore?: ItemsPerPageParamType["take"]) => set({ takeStore }),
+    setCategoryStore: (categoryStore?: CategoryParamType["category"]) => set({ categoryStore }),
+    setSearchStore: (searchStore?: SearchParamType["search"]) => set({ searchStore }),
 
     // Reset Store
     resetStore: () =>

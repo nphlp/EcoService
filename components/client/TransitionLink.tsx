@@ -14,7 +14,6 @@ const wait = (ms: number) => {
     return new Promise((resolve) => setTimeout(resolve, ms));
 };
 
-
 export const TransitionLink = (props: TransitionLinkProps) => {
     const { href, className, children } = props;
 
@@ -30,14 +29,7 @@ export const TransitionLink = (props: TransitionLinkProps) => {
     }, []);
 
     const htmlClasses = ["flex", "flex-col", "items-center", "justify-center"];
-    const bodyClasses = [
-        "absolute",
-        "scale-1",
-        "opacity-1",
-        "transition-all",
-        "duration-200",
-        "ease-in-out",
-    ];
+    const bodyClasses = ["absolute", "scale-1", "opacity-1", "transition-all", "duration-200", "ease-in-out"];
 
     /**
      * Start the transition \
@@ -95,7 +87,7 @@ export const TransitionLink = (props: TransitionLinkProps) => {
 
     useEffect(() => {
         transitionOut();
-    // eslint-disable-next-line
+        // eslint-disable-next-line
     }, [path]);
 
     return (

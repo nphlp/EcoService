@@ -22,9 +22,7 @@ import { ZodError } from "zod";
  * @param props Product properties
  * @returns Created product or null
  */
-export const CreateProduct = async (
-    props: ProductCommon,
-): Promise<ProductType | null> => {
+export const CreateProduct = async (props: ProductCommon): Promise<ProductType | null> => {
     try {
         const data = productCommonSchema.parse(props);
 
@@ -47,16 +45,13 @@ export const CreateProduct = async (
  * @param props Product ID
  * @returns Found product or null
  */
-export const SelectProduct = async (
-    props: ProductId,
-): Promise<ProductType | null> => {
+export const SelectProduct = async (props: ProductId): Promise<ProductType | null> => {
     try {
         const { id } = productIdObjectSchema.parse(props);
 
-        const productData: ProductType | null =
-            await PrismaInstance.product.findUnique({
-                where: { id },
-            });
+        const productData: ProductType | null = await PrismaInstance.product.findUnique({
+            where: { id },
+        });
 
         return productData;
     } catch (error) {
@@ -73,24 +68,16 @@ export const SelectProduct = async (
  * @param props Filter and pagination options
  * @returns List of products or null
  */
-export const SelectProductList = async (
-    props: SelectProductListProps,
-): Promise<ProductType[] | null> => {
+export const SelectProductList = async (props: SelectProductListProps): Promise<ProductType[] | null> => {
     try {
-        const {
-            orderBy,
-            take = 10,
-            skip = 0,
-            where,
-        } = selectProductListSchema.parse(props);
+        const { orderBy, take = 10, skip = 0, where } = selectProductListSchema.parse(props);
 
-        const productDataList: ProductType[] =
-            await PrismaInstance.product.findMany({
-                ...(orderBy && { orderBy }),
-                ...(take && { take }),
-                ...(skip && { skip }),
-                ...(where && { where }),
-            });
+        const productDataList: ProductType[] = await PrismaInstance.product.findMany({
+            ...(orderBy && { orderBy }),
+            ...(take && { take }),
+            ...(skip && { skip }),
+            ...(where && { where }),
+        });
 
         return productDataList.length ? productDataList : null;
     } catch (error) {
@@ -107,9 +94,7 @@ export const SelectProductList = async (
  * @param props Filter options
  * @returns Count of products or null
  */
-export const SelectProductAmount = async (
-    props: SelectProductAmountProps,
-): Promise<number | null> => {
+export const SelectProductAmount = async (props: SelectProductAmountProps): Promise<number | null> => {
     try {
         const { where } = selectProductAmountSchema.parse(props);
 
@@ -132,9 +117,7 @@ export const SelectProductAmount = async (
  * @param props Product ID and new data
  * @returns Updated product or null
  */
-export const UpdateProduct = async (
-    props: ProductUpdate,
-): Promise<ProductType | null> => {
+export const UpdateProduct = async (props: ProductUpdate): Promise<ProductType | null> => {
     try {
         const { id, data } = productUpdateSchema.parse(props);
 
@@ -158,9 +141,7 @@ export const UpdateProduct = async (
  * @param props Product ID
  * @returns Deleted product or null
  */
-export const DeleteProduct = async (
-    props: ProductId,
-): Promise<ProductType | null> => {
+export const DeleteProduct = async (props: ProductId): Promise<ProductType | null> => {
     try {
         const { id } = productIdObjectSchema.parse(props);
 

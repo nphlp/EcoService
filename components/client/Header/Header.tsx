@@ -17,10 +17,7 @@ export default function HeaderClient(props: HeaderClientProps) {
     return (
         <header>
             <div className="bg-white text-center max-md:hidden">
-                <BrowserHeader
-                    session={session}
-                    categorieList={categorieList}
-                />
+                <BrowserHeader session={session} categorieList={categorieList} />
             </div>
             <div className="md:hidden">
                 <MobileHeader session={session} />
@@ -28,4 +25,3 @@ export default function HeaderClient(props: HeaderClientProps) {
         </header>
     );
 }
-

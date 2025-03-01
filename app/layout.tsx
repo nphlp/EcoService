@@ -30,18 +30,11 @@ export default async function Layout(props: LayoutProps) {
 
     return (
         <html lang="en" className="flex h-full flex-col overflow-hidden">
-            <body
-                className={combo(
-                    "flex h-full flex-col overflow-hidden",
-                    inter.className,
-                )}
-            >
+            <body className={combo("flex h-full flex-col overflow-hidden", inter.className)}>
                 <NuqsAdapter>
                     <HeaderClient categorieList={categorieList} />
                     <main className="pointer-events-none relative z-10 w-full flex-1 overflow-y-auto overflow-x-hidden">
-                        <div className="pointer-events-auto flex min-h-full w-full flex-col bg-white">
-                            {children}
-                        </div>
+                        <div className="pointer-events-auto flex min-h-full w-full flex-col bg-white">{children}</div>
                         <div className="h-[300px] w-full bg-transparent">
                             <div className="h-4 bg-gradient-to-b from-gray-900/50 to-transparent" />
                         </div>

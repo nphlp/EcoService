@@ -11,9 +11,7 @@ type ImageCropperModalClientProps = {
     setCroppedImage: (croppedImage: string) => void;
 };
 
-export default function ImageCropperModalClient(
-    props: ImageCropperModalClientProps
-) {
+export default function ImageCropperModalClient(props: ImageCropperModalClientProps) {
     const { imageFile, setImageFile, setCroppedImage } = props;
 
     const [imageString, setImageString] = useState<string>("");
@@ -34,8 +32,7 @@ export default function ImageCropperModalClient(
         // Read the file as data url
         reader.readAsDataURL(file);
         // When the file is read, set the image string
-        reader.onloadend = (reading) =>
-            setImageString(reading.target?.result as string);
+        reader.onloadend = (reading) => setImageString(reading.target?.result as string);
     };
 
     useEffect(() => {
@@ -48,11 +45,7 @@ export default function ImageCropperModalClient(
     };
 
     const saveImage = async () => {
-        const croppedImage = await getCroppedImg(
-            imageString,
-            croppedAreaPixels,
-            rotate
-        );
+        const croppedImage = await getCroppedImg(imageString, croppedAreaPixels, rotate);
         setCroppedImage(croppedImage as string);
         setImageFile(undefined);
     };
@@ -111,7 +104,13 @@ export default function ImageCropperModalClient(
                     </label>
                 </div>
                 <div className="flex flex-row gap-3">
-                    <ButtonClient type="button" label="cancel-crop" className="w-1/2" variant="outline" onClick={() => setImageFile(undefined)}>
+                    <ButtonClient
+                        type="button"
+                        label="cancel-crop"
+                        className="w-1/2"
+                        variant="outline"
+                        onClick={() => setImageFile(undefined)}
+                    >
                         Cancel
                     </ButtonClient>
                     <ButtonClient type="button" label="crop-image" className="w-1/2" onClick={saveImage}>

@@ -8,10 +8,7 @@ interface PaymentButtonProps {
     sellerId: string;
 }
 
-export default function PaymentButton({
-    priceId,
-    sellerId,
-}: PaymentButtonProps) {
+export default function PaymentButton({ priceId, sellerId }: PaymentButtonProps) {
     const [loading, setLoading] = useState(false);
 
     const handlePayment = async () => {
@@ -54,9 +51,7 @@ export default function PaymentButton({
                 throw new Error(data.error);
             }
 
-            const stripe = await loadStripe(
-                process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
-            );
+            const stripe = await loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
             if (!stripe) {
                 throw new Error("Stripe failed to initialize");
             }
@@ -70,11 +65,7 @@ export default function PaymentButton({
             }
         } catch (error) {
             console.error("Payment error:", error);
-            alert(
-                error instanceof Error
-                    ? error.message
-                    : "Payment failed. Please try again."
-            );
+            alert(error instanceof Error ? error.message : "Payment failed. Please try again.");
         } finally {
             setLoading(false);
         }

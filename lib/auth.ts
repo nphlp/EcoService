@@ -10,10 +10,7 @@ export const auth = betterAuth({
     database: prismaAdapter(PrismaInstance, {
         provider: "mysql",
     }),
-    trustedOrigins: [
-        `${baseUrl}/register`,
-        `${baseUrl}/login`
-    ],
+    trustedOrigins: [`${baseUrl}/register`, `${baseUrl}/login`],
     emailAndPassword: {
         enabled: true,
     },
@@ -23,12 +20,7 @@ export const auth = betterAuth({
         sendVerificationEmail: async ({ user, token }) => {
             const callbackURL = "/profile";
             const urlToken =
-                baseUrl +
-                "/api/auth/verify-email?token=" +
-                token +
-                "&callbackURL=" +
-                baseUrl +
-                callbackURL;
+                baseUrl + "/api/auth/verify-email?token=" + token + "&callbackURL=" + baseUrl + callbackURL;
 
             // Send email template
             await SendEmail({
@@ -44,12 +36,7 @@ export const auth = betterAuth({
             sendChangeEmailVerification: async ({ newEmail, token }) => {
                 const callbackURL = "/profile";
                 const urlToken =
-                    baseUrl +
-                    "/api/auth/verify-email?token=" +
-                    token +
-                    "&callbackURL=" +
-                    baseUrl +
-                    callbackURL;
+                    baseUrl + "/api/auth/verify-email?token=" + token + "&callbackURL=" + baseUrl + callbackURL;
 
                 // Send email template
                 await SendEmail({
@@ -67,7 +54,7 @@ export const auth = betterAuth({
         //     enabled: true,
         //     maxAge: 60 * 5
         // }
-    }
+    },
 });
 
 /**

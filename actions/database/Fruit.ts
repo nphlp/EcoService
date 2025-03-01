@@ -1,29 +1,22 @@
 "use server";
 
 import PrismaInstance from "@lib/prisma";
-import {
-    CreateFruitProps,
-    FruitType,
-    FruitTypeReturn,
-    SelectFruitByIdProps,
-} from "@actions/types/Fruit";
+import { CreateFruitProps, FruitType, FruitTypeReturn, SelectFruitByIdProps } from "@actions/types/Fruit";
 import { FileExists } from "@actions/utils/FileExists";
 import { ImageUploads } from "@actions/utils/ImageUploads";
 
-export const CreateFruit = async (
-    props: CreateFruitProps
-): Promise<FruitTypeReturn | "Already exists" | null> => {
+export const CreateFruit = async (props: CreateFruitProps): Promise<FruitTypeReturn | "Already exists" | null> => {
     try {
         const { name, description, imageFile } = props;
 
         // TODO : zod validation
 
-        const imageFilePath = await ImageUploads({imageFile, imageName: name, folderName: "fruit"});
+        const imageFilePath = await ImageUploads({ imageFile, imageName: name, folderName: "fruit" });
 
         if (!imageFilePath) {
             return "Already exists";
         }
-        
+
         const fileExists = await FileExists(imageFilePath, "public");
 
         if (!fileExists) {
@@ -44,9 +37,7 @@ export const CreateFruit = async (
     }
 };
 
-export const SelectFruitById = async (
-    props: SelectFruitByIdProps
-): Promise<FruitTypeReturn | null> => {
+export const SelectFruitById = async (props: SelectFruitByIdProps): Promise<FruitTypeReturn | null> => {
     try {
         const { id } = props;
 
@@ -86,9 +77,7 @@ export const SelectEveryFruit = async (): Promise<FruitTypeReturn[] | null> => {
             return null;
         }
 
-        const fruitDataList: FruitTypeReturn[] = fruitDataListRaw.sort((a, b) =>
-            a.name.localeCompare(b.name)
-        );
+        const fruitDataList: FruitTypeReturn[] = fruitDataListRaw.sort((a, b) => a.name.localeCompare(b.name));
 
         fruitDataList.map(async (fruit) => {
             const fileExists = await FileExists(fruit.image, "public");

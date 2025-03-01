@@ -3,7 +3,7 @@
 export const fileToBase64 = async (file: File): Promise<string> => {
     try {
         const base64 = btoa(file as unknown as string);
-        return base64
+        return base64;
     } catch (error) {
         throw new Error("fileToBase64 -> " + (error as Error).message);
     }

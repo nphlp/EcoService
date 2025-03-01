@@ -2,14 +2,7 @@
 
 import { ProductType } from "@actions/types/Product";
 import { Options, useQueryState } from "nuqs";
-import {
-    createContext,
-    Dispatch,
-    ReactNode,
-    SetStateAction,
-    useEffect,
-    useState
-} from "react";
+import { createContext, Dispatch, ReactNode, SetStateAction, useEffect, useState } from "react";
 import { useCatalogueStore } from "./CatalogueStore";
 import {
     CategoryParam,
@@ -25,10 +18,7 @@ import {
 } from "./FilterTypes";
 
 /** UseQueryState setter function type */
-type SetterFunction<T> = (
-    value: T | ((old: T) => T),
-    options?: Options | undefined,
-) => Promise<URLSearchParams>;
+type SetterFunction<T> = (value: T | ((old: T) => T), options?: Options | undefined) => Promise<URLSearchParams>;
 
 export type FilterState = {
     // Use State
@@ -45,9 +35,7 @@ export type FilterState = {
 
 export type FilterActions = {
     // Use State
-    setProductList: Dispatch<
-        SetStateAction<ProductType[] | "isLoading" | null>
-    >;
+    setProductList: Dispatch<SetStateAction<ProductType[] | "isLoading" | null>>;
     setProductAmount: Dispatch<SetStateAction<number>>;
 
     // Use Query State
@@ -60,9 +48,7 @@ export type FilterActions = {
 
 export type FilterContextType = FilterState & FilterActions;
 
-export const FilterContext = createContext<FilterContextType>(
-    {} as FilterContextType,
-);
+export const FilterContext = createContext<FilterContextType>({} as FilterContextType);
 
 type FilterProviderProps = {
     productList: ProductType[] | null;
@@ -71,30 +57,17 @@ type FilterProviderProps = {
 };
 
 export default function FilterProvider(props: FilterProviderProps) {
-    const {
-        productList: productListInit,
-        productAmount: productAmountInit,
-        children,
-    } = props;
+    const { productList: productListInit, productAmount: productAmountInit, children } = props;
 
     // Use State (Context)
-    const [productList, setProductList] = useState<
-        ProductType[] | null | "isLoading"
-    >(productListInit);
-    const [productAmount, setProductAmount] =
-        useState<number>(productAmountInit);
+    const [productList, setProductList] = useState<ProductType[] | null | "isLoading">(productListInit);
+    const [productAmount, setProductAmount] = useState<number>(productAmountInit);
 
     // Use Query State (Context)
-    const [priceOrder, setPriceOrder] = useQueryState(
-        "priceOrder",
-        PriceOrderParam["priceOrder"],
-    );
+    const [priceOrder, setPriceOrder] = useQueryState("priceOrder", PriceOrderParam["priceOrder"]);
     const [page, setPage] = useQueryState("page", PageParam["page"]);
     const [take, setTake] = useQueryState("take", ItemsPerPageParam["take"]);
-    const [category, setCategory] = useQueryState(
-        "category",
-        CategoryParam["category"],
-    );
+    const [category, setCategory] = useQueryState("category", CategoryParam["category"]);
     const [search, setSearch] = useQueryState("search", SearchParam["search"]);
 
     const {
@@ -158,7 +131,7 @@ export default function FilterProvider(props: FilterProviderProps) {
         setPageStore,
         setTakeStore,
         setCategoryStore,
-        setSearchStore
+        setSearchStore,
     ]);
 
     // Update context when a store state change

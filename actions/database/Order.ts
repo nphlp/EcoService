@@ -22,9 +22,7 @@ import { ZodError } from "zod";
  * @param props Order properties
  * @returns Created order or null
  */
-export const CreateOrder = async (
-    props: OrderCommon
-): Promise<OrderType | null> => {
+export const CreateOrder = async (props: OrderCommon): Promise<OrderType | null> => {
     try {
         const data = orderCommonSchema.parse(props);
 
@@ -68,16 +66,9 @@ export const SelectOrder = async (props: OrderId): Promise<OrderType | null> => 
  * @param props Filter and pagination options
  * @returns List of orders or null
  */
-export const SelectOrderList = async (
-    props: SelectOrderListProps
-): Promise<OrderType[] | null> => {
+export const SelectOrderList = async (props: SelectOrderListProps): Promise<OrderType[] | null> => {
     try {
-        const {
-            orderBy,
-            take = 10,
-            skip = 0,
-            where,
-        } = selectOrderListSchema.parse(props);
+        const { orderBy, take = 10, skip = 0, where } = selectOrderListSchema.parse(props);
 
         const orderDataList: OrderType[] = await PrismaInstance.order.findMany({
             ...(orderBy && { orderBy }),
@@ -101,9 +92,7 @@ export const SelectOrderList = async (
  * @param props Filter options
  * @returns Count of orders or null
  */
-export const SelectOrderAmount = async (
-    props: SelectOrderAmountProps
-): Promise<number | null> => {
+export const SelectOrderAmount = async (props: SelectOrderAmountProps): Promise<number | null> => {
     try {
         const { where } = selectOrderAmountSchema.parse(props);
 
@@ -126,9 +115,7 @@ export const SelectOrderAmount = async (
  * @param props Order ID and new data
  * @returns Updated order or null
  */
-export const UpdateOrder = async (
-    props: OrderUpdate
-): Promise<OrderType | null> => {
+export const UpdateOrder = async (props: OrderUpdate): Promise<OrderType | null> => {
     try {
         const { id, data } = orderUpdateSchema.parse(props);
 

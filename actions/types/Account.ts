@@ -24,10 +24,7 @@ export type AccountUpdate = {
 export type AccountTimestamps = Pick<Account, "createdAt" | "updatedAt">;
 
 /** Find many options for accounts */
-export type SelectAccountListProps = Pick<
-    Prisma.AccountFindManyArgs,
-    "orderBy" | "take" | "skip" | "where"
->;
+export type SelectAccountListProps = Pick<Prisma.AccountFindManyArgs, "orderBy" | "take" | "skip" | "where">;
 
 /** Count options for accounts */
 export type SelectAccountAmountProps = Pick<Prisma.AccountCountArgs, "where">;
@@ -63,27 +60,25 @@ export const accountUpdateSchema: ZodType<AccountUpdate> = z.object({
     data: accountCommonSchema,
 });
 
-export const selectAccountListSchema: ZodType<SelectAccountListProps> =
-    z.object({
-        orderBy: z
-            .object({
-                // Types to validate
-            })
-            .optional(),
-        take: z.number().min(1).max(100).optional(),
-        skip: z.number().min(0).optional(),
-        where: z
-            .object({
-                // Types to validate
-            })
-            .optional(),
-    });
+export const selectAccountListSchema: ZodType<SelectAccountListProps> = z.object({
+    orderBy: z
+        .object({
+            // Types to validate
+        })
+        .optional(),
+    take: z.number().min(1).max(100).optional(),
+    skip: z.number().min(0).optional(),
+    where: z
+        .object({
+            // Types to validate
+        })
+        .optional(),
+});
 
-export const selectAccountAmountSchema: ZodType<SelectAccountAmountProps> =
-    z.object({
-        where: z
-            .object({
-                // Types to validate
-            })
-            .optional(),
-    });
+export const selectAccountAmountSchema: ZodType<SelectAccountAmountProps> = z.object({
+    where: z
+        .object({
+            // Types to validate
+        })
+        .optional(),
+});

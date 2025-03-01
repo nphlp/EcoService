@@ -3,9 +3,8 @@ import ImageRatio from "@comps/server/ImageRatio";
 import { combo } from "@lib/combo";
 
 export default async function Page() {
-
     const imageClass = "h-[100px] sm:h-[150px] md:h-[120px] lg:h-[160px] xl:h-[220px] rounded";
-    
+
     return (
         <>
             <section className="flex flex-row items-center justify-between gap-12 bg-primary p-16">
@@ -14,15 +13,11 @@ export default async function Page() {
                     <div className="text-secondary">zéro déchet</div>
                 </div>
                 <div className="flex flex-row items-center justify-center gap-4">
-                    <ImageRatio
-                        src="/illustration/produit 2.jpg"
-                        alt="produit"
-                        className={imageClass}
-                    />
+                    <ImageRatio src="/illustration/produit 2.jpg" alt="produit" className={imageClass} />
                     <ImageRatio
                         src="/illustration/coton 3.jpg"
                         alt="coton"
-                        className={combo("max-md:hidden",imageClass)}
+                        className={combo("max-md:hidden", imageClass)}
                     />
                 </div>
             </section>
@@ -41,9 +36,7 @@ export default async function Page() {
                 />
             </section>
             <section className="space-y-3 bg-primary p-8">
-                <h2 className="text-center text-2xl font-bold text-white">
-                    Nos produits
-                </h2>
+                <h2 className="text-center text-2xl font-bold text-white">Nos produits</h2>
                 <SliderClient
                     imageList={[
                         "/illustration/pshit 1.jpg",

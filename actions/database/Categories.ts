@@ -22,9 +22,7 @@ import { ZodError } from "zod";
  * @param props Category properties
  * @returns Created category or null
  */
-export const CreateCategory = async (
-    props: CategoryCommon,
-): Promise<CategoryType | null> => {
+export const CreateCategory = async (props: CategoryCommon): Promise<CategoryType | null> => {
     try {
         const data = categoryCommonSchema.parse(props);
 
@@ -45,15 +43,12 @@ export const CreateCategory = async (
  * @param props Category ID
  * @returns Found category or null
  */
-export const SelectCategory = async (
-    props: CategoryId,
-): Promise<CategoryType | null> => {
+export const SelectCategory = async (props: CategoryId): Promise<CategoryType | null> => {
     try {
         const { id } = categoryIdObjectSchema.parse(props);
-        const categoryData: CategoryType | null =
-            await PrismaInstance.category.findUnique({
-                where: { id },
-            });
+        const categoryData: CategoryType | null = await PrismaInstance.category.findUnique({
+            where: { id },
+        });
         return categoryData;
     } catch (error) {
         console.error("SelectCategory -> " + (error as Error).message);
@@ -69,24 +64,16 @@ export const SelectCategory = async (
  * @param props Filter and pagination options
  * @returns List of categories or null
  */
-export const SelectCategoryList = async (
-    props: SelectCategoryListProps,
-): Promise<CategoryType[] | null> => {
+export const SelectCategoryList = async (props: SelectCategoryListProps): Promise<CategoryType[] | null> => {
     try {
-        const {
-            orderBy,
-            take = 10,
-            skip = 0,
-            where,
-        } = selectCategoryListSchema.parse(props);
+        const { orderBy, take = 10, skip = 0, where } = selectCategoryListSchema.parse(props);
 
-        const categoryDataList: CategoryType[] =
-            await PrismaInstance.category.findMany({
-                ...(orderBy && { orderBy }),
-                ...(take && { take }),
-                ...(skip && { skip }),
-                ...(where && { where }),
-            });
+        const categoryDataList: CategoryType[] = await PrismaInstance.category.findMany({
+            ...(orderBy && { orderBy }),
+            ...(take && { take }),
+            ...(skip && { skip }),
+            ...(where && { where }),
+        });
         return categoryDataList.length ? categoryDataList : null;
     } catch (error) {
         console.error("SelectCategoryList -> " + (error as Error).message);
@@ -102,9 +89,7 @@ export const SelectCategoryList = async (
  * @param props Filter options
  * @returns Count of categories or null
  */
-export const SelectCategoryAmount = async (
-    props: SelectCategoryAmountProps,
-): Promise<number | null> => {
+export const SelectCategoryAmount = async (props: SelectCategoryAmountProps): Promise<number | null> => {
     try {
         const { where } = selectCategoryAmountSchema.parse(props);
 
@@ -127,17 +112,13 @@ export const SelectCategoryAmount = async (
  * @param props Category ID and new data
  * @returns Updated category or null
  */
-export const UpdateCategory = async (
-    props: CategoryUpdate,
-): Promise<CategoryType | null> => {
+export const UpdateCategory = async (props: CategoryUpdate): Promise<CategoryType | null> => {
     try {
         const { id, data } = categoryUpdateSchema.parse(props);
-        const categoryData: CategoryType = await PrismaInstance.category.update(
-            {
-                where: { id },
-                data,
-            },
-        );
+        const categoryData: CategoryType = await PrismaInstance.category.update({
+            where: { id },
+            data,
+        });
         return categoryData;
     } catch (error) {
         console.error("UpdateCategory -> " + (error as Error).message);
@@ -153,16 +134,12 @@ export const UpdateCategory = async (
  * @param props Category ID
  * @returns Deleted category or null
  */
-export const DeleteCategory = async (
-    props: CategoryId,
-): Promise<CategoryType | null> => {
+export const DeleteCategory = async (props: CategoryId): Promise<CategoryType | null> => {
     try {
         const { id } = categoryIdObjectSchema.parse(props);
-        const categoryData: CategoryType = await PrismaInstance.category.delete(
-            {
-                where: { id },
-            },
-        );
+        const categoryData: CategoryType = await PrismaInstance.category.delete({
+            where: { id },
+        });
         return categoryData;
     } catch (error) {
         console.error("DeleteCategory -> " + (error as Error).message);

@@ -5,7 +5,6 @@ import LogoutClient from "../Logout";
 import { Leaf } from "lucide-react";
 import { combo } from "@lib/combo";
 
-
 type MobileHeaderProps = {
     session: BetterSessionClient | null;
 };
@@ -36,20 +35,12 @@ export default function MobileHeader(props: MobileHeaderProps) {
                 variant="none"
                 padding="none"
                 ring={false}
-                className={combo(
-                    "absolute inset-0 z-40 rounded-none bg-black opacity-10",
-                    !visibilityMenu && "hidden",
-                )}
+                className={combo("absolute inset-0 z-40 rounded-none bg-black opacity-10", !visibilityMenu && "hidden")}
                 onClick={() => setVisibilityMenu(false)}
             >
                 {""}
             </ButtonClient>
-            <nav
-                className={combo(
-                    "absolute bottom-0 left-0 z-50 w-full px-4 pb-4",
-                    !visibilityMenu && "hidden",
-                )}
-            >
+            <nav className={combo("absolute bottom-0 left-0 z-50 w-full px-4 pb-4", !visibilityMenu && "hidden")}>
                 <div className="flex w-full flex-col items-center justify-center gap-2 rounded-2xl border border-gray-300 bg-white p-4 shadow-md">
                     <ButtonClient
                         type="link"
@@ -129,4 +120,4 @@ export default function MobileHeader(props: MobileHeaderProps) {
             </nav>
         </>
     );
-};
+}

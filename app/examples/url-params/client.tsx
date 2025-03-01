@@ -9,10 +9,7 @@ export default function ParamsExampleClient() {
 
     const [page, setPage] = useQueryState("page", PageParam["page"]);
     const [type, setType] = useQueryState("type", TypeParam["type"]);
-    const [checked, setChecked] = useQueryState(
-        "checked",
-        CheckedParam["checked"],
-    );
+    const [checked, setChecked] = useQueryState("checked", CheckedParam["checked"]);
 
     // console.log("Client component", "\n", { page, type, checked });
 

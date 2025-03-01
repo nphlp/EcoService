@@ -16,18 +16,15 @@ export type SessionCommon = Omit<Session, "id" | "createdAt" | "updatedAt">;
 
 /** Represents data structure for updating a session */
 export type SessionUpdate = {
-  id: Session["id"];
-  data: SessionCommon;
+    id: Session["id"];
+    data: SessionCommon;
 };
 
 /** Represents system-managed timestamp fields */
 export type SessionTimestamps = Pick<Session, "createdAt" | "updatedAt">;
 
 /** Find many options for sessions */
-export type SelectSessionListProps = Pick<
-    Prisma.SessionFindManyArgs,
-    "orderBy" | "take" | "skip" | "where"
->;
+export type SelectSessionListProps = Pick<Prisma.SessionFindManyArgs, "orderBy" | "take" | "skip" | "where">;
 
 /** Count options for sessions */
 export type SelectSessionAmountProps = Pick<Prisma.SessionCountArgs, "where">;

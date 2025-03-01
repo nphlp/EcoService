@@ -51,9 +51,7 @@ export default function ProductManager() {
             setFormData({
                 name: editingProduct.name,
                 description: editingProduct.description,
-                amount: (
-                    (editingProduct.default_price?.unit_amount || 0) / 100
-                ).toString(),
+                amount: ((editingProduct.default_price?.unit_amount || 0) / 100).toString(),
                 currency: "eur",
                 image: null,
             });
@@ -109,20 +107,14 @@ export default function ProductManager() {
                 formDataToSend.append("image", formData.image);
             }
 
-            const response = await fetch(
-                editingProduct
-                    ? `/api/products/${editingProduct.id}`
-                    : "/api/products",
-                {
-                    method: editingProduct ? "PUT" : "POST",
-                    body: formDataToSend,
-                },
-            );
+            const response = await fetch(editingProduct ? `/api/products/${editingProduct.id}` : "/api/products", {
+                method: editingProduct ? "PUT" : "POST",
+                body: formDataToSend,
+            });
 
             const data = await response.json();
 
-            if (!response.ok)
-                throw new Error(data.error || "Failed to save product");
+            if (!response.ok) throw new Error(data.error || "Failed to save product");
 
             // Reset form
             setFormData({
@@ -139,11 +131,7 @@ export default function ProductManager() {
             }
 
             await fetchProducts();
-            alert(
-                editingProduct
-                    ? "Product updated successfully!"
-                    : "Product created successfully!",
-            );
+            alert(editingProduct ? "Product updated successfully!" : "Product created successfully!");
         } catch (error) {
             console.error("Error saving product:", error);
             alert("Failed to save product: " + (error as Error).message);
@@ -196,9 +184,7 @@ export default function ProductManager() {
             <div className="mx-auto max-w-7xl px-4 py-16">
                 {/* Filter Section */}
                 <div className="mb-12 flex items-center justify-between">
-                    <h2 className="text-3xl font-bold text-gray-900">
-                        Nos Services
-                    </h2>
+                    <h2 className="text-3xl font-bold text-gray-900">Nos Services</h2>
                     <ButtonClient
                         type="button"
                         label="Filtrer"
@@ -212,10 +198,7 @@ export default function ProductManager() {
                 {/* Product Grid */}
                 <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                     {products.map((product) => (
-                        <div
-                            key={product.id}
-                            className="flex flex-col items-center"
-                        >
+                        <div key={product.id} className="flex flex-col items-center">
                             <div className="w-full overflow-hidden rounded-lg">
                                 {product.images?.[0] ? (
                                     <div className="relative aspect-[3/2] w-full">
@@ -229,21 +212,13 @@ export default function ProductManager() {
                                     </div>
                                 ) : (
                                     <div className="relative flex aspect-[3/2] w-full items-center justify-center rounded-lg bg-gray-100">
-                                        <span className="text-gray-400">
-                                            No image
-                                        </span>
+                                        <span className="text-gray-400">No image</span>
                                     </div>
                                 )}
                             </div>
                             <div className="mt-4 text-center">
-                                <h3 className="text-xl text-primary">
-                                    {product.name}
-                                </h3>
-                                <p className="mt-1 text-lg">
-                                    {(product.default_price?.unit_amount || 0) /
-                                        100}
-                                    €
-                                </p>
+                                <h3 className="text-xl text-primary">{product.name}</h3>
+                                <p className="mt-1 text-lg">{(product.default_price?.unit_amount || 0) / 100}€</p>
                             </div>
                         </div>
                     ))}
@@ -253,27 +228,20 @@ export default function ProductManager() {
             {/* Create/Edit Form Section */}
             <div className="mt-24 bg-gradient-to-br from-[#0A0A2C] to-[#1a1a4b] text-white">
                 <div className="mx-auto max-w-4xl px-4 py-24">
-                    <h2 className="mb-4 text-4xl font-bold">
-                        Créez votre service
-                    </h2>
+                    <h2 className="mb-4 text-4xl font-bold">Créez votre service</h2>
                     <p className="mb-12 text-xl text-gray-300">
                         Partagez vos solutions écologiques avec notre communauté
                     </p>
                     <Card className="rounded-2xl border border-white/10 bg-white/5 p-8 backdrop-blur-lg">
                         <form onSubmit={createProduct} className="space-y-8">
                             <div>
-                                <label
-                                    htmlFor="name"
-                                    className="mb-2 text-lg font-medium text-white"
-                                >
+                                <label htmlFor="name" className="mb-2 text-lg font-medium text-white">
                                     Nom du service
                                 </label>
                                 <input
                                     id="name"
                                     value={formData.name}
-                                    onChange={(
-                                        e: React.ChangeEvent<HTMLInputElement>,
-                                    ) =>
+                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                                         setFormData({
                                             ...formData,
                                             name: e.target.value,
@@ -289,18 +257,13 @@ export default function ProductManager() {
                             </div>
 
                             <div>
-                                <label
-                                    htmlFor="description"
-                                    className="mb-2 text-lg font-medium text-white"
-                                >
+                                <label htmlFor="description" className="mb-2 text-lg font-medium text-white">
                                     Description
                                 </label>
                                 <textarea
                                     id="description"
                                     value={formData.description}
-                                    onChange={(
-                                        e: React.ChangeEvent<HTMLTextAreaElement>,
-                                    ) =>
+                                    onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
                                         setFormData({
                                             ...formData,
                                             description: e.target.value,
@@ -316,10 +279,7 @@ export default function ProductManager() {
                             </div>
 
                             <div>
-                                <label
-                                    htmlFor="amount"
-                                    className="mb-2 text-lg font-medium text-white"
-                                >
+                                <label htmlFor="amount" className="mb-2 text-lg font-medium text-white">
                                     Prix
                                 </label>
                                 <div className="relative">
@@ -328,9 +288,7 @@ export default function ProductManager() {
                                         type="number"
                                         step="0.01"
                                         value={formData.amount}
-                                        onChange={(
-                                            e: React.ChangeEvent<HTMLInputElement>,
-                                        ) =>
+                                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                                             setFormData({
                                                 ...formData,
                                                 amount: e.target.value,
@@ -343,17 +301,12 @@ export default function ProductManager() {
                                         )}
                                         required
                                     />
-                                    <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
-                                        €
-                                    </span>
+                                    <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">€</span>
                                 </div>
                             </div>
 
                             <div>
-                                <label
-                                    htmlFor="image"
-                                    className="mb-2 text-lg font-medium text-white"
-                                >
+                                <label htmlFor="image" className="mb-2 text-lg font-medium text-white">
                                     Image
                                 </label>
                                 <div className="mt-2 flex w-full items-center justify-center">
@@ -373,8 +326,7 @@ export default function ProductManager() {
                                                 />
                                             </svg>
                                             <p className="mt-2 text-sm text-gray-400">
-                                                Glissez une image ou cliquez
-                                                pour sélectionner
+                                                Glissez une image ou cliquez pour sélectionner
                                             </p>
                                         </div>
                                         <input
@@ -390,12 +342,7 @@ export default function ProductManager() {
                                 </div>
                                 {imagePreview && (
                                     <div className="relative mt-4 aspect-video w-full overflow-hidden rounded-xl">
-                                        <Image
-                                            src={imagePreview}
-                                            alt="Preview"
-                                            fill
-                                            className="object-cover"
-                                        />
+                                        <Image src={imagePreview} alt="Preview" fill className="object-cover" />
                                     </div>
                                 )}
                             </div>
@@ -403,11 +350,7 @@ export default function ProductManager() {
                             <div className="flex gap-4 pt-4">
                                 <ButtonClient
                                     type="submit"
-                                    label={
-                                        editingProduct
-                                            ? "Mettre à jour"
-                                            : "Créer le service"
-                                    }
+                                    label={editingProduct ? "Mettre à jour" : "Créer le service"}
                                     loadingLabel="Enregistrement..."
                                     isLoading={loading}
                                     // className={combo(
@@ -416,9 +359,7 @@ export default function ProductManager() {
                                     //     "transition-all disabled:cursor-not-allowed disabled:opacity-50"
                                     // )}
                                 >
-                                    {editingProduct
-                                        ? "Mettre à jour"
-                                        : "Créer le service"}
+                                    {editingProduct ? "Mettre à jour" : "Créer le service"}
                                 </ButtonClient>
                                 {editingProduct && (
                                     <ButtonClient
@@ -455,19 +396,14 @@ export default function ProductManager() {
                 <div className="mx-auto max-w-7xl px-4 py-24">
                     <div className="grid grid-cols-1 gap-16 md:grid-cols-3">
                         <div>
-                            <h3 className="mb-6 text-2xl font-bold text-[#5CEBDF]">
-                                À propos
-                            </h3>
+                            <h3 className="mb-6 text-2xl font-bold text-[#5CEBDF]">À propos</h3>
                             <p className="text-gray-300">
-                                Notre mission est de faciliter l&apos;accès aux
-                                services écologiques pour un avenir plus
+                                Notre mission est de faciliter l&apos;accès aux services écologiques pour un avenir plus
                                 durable.
                             </p>
                         </div>
                         <div>
-                            <h3 className="mb-6 text-2xl font-bold text-[#5CEBDF]">
-                                Contact
-                            </h3>
+                            <h3 className="mb-6 text-2xl font-bold text-[#5CEBDF]">Contact</h3>
                             <p className="text-gray-300">
                                 Email: contact@ecoservice.com
                                 <br />
@@ -475,12 +411,8 @@ export default function ProductManager() {
                             </p>
                         </div>
                         <div>
-                            <h3 className="mb-6 text-2xl font-bold text-[#5CEBDF]">
-                                Suivez-nous
-                            </h3>
-                            <div className="flex gap-4">
-                                {/* Add social media icons here */}
-                            </div>
+                            <h3 className="mb-6 text-2xl font-bold text-[#5CEBDF]">Suivez-nous</h3>
+                            <div className="flex gap-4">{/* Add social media icons here */}</div>
                         </div>
                     </div>
                 </div>

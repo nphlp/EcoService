@@ -4,24 +4,12 @@ import { Image as ImageTemplate } from "lucide-react";
 import Image from "next/image";
 import { ReactNode } from "react";
 
-export const ImageCard = (props: {
-    className?: string;
-    children: ReactNode;
-}) => {
+export const ImageCard = (props: { className?: string; children: ReactNode }) => {
     const { className, children } = props;
-    return (
-        <Card className={combo("w-fit overflow-hidden p-0", className)}>
-            {children}
-        </Card>
-    );
+    return <Card className={combo("w-fit overflow-hidden p-0", className)}>{children}</Card>;
 };
 
-export const Img = (props: {
-    src: string | null;
-    alt: string;
-    height?: number;
-    width?: number;
-}) => {
+export const Img = (props: { src: string | null; alt: string; height?: number; width?: number }) => {
     const { src, height, width, alt } = props;
 
     if (!src) {
@@ -30,13 +18,7 @@ export const Img = (props: {
 
     return (
         <div className="flex aspect-[3/2]">
-            <Image
-                src={src}
-                alt={alt}
-                width={width ?? 300}
-                height={height ?? 200}
-                className="object-cover"
-            />
+            <Image src={src} alt={alt} width={width ?? 300} height={height ?? 200} className="object-cover" />
         </div>
     );
 };

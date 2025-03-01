@@ -22,9 +22,7 @@ import { ZodError } from "zod";
  * @param props User properties
  * @returns Created user or null
  */
-export const CreateUser = async (
-    props: UserCommon
-): Promise<UserType | null> => {
+export const CreateUser = async (props: UserCommon): Promise<UserType | null> => {
     try {
         const data = userCommonSchema.parse(props);
 
@@ -68,16 +66,9 @@ export const SelectUser = async (props: UserId): Promise<UserType | null> => {
  * @param props Filter and pagination options
  * @returns List of users or null
  */
-export const SelectUserList = async (
-    props: SelectUserListProps
-): Promise<UserType[] | null> => {
+export const SelectUserList = async (props: SelectUserListProps): Promise<UserType[] | null> => {
     try {
-        const {
-            orderBy,
-            take = 10,
-            skip = 0,
-            where,
-        } = selectUserListSchema.parse(props);
+        const { orderBy, take = 10, skip = 0, where } = selectUserListSchema.parse(props);
 
         const userDataList: UserType[] = await PrismaInstance.user.findMany({
             ...(orderBy && { orderBy }),
@@ -101,9 +92,7 @@ export const SelectUserList = async (
  * @param props Filter options
  * @returns Count of users or null
  */
-export const SelectUserAmount = async (
-    props: SelectUserAmountProps
-): Promise<number | null> => {
+export const SelectUserAmount = async (props: SelectUserAmountProps): Promise<number | null> => {
     try {
         const { where } = selectUserAmountSchema.parse(props);
 
@@ -126,9 +115,7 @@ export const SelectUserAmount = async (
  * @param props User ID and new data
  * @returns Updated user or null
  */
-export const UpdateUser = async (
-    props: UserUpdate
-): Promise<UserType | null> => {
+export const UpdateUser = async (props: UserUpdate): Promise<UserType | null> => {
     try {
         const { id, data } = userUpdateSchema.parse(props);
 

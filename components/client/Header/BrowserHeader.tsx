@@ -7,13 +7,7 @@ import { BetterSessionClient } from "@lib/client";
 import { combo } from "@lib/combo";
 import { Category } from "@prisma/client";
 import { motion } from "framer-motion";
-import {
-    ChevronUp,
-    CircleChevronRight,
-    Search,
-    ShoppingCart,
-    UserRound,
-} from "lucide-react";
+import { ChevronUp, CircleChevronRight, Search, ShoppingCart, UserRound } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import { MouseEvent, ReactNode, useState } from "react";
 import ButtonClient from "../Button";
@@ -40,24 +34,15 @@ export default function BrowserHeader(props: BrowserHeaderProps) {
 const NavSection = () => {
     const path = usePathname();
 
-    const {
-        categorieOpen,
-        setCategorieOpen,
-        searchOpen,
-        setSearchOpen,
-        accountOpen,
-        setAccountOpen,
-    } = useHeaderStore();
+    const { categorieOpen, setCategorieOpen, searchOpen, setSearchOpen, accountOpen, setAccountOpen } =
+        useHeaderStore();
 
     const [isHomeHovered, setIsHomeHovered] = useState(false);
 
     return (
         <nav className="flex flex-row items-center justify-between gap-5 p-5 py-4">
             {/* Home button */}
-            <motion.div
-                onHoverStart={() => setIsHomeHovered(true)}
-                onHoverEnd={() => setIsHomeHovered(false)}
-            >
+            <motion.div onHoverStart={() => setIsHomeHovered(true)} onHoverEnd={() => setIsHomeHovered(false)}>
                 <ButtonClient
                     type="link"
                     // pageTransition={true}
@@ -69,9 +54,7 @@ const NavSection = () => {
                 >
                     <Logo className="size-9" />
                     <span className="relative">
-                        <div className="text-2xl font-semibold uppercase">
-                            Circle
-                        </div>
+                        <div className="text-2xl font-semibold uppercase">Circle</div>
                         <motion.div
                             initial={{ width: 0 }}
                             animate={{ width: isHomeHovered ? "75%" : 0 }}
@@ -97,10 +80,7 @@ const NavSection = () => {
                         setSearchOpen(false);
                         setCategorieOpen(false);
                     }}
-                    className={combo(
-                        "px-8",
-                        path === "/catalogue" && "font-bold",
-                    )}
+                    className={combo("px-8", path === "/catalogue" && "font-bold")}
                 >
                     Catalogue
                 </ButtonClient>
@@ -120,9 +100,7 @@ const NavSection = () => {
                     }}
                     onKeyDown={(e) => {
                         if (e.key === "Enter") {
-                            const el = document.querySelector(
-                                "#categorie-1",
-                            ) as HTMLElement;
+                            const el = document.querySelector("#categorie-1") as HTMLElement;
                             el.focus();
                         }
                     }}
@@ -156,9 +134,7 @@ const NavSection = () => {
                     onKeyDown={(e) => {
                         if (e.key === "Enter") {
                             e.preventDefault(); // Prevent submitting the form
-                            const el = document.querySelector(
-                                "#search",
-                            ) as HTMLElement;
+                            const el = document.querySelector("#search") as HTMLElement;
                             el.focus();
                         }
                     }}
@@ -196,9 +172,7 @@ const NavSection = () => {
                     }}
                     onKeyDown={(e) => {
                         if (e.key === "Enter") {
-                            const el = document.querySelector(
-                                "#account",
-                            ) as HTMLElement;
+                            const el = document.querySelector("#account") as HTMLElement;
                             el.focus();
                         }
                     }}
@@ -242,23 +216,14 @@ const SubSection = (props: SubSectionProps) => {
     const router = useRouter();
 
     const { categorieList, session } = props;
-    const { categorieOpen, searchOpen, accountOpen, setSearchOpen } =
-        useHeaderStore();
+    const { categorieOpen, searchOpen, accountOpen, setSearchOpen } = useHeaderStore();
 
     const [isHovered, setIsHovered] = useState(false);
     const [searchValue, setSearchValue] = useState("");
 
-    const {
-        resetStore,
-        setCategoryStore,
-        setSearchStore,
-        setProductListStore,
-    } = useCatalogueStore();
+    const { resetStore, setCategoryStore, setSearchStore, setProductListStore } = useCatalogueStore();
 
-    const handleCategory = (
-        e: MouseEvent<HTMLAnchorElement, globalThis.MouseEvent>,
-        id: string,
-    ) => {
+    const handleCategory = (e: MouseEvent<HTMLAnchorElement, globalThis.MouseEvent>, id: string) => {
         e.preventDefault();
 
         if (path === "/catalogue") {
@@ -269,7 +234,7 @@ const SubSection = (props: SubSectionProps) => {
 
         // Reset Zustand store values before navigating
         resetStore();
-        
+
         // Navigate to catalogue with category
         router.push(urlSerializer("/catalogue", { category: id }));
     };
@@ -284,12 +249,12 @@ const SubSection = (props: SubSectionProps) => {
         }
 
         // Reset Zustand store values before navigating
-        resetStore()
+        resetStore();
 
         // Close search panel and await panel closing animation to finish
         setSearchOpen(false);
         setTimeout(() => setSearchValue(""), 300);
-        
+
         // Navigate to catalogue with search
         router.push(urlSerializer("/catalogue", { search }));
     };
@@ -298,9 +263,7 @@ const SubSection = (props: SubSectionProps) => {
         <>
             {/* Categorie section */}
             <MotionSection open={categorieOpen}>
-                <h3 className="w-full text-2xl font-bold text-primary">
-                    Catégories
-                </h3>
+                <h3 className="w-full text-2xl font-bold text-primary">Catégories</h3>
                 {categorieList.map(({ id, name }, index) => (
                     <ButtonClient
                         {...(index === 0 && { id: "categorie-1" })}
@@ -319,13 +282,8 @@ const SubSection = (props: SubSectionProps) => {
 
             {/* Search section */}
             <MotionSection open={searchOpen}>
-                <h3 className="w-full text-2xl font-bold text-primary">
-                    Rechercher
-                </h3>
-                <form
-                    action={handleSearch}
-                    className="flex w-1/2 flex-row gap-3"
-                >
+                <h3 className="w-full text-2xl font-bold text-primary">Rechercher</h3>
+                <form action={handleSearch} className="flex w-1/2 flex-row gap-3">
                     <InputClient
                         type="text"
                         label="search"
@@ -335,10 +293,7 @@ const SubSection = (props: SubSectionProps) => {
                         onChange={(e) => setSearchValue(e.target.value)}
                         value={searchValue}
                     />
-                    <motion.div
-                        onHoverStart={() => setIsHovered(true)}
-                        onHoverEnd={() => setIsHovered(false)}
-                    >
+                    <motion.div onHoverStart={() => setIsHovered(true)} onHoverEnd={() => setIsHovered(false)}>
                         <ButtonClient
                             type="submit"
                             label="search"
@@ -367,9 +322,7 @@ const SubSection = (props: SubSectionProps) => {
             <MotionSection open={accountOpen}>
                 {!session && (
                     <>
-                        <h3 className="w-full text-2xl font-bold text-primary">
-                            Mon compte
-                        </h3>
+                        <h3 className="w-full text-2xl font-bold text-primary">Mon compte</h3>
 
                         <ButtonClient
                             id="account"
@@ -377,10 +330,7 @@ const SubSection = (props: SubSectionProps) => {
                             href="/register"
                             label="register"
                             variant="outline"
-                            className={combo(
-                                "px-8",
-                                path === "/register" && "font-bold",
-                            )}
+                            className={combo("px-8", path === "/register" && "font-bold")}
                         >
                             Register
                         </ButtonClient>
@@ -389,10 +339,7 @@ const SubSection = (props: SubSectionProps) => {
                             href="/login"
                             label="login"
                             variant="outline"
-                            className={combo(
-                                "px-8",
-                                path === "/login" && "font-bold",
-                            )}
+                            className={combo("px-8", path === "/login" && "font-bold")}
                         >
                             Login
                         </ButtonClient>
@@ -406,10 +353,7 @@ const SubSection = (props: SubSectionProps) => {
                             href="/profile"
                             label="profile"
                             variant="outline"
-                            className={combo(
-                                "px-8",
-                                path === "/profile" && "font-bold",
-                            )}
+                            className={combo("px-8", path === "/profile" && "font-bold")}
                         >
                             Profile
                         </ButtonClient>
@@ -429,8 +373,7 @@ type MotionSectionProps = {
 const MotionSection = (props: MotionSectionProps) => {
     const { children, open } = props;
 
-    const { setAccountOpen, setSearchOpen, setCategorieOpen } =
-        useHeaderStore();
+    const { setAccountOpen, setSearchOpen, setCategorieOpen } = useHeaderStore();
 
     return (
         <motion.div

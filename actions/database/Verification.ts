@@ -22,9 +22,7 @@ import { ZodError } from "zod";
  * @param props Verification properties
  * @returns Created verification or null
  */
-export const CreateVerification = async (
-    props: VerificationCommon
-): Promise<VerificationType | null> => {
+export const CreateVerification = async (props: VerificationCommon): Promise<VerificationType | null> => {
     try {
         const data = verificationCommonSchema.parse(props);
 
@@ -69,15 +67,10 @@ export const SelectVerification = async (props: VerificationId): Promise<Verific
  * @returns List of verifications or null
  */
 export const SelectVerificationList = async (
-    props: SelectVerificationListProps
+    props: SelectVerificationListProps,
 ): Promise<VerificationType[] | null> => {
     try {
-        const {
-            orderBy,
-            take = 10,
-            skip = 0,
-            where,
-        } = selectVerificationListSchema.parse(props);
+        const { orderBy, take = 10, skip = 0, where } = selectVerificationListSchema.parse(props);
 
         const verificationDataList: VerificationType[] = await PrismaInstance.verification.findMany({
             ...(orderBy && { orderBy }),
@@ -101,9 +94,7 @@ export const SelectVerificationList = async (
  * @param props Filter options
  * @returns Count of verifications or null
  */
-export const SelectVerificationAmount = async (
-    props: SelectVerificationAmountProps
-): Promise<number | null> => {
+export const SelectVerificationAmount = async (props: SelectVerificationAmountProps): Promise<number | null> => {
     try {
         const { where } = selectVerificationAmountSchema.parse(props);
 
@@ -126,9 +117,7 @@ export const SelectVerificationAmount = async (
  * @param props Verification ID and new data
  * @returns Updated verification or null
  */
-export const UpdateVerification = async (
-    props: VerificationUpdate
-): Promise<VerificationType | null> => {
+export const UpdateVerification = async (props: VerificationUpdate): Promise<VerificationType | null> => {
     try {
         const { id, data } = verificationUpdateSchema.parse(props);
 

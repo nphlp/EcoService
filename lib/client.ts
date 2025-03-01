@@ -20,7 +20,7 @@ export const {
 /**
  * Type for the session data
  */
-export type BetterSessionClient = ReturnType<typeof useSession>['data'];
+export type BetterSessionClient = ReturnType<typeof useSession>["data"];
 
 /**
  * Type for the session list

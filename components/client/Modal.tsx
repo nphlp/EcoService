@@ -24,9 +24,7 @@ export default function ModalClient(props: ModalClientProps) {
                 onClick={() => setModalVisible(false)}
                 className="absolute left-0 top-0 z-50 h-screen w-screen bg-black/50 backdrop-blur-sm"
             />
-            <Card className={combo("relative z-50 bg-white", className)}>
-                {children}
-            </Card>
+            <Card className={combo("relative z-50 bg-white", className)}>{children}</Card>
         </div>
     );
 }

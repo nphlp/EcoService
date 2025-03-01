@@ -22,9 +22,7 @@ import { ZodError } from "zod";
  * @param props Quantity properties
  * @returns Created quantity or null
  */
-export const CreateQuantity = async (
-    props: QuantityCommon,
-): Promise<QuantityType | null> => {
+export const CreateQuantity = async (props: QuantityCommon): Promise<QuantityType | null> => {
     try {
         const data = quantityCommonSchema.parse(props);
 
@@ -45,16 +43,13 @@ export const CreateQuantity = async (
  * @param props Quantity ID
  * @returns Found quantity or null
  */
-export const SelectQuantity = async (
-    props: QuantityId,
-): Promise<QuantityType | null> => {
+export const SelectQuantity = async (props: QuantityId): Promise<QuantityType | null> => {
     try {
         const { id } = quantityIdObjectSchema.parse(props);
 
-        const quantityData: QuantityType | null =
-            await PrismaInstance.quantity.findUnique({
-                where: { id },
-            });
+        const quantityData: QuantityType | null = await PrismaInstance.quantity.findUnique({
+            where: { id },
+        });
 
         return quantityData;
     } catch (error) {
@@ -71,24 +66,16 @@ export const SelectQuantity = async (
  * @param props Filter and pagination options
  * @returns List of quantities or null
  */
-export const SelectQuantityList = async (
-    props: SelectQuantityListProps,
-): Promise<QuantityType[] | null> => {
+export const SelectQuantityList = async (props: SelectQuantityListProps): Promise<QuantityType[] | null> => {
     try {
-        const {
-            orderBy,
-            take = 10,
-            skip = 0,
-            where,
-        } = selectQuantityListSchema.parse(props);
+        const { orderBy, take = 10, skip = 0, where } = selectQuantityListSchema.parse(props);
 
-        const quantityDataList: QuantityType[] =
-            await PrismaInstance.quantity.findMany({
-                ...(orderBy && { orderBy }),
-                ...(take && { take }),
-                ...(skip && { skip }),
-                ...(where && { where }),
-            });
+        const quantityDataList: QuantityType[] = await PrismaInstance.quantity.findMany({
+            ...(orderBy && { orderBy }),
+            ...(take && { take }),
+            ...(skip && { skip }),
+            ...(where && { where }),
+        });
 
         return quantityDataList.length ? quantityDataList : null;
     } catch (error) {
@@ -105,9 +92,7 @@ export const SelectQuantityList = async (
  * @param props Filter options
  * @returns Count of quantities or null
  */
-export const SelectQuantityAmount = async (
-    props: SelectQuantityAmountProps,
-): Promise<number | null> => {
+export const SelectQuantityAmount = async (props: SelectQuantityAmountProps): Promise<number | null> => {
     try {
         const { where } = selectQuantityAmountSchema.parse(props);
 
@@ -130,18 +115,14 @@ export const SelectQuantityAmount = async (
  * @param props Quantity ID and new data
  * @returns Updated quantity or null
  */
-export const UpdateQuantity = async (
-    props: QuantityUpdate,
-): Promise<QuantityType | null> => {
+export const UpdateQuantity = async (props: QuantityUpdate): Promise<QuantityType | null> => {
     try {
         const { id, data } = quantityUpdateSchema.parse(props);
 
-        const quantityData: QuantityType = await PrismaInstance.quantity.update(
-            {
-                where: { id },
-                data,
-            },
-        );
+        const quantityData: QuantityType = await PrismaInstance.quantity.update({
+            where: { id },
+            data,
+        });
 
         return quantityData;
     } catch (error) {
@@ -158,17 +139,13 @@ export const UpdateQuantity = async (
  * @param props Quantity ID
  * @returns Deleted quantity or null
  */
-export const DeleteQuantity = async (
-    props: QuantityId,
-): Promise<QuantityType | null> => {
+export const DeleteQuantity = async (props: QuantityId): Promise<QuantityType | null> => {
     try {
         const { id } = quantityIdObjectSchema.parse(props);
 
-        const quantityData: QuantityType = await PrismaInstance.quantity.delete(
-            {
-                where: { id },
-            },
-        );
+        const quantityData: QuantityType = await PrismaInstance.quantity.delete({
+            where: { id },
+        });
 
         return quantityData;
     } catch (error) {

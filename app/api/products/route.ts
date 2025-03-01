@@ -62,7 +62,7 @@ export async function POST(request: Request) {
 
                 // Upload file to Stripe
                 const fileUpload = await stripe.files.create({
-                    purpose: 'dispute_evidence',
+                    purpose: "dispute_evidence",
                     file: {
                         data: buffer,
                         name: image.name,

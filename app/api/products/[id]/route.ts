@@ -8,18 +8,12 @@ interface ProductUpdateData {
     images?: string[];
 }
 
-export async function PUT(
-    request: Request,
-    { params }: { params: Promise<{ id: string }> }
-) {
+export async function PUT(request: Request, { params }: { params: Promise<{ id: string }> }) {
     const { id } = await params;
     try {
         const session = await GetSession();
         if (!session?.user?.id) {
-            return NextResponse.json(
-                { error: "Unauthorized" },
-                { status: 401 }
-            );
+            return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
         }
 
         const formData = await request.formData();
@@ -29,10 +23,7 @@ export async function PUT(
         const image = formData.get("image") as File;
 
         if (!name || !description || !amount) {
-            return NextResponse.json(
-                { error: "Missing required fields" },
-                { status: 400 }
-            );
+            return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
         }
 
         let imageUrl: string | undefined;
@@ -47,7 +38,7 @@ export async function PUT(
 
                 // Upload file to Stripe
                 const fileUpload = await stripe.files.create({
-                    purpose: 'dispute_evidence',
+                    purpose: "dispute_evidence",
                     file: {
                         data: buffer,
                         name: image.name,
@@ -60,8 +51,7 @@ export async function PUT(
                 // Create a file link for the uploaded file
                 const fileLink = await stripe.fileLinks.create({
                     file: fileUpload.id,
-                    expires_at:
-                        Math.floor(Date.now() / 1000) + 365 * 24 * 60 * 60, // 1 year from now
+                    expires_at: Math.floor(Date.now() / 1000) + 365 * 24 * 60 * 60, // 1 year from now
                 });
 
                 console.log("File link created:", fileLink.url);
@@ -89,9 +79,10 @@ export async function PUT(
             expand: ["default_price"],
         });
 
-        const currentAmount = typeof existingProduct.default_price === 'object' && existingProduct.default_price
-            ? existingProduct.default_price.unit_amount
-            : null;
+        const currentAmount =
+            typeof existingProduct.default_price === "object" && existingProduct.default_price
+                ? existingProduct.default_price.unit_amount
+                : null;
         const newAmount = Math.round(parseFloat(amount) * 100);
 
         if (currentAmount !== newAmount) {
@@ -116,25 +107,16 @@ export async function PUT(
         return NextResponse.json({ data: completeProduct });
     } catch (error) {
         console.error("Error updating product:", error);
-        return NextResponse.json(
-            { error: (error as Error).message || "Error updating product" },
-            { status: 500 }
-        );
+        return NextResponse.json({ error: (error as Error).message || "Error updating product" }, { status: 500 });
     }
 }
 
-export async function DELETE(
-    request: Request,
-    { params }: { params: Promise<{ id: string }> }
-) {
+export async function DELETE(request: Request, { params }: { params: Promise<{ id: string }> }) {
     const { id } = await params;
     try {
         const session = await GetSession();
         if (!session?.user?.id) {
-            return NextResponse.json(
-                { error: "Unauthorized" },
-                { status: 401 }
-            );
+            return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
         }
 
         // Archive the product instead of deleting it
@@ -145,9 +127,6 @@ export async function DELETE(
         return NextResponse.json({ success: true });
     } catch (error) {
         console.error("Error deleting product:", error);
-        return NextResponse.json(
-            { error: (error as Error).message || "Error deleting product" },
-            { status: 500 }
-        );
+        return NextResponse.json({ error: (error as Error).message || "Error deleting product" }, { status: 500 });
     }
 }

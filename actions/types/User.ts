@@ -24,10 +24,7 @@ export type UserUpdate = {
 export type UserTimestamps = Pick<User, "createdAt" | "updatedAt">;
 
 /** Find many options for users */
-export type SelectUserListProps = Pick<
-    Prisma.UserFindManyArgs,
-    "orderBy" | "take" | "skip" | "where"
->;
+export type SelectUserListProps = Pick<Prisma.UserFindManyArgs, "orderBy" | "take" | "skip" | "where">;
 
 /** Count options for users */
 export type SelectUserAmountProps = Pick<Prisma.UserCountArgs, "where">;

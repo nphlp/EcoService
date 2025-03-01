@@ -41,7 +41,7 @@ export const fixtures = async () => {
                 data: {
                     name,
                     description,
-                    image
+                    image,
                 },
             });
         }
@@ -50,14 +50,14 @@ export const fixtures = async () => {
             await PrismaInstance.category.create({
                 data: {
                     name,
-                    description
+                    description,
                 },
             });
         }
 
         // Create products
         const vendor = await PrismaInstance.user.findFirst({
-            where: { role: "VENDOR" }
+            where: { role: "VENDOR" },
         });
 
         if (!vendor) {
@@ -66,7 +66,7 @@ export const fixtures = async () => {
 
         for (const { name, description, image, price, stock, category } of productData) {
             const categoryRecord = await PrismaInstance.category.findFirst({
-                where: { name: category }
+                where: { name: category },
             });
 
             if (!categoryRecord) {
@@ -81,8 +81,8 @@ export const fixtures = async () => {
                     price,
                     stock,
                     vendorId: vendor.id,
-                    categoryId: categoryRecord.id
-                }
+                    categoryId: categoryRecord.id,
+                },
             });
         }
 

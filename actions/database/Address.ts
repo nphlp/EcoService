@@ -22,9 +22,7 @@ import { ZodError } from "zod";
  * @param props Address properties
  * @returns Created address or null
  */
-export const CreateAddress = async (
-    props: AddressCommon
-): Promise<AddressType | null> => {
+export const CreateAddress = async (props: AddressCommon): Promise<AddressType | null> => {
     try {
         const data = addressCommonSchema.parse(props);
 
@@ -68,16 +66,9 @@ export const SelectAddress = async (props: AddressId): Promise<AddressType | nul
  * @param props Filter and pagination options
  * @returns List of addresses or null
  */
-export const SelectAddressList = async (
-    props: SelectAddressListProps
-): Promise<AddressType[] | null> => {
+export const SelectAddressList = async (props: SelectAddressListProps): Promise<AddressType[] | null> => {
     try {
-        const {
-            orderBy,
-            take = 10,
-            skip = 0,
-            where,
-        } = selectAddressListSchema.parse(props);
+        const { orderBy, take = 10, skip = 0, where } = selectAddressListSchema.parse(props);
 
         const addressDataList: AddressType[] = await PrismaInstance.address.findMany({
             ...(orderBy && { orderBy }),
@@ -101,9 +92,7 @@ export const SelectAddressList = async (
  * @param props Filter options
  * @returns Count of addresses or null
  */
-export const SelectAddressAmount = async (
-    props: SelectAddressAmountProps
-): Promise<number | null> => {
+export const SelectAddressAmount = async (props: SelectAddressAmountProps): Promise<number | null> => {
     try {
         const { where } = selectAddressAmountSchema.parse(props);
 
@@ -126,9 +115,7 @@ export const SelectAddressAmount = async (
  * @param props Address ID and new data
  * @returns Updated address or null
  */
-export const UpdateAddress = async (
-    props: AddressUpdate
-): Promise<AddressType | null> => {
+export const UpdateAddress = async (props: AddressUpdate): Promise<AddressType | null> => {
     try {
         const { id, data } = addressUpdateSchema.parse(props);
 
