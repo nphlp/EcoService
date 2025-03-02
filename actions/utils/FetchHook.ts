@@ -1,12 +1,30 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Fetch, FetchProps } from "./Fetch";
+import { DataResponse, Fetch, FetchProps } from "./Fetch";
 import { Routes } from "./Routes";
 
+/**
+ * Props for the useFetch hook
+ * Same as FetchProps but without the client property (always true in client components)
+ * @template Key - The route key from the Routes type
+ */
 export type FetchHookProps<Key extends keyof Routes> = Omit<FetchProps<Key>, "client">;
 
-export function useFetch<Key extends keyof Routes>(props: FetchHookProps<Key>) {
+/**
+ * A React hook for fetching data from API endpoints with type safety
+ * 
+ * Features:
+ * - Type-safe API requests based on the Routes type definition
+ * - Automatic refetching when parameters change
+ * - Request cancellation on component unmount
+ * - Loading and error states
+ * 
+ * @template Key - The route key from the Routes type
+ * @param props - The fetch configuration
+ * @returns An object containing data, loading state, and error information
+ */
+export const useFetch = <Key extends keyof Routes>(props: FetchHookProps<Key>) => {
     const { route, params } = props;
 
     // Create a ref to give params to the fetch without causing a re-render
@@ -17,42 +35,54 @@ export function useFetch<Key extends keyof Routes>(props: FetchHookProps<Key>) {
         propsRef.current = { route, params };
     }, [route, params]);
 
-    // Trigger a re-render to re-fetch the data
+    // Trigger a re-render to re-fetch the data when params change
     const paramsString = JSON.stringify(props.params);
 
-    const [data, setData] = useState<Routes[Key]["response"]>();
+    // State for managing the fetch lifecycle
+    const [data, setData] = useState<DataResponse<Key>['data']>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | undefined>();
 
+    // Effect for fetching data
     useEffect(() => {
+        // Create an AbortController for cancelling the request if the component unmounts
         const controller = new AbortController();
         const { signal } = controller;
+
+        // Reset loading state when params change
+        setIsLoading(true);
 
         const fetchData = async () => {
             try {
                 const { route, params } = propsRef.current;
 
-                const result = await Fetch({
+                // Make the API request
+                const response = await Fetch({
                     route,
                     params,
-                    client: true,
+                    client: true, // Always true for client components
                     signal,
                 });
 
-                if (!signal.aborted) setData(result);
+                // Only update state if the request wasn't aborted
+                if (!signal.aborted) setData(response);
             } catch (error) {
+                // Only update error state if the request wasn't aborted
                 if (!signal.aborted) setError((error as Error).message);
             } finally {
+                // Only update loading state if the request wasn't aborted
                 if (!signal.aborted) setIsLoading(false);
             }
         };
 
         fetchData();
 
+        // Cleanup function to abort the request when the component unmounts
+        // or when the dependencies change
         return () => {
             controller.abort();
         };
-    }, [paramsString]);
+    }, [paramsString]); // Re-run the effect when the params change
 
     return { data, isLoading, error };
 }

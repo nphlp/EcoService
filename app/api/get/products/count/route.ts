@@ -1,4 +1,4 @@
-import { ProductType, SelectProductListProps, selectProductListSchema } from "@actions/types/Product";
+import { selectProductAmountSchema, SelectProductListProps } from "@actions/types/Product";
 import PrismaInstance from "@lib/prisma";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { unstable_cache as cache } from "next/cache";
@@ -10,25 +10,19 @@ import { ZodError } from "zod";
  * @param stringParams Filtering and pagination parameters in JSON format
  * @returns List of products or null if no products found
  */
-const SelectProductListCached = cache(
-    async (stringParams: string): Promise<ProductType[] | null> => {
+const SelectProductAmountCached = cache(
+    async (stringParams: string): Promise<number | null> => {
         // Parse the params as object
         const params: SelectProductListProps = JSON.parse(stringParams);
 
         // Validate the params with zod
-        const { orderBy, take = 10, skip = 0, where } = selectProductListSchema.parse(params);
+        const { where } = selectProductAmountSchema.parse(params);
 
-        const productDataList: ProductType[] = await PrismaInstance.product.findMany({
-            ...(orderBy && { orderBy }),
-            ...(take && { take }),
-            ...(skip && { skip }),
+        const productAmount = await PrismaInstance.product.count({
             ...(where && { where }),
         });
 
-        console.log("SelectProductList -> Revalidating products list from database...");
-
-        // Return the product list
-        return productDataList.length ? productDataList : null;
+        return productAmount ? productAmount : null;
     },
     ["products"],
     {
@@ -42,8 +36,8 @@ const SelectProductListCached = cache(
     },
 );
 
-export type SelectProductListResponse = {
-    data: ProductType[] | null;
+export type SelectProductAmountResponse = {
+    data: number | null;
 } | {
     error: string;
 }
@@ -53,19 +47,19 @@ export type SelectProductListResponse = {
  * @param request Incoming request with optional parameters
  * @returns JSON response containing product list or error message
  */
-export const GET = async (request: NextRequest): Promise<NextResponse<SelectProductListResponse>> => {
+export const GET = async (request: NextRequest): Promise<NextResponse<SelectProductAmountResponse>> => {
     try {
         // Get the params and decode them
         const encodedParams = request.nextUrl.searchParams.get("params") ?? "{}";
         const stringParams = decodeURIComponent(encodedParams);
 
         // Get the product list
-        const productList: ProductType[] | null = await SelectProductListCached(stringParams);
+        const productAmount: number | null = await SelectProductAmountCached(stringParams);
 
         // Return the product list
-        return NextResponse.json({ data: productList });
+        return NextResponse.json({ data: productAmount });
     } catch (error) {
-        console.error("SelectProductList -> " + (error as Error).message);
+        console.error("SelectProductAmount -> " + (error as Error).message);
         if (process.env.NODE_ENV === "development") {
             if (error instanceof ZodError)
                 return NextResponse.json({ error: "Invalid params -> " + error.message }, { status: 400 });

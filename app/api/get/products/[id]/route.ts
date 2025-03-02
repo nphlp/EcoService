@@ -1,4 +1,4 @@
-import { ProductType, SelectProductListProps, selectProductListSchema } from "@actions/types/Product";
+import { productIdObjectSchema, ProductType, SelectProductListProps } from "@actions/types/Product";
 import PrismaInstance from "@lib/prisma";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { unstable_cache as cache } from "next/cache";
@@ -10,27 +10,20 @@ import { ZodError } from "zod";
  * @param stringParams Filtering and pagination parameters in JSON format
  * @returns List of products or null if no products found
  */
-const SelectProductListCached = cache(
-    async (stringParams: string): Promise<ProductType[] | null> => {
+const SelectProductCached = cache(
+    async (stringParams: string): Promise<ProductType | null> => {
         // Parse the params as object
         const params: SelectProductListProps = JSON.parse(stringParams);
 
-        // Validate the params with zod
-        const { orderBy, take = 10, skip = 0, where } = selectProductListSchema.parse(params);
+        const { id } = productIdObjectSchema.parse(params);
 
-        const productDataList: ProductType[] = await PrismaInstance.product.findMany({
-            ...(orderBy && { orderBy }),
-            ...(take && { take }),
-            ...(skip && { skip }),
-            ...(where && { where }),
+        const productData: ProductType | null = await PrismaInstance.product.findUnique({
+            where: { id },
         });
 
-        console.log("SelectProductList -> Revalidating products list from database...");
-
-        // Return the product list
-        return productDataList.length ? productDataList : null;
+        return productData;
     },
-    ["products"],
+    ["/products/{id}"],
     {
         /**
          * Cache revalidation
@@ -38,12 +31,12 @@ const SelectProductListCached = cache(
          * - production : revalidate every 5 minutes
          */
         revalidate: process.env.NODE_ENV === "development" ? 5 : 300,
-        tags: ["products"],
+        tags: ["/products/{id}"],
     },
 );
 
-export type SelectProductListResponse = {
-    data: ProductType[] | null;
+export type SelectProductResponse = {
+    data: ProductType | null;
 } | {
     error: string;
 }
@@ -53,19 +46,19 @@ export type SelectProductListResponse = {
  * @param request Incoming request with optional parameters
  * @returns JSON response containing product list or error message
  */
-export const GET = async (request: NextRequest): Promise<NextResponse<SelectProductListResponse>> => {
+export const GET = async (request: NextRequest): Promise<NextResponse<SelectProductResponse>> => {
     try {
         // Get the params and decode them
-        const encodedParams = request.nextUrl.searchParams.get("params") ?? "{}";
+        const encodedParams = request.nextUrl.searchParams.get("id") ?? "{}";
         const stringParams = decodeURIComponent(encodedParams);
 
         // Get the product list
-        const productList: ProductType[] | null = await SelectProductListCached(stringParams);
+        const product: ProductType | null = await SelectProductCached(stringParams);
 
         // Return the product list
-        return NextResponse.json({ data: productList });
+        return NextResponse.json({ data: product });
     } catch (error) {
-        console.error("SelectProductList -> " + (error as Error).message);
+        console.error("SelectProduct -> " + (error as Error).message);
         if (process.env.NODE_ENV === "development") {
             if (error instanceof ZodError)
                 return NextResponse.json({ error: "Invalid params -> " + error.message }, { status: 400 });
