@@ -61,8 +61,8 @@ const CentralNav = () => {
         <div className="flex flex-row items-center justify-center gap-5">
             <ButtonClient
                 type="link"
-                href="/catalogue"
-                label="catalogue"
+                href="/catalog"
+                label="catalog"
                 variant="ghost"
                 onMouseOver={() => {
                     setCategorieOpen(true);
@@ -70,9 +70,9 @@ const CentralNav = () => {
                     setAccountOpen(false);
                     setBasketOpen(false);
                 }}
-                className={combo(path === "/catalogue" && "font-bold")}
+                className={combo(path === "/catalog" && "font-bold")}
             >
-                <span>Catalogue</span>
+                <span>Catalog</span>
                 <motion.span
                     initial={{ rotate: 0 }}
                     animate={{ rotate: categorieOpen ? -180 : 0 }}
@@ -89,7 +89,7 @@ const CentralNav = () => {
                 href="/"
                 label="articles"
                 variant="ghost"
-                className={combo("px-8", path === "/catalogue" && "font-bold")}
+                className={combo("px-8", path === "/catalog" && "font-bold")}
             >
                 Articles
             </ButtonClient>

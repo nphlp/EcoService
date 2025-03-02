@@ -15,6 +15,8 @@ const SelectProductCached = cache(
         // Parse the params as object
         const params: SelectProductListProps = JSON.parse(stringParams);
 
+        console.log("params", params);
+
         const { id } = productIdObjectSchema.parse(params);
 
         const productData: ProductType | null = await PrismaInstance.product.findUnique({
@@ -51,7 +53,7 @@ export type SelectProductResponse =
 export const GET = async (request: NextRequest): Promise<NextResponse<SelectProductResponse>> => {
     try {
         // Get the params and decode them
-        const encodedParams = request.nextUrl.searchParams.get("id") ?? "{}";
+        const encodedParams = request.nextUrl.searchParams.get("params") ?? "{}";
         const stringParams = decodeURIComponent(encodedParams);
 
         // Get the product list

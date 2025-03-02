@@ -51,7 +51,7 @@ export type SelectCategoryResponse =
 export const GET = async (request: NextRequest): Promise<NextResponse<SelectCategoryResponse>> => {
     try {
         // Get the params and decode them
-        const encodedParams = request.nextUrl.searchParams.get("id") ?? "{}";
+        const encodedParams = request.nextUrl.searchParams.get("params") ?? "{}";
         const stringParams = decodeURIComponent(encodedParams);
 
         // Get the category

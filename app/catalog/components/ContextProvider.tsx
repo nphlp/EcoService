@@ -2,23 +2,23 @@
 
 import { ProductType } from "@actions/types/Product";
 import { createContext, ReactNode, useEffect, useState } from "react";
-import { useCatalogueStore } from "./useCatalogueStore";
+import { useCatalogStore } from "./useCatalogStore";
 
-export type CatalogueContextType = {
+export type CatalogContextType = {
     // State
     productListLocal: ProductType[] | null;
     productAmountLocal: number | null;
 };
 
-export const CatalogueContext = createContext<CatalogueContextType>({} as CatalogueContextType);
+export const CatalogContext = createContext<CatalogContextType>({} as CatalogContextType);
 
-type CatalogueContextProviderProps = {
+type CatalogContextProviderProps = {
     productList: ProductType[] | null;
     productAmount: number | null;
     children: ReactNode;
 };
 
-export default function CatalogueContextProvider(props: CatalogueContextProviderProps) {
+export default function CatalogContextProvider(props: CatalogContextProviderProps) {
     const { productList: productListInit, productAmount: productAmountInit, children } = props;
 
     // Define local states and actions
@@ -26,7 +26,7 @@ export default function CatalogueContextProvider(props: CatalogueContextProvider
     const [productAmountLocal, setProductAmountLocal] = useState<number | null>(productAmountInit);
 
     // Get store states and actions
-    const { productList, productAmount, setProductList, setProductAmount } = useCatalogueStore((state) => state);
+    const { productList, productAmount, setProductList, setProductAmount } = useCatalogStore((state) => state);
 
     // Initialize store values on first context render
     useEffect(() => {
@@ -48,13 +48,13 @@ export default function CatalogueContextProvider(props: CatalogueContextProvider
 
     // Provide only the local state, but do not provide local actions
     return (
-        <CatalogueContext.Provider
+        <CatalogContext.Provider
             value={{
                 productListLocal,
                 productAmountLocal,
             }}
         >
             {children}
-        </CatalogueContext.Provider>
+        </CatalogContext.Provider>
     );
 }

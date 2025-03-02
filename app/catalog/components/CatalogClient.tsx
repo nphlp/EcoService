@@ -1,21 +1,21 @@
 "use client";
 
 import { ProductType } from "@actions/types/Product";
+import { useFetch } from "@actions/utils/FetchHook";
 import Card from "@comps/server/Card";
 import ImageRatio from "@comps/server/ImageRatio";
 import Loader from "@comps/server/Loader";
 import { combo } from "@lib/combo";
 import Link from "next/link";
 import { useContext, useEffect } from "react";
-import { CatalogueContext } from "./ContextProvider";
-import { useCatalogueParams } from "./useCatalogueParams";
-import { useCatalogueStore } from "./useCatalogueStore";
-import { useFetch } from "@actions/utils/FetchHook";
+import { CatalogContext } from "./ContextProvider";
+import { useCatalogParams } from "./useCatalogParams";
+import { useCatalogStore } from "./useCatalogStore";
 
-export default function CatalogueClient() {
-    const { productListLocal } = useContext(CatalogueContext);
-    const { setProductList, setProductAmount } = useCatalogueStore();
-    const { priceOrder, page, take, category, search } = useCatalogueParams();
+export default function CatalogClient() {
+    const { productListLocal } = useContext(CatalogContext);
+    const { setProductList, setProductAmount } = useCatalogStore();
+    const { priceOrder, page, take, category, search } = useCatalogParams();
 
     const { data: newProductList, isLoading: isLoadingProductList } = useFetch({
         route: "/products",
@@ -77,7 +77,7 @@ const ProductList = (props: ProductListProps) => {
             {produitList.map(({ id, name, image, price }, index) => (
                 <Link
                     key={index}
-                    href={`/produit/${id}`}
+                    href={`/product/${id}`}
                     className="outline-none ring-transparent focus:ring-offset-2 focus-visible:ring-2 focus-visible:ring-teal-400"
                 >
                     <Card className="overflow-hidden p-0" key={index}>

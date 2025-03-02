@@ -3,9 +3,9 @@
 import { CategoryType } from "@actions/types/Category";
 import { combo } from "@lib/combo";
 import { ChangeEventHandler, ReactNode, useContext } from "react";
-import { CatalogueContext } from "./ContextProvider";
+import { CatalogContext } from "./ContextProvider";
 import { ItemsPerPageParamType, PriceOrderParamType } from "./FilterTypes";
-import { useCatalogueParams } from "./useCatalogueParams";
+import { useCatalogParams } from "./useCatalogParams";
 
 type SelectorsClientProps = {
     categoryList: CategoryType[];
@@ -14,8 +14,8 @@ type SelectorsClientProps = {
 export default function SelectorsClient(props: SelectorsClientProps) {
     const { categoryList } = props;
 
-    const { productAmountLocal } = useContext(CatalogueContext);
-    const { priceOrder, page, take, category, setCategory, setPage, setPriceOrder, setTake } = useCatalogueParams();
+    const { productAmountLocal } = useContext(CatalogContext);
+    const { priceOrder, page, take, category, setCategory, setPage, setPriceOrder, setTake } = useCatalogParams();
 
     const divClass = "w-1/4 space-y-2";
     const labelClass = "text-sm text-gray-500 text-gray-200 ";

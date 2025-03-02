@@ -3,7 +3,7 @@
 import { ProductType } from "@actions/types/Product";
 import { create } from "zustand";
 
-export type CatalogueStoreType = {
+export type CatalogStoreType = {
     // State
     productList?: ProductType[] | null;
     productAmount?: number | null;
@@ -14,9 +14,9 @@ export type CatalogueStoreType = {
 };
 
 /**
- * Use Catalogue Store
+ * Use Catalog Store
  */
-export const useCatalogueStore = create<CatalogueStoreType>()((set) => ({
+export const useCatalogStore = create<CatalogStoreType>()((set) => ({
     // State
     productList: undefined,
     productAmount: undefined,

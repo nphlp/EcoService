@@ -1,8 +1,8 @@
-import CatalogueClient from "./components/CatalogueClient";
-import CatalogueContextProvider from "./components/ContextProvider";
-import SelectorsClient from "./components/SelectorsClient";
-import { QueryParamType, queryParamCached } from "./components/FilterTypes";
 import { Fetch } from "@actions/utils/Fetch";
+import CatalogClient from "./components/CatalogClient";
+import CatalogContextProvider from "./components/ContextProvider";
+import { QueryParamType, queryParamCached } from "./components/FilterTypes";
+import SelectorsClient from "./components/SelectorsClient";
 
 type PageProps = {
     searchParams: Promise<QueryParamType>;
@@ -49,12 +49,12 @@ export default async function Page(props: PageProps) {
 
     return (
         <div className="flex flex-1 flex-col">
-            <h1 className="bg-primary px-6 pt-6 text-4xl font-bold text-secondary">Catalogue</h1>
+            <h1 className="bg-primary px-6 pt-6 text-4xl font-bold text-secondary">Catalog</h1>
             <div className="flex flex-1 flex-col justify-start gap-4 overflow-hidden">
-                <CatalogueContextProvider productList={productList} productAmount={productAmount}>
+                <CatalogContextProvider productList={productList} productAmount={productAmount}>
                     <SelectorsClient categoryList={categoryList} />
-                    <CatalogueClient />
-                </CatalogueContextProvider>
+                    <CatalogClient />
+                </CatalogContextProvider>
             </div>
         </div>
     );

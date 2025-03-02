@@ -55,13 +55,13 @@ export default function MobileHeader(props: MobileHeaderProps) {
                     </ButtonClient>
                     <ButtonClient
                         type="link"
-                        href="/catalogue"
-                        label="catalogue"
+                        href="/catalog"
+                        label="catalog"
                         variant="outline"
                         className="w-full"
                         onClick={() => setVisibilityMenu(false)}
                     >
-                        Catalogue
+                        Catalog
                     </ButtonClient>
                     {!session && (
                         <>
@@ -73,7 +73,7 @@ export default function MobileHeader(props: MobileHeaderProps) {
                                 className="w-full"
                                 onClick={() => setVisibilityMenu(false)}
                             >
-                                Catalogue
+                                Catalog
                             </ButtonClient>
                             <ButtonClient
                                 type="link"

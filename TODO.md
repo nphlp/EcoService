@@ -9,9 +9,9 @@ Complete auth and user management
 - [ ] Search: make request and zod validation
 - [ ] Accessibility: header menu `enter` key to open menu
 - [ ] Filters ring and UI
-- [ ] Perspective on catalogue page ?
+- [ ] Perspective on catalog page ?
 
-- [ ] Issue: if user is on `/catalogue`, header categories link does not refresh the categories list
+- [ ] Issue: if user is on `/catalog`, header categories link does not refresh the categories list
 - [ ] Issue: footer links or scrollbar not clickable
 
 ## Security
