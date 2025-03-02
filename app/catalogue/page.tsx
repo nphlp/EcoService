@@ -1,4 +1,4 @@
-import { SelectCategoryList } from "@actions/database/Categories";
+import { SelectCategoryList } from "@actions/database/Category";
 import { SelectProductAmount, SelectProductList } from "@actions/database/Product";
 import CatalogueClient from "./components/CatalogueClient";
 import CatalogueContextProvider from "./components/ContextProvider";

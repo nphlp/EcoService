@@ -1,5 +1,5 @@
 import "@/globals.css";
-import { SelectCategoryList } from "@actions/database/Categories";
+import { SelectCategoryList } from "@actions/database/Category";
 import HeaderClient from "@comps/Header/Header";
 import FooterClient from "@comps/server/Footer";
 import { combo } from "@lib/combo";
