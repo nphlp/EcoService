@@ -216,5 +216,3 @@ model Fruit {
 
     @@map("fruits")
 }
-
-
