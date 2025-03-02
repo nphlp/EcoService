@@ -16,6 +16,7 @@ const categories: Record<string, CommandCategory> = {
         color: "\x1b[32m", // green
         description: "Development commands",
         commands: {
+            auto: "Auto install database, prisma, fixtures and run dev server",
             dev: "Start development server",
             lint: "Check code with ESLint",
             type: "Check TypeScript types",
@@ -28,6 +29,7 @@ const categories: Record<string, CommandCategory> = {
         commands: {
             "db:setup": "Setup database",
             "db:reset": "Reset database",
+            "db:reload": "Reload database",
         },
     },
     prisma: {

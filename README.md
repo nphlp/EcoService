@@ -63,6 +63,18 @@ Install the project in three steps: `software requirements`, `environment variab
     pnpm run help
     ```
 
+#### Auto setup
+
+- Install database, prisma, fixtures and run dev server
+
+    ```bash
+    pnpm auto
+    ```
+
+- (optional) Clear your `localhost:3000` browser cookies is you have an error
+
+#### Manual setup
+
 - Creates a Mysql user and a password and grants privileges
 
     - Automatic method
@@ -82,12 +94,6 @@ Install the project in three steps: `software requirements`, `environment variab
     GRANT ALL PRIVILEGES ON *.* TO 'eco-service-user'@'localhost';
     ```
 
-- Generate the Prisma client
-
-    ```bash
-    pnpm prisma:generate
-    ```
-
 - Run Prisma database migrations
 
     ```bash
@@ -98,8 +104,6 @@ Install the project in three steps: `software requirements`, `environment variab
 
     ```bash
     pnpm fixtures:setup
-    pnpm fixtures:reload
-    pnpm fixtures:reset
     ```
 
 - Run server project
