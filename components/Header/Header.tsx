@@ -1,10 +1,10 @@
 "use client";
 
 import { Category } from "@prisma/client";
+import Basket from "../Basket/Basket";
 import Main from "./Browser/Main";
 import Sub from "./Browser/Sub";
 import MobileHeader from "./Mobile/MobileHeader";
-import Basket from "./Browser/Basket";
 
 type HeaderClientProps = {
     categorieList: Category[];

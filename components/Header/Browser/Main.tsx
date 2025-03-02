@@ -1,5 +1,6 @@
 "use client";
 
+import { useBasketStore } from "@comps/Basket/BasketStore";
 import Logo from "@comps/server/Logo";
 import { combo } from "@lib/combo";
 import { motion } from "framer-motion";
@@ -64,7 +65,7 @@ const CentralNav = () => {
                 href="/catalog"
                 label="catalog"
                 variant="ghost"
-                onMouseOver={() => {
+                onClick={() => {
                     setCategorieOpen(true);
                     setSearchOpen(false);
                     setAccountOpen(false);
@@ -100,6 +101,7 @@ const CentralNav = () => {
 const RightNav = () => {
     const { setAccountOpen, setSearchOpen, setCategorieOpen, accountOpen, searchOpen, basketOpen, setBasketOpen } =
         useHeaderStore();
+    const { basketProductList } = useBasketStore();
 
     return (
         <div className="flex flex-row gap-3">
@@ -140,7 +142,7 @@ const RightNav = () => {
                 type="button"
                 label="toggle-basket-section-visibility"
                 variant="ghost"
-                className="p-2"
+                className="relative p-2"
                 onClick={() => {
                     setAccountOpen(false);
                     setSearchOpen(false);
@@ -148,6 +150,7 @@ const RightNav = () => {
                     setBasketOpen(!basketOpen);
                 }}
             >
+                <div className="absolute translate-x-[40%] translate-y-[-35%] scale-[0.7] rounded-full bg-black px-[7px] font-bold text-white">{basketProductList.length}</div>
                 <ShoppingCart />
             </ButtonClient>
         </div>
