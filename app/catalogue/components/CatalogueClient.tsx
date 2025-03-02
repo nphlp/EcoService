@@ -10,55 +10,45 @@ import { useContext, useEffect } from "react";
 import { CatalogueContext } from "./ContextProvider";
 import { useCatalogueParams } from "./useCatalogueParams";
 import { useCatalogueStore } from "./useCatalogueStore";
-import { Fetch } from "@actions/utils/Fetch";
+import { useFetch } from "@actions/utils/FetchHook";
 
 export default function CatalogueClient() {
     const { productListLocal } = useContext(CatalogueContext);
     const { setProductList, setProductAmount } = useCatalogueStore();
     const { priceOrder, page, take, category, search } = useCatalogueParams();
 
-    // TODO: prefer useFetch
-    useEffect(() => {
-        const fetch = async () => {
-            const newProductList = await Fetch({
-                route: "/products",
-                client: true,
-                params: {
-                    orderBy: priceOrder !== "not" ? { price: priceOrder } : undefined,
-                    skip: page > 1 ? (page - 1) * take : undefined,
-                    take,
-                    where: {
-                        ...(category && { categoryId: category }),
-                        ...(search && {
-                            name: {
-                                contains: search,
-                            },
-                        }),
+    const { data: newProductList, isLoading: isLoadingProductList } = useFetch({
+        route: "/products",
+        firstFetch: false,
+        params: {
+            orderBy: priceOrder !== "not" ? { price: priceOrder } : undefined,
+            skip: page > 1 ? (page - 1) * take : undefined,
+            take,
+            where: {
+                ...(category && { categoryId: category }),
+                ...(search && {
+                    name: {
+                        contains: search,
                     },
-                },
-            });
+                }),
+            },
+        },
+    });
 
-            const newProductAmount = await Fetch({
-                route: "/products/count",
-                client: true,
-                params: {
-                    where: category ? { categoryId: category } : undefined,
-                },
-            });
-            if (!newProductAmount) {
-                throw new Error("We don't have any product...");
-            }
+    const { data: newProductAmount, isLoading: isLoadingProductAmount } = useFetch({
+        route: "/products/count",
+        firstFetch: false,
+        params: {
+            where: category ? { categoryId: category } : undefined,
+        },
+    });
 
-            setProductList(newProductList);
-            setProductAmount(newProductAmount);
-        };
+    useEffect(() => {
+        setProductList(newProductList);
+        setProductAmount(newProductAmount);
+    }, [newProductAmount, newProductList, setProductList, setProductAmount]);
 
-        if (productListLocal === "isLoading") {
-            fetch();
-        }
-    }, [productListLocal, setProductList, setProductAmount, priceOrder, page, take, category, search]);
-
-    if (productListLocal === "isLoading") {
+    if (isLoadingProductList || isLoadingProductAmount) {
         return (
             <div className="flex w-full flex-1 items-center justify-center px-4">
                 <Loader className="size-8 border-4" />

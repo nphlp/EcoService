@@ -2,7 +2,6 @@
 
 import { urlSerializer } from "@app/catalogue/components/FilterTypes";
 import { useCatalogueParams } from "@app/catalogue/components/useCatalogueParams";
-import { useCatalogueStore } from "@app/catalogue/components/useCatalogueStore";
 import { useSession } from "@lib/client";
 import { combo } from "@lib/combo";
 import { Category } from "@prisma/client";
@@ -34,14 +33,12 @@ export default function Sub(props: SubProps) {
     const [searchValue, setSearchValue] = useState("");
 
     const { setCategory, setSearch } = useCatalogueParams();
-    const { setProductList } = useCatalogueStore();
 
     const handleCategory = (e: MouseEvent<HTMLAnchorElement, globalThis.MouseEvent>, id: string) => {
         e.preventDefault();
 
         if (path === "/catalogue") {
             setCategory(id);
-            setProductList("isLoading");
             return;
         }
 
@@ -53,7 +50,6 @@ export default function Sub(props: SubProps) {
 
         if (path === "/catalogue") {
             setSearch(search);
-            setProductList("isLoading");
             setSearchOpen(false);
             setTimeout(() => setSearchValue(""), 300);
             return;

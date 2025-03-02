@@ -5,12 +5,12 @@ import { create } from "zustand";
 
 export type CatalogueStoreType = {
     // State
-    productList?: ProductType[] | "isLoading" | null;
-    productAmount?: number;
+    productList?: ProductType[] | null;
+    productAmount?: number | null;
 
     // Actions
-    setProductList: (productList?: ProductType[] | "isLoading" | null) => void;
-    setProductAmount: (productAmount?: number) => void;
+    setProductList: (productList?: ProductType[] | null) => void;
+    setProductAmount: (productAmount?: number | null) => void;
 };
 
 /**
@@ -22,6 +22,6 @@ export const useCatalogueStore = create<CatalogueStoreType>()((set) => ({
     productAmount: undefined,
 
     // Actions
-    setProductList: (productList?: ProductType[] | "isLoading" | null) => set({ productList }),
-    setProductAmount: (productAmount?: number) => set({ productAmount }),
+    setProductList: (productList?: ProductType[] | null) => set({ productList }),
+    setProductAmount: (productAmount?: number | null) => set({ productAmount }),
 }));

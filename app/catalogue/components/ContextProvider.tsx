@@ -6,15 +6,15 @@ import { useCatalogueStore } from "./useCatalogueStore";
 
 export type CatalogueContextType = {
     // State
-    productListLocal: ProductType[] | "isLoading" | null;
-    productAmountLocal: number;
+    productListLocal: ProductType[] | null;
+    productAmountLocal: number | null;
 };
 
 export const CatalogueContext = createContext<CatalogueContextType>({} as CatalogueContextType);
 
 type CatalogueContextProviderProps = {
     productList: ProductType[] | null;
-    productAmount: number;
+    productAmount: number | null;
     children: ReactNode;
 };
 
@@ -22,8 +22,8 @@ export default function CatalogueContextProvider(props: CatalogueContextProvider
     const { productList: productListInit, productAmount: productAmountInit, children } = props;
 
     // Define local states and actions
-    const [productListLocal, setProductListLocal] = useState<ProductType[] | null | "isLoading">(productListInit);
-    const [productAmountLocal, setProductAmountLocal] = useState<number>(productAmountInit);
+    const [productListLocal, setProductListLocal] = useState<ProductType[] | null>(productListInit);
+    const [productAmountLocal, setProductAmountLocal] = useState<number | null>(productAmountInit);
 
     // Get store states and actions
     const { productList, productAmount, setProductList, setProductAmount } = useCatalogueStore((state) => state);

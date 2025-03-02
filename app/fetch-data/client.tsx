@@ -15,7 +15,7 @@ export default function Client(props: ClientProps) {
     const [productList, setProductList] = useState<ProductType[] | null>(productListInit);
     const [count, setCount] = useState(1);
 
-    const { data, isLoading } = useFetch({ route: "/products", params: { take: count } });
+    const { data, isLoading } = useFetch({ route: "/products", params: { take: count }, firstFetch: false });
 
     useEffect(() => {
         if (data) {

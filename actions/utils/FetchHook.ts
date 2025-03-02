@@ -8,8 +8,12 @@ import { Routes } from "./Routes";
  * Props for the useFetch hook
  * Same as FetchProps but without the client property (always true in client components)
  * @template Key - The route key from the Routes type
+ * @param firstFetch - Whether to fetch the data on the first render,
+ * useful to avoid fetching data on the first render if the data is already fetched in the server component
  */
-export type FetchHookProps<Key extends keyof Routes> = Omit<FetchProps<Key>, "client">;
+export type FetchHookProps<Key extends keyof Routes> = Omit<FetchProps<Key>, "client"> & {
+    firstFetch?: boolean;
+};
 
 /**
  * A React hook for fetching data from API endpoints with type safety
@@ -25,7 +29,9 @@ export type FetchHookProps<Key extends keyof Routes> = Omit<FetchProps<Key>, "cl
  * @returns An object containing data, loading state, and error information
  */
 export const useFetch = <Key extends keyof Routes>(props: FetchHookProps<Key>) => {
-    const { route, params } = props;
+    const { route, params, firstFetch = true } = props;
+
+    const fetchAllowedRef = useRef(firstFetch);
 
     // Create a ref to give params to the fetch without causing a re-render
     const propsRef = useRef({ route, params });
@@ -40,7 +46,7 @@ export const useFetch = <Key extends keyof Routes>(props: FetchHookProps<Key>) =
 
     // State for managing the fetch lifecycle
     const [data, setData] = useState<DataResponse<Key>["data"]>(null);
-    const [isLoading, setIsLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | undefined>();
 
     // Effect for fetching data
@@ -49,10 +55,10 @@ export const useFetch = <Key extends keyof Routes>(props: FetchHookProps<Key>) =
         const controller = new AbortController();
         const { signal } = controller;
 
-        // Reset loading state when params change
-        setIsLoading(true);
-
         const fetchData = async () => {
+            // Reset loading state when params change
+            setIsLoading(true);
+
             try {
                 const { route, params } = propsRef.current;
 
@@ -75,7 +81,11 @@ export const useFetch = <Key extends keyof Routes>(props: FetchHookProps<Key>) =
             }
         };
 
-        fetchData();
+        if (fetchAllowedRef.current) {
+            fetchData();
+        }
+
+        fetchAllowedRef.current = true;
 
         // Cleanup function to abort the request when the component unmounts
         // or when the dependencies change
