@@ -42,11 +42,13 @@ const SelectProductListCached = cache(
     },
 );
 
-export type SelectProductListResponse = {
-    data: ProductType[] | null;
-} | {
-    error: string;
-}
+export type SelectProductListResponse =
+    | {
+          data: ProductType[] | null;
+      }
+    | {
+          error: string;
+      };
 
 /**
  * GET route handler for products API

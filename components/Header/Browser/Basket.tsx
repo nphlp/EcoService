@@ -64,14 +64,20 @@ export default function Basket() {
                 <div className="w-[400px] space-y-4 px-5 py-6">
                     <div>
                         <h3 className="w-full text-2xl font-bold text-primary">Mon Panier</h3>
-                        <div className="text-xs text-gray-500">Vous avez {basketItem.length} produits dans votre panier.</div>
+                        <div className="text-xs text-gray-500">
+                            Vous avez {basketItem.length} produits dans votre panier.
+                        </div>
                     </div>
 
                     {basketItem.map((item, index) => (
                         <BasketItem key={index} {...item} />
                     ))}
 
-                    <ButtonClient type="button" label="paiement" className="w-full scale-100 rounded-full py-2 font-semibold transition-transform duration-200 hover:scale-[1.02]">
+                    <ButtonClient
+                        type="button"
+                        label="paiement"
+                        className="w-full scale-100 rounded-full py-2 font-semibold transition-transform duration-200 hover:scale-[1.02]"
+                    >
                         Acheter maintenant !
                     </ButtonClient>
                 </div>
@@ -88,7 +94,7 @@ type BasketItemProps = {
 
 const BasketItem = (props: BasketItemProps) => {
     const { name, price, image } = props;
-    
+
     return (
         <div className="flex w-full flex-row gap-4">
             <ImageRatio className="w-1/3 rounded" src={image} alt="Product" />

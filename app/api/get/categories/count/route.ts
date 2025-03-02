@@ -1,4 +1,4 @@
-import { selectProductAmountSchema, SelectProductListProps } from "@actions/types/Product";
+import { selectCategoryAmountSchema, SelectCategoryListProps } from "@actions/types/Category";
 import PrismaInstance from "@lib/prisma";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { unstable_cache as cache } from "next/cache";
@@ -6,25 +6,25 @@ import { NextRequest, NextResponse } from "next/server";
 import { ZodError } from "zod";
 
 /**
- * Retrieves a cached list of products
- * @param stringParams Filtering and pagination parameters in JSON format
- * @returns List of products or null if no products found
+ * Retrieves a cached count of categories
+ * @param stringParams Filtering parameters in JSON format
+ * @returns Count of categories or null if no categories found
  */
-const SelectProductAmountCached = cache(
+const SelectCategoryAmountCached = cache(
     async (stringParams: string): Promise<number | null> => {
         // Parse the params as object
-        const params: SelectProductListProps = JSON.parse(stringParams);
+        const params: SelectCategoryListProps = JSON.parse(stringParams);
 
         // Validate the params with zod
-        const { where } = selectProductAmountSchema.parse(params);
+        const { where } = selectCategoryAmountSchema.parse(params);
 
-        const productAmount = await PrismaInstance.product.count({
+        const categoryAmount = await PrismaInstance.category.count({
             ...(where && { where }),
         });
 
-        return productAmount ? productAmount : null;
+        return categoryAmount ? categoryAmount : null;
     },
-    ["products"],
+    ["categories"],
     {
         /**
          * Cache revalidation
@@ -32,11 +32,11 @@ const SelectProductAmountCached = cache(
          * - production : revalidate every 5 minutes
          */
         revalidate: process.env.NODE_ENV === "development" ? 5 : 300,
-        tags: ["products"],
+        tags: ["categories"],
     },
 );
 
-export type SelectProductAmountResponse =
+export type SelectCategoryAmountResponse =
     | {
           data: number | null;
       }
@@ -45,23 +45,23 @@ export type SelectProductAmountResponse =
       };
 
 /**
- * GET route handler for products API
+ * GET route handler for categories count API
  * @param request Incoming request with optional parameters
- * @returns JSON response containing product list or error message
+ * @returns JSON response containing category count or error message
  */
-export const GET = async (request: NextRequest): Promise<NextResponse<SelectProductAmountResponse>> => {
+export const GET = async (request: NextRequest): Promise<NextResponse<SelectCategoryAmountResponse>> => {
     try {
         // Get the params and decode them
         const encodedParams = request.nextUrl.searchParams.get("params") ?? "{}";
         const stringParams = decodeURIComponent(encodedParams);
 
-        // Get the product list
-        const productAmount: number | null = await SelectProductAmountCached(stringParams);
+        // Get the category count
+        const categoryAmount: number | null = await SelectCategoryAmountCached(stringParams);
 
-        // Return the product list
-        return NextResponse.json({ data: productAmount });
+        // Return the category count
+        return NextResponse.json({ data: categoryAmount });
     } catch (error) {
-        console.error("SelectProductAmount -> " + (error as Error).message);
+        console.error("SelectCategoryAmount -> " + (error as Error).message);
         if (process.env.NODE_ENV === "development") {
             if (error instanceof ZodError)
                 return NextResponse.json({ error: "Invalid params -> " + error.message }, { status: 400 });

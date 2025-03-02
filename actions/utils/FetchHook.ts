@@ -13,13 +13,13 @@ export type FetchHookProps<Key extends keyof Routes> = Omit<FetchProps<Key>, "cl
 
 /**
  * A React hook for fetching data from API endpoints with type safety
- * 
+ *
  * Features:
  * - Type-safe API requests based on the Routes type definition
  * - Automatic refetching when parameters change
  * - Request cancellation on component unmount
  * - Loading and error states
- * 
+ *
  * @template Key - The route key from the Routes type
  * @param props - The fetch configuration
  * @returns An object containing data, loading state, and error information
@@ -39,7 +39,7 @@ export const useFetch = <Key extends keyof Routes>(props: FetchHookProps<Key>) =
     const paramsString = JSON.stringify(props.params);
 
     // State for managing the fetch lifecycle
-    const [data, setData] = useState<DataResponse<Key>['data']>(null);
+    const [data, setData] = useState<DataResponse<Key>["data"]>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | undefined>();
 
@@ -85,4 +85,4 @@ export const useFetch = <Key extends keyof Routes>(props: FetchHookProps<Key>) =
     }, [paramsString]); // Re-run the effect when the params change
 
     return { data, isLoading, error };
-}
+};

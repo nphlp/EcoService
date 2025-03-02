@@ -5,7 +5,7 @@ import { useFetch } from "@actions/utils/FetchHook";
 import ButtonClient from "@comps/client/Button";
 import { useEffect, useState } from "react";
 
-type ClientProps = {    
+type ClientProps = {
     productList: ProductType[] | null;
 };
 
@@ -27,17 +27,19 @@ export default function Client(props: ClientProps) {
         return <div>Loading...</div>;
     }
 
-    return <div>
-        <ButtonClient label="Hello" type="button" onClick={() => {
-            setCount(count + 1);
-        }}>
-            +1
-        </ButtonClient>
+    return (
+        <div>
+            <ButtonClient
+                label="Hello"
+                type="button"
+                onClick={() => {
+                    setCount(count + 1);
+                }}
+            >
+                +1
+            </ButtonClient>
 
-        {productList?.map((product) => (
-            <div key={product.id}>
-                {product.name}
-            </div>
-        ))}
-    </div>;
+            {productList?.map((product) => <div key={product.id}>{product.name}</div>)}
+        </div>
+    );
 }

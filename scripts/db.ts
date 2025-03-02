@@ -17,18 +17,17 @@ const question = (query: string): Promise<string> => {
 // Fonction pour vérifier si une base de données existe
 async function databaseExists(password: string, dbName: string): Promise<boolean | string> {
     return new Promise((resolve) => {
-        const mysql = spawn("mysql", [
-            "-u", "root", 
-            `--password=${password}`, 
-            "-e", 
-            "SHOW DATABASES LIKE '" + dbName + "'"
-        ], {
-            stdio: ["pipe", "pipe", "pipe"],
-        });
+        const mysql = spawn(
+            "mysql",
+            ["-u", "root", `--password=${password}`, "-e", "SHOW DATABASES LIKE '" + dbName + "'"],
+            {
+                stdio: ["pipe", "pipe", "pipe"],
+            },
+        );
 
         let output = "";
         let errorOutput = "";
-        
+
         mysql.stdout.on("data", (data) => {
             output += data.toString();
         });
@@ -63,7 +62,7 @@ async function executeSqlFile(password: string, filename: string): Promise<boole
     // Si c'est un fichier reset.sql, vérifier d'abord si la base de données existe
     if (filename === "reset.sql") {
         const dbExistsResult = await databaseExists(password, "eco-service-db");
-        
+
         if (dbExistsResult === "ACCESS_DENIED") {
             console.log("❌ Mot de passe MySQL incorrect");
             return false;
@@ -97,14 +96,10 @@ async function executeSqlFile(password: string, filename: string): Promise<boole
         mysql.on("close", (code) => {
             if (code === 0) {
                 resolve(true);
-            } else if (
-                errorOutput.includes("Can't drop database") && errorOutput.includes("database doesn't exist")
-            ) {
+            } else if (errorOutput.includes("Can't drop database") && errorOutput.includes("database doesn't exist")) {
                 console.log("❌ Base de données inexistante");
                 resolve(false);
-            } else if (
-                errorOutput.includes("Operation CREATE USER failed")
-            ) {
+            } else if (errorOutput.includes("Operation CREATE USER failed")) {
                 console.log("ℹ️ L'utilisateur existe déjà");
                 resolve(true);
             } else if (errorOutput.includes("Access denied")) {
@@ -122,12 +117,12 @@ async function executeMultipleFiles(files: string[]): Promise<boolean> {
     if (files.length === 0) return true;
 
     const password = await question("🔑 Mot de passe MySQL : ");
-    
+
     // Si nous sommes en train de faire un reload (reset.sql + setup.sql)
     if (files.includes("reset.sql") && files.includes("setup.sql")) {
         // Vérifier si la base de données existe
         const dbExistsResult = await databaseExists(password, "eco-service-db");
-        
+
         if (dbExistsResult === "ACCESS_DENIED") {
             console.log("❌ Mot de passe MySQL incorrect");
             return false;
@@ -146,7 +141,7 @@ async function executeMultipleFiles(files: string[]): Promise<boolean> {
             }
         }
     }
-    
+
     // Exécution normale de tous les fichiers
     let allSuccessful = true;
     for (const file of files) {

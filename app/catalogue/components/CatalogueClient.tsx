@@ -1,6 +1,5 @@
 "use client";
 
-import { SelectProductAmount, SelectProductList } from "@actions/database/Product";
 import { ProductType } from "@actions/types/Product";
 import Card from "@comps/server/Card";
 import ImageRatio from "@comps/server/ImageRatio";
@@ -11,37 +10,47 @@ import { useContext, useEffect } from "react";
 import { CatalogueContext } from "./ContextProvider";
 import { useCatalogueParams } from "./useCatalogueParams";
 import { useCatalogueStore } from "./useCatalogueStore";
+import { Fetch } from "@actions/utils/Fetch";
 
 export default function CatalogueClient() {
     const { productListLocal } = useContext(CatalogueContext);
     const { setProductList, setProductAmount } = useCatalogueStore();
     const { priceOrder, page, take, category, search } = useCatalogueParams();
 
+    // TODO: prefer useFetch
     useEffect(() => {
         const fetch = async () => {
-            const data = await SelectProductList({
-                orderBy: priceOrder !== "not" ? { price: priceOrder } : undefined,
-                skip: page > 1 ? (page - 1) * take : undefined,
-                take,
-                where: {
-                    ...(category && { categoryId: category }),
-                    ...(search && {
-                        name: {
-                            contains: search,
-                        },
-                    }),
+            const newProductList = await Fetch({
+                route: "/products",
+                client: true,
+                params: {
+                    orderBy: priceOrder !== "not" ? { price: priceOrder } : undefined,
+                    skip: page > 1 ? (page - 1) * take : undefined,
+                    take,
+                    where: {
+                        ...(category && { categoryId: category }),
+                        ...(search && {
+                            name: {
+                                contains: search,
+                            },
+                        }),
+                    },
                 },
             });
 
-            const productAmount = await SelectProductAmount({
-                where: category ? { categoryId: category } : undefined,
+            const newProductAmount = await Fetch({
+                route: "/products/count",
+                client: true,
+                params: {
+                    where: category ? { categoryId: category } : undefined,
+                },
             });
-            if (!productAmount) {
+            if (!newProductAmount) {
                 throw new Error("We don't have any product...");
             }
 
-            setProductList(data);
-            setProductAmount(productAmount);
+            setProductList(newProductList);
+            setProductAmount(newProductAmount);
         };
 
         if (productListLocal === "isLoading") {

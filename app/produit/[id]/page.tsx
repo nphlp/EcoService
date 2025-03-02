@@ -1,7 +1,6 @@
-import { SelectProduct } from "@actions/database/Product";
 import ButtonClient from "@comps/client/Button";
 import ImageRatio from "@comps/server/ImageRatio";
-
+import { Fetch } from "@actions/utils/Fetch";
 type PageProps = {
     params: Promise<{ id: string }>;
 };
@@ -10,7 +9,7 @@ export default async function Page(props: PageProps) {
     const { params } = props;
     const { id } = await params;
 
-    const product = await SelectProduct({ id });
+    const product = await Fetch({ route: "/products/{id}", params: { id } });
 
     if (!product) {
         return <div>Produit non trouvé</div>;

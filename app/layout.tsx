@@ -1,5 +1,5 @@
 import "@/globals.css";
-import { SelectCategoryList } from "@actions/database/Category";
+import { Fetch } from "@actions/utils/Fetch";
 import HeaderClient from "@comps/Header/Header";
 import FooterClient from "@comps/server/Footer";
 import { combo } from "@lib/combo";
@@ -22,7 +22,7 @@ type LayoutProps = {
 export default async function Layout(props: LayoutProps) {
     const { children } = props;
 
-    const categorieList = await SelectCategoryList({ orderBy: { name: "asc" } });
+    const categorieList = await Fetch({ route: "/categories", params: { orderBy: { name: "asc" } } });
 
     if (!categorieList) {
         return <div>Mmmm... It seems there is not data.</div>;

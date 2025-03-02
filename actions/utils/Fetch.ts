@@ -42,14 +42,14 @@ export type DataResponse<Key extends keyof Routes> = Extract<ResponseType<Key>, 
 
 /**
  * A type-safe fetch utility for making API requests
- * 
+ *
  * This function handles:
  * - Constructing the URL with proper base URL depending on client/server context
  * - Encoding parameters
  * - Setting up AbortController for request cancellation
  * - Type-safe responses based on the Routes type definition
  * - Error handling
- * 
+ *
  * @template Key - The route key from the Routes type
  * @param props - The fetch configuration
  * @returns A promise that resolves to the data property of the response
@@ -87,4 +87,4 @@ export const Fetch = async <Key extends keyof Routes>(props: FetchProps<Key>): P
     } catch (error) {
         throw new Error((error as Error).message);
     }
-}
+};

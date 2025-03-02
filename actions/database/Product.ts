@@ -7,7 +7,7 @@ import {
     productIdObjectSchema,
     ProductType,
     ProductUpdate,
-    productUpdateSchema
+    productUpdateSchema,
 } from "@actions/types/Product";
 import PrismaInstance from "@lib/prisma";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
