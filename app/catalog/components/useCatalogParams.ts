@@ -6,7 +6,7 @@ import { CategoryParam, ItemsPerPageParam, PageParam, PriceOrderParam, SearchPar
 /**
  * Use Query States
  */
-export const useCatalogueParams = () => {
+export const useCatalogParams = () => {
     const [priceOrder, setPriceOrder] = useQueryState("priceOrder", PriceOrderParam["priceOrder"]);
     const [page, setPage] = useQueryState("page", PageParam["page"]);
     const [take, setTake] = useQueryState("take", ItemsPerPageParam["take"]);

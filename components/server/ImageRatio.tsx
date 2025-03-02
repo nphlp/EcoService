@@ -23,7 +23,7 @@ export default function ImageRatio(props: ImageRatioProps) {
 
     return (
         <div className={combo("relative aspect-[3/2] overflow-hidden", className)}>
-            <Image src={src} alt={alt} className="object-cover" fill loading={loading} />
+            <Image src={src} alt={alt} className="object-cover" sizes="100%" fill loading={loading} />
         </div>
     );
 }

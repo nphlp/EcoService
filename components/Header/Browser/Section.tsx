@@ -31,4 +31,4 @@ export default function MotionSection(props: MotionSectionProps) {
             </div>
         </motion.div>
     );
-};
+}

@@ -1,8 +1,7 @@
 "use client";
 
-import { urlSerializer } from "@app/catalogue/components/FilterTypes";
-import { useCatalogueParams } from "@app/catalogue/components/useCatalogueParams";
-import { useCatalogueStore } from "@app/catalogue/components/useCatalogueStore";
+import { urlSerializer } from "@app/catalog/components/FilterTypes";
+import { useCatalogParams } from "@app/catalog/components/useCatalogParams";
 import { useSession } from "@lib/client";
 import { combo } from "@lib/combo";
 import { Category } from "@prisma/client";
@@ -33,27 +32,24 @@ export default function Sub(props: SubProps) {
     const [isHovered, setIsHovered] = useState(false);
     const [searchValue, setSearchValue] = useState("");
 
-    const { setCategory, setSearch } = useCatalogueParams();
-    const { setProductList } = useCatalogueStore();
+    const { setCategory, setSearch } = useCatalogParams();
 
     const handleCategory = (e: MouseEvent<HTMLAnchorElement, globalThis.MouseEvent>, id: string) => {
         e.preventDefault();
 
-        if (path === "/catalogue") {
+        if (path === "/catalog") {
             setCategory(id);
-            setProductList("isLoading");
             return;
         }
 
-        router.push(urlSerializer("/catalogue", { category: id }));
+        router.push(urlSerializer("/catalog", { category: id }));
     };
 
     const handleSearch = (formData: FormData) => {
         const search = String(formData.get("search"));
 
-        if (path === "/catalogue") {
+        if (path === "/catalog") {
             setSearch(search);
-            setProductList("isLoading");
             setSearchOpen(false);
             setTimeout(() => setSearchValue(""), 300);
             return;
@@ -63,7 +59,7 @@ export default function Sub(props: SubProps) {
         setSearchOpen(false);
         setTimeout(() => setSearchValue(""), 300);
 
-        router.push(urlSerializer("/catalogue", { search }));
+        router.push(urlSerializer("/catalog", { search }));
     };
 
     return (
@@ -84,7 +80,7 @@ export default function Sub(props: SubProps) {
                         key={index}
                         type="link"
                         label={name}
-                        href={urlSerializer("/catalogue", { category: id })}
+                        href={urlSerializer("/catalog", { category: id })}
                         onClick={(e) => handleCategory(e, id)}
                         variant="outline"
                     >

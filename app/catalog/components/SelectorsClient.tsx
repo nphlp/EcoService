@@ -3,10 +3,9 @@
 import { CategoryType } from "@actions/types/Category";
 import { combo } from "@lib/combo";
 import { ChangeEventHandler, ReactNode, useContext } from "react";
-import { CatalogueContext } from "./ContextProvider";
+import { CatalogContext } from "./ContextProvider";
 import { ItemsPerPageParamType, PriceOrderParamType } from "./FilterTypes";
-import { useCatalogueParams } from "./useCatalogueParams";
-import { useCatalogueStore } from "./useCatalogueStore";
+import { useCatalogParams } from "./useCatalogParams";
 
 type SelectorsClientProps = {
     categoryList: CategoryType[];
@@ -15,9 +14,8 @@ type SelectorsClientProps = {
 export default function SelectorsClient(props: SelectorsClientProps) {
     const { categoryList } = props;
 
-    const { productAmountLocal } = useContext(CatalogueContext);
-    const { setProductList } = useCatalogueStore();
-    const { priceOrder, page, take, category, setCategory, setPage, setPriceOrder, setTake } = useCatalogueParams();
+    const { productAmountLocal } = useContext(CatalogContext);
+    const { priceOrder, page, take, category, setCategory, setPage, setPriceOrder, setTake } = useCatalogParams();
 
     const divClass = "w-1/4 space-y-2";
     const labelClass = "text-sm text-gray-500 text-gray-200 ";
@@ -32,7 +30,6 @@ export default function SelectorsClient(props: SelectorsClientProps) {
                 selectClass={selectClass}
                 onChange={(e) => {
                     setPage(1);
-                    setProductList("isLoading");
                     setCategory(e.target.value);
                 }}
                 value={category}
@@ -50,7 +47,6 @@ export default function SelectorsClient(props: SelectorsClientProps) {
                 labelClass={labelClass}
                 selectClass={selectClass}
                 onChange={(e) => {
-                    setProductList("isLoading");
                     setPriceOrder(e.target.value as PriceOrderParamType["priceOrder"]);
                 }}
                 value={priceOrder}
@@ -65,12 +61,11 @@ export default function SelectorsClient(props: SelectorsClientProps) {
                 labelClass={labelClass}
                 selectClass={selectClass}
                 onChange={(e) => {
-                    setProductList("isLoading");
                     setPage(Number(e.target.value));
                 }}
                 value={page}
             >
-                {Array.from({ length: Math.ceil(productAmountLocal / take) }, (_, index) => (
+                {Array.from({ length: Math.ceil(productAmountLocal ?? 1 / take) }, (_, index) => (
                     <option key={index + 1} value={index + 1}>
                         {index + 1}
                     </option>
@@ -83,7 +78,6 @@ export default function SelectorsClient(props: SelectorsClientProps) {
                 selectClass={selectClass}
                 onChange={(e) => {
                     setPage(1);
-                    setProductList("isLoading");
                     setTake(Number(e.target.value) as ItemsPerPageParamType["take"]);
                 }}
                 value={take}
