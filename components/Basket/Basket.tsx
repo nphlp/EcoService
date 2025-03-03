@@ -4,38 +4,12 @@ import ButtonClient from "@comps/client/Button";
 import ImageRatio from "@comps/server/ImageRatio";
 import { combo } from "@lib/combo";
 import { motion } from "framer-motion";
-import { useHeaderStore } from "../HeaderStore";
+import { useHeaderStore } from "../Header/HeaderStore";
+import { useBasketStore } from "./BasketStore";
 
 export default function Basket() {
     const { basketOpen, setBasketOpen } = useHeaderStore();
-
-    type BasketItem = {
-        id: string;
-        name: string;
-        price: number;
-        image: string;
-    };
-
-    const basketItem: BasketItem[] = [
-        {
-            id: "1",
-            name: "Produit 1",
-            price: 100,
-            image: "/illustration/produit 1.jpg",
-        },
-        {
-            id: "2",
-            name: "Produit 2",
-            price: 200,
-            image: "/illustration/produit 2.jpg",
-        },
-        {
-            id: "3",
-            name: "Produit 3",
-            price: 300,
-            image: "/illustration/produit 3.jpg",
-        },
-    ];
+    const { basketProductList, clearBasket } = useBasketStore();
 
     return (
         <div
@@ -65,21 +39,34 @@ export default function Basket() {
                     <div>
                         <h3 className="w-full text-2xl font-bold text-primary">Mon Panier</h3>
                         <div className="text-xs text-gray-500">
-                            Vous avez {basketItem.length} produits dans votre panier.
+                            Vous avez {basketProductList.length} produits dans votre panier.
                         </div>
                     </div>
 
-                    {basketItem.map((item, index) => (
+                    {basketProductList.map((item, index) => (
                         <BasketItem key={index} {...item} />
                     ))}
 
-                    <ButtonClient
-                        type="button"
-                        label="paiement"
-                        className="w-full scale-100 rounded-full py-2 font-semibold transition-transform duration-200 hover:scale-[1.02]"
-                    >
-                        Acheter maintenant !
-                    </ButtonClient>
+                    <div className="space-y-3">
+                        <ButtonClient
+                            type="button"
+                            label="paiement"
+                            className="w-full scale-100 rounded-full py-2 font-semibold transition-transform duration-200 hover:scale-[1.02]"
+                        >
+                            Acheter maintenant !
+                        </ButtonClient>
+                        <div className="flex justify-center">
+                            <ButtonClient
+                                type="button"
+                                label="paiement"
+                                variant="ghost"
+                                className="rounded-full px-8 py-1 font-semibold"
+                                onClick={() => clearBasket()}
+                            >
+                                Vider le panier
+                            </ButtonClient>
+                        </div>
+                    </div>
                 </div>
             </motion.div>
         </div>
