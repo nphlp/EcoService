@@ -114,13 +114,13 @@ const ProductList = (props: ProductListProps) => {
                             >
                                 {basketProductList.some((product) => product.id === id) ? (
                                     <>
-                                        <CirclePlus className="absolute translate-x-[45%] translate-y-[-35%] scale-[0.8] fill-white stroke-black stroke-[3px]" />
-                                        <ShoppingCart />
+                                        <CircleCheck className="group-hover:hidden" />
+                                        <CircleX className="hidden group-hover:block" />
                                     </>
                                 ) : (
                                     <>
-                                        <CircleCheck className="group-hover:hidden" />
-                                        <CircleX className="hidden group-hover:block" />
+                                        <CirclePlus className="absolute translate-x-[45%] translate-y-[-35%] scale-[0.8] fill-white stroke-black stroke-[3px]" />
+                                        <ShoppingCart />
                                     </>
                                 )}
                             </ButtonClient>
