@@ -75,6 +75,15 @@ export default function Sub(props: SubProps) {
                 }}
             >
                 <h3 className="w-full text-2xl font-bold text-primary">Catégories</h3>
+                <ButtonClient
+                        type="link"
+                        label="all"
+                        href="/catalog"
+                        onClick={(e) => handleCategory(e, "")}
+                        variant="outline"
+                    >
+                        Toutes les catégories
+                    </ButtonClient>
                 {categorieList.map(({ id, name }, index) => (
                     <ButtonClient
                         key={index}
@@ -86,7 +95,6 @@ export default function Sub(props: SubProps) {
                     >
                         {name}
                     </ButtonClient>
-                    // TODO: make an underline animation when hover
                 ))}
             </MotionSection>
 

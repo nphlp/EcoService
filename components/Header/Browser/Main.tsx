@@ -61,8 +61,7 @@ const CentralNav = () => {
     return (
         <div className="flex flex-row items-center justify-center gap-5">
             <ButtonClient
-                type="link"
-                href="/catalog"
+                type="button"
                 label="catalog"
                 variant="ghost"
                 onClick={() => {
