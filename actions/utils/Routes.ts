@@ -1,11 +1,11 @@
 import { CategoryId, SelectCategoryAmountProps, SelectCategoryListProps } from "@actions/types/Category";
 import { ProductId, SelectProductAmountProps, SelectProductListProps } from "@actions/types/Product";
-import { SelectCategoryResponse } from "@app/api/get/categories/[id]/route";
-import { SelectCategoryAmountResponse } from "@app/api/get/categories/count/route";
-import { SelectCategoryListResponse } from "@app/api/get/categories/route";
-import { SelectProductResponse } from "@app/api/get/products/[id]/route";
-import { SelectProductAmountResponse } from "@app/api/get/products/count/route";
+import { SelectCategoryResponse } from "@app/api/categories/[id]/route";
+import { SelectCategoryAmountResponse } from "@app/api/categories/count/route";
+import { SelectCategoryListResponse } from "@app/api/categories/route";
 import { SelectProductListResponse } from "@app/api/get/products/route";
+import { SelectProductResponse } from "@app/api/products/[id]/route";
+import { SelectProductAmountResponse } from "@app/api/products/count/route";
 
 /**
  * Type definition for all API routes in the application.
