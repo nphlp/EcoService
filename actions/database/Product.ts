@@ -8,10 +8,20 @@ import {
     ProductType,
     ProductUpdate,
     productUpdateSchema,
+    SelectProductListProps,
+    selectProductListSchema,
+    SelectProductAmountProps,
+    selectProductAmountSchema,
+    selectProductObjectSchema,
+    SelectProductProps,
 } from "@actions/types/Product";
 import PrismaInstance from "@lib/prisma";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { ZodError } from "zod";
+
+// ========================== //
+// ==== Mutation Methods ==== //
+// ========================== //
 
 export type ProductMutationResponse = {
     productData?: ProductType;
@@ -103,74 +113,81 @@ export const DeleteProduct = async (props: ProductId): Promise<ProductMutationRe
     }
 };
 
+// ======================== //
+// ==== Select Methods ==== //
+// ======================== //
+
 /**
- * Retrieves a product by ID
- * @param props Product ID
+ * Retrieves a product by ID or another filter \
+ * WARNING: do not use this for fetching data -> use API routes with caching instead
+ * @param props Product ID or other filter (name, description...)
  * @returns Found product or null
  */
-// export const SelectProduct = async (props: ProductId): Promise<ProductType | null> => {
-//     try {
-//         const { id } = productIdObjectSchema.parse(props);
+export const SelectProduct = async (props: SelectProductProps): Promise<ProductType | null> => {
+    try {
+        const { where } = selectProductObjectSchema.parse(props);
 
-//         const productData: ProductType | null = await PrismaInstance.product.findUnique({
-//             where: { id },
-//         });
+        const productData: ProductType | null = await PrismaInstance.product.findUnique({
+            where,
+        });
 
-//         return productData;
-//     } catch (error) {
-//         console.error("SelectProduct -> " + (error as Error).message);
-//         if (error instanceof ZodError || error instanceof PrismaClientKnownRequestError) {
-//             return null;
-//         }
-//         throw new Error("Something went wrong...");
-//     }
-// };
+        return productData;
+    } catch (error) {
+        console.error("SelectProduct -> " + (error as Error).message);
+        if (error instanceof ZodError || error instanceof PrismaClientKnownRequestError) {
+            return null;
+        }
+        throw new Error("Something went wrong...");
+    }
+};
 
 /**
- * Retrieves a list of products with filters
+ * Retrieves a list of products with filters \
+ * WARNING: do not use this for fetching data -> use API routes with caching instead
  * @param props Filter and pagination options
  * @returns List of products or null
  */
-// export const SelectProductList = async (props: SelectProductListProps): Promise<ProductType[] | null> => {
-//     try {
-//         const { orderBy, take = 10, skip = 0, where } = selectProductListSchema.parse(props);
+export const SelectProductList = async (props: SelectProductListProps): Promise<ProductType[] | null> => {
+    try {
+        const { orderBy, take = 10, skip = 0, where } = selectProductListSchema.parse(props);
 
-//         const productDataList: ProductType[] = await PrismaInstance.product.findMany({
-//             ...(orderBy && { orderBy }),
-//             ...(take && { take }),
-//             ...(skip && { skip }),
-//             ...(where && { where }),
-//         });
+        const productDataList: ProductType[] = await PrismaInstance.product.findMany({
+            ...(orderBy && { orderBy }),
+            ...(take && { take }),
+            ...(skip && { skip }),
+            ...(where && { where }),
+        });
 
-//         return productDataList.length ? productDataList : null;
-//     } catch (error) {
-//         console.error("SelectProductList -> " + (error as Error).message);
-//         if (error instanceof ZodError || error instanceof PrismaClientKnownRequestError) {
-//             return null;
-//         }
-//         throw new Error("Something went wrong...");
-//     }
-// };
+        return productDataList.length ? productDataList : null;
+    } catch (error) {
+        console.error("SelectProductList -> " + (error as Error).message);
+        if (error instanceof ZodError || error instanceof PrismaClientKnownRequestError) {
+            return null;
+        }
+        throw new Error("Something went wrong...");
+    }
+};
 
 /**
- * Counts products with filters
+ * Counts products with filters (no caching) \
+ * WARNING: do not use this for fetching data -> use API routes with caching instead
  * @param props Filter options
  * @returns Count of products or null
  */
-// export const SelectProductAmount = async (props: SelectProductAmountProps): Promise<number | null> => {
-//     try {
-//         const { where } = selectProductAmountSchema.parse(props);
+export const SelectProductAmount = async (props: SelectProductAmountProps): Promise<number | null> => {
+    try {
+        const { where } = selectProductAmountSchema.parse(props);
 
-//         const productAmount: number | null = await PrismaInstance.product.count({
-//             ...(where && { where }),
-//         });
+        const productAmount: number | null = await PrismaInstance.product.count({
+            ...(where && { where }),
+        });
 
-//         return productAmount ? productAmount : null;
-//     } catch (error) {
-//         console.error("SelectProductAmount -> " + (error as Error).message);
-//         if (error instanceof ZodError || error instanceof PrismaClientKnownRequestError) {
-//             return null;
-//         }
-//         throw new Error("Something went wrong...");
-//     }
-// };
+        return productAmount ? productAmount : null;
+    } catch (error) {
+        console.error("SelectProductAmount -> " + (error as Error).message);
+        if (error instanceof ZodError || error instanceof PrismaClientKnownRequestError) {
+            return null;
+        }
+        throw new Error("Something went wrong...");
+    }
+};

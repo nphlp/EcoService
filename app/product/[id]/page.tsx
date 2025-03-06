@@ -9,7 +9,7 @@ export default async function Page(props: PageProps) {
     const { params } = props;
     const { id } = await params;
 
-    const product = await Fetch({ route: "/products/{id}", params: { id } });
+    const product = await Fetch({ route: "/products/unique", params: { where: { id } } });
 
     if (!product) {
         return <div>Produit non trouvé</div>;

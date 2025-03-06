@@ -1,11 +1,11 @@
-import { CategoryId, SelectCategoryAmountProps, SelectCategoryListProps } from "@actions/types/Category";
-import { ProductId, SelectProductAmountProps, SelectProductListProps } from "@actions/types/Product";
-import { SelectCategoryResponse } from "@app/api/categories/[id]/route";
+import { CategoryId, SelectCategoryAmountProps, SelectCategoryListProps, SelectCategoryProps } from "@actions/types/Category";
+import { ProductId, SelectProductAmountProps, SelectProductListProps, SelectProductProps } from "@actions/types/Product";
 import { SelectCategoryAmountResponse } from "@app/api/categories/count/route";
 import { SelectCategoryListResponse } from "@app/api/categories/route";
-import { SelectProductListResponse } from "@app/api/get/products/route";
-import { SelectProductResponse } from "@app/api/products/[id]/route";
+import { SelectCategoryResponse } from "@app/api/categories/unique/route";
 import { SelectProductAmountResponse } from "@app/api/products/count/route";
+import { SelectProductListResponse } from "@app/api/products/route";
+import { SelectProductResponse } from "@app/api/products/unique/route";
 
 /**
  * Type definition for all API routes in the application.
@@ -28,10 +28,10 @@ export type Routes = {
     };
     /**
      * Route for fetching a single product by ID
-     * GET /api/get/products/{id}
+     * GET /api/get/products/unique
      */
-    "/products/{id}": {
-        params?: ProductId;
+    "/products/unique": {
+        params?: SelectProductProps;
         response: SelectProductResponse;
     };
     /**
@@ -52,10 +52,10 @@ export type Routes = {
     };
     /**
      * Route for fetching a single category by ID
-     * GET /api/get/categories/{id}
+     * GET /api/get/categories/unique
      */
-    "/categories/{id}": {
-        params?: CategoryId;
+    "/categories/unique": {
+        params?: SelectCategoryProps;
         response: SelectCategoryResponse;
     };
     /**

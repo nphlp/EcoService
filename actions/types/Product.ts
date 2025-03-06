@@ -23,15 +23,18 @@ export type ProductUpdate = {
 /** Represents system-managed timestamp fields */
 export type ProductTimestamps = Pick<Product, "createdAt" | "updatedAt">;
 
+/** Find one options for products */
+export type SelectProductProps = Pick<Prisma.ProductFindUniqueArgs, "where">;
+
 /** Find many options for products */
 export type SelectProductListProps = Pick<Prisma.ProductFindManyArgs, "orderBy" | "take" | "skip" | "where">;
 
 /** Count options for products */
 export type SelectProductAmountProps = Pick<Prisma.ProductCountArgs, "where">;
 
-// ===================== //
-// ==== Zod Schemas ==== //
-// ===================== //
+// ========================== //
+// ==== Zod Schema Types ==== //
+// ========================== //
 
 export const productIdSchema: ZodString = z.string().nanoid();
 
@@ -57,6 +60,17 @@ export const productTimestampsSchema: ZodType<ProductTimestamps> = z.object({
 export const productUpdateSchema: ZodType<ProductUpdate> = z.object({
     id: productIdSchema,
     data: productCommonSchema,
+});
+
+// ============================ //
+// ==== Zod Select Schemas ==== //
+// ============================ //
+
+export const selectProductObjectSchema: ZodType<SelectProductProps> = z.object({
+    where: z.object({
+        id: productIdSchema,
+        name: z.string().optional(),
+    }),
 });
 
 export const selectProductListSchema: ZodType<SelectProductListProps> = z.object({

@@ -23,15 +23,18 @@ export type CategoryUpdate = {
 /** Represents system-managed timestamp fields */
 export type CategoryTimestamps = Pick<Category, "createdAt" | "updatedAt">;
 
+/** Find one options for categories */
+export type SelectCategoryProps = Pick<Prisma.CategoryFindUniqueArgs, "where">;
+
 /** Find many options for categories */
 export type SelectCategoryListProps = Pick<Prisma.CategoryFindManyArgs, "orderBy" | "take" | "skip" | "where">;
 
 /** Count options for categories */
 export type SelectCategoryAmountProps = Pick<Prisma.CategoryCountArgs, "where">;
 
-// ===================== //
-// ==== Zod Schemas ==== //
-// ===================== //
+// ========================== //
+// ==== Zod Schema Types ==== //
+// ========================== //
 
 export const categoryIdSchema: ZodString = z.string().nanoid();
 
@@ -52,6 +55,17 @@ export const categoryTimestampsSchema: ZodType<CategoryTimestamps> = z.object({
 export const categoryUpdateSchema: ZodType<CategoryUpdate> = z.object({
     id: categoryIdSchema,
     data: categoryCommonSchema,
+});
+
+// ============================ //
+// ==== Zod Select Schemas ==== //
+// ============================ //
+
+export const selectCategoryObjectSchema: ZodType<SelectCategoryProps> = z.object({
+    where: z.object({
+        id: categoryIdSchema,
+        name: z.string().optional(),
+    }),
 });
 
 export const selectCategoryListSchema: ZodType<SelectCategoryListProps> = z.object({
