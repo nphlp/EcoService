@@ -10,6 +10,7 @@ type InputProps = {
     onChange: (e: ChangeEvent<HTMLInputElement>) => void;
     onBlur?: (e: FocusEvent<HTMLInputElement>) => void;
     ring?: boolean;
+    list?: string;
 
     classDiv?: string;
     classLabel?: string;
@@ -35,6 +36,7 @@ export default function InputClient(props: InputProps) {
         type = "text",
         placeholder = false,
         ring = true,
+        list,
         onBlur,
         classDiv,
         classLabel,
@@ -51,7 +53,7 @@ export default function InputClient(props: InputProps) {
         return (
             <input
                 className={combo(
-                    ring && "ring-teal-400 focus:ring-2 focus:ring-offset-2",
+                    ring && "ring-transparent ring-offset-0 focus:ring-2 focus:ring-teal-400 focus:ring-offset-2",
                     "h-6 cursor-pointer rounded border text-xs transition-all duration-150 file:pointer-events-none file:h-6 file:cursor-pointer file:border-none file:text-xs file:transition-all file:duration-150 hover:bg-gray-50 hover:file:bg-gray-200",
                 )}
                 name="profilePicture"
@@ -80,6 +82,7 @@ export default function InputClient(props: InputProps) {
                 onChange={onChange}
                 value={value}
                 onBlur={onBlur}
+                list={list}
             />
         </div>
     );

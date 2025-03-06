@@ -1,3 +1,5 @@
+"use client";
+
 import { useSession } from "@lib/client";
 import { combo } from "@lib/combo";
 import { Leaf } from "lucide-react";

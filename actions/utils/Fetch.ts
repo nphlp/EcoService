@@ -65,8 +65,12 @@ export const Fetch = async <Key extends keyof Routes>(props: FetchProps<Key>): P
         // Encode the props
         const encodedParams = encodeURIComponent(JSON.stringify(params));
 
+        const urlParams = params ? "?params=" + encodedParams : "";
+
         // Construct the url
-        const url = baseUrl + "/api" + route + "?params=" + encodedParams;
+        const url = baseUrl + "/api" + route + urlParams;
+
+        console.log("Fetch -> url", url);
 
         // Fetch the data
         const response = await fetch(url, {

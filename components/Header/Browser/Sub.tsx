@@ -12,15 +12,17 @@ import { MouseEvent, useState } from "react";
 import ButtonClient from "../../client/Button";
 import InputClient from "../../client/Input";
 import LogoutClient from "../../client/Logout";
+import { SearchKeywords } from "../Header";
 import { useHeaderStore } from "../HeaderStore";
 import MotionSection from "./Section";
 
 type SubProps = {
+    keywords: SearchKeywords;
     categorieList: Category[];
 };
 
 export default function Sub(props: SubProps) {
-    const { categorieList } = props;
+    const { keywords, categorieList } = props;
     const { data: session } = useSession();
 
     const path = usePathname();
@@ -76,14 +78,14 @@ export default function Sub(props: SubProps) {
             >
                 <h3 className="w-full text-2xl font-bold text-primary">Catégories</h3>
                 <ButtonClient
-                        type="link"
-                        label="all"
-                        href="/catalog"
-                        onClick={(e) => handleCategory(e, "")}
-                        variant="outline"
-                    >
-                        Toutes les catégories
-                    </ButtonClient>
+                    type="link"
+                    label="all"
+                    href="/catalog"
+                    onClick={(e) => handleCategory(e, "")}
+                    variant="outline"
+                >
+                    Toutes les catégories
+                </ButtonClient>
                 {categorieList.map(({ id, name }, index) => (
                     <ButtonClient
                         key={index}
@@ -105,12 +107,18 @@ export default function Sub(props: SubProps) {
                     <InputClient
                         type="text"
                         label="search"
+                        list="keywords"
                         classLabel="sr-only"
-                        classInput="py-1 px-3 bg-white"
+                        classInput="py-1 px-3 bg-white focus:ring-secondary focus:ring-offset-0"
                         placeholder="Rechercher un produit, une catégorie, etc..."
                         onChange={(e) => setSearchValue(e.target.value)}
                         value={searchValue}
                     />
+                    <datalist id="keywords">
+                        {keywords.map(({ id, keyword }) => (
+                            <option key={id} value={keyword} />
+                        ))}
+                    </datalist>
                     <motion.div onHoverStart={() => setIsHovered(true)} onHoverEnd={() => setIsHovered(false)}>
                         <ButtonClient
                             type="submit"

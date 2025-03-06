@@ -1,6 +1,5 @@
 import "@/globals.css";
-import { Fetch } from "@actions/utils/Fetch";
-import HeaderClient from "@comps/Header/Header";
+import Header from "@comps/Header/Header";
 import FooterClient from "@comps/server/Footer";
 import { combo } from "@lib/combo";
 import type { Metadata } from "next";
@@ -22,17 +21,11 @@ type LayoutProps = {
 export default async function Layout(props: LayoutProps) {
     const { children } = props;
 
-    const categorieList = await Fetch({ route: "/categories", params: { orderBy: { name: "asc" } } });
-
-    if (!categorieList) {
-        return <div>Mmmm... It seems there is not data.</div>;
-    }
-
     return (
         <html lang="en" className="flex h-full flex-col overflow-hidden">
             <body className={combo("flex h-full flex-col overflow-hidden", inter.className)}>
                 <NuqsAdapter>
-                    <HeaderClient categorieList={categorieList} />
+                    <Header />
                     <main className="pointer-events-none relative z-10 w-full flex-1 overflow-y-auto overflow-x-hidden">
                         <div className="pointer-events-auto flex min-h-full w-full flex-col bg-white">{children}</div>
                         <div className="h-[300px] w-full bg-transparent">
