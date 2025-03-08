@@ -8,7 +8,7 @@ import { Category } from "@prisma/client";
 import { motion } from "framer-motion";
 import { CircleChevronRight } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
-import { MouseEvent, useState } from "react";
+import { Fragment, MouseEvent, useEffect, useRef, useState } from "react";
 import ButtonClient from "../../client/Button";
 import InputClient from "../../client/Input";
 import LogoutClient from "../../client/Logout";
@@ -31,10 +31,17 @@ export default function Sub(props: SubProps) {
     const { categorieOpen, searchOpen, accountOpen, setSearchOpen, setCategorieOpen, setAccountOpen, setBasketOpen } =
         useHeaderStore();
 
-    const [isHovered, setIsHovered] = useState(false);
     const [searchValue, setSearchValue] = useState("");
 
     const { setCategory, setSearch } = useCatalogParams();
+
+    const keywordsFiltered = keywords
+        .filter(({ keyword }) => {
+            const searchValueLower = searchValue.toLowerCase();
+            const keywordLower = keyword.toLowerCase();
+            return keywordLower.includes(searchValueLower);
+        })
+        .slice(0, 5);
 
     const handleCategory = (e: MouseEvent<HTMLAnchorElement, globalThis.MouseEvent>, id: string) => {
         e.preventDefault();
@@ -47,11 +54,9 @@ export default function Sub(props: SubProps) {
         router.push(urlSerializer("/catalog", { category: id }));
     };
 
-    const handleSearch = (formData: FormData) => {
-        const search = String(formData.get("search"));
-
+    const handleSearch = () => {
         if (path === "/catalog") {
-            setSearch(search);
+            setSearch(searchValue);
             setSearchOpen(false);
             setTimeout(() => setSearchValue(""), 300);
             return;
@@ -61,8 +66,32 @@ export default function Sub(props: SubProps) {
         setSearchOpen(false);
         setTimeout(() => setSearchValue(""), 300);
 
-        router.push(urlSerializer("/catalog", { search }));
+        router.push(urlSerializer("/catalog", { search: searchValue }));
     };
+
+    const handleClick = (keyword: string) => {
+        if (path === "/catalog") {
+            setSearch(keyword);
+            setSearchOpen(false);
+            setTimeout(() => setSearchValue(""), 300);
+            return;
+        }
+
+        // Close search panel and await panel closing animation to finish
+        setSearchOpen(false);
+        setTimeout(() => setSearchValue(""), 300);
+
+        router.push(urlSerializer("/catalog", { search: keyword }));
+    };
+
+    const contentRef = useRef<HTMLDivElement>(null);
+    const [contentHeight, setContentHeight] = useState(0);
+
+    useEffect(() => {
+        if (contentRef.current) {
+            setContentHeight(contentRef.current.scrollHeight);
+        }
+    }, [keywordsFiltered]);
 
     return (
         <>
@@ -103,45 +132,27 @@ export default function Sub(props: SubProps) {
             {/* Search section */}
             <MotionSection open={searchOpen}>
                 <h3 className="w-full text-2xl font-bold text-primary">Rechercher</h3>
-                <form action={handleSearch} className="flex w-1/2 flex-row gap-3">
+                <div className="flex w-1/2 flex-row gap-3">
                     <InputClient
                         type="text"
                         label="search"
-                        list="keywords"
                         classLabel="sr-only"
                         classInput="py-1 px-3 bg-white focus:ring-secondary focus:ring-offset-0"
                         placeholder="Rechercher un produit, une catégorie, etc..."
                         onChange={(e) => setSearchValue(e.target.value)}
                         value={searchValue}
                     />
-                    <datalist id="keywords">
-                        {keywords.map(({ id, keyword }) => (
-                            <option key={id} value={keyword} />
-                        ))}
-                    </datalist>
-                    <motion.div onHoverStart={() => setIsHovered(true)} onHoverEnd={() => setIsHovered(false)}>
-                        <ButtonClient
-                            type="submit"
-                            label="search"
-                            variant="none"
-                            className="rounded-md border border-gray-300 bg-white p-1"
-                            onMouseEnter={() => setIsHovered(true)}
-                            onMouseLeave={() => setIsHovered(false)}
-                        >
-                            <motion.span
-                                initial={{ rotate: 0 }}
-                                animate={{ rotate: isHovered ? -360 : 0 }}
-                                transition={{
-                                    duration: 1,
-                                    ease: "easeInOut",
-                                    type: "spring",
-                                }}
-                            >
-                                <CircleChevronRight />
-                            </motion.span>
-                        </ButtonClient>
-                    </motion.div>
-                </form>
+                    <ButtonClient
+                        type="link"
+                        label="search"
+                        variant="none"
+                        className="rounded-md border border-gray-300 bg-white p-1"
+                        href={urlSerializer("/catalog", { search: searchValue })}
+                        onClick={handleSearch}
+                    >
+                        <CircleChevronRight />
+                    </ButtonClient>
+                </div>
             </MotionSection>
 
             {/* Account section */}
@@ -185,6 +196,62 @@ export default function Sub(props: SubProps) {
                     </>
                 )}
             </MotionSection>
+
+            {/* Search results */}
+            <motion.div
+                initial={{ opacity: 0 }}
+                animate={{
+                    opacity: searchOpen && searchValue && keywordsFiltered.length ? 1 : 0,
+                }}
+                transition={{
+                    duration: 0.5,
+                    ease: "easeInOut",
+                }}
+                className={combo(
+                    "absolute z-20 flex size-full flex-col items-center justify-start",
+                    searchOpen && searchValue && keywordsFiltered.length
+                        ? "pointer-events-auto"
+                        : "pointer-events-none",
+                )}
+            >
+                <button
+                    type="button"
+                    onClick={() => {
+                        setSearchOpen(false);
+                        setTimeout(() => setSearchValue(""), 300);
+                    }}
+                    className="absolute size-full bg-black/20"
+                ></button>
+                <motion.div
+                    initial={{ height: 0 }}
+                    animate={{
+                        height: keywordsFiltered.length ? contentHeight : 0,
+                    }}
+                    transition={{
+                        duration: 0.3,
+                        ease: "easeInOut",
+                    }}
+                    className="relative z-30 mt-4 w-1/2 overflow-hidden rounded-xl border border-gray-300 bg-white shadow-md"
+                >
+                    <div ref={contentRef} className="space-y-2 p-3">
+                        {keywordsFiltered.map(({ keyword }, index) => (
+                            <Fragment key={index}>
+                                {index !== 0 && <hr className="mx-4" />}
+                                <ButtonClient
+                                    type="link"
+                                    label={keyword}
+                                    variant="ghost"
+                                    className="w-full"
+                                    href={urlSerializer("/catalog", { search: keyword })}
+                                    onClick={() => handleClick(keyword)}
+                                >
+                                    {keyword}
+                                </ButtonClient>
+                            </Fragment>
+                        ))}
+                    </div>
+                </motion.div>
+            </motion.div>
         </>
     );
 }
