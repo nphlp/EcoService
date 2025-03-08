@@ -1,46 +1,37 @@
 "use client";
 
 import { combo } from "@lib/combo";
-import { ChangeEvent, FocusEvent } from "react";
+import { InputHTMLAttributes, RefAttributes } from "react";
 
 type InputProps = {
     label: string;
-    type: "text" | "email" | "password" | "file";
     placeholder?: string | boolean;
-    onChange: (e: ChangeEvent<HTMLInputElement>) => void;
-    onBlur?: (e: FocusEvent<HTMLInputElement>) => void;
     ring?: boolean;
-    list?: string;
 
     classDiv?: string;
     classLabel?: string;
     classInput?: string;
 } & (
-    | {
+    | ({
           // If type is text, email, or password
           type: "text" | "email" | "password";
-          value: string;
-      }
-    | {
+      } & Omit<InputHTMLAttributes<HTMLInputElement>, "type">)
+    | ({
           // If type is file
           type: "file";
-          value?: never;
-      }
-);
+      } & Omit<InputHTMLAttributes<HTMLInputElement>, "type">)
+) & RefAttributes<HTMLInputElement>;
 
 export default function InputClient(props: InputProps) {
     const {
         label,
-        onChange,
-        value,
         type = "text",
         placeholder = false,
         ring = true,
-        list,
-        onBlur,
         classDiv,
         classLabel,
         classInput,
+        ...others
     } = props;
 
     const labelLowerCased = label.toLocaleLowerCase();
@@ -59,7 +50,7 @@ export default function InputClient(props: InputProps) {
                 name="profilePicture"
                 type="file"
                 accept="image/*"
-                onChange={onChange}
+                {...others}
             />
         );
     }
@@ -79,10 +70,7 @@ export default function InputClient(props: InputProps) {
                 id={labelLowerCased}
                 name={labelLowerCased}
                 placeholder={placeholderValue}
-                onChange={onChange}
-                value={value}
-                onBlur={onBlur}
-                list={list}
+                {...others}
             />
         </div>
     );

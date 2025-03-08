@@ -12,6 +12,9 @@ export default {
                 primary: "#0E073B",
                 secondary: "#00C2CB",
             },
+            fontSize: {
+                "xxs": ["0.625rem", { lineHeight: "0.75rem" }],
+            },
         },
     },
     plugins: [],
