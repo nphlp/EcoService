@@ -1,0 +1,331 @@
+generator client {
+    provider = "prisma-client-js"
+}
+
+generator zod {
+    provider         = "zod-prisma"
+    output           = "../actions/zod-generated"
+    relationModel    = true
+    // relationModel = "default"
+    modelCase        = "PascalCase"
+    // modelCase     = "camelCase"
+    modelSuffix      = "Model"
+}
+
+datasource db {
+    provider = "mysql"
+    url      = env("DATABASE_URL")
+}
+
+/// User model
+model User {
+    id            String  @id @default(nanoid()) /// @zod.nanoid()
+    /// Firstname Lastname
+    name          String
+    email         String  @unique /// @zod.email()
+    emailVerified Boolean
+    image         String?
+
+    role  Role    @default(USER)
+    phone String?
+
+    Article      Article[]
+    DoItYourself DoItYourself[]
+    Adress       Address[]
+    Order        Order[]
+    Product      Product[]
+
+    /// Regular Stripe Customer ID
+    stripeId        String?
+    /// Stripe Connect Account ID
+    stripeConnectId String?
+    /// Track if seller has completed Stripe onboarding
+    isOnboarded     Boolean @default(false)
+    /// Track if user wants to be a seller
+    isSeller        Boolean @default(false)
+
+    Session Session[]
+    Account Account[]
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@index([id])
+    @@index([email])
+    @@index([stripeId])
+    @@index([stripeConnectId])
+}
+
+enum Role {
+    USER
+    VENDOR
+    EMPLOYEE
+    ADMIN
+}
+
+/// Session model (BetterAuth)
+model Session {
+    id        String   @id @default(nanoid()) /// @zod.nanoid()
+    token     String
+    expiresAt DateTime
+    ipAddress String?
+    userAgent String?
+
+    userId String
+    User   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@index([id])
+    @@index([userId])
+    @@index([token])
+}
+
+/// Account model (BetterAuth)
+model Account {
+    id         String @id @default(nanoid()) /// @zod.nanoid()
+    accountId  String
+    providerId String
+
+    userId String
+    User   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    accessToken  String?
+    refreshToken String?
+
+    accessTokenExpiresAt  DateTime?
+    refreshTokenExpiresAt DateTime?
+
+    scope    String?
+    idToken  String?
+    password String?
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@index([id])
+    @@index([userId])
+    @@index([accountId])
+    @@index([providerId])
+    @@index([accessToken])
+    @@index([refreshToken])
+    @@index([idToken])
+}
+
+/// Verification model (BetterAuth)
+model Verification {
+    id         String   @id @default(nanoid()) /// @zod.nanoid()
+    identifier String
+    value      String
+    expiresAt  DateTime
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@index([id])
+    @@index([identifier])
+}
+
+/// Address model
+model Address {
+    id      String @id @default(nanoid()) /// @zod.nanoid()
+    address String
+    postal  String
+    city    String
+    country String
+
+    isDefault Boolean
+
+    userId String
+    User   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@index([id])
+    @@index([userId])
+}
+
+/// Article model
+model Article {
+    id    String @id @default(nanoid()) /// @zod.nanoid()
+    title String
+
+    Content Content[]
+
+    authorId String
+    Author   User   @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@index([id])
+    @@index([title])
+    @@index([authorId])
+}
+
+/// DoItYourself model
+model DoItYourself {
+    id    String @id @default(nanoid()) /// @zod.nanoid()
+    title String
+
+    Content Content[]
+
+    authorId String
+    Author   User   @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@index([id])
+    @@index([title])
+    @@index([authorId])
+}
+
+/// Content model
+model Content {
+    id      String @id @default(nanoid()) /// @zod.nanoid()
+    content String
+    image   String
+
+    articleId String?
+    Article   Article? @relation(fields: [articleId], references: [id], onDelete: Cascade)
+
+    doItYourselfId String?
+    DoItYourself   DoItYourself? @relation(fields: [doItYourselfId], references: [id], onDelete: Cascade)
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@index([id])
+    @@index([articleId])
+    @@index([doItYourselfId])
+}
+
+/// Category model
+model Category {
+    id          String  @id @default(nanoid()) /// @zod.nanoid()
+    name        String
+    description String?
+
+    Products Product[] @relation("CategoryToProduct")
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@index([id])
+    @@index([name])
+}
+
+/// Product model
+model Product {
+    id          String @id @default(nanoid()) /// @zod.nanoid()
+    name        String
+    description String
+    image       String
+    price       Float
+    stock       Int
+
+    vendorId String
+    Vendor   User   @relation(fields: [vendorId], references: [id], onDelete: Cascade)
+
+    Quantity Quantity[]
+
+    categoryId String?
+    Category   Category? @relation("CategoryToProduct", fields: [categoryId], references: [id])
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@index([id])
+    @@index([name])
+    @@index([vendorId])
+    @@index([categoryId])
+}
+
+/// Quantity model
+model Quantity {
+    id       String @id @default(nanoid()) /// @zod.nanoid()
+    quantity Int
+
+    productId String
+    product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+    orderId String
+    Order   Order  @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@index([id])
+    @@index([productId])
+    @@index([orderId])
+}
+
+/// Order model
+model Order {
+    id String @id @default(nanoid()) /// @zod.nanoid()
+
+    /// Order number for the customer
+    orderNumber Int @unique @default(autoincrement())
+
+    orderStatus   OrderStatus   @default(PENDING)
+    paymentStatus PaymentStatus @default(PENDING)
+
+    userId String
+    User   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    Quantity Quantity[]
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@index([id])
+    @@index([userId])
+    @@index([orderNumber])
+}
+
+enum OrderStatus {
+    /// Order in cart
+    PENDING
+    /// Order paid
+    ACCEPTED
+    /// Order preparing for shipment
+    PREPARING
+    /// Order in delivering
+    DELIVERING
+    /// Order delivered to the customer
+    COMPLETED
+    /// Order cancelled
+    CANCELLED
+    /// Order retturning
+    RETURNING
+    /// Order refunded
+    REFOUNDED
+}
+
+enum PaymentStatus {
+    /// Payment pending
+    PENDING
+    /// Payment accepted
+    ACCEPTED
+    /// Payment refused
+    REFUSED
+    /// Payment refunded
+    REFUNDED
+}
+
+/// Fruit model
+model Fruit {
+    id          String @id @default(nanoid()) /// @zod.nanoid()
+    name        String
+    description String
+    image       String
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@index([id])
+    @@index([name])
+}
