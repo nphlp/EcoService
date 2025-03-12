@@ -1,6 +1,8 @@
 import ButtonClient from "@comps/client/Button";
 
-export default function Page() {
+export const dynamic = 'force-dynamic';
+
+export default function NotFound() {
     return (
         <div className="flex flex-1 flex-col items-center justify-center">
             <div className="space-y-4">

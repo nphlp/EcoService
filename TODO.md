@@ -2,6 +2,14 @@
 
 Complete auth and user management
 
+- METADATA !!!!!!!!!
+
+- Auto infer zod common schema
+- Zod schema page per page
+
+- ESlint Tailwind
+- Prettier
+
 ## User Experience
 
 - [ ] Home icone: underline animation when hover on header categories link
@@ -58,30 +66,3 @@ Complete auth and user management
     - [ ] In each component
 
 - [ ] Internationalization
-
-## Planning
-
-- [ ] Install dependencies
-
-    - [x] Prisma
-    - [x] Better Auth
-    - [x] Eslint Tailwind Plugin
-    - [x] Tailwind Merge + CLSX = Combo
-    - [x] Lucide Icon
-    - [x] Zod
-    - [x] Zustand
-    - [x] Tsx
-
-    - [ ] React Easy Crop ?
-    - [ ] Next Safe Action ? ZSA ?
-
-- [x] Documentation
-
-    - [x] Concept explanation
-    - [x] Project installation
-    - [x] Environment variables
-    - [ ] Insert, reload, reset fixtures
-
-- [ ] Front-end
-
-- [ ] Back-end

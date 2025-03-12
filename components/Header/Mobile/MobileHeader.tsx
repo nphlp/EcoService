@@ -1,6 +1,6 @@
 "use client";
 
-import { useSession } from "@lib/client";
+import { useSession } from "@lib/authClient";
 import { combo } from "@lib/combo";
 import { Leaf } from "lucide-react";
 import { useState } from "react";
@@ -101,11 +101,9 @@ export default function MobileHeader(props: MobileHeaderProps) {
                             >
                                 Profile
                             </ButtonClient>
-                            <LogoutClient
-                                variant="outline"
-                                onClick={() => setVisibilityMenu(false)}
-                                className="w-full"
-                            />
+                            <LogoutClient variant="outline" onClick={() => setVisibilityMenu(false)} className="w-full">
+                                Logout
+                            </LogoutClient>
                         </>
                     )}
 

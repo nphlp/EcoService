@@ -14,6 +14,7 @@ const nextConfig: NextConfig = {
 
     experimental: {
         viewTransition: true,
+        authInterrupts: true,
     },
 };
 

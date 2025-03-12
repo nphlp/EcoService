@@ -21,6 +21,7 @@
         "paths": {
             "@actions/*": ["./actions/*"],
             "@app/*": ["./app/*"],
+            "@api/*": ["./app/api/*"],
             "@comps/*": ["./components/*"],
             "@lib/*": ["./lib/*"],
             "@prisma/*": ["./prisma/*"],

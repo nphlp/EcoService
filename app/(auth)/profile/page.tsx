@@ -1,9 +1,11 @@
-import { GetSession } from "@lib/auth";
-import { redirect } from "next/navigation";
 import LogoutClient from "@comps/client/Logout";
 import Card from "@comps/server/Card";
-import { CircleCheck, CircleX } from "lucide-react";
+import { GetSession } from "@lib/auth";
+import { CircleCheck, CircleX, LogOut } from "lucide-react";
+import { redirect } from "next/navigation";
 import ProfileClient from "./client";
+
+export const dynamic = 'force-dynamic';
 
 export default async function Page() {
     const session = await GetSession();
@@ -54,7 +56,10 @@ export default async function Page() {
                         </div>
                     </div>
                     <div className="flex items-center justify-center">
-                        <LogoutClient variant="outline" />
+                        <LogoutClient variant="outline">
+                            <LogOut className="size-4" />
+                            <span>Logout</span>
+                        </LogoutClient>
                     </div>
                 </Card>
                 <ProfileClient />

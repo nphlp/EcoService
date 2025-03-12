@@ -1,7 +1,7 @@
 "use client";
 
 import { useQueryState } from "nuqs";
-import { CategoryParam, ItemsPerPageParam, PageParam, PriceOrderParam, SearchParam } from "./FilterTypes";
+import { CategoryParam, ItemsPerPageParam, PageParam, PriceOrderParam, SearchParam } from "./filterTypes";
 
 /**
  * Use Query States

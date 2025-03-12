@@ -1,20 +1,17 @@
-import { $Enums, Order, Prisma } from "@prisma/client";
-import { z, ZodString, ZodType } from "zod";
+import { OrderModel, RelatedOrderModel } from "@actions/zod-generated";
+import { Order, Prisma } from "@prisma/client";
+import { z } from "zod";
 
-// ===================== //
-// ==== Order Types ==== //
-// ===================== //
+/** Represents the Order's model with relations */
+export type OrderType = z.infer<typeof RelatedOrderModel>;
 
-/** Represents a complete order entity */
-export type OrderType = Order;
-
-/** Represents the order's unique identifier */
+/** Represents the Order's unique identifier */
 export type OrderId = Pick<Order, "id">;
 
-/** Represents common order properties without system-managed fields */
+/** Represents common Order properties without system-managed fields */
 export type OrderCommon = Omit<Order, "id" | "createdAt" | "updatedAt">;
 
-/** Represents data structure for updating an order */
+/** Represents data structure for updating a Order */
 export type OrderUpdate = {
     id: Order["id"];
     data: OrderCommon;
@@ -23,57 +20,11 @@ export type OrderUpdate = {
 /** Represents system-managed timestamp fields */
 export type OrderTimestamps = Pick<Order, "createdAt" | "updatedAt">;
 
-/** Find many options for orders */
-export type SelectOrderListProps = Pick<Prisma.OrderFindManyArgs, "orderBy" | "take" | "skip" | "where">;
+/** Find one options for Orders */
+export type SelectOrderProps = Pick<Prisma.OrderFindUniqueArgs, "where" | "select">;
 
-/** Count options for orders */
+/** Find many options for Orders */
+export type SelectOrderListProps = Pick<Prisma.OrderFindManyArgs, "orderBy" | "take" | "skip" | "where" | "select">;
+
+/** Count options for Orders */
 export type SelectOrderAmountProps = Pick<Prisma.OrderCountArgs, "where">;
-
-// ===================== //
-// ==== Zod Schemas ==== //
-// ===================== //
-
-export const orderIdSchema: ZodString = z.string().nanoid();
-
-export const orderIdObjectSchema: ZodType<OrderId> = z.object({
-    id: z.string().nanoid(),
-});
-
-export const orderCommonSchema: ZodType<OrderCommon> = z.object({
-    orderStatus: z.nativeEnum($Enums.OrderStatus),
-    paymentStatus: z.nativeEnum($Enums.PaymentStatus),
-    userId: z.string(),
-});
-
-export const orderTimestampsSchema: ZodType<OrderTimestamps> = z.object({
-    createdAt: z.date(),
-    updatedAt: z.date(),
-});
-
-export const orderUpdateSchema: ZodType<OrderUpdate> = z.object({
-    id: orderIdSchema,
-    data: orderCommonSchema,
-});
-
-export const selectOrderListSchema: ZodType<SelectOrderListProps> = z.object({
-    orderBy: z
-        .object({
-            // Types to validate
-        })
-        .optional(),
-    take: z.number().min(1).max(100).optional(),
-    skip: z.number().min(0).optional(),
-    where: z
-        .object({
-            // Types to validate
-        })
-        .optional(),
-});
-
-export const selectOrderAmountSchema: ZodType<SelectOrderAmountProps> = z.object({
-    where: z
-        .object({
-            // Types to validate
-        })
-        .optional(),
-});

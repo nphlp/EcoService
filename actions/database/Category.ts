@@ -2,27 +2,26 @@
 
 import {
     CategoryCommon,
-    categoryCommonSchema,
     CategoryId,
-    categoryIdObjectSchema,
     CategoryType,
     CategoryUpdate,
-    categoryUpdateSchema,
     SelectCategoryAmountProps,
-    selectCategoryAmountSchema,
     SelectCategoryListProps,
-    selectCategoryListSchema,
-    selectCategoryObjectSchema,
     SelectCategoryProps,
 } from "@actions/types/Category";
+import {
+    selectCategoryAmountSchema,
+    selectCategoryListSchema,
+    selectCategoryUniqueSchema,
+} from "@actions/zod-sensitive/Category";
+import { categoryCommonSchema, categoryIdObjectSchema, categoryUpdateSchema } from "@actions/zod/Category";
 import PrismaInstance from "@lib/prisma";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { ZodError } from "zod";
 
-// ========================== //
-// ==== Mutation Methods ==== //
-// ========================== //
-
+/**
+ * Response type for Category mutations
+ */
 export type CategoryMutationResponse = {
     categoryData?: CategoryType;
     error?: string;
@@ -43,7 +42,7 @@ export const CreateCategory = async (props: CategoryCommon): Promise<CategoryMut
     } catch (error) {
         console.error("CreateCategory -> " + (error as Error).message);
         if (process.env.NODE_ENV === "development") {
-            if (error instanceof ZodError) throw new Error("CreateCategory -> Invalid params -> " + error.message);
+            if (error instanceof ZodError) throw new Error("CreateCategory -> Invalid Zod params -> " + error.message);
             if (error instanceof PrismaClientKnownRequestError)
                 throw new Error("CreateCategory -> Prisma error -> " + error.message);
             throw new Error("CreateCategory -> " + (error as Error).message);
@@ -69,7 +68,7 @@ export const UpdateCategory = async (props: CategoryUpdate): Promise<CategoryMut
     } catch (error) {
         console.error("UpdateCategory -> " + (error as Error).message);
         if (process.env.NODE_ENV === "development") {
-            if (error instanceof ZodError) throw new Error("UpdateCategory -> Invalid params -> " + error.message);
+            if (error instanceof ZodError) throw new Error("UpdateCategory -> Invalid Zod params -> " + error.message);
             if (error instanceof PrismaClientKnownRequestError)
                 throw new Error("UpdateCategory -> Prisma error -> " + error.message);
             throw new Error("UpdateCategory -> " + (error as Error).message);
@@ -94,7 +93,7 @@ export const DeleteCategory = async (props: CategoryId): Promise<CategoryMutatio
     } catch (error) {
         console.error("DeleteCategory -> " + (error as Error).message);
         if (process.env.NODE_ENV === "development") {
-            if (error instanceof ZodError) throw new Error("DeleteCategory -> Invalid params -> " + error.message);
+            if (error instanceof ZodError) throw new Error("DeleteCategory -> Invalid Zod params -> " + error.message);
             if (error instanceof PrismaClientKnownRequestError)
                 throw new Error("DeleteCategory -> Prisma error -> " + error.message);
             throw new Error("DeleteCategory -> " + (error as Error).message);
@@ -104,43 +103,45 @@ export const DeleteCategory = async (props: CategoryId): Promise<CategoryMutatio
     }
 };
 
-// ======================== //
-// ==== Select Methods ==== //
-// ======================== //
-
 /**
- * Retrieves a category by ID or another filter \
+ * Retrieves a category by ID or another filter (no caching) \
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  * @param props Category ID or other filter (name, description...)
  * @returns Found category or null
  */
 export const SelectCategory = async (props: SelectCategoryProps): Promise<CategoryType | null> => {
     try {
-        const { where } = selectCategoryObjectSchema.parse(props);
+        const { where, select } = selectCategoryUniqueSchema.parse(props);
         const categoryData: CategoryType | null = await PrismaInstance.category.findUnique({
             where,
+            ...(select && { select }),
         });
         return categoryData;
     } catch (error) {
         console.error("SelectCategory -> " + (error as Error).message);
-        if (error instanceof ZodError || error instanceof PrismaClientKnownRequestError) {
-            return null;
+        if (process.env.NODE_ENV === "development") {
+            if (error instanceof ZodError) throw new Error("SelectCategory -> Invalid Zod params -> " + error.message);
+            if (error instanceof PrismaClientKnownRequestError)
+                throw new Error("SelectCategory -> Prisma error -> " + error.message);
+            throw new Error("SelectCategory -> " + (error as Error).message);
         }
-        throw new Error("Something went wrong...");
+        // TODO: add logging
+        return null;
     }
 };
 
 /**
- * Retrieves a list of categories with filters \
+ * Retrieves a list of categories with filters (no caching) \
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  * @param props Filter and pagination options
  * @returns List of categories or null
  */
 export const SelectCategoryList = async (props: SelectCategoryListProps): Promise<CategoryType[] | null> => {
     try {
-        const { orderBy, take = 10, skip = 0, where } = selectCategoryListSchema.parse(props);
+        const { select, orderBy, take = 10, skip = 0, where } = selectCategoryListSchema.parse(props);
 
         const categoryDataList: CategoryType[] = await PrismaInstance.category.findMany({
+            ...(select && { select }),
             ...(orderBy && { orderBy }),
             ...(take && { take }),
             ...(skip && { skip }),
@@ -149,15 +150,19 @@ export const SelectCategoryList = async (props: SelectCategoryListProps): Promis
         return categoryDataList.length ? categoryDataList : null;
     } catch (error) {
         console.error("SelectCategoryList -> " + (error as Error).message);
-        if (error instanceof ZodError || error instanceof PrismaClientKnownRequestError) {
-            return null;
+        if (process.env.NODE_ENV === "development") {
+            if (error instanceof ZodError) throw new Error("SelectCategoryList -> Invalid Zod params -> " + error.message);
+            if (error instanceof PrismaClientKnownRequestError)
+                throw new Error("SelectCategoryList -> Prisma error -> " + error.message);
+            throw new Error("SelectCategoryList -> " + (error as Error).message);
         }
-        throw new Error("Something went wrong...");
+        // TODO: add logging
+        return null;
     }
 };
 
 /**
- * Counts categories with filters \
+ * Counts categories with filters (no caching) \
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  * @param props Filter options
  * @returns Count of categories or null
@@ -173,9 +178,13 @@ export const SelectCategoryAmount = async (props: SelectCategoryAmountProps): Pr
         return categoryAmount;
     } catch (error) {
         console.error("SelectCategoryAmount -> " + (error as Error).message);
-        if (error instanceof ZodError || error instanceof PrismaClientKnownRequestError) {
-            return null;
+        if (process.env.NODE_ENV === "development") {
+            if (error instanceof ZodError) throw new Error("SelectCategoryAmount -> Invalid Zod params -> " + error.message);
+            if (error instanceof PrismaClientKnownRequestError)
+                throw new Error("SelectCategoryAmount -> Prisma error -> " + error.message);
+            throw new Error("SelectCategoryAmount -> " + (error as Error).message);
         }
-        throw new Error("Something went wrong...");
+        // TODO: add logging
+        return null;
     }
 };

@@ -1,0 +1,77 @@
+import { {{modelName}}Type } from "@actions/types/{{modelName}}";
+import { Select{{modelName}}Props } from "@actions/types/{{modelName}}";
+import { select{{modelName}}UniqueSchema } from "@actions/zod-sensitive/{{modelName}}";
+import PrismaInstance from "@lib/prisma";
+import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
+import { unstable_cache as cache } from "next/cache";
+import { NextRequest, NextResponse } from "next/server";
+import { ZodError } from "zod";
+
+/**
+ * Retrieves a cached {{modelNameLower}} by ID
+ * @param stringParams Parameters containing the {{modelNameLower}} ID in JSON format
+ * @returns {{modelName}} or null if not found
+ */
+const Select{{modelName}}Cached = cache(
+    async (stringParams: string): Promise<{{modelName}}Type | null> => {
+        // Parse the params as object
+        const params: Select{{modelName}}Props = JSON.parse(stringParams);
+
+        const { where, select } = select{{modelName}}UniqueSchema.parse(params);
+
+        const {{modelNameLower}}Data: {{modelName}}Type | null = await PrismaInstance.{{modelNameLower}}.findUnique({
+            where,
+            ...(select && { select }),
+        });
+
+        return {{modelNameLower}}Data;
+    },
+    ["/{{modelNameLower}}s/unique"],
+    {
+        /**
+         * Cache revalidation
+         * - development : revalidate every 5 seconds
+         * - production : revalidate every 5 minutes
+         */
+        revalidate: process.env.NODE_ENV === "development" ? 5 : 300,
+        tags: ["/{{modelNameLower}}s/unique"],
+    },
+);
+
+export type Select{{modelName}}Response =
+    | {
+          data: {{modelName}}Type | null;
+      }
+    | {
+          error: string;
+      };
+
+/**
+ * GET route handler for retrieving a single {{modelNameLower}} by ID
+ * @param request Incoming request with {{modelNameLower}} ID parameter
+ * @returns JSON response containing {{modelNameLower}} data or error message
+ */
+export const GET = async (request: NextRequest): Promise<NextResponse<Select{{modelName}}Response>> => {
+    try {
+        // Get the params and decode them
+        const encodedParams = request.nextUrl.searchParams.get("params") ?? "{}";
+        const stringParams = decodeURIComponent(encodedParams);
+
+        // Get the {{modelNameLower}}
+        const {{modelNameLower}}Data: {{modelName}}Type | null = await Select{{modelName}}Cached(stringParams);
+
+        // Return the {{modelNameLower}}
+        return NextResponse.json({ data: {{modelNameLower}}Data }, { status: 200 });
+    } catch (error) {
+        console.error("Select{{modelName}}Cached -> " + (error as Error).message);
+        if (process.env.NODE_ENV === "development") {
+            if (error instanceof ZodError)
+                return NextResponse.json({ error: "Select{{modelName}}Cached -> Invalid Zod params -> " + error.message });
+            if (error instanceof PrismaClientKnownRequestError)
+                return NextResponse.json({ error: "Select{{modelName}}Cached -> Prisma error -> " + error.message });
+            return NextResponse.json({ error: "Select{{modelName}}Cached -> " + (error as Error).message });
+        }
+        // TODO: add logging
+        return NextResponse.json({ error: "Something went wrong..." }, { status: 500 });
+    }
+};

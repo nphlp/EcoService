@@ -2,39 +2,58 @@ generator client {
     provider = "prisma-client-js"
 }
 
+generator zod {
+    provider         = "zod-prisma"
+    output           = "../actions/zod-generated"
+    relationModel    = true
+    // relationModel = "default"
+    modelCase        = "PascalCase"
+    // modelCase     = "camelCase"
+    modelSuffix      = "Model"
+}
+
 datasource db {
     provider = "mysql"
     url      = env("DATABASE_URL")
 }
 
+/// User model
 model User {
-    id            String  @id @unique @default(nanoid())
+    id            String  @id @default(nanoid()) /// @zod.nanoid()
+    /// Firstname Lastname
     name          String
-    email         String  @unique
+    email         String  @unique /// @zod.email()
     emailVerified Boolean
     image         String?
 
-    phone    String?
+    role  Role    @default(USER)
+    phone String?
 
-    stripeId        String? // Regular Stripe Customer ID
-    stripeConnectId String? // Stripe Connect Account ID
-    isOnboarded     Boolean @default(false) // Track if seller has completed Stripe onboarding
-    isSeller        Boolean @default(false) // Track if user wants to be a seller
+    Article      Article[]
+    DoItYourself DoItYourself[]
+    Adress       Address[]
+    Order        Order[]
+    Product      Product[]
 
-    Adress   Address[]
-    Order    Order[]
+    /// Regular Stripe Customer ID
+    stripeId        String?
+    /// Stripe Connect Account ID
+    stripeConnectId String?
+    /// Track if seller has completed Stripe onboarding
+    isOnboarded     Boolean @default(false)
+    /// Track if user wants to be a seller
+    isSeller        Boolean @default(false)
 
-    role    Role      @default(USER)
-    Product Product[] // for vendor only
-
-    // One to Many
     Session Session[]
     Account Account[]
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
-    @@map("user")
+    @@index([id])
+    @@index([email])
+    @@index([stripeId])
+    @@index([stripeConnectId])
 }
 
 enum Role {
@@ -44,139 +63,33 @@ enum Role {
     ADMIN
 }
 
-model Category {
-    id          String    @id @unique @default(nanoid())
-    name        String
-    description String?
-    products    Product[] @relation("CategoryToProduct") // Relation avec les produits
-
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-
-    @@map("categories")
-}
-
-model Product {
-    id          String @id @unique @default(nanoid())
-    name        String
-    description String
-    image       String
-    price       Float
-    stock       Int
-
-    vendorId    String
-    user        User   @relation(fields: [vendorId], references: [id], onDelete: Cascade)
-
-    quantity    Quantity[]
-
-    categoryId  String? // Ajout de la clé étrangère
-    category    Category? @relation("CategoryToProduct", fields: [categoryId], references: [id])
-
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-
-    @@map("product")
-}
-
-model Quantity {
-    id String @id @unique @default(nanoid())
-    quantity Int
-
-    productId String
-    product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
-
-    orderId String
-    order   Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
-
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-
-    @@map("quantity")
-}
-
-model Order {
-    id String @id @unique @default(nanoid())
-    // orderNumber String
-
-    // items         Json
-    orderStatus   OrderStatus   @default(PENDING)
-    paymentStatus PaymentStatus @default(PENDING)
-
-    // Many to One
-    userId String
-    user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-    quantity Quantity[]
-
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-
-    @@map("order")
-}
-
-enum OrderStatus {
-    PENDING // in cart
-    ACCEPTED // order paid
-    PREPARING // preparing for shipment
-    DELIVERING // in delivering
-    COMPLETED // delivered
-    CANCELLED // order cancelled
-    RETURNING // order retturning
-    REFOUNDED // order refunded
-}
-
-enum PaymentStatus {
-    PENDING
-    ACCEPTED
-    REFUSED
-    REFUNDED
-}
-
-model Address {
-    id      String @id @unique @default(nanoid())
-    address String
-    postal  String
-    city    String
-    country String
-
-    isPrimary Boolean
-
-    // Many to One
-    userId String
-    user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-
-    @@map("address")
-}
-
+/// Session model (BetterAuth)
 model Session {
-    id        String   @id @unique @default(nanoid())
+    id        String   @id @default(nanoid()) /// @zod.nanoid()
     token     String
     expiresAt DateTime
     ipAddress String?
     userAgent String?
 
-    // Many to One
     userId String
-    user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+    User   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
+    @@index([id])
     @@index([userId])
-    @@map("session")
+    @@index([token])
 }
 
+/// Account model (BetterAuth)
 model Account {
-    id         String @id @unique @default(nanoid())
+    id         String @id @default(nanoid()) /// @zod.nanoid()
     accountId  String
     providerId String
 
-    // Many to One
     userId String
-    user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+    User   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
     accessToken  String?
     refreshToken String?
@@ -185,16 +98,24 @@ model Account {
     refreshTokenExpiresAt DateTime?
 
     scope    String?
+    idToken  String?
     password String?
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
-    @@map("account")
+    @@index([id])
+    @@index([userId])
+    @@index([accountId])
+    @@index([providerId])
+    @@index([accessToken])
+    @@index([refreshToken])
+    @@index([idToken])
 }
 
+/// Verification model (BetterAuth)
 model Verification {
-    id         String   @id @unique @default(nanoid())
+    id         String   @id @default(nanoid()) /// @zod.nanoid()
     identifier String
     value      String
     expiresAt  DateTime
@@ -202,11 +123,202 @@ model Verification {
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
-    @@map("verification")
+    @@index([id])
+    @@index([identifier])
 }
 
+/// Address model
+model Address {
+    id      String @id @default(nanoid()) /// @zod.nanoid()
+    address String
+    postal  String
+    city    String
+    country String
+
+    isDefault Boolean
+
+    userId String
+    User   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@index([id])
+    @@index([userId])
+}
+
+/// Article model
+model Article {
+    id    String @id @default(nanoid()) /// @zod.nanoid()
+    title String
+
+    Content Content[]
+
+    authorId String
+    Author   User   @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@index([id])
+    @@index([title])
+    @@index([authorId])
+}
+
+/// DoItYourself model
+model DoItYourself {
+    id    String @id @default(nanoid()) /// @zod.nanoid()
+    title String
+
+    Content Content[]
+
+    authorId String
+    Author   User   @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@index([id])
+    @@index([title])
+    @@index([authorId])
+}
+
+/// Content model
+model Content {
+    id      String @id @default(nanoid()) /// @zod.nanoid()
+    content String
+    image   String
+
+    articleId String?
+    Article   Article? @relation(fields: [articleId], references: [id], onDelete: Cascade)
+
+    doItYourselfId String?
+    DoItYourself   DoItYourself? @relation(fields: [doItYourselfId], references: [id], onDelete: Cascade)
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@index([id])
+    @@index([articleId])
+    @@index([doItYourselfId])
+}
+
+/// Category model
+model Category {
+    id          String  @id @default(nanoid()) /// @zod.nanoid()
+    name        String
+    description String?
+
+    Products Product[] @relation("CategoryToProduct")
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@index([id])
+    @@index([name])
+}
+
+/// Product model
+model Product {
+    id          String @id @default(nanoid()) /// @zod.nanoid()
+    name        String
+    description String
+    image       String
+    price       Float
+    stock       Int
+
+    vendorId String
+    Vendor   User   @relation(fields: [vendorId], references: [id], onDelete: Cascade)
+
+    Quantity Quantity[]
+
+    categoryId String?
+    Category   Category? @relation("CategoryToProduct", fields: [categoryId], references: [id])
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@index([id])
+    @@index([name])
+    @@index([vendorId])
+    @@index([categoryId])
+}
+
+/// Quantity model
+model Quantity {
+    id       String @id @default(nanoid()) /// @zod.nanoid()
+    quantity Int
+
+    productId String
+    product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+    orderId String
+    Order   Order  @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@index([id])
+    @@index([productId])
+    @@index([orderId])
+}
+
+/// Order model
+model Order {
+    id String @id @default(nanoid()) /// @zod.nanoid()
+
+    /// Order number for the customer
+    orderNumber Int @unique @default(autoincrement())
+
+    orderStatus   OrderStatus   @default(PENDING)
+    paymentStatus PaymentStatus @default(PENDING)
+
+    userId String
+    User   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    Quantity Quantity[]
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@index([id])
+    @@index([userId])
+    @@index([orderNumber])
+}
+
+enum OrderStatus {
+    /// Order in cart
+    PENDING
+    /// Order paid
+    ACCEPTED
+    /// Order preparing for shipment
+    PREPARING
+    /// Order in delivering
+    DELIVERING
+    /// Order delivered to the customer
+    COMPLETED
+    /// Order cancelled
+    CANCELLED
+    /// Order retturning
+    RETURNING
+    /// Order refunded
+    REFOUNDED
+}
+
+enum PaymentStatus {
+    /// Payment pending
+    PENDING
+    /// Payment accepted
+    ACCEPTED
+    /// Payment refused
+    REFUSED
+    /// Payment refunded
+    REFUNDED
+}
+
+/// Fruit model
 model Fruit {
-    id          String @id @unique @default(nanoid())
+    id          String @id @default(nanoid()) /// @zod.nanoid()
     name        String
     description String
     image       String
@@ -214,5 +326,6 @@ model Fruit {
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
-    @@map("fruits")
+    @@index([id])
+    @@index([name])
 }

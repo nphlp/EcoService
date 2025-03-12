@@ -1,9 +1,8 @@
 "use client";
 
-import { urlSerializer } from "@app/catalog/components/FilterTypes";
+import { urlSerializer } from "@app/catalog/components/filterTypes";
 import { useCatalogParams } from "@app/catalog/components/useCatalogParams";
 import ImageRatio from "@comps/server/ImageRatio";
-import { useSession } from "@lib/client";
 import { combo } from "@lib/combo";
 import { Category } from "@prisma/client";
 import { motion } from "framer-motion";
@@ -12,7 +11,6 @@ import { usePathname, useRouter } from "next/navigation";
 import { Fragment, MouseEvent, useEffect, useRef, useState } from "react";
 import ButtonClient from "../../client/Button";
 import InputClient from "../../client/Input";
-import LogoutClient from "../../client/Logout";
 import { SearchKeywords } from "../Header";
 import { useHeaderStore } from "../HeaderStore";
 import MotionSection from "./Section";
@@ -24,13 +22,11 @@ type SubProps = {
 
 export default function Sub(props: SubProps) {
     const { keywords, categorieList } = props;
-    const { data: session } = useSession();
 
     const path = usePathname();
     const router = useRouter();
 
-    const { categorieOpen, searchOpen, accountOpen, setSearchOpen, setCategorieOpen, setAccountOpen, setBasketOpen } =
-        useHeaderStore();
+    const { categorieOpen, searchOpen, setSearchOpen, setCategorieOpen, setBasketOpen } = useHeaderStore();
 
     const [searchValue, setSearchValue] = useState("");
 
@@ -138,7 +134,6 @@ export default function Sub(props: SubProps) {
                 onMouseLeave={() => {
                     setCategorieOpen(false);
                     setSearchOpen(false);
-                    setAccountOpen(false);
                     setBasketOpen(false);
                 }}
             >
@@ -198,83 +193,41 @@ export default function Sub(props: SubProps) {
                 </div>
             </MotionSection>
 
-            {/* Account section */}
-            <MotionSection open={accountOpen}>
-                {!session && (
-                    <>
-                        <h3 className="w-full text-2xl font-bold text-primary">Mon compte</h3>
-
-                        <ButtonClient
-                            type="link"
-                            href="/register"
-                            label="register"
-                            variant="outline"
-                            className={combo("px-8", path === "/register" && "font-bold")}
-                        >
-                            Register
-                        </ButtonClient>
-                        <ButtonClient
-                            type="link"
-                            href="/login"
-                            label="login"
-                            variant="outline"
-                            className={combo("px-8", path === "/login" && "font-bold")}
-                        >
-                            Login
-                        </ButtonClient>
-                    </>
-                )}
-                {session && (
-                    <>
-                        <ButtonClient
-                            type="link"
-                            href="/profile"
-                            label="profile"
-                            variant="outline"
-                            className={combo("px-8", path === "/profile" && "font-bold")}
-                        >
-                            Profile
-                        </ButtonClient>
-                        <LogoutClient variant="outline" />
-                    </>
-                )}
-            </MotionSection>
-
             {/* Search results */}
-            <motion.div
-                initial={{ opacity: 0 }}
-                animate={{
-                    opacity: searchOpen && searchValue && keywordsFiltered.length ? 1 : 0,
-                }}
-                transition={{
-                    duration: 0.5,
-                    ease: "easeInOut",
-                }}
+            <div
                 className={combo(
                     "absolute z-20 flex size-full flex-col items-center justify-start",
-                    searchOpen && searchValue && keywordsFiltered.length
-                        ? "pointer-events-auto"
-                        : "pointer-events-none",
+                    searchOpen ? "pointer-events-auto" : "pointer-events-none",
                 )}
             >
-                <button
+                <motion.button
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: searchOpen ? 1 : 0 }}
+                    transition={{ duration: 0.3, ease: "easeInOut" }}
                     type="button"
                     onClick={() => {
                         setSearchOpen(false);
                         setTimeout(() => setSearchValue(""), 300);
                     }}
                     className="absolute size-full bg-black/20"
-                ></button>
+                ></motion.button>
                 <motion.div
-                    initial={{ height: 0 }}
+                    initial={{
+                        height: 0,
+                        opacity: 0,
+                    }}
                     animate={{
                         height: keywordsFiltered.length ? contentHeight : 0,
+                        opacity: searchValue && keywordsFiltered.length ? 1 : 0,
                     }}
                     transition={{
                         duration: 0.3,
                         ease: "easeInOut",
                     }}
-                    className="relative z-30 mt-4 w-1/2 overflow-hidden rounded-xl border border-gray-300 bg-white shadow-md"
+                    className={combo(
+                        "relative z-30 mt-4 w-1/2 overflow-hidden rounded-xl border border-gray-300 bg-white shadow-md",
+                        searchValue.length ? "pointer-events-auto" : "pointer-events-none",
+                    )}
                 >
                     <div ref={contentRef} className="space-y-2 p-3">
                         {keywordsFiltered.map(({ id, type, keyword, image, price }, index) => (
@@ -317,7 +270,7 @@ export default function Sub(props: SubProps) {
                         ))}
                     </div>
                 </motion.div>
-            </motion.div>
+            </div>
         </>
     );
 }

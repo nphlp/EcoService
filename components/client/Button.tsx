@@ -58,7 +58,7 @@ export default function ButtonClient(props: ButtonClientProps) {
 
     const varianteStyle = {
         default: "bg-black text-gray-100 hover:bg-gray-800",
-        outline: "border text-gray-800 hover:bg-gray-100 bg-white border-gray-300",
+        outline: "disabled:text-gray-300 disabled:border-gray-200 disabled:hover:bg-white border text-gray-800 hover:bg-gray-100 bg-white border-gray-300",
         ghost: "hover:bg-gray-200",
         underline: "hover:underline",
         none: "",

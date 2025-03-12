@@ -5,7 +5,7 @@ import SellerOnboard from "@comps/client/SellerOnboard";
 import { GetSession } from "@lib/auth";
 import PrismaInstance from "@lib/prisma";
 import { redirect } from "next/navigation";
-
+import { LogOut } from "lucide-react";
 export default async function Page() {
     const session = await GetSession();
 
@@ -50,7 +50,9 @@ export default async function Page() {
                     <ProductManager />
                 </div>
             )}
-            <LogoutClient variant="outline" />
+            <LogoutClient variant="outline">
+                <LogOut />
+            </LogoutClient>
         </div>
     );
 }

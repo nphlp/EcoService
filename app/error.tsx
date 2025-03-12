@@ -3,12 +3,12 @@
 import ButtonClient from "@comps/client/Button";
 import { useEffect } from "react";
 
-type PageProps = {
+type ErrorProps = {
     error: Error & { digest?: string };
     reset: () => void;
 };
 
-export default function Page(props: PageProps) {
+export default function Error(props: ErrorProps) {
     const { error, reset } = props;
 
     useEffect(() => {
@@ -18,7 +18,7 @@ export default function Page(props: PageProps) {
 
     return (
         <div className="flex flex-1 flex-col items-center justify-center">
-            <div className="space-y-4">
+            <div className="w-3/4 space-y-4">
                 <h2 className="text-2xl font-bold">Oups!</h2>
                 <div>{error.message}</div>
                 <ButtonClient type="button" label="reset" onClick={reset}>

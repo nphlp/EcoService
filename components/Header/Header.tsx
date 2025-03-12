@@ -1,9 +1,11 @@
-import { FetchParallelized } from "@actions/utils/FetchParallelized";
+import { FetchParallelized } from "@api/utils/FetchParallelized";
 import { Category } from "@prisma/client";
 import Basket from "../Basket/Basket";
 import Main from "./Browser/Main";
 import Sub from "./Browser/Sub";
 import MobileHeader from "./Mobile/MobileHeader";
+
+export const dynamic = 'force-dynamic';
 
 export type SearchKeywords = {
     id: string;
