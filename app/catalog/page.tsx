@@ -1,8 +1,11 @@
-import { Fetch } from "@actions/utils/Fetch";
-import CatalogClient from "./components/CatalogClient";
-import CatalogContextProvider from "./components/ContextProvider";
-import { QueryParamType, queryParamCached } from "./components/FilterTypes";
-import SelectorsClient from "./components/SelectorsClient";
+import { Fetch } from "@api/utils/Fetch";
+import CatalogClient from "./components/catalogClient";
+import CatalogContextProvider from "./components/contextProvider";
+import { QueryParamType, queryParamCached } from "./components/filterTypes";
+import PaginationClient from "./components/paginationClient";
+import SelectorsClient from "./components/selectorsClient";
+
+export const dynamic = 'force-dynamic';
 
 type PageProps = {
     searchParams: Promise<QueryParamType>;
@@ -20,7 +23,16 @@ export default async function Page(props: PageProps) {
 
     const productAmount = await Fetch({
         route: "/products/count",
-        params: { where: category ? { categoryId: category } : undefined },
+        params: {
+            where: {
+                ...(category && { categoryId: category }),
+                ...(search && {
+                    name: {
+                        contains: search,
+                    },
+                }),
+            },
+        },
     });
     if (!productAmount) {
         throw new Error("We don't have any product...");
@@ -50,10 +62,11 @@ export default async function Page(props: PageProps) {
     return (
         <div className="flex flex-1 flex-col">
             <h1 className="bg-primary px-6 pt-6 text-4xl font-bold text-secondary">Catalog</h1>
-            <div className="flex flex-1 flex-col justify-start gap-4 overflow-hidden">
+            <div className="flex flex-1 flex-col justify-start overflow-hidden">
                 <CatalogContextProvider productList={productList} productAmount={productAmount}>
                     <SelectorsClient categoryList={categoryList} />
-                    <CatalogClient />
+                    <CatalogClient className="p-6" />
+                    <PaginationClient className="mb-6" />
                 </CatalogContextProvider>
             </div>
         </div>

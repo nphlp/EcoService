@@ -8,13 +8,12 @@ export async function middleware(request: NextRequest) {
     // return NextResponse.redirect(new URL("/login", request.url));
     // }
 
-    return NextResponse.redirect(new URL("/", request.url));
+    return NextResponse.next({ request });
 }
 
 export const config = {
     matcher: [
         // "/profile",
-        // "/products",
-        // "/stripe"
+        // "/api/stripe"
     ],
 };

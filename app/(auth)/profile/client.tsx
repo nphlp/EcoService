@@ -6,20 +6,22 @@ import ModalClient from "@comps/client/Modal";
 import Card from "@comps/server/Card";
 import Loader from "@comps/server/Loader";
 import {
-    updateUser,
     changeEmail,
     listSessions,
     revokeOtherSessions,
     revokeSession,
     revokeSessions,
-    useSession,
     SessionList,
-} from "@lib/client";
+    updateUser,
+    useSession,
+} from "@lib/authClient";
 import { CircleX, Eye, EyeClosed } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-
 export default function ProfileClient() {
     const { data: session } = useSession();
+
+    const router = useRouter();
 
     const [modalVisible, setModalVisible] = useState<boolean>(false);
     const [sessionList, setSessionList] = useState<SessionList[] | null>(null);
@@ -28,17 +30,17 @@ export default function ProfileClient() {
     const [password, setPassword] = useState("");
     const [toggleVisibility, setToggleVisibility] = useState(false);
 
+    // Fetch session list
+    const fetchSessions = async () => {
+        const { data: getSessionList } = await listSessions();
+        setSessionList(getSessionList as SessionList[] | null);
+    };
+
     useEffect(() => {
         // Check if user has verified email
         if (session) {
             setModalVisible(!session?.user.emailVerified);
         }
-
-        // Fetch session list
-        const fetchSessions = async () => {
-            const { data: getSessionList } = await listSessions();
-            setSessionList(getSessionList as SessionList[] | null);
-        };
         fetchSessions();
     }, [session]);
 
@@ -68,7 +70,11 @@ export default function ProfileClient() {
                             label="revoke-others"
                             variant="outline"
                             padding="sm"
-                            onClick={async () => await revokeOtherSessions()}
+                            onClick={async () => {
+                                setSessionList(null);
+                                fetchSessions();
+                                await revokeOtherSessions();
+                            }}
                         >
                             Revoke others
                         </ButtonClient>
@@ -77,7 +83,10 @@ export default function ProfileClient() {
                             className="w-1/2 text-sm hover:bg-red-500"
                             label="revoke-all"
                             padding="sm"
-                            onClick={async () => await revokeSessions()}
+                            onClick={async () => {
+                                router.push("/");
+                                await revokeSessions();
+                            }}
                         >
                             Revoke all
                         </ButtonClient>
@@ -99,7 +108,10 @@ export default function ProfileClient() {
                                         padding="none"
                                         className="p-0.5"
                                         label="revoke-current-session"
-                                        onClick={async () => await revokeSession({ token })}
+                                        onClick={async () => {
+                                            setSessionList(sessionList.filter((session) => session.token !== token));
+                                            await revokeSession({ token });
+                                        }}
                                     >
                                         <CircleX className="size-5 stroke-gray-600 transition-all duration-150 hover:stroke-red-600" />
                                     </ButtonClient>

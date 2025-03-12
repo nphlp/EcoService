@@ -1,5 +1,5 @@
+import { FruitType } from "@actions/(examples)/Fruit";
 import { AccountType } from "@actions/types/Account";
-import { FruitType } from "@actions/types/Fruit";
 import { UserType } from "@actions/types/User";
 
 interface UserData {
@@ -407,4 +407,207 @@ export const productData: ProductData[] = [
         stock: 50,
         category: "Maison & Entretien",
     },
+];
+
+interface ArticleData {
+    title: string;
+    authorEmail: string;
+    contents: ContentData[];
+}
+
+interface ContentData {
+    content: string;
+    image: string;
+}
+
+export const articleData: ArticleData[] = [
+    {
+        title: "Vivre écologiquement au quotidien",
+        authorEmail: "admin@example.com",
+        contents: [
+            {
+                content: "L'écologie commence par de petits gestes quotidiens. Chaque action compte pour préserver notre planète.",
+                image: "terre-main.jpg"
+            },
+            {
+                content: "Réduire sa consommation d'eau et d'électricité est un premier pas important vers un mode de vie plus durable.",
+                image: "eolienne.jpg"
+            },
+            {
+                content: "Privilégier les produits locaux et de saison permet de réduire considérablement son empreinte carbone.",
+                image: "produit 1.jpg"
+            }
+        ]
+    },
+    {
+        title: "Les alternatives aux produits ménagers chimiques",
+        authorEmail: "vendor@example.com",
+        contents: [
+            {
+                content: "Les produits ménagers naturels sont tout aussi efficaces que leurs équivalents chimiques, sans les dangers pour la santé.",
+                image: "lessive 1.jpg"
+            },
+            {
+                content: "Le vinaigre blanc, le bicarbonate de soude et le savon noir sont la base d'une maison propre et écologique.",
+                image: "lessive 2.jpg"
+            },
+            {
+                content: "Fabriquer ses propres produits ménagers permet de réduire considérablement les déchets plastiques.",
+                image: "produit 2.jpg"
+            }
+        ]
+    },
+    {
+        title: "Jardinage écologique et permaculture",
+        authorEmail: "user@example.com",
+        contents: [
+            {
+                content: "La permaculture s'inspire des écosystèmes naturels pour créer des jardins productifs et durables.",
+                image: "feuille.jpg"
+            },
+            {
+                content: "Le compostage transforme les déchets organiques en un amendement précieux pour le sol.",
+                image: "pots.jpg"
+            },
+            {
+                content: "Les plantes compagnes s'entraident naturellement, réduisant le besoin en pesticides.",
+                image: "produit 3.jpg"
+            }
+        ]
+    },
+    {
+        title: "Réduire son empreinte carbone au quotidien",
+        authorEmail: "employee@example.com",
+        contents: [
+            {
+                content: "Les transports représentent une part importante de notre empreinte carbone. Privilégier le vélo ou les transports en commun fait une réelle différence.",
+                image: "espace 1.jpg"
+            },
+            {
+                content: "Réduire sa consommation de viande, même partiellement, a un impact significatif sur les émissions de gaz à effet de serre.",
+                image: "produit 4.jpg"
+            },
+            {
+                content: "Choisir des appareils électroménagers économes en énergie permet de réduire sa consommation sur le long terme.",
+                image: "produit 5.jpg"
+            }
+        ]
+    },
+    {
+        title: "Hygiène personnelle zéro déchet",
+        authorEmail: "admin@example.com",
+        contents: [
+            {
+                content: "Les alternatives réutilisables aux produits d'hygiène jetables permettent de réduire considérablement ses déchets.",
+                image: "brosse-a-dent.jpg"
+            },
+            {
+                content: "Les cosmétiques solides durent plus longtemps et ne nécessitent pas d'emballage plastique.",
+                image: "coton 1.jpg"
+            },
+            {
+                content: "Fabriquer ses propres cosmétiques permet de contrôler les ingrédients et d'éviter les substances nocives.",
+                image: "coton 2.jpg"
+            }
+        ]
+    }
+];
+
+interface DoItYourselfData {
+    title: string;
+    authorEmail: string;
+    contents: ContentData[];
+}
+
+export const doItYourselfData: DoItYourselfData[] = [
+    {
+        title: "Fabriquer son propre savon naturel",
+        authorEmail: "admin@example.com",
+        contents: [
+            {
+                content: "Pour fabriquer votre savon, vous aurez besoin d'huile d'olive, d'huile de coco, de soude caustique et d'huiles essentielles de votre choix.",
+                image: "produit 1.jpg"
+            },
+            {
+                content: "Mélangez les huiles chauffées avec la solution de soude, en remuant jusqu'à obtenir la trace. Ajoutez ensuite les huiles essentielles.",
+                image: "produit 2.jpg"
+            },
+            {
+                content: "Versez dans un moule et laissez reposer 24 à 48 heures avant de démouler. Laissez sécher 4 à 6 semaines avant utilisation.",
+                image: "produit 3.jpg"
+            }
+        ]
+    },
+    {
+        title: "Créer un potager vertical avec des palettes",
+        authorEmail: "vendor@example.com",
+        contents: [
+            {
+                content: "Récupérez une palette en bois non traitée et poncez-la pour éviter les échardes. Appliquez une huile de lin pour la protéger.",
+                image: "pots.jpg"
+            },
+            {
+                content: "Fixez un géotextile à l'arrière et sur les côtés pour créer des poches. Remplissez ces poches de terreau de qualité.",
+                image: "feuille.jpg"
+            },
+            {
+                content: "Plantez des herbes aromatiques, des fraises ou des salades dans les poches. Arrosez régulièrement mais sans excès.",
+                image: "terre-main.jpg"
+            }
+        ]
+    },
+    {
+        title: "Fabriquer une lessive écologique maison",
+        authorEmail: "user@example.com",
+        contents: [
+            {
+                content: "Râpez 50g de savon de Marseille pur et faites-le fondre dans 1L d'eau chaude. Ajoutez 1 cuillère à soupe de bicarbonate de soude.",
+                image: "lessive 1.jpg"
+            },
+            {
+                content: "Ajoutez 1 cuillère à soupe de cristaux de soude et 10 gouttes d'huile essentielle de lavande ou de citron pour parfumer.",
+                image: "lessive 2.jpg"
+            },
+            {
+                content: "Laissez refroidir et versez dans une bouteille. Secouez avant chaque utilisation et utilisez environ 1/2 verre par machine.",
+                image: "produit 4.jpg"
+            }
+        ]
+    },
+    {
+        title: "Créer un composteur d'appartement",
+        authorEmail: "employee@example.com",
+        contents: [
+            {
+                content: "Procurez-vous deux seaux en plastique de taille identique. Percez des trous dans le fond du premier pour l'aération et le drainage.",
+                image: "produit 5.jpg"
+            },
+            {
+                content: "Placez le seau percé dans le second qui servira à récupérer le liquide. Ajoutez une couche de carton, puis des vers de compost.",
+                image: "coton 1.jpg"
+            },
+            {
+                content: "Ajoutez vos déchets organiques en petits morceaux et couvrez d'une couche de matière sèche (papier journal, carton). Fermez avec un couvercle.",
+                image: "coton 2.jpg"
+            }
+        ]
+    },
+    {
+        title: "Fabriquer un tawashi (éponge zéro déchet)",
+        authorEmail: "admin@example.com",
+        contents: [
+            {
+                content: "Récupérez des chaussettes usagées ou des t-shirts et découpez-les en bandes d'environ 3 cm de large.",
+                image: "coton 3.jpg"
+            },
+            {
+                content: "Créez un métier à tisser avec une planche et des clous disposés en carré. Tendez 5 bandes dans un sens, puis tissez 5 autres bandes perpendiculairement.",
+                image: "brosse-a-dent.jpg"
+            },
+            {
+                content: "Nouez les extrémités ensemble et retirez délicatement du métier. Votre tawashi est prêt à l'emploi et lavable en machine.",
+                image: "cafe.jpg"
+            }
+        ]
+    }
 ];

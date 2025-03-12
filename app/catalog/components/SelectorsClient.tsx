@@ -3,8 +3,8 @@
 import { CategoryType } from "@actions/types/Category";
 import { combo } from "@lib/combo";
 import { ChangeEventHandler, ReactNode, useContext } from "react";
-import { CatalogContext } from "./ContextProvider";
-import { ItemsPerPageParamType, PriceOrderParamType } from "./FilterTypes";
+import { CatalogContext } from "./contextProvider";
+import { ItemsPerPageParamType, PriceOrderParamType } from "./filterTypes";
 import { useCatalogParams } from "./useCatalogParams";
 
 type SelectorsClientProps = {
@@ -65,7 +65,7 @@ export default function SelectorsClient(props: SelectorsClientProps) {
                 }}
                 value={page}
             >
-                {Array.from({ length: Math.ceil(productAmountLocal ?? 1 / take) }, (_, index) => (
+                {Array.from({ length: Math.ceil((productAmountLocal ?? 1) / take) }, (_, index) => (
                     <option key={index + 1} value={index + 1}>
                         {index + 1}
                     </option>

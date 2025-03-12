@@ -3,6 +3,8 @@ import { prismaAdapter } from "better-auth/adapters/prisma";
 import { headers } from "next/headers";
 import { SendEmail } from "./plunk";
 import PrismaInstance from "@lib/prisma";
+import { customSession } from "better-auth/plugins";
+import { SelectUser } from "@actions/database/User";
 
 const baseUrl = process.env.BASE_URL;
 
@@ -55,6 +57,21 @@ export const auth = betterAuth({
         //     maxAge: 60 * 5
         // }
     },
+    plugins: [
+        customSession(async ({ session, user }) => {
+            const userData = await SelectUser({ where: { id: user.id } });
+            if (!userData) {
+                throw new Error("User not found");
+            }
+            return {
+                user: {
+                    ...user,
+                    role: userData.role,
+                },
+                session,
+            };
+        }),
+    ],
 });
 
 /**

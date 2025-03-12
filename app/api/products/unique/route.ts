@@ -1,4 +1,6 @@
-import { productIdObjectSchema, ProductType, SelectProductListProps, selectProductObjectSchema, SelectProductProps } from "@actions/types/Product";
+import { ProductType } from "@actions/types/Product";
+import { SelectProductProps } from "@actions/types/Product";
+import { selectProductUniqueSchema } from "@actions/zod-sensitive/Product";
 import PrismaInstance from "@lib/prisma";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { unstable_cache as cache } from "next/cache";
@@ -6,19 +8,20 @@ import { NextRequest, NextResponse } from "next/server";
 import { ZodError } from "zod";
 
 /**
- * Retrieves a cached list of products
- * @param stringParams Filtering and pagination parameters in JSON format
- * @returns List of products or null if no products found
+ * Retrieves a cached product by ID
+ * @param stringParams Parameters containing the product ID in JSON format
+ * @returns Product or null if not found
  */
 const SelectProductCached = cache(
     async (stringParams: string): Promise<ProductType | null> => {
         // Parse the params as object
         const params: SelectProductProps = JSON.parse(stringParams);
 
-        const { where } = selectProductObjectSchema.parse(params);
+        const { where, select } = selectProductUniqueSchema.parse(params);
 
         const productData: ProductType | null = await PrismaInstance.product.findUnique({
             where,
+            ...(select && { select }),
         });
 
         return productData;
@@ -44,9 +47,9 @@ export type SelectProductResponse =
       };
 
 /**
- * GET route handler for products API
- * @param request Incoming request with optional parameters
- * @returns JSON response containing product list or error message
+ * GET route handler for retrieving a single product by ID
+ * @param request Incoming request with product ID parameter
+ * @returns JSON response containing product data or error message
  */
 export const GET = async (request: NextRequest): Promise<NextResponse<SelectProductResponse>> => {
     try {
@@ -54,19 +57,19 @@ export const GET = async (request: NextRequest): Promise<NextResponse<SelectProd
         const encodedParams = request.nextUrl.searchParams.get("params") ?? "{}";
         const stringParams = decodeURIComponent(encodedParams);
 
-        // Get the product list
-        const product: ProductType | null = await SelectProductCached(stringParams);
+        // Get the product
+        const productData: ProductType | null = await SelectProductCached(stringParams);
 
-        // Return the product list
-        return NextResponse.json({ data: product });
+        // Return the product
+        return NextResponse.json({ data: productData }, { status: 200 });
     } catch (error) {
-        console.error("SelectProduct -> " + (error as Error).message);
+        console.error("SelectProductCached -> " + (error as Error).message);
         if (process.env.NODE_ENV === "development") {
             if (error instanceof ZodError)
-                return NextResponse.json({ error: "Invalid params -> " + error.message }, { status: 400 });
+                return NextResponse.json({ error: "SelectProductCached -> Invalid Zod params -> " + error.message });
             if (error instanceof PrismaClientKnownRequestError)
-                return NextResponse.json({ error: "Prisma error -> " + error.message }, { status: 500 });
-            return NextResponse.json({ error: "Something went wrong..." + (error as Error).message }, { status: 500 });
+                return NextResponse.json({ error: "SelectProductCached -> Prisma error -> " + error.message });
+            return NextResponse.json({ error: "SelectProductCached -> " + (error as Error).message });
         }
         // TODO: add logging
         return NextResponse.json({ error: "Something went wrong..." }, { status: 500 });

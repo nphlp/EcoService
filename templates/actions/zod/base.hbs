@@ -1,0 +1,25 @@
+import { {{modelName}}Common, {{modelName}}Id, {{modelName}}Timestamps, {{modelName}}Update } from "@actions/types/{{modelName}}";
+import { {{modelName}}Model } from "@actions/zod-generated";
+import { strictObject, z, ZodString, ZodType } from "zod";
+
+export const {{modelNameLower}}IdSchema: ZodString = z.string().nanoid();
+
+export const {{modelNameLower}}IdObjectSchema: ZodType<{{modelName}}Id> = strictObject({
+    id: z.string().nanoid(),
+});
+
+export const {{modelNameLower}}CommonSchema: ZodType<{{modelName}}Common> = {{modelName}}Model.omit({
+    id: true,
+    createdAt: true,
+    updatedAt: true,
+});
+
+export const {{modelNameLower}}TimestampsSchema: ZodType<{{modelName}}Timestamps> = strictObject({
+    createdAt: z.date(),
+    updatedAt: z.date(),
+});
+
+export const {{modelNameLower}}UpdateSchema: ZodType<{{modelName}}Update> = strictObject({
+    id: {{modelNameLower}}IdSchema,
+    data: {{modelNameLower}}CommonSchema,
+});

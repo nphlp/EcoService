@@ -1,5 +1,5 @@
 import PrismaInstance from "@lib/prisma";
-import { categoryData, fruitData, productData, userData } from "./data";
+import { articleData, categoryData, doItYourselfData, fruitData, productData, userData } from "./data";
 
 export const fixtures = async () => {
     try {
@@ -86,9 +86,74 @@ export const fixtures = async () => {
             });
         }
 
+        // Articles and Contents
+        for (const { title, authorEmail, contents } of articleData) {
+            // Find the author by email
+            const author = await PrismaInstance.user.findUnique({
+                where: { email: authorEmail },
+            });
+
+            if (!author) {
+                console.error(`Author with email ${authorEmail} not found`);
+                continue;
+            }
+
+            // Create article first
+            const article = await PrismaInstance.article.create({
+                data: {
+                    title,
+                    authorId: author.id,
+                }
+            });
+
+            // Create contents linked to this article
+            for (const contentData of contents) {
+                await PrismaInstance.content.create({
+                    data: {
+                        content: contentData.content,
+                        image: contentData.image,
+                        articleId: article.id,
+                    },
+                });
+            }
+        }
+
+        // DoItYourself and Contents
+        for (const { title, authorEmail, contents } of doItYourselfData) {
+            // Find the author by email
+            const author = await PrismaInstance.user.findUnique({
+                where: { email: authorEmail },
+            });
+
+            if (!author) {
+                console.error(`Author with email ${authorEmail} not found`);
+                continue;
+            }
+
+            // Create DoItYourself first
+            const diy = await PrismaInstance.doItYourself.create({
+                data: {
+                    title,
+                    authorId: author.id,
+                }
+            });
+
+            // Create contents linked to this DoItYourself
+            for (const contentData of contents) {
+                await PrismaInstance.content.create({
+                    data: {
+                        content: contentData.content,
+                        image: contentData.image,
+                        doItYourselfId: diy.id,
+                    },
+                });
+            }
+        }
+
+        console.log("Fixtures loaded successfully");
         return true;
     } catch (error) {
-        console.error("An error occurred ->", error);
+        console.error("Error loading fixtures:", error);
         return false;
     }
 };

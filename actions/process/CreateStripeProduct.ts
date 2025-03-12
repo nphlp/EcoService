@@ -3,7 +3,7 @@
 import { GetSession } from "@lib/auth";
 import { Product } from "@prisma/client";
 import { unauthorized } from "next/navigation";
-import { productCommonSchema } from "../types/Product";
+import { productCommonSchema } from "@actions/zod/Product";
 
 export const CreateStripeProduct = async (props: Product) => {
     // Validate product type with zod

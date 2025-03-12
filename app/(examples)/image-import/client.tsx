@@ -1,7 +1,7 @@
 "use client";
 
-import { CreateFruit } from "@actions/database/Fruit";
-import { ImageValidation } from "@actions/utils/ImageUploads";
+import { CreateFruit } from "@actions/(examples)/Fruit";
+import { ImageValidation } from "@actions/(examples)/ImageUploads";
 import ButtonClient from "@comps/client/Button";
 import InputClient from "@comps/client/Input";
 import Card from "@comps/server/Card";

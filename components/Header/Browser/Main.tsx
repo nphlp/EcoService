@@ -1,10 +1,12 @@
 "use client";
 
 import { useBasketStore } from "@comps/Basket/BasketStore";
+import LogoutClient from "@comps/client/Logout";
 import Logo from "@comps/server/Logo";
+import { useSession } from "@lib/authClient";
 import { combo } from "@lib/combo";
 import { motion } from "framer-motion";
-import { ChevronUp, Search, ShoppingCart, UserRound } from "lucide-react";
+import { ChevronUp, LibraryBig, LogOut, Search, ShoppingCart, UserRound } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import ButtonClient from "../../client/Button";
@@ -56,7 +58,7 @@ const LeftNav = () => {
 
 const CentralNav = () => {
     const path = usePathname();
-    const { setCategorieOpen, categorieOpen, setSearchOpen, setAccountOpen, setBasketOpen } = useHeaderStore();
+    const { setCategorieOpen, categorieOpen, setSearchOpen, setBasketOpen } = useHeaderStore();
 
     return (
         <div className="flex flex-row items-center justify-center gap-5">
@@ -67,7 +69,6 @@ const CentralNav = () => {
                 onClick={() => {
                     setCategorieOpen(true);
                     setSearchOpen(false);
-                    setAccountOpen(false);
                     setBasketOpen(false);
                 }}
                 className={combo(path === "/catalog" && "font-bold")}
@@ -86,21 +87,32 @@ const CentralNav = () => {
             </ButtonClient>
             <ButtonClient
                 type="link"
-                href="/"
-                label="articles"
+                href="/article"
+                label="article"
                 variant="ghost"
-                className={combo("px-8", path === "/catalog" && "font-bold")}
+                className={combo("px-8", path === "/article" && "font-bold")}
             >
                 Articles
+            </ButtonClient>
+            <ButtonClient
+                type="link"
+                href="/do-it-yourself"
+                label="do-it-yourself"
+                variant="ghost"
+                className={combo("px-8", path === "/do-it-yourself" && "font-bold")}
+            >
+                Do It Yourself
             </ButtonClient>
         </div>
     );
 };
 
 const RightNav = () => {
-    const { setAccountOpen, setSearchOpen, setCategorieOpen, accountOpen, searchOpen, basketOpen, setBasketOpen } =
-        useHeaderStore();
+    const { setSearchOpen, setCategorieOpen, searchOpen, basketOpen, setBasketOpen } = useHeaderStore();
     const { basketProductList } = useBasketStore();
+    const { data: session } = useSession();
+
+    const role = session?.user.role;
 
     return (
         <div className="flex flex-row gap-3">
@@ -111,7 +123,6 @@ const RightNav = () => {
                 variant="ghost"
                 className="p-2"
                 onClick={() => {
-                    setAccountOpen(false);
                     setSearchOpen(!searchOpen);
                     setCategorieOpen(false);
                     setBasketOpen(false);
@@ -121,20 +132,57 @@ const RightNav = () => {
             </ButtonClient>
 
             {/* Account button */}
-            <ButtonClient
-                type="button"
-                label="toggle-account-section-visibility"
-                variant="ghost"
-                className="p-2"
-                onClick={() => {
-                    setAccountOpen(!accountOpen);
-                    setSearchOpen(false);
-                    setCategorieOpen(false);
-                    setBasketOpen(false);
-                }}
-            >
-                <UserRound />
-            </ButtonClient>
+            {session ? (
+                <ButtonClient
+                    type="link"
+                    href="/profile"
+                    label="profile"
+                    variant="ghost"
+                    className="p-2"
+                    onClick={() => {
+                        setSearchOpen(false);
+                        setCategorieOpen(false);
+                        setBasketOpen(false);
+                    }}
+                >
+                    <UserRound />
+                </ButtonClient>
+            ) : (
+                <ButtonClient
+                    type="link"
+                    href="/auth"
+                    label="auth"
+                    variant="ghost"
+                    className="p-2"
+                    onClick={() => {
+                        setSearchOpen(false);
+                        setCategorieOpen(false);
+                        setBasketOpen(false);
+                    }}
+                >
+                    <UserRound />
+                </ButtonClient>
+            )}
+
+            {/* Dashboard button */}
+            {(role === "ADMIN" ||
+                role === "EMPLOYEE" ||
+                role === "VENDOR") && (
+                    <ButtonClient
+                        type="link"
+                        href="/dashboard"
+                        label="dashboard"
+                        variant="ghost"
+                        className="p-2"
+                        onClick={() => {
+                            setSearchOpen(false);
+                            setCategorieOpen(false);
+                            setBasketOpen(false);
+                        }}
+                    >
+                        <LibraryBig />
+                    </ButtonClient>
+                )}
 
             {/* Basket button */}
             <ButtonClient
@@ -143,15 +191,31 @@ const RightNav = () => {
                 variant="ghost"
                 className="relative p-2"
                 onClick={() => {
-                    setAccountOpen(false);
                     setSearchOpen(false);
                     setCategorieOpen(false);
                     setBasketOpen(!basketOpen);
                 }}
             >
-                <div className="absolute translate-x-[40%] translate-y-[-35%] scale-[0.7] rounded-full bg-black px-[7px] font-bold text-white">{basketProductList.length}</div>
+                <div className="absolute translate-x-[40%] translate-y-[-35%] scale-[0.7] rounded-full bg-black px-[7px] font-bold text-white">
+                    {basketProductList.length}
+                </div>
                 <ShoppingCart />
             </ButtonClient>
+
+            {/* Logout button */}
+            {session && (
+                <LogoutClient
+                    variant="ghost"
+                    className="p-2"
+                    onClick={() => {
+                        setSearchOpen(false);
+                        setCategorieOpen(false);
+                        setBasketOpen(false);
+                    }}
+                >
+                    <LogOut />
+                </LogoutClient>
+            )}
         </div>
     );
 };

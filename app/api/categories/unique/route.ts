@@ -1,4 +1,6 @@
-import { CategoryType, selectCategoryObjectSchema, SelectCategoryProps } from "@actions/types/Category";
+import { CategoryType } from "@actions/types/Category";
+import { SelectCategoryProps } from "@actions/types/Category";
+import { selectCategoryUniqueSchema } from "@actions/zod-sensitive/Category";
 import PrismaInstance from "@lib/prisma";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { unstable_cache as cache } from "next/cache";
@@ -15,15 +17,16 @@ const SelectCategoryCached = cache(
         // Parse the params as object
         const params: SelectCategoryProps = JSON.parse(stringParams);
 
-        const { where } = selectCategoryObjectSchema.parse(params);
+        const { where, select } = selectCategoryUniqueSchema.parse(params);
 
         const categoryData: CategoryType | null = await PrismaInstance.category.findUnique({
             where,
+            ...(select && { select }),
         });
 
         return categoryData;
     },
-    ["/categories/unique"],
+    ["/categorys/unique"],
     {
         /**
          * Cache revalidation
@@ -31,7 +34,7 @@ const SelectCategoryCached = cache(
          * - production : revalidate every 5 minutes
          */
         revalidate: process.env.NODE_ENV === "development" ? 5 : 300,
-        tags: ["/categories/unique"],
+        tags: ["/categorys/unique"],
     },
 );
 
@@ -44,9 +47,9 @@ export type SelectCategoryResponse =
       };
 
 /**
- * GET route handler for single category API
- * @param request Incoming request with category ID
- * @returns JSON response containing category or error message
+ * GET route handler for retrieving a single category by ID
+ * @param request Incoming request with category ID parameter
+ * @returns JSON response containing category data or error message
  */
 export const GET = async (request: NextRequest): Promise<NextResponse<SelectCategoryResponse>> => {
     try {
@@ -55,18 +58,18 @@ export const GET = async (request: NextRequest): Promise<NextResponse<SelectCate
         const stringParams = decodeURIComponent(encodedParams);
 
         // Get the category
-        const category: CategoryType | null = await SelectCategoryCached(stringParams);
+        const categoryData: CategoryType | null = await SelectCategoryCached(stringParams);
 
         // Return the category
-        return NextResponse.json({ data: category });
+        return NextResponse.json({ data: categoryData }, { status: 200 });
     } catch (error) {
-        console.error("SelectCategory -> " + (error as Error).message);
+        console.error("SelectCategoryCached -> " + (error as Error).message);
         if (process.env.NODE_ENV === "development") {
             if (error instanceof ZodError)
-                return NextResponse.json({ error: "Invalid params -> " + error.message }, { status: 400 });
+                return NextResponse.json({ error: "SelectCategoryCached -> Invalid Zod params -> " + error.message });
             if (error instanceof PrismaClientKnownRequestError)
-                return NextResponse.json({ error: "Prisma error -> " + error.message }, { status: 500 });
-            return NextResponse.json({ error: "Something went wrong..." + (error as Error).message }, { status: 500 });
+                return NextResponse.json({ error: "SelectCategoryCached -> Prisma error -> " + error.message });
+            return NextResponse.json({ error: "SelectCategoryCached -> " + (error as Error).message });
         }
         // TODO: add logging
         return NextResponse.json({ error: "Something went wrong..." }, { status: 500 });

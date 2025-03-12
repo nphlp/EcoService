@@ -1,7 +1,7 @@
 "use client";
 
 import { ProductType } from "@actions/types/Product";
-import { useFetch } from "@actions/utils/FetchHook";
+import { useFetch } from "@api/utils/FetchHook";
 import { useBasketStore } from "@comps/Basket/BasketStore";
 import ButtonClient from "@comps/client/Button";
 import Card from "@comps/server/Card";
@@ -11,11 +11,17 @@ import { combo } from "@lib/combo";
 import { CircleCheck, CirclePlus, CircleX, ShoppingCart } from "lucide-react";
 import Link from "next/link";
 import { MouseEvent, useContext, useEffect } from "react";
-import { CatalogContext } from "./ContextProvider";
+import { CatalogContext } from "./contextProvider";
 import { useCatalogParams } from "./useCatalogParams";
 import { useCatalogStore } from "./useCatalogStore";
 
-export default function CatalogClient() {
+type CatalogClientProps = {
+    className?: string;
+};
+
+export default function CatalogClient(props: CatalogClientProps) {
+    const { className } = props;
+
     const { productListLocal } = useContext(CatalogContext);
     const { setProductList, setProductAmount } = useCatalogStore();
     const { priceOrder, page, take, category, search } = useCatalogParams();
@@ -42,7 +48,14 @@ export default function CatalogClient() {
         route: "/products/count",
         firstFetch: false,
         params: {
-            where: category ? { categoryId: category } : undefined,
+            where: {
+                ...(category && { categoryId: category }),
+                ...(search && {
+                    name: {
+                        contains: search,
+                    },
+                }),
+            },
         },
     });
 
@@ -53,28 +66,28 @@ export default function CatalogClient() {
 
     if (isLoadingProductList || isLoadingProductAmount) {
         return (
-            <div className="flex w-full flex-1 items-center justify-center px-4">
+            <div className="flex w-full flex-1 items-center justify-center">
                 <Loader className="size-8 border-4" />
             </div>
         );
     }
 
-    return <ProductList produitList={productListLocal} />;
+    return <ProductList produitList={productListLocal} className={className} />;
 }
 
 type ProductListProps = {
     produitList: ProductType[] | null;
+    className?: string;
 };
 
 const ProductList = (props: ProductListProps) => {
-    const { produitList } = props;
+    const { produitList, className } = props;
 
     const { basketProductList, addProductToBasket, removeProductFromBasket } = useBasketStore();
-    console.log(basketProductList);
 
     if (!produitList) {
         return (
-            <div className="flex size-full items-center justify-center">Aucun produit disponible pour le moment.</div>
+            <div className={combo("flex size-full items-center justify-center", className)}>Aucun produit disponible pour le moment.</div>
         );
     }
 
@@ -92,7 +105,7 @@ const ProductList = (props: ProductListProps) => {
     };
 
     return (
-        <div className={combo("grid grid-cols-1 gap-4 overflow-y-auto px-6 pb-6 sm:grid-cols-2 lg:grid-cols-4")}>
+        <div className={combo("grid grid-cols-1 gap-4 overflow-y-auto sm:grid-cols-2 lg:grid-cols-4", className)}>
             {produitList.map(({ id, name, image, price }, index) => (
                 <Link
                     key={index}

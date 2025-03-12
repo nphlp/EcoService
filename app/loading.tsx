@@ -1,6 +1,6 @@
 import Loader from "@comps/server/Loader";
 
-export default function Page() {
+export default function Loading() {
     return (
         <div className="flex flex-1 flex-row items-center justify-center">
             <div className="flex flex-row items-center justify-center gap-4">

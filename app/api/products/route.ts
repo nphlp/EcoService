@@ -1,4 +1,6 @@
-import { ProductType, SelectProductListProps, selectProductListSchema } from "@actions/types/Product";
+import { ProductType } from "@actions/types/Product";
+import { SelectProductListProps } from "@actions/types/Product";
+import { selectProductListSchema } from "@actions/zod-sensitive/Product";
 import PrismaInstance from "@lib/prisma";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { unstable_cache as cache } from "next/cache";
@@ -16,9 +18,10 @@ const SelectProductListCached = cache(
         const params: SelectProductListProps = JSON.parse(stringParams);
 
         // Validate the params with zod
-        const { orderBy, take = 10, skip = 0, where } = selectProductListSchema.parse(params);
+        const { select, orderBy, take = 10, skip = 0, where } = selectProductListSchema.parse(params);
 
         const productDataList: ProductType[] = await PrismaInstance.product.findMany({
+            ...(select && { select }),
             ...(orderBy && { orderBy }),
             ...(take && { take }),
             ...(skip && { skip }),
@@ -65,15 +68,15 @@ export const GET = async (request: NextRequest): Promise<NextResponse<SelectProd
         const productList: ProductType[] | null = await SelectProductListCached(stringParams);
 
         // Return the product list
-        return NextResponse.json({ data: productList });
+        return NextResponse.json({ data: productList }, { status: 200 });
     } catch (error) {
-        console.error("SelectProductList -> " + (error as Error).message);
+        console.error("SelectProductListCached -> " + (error as Error).message);
         if (process.env.NODE_ENV === "development") {
             if (error instanceof ZodError)
-                return NextResponse.json({ error: "Invalid params -> " + error.message }, { status: 400 });
+                return NextResponse.json({ error: "SelectProductListCached -> Invalid Zod params -> " + error.message });
             if (error instanceof PrismaClientKnownRequestError)
-                return NextResponse.json({ error: "Prisma error -> " + error.message }, { status: 500 });
-            return NextResponse.json({ error: "Something went wrong..." + (error as Error).message }, { status: 500 });
+                return NextResponse.json({ error: "SelectProductListCached -> Prisma error -> " + error.message });
+            return NextResponse.json({ error: "SelectProductListCached -> " + (error as Error).message });
         }
         // TODO: add logging
         return NextResponse.json({ error: "Something went wrong..." }, { status: 500 });
