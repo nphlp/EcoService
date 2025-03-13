@@ -186,7 +186,7 @@ model DoItYourself {
 /// Content model
 model Content {
     id      String @id @default(nanoid()) /// @zod.nanoid()
-    content String
+    content String @db.Text
     image   String
 
     articleId String?

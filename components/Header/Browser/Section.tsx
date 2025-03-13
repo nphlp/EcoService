@@ -25,7 +25,7 @@ export default function MotionSection(props: MotionSectionProps) {
             onMouseLeave={onMouseLeave}
             className="w-full overflow-hidden bg-white"
         >
-            <div className="flex h-full flex-row flex-wrap items-center justify-center gap-3 bg-gray-100 p-4">
+            <div className="flex h-full flex-row flex-wrap items-center justify-center gap-6 bg-gray-100 p-10">
                 {children}
             </div>
         </motion.div>

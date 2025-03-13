@@ -138,8 +138,15 @@ export default function Sub(props: SubProps) {
                 }}
             >
                 <h3 className="w-full text-2xl font-bold text-primary">Catégories</h3>
-                <div className="flex w-full flex-row flex-wrap items-center justify-center gap-x-5 gap-y-2 xl:w-3/4">
-                    <ButtonClient type="link" label="all" href="/catalog" onClick={(e) => handleCategory(e, "")}>
+                <div className="flex w-full flex-row flex-wrap items-center justify-center gap-x-5 gap-y-3 xl:w-3/4">
+                    <ButtonClient
+                        type="link"
+                        label="all"
+                        href="/catalog"
+                        padding="lg"
+                        className="rounded-full"
+                        onClick={(e) => handleCategory(e, "")}
+                    >
                         Toutes les catégories
                     </ButtonClient>
                     {categorieList.map(({ id, name }, index) => (
@@ -149,6 +156,8 @@ export default function Sub(props: SubProps) {
                             label={name}
                             href={urlSerializer("/catalog", { category: id })}
                             onClick={(e) => handleCategory(e, id)}
+                            className="rounded-full"
+                            padding="lg"
                             variant="outline"
                         >
                             {name}

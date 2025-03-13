@@ -1,8 +1,8 @@
 import { Fetch } from "@api/utils/Fetch";
-import ButtonClient from "@comps/client/Button";
 import ImageRatio from "@comps/server/ImageRatio";
+import { combo } from "@lib/combo";
 
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";
 
 type PageProps = {
     params: Promise<{ id: string }>;
@@ -54,34 +54,31 @@ export default async function Page(props: PageProps) {
                 )}
             </div>
 
-            <div className="space-y-16">
+            <div className="mx-auto max-w-[900px] space-y-16">
                 {diy.Content?.map((content, index) => (
                     <div
                         key={index}
-                        className={`flex flex-col ${index % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"} items-center gap-8`}
+                        className={combo(
+                            "flex flex-col items-center gap-8",
+                            index % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse",
+                        )}
                     >
-                        {/* Texte */}
-                        <div className="flex-1">
-                            <p className="text-lg leading-relaxed">{content.content}</p>
-                        </div>
+                        <p className="w-full md:w-2/3">{content.content}</p>
 
-                        {/* Image */}
-                        <div className="flex-1">
-                            <ImageRatio
-                                src={`/illustration/${content.image}`}
-                                alt={`Illustration pour ${diy.title}`}
-                                className="rounded-lg shadow-md"
-                            />
-                        </div>
+                        <ImageRatio
+                            src={`/illustration/${content.image}`}
+                            alt={`Illustration pour ${diy.title}`}
+                            className="w-2/3 rounded-lg shadow-md md:w-1/3"
+                        />
                     </div>
                 ))}
             </div>
 
-            <div className="mt-16 flex justify-center">
-                <ButtonClient type="link" href="/do-it-yourself" label="Retour aux DIY" variant="outline">
+            {/* <div className="mt-16 flex justify-center">
+                <ButtonClient type="link"  href="/do-it-yourself" label="Retour aux DIY" variant="outline">
                     Retour aux DIY
                 </ButtonClient>
-            </div>
+            </div> */}
         </div>
     );
 }

@@ -60,8 +60,8 @@ export default function TabClient(props: TabClientProps) {
     }, [activeTab, cardList.length]);
 
     return (
-        <div className="min-w-[300px] space-y-2">
-            <motion.div className="relative flex flex-row gap-2 rounded-xl border border-gray-300 bg-white p-2 shadow-md">
+        <div className="min-w-[300px] space-y-3">
+            <motion.div className="relative flex flex-row gap-2 rounded-2xl border border-gray-300 bg-white p-2 shadow-md">
                 {cardList.map(({ label }, index) => (
                     <ButtonClient
                         key={index}
@@ -81,16 +81,16 @@ export default function TabClient(props: TabClientProps) {
                         duration: 0.5,
                         animate: "easeInOut",
                         type: "spring",
-                        bounce: 0.3,
+                        bounce: 0.2,
                     }}
-                    className="absolute inset-y-2 z-10 rounded-md border border-gray-300 bg-gray-100"
+                    className="absolute inset-y-2 z-10 rounded-lg border border-gray-400/70 bg-gray-100"
                 />
             </motion.div>
             <motion.div
                 initial={{ height: "auto" }}
                 animate={{ height: currentHeight }}
                 transition={{ duration: 0.3 }}
-                className="w-[300px] overflow-hidden rounded-xl border border-gray-300 bg-white shadow-md"
+                className="w-[300px] overflow-hidden rounded-2xl border border-gray-300 bg-white shadow-md"
             >
                 {cardList.map(
                     ({ component }, index) =>

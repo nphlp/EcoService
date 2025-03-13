@@ -51,7 +51,7 @@ export default function LoginClient() {
     return (
         <>
             <div className="space-y-2">
-                <h1 className="text-center text-xl font-bold">Connexion</h1>
+                <h1 className="text-center text-2xl font-bold">Connexion</h1>
                 <div className="text-wrap text-center text-xs text-gray-500">
                     Entrez vos informations personnelles pour vous connecter.
                 </div>

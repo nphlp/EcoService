@@ -17,6 +17,8 @@ export default function MobileHeader(props: MobileHeaderProps) {
 
     const [visibilityMenu, setVisibilityMenu] = useState<boolean>(false);
 
+    const buttonClass = "w-full py-2";
+
     return (
         <div className={className}>
             <ButtonClient
@@ -50,42 +52,52 @@ export default function MobileHeader(props: MobileHeaderProps) {
                         href="/"
                         label="home"
                         variant="outline"
-                        className="w-full"
+                        className={combo(buttonClass)}
                         onClick={() => setVisibilityMenu(false)}
                     >
-                        Home
+                        Accueil
                     </ButtonClient>
                     <ButtonClient
                         type="link"
                         href="/catalog"
                         label="catalog"
                         variant="outline"
-                        className="w-full"
+                        className={combo(buttonClass)}
                         onClick={() => setVisibilityMenu(false)}
                     >
-                        Catalog
+                        Catalogue
+                    </ButtonClient>
+                    <ButtonClient
+                        type="link"
+                        href="/article"
+                        label="articles"
+                        variant="outline"
+                        className={combo(buttonClass)}
+                        onClick={() => setVisibilityMenu(false)}
+                    >
+                        Articles
+                    </ButtonClient>
+                    <ButtonClient
+                        type="link"
+                        href="/do-it-yourself"
+                        label="do-it-yourself"
+                        variant="outline"
+                        className={combo(buttonClass)}
+                        onClick={() => setVisibilityMenu(false)}
+                    >
+                        Do it yourself
                     </ButtonClient>
                     {!session && (
                         <>
                             <ButtonClient
                                 type="link"
-                                href="/register"
-                                label="register"
+                                href="/auth"
+                                label="auth"
                                 variant="outline"
-                                className="w-full"
+                                className={combo(buttonClass)}
                                 onClick={() => setVisibilityMenu(false)}
                             >
-                                Catalog
-                            </ButtonClient>
-                            <ButtonClient
-                                type="link"
-                                href="/login"
-                                label="login"
-                                variant="outline"
-                                className="w-full"
-                                onClick={() => setVisibilityMenu(false)}
-                            >
-                                Login
+                                Authentification
                             </ButtonClient>
                         </>
                     )}
@@ -96,26 +108,26 @@ export default function MobileHeader(props: MobileHeaderProps) {
                                 href="/profile"
                                 label="profile"
                                 variant="outline"
-                                className="w-full"
+                                className={combo(buttonClass)}
                                 onClick={() => setVisibilityMenu(false)}
                             >
                                 Profile
                             </ButtonClient>
-                            <LogoutClient variant="outline" onClick={() => setVisibilityMenu(false)} className="w-full">
-                                Logout
+                            <LogoutClient variant="outline" onClick={() => setVisibilityMenu(false)} className={combo(buttonClass)}>
+                                Déconnexion
                             </LogoutClient>
                         </>
                     )}
 
                     {/* Close button */}
                     <ButtonClient
-                        className="w-full"
+                        className={combo(buttonClass)}
                         type="button"
                         label="hide-menu"
                         variant="default"
                         onClick={() => setVisibilityMenu(false)}
                     >
-                        Close
+                        Fermer
                     </ButtonClient>
                 </div>
             </nav>

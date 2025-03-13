@@ -426,15 +426,15 @@ export const articleData: ArticleData[] = [
         authorEmail: "admin@example.com",
         contents: [
             {
-                content: "L'écologie commence par de petits gestes quotidiens. Chaque action compte pour préserver notre planète.",
+                content: "L'écologie au quotidien se construit par des gestes simples mais impactants. La transition écologique n'est pas qu'une notion abstraite, elle se concrétise dans nos choix quotidiens. Que ce soit dans notre consommation, nos déplacements ou notre gestion des déchets, chaque action contribue à la préservation de notre environnement. L'effet cumulé de ces gestes individuels crée un changement significatif.",
                 image: "terre-main.jpg"
             },
             {
-                content: "Réduire sa consommation d'eau et d'électricité est un premier pas important vers un mode de vie plus durable.",
+                content: "La gestion responsable de l'eau et de l'électricité est fondamentale. Installez des mousseurs sur vos robinets, privilégiez les douches aux bains, et fermez l'eau pendant le brossage des dents. Pour l'électricité, optez pour des ampoules LED, éteignez les appareils en veille et isolez efficacement votre logement. Ces habitudes réduisent votre impact environnemental et vos factures.",
                 image: "eolienne.jpg"
             },
             {
-                content: "Privilégier les produits locaux et de saison permet de réduire considérablement son empreinte carbone.",
+                content: "Les produits locaux et de saison offrent de nombreux avantages écologiques. Ils nécessitent moins de transport, donc moins d'émissions de CO2. Cultivés naturellement, ils sont plus savoureux et nutritifs car récoltés à maturité. Cette approche soutient l'économie locale, préserve la biodiversité et maintient les traditions agricoles de nos régions.",
                 image: "produit 1.jpg"
             }
         ]
@@ -444,15 +444,15 @@ export const articleData: ArticleData[] = [
         authorEmail: "vendor@example.com",
         contents: [
             {
-                content: "Les produits ménagers naturels sont tout aussi efficaces que leurs équivalents chimiques, sans les dangers pour la santé.",
+                content: "Les produits ménagers naturels rivalisent efficacement avec leurs équivalents chimiques. Ils évitent l'exposition aux substances toxiques qui peuvent provoquer allergies et irritations. Ces alternatives écologiques sont biodégradables et respectueuses de l'environnement, réduisant la pollution des eaux et la production de déchets plastiques.",
                 image: "lessive 1.jpg"
             },
             {
-                content: "Le vinaigre blanc, le bicarbonate de soude et le savon noir sont la base d'une maison propre et écologique.",
+                content: "Le trio vinaigre blanc, bicarbonate et savon noir forme la base d'un nettoyage écologique efficace. Le vinaigre désinfecte et détartre, le bicarbonate absorbe les odeurs et nettoie sans rayer, tandis que le savon noir dégraisse puissamment. Ces produits polyvalents s'utilisent purs ou combinés selon les besoins.",
                 image: "lessive 2.jpg"
             },
             {
-                content: "Fabriquer ses propres produits ménagers permet de réduire considérablement les déchets plastiques.",
+                content: "La fabrication maison des produits ménagers présente de multiples avantages. Elle réduit les emballages plastiques, permet de contrôler les ingrédients utilisés et génère des économies substantielles. Les recettes simples et personnalisables s'adaptent aux besoins spécifiques de chaque foyer, garantissant une efficacité optimale.",
                 image: "produit 2.jpg"
             }
         ]
@@ -462,15 +462,15 @@ export const articleData: ArticleData[] = [
         authorEmail: "user@example.com",
         contents: [
             {
-                content: "La permaculture s'inspire des écosystèmes naturels pour créer des jardins productifs et durables.",
+                content: "La permaculture réinvente le jardinage en s'inspirant des écosystèmes naturels. Cette approche crée des espaces productifs et autonomes qui nécessitent peu d'entretien. En observant les interactions naturelles entre les plantes, le sol et les insectes, nous pouvons concevoir des jardins qui s'auto-régulent et produisent des aliments sains toute l'année.",
                 image: "feuille.jpg"
             },
             {
-                content: "Le compostage transforme les déchets organiques en un amendement précieux pour le sol.",
+                content: "Le compostage est au cœur de la permaculture, transformant les déchets organiques en un amendement riche en nutriments. Ce processus naturel améliore la structure du sol, stimule la vie microbienne et fournit aux plantes les éléments nutritifs nécessaires. Un bon compost réduit les besoins en fertilisants et optimise la rétention d'eau.",
                 image: "pots.jpg"
             },
             {
-                content: "Les plantes compagnes s'entraident naturellement, réduisant le besoin en pesticides.",
+                content: "Les associations de plantes compagnes constituent une stratégie efficace pour un jardin résilient. Certaines plantes repoussent naturellement les parasites, d'autres enrichissent le sol en azote ou attirent les pollinisateurs. Ces synergies naturelles permettent de réduire, voire d'éliminer, l'utilisation de pesticides tout en augmentant la biodiversité.",
                 image: "produit 3.jpg"
             }
         ]
@@ -480,15 +480,15 @@ export const articleData: ArticleData[] = [
         authorEmail: "employee@example.com",
         contents: [
             {
-                content: "Les transports représentent une part importante de notre empreinte carbone. Privilégier le vélo ou les transports en commun fait une réelle différence.",
+                content: "Les transports représentent une part majeure de notre empreinte carbone individuelle. Privilégier le vélo, la marche ou les transports en commun réduit significativement nos émissions de CO2. Le covoiturage et l'autopartage offrent des alternatives flexibles, tandis que le télétravail, quand possible, évite des déplacements inutiles.",
                 image: "espace 1.jpg"
             },
             {
-                content: "Réduire sa consommation de viande, même partiellement, a un impact significatif sur les émissions de gaz à effet de serre.",
+                content: "L'alimentation influence fortement notre impact environnemental. Réduire sa consommation de viande, même partiellement, diminue considérablement les émissions de gaz à effet de serre. Privilégier les protéines végétales et les produits locaux de saison permet de maintenir une alimentation équilibrée tout en respectant la planète.",
                 image: "produit 4.jpg"
             },
             {
-                content: "Choisir des appareils électroménagers économes en énergie permet de réduire sa consommation sur le long terme.",
+                content: "La consommation d'énergie domestique peut être optimisée par des choix d'équipements judicieux. Les appareils électroménagers de classe énergétique A+++ consomment jusqu'à 60% moins d'énergie. La programmation du chauffage, l'isolation efficace et l'utilisation d'ampoules LED réduisent durablement notre impact énergétique.",
                 image: "produit 5.jpg"
             }
         ]
@@ -498,15 +498,15 @@ export const articleData: ArticleData[] = [
         authorEmail: "admin@example.com",
         contents: [
             {
-                content: "Les alternatives réutilisables aux produits d'hygiène jetables permettent de réduire considérablement ses déchets.",
+                content: "Les alternatives réutilisables révolutionnent notre routine d'hygiène quotidienne. Les cotons démaquillants lavables, brosses à dents en bambou et protections périodiques réutilisables réduisent drastiquement nos déchets. Ces solutions durables, plus économiques à long terme, évitent l'accumulation de déchets plastiques tout en préservant notre confort.",
                 image: "brosse-a-dent.jpg"
             },
             {
-                content: "Les cosmétiques solides durent plus longtemps et ne nécessitent pas d'emballage plastique.",
+                content: "Les cosmétiques solides représentent une innovation majeure dans la beauté durable. Shampooings, savons et déodorants en format solide éliminent les emballages plastiques superflus. Plus concentrés que leurs équivalents liquides, ils durent plus longtemps et facilitent le transport. Leur fabrication nécessite moins d'eau et d'énergie.",
                 image: "coton 1.jpg"
             },
             {
-                content: "Fabriquer ses propres cosmétiques permet de contrôler les ingrédients et d'éviter les substances nocives.",
+                content: "La fabrication maison de cosmétiques permet un contrôle total des ingrédients utilisés. En choisissant des composants naturels et biologiques, nous évitons les substances controversées présentes dans les produits industriels. Cette approche personnalisée s'adapte à nos besoins spécifiques tout en réduisant notre impact environnemental.",
                 image: "coton 2.jpg"
             }
         ]
@@ -525,15 +525,15 @@ export const doItYourselfData: DoItYourselfData[] = [
         authorEmail: "admin@example.com",
         contents: [
             {
-                content: "Pour fabriquer votre savon, vous aurez besoin d'huile d'olive, d'huile de coco, de soude caustique et d'huiles essentielles de votre choix.",
+                content: "Préparez votre mélange avec 500g d'huile d'olive, 200g d'huile de coco et 95g de soude caustique diluée dans 250ml d'eau froide. La soude transforme les huiles en savon par saponification. Portez des équipements de protection et travaillez dans un espace bien ventilé. Les huiles apportent leurs propriétés nourrissantes spécifiques.",
                 image: "produit 1.jpg"
             },
             {
-                content: "Mélangez les huiles chauffées avec la solution de soude, en remuant jusqu'à obtenir la trace. Ajoutez ensuite les huiles essentielles.",
+                content: "Chauffez doucement les huiles jusqu'à 40°C dans un récipient en inox ou en verre. Versez progressivement la solution de soude tout en mélangeant énergiquement avec un mixeur plongeant. Continuez jusqu'à la trace, puis incorporez vos huiles essentielles préférées pour parfumer naturellement.",
                 image: "produit 2.jpg"
             },
             {
-                content: "Versez dans un moule et laissez reposer 24 à 48 heures avant de démouler. Laissez sécher 4 à 6 semaines avant utilisation.",
+                content: "Versez la préparation dans un moule en silicone ou en bois doublé de papier cuisson. Laissez reposer 48h à température ambiante avant de démouler. Un temps de séchage de 4 à 6 semaines est nécessaire pour obtenir un savon doux et stable.",
                 image: "produit 3.jpg"
             }
         ]
@@ -543,15 +543,15 @@ export const doItYourselfData: DoItYourselfData[] = [
         authorEmail: "vendor@example.com",
         contents: [
             {
-                content: "Récupérez une palette en bois non traitée et poncez-la pour éviter les échardes. Appliquez une huile de lin pour la protéger.",
+                content: "Sélectionnez une palette portant le marquage HT (traitement thermique) et poncez-la soigneusement pour éviter les échardes. Appliquez deux couches d'huile de lin pure pour protéger le bois des intempéries. Cette préparation garantit la durabilité de votre potager et la sécurité de vos futures récoltes.",
                 image: "pots.jpg"
             },
             {
-                content: "Fixez un géotextile à l'arrière et sur les côtés pour créer des poches. Remplissez ces poches de terreau de qualité.",
+                content: "Découpez le géotextile en rectangles légèrement plus grands que les espaces entre les lattes. Agrafez-le solidement à l'arrière et sur les côtés pour former des poches profondes. Remplissez de terreau spécial potager enrichi en compost, en tassant modérément pour préserver l'aération.",
                 image: "feuille.jpg"
             },
             {
-                content: "Plantez des herbes aromatiques, des fraises ou des salades dans les poches. Arrosez régulièrement mais sans excès.",
+                content: "Organisez vos plantations selon les besoins en eau : les plantes gourmandes en bas, les herbes aromatiques résistantes en haut. Installez un système d'arrosage goutte-à-goutte pour une distribution uniforme. En été, surveillez l'humidité quotidiennement car les poches sèchent rapidement.",
                 image: "terre-main.jpg"
             }
         ]
@@ -561,15 +561,15 @@ export const doItYourselfData: DoItYourselfData[] = [
         authorEmail: "user@example.com",
         contents: [
             {
-                content: "Râpez 50g de savon de Marseille pur et faites-le fondre dans 1L d'eau chaude. Ajoutez 1 cuillère à soupe de bicarbonate de soude.",
+                content: "Râpez finement 50g de véritable savon de Marseille (72% d'huile d'olive minimum) et faites-le fondre dans 1L d'eau chaude à 60°C. Ajoutez une cuillère à soupe de bicarbonate de soude qui adoucit l'eau et renforce le pouvoir nettoyant. Remuez régulièrement pour éviter les grumeaux.",
                 image: "lessive 1.jpg"
             },
             {
-                content: "Ajoutez 1 cuillère à soupe de cristaux de soude et 10 gouttes d'huile essentielle de lavande ou de citron pour parfumer.",
+                content: "Incorporez une cuillère à soupe de cristaux de soude pour leur action dégraissante puissante, particulièrement efficace sur les taches tenaces. Ajoutez 10 gouttes d'huile essentielle de lavande ou de citron pour leurs propriétés désinfectantes et leur parfum naturel agréable.",
                 image: "lessive 2.jpg"
             },
             {
-                content: "Laissez refroidir et versez dans une bouteille. Secouez avant chaque utilisation et utilisez environ 1/2 verre par machine.",
+                content: "Transvasez la préparation refroidie dans un contenant en verre ou en plastique recyclé avec bouchon doseur. Utilisez un demi-verre (100ml) par machine. Cette lessive naturelle convient à tous types de machines et se conserve un mois à température ambiante.",
                 image: "produit 4.jpg"
             }
         ]
@@ -579,15 +579,15 @@ export const doItYourselfData: DoItYourselfData[] = [
         authorEmail: "employee@example.com",
         contents: [
             {
-                content: "Procurez-vous deux seaux en plastique de taille identique. Percez des trous dans le fond du premier pour l'aération et le drainage.",
+                content: "Choisissez deux seaux identiques de 10-15L avec couvercles hermétiques. Dans le premier, percez une vingtaine de trous de 5-8mm uniformément répartis sur le fond pour assurer drainage et aération. Collez une moustiquaire fine sous le couvercle pour éviter les insectes tout en maintenant la ventilation.",
                 image: "produit 5.jpg"
             },
             {
-                content: "Placez le seau percé dans le second qui servira à récupérer le liquide. Ajoutez une couche de carton, puis des vers de compost.",
+                content: "Emboîtez le seau percé dans le second qui récupérera le lixiviat, un excellent engrais liquide à diluer. Tapissez le fond du seau supérieur avec du carton qui retient les vers et fournit la première matière carbonée. Ajoutez 500g de vers Eisenia fetida.",
                 image: "coton 1.jpg"
             },
             {
-                content: "Ajoutez vos déchets organiques en petits morceaux et couvrez d'une couche de matière sèche (papier journal, carton). Fermez avec un couvercle.",
+                content: "Découpez vos déchets organiques en morceaux de 2cm maximum pour accélérer leur décomposition. Évitez agrumes, ail, oignon, produits laitiers et viande. Après chaque ajout, couvrez de matière sèche (papier, carton). Maintenez l'humidité comme une éponge essorée.",
                 image: "coton 2.jpg"
             }
         ]
@@ -597,15 +597,15 @@ export const doItYourselfData: DoItYourselfData[] = [
         authorEmail: "admin@example.com",
         contents: [
             {
-                content: "Récupérez des chaussettes usagées ou des t-shirts et découpez-les en bandes d'environ 3 cm de large.",
+                content: "Sélectionnez des chaussettes ou t-shirts en coton usagés, évitez les tissus synthétiques qui libèrent des microplastiques. Découpez des bandes régulières de 3cm de large. Les chaussettes sont idéales car déjà tubulaires, pour les t-shirts commencez par créer un tube en coupant sous les aisselles.",
                 image: "coton 3.jpg"
             },
             {
-                content: "Créez un métier à tisser avec une planche et des clous disposés en carré. Tendez 5 bandes dans un sens, puis tissez 5 autres bandes perpendiculairement.",
+                content: "Créez votre métier à tisser sur une planche de bois de 20x20cm en plantant 16 clous en carré, 4 par côté espacés de 2cm. Tendez 5 bandes parallèlement entre les clous opposés, puis tissez 5 autres perpendiculairement en alternant dessus/dessous à chaque croisement.",
                 image: "brosse-a-dent.jpg"
             },
             {
-                content: "Nouez les extrémités ensemble et retirez délicatement du métier. Votre tawashi est prêt à l'emploi et lavable en machine.",
+                content: "Une fois le tissage terminé, nouez les boucles adjacentes entre elles en commençant par un coin. Maintenez une tension uniforme pour garder la forme carrée. Détachez délicatement du support. Votre tawashi peut être lavé en machine à 60°C et durera plusieurs mois.",
                 image: "cafe.jpg"
             }
         ]

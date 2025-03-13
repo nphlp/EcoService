@@ -55,7 +55,7 @@ export default function RegisterClient() {
     return (
         <>
             <div className="space-y-2">
-                <h1 className="text-center text-xl font-bold">S&apos;inscrire</h1>
+                <h1 className="text-center text-2xl font-bold">S&apos;inscrire</h1>
                 <div className="text-wrap text-center text-xs text-gray-500">
                     Entrez vos informations personnelles pour vous inscrire.
                 </div>
