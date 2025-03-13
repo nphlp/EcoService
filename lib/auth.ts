@@ -12,7 +12,7 @@ export const auth = betterAuth({
     database: prismaAdapter(PrismaInstance, {
         provider: "mysql",
     }),
-    trustedOrigins: [`${baseUrl}/register`, `${baseUrl}/login`],
+    trustedOrigins: [`${baseUrl}/auth`],
     emailAndPassword: {
         enabled: true,
     },
@@ -50,8 +50,8 @@ export const auth = betterAuth({
         },
     },
     session: {
-        expiresIn: 60 * 30,
-        updateAge: 60 * 5,
+        expiresIn: 60 * 30, // 30 minutes
+        updateAge: 60 * 5, // 5 minutes
         // cookieCache: {
         //     enabled: true,
         //     maxAge: 60 * 5

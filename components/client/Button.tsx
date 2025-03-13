@@ -65,7 +65,7 @@ export default function ButtonClient(props: ButtonClientProps) {
     };
 
     const paddingStyle = {
-        sm: "px-2",
+        sm: "px-2 py-0.5",
         md: "py-1 px-4",
         lg: "py-1.5 px-6",
         none: "",

@@ -105,7 +105,7 @@ const ProductList = (props: ProductListProps) => {
     };
 
     return (
-        <div className={combo("grid grid-cols-1 gap-4 overflow-y-auto sm:grid-cols-2 lg:grid-cols-4", className)}>
+        <div className={combo("grid grid-cols-1 gap-5 overflow-y-auto sm:grid-cols-2 lg:grid-cols-4", className)}>
             {produitList.map(({ id, name, image, price }, index) => (
                 <Link
                     key={index}

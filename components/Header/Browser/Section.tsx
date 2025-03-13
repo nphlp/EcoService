@@ -1,8 +1,7 @@
 "use client";
 
-import { ReactNode } from "react";
 import { motion } from "framer-motion";
-import { combo } from "@lib/combo";
+import { ReactNode } from "react";
 
 type MotionSectionProps = {
     open: boolean;
@@ -24,7 +23,7 @@ export default function MotionSection(props: MotionSectionProps) {
                 ease: "easeInOut",
             }}
             onMouseLeave={onMouseLeave}
-            className={combo("w-full overflow-hidden bg-white")}
+            className="w-full overflow-hidden bg-white"
         >
             <div className="flex h-full flex-row flex-wrap items-center justify-center gap-3 bg-gray-100 p-4">
                 {children}

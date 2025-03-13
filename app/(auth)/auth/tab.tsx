@@ -90,7 +90,7 @@ export default function TabClient(props: TabClientProps) {
                 initial={{ height: "auto" }}
                 animate={{ height: currentHeight }}
                 transition={{ duration: 0.3 }}
-                className="overflow-hidden rounded-xl border border-gray-300 bg-white shadow-md"
+                className="w-[300px] overflow-hidden rounded-xl border border-gray-300 bg-white shadow-md"
             >
                 {cardList.map(
                     ({ component }, index) =>

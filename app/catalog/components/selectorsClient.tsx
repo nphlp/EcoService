@@ -17,12 +17,12 @@ export default function SelectorsClient(props: SelectorsClientProps) {
     const { productAmountLocal } = useContext(CatalogContext);
     const { priceOrder, page, take, category, setCategory, setPage, setPriceOrder, setTake } = useCatalogParams();
 
-    const divClass = "w-1/4 space-y-2";
+    const divClass = "w-full space-y-2";
     const labelClass = "text-sm text-gray-500 text-gray-200 ";
     const selectClass = "rounded-md border p-2 text-gray-700 shadow-sm w-full";
 
     return (
-        <div className="flex flex-row items-center justify-start gap-4 bg-primary px-6 py-4">
+        <div className="grid grid-cols-2 gap-4 bg-primary px-6 py-4 md:grid-cols-4">
             <Select
                 label="Catégorie"
                 divClass={divClass}

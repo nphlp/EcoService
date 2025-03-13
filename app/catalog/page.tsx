@@ -61,7 +61,10 @@ export default async function Page(props: PageProps) {
 
     return (
         <div className="flex flex-1 flex-col">
-            <h1 className="bg-primary px-6 pt-6 text-4xl font-bold text-secondary">Catalog</h1>
+            <h1 className="bg-primary px-6 pt-6 text-4xl font-bold text-secondary">Catalogue</h1>
+            <div className="bg-primary px-6 pt-2 text-white">
+                Retrouvez l&apos;intégralité de nos produits dans notre catalogue.
+            </div>
             <div className="flex flex-1 flex-col justify-start overflow-hidden">
                 <CatalogContextProvider productList={productList} productAmount={productAmount}>
                     <SelectorsClient categoryList={categoryList} />

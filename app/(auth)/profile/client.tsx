@@ -4,45 +4,38 @@ import ButtonClient from "@comps/client/Button";
 import InputClient from "@comps/client/Input";
 import ModalClient from "@comps/client/Modal";
 import Card from "@comps/server/Card";
-import Loader from "@comps/server/Loader";
 import {
     changeEmail,
-    listSessions,
-    revokeOtherSessions,
-    revokeSession,
-    revokeSessions,
-    SessionList,
     updateUser,
-    useSession,
+    useSession
 } from "@lib/authClient";
-import { CircleX, Eye, EyeClosed } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { Eye, EyeClosed } from "lucide-react";
+import { useState } from "react";
 export default function ProfileClient() {
     const { data: session } = useSession();
 
-    const router = useRouter();
+    // const router = useRouter();
 
     const [modalVisible, setModalVisible] = useState<boolean>(false);
-    const [sessionList, setSessionList] = useState<SessionList[] | null>(null);
+    // const [sessionList, setSessionList] = useState<SessionList[] | null>(null);
     const [name, setName] = useState<string>("");
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState("");
     const [toggleVisibility, setToggleVisibility] = useState(false);
 
     // Fetch session list
-    const fetchSessions = async () => {
-        const { data: getSessionList } = await listSessions();
-        setSessionList(getSessionList as SessionList[] | null);
-    };
+    // const fetchSessions = async () => {
+    //     const { data: getSessionList } = await listSessions();
+    //     setSessionList(getSessionList as SessionList[] | null);
+    // };
 
-    useEffect(() => {
-        // Check if user has verified email
-        if (session) {
-            setModalVisible(!session?.user.emailVerified);
-        }
-        fetchSessions();
-    }, [session]);
+    // useEffect(() => {
+    //     // Check if user has verified email
+    //     if (session) {
+    //         setModalVisible(!session?.user.emailVerified);
+    //     }
+    //     fetchSessions();
+    // }, [session]);
 
     return (
         <>
@@ -51,16 +44,15 @@ export default function ProfileClient() {
                 setModalVisible={setModalVisible}
                 className="max-w-[350px] space-y-3"
             >
-                <h2 className="text-center text-xl font-bold">Email confirmation</h2>
-                <div className="text-sm">Please, make sure you have confirmed your email address.</div>
+                <h2 className="text-center text-xl font-bold">Confirmation d&apos;email</h2>
+                <div className="text-sm">Veuillez vérifier votre adresse email.</div>
                 <div className="flex flex-col items-center">
                     <ButtonClient type="button" label="close" onClick={() => setModalVisible(false)}>
-                        Close
+                        Fermer
                     </ButtonClient>
                 </div>
             </ModalClient>
-            <Card className="flex w-[280px] flex-col gap-3">
-                {/* TODO : ajuster les comportements lorsqu'une session est supprimée */}
+            {/* <Card className="flex w-[280px] flex-col gap-3">
                 <div className="space-y-1">
                     <div className="text-xl font-bold">Session List</div>
                     <div className="flex flex-row gap-1">
@@ -125,12 +117,15 @@ export default function ProfileClient() {
                         <span className="text-sm text-gray-500">Loading sessions...</span>
                     </div>
                 )}
-            </Card>
-            <Card className="w-[280px] space-y-3">
-                <div className="text-xl font-bold">Update profile</div>
+            </Card> */}
+            <Card className="w-[300px] space-y-3 rounded-2xl p-6">
+                <div className="text-xl font-bold">Modifer</div>
+                <div className="text-wrap text-xs text-gray-500">
+                    Mettre à jour vos informations personnelles.
+                </div>
                 <div className="flex flex-col items-center gap-2">
                     <InputClient
-                        label="Name"
+                        label="Nom"
                         type="text"
                         onChange={(e) => setName(e.target.value)}
                         value={name}
@@ -138,11 +133,12 @@ export default function ProfileClient() {
                     />
                     <ButtonClient
                         type="button"
-                        label="update-name"
+                        label="Mettre à jour le nom"
                         padding="sm"
+                        className="text-sm"
                         onClick={async () => await updateUser({ name })}
                     >
-                        Update name
+                        Changer le nom
                     </ButtonClient>
                 </div>
                 <div className="flex flex-col items-center gap-2">
@@ -155,18 +151,19 @@ export default function ProfileClient() {
                     />
                     <ButtonClient
                         type="button"
-                        label="update-name"
+                        label="Mettre à jour l'email"
                         padding="sm"
+                        className="text-sm"
                         onClick={async () => await changeEmail({ newEmail: email })}
                     >
-                        Update email
+                        Changer l&apos;email
                     </ButtonClient>
                 </div>
                 <div className="flex flex-col items-center gap-2">
-                    <div className="flex flex-row items-end gap-1.5">
+                    <div className="flex w-full flex-row items-end gap-1.5">
                         <InputClient
-                            label="password"
-                            placeholder="My new password"
+                            label="Mot de passe"
+                            placeholder="Mon nouveau mot de passe"
                             classInput="w-full"
                             type={toggleVisibility ? "text" : "password"}
                             onChange={(e) => setPassword(e.target.value)}
@@ -188,11 +185,12 @@ export default function ProfileClient() {
                         type="button"
                         label="update-name"
                         padding="sm"
+                        className="text-sm"
                         onClick={async () => {
                             // await changeEmail({ newEmail: email })
                         }}
                     >
-                        Update password
+                        Changer le mot de passe
                     </ButtonClient>
                 </div>
             </Card>

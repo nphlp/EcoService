@@ -48,15 +48,16 @@ export default function RegisterClient() {
         } else if (error) {
             setMessage("Failed to register.");
             setMode("error");
+            setIsLoading(false);
         }
     };
 
     return (
         <>
             <div className="space-y-2">
-                <h1 className="text-center text-xl font-bold">Register</h1>
+                <h1 className="text-center text-xl font-bold">S&apos;inscrire</h1>
                 <div className="text-wrap text-center text-xs text-gray-500">
-                    Enter your personal informations to register.
+                    Entrez vos informations personnelles pour vous inscrire.
                 </div>
             </div>
             <div className="flex flex-col items-center justify-center gap-4">
@@ -96,17 +97,17 @@ export default function RegisterClient() {
                 </div>
                 <ButtonClient
                     type="link"
-                    href="/login"
+                    href="/auth"
                     className="text-sm text-gray-500"
                     label="already-registered"
                     variant="underline"
                     padding="sm"
                 >
-                    Already registered?
+                    Déjà inscrit?
                 </ButtonClient>
                 <FeedbackClient message={message} mode={mode} />
                 <ButtonClient type="button" onClick={handleSubmit} label="register" isLoading={isLoading}>
-                    Register
+                    S&apos;inscrire
                 </ButtonClient>
             </div>
         </>

@@ -10,11 +10,11 @@ export default function Page() {
             <TabClient
                 cardList={[
                     {
-                        label: "Login",
+                        label: "Connexion",
                         component: <LoginClient />,
                     },
                     {
-                        label: "Register",
+                        label: "S'inscrire",
                         component: <RegisterClient />,
                     },
                 ]}

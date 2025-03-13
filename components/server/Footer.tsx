@@ -19,16 +19,12 @@ export default function FooterClient(props: FooterProps) {
             </div>
             <div className="flex flex-row items-center justify-center gap-20">
                 <div className="flex flex-col items-start justify-center gap-3 text-lg text-white">
-                    <Link href="/">Home</Link>
-                    <Link href="/catalog">Catalog</Link>
-                    <Link href="/contact">Contact</Link>
-                    <Link href="/about">About</Link>
+                    <Link href="/">Accueil</Link>
+                    <Link href="/catalog">Catalogue</Link>
                 </div>
                 <div className="flex flex-col items-start justify-center gap-3 text-lg text-white">
-                    <Link href="/">Home</Link>
-                    <Link href="/catalog">Catalog</Link>
-                    <Link href="/contact">Contact</Link>
-                    <Link href="/about">About</Link>
+                    <Link href="/article">Articles</Link>
+                    <Link href="/do-it-yourself">Do It Yourself</Link>
                 </div>
             </div>
         </footer>

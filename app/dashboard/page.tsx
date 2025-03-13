@@ -13,9 +13,15 @@ export default async function Page() {
     }
 
     return (
-        <div>
-            <h1>Dashboard</h1>
-            <div>{session?.user.role}</div>
+        <div className="flex w-full flex-1 flex-row">
+                <div className="flex w-1/6 flex-col border-r-[1.5px] border-black">
+                    <div className="flex-1 p-5">Left</div>
+                </div>
+                <div className="flex flex-1 flex-col">
+                    <div className="p-5">
+                        <h1>Dashboard</h1>
+                    </div>
+                </div>
         </div>
     );
 }

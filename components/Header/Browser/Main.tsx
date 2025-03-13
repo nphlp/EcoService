@@ -73,7 +73,7 @@ const CentralNav = () => {
                 }}
                 className={combo(path === "/catalog" && "font-bold")}
             >
-                <span>Catalog</span>
+                <span>Catalogue</span>
                 <motion.span
                     initial={{ rotate: 0 }}
                     animate={{ rotate: categorieOpen ? -180 : 0 }}

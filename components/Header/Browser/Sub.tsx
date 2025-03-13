@@ -138,27 +138,23 @@ export default function Sub(props: SubProps) {
                 }}
             >
                 <h3 className="w-full text-2xl font-bold text-primary">Catégories</h3>
-                <ButtonClient
-                    type="link"
-                    label="all"
-                    href="/catalog"
-                    onClick={(e) => handleCategory(e, "")}
-                    variant="outline"
-                >
-                    Toutes les catégories
-                </ButtonClient>
-                {categorieList.map(({ id, name }, index) => (
-                    <ButtonClient
-                        key={index}
-                        type="link"
-                        label={name}
-                        href={urlSerializer("/catalog", { category: id })}
-                        onClick={(e) => handleCategory(e, id)}
-                        variant="outline"
-                    >
-                        {name}
+                <div className="flex w-full flex-row flex-wrap items-center justify-center gap-x-5 gap-y-2 xl:w-3/4">
+                    <ButtonClient type="link" label="all" href="/catalog" onClick={(e) => handleCategory(e, "")}>
+                        Toutes les catégories
                     </ButtonClient>
-                ))}
+                    {categorieList.map(({ id, name }, index) => (
+                        <ButtonClient
+                            key={index}
+                            type="link"
+                            label={name}
+                            href={urlSerializer("/catalog", { category: id })}
+                            onClick={(e) => handleCategory(e, id)}
+                            variant="outline"
+                        >
+                            {name}
+                        </ButtonClient>
+                    ))}
+                </div>
             </MotionSection>
 
             {/* Search section */}

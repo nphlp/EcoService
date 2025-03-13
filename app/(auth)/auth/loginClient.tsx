@@ -44,15 +44,16 @@ export default function LoginClient() {
         } else if (error) {
             setMessage("Failed to login, invalid credentials.");
             setMode("error");
+            setIsLoading(false);
         }
     };
 
     return (
         <>
             <div className="space-y-2">
-                <h1 className="text-center text-xl font-bold">Login</h1>
+                <h1 className="text-center text-xl font-bold">Connexion</h1>
                 <div className="text-wrap text-center text-xs text-gray-500">
-                    Enter your personal informations to login.
+                    Entrez vos informations personnelles pour vous connecter.
                 </div>
             </div>
             <div className="flex flex-col items-center justify-center gap-4">
@@ -81,16 +82,16 @@ export default function LoginClient() {
                 <ButtonClient
                     type="link"
                     className="text-sm text-gray-500"
-                    href="/register"
+                    href="/auth"
                     label="not-registered-yet"
                     variant="underline"
                     padding="sm"
                 >
-                    Not registered yet?
+                    Pas encore inscrit?
                 </ButtonClient>
                 <FeedbackClient message={message} mode={mode} />
                 <ButtonClient type="button" onClick={handleSubmit} label="login" isLoading={isLoading}>
-                    Login
+                    Connexion
                 </ButtonClient>
             </div>
         </>
