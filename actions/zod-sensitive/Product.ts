@@ -33,7 +33,8 @@ export const selectProductListSchema: ZodType<SelectProductListProps> = strictOb
     orderBy: strictObject({
         // TODO: choose allowed filters for select request
         // WARNING: this schema protect request from frontend
-        price: z.enum(["asc", "desc"]),
+        price: z.enum(["asc", "desc"]).optional(),
+        createdAt: z.enum(["asc", "desc"]).optional(),
     }).optional(),
     take: z.number().min(1).max(100).optional(),
     skip: z.number().min(0).optional(),

@@ -1,11 +1,10 @@
 "use client";
 
-import { useFetch } from "@api/utils/FetchHook";
 import { useBasketStore } from "@comps/Basket/BasketStore";
 import ButtonClient from "@comps/client/Button";
 import ImageRatio from "@comps/server/ImageRatio";
-import Loader from "@comps/server/Loader";
 import { combo } from "@lib/combo";
+import { Product } from "@prisma/client";
 import { CircleCheck, CirclePlus, CircleX, ShoppingCart } from "lucide-react";
 import Link from "next/link";
 import "swiper/css";
@@ -15,38 +14,15 @@ import { Swiper, SwiperSlide } from "swiper/react";
 
 type ProductSliderProps = {
     className?: string;
+    dataList: Product[];
 };
 
 export default function ProductSlider(props: ProductSliderProps) {
-    const { className } = props;
-
-    const { data: productList, isLoading } = useFetch({
-        route: "/products",
-        params: {
-            take: 8,
-            orderBy: { price: "desc" },
-        },
-    });
+    const { className, dataList } = props;
 
     const { basketProductList, addProductToBasket, removeProductFromBasket } = useBasketStore();
 
-    if (isLoading) {
-        return (
-            <div className="flex w-full items-center justify-center py-12">
-                <Loader className="size-8 border-4" />
-            </div>
-        );
-    }
-
-    if (!productList || productList.length === 0) {
-        return (
-            <div className="py-12 text-center">
-                Aucun produit disponible pour le moment.
-            </div>
-        );
-    }
-
-    const handleClick = (e: React.MouseEvent, product: typeof productList[0]) => {
+    const handleClick = (e: React.MouseEvent, product: typeof dataList[0]) => {
         e.preventDefault();
         
         if (basketProductList.some((p) => p.id === product.id)) {
@@ -88,7 +64,7 @@ export default function ProductSlider(props: ProductSliderProps) {
         modules={[Pagination]}
         loop
         >
-            {productList.map((product) => (
+            {dataList.map((product) => (
                 <SwiperSlide key={product.id} className="h-full">
                     <Link
                         href={`/product/${product.id}`}

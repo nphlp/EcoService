@@ -110,6 +110,11 @@ export async function POST(request: Request) {
             images: imageUrl ? [imageUrl] : undefined,
             shippable: false,
             type: "service",
+            metadata: {
+                categoryId: categoryId,
+                categoryName: categoryExists.name,
+                appProductId: product.id // Include our database product ID in Stripe metadata
+            }
         });
 
         console.log("Stripe Product created:", stripeProduct.id);

@@ -1,11 +1,11 @@
+import ProductManager from "@app/(stripe)/stripe/ProductManager";
+import SellerOnboard from "@app/(stripe)/stripe/SellerOnboard";
 import LogoutClient from "@comps/client/Logout";
-import PaymentButton from "@comps/client/PaymentButton";
-import ProductManager from "@comps/client/ProductManager";
-import SellerOnboard from "@comps/client/SellerOnboard";
+import PaymentButton from "@app/(stripe)/stripe/PaymentButton";
 import { GetSession } from "@lib/auth";
 import PrismaInstance from "@lib/prisma";
-import { redirect } from "next/navigation";
 import { LogOut } from "lucide-react";
+import { redirect } from "next/navigation";
 export default async function Page() {
     const session = await GetSession();
 

@@ -1,10 +1,15 @@
-import ProductManager from "@/components/client/ProductManager";
+import ProductDisplay from "@app/(stripe)/products/ProductDisplay";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "EcoService - Produits",
+  description: "Découvrez nos produits et services écologiques",
+};
 
 export default function Page() {
-    return (
-        <div className="flex flex-1 flex-col items-center justify-center gap-6 p-6">
-            <h1 className="text-3xl font-bold">Products</h1>
-            <ProductManager />
-        </div>
-    );
+  return (
+    <main className="w-full">
+      <ProductDisplay />
+    </main>
+  );
 }
