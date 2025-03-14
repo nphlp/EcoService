@@ -1,8 +1,8 @@
 import { Fetch } from "@api/utils/Fetch";
-import ButtonClient from "@comps/client/Button";
 import ImageRatio from "@comps/server/ImageRatio";
 import { ArrowLeft, Package2, ShieldCheck, Truck } from "lucide-react";
 import Link from "next/link";
+import AddToCartButton from "./AddToCartButton";
 
 export const dynamic = 'force-dynamic';
 
@@ -56,7 +56,7 @@ export default async function Page(props: PageProps) {
     return (
         <div className="container mx-auto px-4 py-8">
             {/* Bouton retour */}
-            <Link href="/products" className="mb-8 inline-flex items-center text-primary hover:underline">
+            <Link href="/catalog" className="mb-8 inline-flex items-center text-primary hover:underline">
                 <ArrowLeft className="mr-2 size-4" />
                 Retour aux produits
             </Link>
@@ -98,14 +98,7 @@ export default async function Page(props: PageProps) {
                             </div>
                         </div>
 
-                        <ButtonClient 
-                            type="button" 
-                            disabled={stock === 0}
-                            className="w-full"
-                            label={stock > 0 ? 'Ajouter au panier' : 'Indisponible'}
-                        >
-                            {stock > 0 ? 'Ajouter au panier' : 'Indisponible'}
-                        </ButtonClient>
+                        <AddToCartButton product={product} stock={stock} />
                     </div>
 
                     {/* Vendeur */}
