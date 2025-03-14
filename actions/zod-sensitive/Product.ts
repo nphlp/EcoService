@@ -10,8 +10,22 @@ export const selectProductUniqueSchema: ZodType<SelectProductProps> = strictObje
         name: z.string().optional(),
     }),
     select: strictObject({
-        // TODO: choose allowed filters for select request
-        // WARNING: this schema protect request from frontend
+        id: z.boolean().optional(),
+        name: z.boolean().optional(),
+        description: z.boolean().optional(),
+        image: z.boolean().optional(),
+        price: z.boolean().optional(),
+        stock: z.boolean().optional(),
+        Vendor: strictObject({
+            select: strictObject({
+                name: z.boolean().optional(),
+            }),
+        }).optional(),
+        Category: strictObject({
+            select: strictObject({
+                name: z.boolean().optional(),
+            }),
+        }).optional(),
     }).optional(),
 });
 
