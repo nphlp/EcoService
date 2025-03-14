@@ -1,3 +1,4 @@
+import ProductSlider from "@comps/client/ProductSlider";
 import { SliderClient } from "@comps/client/Slider";
 import ImageRatio from "@comps/server/ImageRatio";
 import { combo } from "@lib/combo";
@@ -80,8 +81,8 @@ export default async function Page() {
                 </div>
             </section>
             <section className="space-y-6 px-6 py-8 md:px-12 md:py-16">
-                <h2 className="text-center text-4xl font-bold">Nos articles</h2>
-                <SliderClient dataList={articleList} />
+                <h2 className="text-center text-4xl font-bold">Nos produits vedettes</h2>
+                <ProductSlider />
             </section>
             <section className="space-y-6 bg-primary px-6 py-8 md:px-12 md:py-16">
                 <h2 className="text-center text-4xl font-bold text-white">Nos Do It Yourself</h2>
