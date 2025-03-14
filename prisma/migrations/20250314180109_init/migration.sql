@@ -127,7 +127,7 @@ CREATE TABLE `DoItYourself` (
 -- CreateTable
 CREATE TABLE `Content` (
     `id` VARCHAR(191) NOT NULL,
-    `content` VARCHAR(191) NOT NULL,
+    `content` TEXT NOT NULL,
     `image` VARCHAR(191) NOT NULL,
     `articleId` VARCHAR(191) NULL,
     `doItYourselfId` VARCHAR(191) NULL,

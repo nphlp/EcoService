@@ -2,16 +2,6 @@ generator client {
     provider = "prisma-client-js"
 }
 
-generator zod {
-    provider         = "zod-prisma"
-    output           = "../actions/zod-generated"
-    relationModel    = true
-    // relationModel = "default"
-    modelCase        = "PascalCase"
-    // modelCase     = "camelCase"
-    modelSuffix      = "Model"
-}
-
 datasource db {
     provider = "mysql"
     url      = env("DATABASE_URL")
