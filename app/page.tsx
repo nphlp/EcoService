@@ -86,11 +86,11 @@ export default async function Page() {
             </section>
             <section className="space-y-6 bg-primary px-6 py-8 md:px-12 md:py-16">
                 <h2 className="text-center text-4xl font-bold text-white">Nos Do It Yourself</h2>
-                <SliderClient dataList={diyList} />
+                <SliderClient dataList={diyList} link="/do-it-yourself" />
             </section>
             <section className="space-y-6 px-6 py-8 md:px-12 md:py-16">
                 <h2 className="text-center text-4xl font-bold">Nos articles</h2>
-                <SliderClient dataList={articleList} />
+                <SliderClient dataList={articleList} link="/article" />
             </section>
         </>
     );

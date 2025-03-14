@@ -11,6 +11,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 
 type SliderClientProps = {
     className?: string;
+    link: string;
     dataList: CompleteArticle[];
 };
 
@@ -19,7 +20,7 @@ type SliderClientProps = {
  * @doc [Demos and examples](https://swiperjs.com/demos)
  */
 export const SliderClient = (props: SliderClientProps) => {
-    const { className, dataList } = props;
+    const { className, dataList, link } = props;
 
     return (
         <Swiper
@@ -57,7 +58,7 @@ export const SliderClient = (props: SliderClientProps) => {
                 <SwiperSlide key={index} className="h-full">
                     <Link
                         key={index}
-                        href={`/data/${data.id}`}
+                        href={`${link}/${data.id}`}
                         className="group m-3 mb-6 flex flex-col overflow-hidden rounded-xl border border-gray-300 bg-white shadow-md"
                     >
                         {/* Image */}
