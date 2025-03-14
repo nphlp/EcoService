@@ -1,4 +1,5 @@
-import { Fetch } from "@app/api/utils/Fetch";
+import { Fetch } from "@api/utils/Fetch";
+import { SliderClient } from "@comps/client/Slider";
 import ImageRatio from "@comps/server/ImageRatio";
 import { combo } from "@lib/combo";
 
@@ -30,6 +31,31 @@ export default async function Page(props: PageProps) {
                         name: true,
                     },
                 },
+            },
+        },
+    });
+
+    const otherArticles = await Fetch({
+        route: "/articles",
+        params: {
+            select: {
+                id: true,
+                title: true,
+                createdAt: true,
+                Content: {
+                    select: {
+                        content: true,
+                        image: true,
+                    },
+                },
+                Author: {
+                    select: {
+                        name: true,
+                    },
+                },
+            },
+            orderBy: {
+                createdAt: "desc",
             },
         },
     });
@@ -75,11 +101,14 @@ export default async function Page(props: PageProps) {
                 ))}
             </div>
 
-            {/* <div className="mt-16 flex justify-center">
-                <ButtonClient type="link" href="/article" label="Retour aux articles" variant="outline">
-                    Retour aux articles
-                </ButtonClient>
-            </div> */}
+            {/* Ajoute un slider d'autres articles à lire */}
+            {otherArticles && otherArticles.length > 0 && (
+                <section className="space-y-6 border-t border-gray-200 px-6 py-8 md:px-12 md:py-16">
+                    <h2 className="text-center text-3xl font-bold">À lire aussi</h2>
+                    <p className="text-center text-gray-600">D&apos;autres articles qui pourraient vous intéresser</p>
+                    <SliderClient dataList={otherArticles} link="/article" />
+                </section>
+            )}
         </div>
     );
 }
