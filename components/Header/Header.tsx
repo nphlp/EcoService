@@ -1,8 +1,8 @@
 import { FetchParallelized } from "@api/utils/FetchParallelized";
 import { Category } from "@prisma/client";
 import Basket from "../Basket/Basket";
-import Main from "./Browser/Main";
-import Sub from "./Browser/Sub";
+import Navigation from "./Browser/Navigation";
+import SectionList from "./Browser/SectionList";
 import MobileHeader from "./Mobile/MobileHeader";
 
 export const dynamic = 'force-dynamic';
@@ -73,8 +73,8 @@ const BrowserHeader = (props: BrowserHeaderProps) => {
 
     return (
         <div className={className}>
-            <Main />
-            <Sub keywords={keywords} categorieList={categorieList} />
+            <Navigation />
+            <SectionList keywords={keywords} categorieList={categorieList} />
             <Basket />
         </div>
     );

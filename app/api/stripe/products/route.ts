@@ -5,11 +5,6 @@ import { NextResponse } from "next/server";
 
 export async function GET() {
     try {
-        const session = await GetSession();
-        if (!session?.user.id) {
-            return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-        }
-
         const products = await stripe.products.list({
             expand: ["data.default_price"],
             active: true,

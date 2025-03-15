@@ -14,7 +14,7 @@ type InputProps = {
 } & (
     | ({
           // If type is text, email, or password
-          type: "text" | "email" | "password";
+          type: "text" | "number" | "email" | "password";
       } & Omit<InputHTMLAttributes<HTMLInputElement>, "type">)
     | ({
           // If type is file

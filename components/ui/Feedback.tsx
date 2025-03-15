@@ -1,8 +1,10 @@
 import { combo } from "@lib/combo";
 
-export type FeedbackProps = {
+export type FeedbackMode = "success" | "info" | "warning" | "error" | "";
+
+type FeedbackProps = {
     message: string;
-    mode: "success" | "info" | "warning" | "error" | "";
+    mode: FeedbackMode;
 };
 
 export default function FeedbackClient(props: FeedbackProps) {

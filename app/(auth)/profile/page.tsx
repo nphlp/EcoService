@@ -2,15 +2,14 @@ import LogoutClient from "@comps/client/Logout";
 import Card from "@comps/server/Card";
 import { GetSession } from "@lib/auth";
 import { CircleCheck, CircleX, LogOut } from "lucide-react";
-import { redirect } from "next/navigation";
+import { unauthorized } from "next/navigation";
 import ProfileClient from "./client";
-
 export const dynamic = "force-dynamic";
 
 export default async function Page() {
     const session = await GetSession();
     if (!session) {
-        redirect("/login");
+        unauthorized();
     }
 
     const expirationDate = new Date(session.session.expiresAt);

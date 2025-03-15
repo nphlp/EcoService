@@ -6,7 +6,7 @@ import { useBasketStore } from "@comps/Basket/BasketStore";
 import ButtonClient from "@comps/client/Button";
 import Card from "@comps/server/Card";
 import ImageRatio from "@comps/server/ImageRatio";
-import Loader from "@comps/server/Loader";
+import Loader from "@comps/ui/Loader";
 import { combo } from "@lib/combo";
 import { CircleCheck, CirclePlus, CircleX, ShoppingCart } from "lucide-react";
 import Link from "next/link";

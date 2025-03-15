@@ -2,7 +2,7 @@
 
 import ButtonClient from "@comps/client/Button";
 import InputClient from "@comps/client/Input";
-import FeedbackClient, { FeedbackProps } from "@comps/server/Feedback";
+import FeedbackClient, { FeedbackProps } from "@comps/ui/Feedback";
 import { signIn } from "@lib/authClient";
 import { Eye, EyeClosed } from "lucide-react";
 import { useRouter } from "next/navigation";

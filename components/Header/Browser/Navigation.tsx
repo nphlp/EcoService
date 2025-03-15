@@ -12,7 +12,7 @@ import { useState } from "react";
 import ButtonClient from "../../client/Button";
 import { useHeaderStore } from "../HeaderStore";
 
-export default function Main() {
+export default function Navigation() {
     return (
         <nav className="flex flex-row items-center justify-between gap-5 px-5 py-3">
             <LeftNav />
@@ -67,7 +67,7 @@ const CentralNav = () => {
                 label="catalog"
                 variant="ghost"
                 onClick={() => {
-                    setCategorieOpen(true);
+                    setCategorieOpen(!categorieOpen);
                     setSearchOpen(false);
                     setBasketOpen(false);
                 }}

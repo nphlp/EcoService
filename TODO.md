@@ -6,6 +6,7 @@ Complete auth and user management
 
 - Auto infer zod common schema
 - Zod schema page per page
+- Auth issues
 
 - Cursor rules
 

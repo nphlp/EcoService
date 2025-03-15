@@ -5,14 +5,14 @@ import { ImageValidation } from "@actions/(examples)/ImageUploads";
 import ButtonClient from "@comps/client/Button";
 import InputClient from "@comps/client/Input";
 import Card from "@comps/server/Card";
-import FeedbackClient, { FeedbackProps } from "@comps/server/Feedback";
 import { Content, ImageCard, Img, Text, Title } from "@comps/server/ImageCard";
+import FeedbackClient, { FeedbackMode } from "@comps/ui/Feedback";
 import { ChangeEvent, useState } from "react";
 
 export default function AddFruitClient() {
     const [isLoading, setIsLoading] = useState(false);
-    const [message, setMessage] = useState<FeedbackProps["message"]>("");
-    const [mode, setMode] = useState<FeedbackProps["mode"]>("");
+    const [message, setMessage] = useState<string>("");
+    const [mode, setMode] = useState<FeedbackMode>("");
 
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
