@@ -15,6 +15,11 @@ export type FetchProps<Key extends keyof Routes> = {
      */
     params?: Routes[Key]["params"];
     /**
+     * Optional method to send with the request
+     * @default "GET"
+     */
+    method?: "GET" | "POST" | "PUT" | "DELETE";
+    /**
      * Optional AbortSignal for cancelling the request
      */
     signal?: AbortSignal;
@@ -56,7 +61,7 @@ export type DataResponse<Key extends keyof Routes> = Extract<ResponseType<Key>, 
  * @throws Error if the request fails or returns an error
  */
 export const Fetch = async <Key extends keyof Routes>(props: FetchProps<Key>): Promise<DataResponse<Key>["data"]> => {
-    const { route, params, signal, client = false } = props;
+    const { route, params, method = "GET", signal, client = false } = props;
 
     // Server requieres a baseUrl, but client doesn't
     const baseUrl = client ? "" : process.env.BASE_URL;
@@ -71,6 +76,7 @@ export const Fetch = async <Key extends keyof Routes>(props: FetchProps<Key>): P
 
     // Fetch the data
     const response = await fetch(url, {
+        method,
         // Stop the request after 10 seconds
         signal: signal ?? AbortSignal.timeout(10000),
     });

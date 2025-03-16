@@ -1,12 +1,11 @@
-import { stripe } from "@lib/stripe";
+import { StripeInstance } from "@lib/stripe";
+import PrismaInstance from "@lib/prisma";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
-import PrismaInstance from "@lib/prisma";
 
 export async function POST(request: Request) {
     const body = await request.text();
 
-    // const signature = headers().get("stripe-signature");
     const headersAwaited = await headers();
     const signature = headersAwaited.get("stripe-signature");
 
@@ -15,7 +14,7 @@ export async function POST(request: Request) {
     }
 
     try {
-        const event = stripe.webhooks.constructEvent(body, signature, process.env.STRIPE_WEBHOOK_SECRET!);
+        const event = StripeInstance.webhooks.constructEvent(body, signature, process.env.STRIPE_WEBHOOK_SECRET!);
 
         console.log("Webhook event received:", event.type);
 

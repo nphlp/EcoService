@@ -1,11 +1,14 @@
+import { StringToSlug } from "@actions/(examples)/StringToSlug";
 import { GetSession } from "@lib/auth";
-import PrismaInstance from "@lib/prisma";
-import { stripe } from "@lib/stripe";
-import { NextResponse } from "next/server";
+import { isVendorOrEmployeeOrAdmin } from "@lib/checkRole";
+import { StripeInstance } from "@lib/stripe";
+import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
+import { NextRequest, NextResponse } from "next/server";
+import { ZodError, z, ZodType } from "zod";
 
 export async function GET() {
     try {
-        const products = await stripe.products.list({
+        const products = await StripeInstance.products.list({
             expand: ["data.default_price"],
             active: true,
         });
@@ -17,120 +20,85 @@ export async function GET() {
     }
 }
 
-export async function POST(request: Request) {
+export type CreateStripeProductProps = {
+    name: string;
+    description: string;
+    price: string;
+    currency: string;
+    categoryId: string;
+    categoryName: string;
+    productId: string;
+    vendorId: string;
+    imageUrl: string;
+};
+
+const createStripeProductPropsSchema: ZodType<CreateStripeProductProps> = z.object({
+    name: z.string(),
+    description: z.string(),
+    price: z.string(),
+    currency: z.string(),
+    categoryId: z.string(),
+    categoryName: z.string(),
+    productId: z.string(),
+    vendorId: z.string(),
+    imageUrl: z.string(),
+});
+
+export async function POST(request: NextRequest) {
     try {
+        // Check if user is authorized to create a product
         const session = await GetSession();
-        if (!session?.user?.id) {
+        const isAuthorized = await isVendorOrEmployeeOrAdmin();
+        if (!session || !isAuthorized) {
             return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
         }
 
-        const formData = await request.formData();
-        const name = formData.get("name") as string;
-        const description = formData.get("description") as string;
-        const amount = formData.get("amount") as string;
-        const currency = formData.get("currency") as string;
-        const image = formData.get("image") as File;
-        const categoryId = formData.get("categoryId") as string; // ✅ Récupérer la catégorie
+        // Get the params and decode them
+        const encodedParams = request.nextUrl.searchParams.get("params") ?? "{}";
+        const stringParams = decodeURIComponent(encodedParams);
 
-        if (!name || !description || !amount || !categoryId) {
-            return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
-        }
+        // Parse the params
+        const params: CreateStripeProductProps = JSON.parse(stringParams);
 
-        // Vérifier si la catégorie existe en BDD
-        const categoryExists = await PrismaInstance.category.findUnique({
-            where: { id: categoryId },
-        });
+        // Validate and extract the params
+        const { name, description, price, currency, categoryId, categoryName, productId, vendorId, imageUrl } =
+            createStripeProductPropsSchema.parse(params);
 
-        if (!categoryExists) {
-            return NextResponse.json({ error: "Invalid category ID" }, { status: 400 });
-        }
-
-        let imageUrl: string | undefined;
-
-        if (image) {
-            try {
-                console.log("Uploading image:", image.name, image.type);
-
-                // Convert File to Buffer
-                const bytes = await image.arrayBuffer();
-                const buffer = Buffer.from(bytes);
-
-                // Upload file to Stripe
-                const fileUpload = await stripe.files.create({
-                    purpose: "dispute_evidence",
-                    file: {
-                        data: buffer,
-                        name: image.name,
-                        type: "application/octet-stream",
-                    },
-                });
-
-                console.log("File uploaded to Stripe:", fileUpload.id);
-
-                // Create a file link for the uploaded file
-                const fileLink = await stripe.fileLinks.create({
-                    file: fileUpload.id,
-                    expires_at: Math.floor(Date.now() / 1000) + 365 * 24 * 60 * 60, // 1 year from now
-                });
-
-                console.log("File link created:", fileLink.url);
-                imageUrl = fileLink.url || undefined;
-            } catch (uploadError) {
-                console.error("Error uploading image to Stripe:", uploadError);
-                throw new Error("Failed to upload image to Stripe");
-            }
-        }
-
-        console.log("Creating product with image URL:", imageUrl);
-
-        // ✅ Créer le produit en BDD avec la catégorie
-        const product = await PrismaInstance.product.create({
-            data: {
-                name,
-                description,
-                image: imageUrl || "",
-                price: parseFloat(amount),
-                stock: 10,
-                categoryId, // 🔥 Lien avec la catégorie
-                vendorId: session.user.id,
+        // Create product in Stripe
+        const stripeProduct = await StripeInstance.products.create({
+            name,
+            description,
+            images: [imageUrl],
+            // Include our database info in Stripe metadata
+            metadata: {
+                categoryId,
+                categoryName,
+                productId,
+                vendorId,
             },
         });
 
-        console.log("Product created:", product.id);
-
-        // ✅ Créer un produit dans Stripe
-        const stripeProduct = await stripe.products.create({
-            name,
-            description,
-            images: imageUrl ? [imageUrl] : undefined,
-            shippable: false,
-            type: "service",
-            metadata: {
-                categoryId: categoryId,
-                categoryName: categoryExists.name,
-                appProductId: product.id // Include our database product ID in Stripe metadata
-            }
-        });
-
-        console.log("Stripe Product created:", stripeProduct.id);
-
-        // ✅ Créer un prix Stripe pour le produit
-        const price = await stripe.prices.create({
+        // Create price for the product
+        const stripePrice = await StripeInstance.prices.create({
             product: stripeProduct.id,
-            unit_amount: Math.round(parseFloat(amount) * 100), // Convert to cents
-            currency: currency.toLowerCase(),
+            unit_amount: Math.round(parseFloat(price) * 100), // Convert to cents
+            currency: currency,
         });
 
-        console.log("Price created:", price.id);
-
-        // ✅ Associer le prix Stripe au produit
-        await stripe.products.update(stripeProduct.id, {
-            default_price: price.id,
+        // Associate the price to the product
+        const updatedProduct = await StripeInstance.products.update(stripeProduct.id, {
+            default_price: stripePrice.id,
         });
 
-        return NextResponse.json({ data: product });
+        return NextResponse.json({ data: updatedProduct }, { status: 200 });
     } catch (error) {
-        console.error("Error creating product:", error);
-        return NextResponse.json({ error: (error as Error).message || "Error creating product" }, { status: 500 });
+        console.error("CreateStripeProduct -> " + (error as Error).message);
+        if (process.env.NODE_ENV === "development") {
+            if (error instanceof ZodError)
+                return NextResponse.json({ error: "CreateStripeProduct -> Invalid Zod params -> " + error.message });
+            return NextResponse.json({ error: "CreateStripeProduct -> " + (error as Error).message });
+        }
+        // TODO: add logging
+        return NextResponse.json({ error: "Something went wrong..." }, { status: 500 });
     }
 }

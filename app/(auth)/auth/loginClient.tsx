@@ -2,7 +2,7 @@
 
 import ButtonClient from "@comps/client/Button";
 import InputClient from "@comps/client/Input";
-import FeedbackClient, { FeedbackProps } from "@comps/ui/Feedback";
+import FeedbackClient, { FeedbackMode } from "@comps/ui/Feedback";
 import { signIn } from "@lib/authClient";
 import { Eye, EyeClosed } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -10,8 +10,8 @@ import { useState } from "react";
 
 export default function LoginClient() {
     const [isLoading, setIsLoading] = useState<boolean>(false);
-    const [message, setMessage] = useState<FeedbackProps["message"]>("");
-    const [mode, setMode] = useState<FeedbackProps["mode"]>("");
+    const [message, setMessage] = useState<string>("");
+    const [mode, setMode] = useState<FeedbackMode>("none");
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -87,7 +87,7 @@ export default function LoginClient() {
                     variant="underline"
                     padding="sm"
                 >
-                    Pas encore inscrit?
+                    Pas encore inscrit ?
                 </ButtonClient>
                 <FeedbackClient message={message} mode={mode} />
                 <ButtonClient type="button" onClick={handleSubmit} label="login" isLoading={isLoading}>

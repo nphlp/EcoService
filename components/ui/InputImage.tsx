@@ -8,12 +8,16 @@ import { ChangeEvent, DragEvent, InputHTMLAttributes, MouseEvent, useRef } from 
 type InputFileProps = {
     label: string;
     variant?: "default" | false;
+    required?: boolean;
     onChange: (file: File | null) => void;
     imagePreview: File | null;
     classComponent?: string;
     classLabel?: string;
     classContent?: string;
-} & Omit<InputHTMLAttributes<HTMLInputElement>, "label" | "type" | "accept" | "className" | "label" | "onChange">;
+} & Omit<
+    InputHTMLAttributes<HTMLInputElement>,
+    "label" | "type" | "accept" | "className" | "required" | "label" | "onChange"
+>;
 
 /**
  * Input image with preview
@@ -34,6 +38,7 @@ export default function InputFile(props: InputFileProps) {
     const {
         label,
         variant = "default",
+        required = true,
         onChange,
         imagePreview,
         classComponent,
@@ -86,7 +91,11 @@ export default function InputFile(props: InputFileProps) {
         default: {
             component: combo("block space-y-2"),
             label: combo("text-lg font-medium text-white"),
-            content: combo("rounded-xl border border-dashed border-white/20 bg-white/10"),
+            content: combo(
+                "rounded-xl border border-dashed border-white/20 bg-white/10",
+                "outline-none ring-0 focus:ring-2 focus:ring-teal-300",
+                "transition-all duration-150",
+            ),
         },
     };
 
@@ -100,6 +109,18 @@ export default function InputFile(props: InputFileProps) {
                 className={combo(!imagePreview && "cursor-pointer", variant && theme[variant].content, classContent)}
                 onDragOver={preventBrowserDropBehavior}
                 onDrop={handleDrop}
+                // Allow to focus the input when pressing Enter or Space
+                role="input"
+                tabIndex={0}
+                onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        if (!imagePreview && refInputImage.current) {
+                            refInputImage.current.click();
+                        }
+                    }
+                }}
             >
                 {imagePreview ? (
                     // Image preview
@@ -137,6 +158,7 @@ export default function InputFile(props: InputFileProps) {
                 disabled={!!imagePreview}
                 accept="image/*"
                 className="hidden"
+                required={required}
                 {...others}
             />
         </label>

@@ -14,11 +14,11 @@ type TabClientProps = {
 export default function TabClient(props: TabClientProps) {
     const { cardList } = props;
 
-    const heightRef = useRef<HTMLDivElement>(null);
-    const [activeTab, setActiveTab] = useState(0);
     const [currentHeight, setCurrentHeight] = useState("auto");
+    const heightRef = useRef<HTMLDivElement>(null);
     const resizeObserverRef = useRef<ResizeObserver | null>(null);
 
+    const [activeTab, setActiveTab] = useState(0);
     const [tabPosition, setTabPosition] = useState({
         left: "8px",
         right: "calc(50% + 4px)",

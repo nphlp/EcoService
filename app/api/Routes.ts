@@ -76,7 +76,57 @@ import { SelectFruitAmountProps, SelectFruitListProps, SelectFruitProps } from "
 import { SelectFruitAmountResponse } from "@app/api/fruits/count/route";
 import { SelectFruitListResponse } from "@app/api/fruits/route";
 import { SelectFruitResponse } from "@app/api/fruits/unique/route";
+import { CreateStripeProductProps } from "./stripe/products/route";
+import { StripeFileUploadProps, StripeFileUploadResponse } from "./stripe/file/upload/route";
+
 export type Routes = {
+
+    // ========== Stripe routes ========== //
+    
+    "/stripe/checkout": {
+        params?: SelectProductListProps;
+        response: SelectProductListResponse;
+        method: "POST";
+    };
+    
+    "/stripe/connect/become-seller": {
+        params?: SelectProductListProps;
+        response: SelectProductListResponse;
+        method: "POST";
+    };
+
+    "/stripe/connect/onboard": {
+        params?: SelectProductListProps;
+        response: SelectProductListResponse;
+        method: "POST";
+    };
+
+    "/stripe/file/upload": {
+        params?: StripeFileUploadProps;
+        response: StripeFileUploadResponse;
+        method: "POST";
+    };
+    
+    "/stripe/products": {
+        params?: CreateStripeProductProps;
+        response: SelectProductListResponse;
+        method: "GET" | "POST";
+    };
+    
+    "/stripe/products/{id}": {
+        params?: SelectProductProps;
+        response: SelectProductResponse;
+        method: "GET" | "POST";
+    };
+
+    "/stripe/webhooks": {
+        params?: SelectProductListProps;
+        response: SelectProductListResponse;
+        method: "POST";
+    };
+    
+    
+    // ========== Stripe routes ========== //
 
     /**
      * Route for fetching a list of users \

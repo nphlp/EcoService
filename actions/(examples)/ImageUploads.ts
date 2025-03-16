@@ -13,19 +13,20 @@ export const ImageValidation = async (props: ImageValidationProps): Promise<Imag
             return { status: false, message: "No file selected." };
         }
 
-        // Image metadata
+        // Image extension
         const imageExtension = imageFile.name.split(".").pop() ?? imageFile.type.replace("image/", "");
-        const imageSize = imageFile.size;
 
-        // Image rules
-        const imageAcceptedExtensionList = ["png", "jpg", "jpeg", "webp"];
-        const imageAcceptedSize = 1 * 1024 * 1024; // 1MB
+        const imageAllowedExtensionList = ["png", "jpg", "jpeg", "webp"];
 
-        if (!imageAcceptedExtensionList.includes(imageExtension)) {
+        if (!imageAllowedExtensionList.includes(imageExtension)) {
             return { status: false, message: "Invalid file format." };
         }
+        
+        // Image size
+        const imageSize = imageFile.size;
+        const imageLimitSize = 1 * 1024 * 1024; // 1MB
 
-        if (imageSize > imageAcceptedSize) {
+        if (imageSize > imageLimitSize) {
             return { status: false, message: "Image file too large." };
         }
 

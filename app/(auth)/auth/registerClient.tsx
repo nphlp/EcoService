@@ -2,7 +2,7 @@
 
 import ButtonClient from "@comps/client/Button";
 import InputClient from "@comps/client/Input";
-import FeedbackClient, { FeedbackProps } from "@comps/ui/Feedback";
+import FeedbackClient, { FeedbackMode } from "@comps/ui/Feedback";
 import { signUp } from "@lib/authClient";
 import { Eye, EyeClosed } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -10,8 +10,8 @@ import { useState } from "react";
 
 export default function RegisterClient() {
     const [isLoading, setIsLoading] = useState<boolean>(false);
-    const [message, setMessage] = useState<FeedbackProps["message"]>("");
-    const [mode, setMode] = useState<FeedbackProps["mode"]>("");
+    const [message, setMessage] = useState<string>("");
+    const [mode, setMode] = useState<FeedbackMode>("none");
 
     const [firstname, setFirstname] = useState("");
     const [lastname, setLastname] = useState("");

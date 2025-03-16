@@ -9,6 +9,7 @@ export const buttonBase = combo(
     "rounded-lg px-4 py-1.5 font-medium",
     "transition-all duration-150",
     "flex flex-row items-center justify-center gap-2",
+    "outline-none ring-0 focus:ring-2 focus:ring-teal-300",
 );
 
 /** Shared theme for buttons and links */

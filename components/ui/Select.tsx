@@ -1,7 +1,8 @@
 "use client";
 
 import { combo } from "@lib/combo";
-import { MouseEvent, SelectHTMLAttributes } from "react";
+import type { KeyboardEvent, MouseEvent } from "react";
+import { SelectHTMLAttributes } from "react";
 
 type InputProps = {
     label: string;
@@ -60,6 +61,15 @@ export default function Select(props: InputProps) {
         e.stopPropagation();
     };
 
+    /** Handle the ENTER keydown event to show the picker */
+    const handleKeyDown = (e: KeyboardEvent<HTMLSelectElement>) => {
+        if (e.key === "Enter" || e.key === "Space") {
+            e.preventDefault();
+            const select = e.target as HTMLSelectElement;
+            select.showPicker();
+        }
+    };
+
     const theme = {
         default: {
             component: combo("block space-y-2"),
@@ -82,6 +92,7 @@ export default function Select(props: InputProps) {
                 className={combo(variant && theme[variant].input, classInput)}
                 required={required}
                 defaultValue={defaultValue}
+                onKeyDown={handleKeyDown}
                 {...others}
             >
                 {!defaultValue && (

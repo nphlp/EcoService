@@ -12,7 +12,7 @@ import { ChangeEvent, useState } from "react";
 export default function AddFruitClient() {
     const [isLoading, setIsLoading] = useState(false);
     const [message, setMessage] = useState<string>("");
-    const [mode, setMode] = useState<FeedbackMode>("");
+    const [mode, setMode] = useState<FeedbackMode>("none");
 
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
@@ -21,31 +21,16 @@ export default function AddFruitClient() {
     const handleImageChange = async (e: ChangeEvent<HTMLInputElement>) => {
         const imageFile = e.target.files?.[0] as File;
 
-        if (!imageFile) {
-            setMessage("No file selected.");
+        const {status, message} = await ImageValidation({ imageFile });
+
+        if (status) {
+            setMessage(message);
+            setMode("info");
+            setImage(imageFile);
+        } else {
+            setMessage(message);
             setMode("warning");
-            return;
         }
-
-        if (imageFile.size > 1 * 1024 * 1024) {
-            // 1MB
-            setMessage("Image file too large.");
-            setMode("warning");
-            return;
-        }
-
-        const isValidImage = await ImageValidation({ imageFile });
-
-        if (!isValidImage.status) {
-            setMessage(isValidImage.message);
-            setMode("warning");
-            return;
-        }
-
-        // Store raw file list
-        setMessage(isValidImage.message);
-        setMode("info");
-        setImage(imageFile);
     };
 
     const handleSubmit = async () => {

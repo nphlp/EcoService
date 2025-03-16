@@ -1,7 +1,7 @@
 import { GetSession } from "@lib/auth";
-import { stripe } from "@lib/stripe";
-import { NextResponse } from "next/server";
 import PrismaInstance from "@lib/prisma";
+import { NextResponse } from "next/server";
+import { StripeInstance } from "@lib/stripe";
 
 export async function POST(request: Request) {
     try {
@@ -44,7 +44,7 @@ export async function POST(request: Request) {
         console.log("Found seller with stripeConnectId");
 
         console.log("Creating Stripe checkout session");
-        const stripeSession = await stripe.checkout.sessions.create({
+        const stripeSession = await StripeInstance.checkout.sessions.create({
             payment_method_types: ["card"],
             line_items: [
                 {
