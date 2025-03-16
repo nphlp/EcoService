@@ -1,10 +1,8 @@
-import { StringToSlug } from "@actions/(examples)/StringToSlug";
 import { GetSession } from "@lib/auth";
 import { isVendorOrEmployeeOrAdmin } from "@lib/checkRole";
 import { StripeInstance } from "@lib/stripe";
-import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { NextRequest, NextResponse } from "next/server";
-import { ZodError, z, ZodType } from "zod";
+import { z, ZodError, ZodType } from "zod";
 
 export async function GET() {
     try {

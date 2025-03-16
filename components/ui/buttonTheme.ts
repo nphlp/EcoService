@@ -1,16 +1,35 @@
 import { combo } from "@lib/combo";
 import { LoaderColor } from "./Loader";
 
-/** Shared variants for buttons and links */
-export type ButtonVariant = "default" | "outline" | "ghost" | "underline" | "none";
+// =============== Button Base ================= //
 
 /** Shared base styles for buttons and links */
-export const buttonBase = combo(
-    "rounded-lg px-4 py-1.5 font-medium",
-    "transition-all duration-150",
-    "flex flex-row items-center justify-center gap-2",
-    "outline-none ring-0 focus:ring-2 focus:ring-teal-300",
-);
+export const buttonBase = {
+    rounded: "rounded-lg",
+    padding: "px-4 py-1.5",
+    font: "font-medium",
+    flex: "flex flex-row items-center justify-center gap-2",
+    transition: "transition-all duration-150",
+    outline: "outline-none ring-0 focus:ring-2 focus:ring-teal-300",
+};
+
+/** Keys for the `buttonBase` object */
+export type ButtonBaseKeys = keyof typeof buttonBase;
+
+/**
+ * Provide an array of `buttonBase` keys to return a string of combined styles
+ * @example
+ * ```tsx
+ * <Button baseStyle={["rounded", "transition", "outline"]} />
+ * <Link baseStyle={["font", "transition", "outline"]} />
+ * ```
+ */
+export const baseStyle = (keys: ButtonBaseKeys[]): string => combo(keys.map((key) => buttonBase[key]));
+
+// =============== Button Theme ================= //
+
+/** Shared variants for buttons and links */
+export type ButtonVariant = "default" | "outline" | "ghost" | "underline" | "none";
 
 /** Shared theme for buttons and links */
 export const buttonTheme: {

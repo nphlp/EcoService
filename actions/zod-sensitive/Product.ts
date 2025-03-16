@@ -4,11 +4,14 @@ import { strictObject, z, ZodType } from "zod";
 
 export const selectProductUniqueSchema: ZodType<SelectProductProps> = strictObject({
     where: strictObject({
-        id: productIdSchema,
+        id: productIdSchema.optional(),
+        name: z.string().optional(),
         // TODO: choose allowed filters for select request
         // WARNING: this schema protect request from frontend
-        name: z.string().optional(),
-    }),
+    }).required().refine(
+        (data) => data.id !== undefined || data.name !== undefined,
+        { message: "At least one of the fields 'id' or 'name' must be provided" }
+    ),
     select: strictObject({
         id: z.boolean().optional(),
         name: z.boolean().optional(),
@@ -43,9 +46,8 @@ export const selectProductListSchema: ZodType<SelectProductListProps> = strictOb
         // WARNING: this schema protect request from frontend
         categoryId: z.string().optional(),
         name: strictObject({
-                contains: z.string(),
-            })
-            .optional(),
+            contains: z.string(),
+        }).optional(),
     }).optional(),
 });
 
@@ -55,8 +57,7 @@ export const selectProductAmountSchema: ZodType<SelectProductAmountProps> = stri
         // WARNING: this schema protect request from frontend
         categoryId: z.string().optional(),
         name: strictObject({
-                contains: z.string(),
-            })
-            .optional(),
+            contains: z.string(),
+        }).optional(),
     }).optional(),
 });

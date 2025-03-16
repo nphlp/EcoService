@@ -1,5 +1,5 @@
 import { RelatedProductModel } from "@actions/zod-generated";
-import { Product, Prisma } from "@prisma/client";
+import { Prisma, Product } from "@prisma/client";
 import { z } from "zod";
 
 /** Represents the Product's model with relations */

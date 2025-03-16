@@ -1,15 +1,17 @@
 "use client";
 
 import { combo } from "@lib/combo";
-import Loader from "@ui/Loader";
+import Loader, { LoaderColor } from "@ui/Loader";
 import { ButtonHTMLAttributes, ReactNode } from "react";
-import { buttonBase, buttonTheme, ButtonVariant } from "./buttonTheme";
+import { baseStyle, ButtonBaseKeys, buttonTheme, ButtonVariant } from "./buttonTheme";
 
 type ButtonProps = {
     label: string;
     variant?: ButtonVariant;
+    baseStyleList?: ButtonBaseKeys[];
     isLoading?: boolean;
     loadingLabel?: string;
+    loaderColor?: LoaderColor;
     className?: string;
     children?: ReactNode;
 } & Omit<ButtonHTMLAttributes<HTMLButtonElement>, "className" | "children">;
@@ -36,8 +38,10 @@ export default function Button(props: ButtonProps) {
     const {
         label,
         variant = "default",
+        baseStyleList = ["outline", "rounded", "padding", "font", "flex", "transition"],
         isLoading,
         loadingLabel = "Loading...",
+        loaderColor,
         className,
         children,
         ...others
@@ -46,7 +50,7 @@ export default function Button(props: ButtonProps) {
     return (
         <button
             className={combo(
-                buttonBase,
+                baseStyleList && baseStyle(baseStyleList),
                 variant && buttonTheme[variant].button,
                 isLoading ? variant && buttonTheme[variant].isLoading : variant && buttonTheme[variant].disabled,
                 className,
@@ -56,7 +60,7 @@ export default function Button(props: ButtonProps) {
         >
             {isLoading ? (
                 <>
-                    <Loader color={variant && buttonTheme[variant].loaderColor} />
+                    <Loader color={loaderColor ?? (variant && buttonTheme[variant].loaderColor)} />
                     <span>{loadingLabel}</span>
                 </>
             ) : (

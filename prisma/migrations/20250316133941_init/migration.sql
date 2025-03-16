@@ -166,6 +166,7 @@ CREATE TABLE `Product` (
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,
 
+    UNIQUE INDEX `Product_name_key`(`name`),
     INDEX `Product_id_idx`(`id`),
     INDEX `Product_name_idx`(`name`),
     INDEX `Product_vendorId_idx`(`vendorId`),

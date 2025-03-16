@@ -1,13 +1,14 @@
 "use client";
 
 import { combo } from "@lib/combo";
-import { ReactNode } from "react";
-import { buttonBase, buttonTheme, ButtonVariant } from "./buttonTheme";
 import NextLink, { LinkProps as NextLinkProps } from "next/link";
+import { ReactNode } from "react";
+import { baseStyle, ButtonBaseKeys, buttonTheme, ButtonVariant } from "./buttonTheme";
 
 type LinkProps = {
     label: string;
     variant?: ButtonVariant;
+    baseStyleList?: ButtonBaseKeys[];
     className?: string;
     children?: ReactNode;
 } & Omit<NextLinkProps, "className" | "children">;
@@ -24,12 +25,12 @@ type LinkProps = {
  * ```
  */
 export default function Link(props: LinkProps) {
-    const { label, variant = "default", className, children, ...others } = props;
+    const { label, variant = "default",baseStyleList = ["outline", "rounded", "padding", "font", "flex", "transition"], className, children, ...others } = props;
 
     return (
         <NextLink
             className={combo(
-                buttonBase,
+                baseStyleList && baseStyle(baseStyleList),
                 variant && buttonTheme[variant].button,
                 variant && buttonTheme[variant].disabled,
                 className,

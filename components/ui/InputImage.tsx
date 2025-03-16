@@ -4,6 +4,7 @@ import ImageRatio from "@comps/server/ImageRatio";
 import { combo } from "@lib/combo";
 import { Image as ImageTemplate, X } from "lucide-react";
 import { ChangeEvent, DragEvent, InputHTMLAttributes, MouseEvent, useRef } from "react";
+import Button from "./Button";
 
 type InputFileProps = {
     label: string;
@@ -130,13 +131,15 @@ export default function InputFile(props: InputFileProps) {
                             alt="Preview"
                             className="w-full rounded-xl"
                         />
-                        <button
-                            type="button"
+                        <Button
+                            label="Retirer l'image"
+                            baseStyleList={["outline", "rounded", "transition"]}
+                            variant="none"
                             onClick={handleReset}
                             className={combo(imagePreview && "cursor-pointer", "absolute right-2 top-2")}
                         >
                             <X className="size-8 text-white drop-shadow-[0_0_2px_rgba(0,0,0,0.7)]" />
-                        </button>
+                        </Button>
                     </div>
                 ) : (
                     // Placeholder

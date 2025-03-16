@@ -211,7 +211,7 @@ model Category {
 /// Product model
 model Product {
     id          String @id @default(nanoid()) /// @zod.nanoid()
-    name        String
+    name        String @unique
     description String
     image       String
     price       Float

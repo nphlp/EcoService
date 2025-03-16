@@ -1,6 +1,6 @@
 "use client";
 
-import { CreateStripeProduct } from "@actions/process/CreateStripeProduct";
+import { CreateStripeProductProcess } from "@actions/process/CreateStripeProduct";
 import { CompleteCategory } from "@actions/zod-generated";
 import Card from "@comps/server/Card";
 import FeedbackClient, { FeedbackMode } from "@comps/ui/Feedback";
@@ -33,14 +33,14 @@ export default function ProductCreationForm(props: ProductCreationFormPros) {
     const handleSubmit = async () => {
         try {
             setIsLoading(true);
-            
+
             if (!name || !description || !price || !categoryId || !image) {
                 setMode("warning");
                 setMessage("Veuillez remplir tous les champs");
                 return;
             }
 
-            const { status, message } = await CreateStripeProduct({
+            const { status, message } = await CreateStripeProductProcess({
                 name,
                 description,
                 price,
@@ -64,7 +64,7 @@ export default function ProductCreationForm(props: ProductCreationFormPros) {
     };
 
     return (
-        <Card className="rounded-3xl border border-white/15 bg-white/5 text-white p-8 backdrop-blur-lg md:w-[600px]">
+        <Card className="rounded-3xl border border-white/15 bg-white/5 p-8 text-white backdrop-blur-lg md:w-[600px]">
             <form className="space-y-8">
                 <Input label="Nom du produit" type="text" value={name} onChange={(e) => setName(e.target.value)} />
 
@@ -99,6 +99,7 @@ export default function ProductCreationForm(props: ProductCreationFormPros) {
                         label="Créer le produit"
                         loadingLabel="Enregistrement..."
                         isLoading={isLoading}
+                        loaderColor="primary"
                         onClick={handleSubmit}
                     >
                         Créer le produit
