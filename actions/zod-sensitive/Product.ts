@@ -1,17 +1,18 @@
 import { SelectProductAmountProps, SelectProductListProps, SelectProductProps } from "@actions/types/Product";
 import { productIdSchema } from "@actions/zod/Product";
-import { strictObject, z, ZodType } from "zod";
+import { strictObject, union, z, ZodType } from "zod";
 
 export const selectProductUniqueSchema: ZodType<SelectProductProps> = strictObject({
-    where: strictObject({
-        id: productIdSchema.optional(),
-        name: z.string().optional(),
+    where: union([
+        strictObject({
+            id: productIdSchema,
+        }),
+        strictObject({
+            name: z.string(),
+        }),
         // TODO: choose allowed filters for select request
         // WARNING: this schema protect request from frontend
-    }).required().refine(
-        (data) => data.id !== undefined || data.name !== undefined,
-        { message: "At least one of the fields 'id' or 'name' must be provided" }
-    ),
+    ]),
     select: strictObject({
         id: z.boolean().optional(),
         name: z.boolean().optional(),

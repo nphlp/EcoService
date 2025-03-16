@@ -18,7 +18,12 @@ export type FetchProps<Key extends keyof Routes> = {
      * Optional method to send with the request
      * @default "GET"
      */
-    method?: "GET" | "POST" | "PUT" | "DELETE";
+    method?: Routes[Key]["method"];
+    /**
+     * Optional body to send with the request
+     * Usefull to keep File prototype
+     */
+    body?: Routes[Key]["body"];
     /**
      * Optional AbortSignal for cancelling the request
      */
@@ -61,7 +66,7 @@ export type DataResponse<Key extends keyof Routes> = Extract<ResponseType<Key>, 
  * @throws Error if the request fails or returns an error
  */
 export const Fetch = async <Key extends keyof Routes>(props: FetchProps<Key>): Promise<DataResponse<Key>["data"]> => {
-    const { route, params, method = "GET", signal, client = false } = props;
+    const { route, params, method = "GET", body, signal, client = false } = props;
 
     // Server requieres a baseUrl, but client doesn't
     const baseUrl = client ? "" : process.env.BASE_URL;
@@ -74,9 +79,20 @@ export const Fetch = async <Key extends keyof Routes>(props: FetchProps<Key>): P
     // Construct the url
     const url = baseUrl + "/api" + route + urlParams;
 
+    // Create a formData object for POST requests that need it
+    const formData = new FormData();
+
+    // Append the object body to the formData object
+    if (body) {
+        Object.entries(body).forEach(([key, value]) => {
+            formData.append(key, value);
+        });
+    }
+
     // Fetch the data
     const response = await fetch(url, {
         method,
+        ...(method === "POST" && { body: formData }),
         // Stop the request after 10 seconds
         signal: signal ?? AbortSignal.timeout(10000),
     });

@@ -121,6 +121,11 @@ export default function InputFile(props: InputFileProps) {
                             refInputImage.current.click();
                         }
                     }
+                    if (e.key === "Delete" || e.key === "Backspace") {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        handleReset();
+                    }
                 }}
             >
                 {imagePreview ? (
@@ -136,6 +141,13 @@ export default function InputFile(props: InputFileProps) {
                             baseStyleList={["outline", "rounded", "transition"]}
                             variant="none"
                             onClick={handleReset}
+                            onKeyDown={(e) => {
+                                if (e.key === "Enter" || e.key === " " || e.key === "Delete" || e.key === "Backspace") {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    handleReset();
+                                }
+                            }}
                             className={combo(imagePreview && "cursor-pointer", "absolute right-2 top-2")}
                         >
                             <X className="size-8 text-white drop-shadow-[0_0_2px_rgba(0,0,0,0.7)]" />

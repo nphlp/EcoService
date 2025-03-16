@@ -1,5 +1,3 @@
-import { GetSession } from "@lib/auth";
-import { isVendorOrEmployeeOrAdmin } from "@lib/checkRole";
 import { StripeInstance } from "@lib/stripe";
 import { NextRequest, NextResponse } from "next/server";
 import { z, ZodError, ZodType } from "zod";
@@ -44,13 +42,6 @@ const createStripeProductPropsSchema: ZodType<CreateStripeProductProps> = z.obje
 
 export async function POST(request: NextRequest) {
     try {
-        // Check if user is authorized to create a product
-        const session = await GetSession();
-        const isAuthorized = await isVendorOrEmployeeOrAdmin();
-        if (!session || !isAuthorized) {
-            return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-        }
-
         // Get the params and decode them
         const encodedParams = request.nextUrl.searchParams.get("params") ?? "{}";
         const stringParams = decodeURIComponent(encodedParams);

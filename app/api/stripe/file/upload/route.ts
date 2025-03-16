@@ -1,19 +1,18 @@
 import { StringToSlug } from "@actions/(examples)/StringToSlug";
-import { GetSession } from "@lib/auth";
-import { isVendorOrEmployeeOrAdmin } from "@lib/checkRole";
+import { authorizedFormats } from "@app/api/utils/ImageValidation";
+import { authorizedFileSize } from "@app/api/utils/ImageValidation";
 import { StripeInstance } from "@lib/stripe";
-import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { NextRequest, NextResponse } from "next/server";
-import { ZodError, z, ZodType } from "zod";
+import { strictObject, z, ZodError, ZodType } from "zod";
 
-export type StripeFileUploadProps = {
+export type StripeFileUploadBody = {
     file: File;
     fileNameToSlugify: string;
 };
 
-const stripeFileUploadPropsSchema: ZodType<StripeFileUploadProps> = z.object({
-    file: z.instanceof(File),
+const StripeFileUploadBodySchema: ZodType<StripeFileUploadBody> = strictObject({
     fileNameToSlugify: z.string(),
+    file: z.instanceof(File),
 });
 
 export type StripeFileUploadResponse =
@@ -26,37 +25,44 @@ export type StripeFileUploadResponse =
 
 export async function POST(request: NextRequest): Promise<NextResponse<StripeFileUploadResponse>> {
     try {
-        // Check if user is authorized to create a product
-        const session = await GetSession();
-        const isAuthorized = await isVendorOrEmployeeOrAdmin();
-        if (!session || !isAuthorized) {
-            return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-        }
-
         // Get the params and decode them
-        const encodedParams = request.nextUrl.searchParams.get("params") ?? "{}";
-        const stringParams = decodeURIComponent(encodedParams);
-        const params: StripeFileUploadProps = JSON.parse(stringParams);
-
-        const { file, fileNameToSlugify } = stripeFileUploadPropsSchema.parse(params);
+        const formData = await request.formData();
+        const params = Object.fromEntries(formData.entries());
+        const { file, fileNameToSlugify } = StripeFileUploadBodySchema.parse(params);
 
         if (!file || !fileNameToSlugify) {
             return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
         }
 
         // Convert File to Buffer
-        const fileBytes = await file.arrayBuffer();
+        const fileBytes = await file.bytes();
         const fileBuffer = Buffer.from(fileBytes);
+
+        // Check if the file size is too big
+        if (fileBuffer.length > authorizedFileSize) {
+            return NextResponse.json({ error: "File size too big" }, { status: 400 });
+        }
 
         // Slugify the image name
         const fileNameSlugified = await StringToSlug(fileNameToSlugify);
+
+        // Get the file extension
+        const fileExtension = file.type.replace("image/", "");
+
+        // Check if the file extension is authorized
+        if (!authorizedFormats.includes(fileExtension)) {
+            return NextResponse.json({ error: "Invalid file format" }, { status: 400 });
+        }
+
+        // Create the file name
+        const fileName = fileNameSlugified + "." + fileExtension;
 
         // Upload file to Stripe
         const uploadedFile = await StripeInstance.files.create({
             purpose: "dispute_evidence",
             file: {
                 data: fileBuffer,
-                name: fileNameSlugified,
+                name: fileName,
                 type: "application/octet-stream",
             },
         });

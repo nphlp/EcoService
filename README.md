@@ -44,6 +44,7 @@ Install the project in three steps: `software requirements`, `environment variab
         - `account.updated`
         - `charge.dispute.created`
         - `checkout.session.completed`
+        - `file.created`
         - `payment_intent.payment_failed`
         - `payment_intent.succeeded`
         - `payout.failed`
@@ -69,6 +70,12 @@ Install the project in three steps: `software requirements`, `environment variab
 
     ```bash
     pnpm auto
+    ```
+
+- Install [Stripe CLI](https://docs.stripe.com/stripe-cli) and run [Stripe Webhook Forwarder](https://docs.stripe.com/webhooks/quickstart)
+
+    ```bash
+    pnpm stripe:webhook
     ```
 
 - (optional) Clear your `localhost:3000` browser cookies is you have an error

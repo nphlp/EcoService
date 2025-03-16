@@ -2,6 +2,7 @@
 
 import { CreateStripeProductProcess } from "@actions/process/CreateStripeProduct";
 import { CompleteCategory } from "@actions/zod-generated";
+import { authorizedFileSize, authorizedFormats } from "@app/api/utils/ImageValidation";
 import Card from "@comps/server/Card";
 import FeedbackClient, { FeedbackMode } from "@comps/ui/Feedback";
 import { combo } from "@lib/combo";
@@ -29,6 +30,28 @@ export default function ProductCreationForm(props: ProductCreationFormPros) {
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [mode, setMode] = useState<FeedbackMode>("none");
     const [message, setMessage] = useState<string>("");
+
+    const handleImageChange = (file: File | null) => {
+        // If no file, return
+        if (!file) return setImage(null);
+
+        // If the file extension is not authorized, return
+        if (!authorizedFormats.includes(file.type.replace("image/", ""))) {
+            setMode("warning");
+            setMessage("Format de l'image non autorisé");
+            return;
+        }
+
+        // Check if the file size is too big (1MB)
+        if (file.size > authorizedFileSize) {
+            setMode("warning");
+            setMessage("La taille de l'image est trop grande");
+            return;
+        }
+
+        // Set the image
+        setImage(file);
+    };
 
     const handleSubmit = async () => {
         try {
@@ -66,7 +89,7 @@ export default function ProductCreationForm(props: ProductCreationFormPros) {
     return (
         <Card className="rounded-3xl border border-white/15 bg-white/5 p-8 text-white backdrop-blur-lg md:w-[600px]">
             <form className="space-y-8">
-                <Input label="Nom du produit" type="text" value={name} onChange={(e) => setName(e.target.value)} />
+                <Input label="Nom du produit" type="text" value={name} onChange={(e) => setName(e.target.value)} autoFocus />
 
                 <Input
                     label="Description"
@@ -88,7 +111,7 @@ export default function ProductCreationForm(props: ProductCreationFormPros) {
                     value={categoryId}
                 />
 
-                <InputImage label="Image" onChange={setImage} imagePreview={image} />
+                <InputImage label="Image" onChange={handleImageChange} imagePreview={image} />
 
                 <FeedbackClient message={message} mode={mode} />
 

@@ -9,6 +9,7 @@ Complete auth and user management
 - Auth issues
 
 - Cursor rules
+- Header disapearing issue ??
 
 - ESlint Tailwind
 - Prettier

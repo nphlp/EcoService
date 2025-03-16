@@ -76,53 +76,60 @@ import { SelectFruitAmountProps, SelectFruitListProps, SelectFruitProps } from "
 import { SelectFruitAmountResponse } from "@app/api/fruits/count/route";
 import { SelectFruitListResponse } from "@app/api/fruits/route";
 import { SelectFruitResponse } from "@app/api/fruits/unique/route";
+import { StripeFileUploadBody, StripeFileUploadResponse } from "./stripe/file/upload/route";
 import { CreateStripeProductProps } from "./stripe/products/route";
-import { StripeFileUploadProps, StripeFileUploadResponse } from "./stripe/file/upload/route";
 
 export type Routes = {
 
     // ========== Stripe routes ========== //
     
     "/stripe/checkout": {
-        params?: SelectProductListProps;
-        response: SelectProductListResponse;
         method: "POST";
+        params: SelectProductListProps;
+        body?: undefined;
+        response: SelectProductListResponse;
     };
     
     "/stripe/connect/become-seller": {
-        params?: SelectProductListProps;
-        response: SelectProductListResponse;
         method: "POST";
+        params: SelectProductListProps;
+        body?: undefined;
+        response: SelectProductListResponse;
     };
 
     "/stripe/connect/onboard": {
-        params?: SelectProductListProps;
-        response: SelectProductListResponse;
         method: "POST";
+        params: SelectProductListProps;
+        body?: undefined;
+        response: SelectProductListResponse;
     };
 
     "/stripe/file/upload": {
-        params?: StripeFileUploadProps;
-        response: StripeFileUploadResponse;
         method: "POST";
+        params?: undefined;
+        body: StripeFileUploadBody;
+        response: StripeFileUploadResponse;
     };
     
     "/stripe/products": {
-        params?: CreateStripeProductProps;
-        response: SelectProductListResponse;
         method: "GET" | "POST";
+        params: CreateStripeProductProps;
+        body?: undefined;
+        response: SelectProductListResponse;
     };
     
     "/stripe/products/{id}": {
-        params?: SelectProductProps;
-        response: SelectProductResponse;
         method: "GET" | "POST";
+        params: SelectProductProps;
+        body?: undefined;
+        response: SelectProductResponse;
     };
 
     "/stripe/webhooks": {
-        params?: SelectProductListProps;
-        response: SelectProductListResponse;
         method: "POST";
+        params: SelectProductListProps;
+        body?: undefined;
+        response: SelectProductListResponse;
     };
     
     
@@ -133,7 +140,9 @@ export type Routes = {
      * GET `/api/users`
      */
     "/users": {
-        params?: SelectUserListProps;
+        method: "GET";
+        params: SelectUserListProps;
+        body?: undefined;
         response: SelectUserListResponse;
     };
 
@@ -142,7 +151,9 @@ export type Routes = {
      * GET `/api/users/unique`
      */
     "/users/unique": {
-        params?: SelectUserProps;
+        method: "GET";
+        params: SelectUserProps;
+        body?: undefined;
         response: SelectUserResponse;
     };
     /**
@@ -150,7 +161,9 @@ export type Routes = {
      * GET `/api/users/count`
      */
     "/users/count": {
-        params?: SelectUserAmountProps;
+        method: "GET";
+        params: SelectUserAmountProps;
+        body?: undefined;
         response: SelectUserAmountResponse;
     };
 
@@ -162,7 +175,9 @@ export type Routes = {
      * GET `/api/sessions`
      */
     "/sessions": {
-        params?: SelectSessionListProps;
+        method: "GET";
+        params: SelectSessionListProps;
+        body?: undefined;
         response: SelectSessionListResponse;
     };
 
@@ -171,7 +186,9 @@ export type Routes = {
      * GET `/api/sessions/unique`
      */
     "/sessions/unique": {
-        params?: SelectSessionProps;
+        method: "GET";
+        params: SelectSessionProps;
+        body?: undefined;
         response: SelectSessionResponse;
     };
     /**
@@ -179,7 +196,9 @@ export type Routes = {
      * GET `/api/sessions/count`
      */
     "/sessions/count": {
-        params?: SelectSessionAmountProps;
+        method: "GET";
+        params: SelectSessionAmountProps;
+        body?: undefined;
         response: SelectSessionAmountResponse;
     };
 
@@ -191,7 +210,9 @@ export type Routes = {
      * GET `/api/accounts`
      */
     "/accounts": {
-        params?: SelectAccountListProps;
+        method: "GET";
+        params: SelectAccountListProps;
+        body?: undefined;
         response: SelectAccountListResponse;
     };
 
@@ -200,7 +221,9 @@ export type Routes = {
      * GET `/api/accounts/unique`
      */
     "/accounts/unique": {
-        params?: SelectAccountProps;
+        method: "GET";
+        params: SelectAccountProps;
+        body?: undefined;
         response: SelectAccountResponse;
     };
     /**
@@ -208,7 +231,9 @@ export type Routes = {
      * GET `/api/accounts/count`
      */
     "/accounts/count": {
-        params?: SelectAccountAmountProps;
+        method: "GET";
+        params: SelectAccountAmountProps;
+        body?: undefined;
         response: SelectAccountAmountResponse;
     };
 
@@ -220,7 +245,9 @@ export type Routes = {
      * GET `/api/verifications`
      */
     "/verifications": {
-        params?: SelectVerificationListProps;
+        method: "GET";
+        params: SelectVerificationListProps;
+        body?: undefined;
         response: SelectVerificationListResponse;
     };
 
@@ -229,7 +256,9 @@ export type Routes = {
      * GET `/api/verifications/unique`
      */
     "/verifications/unique": {
-        params?: SelectVerificationProps;
+        method: "GET";
+        params: SelectVerificationProps;
+        body?: undefined;
         response: SelectVerificationResponse;
     };
     /**
@@ -237,7 +266,9 @@ export type Routes = {
      * GET `/api/verifications/count`
      */
     "/verifications/count": {
-        params?: SelectVerificationAmountProps;
+        method: "GET";
+        params: SelectVerificationAmountProps;
+        body?: undefined;
         response: SelectVerificationAmountResponse;
     };
 
@@ -249,7 +280,9 @@ export type Routes = {
      * GET `/api/addresses`
      */
     "/addresses": {
-        params?: SelectAddressListProps;
+        method: "GET";
+        params: SelectAddressListProps;
+        body?: undefined;
         response: SelectAddressListResponse;
     };
 
@@ -258,7 +291,9 @@ export type Routes = {
      * GET `/api/addresses/unique`
      */
     "/addresses/unique": {
-        params?: SelectAddressProps;
+        method: "GET";
+        params: SelectAddressProps;
+        body?: undefined;
         response: SelectAddressResponse;
     };
     /**
@@ -266,7 +301,9 @@ export type Routes = {
      * GET `/api/addresses/count`
      */
     "/addresses/count": {
-        params?: SelectAddressAmountProps;
+        method: "GET";
+        params: SelectAddressAmountProps;
+        body?: undefined;
         response: SelectAddressAmountResponse;
     };
 
@@ -278,7 +315,9 @@ export type Routes = {
      * GET `/api/articles`
      */
     "/articles": {
-        params?: SelectArticleListProps;
+        method: "GET";
+        params: SelectArticleListProps;
+        body?: undefined;
         response: SelectArticleListResponse;
     };
 
@@ -287,7 +326,9 @@ export type Routes = {
      * GET `/api/articles/unique`
      */
     "/articles/unique": {
-        params?: SelectArticleProps;
+        method: "GET";
+        params: SelectArticleProps;
+        body?: undefined;
         response: SelectArticleResponse;
     };
     /**
@@ -295,7 +336,9 @@ export type Routes = {
      * GET `/api/articles/count`
      */
     "/articles/count": {
-        params?: SelectArticleAmountProps;
+        method: "GET";
+        params: SelectArticleAmountProps;
+        body?: undefined;
         response: SelectArticleAmountResponse;
     };
 
@@ -307,7 +350,9 @@ export type Routes = {
      * GET `/api/doItYourselves`
      */
     "/doItYourselves": {
-        params?: SelectDoItYourselfListProps;
+        method: "GET";
+        params: SelectDoItYourselfListProps;
+        body?: undefined;
         response: SelectDoItYourselfListResponse;
     };
 
@@ -316,7 +361,9 @@ export type Routes = {
      * GET `/api/doItYourselves/unique`
      */
     "/doItYourselves/unique": {
-        params?: SelectDoItYourselfProps;
+        method: "GET";
+        params: SelectDoItYourselfProps;
+        body?: undefined;
         response: SelectDoItYourselfResponse;
     };
     /**
@@ -324,7 +371,9 @@ export type Routes = {
      * GET `/api/doItYourselves/count`
      */
     "/doItYourselves/count": {
-        params?: SelectDoItYourselfAmountProps;
+        method: "GET";
+        params: SelectDoItYourselfAmountProps;
+        body?: undefined;
         response: SelectDoItYourselfAmountResponse;
     };
 
@@ -336,7 +385,9 @@ export type Routes = {
      * GET `/api/contents`
      */
     "/contents": {
-        params?: SelectContentListProps;
+        method: "GET";
+        params: SelectContentListProps;
+        body?: undefined;
         response: SelectContentListResponse;
     };
 
@@ -345,7 +396,9 @@ export type Routes = {
      * GET `/api/contents/unique`
      */
     "/contents/unique": {
-        params?: SelectContentProps;
+        method: "GET";
+        params: SelectContentProps;
+        body?: undefined;
         response: SelectContentResponse;
     };
     /**
@@ -353,7 +406,9 @@ export type Routes = {
      * GET `/api/contents/count`
      */
     "/contents/count": {
-        params?: SelectContentAmountProps;
+        method: "GET";
+        params: SelectContentAmountProps;
+        body?: undefined;
         response: SelectContentAmountResponse;
     };
 
@@ -365,7 +420,9 @@ export type Routes = {
      * GET `/api/categories`
      */
     "/categories": {
-        params?: SelectCategoryListProps;
+        method: "GET";
+        params: SelectCategoryListProps;
+        body?: undefined;
         response: SelectCategoryListResponse;
     };
 
@@ -374,7 +431,9 @@ export type Routes = {
      * GET `/api/categories/unique`
      */
     "/categories/unique": {
-        params?: SelectCategoryProps;
+        method: "GET";
+        params: SelectCategoryProps;
+        body?: undefined;
         response: SelectCategoryResponse;
     };
     /**
@@ -382,7 +441,9 @@ export type Routes = {
      * GET `/api/categories/count`
      */
     "/categories/count": {
-        params?: SelectCategoryAmountProps;
+        method: "GET";
+        params: SelectCategoryAmountProps;
+        body?: undefined;
         response: SelectCategoryAmountResponse;
     };
 
@@ -394,7 +455,9 @@ export type Routes = {
      * GET `/api/products`
      */
     "/products": {
-        params?: SelectProductListProps;
+        method: "GET";
+        params: SelectProductListProps;
+        body?: undefined;
         response: SelectProductListResponse;
     };
 
@@ -403,7 +466,9 @@ export type Routes = {
      * GET `/api/products/unique`
      */
     "/products/unique": {
-        params?: SelectProductProps;
+        method: "GET";
+        params: SelectProductProps;
+        body?: undefined;
         response: SelectProductResponse;
     };
     /**
@@ -411,7 +476,9 @@ export type Routes = {
      * GET `/api/products/count`
      */
     "/products/count": {
-        params?: SelectProductAmountProps;
+        method: "GET";
+        params: SelectProductAmountProps;
+        body?: undefined;
         response: SelectProductAmountResponse;
     };
 
@@ -423,7 +490,9 @@ export type Routes = {
      * GET `/api/quantities`
      */
     "/quantities": {
-        params?: SelectQuantityListProps;
+        method: "GET";
+        params: SelectQuantityListProps;
+        body?: undefined;
         response: SelectQuantityListResponse;
     };
 
@@ -432,7 +501,9 @@ export type Routes = {
      * GET `/api/quantities/unique`
      */
     "/quantities/unique": {
-        params?: SelectQuantityProps;
+        method: "GET";
+        params: SelectQuantityProps;
+        body?: undefined;
         response: SelectQuantityResponse;
     };
     /**
@@ -440,7 +511,9 @@ export type Routes = {
      * GET `/api/quantities/count`
      */
     "/quantities/count": {
-        params?: SelectQuantityAmountProps;
+        method: "GET";
+        params: SelectQuantityAmountProps;
+        body?: undefined;
         response: SelectQuantityAmountResponse;
     };
 
@@ -452,7 +525,9 @@ export type Routes = {
      * GET `/api/orders`
      */
     "/orders": {
-        params?: SelectOrderListProps;
+        method: "GET";
+        params: SelectOrderListProps;
+        body?: undefined;
         response: SelectOrderListResponse;
     };
 
@@ -461,7 +536,9 @@ export type Routes = {
      * GET `/api/orders/unique`
      */
     "/orders/unique": {
-        params?: SelectOrderProps;
+        method: "GET";
+        params: SelectOrderProps;
+        body?: undefined;
         response: SelectOrderResponse;
     };
     /**
@@ -469,7 +546,9 @@ export type Routes = {
      * GET `/api/orders/count`
      */
     "/orders/count": {
-        params?: SelectOrderAmountProps;
+        method: "GET";
+        params: SelectOrderAmountProps;
+        body?: undefined;
         response: SelectOrderAmountResponse;
     };
 
@@ -481,7 +560,9 @@ export type Routes = {
      * GET `/api/fruits`
      */
     "/fruits": {
-        params?: SelectFruitListProps;
+        method: "GET";
+        params: SelectFruitListProps;
+        body?: undefined;
         response: SelectFruitListResponse;
     };
 
@@ -490,7 +571,9 @@ export type Routes = {
      * GET `/api/fruits/unique`
      */
     "/fruits/unique": {
-        params?: SelectFruitProps;
+        method: "GET";
+        params: SelectFruitProps;
+        body?: undefined;
         response: SelectFruitResponse;
     };
     /**
@@ -498,7 +581,9 @@ export type Routes = {
      * GET `/api/fruits/count`
      */
     "/fruits/count": {
-        params?: SelectFruitAmountProps;
+        method: "GET";
+        params: SelectFruitAmountProps;
+        body?: undefined;
         response: SelectFruitAmountResponse;
     };
 

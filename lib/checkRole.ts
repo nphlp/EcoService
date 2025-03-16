@@ -1,6 +1,6 @@
 "use server";
 
-import { GetSession } from "./auth";
+import { BetterSessionServer, GetSession } from "./auth";
 
 // ========== Complex checks ========= //
 
@@ -8,9 +8,18 @@ import { GetSession } from "./auth";
  * Check if the user is a vendor, employee or admin
  * @returns true if the user is a vendor, employee or admin, false otherwise
  */
-export const isVendorOrEmployeeOrAdmin = async (): Promise<boolean> => {
+export const isVendorOrEmployeeOrAdmin = async (): Promise<BetterSessionServer | null> => {
     const session = await GetSession();
-    return session?.user?.role === "VENDOR" || session?.user?.role === "EMPLOYEE" || session?.user?.role === "ADMIN";
+
+    const role = session?.user.role;
+
+    const isVendorOrEmployeeOrAdmin = role === "VENDOR" || role === "EMPLOYEE" || role === "ADMIN";
+
+    if (!session || !isVendorOrEmployeeOrAdmin) {
+        return null
+    }
+
+    return session;
 };
 
 // ========== Simple checks ========= //
@@ -49,4 +58,4 @@ export const isVendor = async (): Promise<boolean> => {
 export const isUser = async (): Promise<boolean> => {
     const session = await GetSession();
     return session?.user?.role === "USER";
-}
+};
