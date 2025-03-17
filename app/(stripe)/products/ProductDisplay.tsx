@@ -1,24 +1,11 @@
 "use client";
 
+import { StripeProductsResponse } from "@app/api/stripe/products/route";
 import ButtonClient from "@comps/client/Button";
 import Image from "next/image";
+import Stripe from "stripe";
 
-interface Product {
-    id: string;
-    name: string;
-    description: string;
-    images: string[];
-    default_price: {
-        id: string;
-        unit_amount: number;
-        currency: string;
-    };
-    category?: {
-        id: string;
-        name: string;
-    };
-}
-
+// TODO: make utils function
 function getImageUrl(imageUrl: string) {
     if (imageUrl.includes("/v1/files/")) {
         const fileId = imageUrl.split("/").pop();
@@ -28,7 +15,7 @@ function getImageUrl(imageUrl: string) {
 }
 
 type ProductDisplayProps = {
-    stripeProductList: Product[];
+    stripeProductList: StripeProductsResponse;
 };
 
 export default function ProductDisplay(props: ProductDisplayProps) {
@@ -56,10 +43,10 @@ export default function ProductDisplay(props: ProductDisplayProps) {
             </div>
 
             <div className="grid grid-cols-1 gap-8 p-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                {stripeProductList.map((product) => (
-                    <div key={product.id} className="flex flex-col items-center">
+                {stripeProductList.map((product, index) => (
+                    <div key={index} className="flex flex-col items-center">
                         <div className="w-full overflow-hidden rounded-lg">
-                            {product.images?.[0] ? (
+                            {product.images[0] ? (
                                 <div className="relative aspect-[3/2] w-full">
                                     <Image
                                         src={getImageUrl(product.images[0])}
@@ -77,7 +64,10 @@ export default function ProductDisplay(props: ProductDisplayProps) {
                         </div>
                         <div className="mt-4 text-center">
                             <h3 className="text-xl text-primary">{product.name}</h3>
-                            <p className="mt-1 text-lg">{(product.default_price?.unit_amount || 0) / 100}€</p>
+                            <p className="mt-1 text-lg">
+                                {((product.default_price as Stripe.Price).unit_amount as number / 100).toFixed(2)}
+                                €
+                            </p>
                         </div>
                     </div>
                 ))}

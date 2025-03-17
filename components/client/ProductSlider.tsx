@@ -1,5 +1,6 @@
 "use client";
 
+import { CompleteProduct } from "@actions/zod-generated";
 import { useBasketStore } from "@comps/Basket/BasketStore";
 import ButtonClient from "@comps/client/Button";
 import ImageRatio from "@comps/server/ImageRatio";
@@ -13,7 +14,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 
 type ProductSliderProps = {
     className?: string;
-    dataList: Product[];
+    dataList: CompleteProduct[];
 };
 
 export default function ProductSlider(props: ProductSliderProps) {

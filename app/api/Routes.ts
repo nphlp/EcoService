@@ -77,7 +77,8 @@ import { SelectFruitAmountResponse } from "@app/api/fruits/count/route";
 import { SelectFruitListResponse } from "@app/api/fruits/route";
 import { SelectFruitResponse } from "@app/api/fruits/unique/route";
 import { StripeFileUploadBody, StripeFileUploadResponse } from "./stripe/file/upload/route";
-import { CreateStripeProductProps } from "./stripe/products/route";
+import { StripeProductsResponse } from "./stripe/products/route";
+import { CreateStripeProductProps, CreateStripeProductResponse } from "./stripe/products/create/route";
 
 export type Routes = {
 
@@ -104,18 +105,25 @@ export type Routes = {
         response: SelectProductListResponse;
     };
 
-    "/stripe/file/upload": {
+    "/stripe/file/upload": { // OK
         method: "POST";
         params?: undefined;
         body: StripeFileUploadBody;
         response: StripeFileUploadResponse;
     };
     
-    "/stripe/products": {
-        method: "GET" | "POST";
+    "/stripe/products": { // OK
+        method: "GET";
+        params?: undefined;
+        body?: undefined;
+        response: StripeProductsResponse;
+    };
+
+    "/stripe/products/create": { // OK
+        method: "POST";
         params: CreateStripeProductProps;
         body?: undefined;
-        response: SelectProductListResponse;
+        response: CreateStripeProductResponse;
     };
     
     "/stripe/products/{id}": {
@@ -125,7 +133,7 @@ export type Routes = {
         response: SelectProductResponse;
     };
 
-    "/stripe/webhooks": {
+    "/stripe/webhooks": { // OK
         method: "POST";
         params: SelectProductListProps;
         body?: undefined;

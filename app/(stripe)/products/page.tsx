@@ -1,4 +1,5 @@
 import ProductDisplay from "@app/(stripe)/products/ProductDisplay";
+import { Fetch } from "@app/api/utils/Fetch";
 import { GetSession } from "@lib/auth";
 import { Metadata } from "next";
 import { unauthorized } from "next/navigation";
@@ -15,9 +16,7 @@ export default async function Page() {
         unauthorized();
     }
 
-    const response = await fetch("http://localhost:3000/api/stripe/products");
-
-    const { data: stripeProductList } = await response.json();
+    const stripeProductList = await Fetch({ route: "/stripe/products" });
 
     return (
         <main className="w-full">

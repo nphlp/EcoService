@@ -6,7 +6,7 @@ import Logo from "@comps/server/Logo";
 import { useSession } from "@lib/authClient";
 import { combo } from "@lib/combo";
 import { motion } from "framer-motion";
-import { ChevronUp, LibraryBig, LogOut, Search, ShoppingCart, UserRound } from "lucide-react";
+import { ChevronUp, LogOut, Search, ShoppingCart, Store, UserRound } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import ButtonClient from "../../client/Button";
@@ -180,7 +180,7 @@ const RightNav = () => {
                             setBasketOpen(false);
                         }}
                     >
-                        <LibraryBig />
+                        <Store />
                     </ButtonClient>
                 )}
 

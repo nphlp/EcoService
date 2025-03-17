@@ -94,7 +94,7 @@ export const CreateStripeProductProcess = async (
 
         // Create product in Stripe
         const createProductInStripe = await Fetch({
-            route: "/stripe/products",
+            route: "/stripe/products/create",
             method: "POST",
             params: {
                 name,
