@@ -3,9 +3,30 @@
 import { combo } from "@lib/combo";
 import { InputHTMLAttributes, MouseEvent } from "react";
 
+const theme = {
+    default: {
+        component: combo("block space-y-1"),
+        label: combo("text-sm font-medium text-gray-600"),
+        input: combo(
+            "w-full rounded-lg border border-black/20 bg-white px-4 py-1.5",
+            "outline-none ring-0 focus:ring-2 focus:ring-teal-300",
+            "transition-all duration-150",
+        ),
+    },
+    dark: {
+        component: combo("block space-y-1"),
+        label: combo("text-sm font-medium text-gray-400"),
+        input: combo(
+            "w-full rounded-lg border border-white/20 bg-white/10 px-4 py-1.5",
+            "outline-none ring-0 focus:ring-2 focus:ring-teal-300",
+            "transition-all duration-150",
+        ),
+    },
+};
+
 type InputProps = {
     label: string;
-    variant?: "default" | false;
+    variant?: keyof typeof theme | false;
     required?: boolean;
     classComponent?: string;
     classLabel?: string;
@@ -35,18 +56,6 @@ export default function Input(props: InputProps) {
     const preventDefault = (e: MouseEvent<HTMLLabelElement>) => {
         e.preventDefault();
         e.stopPropagation();
-    };
-
-    const theme = {
-        default: {
-            component: combo("block space-y-2"),
-            label: combo("text-lg font-medium text-white"),
-            input: combo(
-                "w-full rounded-xl border border-white/20 bg-white/10 px-4 py-3",
-                "outline-none ring-0 focus:ring-2 focus:ring-teal-300",
-                "transition-all duration-150",
-            ),
-        },
     };
 
     return (

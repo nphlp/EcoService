@@ -33,6 +33,7 @@ CREATE TABLE `Session` (
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,
 
+    UNIQUE INDEX `Session_token_key`(`token`),
     INDEX `Session_id_idx`(`id`),
     INDEX `Session_userId_idx`(`userId`),
     INDEX `Session_token_idx`(`token`),

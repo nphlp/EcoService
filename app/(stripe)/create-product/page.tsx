@@ -30,7 +30,7 @@ export default async function Page() {
             </div>
             <div className="flex flex-col items-center justify-center gap-3 bg-white py-12">
                 <h2 className="text-2xl font-bold text-primary">Consulter la liste de mes produits sur Stripe</h2>
-                <Link href="https://dashboard.stripe.com/test/products" label="Voir les produits">
+                <Link href="/products" label="Voir les produits">
                     Voir les produits
                 </Link>
             </div>

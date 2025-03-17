@@ -3,18 +3,30 @@
 import { combo } from "@lib/combo";
 import Loader, { LoaderColor } from "@ui/Loader";
 import { ButtonHTMLAttributes, ReactNode } from "react";
-import { baseStyle, ButtonBaseKeys, buttonTheme, ButtonVariant } from "./buttonTheme";
+import {
+    baseStyleOnlyFilter,
+    baseStyleWithoutFilter,
+    ButtonBaseKeys,
+    buttonStyleComplete,
+    buttonTheme,
+    ButtonVariant,
+} from "./buttonTheme";
 
 type ButtonProps = {
     label: string;
     variant?: ButtonVariant;
-    baseStyleList?: ButtonBaseKeys[];
     isLoading?: boolean;
     loadingLabel?: string;
     loaderColor?: LoaderColor;
     className?: string;
     children?: ReactNode;
-} & Omit<ButtonHTMLAttributes<HTMLButtonElement>, "className" | "children">;
+    baseStyle?: boolean;
+} & (
+    | { baseStyleOnly?: ButtonBaseKeys[]; baseStyleWithout?: never }
+    | { baseStyleWithout?: ButtonBaseKeys[]; baseStyleOnly?: never }
+    | { baseStyleOnly?: never; baseStyleWithout?: never }
+) &
+    Omit<ButtonHTMLAttributes<HTMLButtonElement>, "className" | "children">;
 
 /**
  * Button component
@@ -38,19 +50,29 @@ export default function Button(props: ButtonProps) {
     const {
         label,
         variant = "default",
-        baseStyleList = ["outline", "rounded", "padding", "font", "flex", "transition"],
+        baseStyle = true,
         isLoading,
         loadingLabel = "Loading...",
         loaderColor,
         className,
         children,
+        baseStyleOnly,
+        baseStyleWithout,
         ...others
     } = props;
+
+    let baseStyleList = buttonStyleComplete;
+
+    if (baseStyleOnly) {
+        baseStyleList = baseStyleOnlyFilter(baseStyleOnly as ButtonBaseKeys[]);
+    } else if (baseStyleWithout) {
+        baseStyleList = baseStyleWithoutFilter(baseStyleWithout as ButtonBaseKeys[]);
+    }
 
     return (
         <button
             className={combo(
-                baseStyleList && baseStyle(baseStyleList),
+                baseStyle && baseStyleList,
                 variant && buttonTheme[variant].button,
                 isLoading ? variant && buttonTheme[variant].isLoading : variant && buttonTheme[variant].disabled,
                 className,

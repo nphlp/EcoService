@@ -89,19 +89,36 @@ export default function ProductCreationForm(props: ProductCreationFormPros) {
     return (
         <Card className="rounded-3xl border border-white/15 bg-white/5 p-8 text-white backdrop-blur-lg md:w-[600px]">
             <form className="space-y-8">
-                <Input label="Nom du produit" type="text" value={name} onChange={(e) => setName(e.target.value)} autoFocus />
+                <Input
+                    label="Nom du produit"
+                    type="text"
+                    variant="dark"
+                    onChange={(e) => setName(e.target.value)}
+                    value={name}
+                    autoFocus
+                />
 
                 <Input
                     label="Description"
                     type="text"
-                    value={description}
+                    variant="dark"
                     onChange={(e) => setDescription(e.target.value)}
+                    value={description}
                 />
 
-                <Input label="Prix" type="number" min="0" value={price} onChange={(e) => setPrice(e.target.value)} />
+                <Input
+                    label="Prix"
+                    type="number"
+                    variant="dark"
+                    min="0"
+                    onChange={(e) => setPrice(e.target.value)}
+                    value={price}
+                />
 
+                {/* TODO: why the select is smaller than the input ? */}
                 <Select
                     label="Catégorie"
+                    variant="dark"
                     placeholder="Sélectionnez une catégorie"
                     options={categoryList.map((category) => ({
                         label: category.name,

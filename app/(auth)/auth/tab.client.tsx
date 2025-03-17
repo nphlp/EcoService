@@ -1,6 +1,6 @@
 "use client";
 
-import ButtonClient from "@comps/client/Button";
+import Button from "@comps/ui/Button";
 import { motion } from "framer-motion";
 import { ReactNode, useEffect, useRef, useState } from "react";
 
@@ -60,25 +60,26 @@ export default function TabClient(props: TabClientProps) {
     }, [activeTab, cardList.length]);
 
     return (
-        <div className="min-w-[300px] space-y-3">
+        <div className="min-w-[350px] space-y-3">
             <motion.div className="relative flex flex-row gap-2 rounded-2xl border border-gray-300 bg-white p-2 shadow-md">
                 {cardList.map(({ label }, index) => (
-                    <ButtonClient
+                    <Button
                         key={index}
                         variant="none"
+                        baseStyleOnly={["pointer", "padding"]}
                         type="button"
                         label={"tab" + label}
                         className="relative z-20 w-full"
                         onClick={() => setActiveTab(index)}
                     >
                         {label}
-                    </ButtonClient>
+                    </Button>
                 ))}
                 <motion.div
                     initial={{ left: tabPosition.left, right: tabPosition.right }}
                     animate={{ left: tabPosition.left, right: tabPosition.right }}
                     transition={{
-                        duration: 0.5,
+                        duration: 0.7,
                         animate: "easeInOut",
                         type: "spring",
                         bounce: 0.2,
@@ -89,8 +90,13 @@ export default function TabClient(props: TabClientProps) {
             <motion.div
                 initial={{ height: "auto" }}
                 animate={{ height: currentHeight }}
-                transition={{ duration: 0.3 }}
-                className="w-[300px] overflow-hidden rounded-2xl border border-gray-300 bg-white shadow-md"
+                transition={{
+                    duration: 0.7,
+                    animate: "easeInOut",
+                    type: "spring",
+                    bounce: 0.3,
+                }}
+                className="w-full overflow-hidden rounded-2xl border border-gray-300 bg-white shadow-md"
             >
                 {cardList.map(
                     ({ component }, index) =>

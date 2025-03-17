@@ -3,15 +3,27 @@
 import { combo } from "@lib/combo";
 import NextLink, { LinkProps as NextLinkProps } from "next/link";
 import { ReactNode } from "react";
-import { baseStyle, ButtonBaseKeys, buttonTheme, ButtonVariant } from "./buttonTheme";
+import {
+    baseStyleOnlyFilter,
+    baseStyleWithoutFilter,
+    ButtonBaseKeys,
+    buttonStyleComplete,
+    buttonTheme,
+    ButtonVariant,
+} from "./buttonTheme";
 
 type LinkProps = {
     label: string;
     variant?: ButtonVariant;
-    baseStyleList?: ButtonBaseKeys[];
     className?: string;
     children?: ReactNode;
-} & Omit<NextLinkProps, "className" | "children">;
+    baseStyle?: boolean;
+} & (
+    | { baseStyleOnly?: ButtonBaseKeys[]; baseStyleWithout?: never }
+    | { baseStyleWithout?: ButtonBaseKeys[]; baseStyleOnly?: never }
+    | { baseStyleOnly?: never; baseStyleWithout?: never }
+) &
+    Omit<NextLinkProps, "className" | "children">;
 
 /**
  * Button component
@@ -25,12 +37,29 @@ type LinkProps = {
  * ```
  */
 export default function Link(props: LinkProps) {
-    const { label, variant = "default",baseStyleList = ["outline", "rounded", "padding", "font", "flex", "transition"], className, children, ...others } = props;
+    const {
+        label,
+        variant = "default",
+        baseStyle = true,
+        baseStyleOnly,
+        baseStyleWithout,
+        className,
+        children,
+        ...others
+    } = props;
+
+    let baseStyleList = buttonStyleComplete;
+
+    if (baseStyleOnly) {
+        baseStyleList = baseStyleOnlyFilter(baseStyleOnly as ButtonBaseKeys[]);
+    } else if (baseStyleWithout) {
+        baseStyleList = baseStyleWithoutFilter(baseStyleWithout as ButtonBaseKeys[]);
+    }
 
     return (
         <NextLink
             className={combo(
-                baseStyleList && baseStyle(baseStyleList),
+                baseStyle && baseStyleList,
                 variant && buttonTheme[variant].button,
                 variant && buttonTheme[variant].disabled,
                 className,

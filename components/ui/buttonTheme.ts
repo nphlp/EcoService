@@ -5,6 +5,7 @@ import { LoaderColor } from "./Loader";
 
 /** Shared base styles for buttons and links */
 export const buttonBase = {
+    pointer: "cursor-pointer disabled:cursor-not-allowed",
     rounded: "rounded-lg",
     padding: "px-4 py-1.5",
     font: "font-medium",
@@ -16,15 +17,36 @@ export const buttonBase = {
 /** Keys for the `buttonBase` object */
 export type ButtonBaseKeys = keyof typeof buttonBase;
 
+export const buttonStyleComplete = Object.values(buttonBase).map((value) => value).join(" ");
+
 /**
- * Provide an array of `buttonBase` keys to return a string of combined styles
+ * Return a string of combined styles for the given keys
  * @example
  * ```tsx
- * <Button baseStyle={["rounded", "transition", "outline"]} />
- * <Link baseStyle={["font", "transition", "outline"]} />
+ * <Button baseStyleOnly={["rounded", "transition", "outline"]} />
+ * <Link baseStyleOnly={["font", "transition", "outline"]} />
  * ```
  */
-export const baseStyle = (keys: ButtonBaseKeys[]): string => combo(keys.map((key) => buttonBase[key]));
+export const baseStyleOnlyFilter = (onlyKeys: ButtonBaseKeys[]): string => {
+    const baseStyleKeys = Object.keys(buttonBase);
+    const filteredKeys = baseStyleKeys.filter((key) => onlyKeys.includes(key as ButtonBaseKeys));
+    const filteredValues = filteredKeys.map((key) => buttonBase[key as ButtonBaseKeys]);
+    return combo(filteredValues);
+};
+
+/**
+ * Return a string of combined styles excluding the given keys
+ * @example
+ * ```tsx
+ * <Button baseStyleWithout={["flex", "rounded"]} />
+ * <Link baseStyleWithout={["transition", "outline"]} />
+ */
+export const baseStyleWithoutFilter = (withoutKeys: ButtonBaseKeys[]): string => {
+    const baseStyleKeys = Object.keys(buttonBase);
+    const filteredKeys = baseStyleKeys.filter((key) => !withoutKeys.includes(key as ButtonBaseKeys));
+    const filteredValues = filteredKeys.map((key) => buttonBase[key as ButtonBaseKeys]);
+    return combo(filteredValues);
+};
 
 // =============== Button Theme ================= //
 
