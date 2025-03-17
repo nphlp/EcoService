@@ -1,10 +1,10 @@
+import { SelectUser } from "@actions/database/User";
+import PrismaInstance from "@lib/prisma";
 import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
+import { customSession } from "better-auth/plugins";
 import { headers } from "next/headers";
 import { SendEmail } from "./plunk";
-import PrismaInstance from "@lib/prisma";
-import { customSession } from "better-auth/plugins";
-import { SelectUser } from "@actions/database/User";
 
 const baseUrl = process.env.BASE_URL;
 
@@ -71,6 +71,9 @@ export const auth = betterAuth({
                 session,
             };
         }),
+        // twoFactor({ 
+        //     twoFactorPage: "/two-factor" // the page to redirect if a user need to verify 2nd factor
+        // }) // TODO: Add two factor authentication
     ],
 });
 

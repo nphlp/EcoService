@@ -1,6 +1,6 @@
 "use client";
 
-import { urlSerializer } from "@app/catalog/components/filterTypes";
+import { urlSerializer } from "@app/catalog/components/searchParams";
 import { useCatalogParams } from "@app/catalog/components/useCatalogParams";
 import ImageRatio from "@comps/server/ImageRatio";
 import { combo } from "@lib/combo";

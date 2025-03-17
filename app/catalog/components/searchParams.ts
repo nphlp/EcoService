@@ -11,31 +11,18 @@ import {
 //    Query params types     //
 // ========================= //
 
-export type PageParamType = {
+export type QueryParamsType = {
+    /** Page number (default value: `1`) */
     page: number;
-};
-
-export type ItemsPerPageParamType = {
+    /** Items per page (default value: `20`) */
     take: 10 | 20 | 50 | 100;
-};
-
-export type PriceOrderParamType = {
+    /** Price order (default value: `"not"`) */
     priceOrder: "asc" | "desc" | "not";
-};
-
-export type CategoryParamType = {
+    /** Category (default value: `""`) */
     category: string;
-};
-
-export type SearchParamType = {
+    /** Search (default value: `""`) */
     search: string;
 };
-
-export type QueryParamType = PageParamType &
-    PriceOrderParamType &
-    ItemsPerPageParamType &
-    CategoryParamType &
-    SearchParamType;
 
 // ============================= //
 //        Custom parsers         //
@@ -49,7 +36,7 @@ const parseAsItemsPerPage = createParser({
         }
         return 10;
     },
-    serialize: (value: ItemsPerPageParamType["take"]) => {
+    serialize: (value: QueryParamsType["take"]) => {
         return String(value);
     },
 });
@@ -58,38 +45,33 @@ const parseAsItemsPerPage = createParser({
 //  Query params client parsers  //
 // ============================= //
 
-export const PageParam = {
+export const QueryParams = {
+    /** Page number (default value: `1`) */
     page: parseAsInteger.withDefault(1),
-};
-
-export const ItemsPerPageParam = {
+    /** Items per page (default value: `20`) */
     take: parseAsItemsPerPage.withDefault(20),
-};
-
-export const PriceOrderParam = {
+    /** Price order (default value: `"not"`) */
     priceOrder: parseAsStringEnum(["asc", "desc", "not"]).withDefault("not"),
-};
-
-export const CategoryParam = {
+    /** Category (default value: `""`) */
     category: parseAsString.withDefault(""),
-};
-
-export const SearchParam = {
+    /** Search (default value: `""`) */
     search: parseAsString.withDefault(""),
-};
-
-export const QueryParam = {
-    ...PageParam,
-    ...ItemsPerPageParam,
-    ...PriceOrderParam,
-    ...CategoryParam,
-    ...SearchParam,
 };
 
 // ============================= //
 //   Query param server parsers  //
 // ============================= //
 
-export const queryParamCached = createSearchParamsCache(QueryParam);
+export const queryParamsCached = createSearchParamsCache(QueryParams);
 
-export const urlSerializer = createSerializer(QueryParam);
+/**
+ * Serializer to construct an URL with query params
+ * @example Create an URL like `/catalog?page=2&category=fruits`
+ * ```tsx
+ * const url = urlSerializer("/catalog", {
+ *     page: 2,
+ *     category: 'fruits'
+ * });
+ * ```
+ */
+export const urlSerializer = createSerializer(QueryParams);

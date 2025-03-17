@@ -1,4 +1,5 @@
 import { StripeInstance } from "@lib/stripe";
+import { StripeError } from "@stripe/stripe-js";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 
@@ -23,7 +24,7 @@ export async function POST(request: Request) {
         const event = StripeInstance.webhooks.constructEvent(body, signature, stripeWebhookSecret);
 
         // Log the event
-        console.log("Webhook event received:", event.type);
+        console.log("=============>> EVENT\n", event.type);
 
         // Manage the event
         switch (event.type) {
@@ -70,12 +71,20 @@ export async function POST(request: Request) {
                 console.log("payout.paid");
                 break;
 
+            case "product.created":
+                console.log("product.created");
+                break;
+
+            case "product.updated":
+                console.log("product.updated");
+                break;
+
             // Add other event handlers as needed
         }
 
         return NextResponse.json({ received: true });
     } catch (error) {
-        console.error("Webhook error:", error);
+        console.error("Webhook error:", (error as StripeError).message);
         return NextResponse.json({ error: "Webhook handler failed" }, { status: 400 });
     }
 }

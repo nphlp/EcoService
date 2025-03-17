@@ -32,15 +32,16 @@ Install the project in three steps: `software requirements`, `environment variab
     Email provider managed by Plunk (requires to create an account, more info [Plunk Docs](https://docs.useplunk.com/getting-started/introduction))
 
 - `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` \
-  `STRIPE_SECRET_KEY` \
-  `STRIPE_WEBHOOK_SECRET`
+  `STRIPE_SECRET_KEY`
 
     Payment provider managed by Stripe (requires to create an account, follow the steps below)
 
     1. Create your `.env` file from the `.env.example` file
     2. Create a [Stripe Account](https://dashboard.stripe.com) (an IBAN is required, even for development/testing accounts)
-    3. Go to the [Workbench section](https://dashboard.stripe.com/test/workbench/overview) and get your API keys
-    4. Create a [Webhook endpoint](https://dashboard.stripe.com/test/workbench/webhooks) with the following events:
+    3. Go to the [Workbench section](https://dashboard.stripe.com/test/workbench/overview) and get your Stripe Public and Private API keys
+
+- `STRIPE_WEBHOOK_SECRET` 
+    1. Create a [Webhook endpoint](https://dashboard.stripe.com/test/workbench/webhooks) with the following events:
         - `account.updated`
         - `charge.dispute.created`
         - `checkout.session.completed`
@@ -49,6 +50,7 @@ Install the project in three steps: `software requirements`, `environment variab
         - `payment_intent.succeeded`
         - `payout.failed`
         - `payout.paid`
+    5. You will recive your Webhook Key when starting `pnpm stripe:webhooks` at the end of the setup
 
 ### Project setup
 
@@ -75,7 +77,7 @@ Install the project in three steps: `software requirements`, `environment variab
 - Install [Stripe CLI](https://docs.stripe.com/stripe-cli) and run [Stripe Webhook Forwarder](https://docs.stripe.com/webhooks/quickstart)
 
     ```bash
-    pnpm stripe:webhook
+    pnpm stripe:webhooks
     ```
 
 - (optional) Clear your `localhost:3000` browser cookies is you have an error

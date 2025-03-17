@@ -1,63 +1,52 @@
-import { Fetch } from "@api/utils/Fetch";
-import CatalogClient from "./components/catalogClient";
-import CatalogContextProvider from "./components/contextProvider";
-import { QueryParamType, queryParamCached } from "./components/filterTypes";
-import PaginationClient from "./components/paginationClient";
-import SelectorsClient from "./components/selectorsClient";
+import { FetchParallelized } from "@app/api/utils/FetchParallelized";
+import CatalogClient from "./components/catalog.client";
+import CatalogProvider from "./components/catalog.provider";
+import SelectorsClient from "./components/selectors.client";
+import PaginationClient from "./components/pagination.client";
+import { QueryParamsType, queryParamsCached } from "./components/searchParams";
 
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";
 
 type PageProps = {
-    searchParams: Promise<QueryParamType>;
+    searchParams: Promise<QueryParamsType>;
 };
 
 export default async function Page(props: PageProps) {
     const { searchParams } = props;
 
-    const { priceOrder, page, take, category, search } = await queryParamCached.parse(searchParams);
+    const { priceOrder, page, take, category, search } = await queryParamsCached.parse(searchParams);
 
-    const categoryList = await Fetch({ route: "/categories", params: { orderBy: { name: "asc" } } });
-    if (!categoryList) {
-        throw new Error("We don't have any category...");
-    }
-
-    const productAmount = await Fetch({
-        route: "/products/count",
-        params: {
-            where: {
-                ...(category && { categoryId: category }),
-                ...(search && {
-                    name: {
-                        contains: search,
-                    },
-                }),
+    const [productAmount, productList, categoryList] = await FetchParallelized([
+        {
+            route: "/products/count",
+            params: {
+                where: {
+                    ...(category && { categoryId: category }),
+                    ...(search && { name: { contains: search } }),
+                },
             },
         },
-    });
-    if (!productAmount) {
-        throw new Error("We don't have any product...");
-    }
-
-    const productList = await Fetch({
-        route: "/products",
-        params: {
-            ...(priceOrder !== "not" && {
-                orderBy: { price: priceOrder },
-            }),
-            ...(page > 1 && {
-                skip: (page - 1) * take,
-            }),
-            take,
-            where: {
-                ...(category && { categoryId: category }),
-                ...(search && {
-                    name: {
-                        contains: search,
-                    },
-                }),
+        {
+            route: "/products",
+            params: {
+                ...(priceOrder !== "not" && { orderBy: { price: priceOrder } }),
+                ...(page > 1 && { skip: (page - 1) * take }),
+                take,
+                where: {
+                    ...(category && { categoryId: category }),
+                    ...(search && { name: { contains: search } }),
+                },
             },
         },
-    });
+        {
+            route: "/categories",
+            params: { orderBy: { name: "asc" as const } },
+        },
+    ]);
+
+    if (!categoryList || !productAmount) {
+        throw new Error("Something went wrong...");
+    }
 
     return (
         <div className="flex flex-1 flex-col">
@@ -66,11 +55,11 @@ export default async function Page(props: PageProps) {
                 Retrouvez l&apos;intégralité de nos produits dans notre catalogue.
             </div>
             <div className="flex flex-1 flex-col justify-start overflow-hidden">
-                <CatalogContextProvider productList={productList} productAmount={productAmount}>
+                <CatalogProvider productList={productList} productAmount={productAmount}>
                     <SelectorsClient categoryList={categoryList} />
                     <CatalogClient className="p-6" />
                     <PaginationClient className="mb-6" />
-                </CatalogContextProvider>
+                </CatalogProvider>
             </div>
         </div>
     );

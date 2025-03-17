@@ -4,7 +4,6 @@ import { useBasketStore } from "@comps/Basket/BasketStore";
 import ButtonClient from "@comps/client/Button";
 import ImageRatio from "@comps/server/ImageRatio";
 import { combo } from "@lib/combo";
-import { Product } from "@prisma/client";
 import { CircleCheck, CirclePlus, CircleX, ShoppingCart } from "lucide-react";
 import Link from "next/link";
 import "swiper/css";

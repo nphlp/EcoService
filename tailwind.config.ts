@@ -1,11 +1,7 @@
 import type { Config } from "tailwindcss";
 
 export default {
-    content: [
-        "./pages/**/*.{js,ts,jsx,tsx,mdx}",
-        "./components/**/*.{js,ts,jsx,tsx,mdx}",
-        "./app/**/*.{js,ts,jsx,tsx,mdx}",
-    ],
+    content: ["./app/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}"],
     theme: {
         extend: {
             colors: {
@@ -13,7 +9,7 @@ export default {
                 secondary: "#00C2CB",
             },
             fontSize: {
-                "xxs": ["0.625rem", { lineHeight: "0.75rem" }],
+                xxs: ["0.625rem", { lineHeight: "0.75rem" }],
             },
         },
     },

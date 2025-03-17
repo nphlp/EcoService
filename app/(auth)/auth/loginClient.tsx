@@ -4,6 +4,7 @@ import ButtonClient from "@comps/client/Button";
 import InputClient from "@comps/client/Input";
 import FeedbackClient, { FeedbackMode } from "@comps/ui/Feedback";
 import { signIn } from "@lib/authClient";
+import { isVendorOrEmployeeOrAdmin } from "@lib/checkRole";
 import { Eye, EyeClosed } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -38,9 +39,12 @@ export default function LoginClient() {
             setMessage("Successfully logged in.");
             setMode("success");
 
+            const isAuthorizedToDashboard = await isVendorOrEmployeeOrAdmin();  
+            const redirectPath = isAuthorizedToDashboard ? "/dashboard" : "/profile";
+
             setTimeout(() => {
-                router.push("/profile");
-            }, 2000);
+                router.push(redirectPath);
+            }, 1000);
         } else if (error) {
             setMessage("Failed to login, invalid credentials.");
             setMode("error");

@@ -3,8 +3,8 @@
 import { CategoryType } from "@actions/types/Category";
 import { combo } from "@lib/combo";
 import { ChangeEventHandler, ReactNode, useContext } from "react";
-import { CatalogContext } from "./contextProvider";
-import { ItemsPerPageParamType, PriceOrderParamType } from "./filterTypes";
+import { CatalogContext } from "./catalog.provider";
+import { QueryParamsType } from "./searchParams";
 import { useCatalogParams } from "./useCatalogParams";
 
 type SelectorsClientProps = {
@@ -19,7 +19,8 @@ export default function SelectorsClient(props: SelectorsClientProps) {
 
     const divClass = "w-full space-y-2";
     const labelClass = "text-sm text-gray-500 text-gray-200 ";
-    const selectClass = "rounded-md border p-2 text-gray-700 shadow-sm w-full";
+    const selectClass =
+        "bg-white rounded-md border p-2 text-gray-700 shadow-sm w-full outline-none ring-0 focus:ring-2 focus:ring-teal-300";
 
     return (
         <div className="grid grid-cols-2 gap-4 bg-primary px-6 py-4 md:grid-cols-4">
@@ -47,7 +48,7 @@ export default function SelectorsClient(props: SelectorsClientProps) {
                 labelClass={labelClass}
                 selectClass={selectClass}
                 onChange={(e) => {
-                    setPriceOrder(e.target.value as PriceOrderParamType["priceOrder"]);
+                    setPriceOrder(e.target.value as QueryParamsType["priceOrder"]);
                 }}
                 value={priceOrder}
             >
@@ -78,7 +79,7 @@ export default function SelectorsClient(props: SelectorsClientProps) {
                 selectClass={selectClass}
                 onChange={(e) => {
                     setPage(1);
-                    setTake(Number(e.target.value) as ItemsPerPageParamType["take"]);
+                    setTake(Number(e.target.value) as QueryParamsType["take"]);
                 }}
                 value={take}
             >

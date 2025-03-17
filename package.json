@@ -19,20 +19,21 @@
         "fixtures:setup": "tsx scripts/fixtures.ts setup",
         "fixtures:reset": "tsx scripts/fixtures.ts reset",
         "fixtures:reload": "tsx scripts/fixtures.ts reload",
-        "stripe:webhook": "stripe listen --forward-to localhost:3000/api/stripe/webhooks",
+        "stripe:webhooks": "stripe listen --forward-to localhost:3000/api/stripe/webhooks",
         "help": "tsx scripts/help.ts help"
     },
     "dependencies": {
         "@plunk/node": "^3.0.3",
         "@prisma/client": "^6.4.1",
-        "@react-email/components": "0.0.28",
+        "@react-email/components": "0.0.33",
         "@react-email/render": "^1.0.5",
-        "@stripe/stripe-js": "^5.9.2",
-        "better-auth": "1.0.7",
+        "@stripe/stripe-js": "^6.0.0",
+        "@tailwindcss/postcss": "^4.0.14",
+        "better-auth": "1.2.3",
         "clsx": "^2.1.1",
         "framer-motion": "^12.4.10",
         "handlebars": "^4.7.8",
-        "lucide-react": "^0.462.0",
+        "lucide-react": "^0.482.0",
         "next": "^15.2.1",
         "nuqs": "^2.4.1",
         "oslo": "^1.2.1",
@@ -41,26 +42,25 @@
         "react-easy-crop": "^5.4.1",
         "stripe": "^17.7.0",
         "swiper": "^11.2.5",
-        "tailwind-merge": "^2.6.0",
+        "tailwind-merge": "^3.0.2",
         "tsx": "^4.19.3",
         "zod": "^3.24.2",
         "zustand": "^5.0.3"
     },
     "devDependencies": {
         "@types/node": "^22.13.9",
-        "@types/react": "^18.3.18",
-        "@types/react-dom": "^18.3.5",
+        "@types/react": "^19.0.10",
+        "@types/react-dom": "^19.0.4",
         "@typescript-eslint/parser": "^8.26.0",
         "eslint": "^8.57.1",
         "eslint-config-next": "15.0.3",
-        "eslint-plugin-tailwindcss": "^3.18.0",
         "postcss": "^8.5.3",
-        "prettier": "3.5.0",
+        "prettier": "3.5.3",
         "prisma": "^6.4.1",
-        "tailwindcss": "^3.4.17",
+        "tailwindcss": "^4.0.14",
         "typescript": "^5.8.2"
     },
     "resolutions": {
-        "prettier": "3.5.0"
+        "prettier": "3.5.3"
     }
 }
