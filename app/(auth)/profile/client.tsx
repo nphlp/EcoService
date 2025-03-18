@@ -4,38 +4,46 @@ import ButtonClient from "@comps/client/Button";
 import InputClient from "@comps/client/Input";
 import ModalClient from "@comps/client/Modal";
 import Card from "@comps/server/Card";
+import Loader from "@comps/ui/Loader";
 import {
     changeEmail,
+    listSessions,
+    revokeOtherSessions,
+    revokeSession,
+    revokeSessions,
+    SessionList,
     updateUser,
-    useSession
+    useSession,
 } from "@lib/authClient";
-import { Eye, EyeClosed } from "lucide-react";
-import { useState } from "react";
+import { CircleX, Eye, EyeClosed } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+
 export default function ProfileClient() {
     const { data: session } = useSession();
 
-    // const router = useRouter();
+    const router = useRouter();
 
     const [modalVisible, setModalVisible] = useState<boolean>(false);
-    // const [sessionList, setSessionList] = useState<SessionList[] | null>(null);
+    const [sessionList, setSessionList] = useState<SessionList[] | null>(null);
     const [name, setName] = useState<string>("");
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState("");
     const [toggleVisibility, setToggleVisibility] = useState(false);
 
     // Fetch session list
-    // const fetchSessions = async () => {
-    //     const { data: getSessionList } = await listSessions();
-    //     setSessionList(getSessionList as SessionList[] | null);
-    // };
+    const fetchSessions = async () => {
+        const { data: getSessionList } = await listSessions();
+        setSessionList(getSessionList as SessionList[] | null);
+    };
 
-    // useEffect(() => {
-    //     // Check if user has verified email
-    //     if (session) {
-    //         setModalVisible(!session?.user.emailVerified);
-    //     }
-    //     fetchSessions();
-    // }, [session]);
+    useEffect(() => {
+        // Check if user has verified email
+        if (session) {
+            setModalVisible(!session?.user.emailVerified);
+        }
+        fetchSessions();
+    }, [session]);
 
     return (
         <>
@@ -52,7 +60,7 @@ export default function ProfileClient() {
                     </ButtonClient>
                 </div>
             </ModalClient>
-            {/* <Card className="flex w-[280px] flex-col gap-3">
+            <Card className="flex w-[280px] flex-col gap-3">
                 <div className="space-y-1">
                     <div className="text-xl font-bold">Session List</div>
                     <div className="flex flex-row gap-1">
@@ -117,12 +125,10 @@ export default function ProfileClient() {
                         <span className="text-sm text-gray-500">Loading sessions...</span>
                     </div>
                 )}
-            </Card> */}
+            </Card>
             <Card className="w-[300px] space-y-3 rounded-2xl p-6">
                 <div className="text-xl font-bold">Modifer</div>
-                <div className="text-wrap text-xs text-gray-500">
-                    Mettre à jour vos informations personnelles.
-                </div>
+                <div className="text-wrap text-xs text-gray-500">Mettre à jour vos informations personnelles.</div>
                 <div className="flex flex-col items-center gap-2">
                     <InputClient
                         label="Nom"

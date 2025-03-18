@@ -6,12 +6,12 @@ import { useBasketStore } from "@comps/Basket/BasketStore";
 import ButtonClient from "@comps/client/Button";
 import Card from "@comps/server/Card";
 import ImageRatio from "@comps/server/ImageRatio";
-import Loader from "@comps/server/Loader";
+import Loader from "@comps/ui/Loader";
 import { combo } from "@lib/combo";
 import { CircleCheck, CirclePlus, CircleX, ShoppingCart } from "lucide-react";
 import Link from "next/link";
 import { MouseEvent, useContext, useEffect } from "react";
-import { CatalogContext } from "./contextProvider";
+import { CatalogContext } from "./catalog.provider";
 import { useCatalogParams } from "./useCatalogParams";
 import { useCatalogStore } from "./useCatalogStore";
 
@@ -26,35 +26,27 @@ export default function CatalogClient(props: CatalogClientProps) {
     const { setProductList, setProductAmount } = useCatalogStore();
     const { priceOrder, page, take, category, search } = useCatalogParams();
 
-    const { data: newProductList, isLoading: isLoadingProductList } = useFetch({
-        route: "/products",
-        firstFetch: false,
-        params: {
-            orderBy: priceOrder !== "not" ? { price: priceOrder } : undefined,
-            skip: page > 1 ? (page - 1) * take : undefined,
-            take,
-            where: {
-                ...(category && { categoryId: category }),
-                ...(search && {
-                    name: {
-                        contains: search,
-                    },
-                }),
-            },
-        },
-    });
-
     const { data: newProductAmount, isLoading: isLoadingProductAmount } = useFetch({
         route: "/products/count",
         firstFetch: false,
         params: {
             where: {
                 ...(category && { categoryId: category }),
-                ...(search && {
-                    name: {
-                        contains: search,
-                    },
-                }),
+                ...(search && { name: { contains: search } }),
+            },
+        },
+    });
+
+    const { data: newProductList, isLoading: isLoadingProductList } = useFetch({
+        route: "/products",
+        firstFetch: false,
+        params: {
+            ...(priceOrder !== "not" && { orderBy: { price: priceOrder } }),
+            ...(page > 1 && { skip: (page - 1) * take }),
+            take,
+            where: {
+                ...(category && { categoryId: category }),
+                ...(search && { name: { contains: search } }),
             },
         },
     });
@@ -87,7 +79,9 @@ const ProductList = (props: ProductListProps) => {
 
     if (!produitList) {
         return (
-            <div className={combo("flex size-full items-center justify-center", className)}>Aucun produit disponible pour le moment.</div>
+            <div className={combo("flex size-full items-center justify-center", className)}>
+                Aucun produit disponible pour le moment.
+            </div>
         );
     }
 

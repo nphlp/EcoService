@@ -1,6 +1,6 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+@config "./tailwind.config.ts";
 
 :root {
     --color: hsl(0, 0%, 10%);
@@ -13,8 +13,3 @@
         --background: hsl(0, 0%, 5%);
     }
 }
-
-/* body {
-    color: var(--color);
-    background: var(--background);
-} */

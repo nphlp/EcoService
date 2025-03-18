@@ -15,6 +15,7 @@ const nextConfig: NextConfig = {
     experimental: {
         viewTransition: true,
         authInterrupts: true,
+        // nodeMiddleware: true,
     },
 };
 

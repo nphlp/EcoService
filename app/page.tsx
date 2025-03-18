@@ -9,7 +9,7 @@ export const dynamic = "force-dynamic";
 export default async function Page() {
     const imageClass = "h-[100px] sm:h-[150px] md:h-[120px] lg:h-[160px] xl:h-[220px] rounded";
 
-    const [articleList, diyList] = await FetchParallelized([
+    const [articleList, diyList, productList] = await FetchParallelized([
         {
             route: "/articles",
             params: {
@@ -58,12 +58,21 @@ export default async function Page() {
                 },
             },
         },
+        {
+            route: "/products",
+            params: {
+                orderBy: {
+                    createdAt: "desc",
+                },
+                take: 10,
+            },
+        },
     ]);
 
-    if (!articleList || !diyList) {
+    if (!articleList || !diyList || !productList) {
         return <div className="container mx-auto px-4 py-10">Aucun article disponible pour le moment.</div>;
     }
-
+    
     return (
         <>
             <section className="flex flex-row items-center justify-between gap-12 bg-primary p-8 md:p-16">
@@ -111,7 +120,7 @@ export default async function Page() {
             </section>
             <section className="space-y-6 px-6 py-8 md:px-12 md:py-16">
                 <h2 className="text-center text-4xl font-bold">Nos produits vedettes</h2>
-                <ProductSlider />
+                <ProductSlider dataList={productList} />
             </section>
             <section className="space-y-6 bg-primary px-6 py-8 md:px-12 md:py-16">
                 <h2 className="text-center text-4xl font-bold text-white">Nos Do It Yourself</h2>

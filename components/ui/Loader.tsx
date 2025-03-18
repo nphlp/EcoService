@@ -1,17 +1,27 @@
 import { combo } from "@lib/combo";
 
+export type LoaderColor = "white" | "gray" | "black" | "primary";
+
 type LoaderProps = {
     className?: string;
-    color?: "white" | "gray" | "black";
+    color?: LoaderColor;
 };
 
+/**
+ * Loader component
+ * @example
+ * ```tsx
+ * <Loader color="white" />
+ * ```
+ */
 export default function Loader(props: LoaderProps) {
     const { color = "gray", className } = props;
 
-    const colorMap = {
+    const colorMap: Record<LoaderColor, string> = {
         white: "border-gray-300",
         gray: "border-gray-500",
         black: "border-gray-700",
+        primary: "border-primary",
     };
 
     return (

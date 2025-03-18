@@ -4,7 +4,7 @@ import ButtonClient from "@comps/client/Button";
 import { combo } from "@lib/combo";
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 import { useContext } from "react";
-import { CatalogContext } from "./contextProvider";
+import { CatalogContext } from "./catalog.provider";
 import { useCatalogParams } from "./useCatalogParams";
 
 type PaginationClientProps = {

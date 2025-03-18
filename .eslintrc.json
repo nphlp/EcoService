@@ -1,16 +1,20 @@
 {
     "root": true,
-    "plugins": ["tailwindcss"],
-    "extends": ["next/core-web-vitals", "next/typescript", "plugin:tailwindcss/recommended"],
-    "overrides": [
-        {
-            "files": ["*.ts", "*.tsx", "*.js"],
-            "parser": "@typescript-eslint/parser"
-        }
-    ],
-    "settings": {
-        "tailwindcss": {
-            "callees": ["className", "classList", "combo", "classDiv", "classLabel", "classInput"]
-        }
-    }
+    // "plugins": ["tailwindcss"],
+    "extends": [
+        "next/core-web-vitals",
+        "next/typescript"
+        // "plugin:tailwindcss/recommended"
+    ]
+    // "overrides": [
+    //     {
+    //         "files": ["*.ts", "*.tsx", "*.js"],
+    //         "parser": "@typescript-eslint/parser"
+    //     }
+    // ],
+    // "settings": {
+    //     "tailwindcss": {
+    //         "callees": ["className", "classList", "combo", "classDiv", "classLabel", "classInput"]
+    //     }
+    // }
 }

@@ -6,8 +6,10 @@ Complete auth and user management
 
 - Auto infer zod common schema
 - Zod schema page per page
+- Auth issues
 
 - Cursor rules
+- Header disapearing issue ??
 
 - ESlint Tailwind
 - Prettier

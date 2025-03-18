@@ -1,4 +1,4 @@
-import { Fetch } from "@api/utils/Fetch";
+import { FetchParallelized } from "@app/api/utils/FetchParallelized";
 import ProductSlider from "@comps/client/ProductSlider";
 import ImageRatio from "@comps/server/ImageRatio";
 import { combo } from "@lib/combo";
@@ -13,30 +13,41 @@ export default async function Page(props: PageProps) {
     const { params } = props;
     const { id } = await params;
 
-    const diy = await Fetch({
-        route: "/doItYourselves/unique",
-        params: {
-            where: { id },
-            select: {
-                title: true,
-                createdAt: true,
-                Content: {
-                    select: {
-                        content: true,
-                        image: true,
+    const [diy, productList] = await FetchParallelized([
+        {
+            route: "/doItYourselves/unique",
+            params: {
+                where: { id },
+                select: {
+                    title: true,
+                    createdAt: true,
+                    Content: {
+                        select: {
+                            content: true,
+                            image: true,
+                        },
                     },
-                },
-                Author: {
-                    select: {
-                        name: true,
+                    Author: {
+                        select: {
+                            name: true,
+                        },
                     },
                 },
             },
         },
-    });
+        {
+            route: "/products",
+            params: {
+                orderBy: {
+                    createdAt: "desc",
+                },
+                take: 10,
+            },
+        },
+    ]);
 
-    if (!diy) {
-        return <div className="container mx-auto px-4 py-10">DIY non trouvé</div>;
+    if (!diy || !productList) {
+        return <div className="container mx-auto px-4 py-10">Something went wrong...</div>;
     }
 
     return (
@@ -79,7 +90,7 @@ export default async function Page(props: PageProps) {
             <section className="space-y-6 border-t border-gray-200 px-6 py-8 md:px-12 md:py-16">
                 <h2 className="text-center text-3xl font-bold">Produits recommandés</h2>
                 <p className="text-center text-gray-600">Découvrez notre sélection de produits zéro déchet</p>
-                <ProductSlider />
+                <ProductSlider dataList={productList} />
             </section>
 
             {/* <div className="mt-16 flex justify-center">

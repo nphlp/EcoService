@@ -5,7 +5,7 @@ import { combo } from "@lib/combo";
 import { Filter } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-import ButtonClient from "./Button";
+import ButtonClient from "../../../components/client/Button";
 
 interface Product {
     id: string;
@@ -17,6 +17,16 @@ interface Product {
         unit_amount: number;
         currency: string;
     };
+    category?: {
+        id: string;
+        name: string;
+    };
+}
+
+interface Category {
+    id: string;
+    name: string;
+    description?: string;
 }
 
 function getImageUrl(imageUrl: string) {
@@ -29,10 +39,14 @@ function getImageUrl(imageUrl: string) {
 
 export default function ProductManager() {
     const [products, setProducts] = useState<Product[]>([]);
+    const [categories, setCategories] = useState<Category[]>([]);
     const [loading, setLoading] = useState(false);
     const [imagePreview, setImagePreview] = useState<string | null>(null);
     const [editingProduct, setEditingProduct] = useState<Product | null>(null);
     const fileInputRef = useRef<HTMLInputElement>(null);
+    const [showCategoryForm, setShowCategoryForm] = useState(false);
+    const [newCategory, setNewCategory] = useState({ name: "", description: "" });
+    const [categoryLoading, setCategoryLoading] = useState(false);
 
     const [formData, setFormData] = useState({
         name: "",
@@ -40,10 +54,12 @@ export default function ProductManager() {
         amount: "",
         currency: "eur",
         image: null as File | null,
+        categoryId: "",
     });
 
     useEffect(() => {
         fetchProducts();
+        fetchCategories();
     }, []);
 
     useEffect(() => {
@@ -54,6 +70,7 @@ export default function ProductManager() {
                 amount: ((editingProduct.default_price?.unit_amount || 0) / 100).toString(),
                 currency: "eur",
                 image: null,
+                categoryId: editingProduct.category?.id || "",
             });
         }
     }, [editingProduct]);
@@ -72,7 +89,7 @@ export default function ProductManager() {
 
     const fetchProducts = async () => {
         try {
-            const response = await fetch("/api/products");
+            const response = await fetch("/api/stripe/products");
             if (!response.ok) {
                 if (response.status === 401) {
                     alert("Please log in to view products");
@@ -81,10 +98,25 @@ export default function ProductManager() {
                 throw new Error("Failed to fetch products");
             }
             const data = await response.json();
-            setProducts(data.data);
+            setProducts(data.data || []);
         } catch (error) {
             console.error("Error fetching products:", error);
+            setProducts([]);
             alert("Error fetching products. Please try again.");
+        }
+    };
+
+    const fetchCategories = async () => {
+        try {
+            const response = await fetch("/api/categories");
+            if (!response.ok) {
+                throw new Error("Failed to fetch categories");
+            }
+            const data = await response.json();
+            setCategories(data.data || []);
+        } catch (error) {
+            console.error("Error fetching categories:", error);
+            setCategories([]);
         }
     };
 
@@ -98,16 +130,22 @@ export default function ProductManager() {
         setLoading(true);
 
         try {
+            // Validate required fields
+            if (!formData.name.trim() || !formData.description.trim() || !formData.amount.trim() || !formData.categoryId) {
+                throw new Error("Veuillez remplir tous les champs obligatoires et sélectionner une catégorie");
+            }
+
             const formDataToSend = new FormData();
             formDataToSend.append("name", formData.name);
             formDataToSend.append("description", formData.description);
             formDataToSend.append("amount", formData.amount);
             formDataToSend.append("currency", "eur");
+            formDataToSend.append("categoryId", formData.categoryId);
             if (formData.image) {
                 formDataToSend.append("image", formData.image);
             }
 
-            const response = await fetch(editingProduct ? `/api/products/${editingProduct.id}` : "/api/products", {
+            const response = await fetch(editingProduct ? `/api/stripe/products/${editingProduct.id}` : "/api/stripe/products", {
                 method: editingProduct ? "PUT" : "POST",
                 body: formDataToSend,
             });
@@ -123,6 +161,7 @@ export default function ProductManager() {
                 amount: "",
                 currency: "eur",
                 image: null,
+                categoryId: "",
             });
             setImagePreview(null);
             setEditingProduct(null);
@@ -137,6 +176,37 @@ export default function ProductManager() {
             alert("Failed to save product: " + (error as Error).message);
         } finally {
             setLoading(false);
+        }
+    };
+
+    const createCategory = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setCategoryLoading(true);
+        
+        try {
+            // Create a POST endpoint for categories if it doesn't exist
+            const response = await fetch("/api/categories", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(newCategory),
+            });
+            
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error || "Failed to create category");
+            }
+            
+            await fetchCategories();
+            setNewCategory({ name: "", description: "" });
+            setShowCategoryForm(false);
+            alert("Category created successfully!");
+        } catch (error) {
+            console.error("Error creating category:", error);
+            alert("Failed to create category: " + (error as Error).message);
+        } finally {
+            setCategoryLoading(false);
         }
     };
 
@@ -197,7 +267,7 @@ export default function ProductManager() {
 
                 {/* Product Grid */}
                 <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                    {products.map((product) => (
+                    {(products || []).map((product) => (
                         <div key={product.id} className="flex flex-col items-center">
                             <div className="w-full overflow-hidden rounded-lg">
                                 {product.images?.[0] ? (
@@ -222,16 +292,18 @@ export default function ProductManager() {
                             </div>
                         </div>
                     ))}
+                    
+                    {(!products || products.length === 0) && (
+                        <div className="col-span-full py-12 text-center">
+                            <p className="text-lg text-gray-600">Aucun produit disponible pour le moment.</p>
+                        </div>
+                    )}
                 </div>
             </div>
 
             {/* Create/Edit Form Section */}
             <div className="mt-24 bg-gradient-to-br from-[#0A0A2C] to-[#1a1a4b] text-white">
                 <div className="mx-auto max-w-4xl px-4 py-24">
-                    <h2 className="mb-4 text-4xl font-bold">Créez votre service</h2>
-                    <p className="mb-12 text-xl text-gray-300">
-                        Partagez vos solutions écologiques avec notre communauté
-                    </p>
                     <Card className="rounded-2xl border border-white/10 bg-white/5 p-8 backdrop-blur-lg">
                         <form onSubmit={createProduct} className="space-y-8">
                             <div>
@@ -306,6 +378,95 @@ export default function ProductManager() {
                             </div>
 
                             <div>
+                                <div className="mb-2 flex items-center justify-between">
+                                    <label htmlFor="category" className="text-lg font-medium text-white">
+                                        Catégorie
+                                    </label>
+                                    <button
+                                        type="button"
+                                        onClick={() => setShowCategoryForm(!showCategoryForm)}
+                                        className="text-sm text-[#5CEBDF] hover:underline"
+                                    >
+                                        {showCategoryForm ? "Annuler" : "+ Ajouter une catégorie"}
+                                    </button>
+                                </div>
+                                
+                                {showCategoryForm ? (
+                                    <div className="mb-4 rounded-xl border border-white/20 bg-white/10 p-4">
+                                        <h4 className="mb-3 text-lg font-medium text-white">Nouvelle catégorie</h4>
+                                        <form onSubmit={createCategory} className="space-y-4">
+                                            <div>
+                                                <label htmlFor="categoryName" className="mb-1 block text-sm text-gray-300">
+                                                    Nom
+                                                </label>
+                                                <input
+                                                    id="categoryName"
+                                                    value={newCategory.name}
+                                                    onChange={(e) => setNewCategory({...newCategory, name: e.target.value})}
+                                                    className={combo(
+                                                        "w-full rounded-xl border border-white/20 bg-white/10 px-4 py-2 text-white",
+                                                        "focus:border-transparent focus:outline-none focus:ring-2 focus:ring-[#5CEBDF]",
+                                                        "placeholder:text-gray-400",
+                                                    )}
+                                                    required
+                                                />
+                                            </div>
+                                            <div>
+                                                <label htmlFor="categoryDescription" className="mb-1 block text-sm text-gray-300">
+                                                    Description (optionnel)
+                                                </label>
+                                                <input
+                                                    id="categoryDescription"
+                                                    value={newCategory.description}
+                                                    onChange={(e) => setNewCategory({...newCategory, description: e.target.value})}
+                                                    className={combo(
+                                                        "w-full rounded-xl border border-white/20 bg-white/10 px-4 py-2 text-white",
+                                                        "focus:border-transparent focus:outline-none focus:ring-2 focus:ring-[#5CEBDF]",
+                                                        "placeholder:text-gray-400",
+                                                    )}
+                                                />
+                                            </div>
+                                            <div className="flex justify-end">
+                                                <ButtonClient
+                                                    type="submit"
+                                                    label="Créer la catégorie"
+                                                    loadingLabel="Création..."
+                                                    isLoading={categoryLoading}
+                                                    className="bg-[#5CEBDF] px-4 py-2 text-sm font-medium text-[#0A0A2C]"
+                                                >
+                                                    Créer la catégorie
+                                                </ButtonClient>
+                                            </div>
+                                        </form>
+                                    </div>
+                                ) : (
+                                    <select
+                                        id="category"
+                                        value={formData.categoryId}
+                                        onChange={(e) => setFormData({...formData, categoryId: e.target.value})}
+                                        className={combo(
+                                            "w-full rounded-xl border border-white/20 bg-white/10 px-4 py-3 text-white",
+                                            "focus:border-transparent focus:outline-none focus:ring-2 focus:ring-[#5CEBDF]",
+                                            "placeholder:text-gray-400",
+                                        )}
+                                        required
+                                    >
+                                        <option value="" disabled>Sélectionnez une catégorie</option>
+                                        {categories.map((category) => (
+                                            <option key={category.id} value={category.id}>
+                                                {category.name}
+                                            </option>
+                                        ))}
+                                    </select>
+                                )}
+                                {categories.length === 0 && !showCategoryForm && (
+                                    <p className="mt-2 text-sm text-gray-400">
+                                        Aucune catégorie disponible. Veuillez en créer une.
+                                    </p>
+                                )}
+                            </div>
+
+                            <div>
                                 <label htmlFor="image" className="mb-2 text-lg font-medium text-white">
                                     Image
                                 </label>
@@ -350,7 +511,7 @@ export default function ProductManager() {
                             <div className="flex gap-4 pt-4">
                                 <ButtonClient
                                     type="submit"
-                                    label={editingProduct ? "Mettre à jour" : "Créer le service"}
+                                    label={editingProduct ? "Mettre à jour" : "Créer"}
                                     loadingLabel="Enregistrement..."
                                     isLoading={loading}
                                     // className={combo(
@@ -359,7 +520,7 @@ export default function ProductManager() {
                                     //     "transition-all disabled:cursor-not-allowed disabled:opacity-50"
                                     // )}
                                 >
-                                    {editingProduct ? "Mettre à jour" : "Créer le service"}
+                                    {editingProduct ? "Mettre à jour" : "Créer"}
                                 </ButtonClient>
                                 {editingProduct && (
                                     <ButtonClient
@@ -373,6 +534,7 @@ export default function ProductManager() {
                                                 amount: "",
                                                 currency: "eur",
                                                 image: null,
+                                                categoryId: "",
                                             });
                                             setImagePreview(null);
                                         }}

@@ -1,5 +1,5 @@
 import { GetSession } from "@lib/auth";
-import { stripe } from "@lib/stripe";
+import { StripeInstance } from "@lib/stripe";
 import { NextResponse } from "next/server";
 
 interface ProductUpdateData {
@@ -37,7 +37,7 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
                 const buffer = Buffer.from(bytes);
 
                 // Upload file to Stripe
-                const fileUpload = await stripe.files.create({
+                const fileUpload = await StripeInstance.files.create({
                     purpose: "dispute_evidence",
                     file: {
                         data: buffer,
@@ -49,7 +49,7 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
                 console.log("File uploaded to Stripe:", fileUpload.id);
 
                 // Create a file link for the uploaded file
-                const fileLink = await stripe.fileLinks.create({
+                const fileLink = await StripeInstance.fileLinks.create({
                     file: fileUpload.id,
                     expires_at: Math.floor(Date.now() / 1000) + 365 * 24 * 60 * 60, // 1 year from now
                 });
@@ -72,10 +72,10 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
             updateData.images = [imageUrl];
         }
 
-        await stripe.products.update(id, updateData);
+        await StripeInstance.products.update(id, updateData);
 
         // Update or create new price if amount changed
-        const existingProduct = await stripe.products.retrieve(id, {
+        const existingProduct = await StripeInstance.products.retrieve(id, {
             expand: ["default_price"],
         });
 
@@ -87,20 +87,20 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
 
         if (currentAmount !== newAmount) {
             // Create new price
-            const price = await stripe.prices.create({
+            const price = await StripeInstance.prices.create({
                 product: id,
                 unit_amount: newAmount,
                 currency: "eur",
             });
 
             // Update product with new default price
-            await stripe.products.update(id, {
+            await StripeInstance.products.update(id, {
                 default_price: price.id,
             });
         }
 
         // Retrieve the complete updated product
-        const completeProduct = await stripe.products.retrieve(id, {
+        const completeProduct = await StripeInstance.products.retrieve(id, {
             expand: ["default_price"],
         });
 
@@ -120,7 +120,7 @@ export async function DELETE(request: Request, { params }: { params: Promise<{ i
         }
 
         // Archive the product instead of deleting it
-        await stripe.products.update(id, {
+        await StripeInstance.products.update(id, {
             active: false,
         });
 

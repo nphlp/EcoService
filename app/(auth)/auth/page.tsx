@@ -1,6 +1,6 @@
-import LoginClient from "./loginClient";
-import RegisterClient from "./registerClient";
-import TabClient from "./tab";
+import LoginClient from "./login.client";
+import RegisterClient from "./register.client";
+import TabClient from "./tab.client";
 
 export const dynamic = 'force-dynamic';
 

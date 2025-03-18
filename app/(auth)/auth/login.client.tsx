@@ -1,17 +1,19 @@
 "use client";
 
-import ButtonClient from "@comps/client/Button";
-import InputClient from "@comps/client/Input";
-import FeedbackClient, { FeedbackProps } from "@comps/server/Feedback";
+import Button from "@comps/ui/Button";
+import FeedbackClient, { FeedbackMode } from "@comps/ui/Feedback";
+import Input from "@comps/ui/Input";
+import Link from "@comps/ui/Link";
 import { signIn } from "@lib/authClient";
+import { isVendorOrEmployeeOrAdmin } from "@lib/checkRole";
 import { Eye, EyeClosed } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function LoginClient() {
     const [isLoading, setIsLoading] = useState<boolean>(false);
-    const [message, setMessage] = useState<FeedbackProps["message"]>("");
-    const [mode, setMode] = useState<FeedbackProps["mode"]>("");
+    const [message, setMessage] = useState<string>("");
+    const [mode, setMode] = useState<FeedbackMode>("none");
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -38,9 +40,12 @@ export default function LoginClient() {
             setMessage("Successfully logged in.");
             setMode("success");
 
+            const isAuthorizedToDashboard = await isVendorOrEmployeeOrAdmin();  
+            const redirectPath = isAuthorizedToDashboard ? "/dashboard" : "/profile";
+
             setTimeout(() => {
-                router.push("/profile");
-            }, 2000);
+                router.push(redirectPath);
+            }, 1000);
         } else if (error) {
             setMessage("Failed to login, invalid credentials.");
             setMode("error");
@@ -58,41 +63,46 @@ export default function LoginClient() {
             </div>
             <div className="flex flex-col items-center justify-center gap-4">
                 <div className="w-full space-y-4">
-                    <InputClient label="email" type="email" onChange={(e) => setEmail(e.target.value)} value={email} />
+                    <Input
+                        label="Email"
+                        type="email"
+                        onChange={(e) => setEmail(e.target.value)}
+                        value={email}
+                    />
                     <div className="flex flex-row items-end gap-1.5">
-                        <InputClient
-                            label="password"
+                        <Input
+                            label="Mot de passe"
                             type={toggleVisibility ? "text" : "password"}
+                            classComponent="w-full"
                             onChange={(e) => setPassword(e.target.value)}
                             value={password}
                         />
-                        <ButtonClient
+                        <Button
                             type="button"
                             label="toggle-password-visibility"
-                            className="border border-gray-300 p-0.5"
+                            className="p-2"
                             variant="outline"
-                            padding="none"
+                            baseStyleWithout={["padding", "font"]}
                             onClick={() => setToggleVisibility(!toggleVisibility)}
                         >
                             {toggleVisibility && <Eye className="size-5" />}
                             {!toggleVisibility && <EyeClosed className="size-5" />}
-                        </ButtonClient>
+                        </Button>
                     </div>
                 </div>
-                <ButtonClient
-                    type="link"
+                <Link
                     className="text-sm text-gray-500"
                     href="/auth"
                     label="not-registered-yet"
                     variant="underline"
-                    padding="sm"
+                    baseStyleWithout={["padding", "font"]}
                 >
-                    Pas encore inscrit?
-                </ButtonClient>
+                    Pas encore inscrit ?
+                </Link>
                 <FeedbackClient message={message} mode={mode} />
-                <ButtonClient type="button" onClick={handleSubmit} label="login" isLoading={isLoading}>
+                <Button type="button" onClick={handleSubmit} label="login" isLoading={isLoading}>
                     Connexion
-                </ButtonClient>
+                </Button>
             </div>
         </>
     );

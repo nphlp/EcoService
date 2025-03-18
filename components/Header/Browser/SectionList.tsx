@@ -1,6 +1,6 @@
 "use client";
 
-import { urlSerializer } from "@app/catalog/components/filterTypes";
+import { urlSerializer } from "@app/catalog/components/searchParams";
 import { useCatalogParams } from "@app/catalog/components/useCatalogParams";
 import ImageRatio from "@comps/server/ImageRatio";
 import { combo } from "@lib/combo";
@@ -13,14 +13,14 @@ import ButtonClient from "../../client/Button";
 import InputClient from "../../client/Input";
 import { SearchKeywords } from "../Header";
 import { useHeaderStore } from "../HeaderStore";
-import MotionSection from "./Section";
+import MotionSection from "./MotionSection";
 
 type SubProps = {
     keywords: SearchKeywords[];
     categorieList: Category[];
 };
 
-export default function Sub(props: SubProps) {
+export default function SectionList(props: SubProps) {
     const { keywords, categorieList } = props;
 
     const path = usePathname();

@@ -56,7 +56,7 @@ enum Role {
 /// Session model (BetterAuth)
 model Session {
     id        String   @id @default(nanoid()) /// @zod.nanoid()
-    token     String
+    token     String   @unique
     expiresAt DateTime
     ipAddress String?
     userAgent String?
@@ -211,7 +211,7 @@ model Category {
 /// Product model
 model Product {
     id          String @id @default(nanoid()) /// @zod.nanoid()
-    name        String
+    name        String @unique
     description String
     image       String
     price       Float

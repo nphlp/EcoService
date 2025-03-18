@@ -18,7 +18,7 @@ type CatalogContextProviderProps = {
     children: ReactNode;
 };
 
-export default function CatalogContextProvider(props: CatalogContextProviderProps) {
+export default function CatalogProvider(props: CatalogContextProviderProps) {
     const { productList: productListInit, productAmount: productAmountInit, children } = props;
 
     // Define local states and actions

@@ -1,7 +1,7 @@
 "use client";
 
 import ButtonClient, { ButtonClientProps } from "@comps/client/Button";
-import Loader from "@comps/server/Loader";
+import Loader from "@comps/ui/Loader";
 import { signOut } from "@lib/authClient";
 import { useRouter } from "next/navigation";
 import { ButtonHTMLAttributes, ReactNode, useState } from "react";

@@ -1,7 +1,7 @@
 import { GetSession } from "@lib/auth";
 import PrismaInstance from "@lib/prisma";
-import { stripe } from "@lib/stripe";
 import { StripeError } from "@stripe/stripe-js";
+import { StripeInstance } from "@lib/stripe";
 import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
@@ -45,7 +45,7 @@ export async function POST(request: Request) {
         if (!stripeAccountId) {
             try {
                 console.log("Creating new Stripe Connect account...");
-                const account = await stripe.accounts.create({
+                const account = await StripeInstance.accounts.create({
                     type: "express",
                     country: "FR",
                     email: session.user.email,
@@ -96,7 +96,7 @@ export async function POST(request: Request) {
 
         console.log("Creating account onboarding link...");
         // Create account onboarding link
-        const accountLinks = await stripe.accountLinks.create({
+        const accountLinks = await StripeInstance.accountLinks.create({
             account: stripeAccountId,
             refresh_url: `${process.env.BASE_URL}/seller/onboard`,
             return_url: `${process.env.BASE_URL}/seller/dashboard`,

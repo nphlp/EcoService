@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import ButtonClient from "./Button";
+import ButtonClient from "../../../components/client/Button";
 
 interface SellerOnboardProps {
     isSeller: boolean;

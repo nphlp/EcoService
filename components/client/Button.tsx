@@ -1,6 +1,6 @@
 "use client";
 
-import Loader from "@comps/server/Loader";
+import Loader from "@comps/ui/Loader";
 import { combo } from "@lib/combo";
 import Link, { LinkProps } from "next/link";
 import { ButtonHTMLAttributes, LinkHTMLAttributes, ReactNode } from "react";
@@ -116,7 +116,7 @@ export default function ButtonClient(props: ButtonClientProps) {
             (variant === "ghost" && "gray") ||
             (variant === "underline" && "gray") ||
             (variant === "none" && "gray") ||
-            "black";
+            "gray";
 
         return (
             <button

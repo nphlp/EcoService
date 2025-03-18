@@ -6,13 +6,13 @@ import Logo from "@comps/server/Logo";
 import { useSession } from "@lib/authClient";
 import { combo } from "@lib/combo";
 import { motion } from "framer-motion";
-import { ChevronUp, LibraryBig, LogOut, Search, ShoppingCart, UserRound } from "lucide-react";
+import { ChevronUp, LogOut, Search, ShoppingCart, Store, UserRound } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import ButtonClient from "../../client/Button";
 import { useHeaderStore } from "../HeaderStore";
 
-export default function Main() {
+export default function Navigation() {
     return (
         <nav className="flex flex-row items-center justify-between gap-5 px-5 py-3">
             <LeftNav />
@@ -67,7 +67,7 @@ const CentralNav = () => {
                 label="catalog"
                 variant="ghost"
                 onClick={() => {
-                    setCategorieOpen(true);
+                    setCategorieOpen(!categorieOpen);
                     setSearchOpen(false);
                     setBasketOpen(false);
                 }}
@@ -180,7 +180,7 @@ const RightNav = () => {
                             setBasketOpen(false);
                         }}
                     >
-                        <LibraryBig />
+                        <Store />
                     </ButtonClient>
                 )}
 
