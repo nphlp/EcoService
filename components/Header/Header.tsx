@@ -1,30 +1,33 @@
-import { FetchParallelized } from "@api/utils/FetchParallelized";
+import { FetchParallelized } from "@utils/FetchParallelized";
 import { Category } from "@prisma/client";
 import Basket from "../Basket/Basket";
 import Navigation from "./Browser/Navigation";
 import SectionList from "./Browser/SectionList";
 import MobileHeader from "./Mobile/MobileHeader";
 
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";
 
 export type SearchKeywords = {
     id: string;
     type: "product" | "category";
     keyword: string;
-} & ({
-    type: "product";
-    image: string;
-    price: number;
-} | {
-    type: "category";
-    image?: never;
-    price?: never;
-});
+} & (
+    | {
+          type: "product";
+          image: string;
+          price: number;
+      }
+    | {
+          type: "category";
+          image?: never;
+          price?: never;
+      }
+);
 
 export default async function Header() {
     const [productList, categorieList] = await FetchParallelized([
-        { route: "/products", params: { take: 100 } },
-        { route: "/categories", params: { take: 100 } },
+        { route: "/product", params: { take: 100 } },
+        { route: "/category", params: { take: 100 } },
     ]);
 
     if (!productList || !categorieList) {

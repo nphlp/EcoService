@@ -12,41 +12,61 @@
  */
 
 {{#each models}}
-import { Select{{this.name}}AmountProps, Select{{this.name}}ListProps, Select{{this.name}}Props } from "@actions/types/{{this.name}}";
-import { Select{{this.name}}AmountResponse } from "@app/api/{{this.namePlural}}/count/route";
-import { Select{{this.name}}ListResponse } from "@app/api/{{this.namePlural}}/route";
-import { Select{{this.name}}Response } from "@app/api/{{this.namePlural}}/unique/route";
+import { 
+    Count{{this.name}}Props, 
+    Count{{this.name}}Response,
+    FindMany{{this.name}}Props,
+    FindMany{{this.name}}Response,
+    FindUnique{{this.name}}Props,
+    FindUnique{{this.name}}Response
+} from "@services/class/{{this.name}}Class";
 {{/each}}
 
-export type Routes = {
-{{#each models}}
+/**
+ * Type representing the response format for API routes
+ * @template Response - The type of the data in the response
+ */
+export type ResponseFormat<Response> = {
+    data: Response;
+    error?: undefined;
+} | {
+    data?: undefined;
+    error: string;
+};
+
+import { Routes as StripeRoutes } from "./stripe/Routes";
+
+export type Routes = StripeRoutes & {
+{{!-- export type Routes = { --}}
+    {{#each models}}
     /**
-     * Route for fetching a list of {{this.namePlural}} \
-     * GET `/api/{{this.namePlural}}`
-     */
-    "/{{this.namePlural}}": {
-        params?: Select{{this.name}}ListProps;
-        response: Select{{this.name}}ListResponse;
+    * Route for fetching a list of {{this.nameLower}}s \
+    * GET `/api/{{this.nameLower}}`
+    */
+    "/{{this.nameLower}}": {
+        params?: FindMany{{this.name}}Props;
+        response: FindMany{{this.name}}Response;
     };
 
     /**
-     * Route for fetching a single {{this.name}} by ID \
-     * GET `/api/{{this.namePlural}}/unique`
-     */
-    "/{{this.namePlural}}/unique": {
-        params?: Select{{this.name}}Props;
-        response: Select{{this.name}}Response;
+    * Route for fetching a single {{this.name}} by ID \
+    * GET `/api/{{this.nameLower}}/unique`
+    */
+    "/{{this.nameLower}}/unique": {
+        params?: FindUnique{{this.name}}Props;
+        response: FindUnique{{this.name}}Response;
     };
+    
     /**
-     * Route for fetching the count of {{this.namePlural}} \
-     * GET `/api/{{this.namePlural}}/count`
-     */
-    "/{{this.namePlural}}/count": {
-        params?: Select{{this.name}}AmountProps;
-        response: Select{{this.name}}AmountResponse;
+    * Route for fetching the count of {{this.nameLower}}s \
+    * GET `/api/{{this.nameLower}}/count`
+    */
+    "/{{this.nameLower}}/count": {
+        params?: Count{{this.name}}Props;
+        response: Count{{this.name}}Response;
     };
-{{#unless @last}}
+    {{#unless @last}}
 
-{{/unless}}
-{{/each}}
+    {{/unless}}
+    {{/each}}
 };

@@ -1,17 +1,17 @@
 "use client";
 
 import { useQueryState } from "nuqs";
-import { QueryParams } from "./searchParams";
+import { SearchParams } from "./searchParams";
 
 /**
  * Use Query States
  */
 export const useCatalogParams = () => {
-    const [priceOrder, setPriceOrder] = useQueryState("priceOrder", QueryParams["priceOrder"]);
-    const [page, setPage] = useQueryState("page", QueryParams["page"]);
-    const [take, setTake] = useQueryState("take", QueryParams["take"]);
-    const [category, setCategory] = useQueryState("category", QueryParams["category"]);
-    const [search, setSearch] = useQueryState("search", QueryParams["search"]);
+    const [priceOrder, setPriceOrder] = useQueryState("priceOrder", SearchParams["priceOrder"]);
+    const [page, setPage] = useQueryState("page", SearchParams["page"]);
+    const [take, setTake] = useQueryState("take", SearchParams["take"]);
+    const [category, setCategory] = useQueryState("category", SearchParams["category"]);
+    const [search, setSearch] = useQueryState("search", SearchParams["search"]);
 
     return {
         /** Price order (default value: `"not"`) */

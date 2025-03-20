@@ -138,7 +138,7 @@ export default function InputFile(props: InputFileProps) {
                         />
                         <Button
                             label="Retirer l'image"
-                            baseStyleList={["outline", "rounded", "transition"]}
+                            baseStyleOnly={["outline", "rounded", "transition"]}
                             variant="none"
                             onClick={handleReset}
                             onKeyDown={(e) => {

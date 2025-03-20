@@ -1,5 +1,5 @@
 import ProductDisplay from "@app/(stripe)/products/ProductDisplay";
-import { Fetch } from "@app/api/utils/Fetch";
+import { Fetch } from "@utils/Fetch";
 import { GetSession } from "@lib/auth";
 import { Metadata } from "next";
 import { unauthorized } from "next/navigation";

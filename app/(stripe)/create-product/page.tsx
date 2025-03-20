@@ -1,5 +1,5 @@
 import ProductCreationForm from "@app/(stripe)/create-product/ProductCreationForm";
-import { Fetch } from "@app/api/utils/Fetch";
+import { Fetch } from "@utils/Fetch";
 import { isVendorOrEmployeeOrAdmin } from "@lib/checkRole";
 import Link from "@ui/Link";
 import { unauthorized } from "next/navigation";
@@ -10,7 +10,7 @@ export default async function Page() {
         unauthorized();
     }
 
-    const categoryList = await Fetch({ route: "/categories" });
+    const categoryList = await Fetch({ route: "/category" });
     if (!categoryList) {
         throw new Error("Category list not found");
     }

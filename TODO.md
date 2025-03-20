@@ -3,13 +3,18 @@
 Complete auth and user management
 
 - METADATA !!!!!!!!!
+- REMOVE `export const dynamic = "force-dynamic";` when an update solve it
 
-- Auto infer zod common schema
 - Zod schema page per page
-- Auth issues
-
 - Cursor rules
 - Header disapearing issue ??
+
+- Auto extend ModelType when type change ?
+- Handle error in Fetch
+
+- Add a logging system
+- Testing for classes
+- Split generator.ts and fixtures.ts
 
 - ESlint Tailwind
 - Prettier

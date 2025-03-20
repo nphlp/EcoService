@@ -16,11 +16,15 @@
         "prisma:generate": "pnpm dlx prisma generate",
         "prisma:migrate": "pnpm dlx prisma migrate dev",
         "prisma:deploy": "pnpm dlx prisma migrate deploy",
+        "prisma:reset": "pnpm dlx prisma migrate reset",
         "fixtures:setup": "tsx scripts/fixtures.ts setup",
         "fixtures:reset": "tsx scripts/fixtures.ts reset",
         "fixtures:reload": "tsx scripts/fixtures.ts reload",
         "stripe:webhooks": "stripe listen --forward-to localhost:3000/api/stripe/webhooks",
-        "help": "tsx scripts/help.ts help"
+        "help": "tsx scripts/help.ts help",
+        "generate:list": "tsx scripts/generator.ts list",
+        "generate:model": "tsx scripts/generator.ts model",
+        "generate:all": "tsx scripts/generator.ts"
     },
     "dependencies": {
         "@plunk/node": "^3.0.3",
@@ -45,6 +49,7 @@
         "tailwind-merge": "^3.0.2",
         "tsx": "^4.19.3",
         "zod": "^3.24.2",
+        "zod-prisma-types": "^3.2.4",
         "zustand": "^5.0.3"
     },
     "devDependencies": {

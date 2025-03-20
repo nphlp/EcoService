@@ -1,24 +1,24 @@
-import { FetchParallelized } from "@app/api/utils/FetchParallelized";
+import { FetchParallelized } from "@utils/FetchParallelized";
 import CatalogClient from "./components/catalog.client";
 import CatalogProvider from "./components/catalog.provider";
-import SelectorsClient from "./components/selectors.client";
 import PaginationClient from "./components/pagination.client";
-import { QueryParamsType, queryParamsCached } from "./components/searchParams";
+import { SearchParamsCached, SearchParamsType } from "./components/searchParams";
+import SelectorsClient from "./components/selectors.client";
 
 export const dynamic = "force-dynamic";
 
 type PageProps = {
-    searchParams: Promise<QueryParamsType>;
+    searchParams: Promise<SearchParamsType>;
 };
 
 export default async function Page(props: PageProps) {
     const { searchParams } = props;
 
-    const { priceOrder, page, take, category, search } = await queryParamsCached.parse(searchParams);
+    const { priceOrder, page, take, category, search } = await SearchParamsCached.parse(searchParams);
 
     const [productAmount, productList, categoryList] = await FetchParallelized([
         {
-            route: "/products/count",
+            route: "/product/count",
             params: {
                 where: {
                     ...(category && { categoryId: category }),
@@ -27,7 +27,7 @@ export default async function Page(props: PageProps) {
             },
         },
         {
-            route: "/products",
+            route: "/product",
             params: {
                 ...(priceOrder !== "not" && { orderBy: { price: priceOrder } }),
                 ...(page > 1 && { skip: (page - 1) * take }),
@@ -39,12 +39,12 @@ export default async function Page(props: PageProps) {
             },
         },
         {
-            route: "/categories",
+            route: "/category",
             params: { orderBy: { name: "asc" as const } },
         },
     ]);
 
-    if (!categoryList || !productAmount) {
+    if (!categoryList || !productAmount || !productList) {
         throw new Error("Something went wrong...");
     }
 

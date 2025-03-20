@@ -1,0 +1,357 @@
+/**
+ * Classe de service pour les opérations CRUD sur les {{modelNameLower}}s
+ * 
+ * Ce fichier centralise toute la logique d'accès aux données pour les {{modelNameLower}}s.
+ * Il utilise les schémas Zod générés par zod-prisma-types pour la validation des données.
+ * Chaque méthode retourne soit les données demandées, soit une erreur formatée.
+ * 
+ * Les types sont définis pour correspondre aux opérations Prisma (create, update, delete, etc.)
+ * et suivent une nomenclature cohérente avec l'API Prisma.
+ */
+import { ResponseFormat } from "@app/api/Routes";
+import PrismaInstance from "@lib/prisma";
+import { Prisma } from "@prisma/client";
+import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
+import {
+    {{modelName}},
+    {{modelName}}CreateArgsSchema,
+    {{modelName}}DeleteArgsSchema,
+    {{modelName}}FindManyArgsSchema,
+    {{modelName}}FindUniqueArgsSchema,
+    {{modelName}}OrderByWithRelationInputSchema,
+    {{modelName}}Schema,
+    {{modelName}}UpdateArgsSchema,
+    {{modelName}}UpsertArgsSchema,
+    {{modelName}}WhereInputSchema,
+    {{modelName}}WhereUniqueInputSchema{{#if hasRelations}},
+    {{modelName}}WithRelationsSchema{{/if}}
+} from "@services/schemas";
+{{#if hasRelations}}
+import { {{modelName}}IncludeSchema } from "@services/schemas/inputTypeSchemas/{{modelName}}IncludeSchema";
+{{/if}}
+import { z, ZodError, ZodType } from "zod";
+
+// ============== Types ============== //
+
+export type {{modelName}}Model = z.infer<typeof {{modelName}}Schema>;
+
+{{#if hasRelations}}
+export type {{modelName}}RelationsOptional = z.infer<typeof {{modelName}}Schema> & z.infer<typeof {{modelName}}IncludeSchema>;
+
+export type {{modelName}}RelationsComplete = z.infer<typeof {{modelName}}WithRelationsSchema>;
+
+{{/if}}
+export type {{modelName}}Count = number;
+
+// ============== Schema Types ============== //
+
+const create{{modelName}}Schema: ZodType<Prisma.{{modelName}}CreateArgs> = {{modelName}}CreateArgsSchema;
+
+const upsert{{modelName}}Schema: ZodType<Prisma.{{modelName}}UpsertArgs> = {{modelName}}UpsertArgsSchema;
+
+const update{{modelName}}Schema: ZodType<Prisma.{{modelName}}UpdateArgs> = {{modelName}}UpdateArgsSchema;
+
+const delete{{modelName}}Schema: ZodType<Prisma.{{modelName}}DeleteArgs> = {{modelName}}DeleteArgsSchema;
+
+const select{{modelName}}Schema: ZodType<Prisma.{{modelName}}FindUniqueArgs> = {{modelName}}FindUniqueArgsSchema;
+
+const selectMany{{modelName}}Schema: ZodType<Prisma.{{modelName}}FindManyArgs> = {{modelName}}FindManyArgsSchema;
+
+/**
+ * Définition du schéma pour {{modelName}}CountArgs
+ * 
+ * Ce schéma correspond au type Prisma.{{modelName}}CountArgs qui est défini comme:
+ * Omit<{{modelName}}FindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+ *   select?: {{modelName}}CountAggregateInputType | true
+ * }
+ */
+const count{{modelName}}Schema: ZodType<Prisma.{{modelName}}CountArgs> = z.object({
+    where: z.lazy(() => {{modelName}}WhereInputSchema).optional(),
+    orderBy: z.union([
+        z.lazy(() => {{modelName}}OrderByWithRelationInputSchema),
+        z.array(z.lazy(() => {{modelName}}OrderByWithRelationInputSchema))
+    ]).optional(),
+    cursor: z.lazy(() => {{modelName}}WhereUniqueInputSchema).optional(),
+    take: z.number().optional(),
+    skip: z.number().optional(),
+    select: z.union([z.literal(true), z.record(z.boolean())]).optional()
+});
+
+// ============== CRUD Props Types ============== //
+
+export type Create{{modelName}}Props = z.infer<typeof create{{modelName}}Schema>;
+
+export type Upsert{{modelName}}Props = z.infer<typeof upsert{{modelName}}Schema>;
+
+export type Update{{modelName}}Props = z.infer<typeof update{{modelName}}Schema>;
+
+export type Delete{{modelName}}Props = z.infer<typeof delete{{modelName}}Schema>;
+
+export type FindUnique{{modelName}}Props = z.infer<typeof select{{modelName}}Schema>;
+
+export type FindMany{{modelName}}Props = z.infer<typeof selectMany{{modelName}}Schema>;
+
+export type Count{{modelName}}Props = z.infer<typeof count{{modelName}}Schema>;
+
+// ============== CRUD Response Types ============== //
+
+export type Create{{modelName}}Response = {{modelName}}Model;
+
+export type Upsert{{modelName}}Response = {{modelName}}Model;
+
+export type Update{{modelName}}Response = {{modelName}}Model;
+
+export type Delete{{modelName}}Response = {{modelName}}Model;
+
+{{#if hasRelations}}
+export type FindUnique{{modelName}}Response = {{modelName}}RelationsOptional | null;
+
+export type FindMany{{modelName}}Response = {{modelName}}RelationsOptional[];
+{{else}}
+export type FindUnique{{modelName}}Response = {{modelName}}Model | null;
+
+export type FindMany{{modelName}}Response = {{modelName}}Model[];
+{{/if}}
+
+export type Count{{modelName}}Response = {{modelName}}Count;
+
+// ============== Services ============== //
+
+/**
+ * Service pour les opérations de base de données sur les {{modelNameLower}}s
+ */
+export class {{modelName}}Service {
+    /**
+     * Crée un(e) nouveau/nouvelle {{modelNameLower}}
+     * @param props Propriétés du/de la {{modelNameLower}}
+     * @returns {{modelName}} créé(e) ou erreur
+     */
+    static async create(props: Create{{modelName}}Props): Promise<ResponseFormat<Create{{modelName}}Response>> {
+        try {
+            const { data{{#if hasRelations}}, include{{/if}}, omit, select } = create{{modelName}}Schema.parse(props);
+
+            const {{modelNameLower}}: {{modelName}} = await PrismaInstance.{{modelNameLower}}.create({
+                data,
+                {{#if hasRelations}}...(include && { include }),{{/if}}
+                ...(omit && { omit }),
+                ...(select && { select }),
+            });
+
+            return { data: {{modelNameLower}} };
+        } catch (error) {
+            console.error("{{modelName}}Service -> Create -> " + (error as Error).message);
+            if (process.env.NODE_ENV === "development") {
+                if (error instanceof ZodError)
+                    throw new Error("{{modelName}}Service -> Create -> Invalid Zod params -> " + error.message);
+                if (error instanceof PrismaClientKnownRequestError)
+                    throw new Error("{{modelName}}Service -> Create -> Prisma error -> " + error.message);
+                throw new Error("{{modelName}}Service -> Create -> " + (error as Error).message);
+            }
+            // TODO: add logging
+            return { error: "Unable to create {{modelNameLower}}..." };
+        }
+    }
+
+    static async upsert(props: Upsert{{modelName}}Props): Promise<ResponseFormat<Upsert{{modelName}}Response>> {
+        try {
+            const { create, update, where{{#if hasRelations}}, include{{/if}}, omit, select } = upsert{{modelName}}Schema.parse(props);
+
+            const {{modelNameLower}}: {{modelName}} = await PrismaInstance.{{modelNameLower}}.upsert({
+                create,
+                update,
+                where,
+                {{#if hasRelations}}...(include && { include }),{{/if}}
+                ...(omit && { omit }),
+                ...(select && { select }),
+            });
+
+            return { data: {{modelNameLower}} };
+        } catch (error) {
+            console.error("{{modelName}}Service -> Upsert -> " + (error as Error).message);
+            if (process.env.NODE_ENV === "development") {
+                if (error instanceof ZodError)
+                    throw new Error("{{modelName}}Service -> Upsert -> Invalid Zod params -> " + error.message);
+                if (error instanceof PrismaClientKnownRequestError)
+                    throw new Error("{{modelName}}Service -> Upsert -> Prisma error -> " + error.message);
+                throw new Error("{{modelName}}Service -> Upsert -> " + (error as Error).message);
+            }
+            // TODO: add logging
+            return { error: "Unable to upsert {{modelNameLower}}..." };
+        }
+    }
+
+    /**
+     * Met à jour un(e) {{modelNameLower}}
+     * @param props ID du/de la {{modelNameLower}} et nouvelles données
+     * @returns {{modelName}} mis(e) à jour ou erreur
+     */
+    static async update(props: Update{{modelName}}Props): Promise<ResponseFormat<Update{{modelName}}Response>> {
+        try {
+            const { data, where{{#if hasRelations}}, include{{/if}}, omit, select } = update{{modelName}}Schema.parse(props);
+
+            const {{modelNameLower}}: {{modelName}} = await PrismaInstance.{{modelNameLower}}.update({
+                data,
+                where,
+                {{#if hasRelations}}...(include && { include }),{{/if}}
+                ...(omit && { omit }),
+                ...(select && { select }),
+            });
+
+            return { data: {{modelNameLower}} };
+        } catch (error) {
+            console.error("{{modelName}}Service -> Update -> " + (error as Error).message);
+            if (process.env.NODE_ENV === "development") {
+                if (error instanceof ZodError)
+                    throw new Error("{{modelName}}Service -> Update -> Invalid Zod params -> " + error.message);
+                if (error instanceof PrismaClientKnownRequestError)
+                    throw new Error("{{modelName}}Service -> Update -> Prisma error -> " + error.message);
+                throw new Error("{{modelName}}Service -> Update -> " + (error as Error).message);
+            }
+            // TODO: add logging
+            return { error: "Unable to update {{modelNameLower}}..." };
+        }
+    }
+
+    /**
+     * Supprime un(e) {{modelNameLower}}
+     * @param props ID du/de la {{modelNameLower}}
+     * @returns {{modelName}} supprimé(e) ou erreur
+     */
+    static async delete(props: Delete{{modelName}}Props): Promise<ResponseFormat<Delete{{modelName}}Response>> {
+        try {
+            const { where{{#if hasRelations}}, include{{/if}}, omit, select } = delete{{modelName}}Schema.parse(props);
+
+            const {{modelNameLower}}: {{modelName}} = await PrismaInstance.{{modelNameLower}}.delete({
+                where,
+                {{#if hasRelations}}...(include && { include }),{{/if}}
+                ...(omit && { omit }),
+                ...(select && { select }),
+            });
+
+            return { data: {{modelNameLower}} };
+        } catch (error) {
+            console.error("{{modelName}}Service -> Delete -> " + (error as Error).message);
+            if (process.env.NODE_ENV === "development") {
+                if (error instanceof ZodError)
+                    throw new Error("{{modelName}}Service -> Delete -> Invalid Zod params -> " + error.message);
+                if (error instanceof PrismaClientKnownRequestError)
+                    throw new Error("{{modelName}}Service -> Delete -> Prisma error -> " + error.message);
+                throw new Error("{{modelName}}Service -> Delete -> " + (error as Error).message);
+            }
+            // TODO: add logging
+            return { error: "Unable to delete {{modelNameLower}}..." };
+        }
+    }
+
+    /**
+     * Récupère un(e) {{modelNameLower}} par ID ou autre filtre
+     */
+    static async findUnique(props: FindUnique{{modelName}}Props): Promise<ResponseFormat<FindUnique{{modelName}}Response>> {
+        try {
+            const { where{{#if hasRelations}}, include{{/if}}, omit, select } = select{{modelName}}Schema.parse(props);
+
+            {{#if hasRelations}}
+            const {{modelNameLower}}: {{modelName}}RelationsOptional | null = await PrismaInstance.{{modelNameLower}}.findUnique({
+            {{else}}
+            const {{modelNameLower}}: {{modelName}}Model | null = await PrismaInstance.{{modelNameLower}}.findUnique({
+            {{/if}}
+                where,
+                {{#if hasRelations}}...(include && { include }),{{/if}}
+                ...(omit && { omit }),
+                ...(select && { select }),
+            });
+
+            return { data: {{modelNameLower}} };
+        } catch (error) {
+            console.error("{{modelName}}Service -> FindUnique -> " + (error as Error).message);
+            if (process.env.NODE_ENV === "development") {
+                if (error instanceof ZodError)
+                    throw new Error("{{modelName}}Service -> FindUnique -> Invalid Zod params -> " + error.message);
+                if (error instanceof PrismaClientKnownRequestError)
+                    throw new Error("{{modelName}}Service -> FindUnique -> Prisma error -> " + error.message);
+                throw new Error("{{modelName}}Service -> FindUnique -> " + (error as Error).message);
+            }
+            // TODO: add logging
+            return { error: "Unable to find {{modelNameLower}}..." };
+        }
+    }
+
+    /**
+     * Récupère une liste de {{modelNameLower}}s avec filtres
+     */
+    static async findMany(props: FindMany{{modelName}}Props): Promise<ResponseFormat<FindMany{{modelName}}Response>> {
+        try {
+            const {
+                cursor,
+                distinct,
+                {{#if hasRelations}}include,{{/if}}
+                omit,
+                orderBy,
+                select,
+                skip = 0,
+                take = 10,
+                where,
+            } = selectMany{{modelName}}Schema.parse(props);
+
+            {{#if hasRelations}}
+            const {{modelNameLower}}List: {{modelName}}RelationsOptional[] = await PrismaInstance.{{modelNameLower}}.findMany({
+            {{else}}
+            const {{modelNameLower}}List: {{modelName}}Model[] = await PrismaInstance.{{modelNameLower}}.findMany({
+            {{/if}}
+                ...(cursor && { cursor }),
+                ...(distinct && { distinct }),
+                {{#if hasRelations}}...(include && { include }),{{/if}}
+                ...(omit && { omit }),
+                ...(orderBy && { orderBy }),
+                ...(select && { select }),
+                ...(skip && { skip }),
+                ...(take && { take }),
+                ...(where && { where }),
+            });
+
+            return { data: {{modelNameLower}}List };
+        } catch (error) {
+            console.error("{{modelName}}Service -> FindMany -> " + (error as Error).message);
+            if (process.env.NODE_ENV === "development") {
+                if (error instanceof ZodError)
+                    throw new Error("{{modelName}}Service -> FindMany -> Invalid Zod params -> " + error.message);
+                if (error instanceof PrismaClientKnownRequestError)
+                    throw new Error("{{modelName}}Service -> FindMany -> Prisma error -> " + error.message);
+                throw new Error("{{modelName}}Service -> FindMany -> " + (error as Error).message);
+            }
+            // TODO: add logging
+            return { error: "Unable to find {{modelNameLower}}s..." };
+        }
+    }
+
+    /**
+     * Compte les {{modelNameLower}}s avec filtres
+     */
+    static async count(props: Count{{modelName}}Props): Promise<ResponseFormat<Count{{modelName}}Response>> {
+        try {
+            const { cursor, orderBy, select, skip, take, where } = count{{modelName}}Schema.parse(props);
+
+            const {{modelNameLower}}Amount: {{modelName}}Count = await PrismaInstance.{{modelNameLower}}.count({
+                ...(cursor && { cursor }),
+                ...(orderBy && { orderBy }),
+                ...(select && { select }),
+                ...(skip && { skip }),
+                ...(take && { take }),
+                ...(where && { where }),
+            });
+
+            return { data: {{modelNameLower}}Amount };
+        } catch (error) {
+            console.error("{{modelName}}Service -> Count -> " + (error as Error).message);
+            if (process.env.NODE_ENV === "development") {
+                if (error instanceof ZodError)
+                    throw new Error("{{modelName}}Service -> Count -> Invalid Zod params -> " + error.message);
+                if (error instanceof PrismaClientKnownRequestError)
+                    throw new Error("{{modelName}}Service -> Count -> Prisma error -> " + error.message);
+                throw new Error("{{modelName}}Service -> Count -> " + (error as Error).message);
+            }
+            // TODO: add logging
+            return { error: "Unable to count {{modelNameLower}}s..." };
+        }
+    }
+}

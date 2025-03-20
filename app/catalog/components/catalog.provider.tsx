@@ -1,19 +1,19 @@
 "use client";
 
-import { ProductType } from "@actions/types/Product";
+import { ProductModel } from "@class/ProductClass";
 import { createContext, ReactNode, useEffect, useState } from "react";
 import { useCatalogStore } from "./useCatalogStore";
 
 export type CatalogContextType = {
     // State
-    productListLocal: ProductType[] | null;
+    productListLocal: ProductModel[] | null;
     productAmountLocal: number | null;
 };
 
 export const CatalogContext = createContext<CatalogContextType>({} as CatalogContextType);
 
 type CatalogContextProviderProps = {
-    productList: ProductType[] | null;
+    productList: ProductModel[] | null;
     productAmount: number | null;
     children: ReactNode;
 };
@@ -22,7 +22,7 @@ export default function CatalogProvider(props: CatalogContextProviderProps) {
     const { productList: productListInit, productAmount: productAmountInit, children } = props;
 
     // Define local states and actions
-    const [productListLocal, setProductListLocal] = useState<ProductType[] | null>(productListInit);
+    const [productListLocal, setProductListLocal] = useState<ProductModel[] | null>(productListInit);
     const [productAmountLocal, setProductAmountLocal] = useState<number | null>(productAmountInit);
 
     // Get store states and actions

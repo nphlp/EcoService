@@ -1,11 +1,11 @@
 "use client";
 
-import { ProductType } from "@actions/types/Product";
+import { ProductRelationsOptional } from "@class/ProductClass";
 import { useBasketStore } from "@comps/Basket/BasketStore";
 import ButtonClient from "@comps/client/Button";
 
 type AddToCartButtonProps = {
-    product: ProductType;
+    product: ProductRelationsOptional;
     stock: number;
 };
 

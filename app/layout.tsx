@@ -40,17 +40,3 @@ export default async function Layout(props: LayoutProps) {
         </html>
     );
 }
-
-/* 
-
-Method center/scroll
-- justify-center (y-axis) if the content is not scrollable
-- justify-start (y-axis) if the content is scrollable
-    
-<main className="flex size-full flex-col items-center justify-center overflow-hidden">
-    <div className="flex w-full flex-col items-center justify-start overflow-y-auto p-4">
-        {children}
-    </div>
-</main>
-
-*/

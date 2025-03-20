@@ -1,8 +1,8 @@
 "use client";
 
-import { CreateStripeProductProcess } from "@actions/process/CreateStripeProduct";
-import { CompleteCategory } from "@actions/zod-generated";
-import { authorizedFileSize, authorizedFormats } from "@app/api/utils/ImageValidation";
+import { CreateStripeProductProcess } from "@/process/CreateStripeProduct";
+import { authorizedFileSize, authorizedFormats } from "@utils/ImageValidation";
+import { CategoryRelationsOptional } from "@class/CategoryClass";
 import Card from "@comps/server/Card";
 import FeedbackClient, { FeedbackMode } from "@comps/ui/Feedback";
 import { combo } from "@lib/combo";
@@ -13,7 +13,7 @@ import Select from "@ui/Select";
 import { useState } from "react";
 
 type ProductCreationFormPros = {
-    categoryList: CompleteCategory[];
+    categoryList: CategoryRelationsOptional[];
 };
 
 export default function ProductCreationForm(props: ProductCreationFormPros) {

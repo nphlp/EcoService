@@ -1,7 +1,6 @@
 "use client";
 
-import { ProductType } from "@actions/types/Product";
-import { useFetch } from "@api/utils/FetchHook";
+import { useFetch } from "@utils/FetchHook";
 import { useBasketStore } from "@comps/Basket/BasketStore";
 import ButtonClient from "@comps/client/Button";
 import Card from "@comps/server/Card";
@@ -14,6 +13,7 @@ import { MouseEvent, useContext, useEffect } from "react";
 import { CatalogContext } from "./catalog.provider";
 import { useCatalogParams } from "./useCatalogParams";
 import { useCatalogStore } from "./useCatalogStore";
+import { ProductModel } from "@class/ProductClass";
 
 type CatalogClientProps = {
     className?: string;
@@ -27,8 +27,7 @@ export default function CatalogClient(props: CatalogClientProps) {
     const { priceOrder, page, take, category, search } = useCatalogParams();
 
     const { data: newProductAmount, isLoading: isLoadingProductAmount } = useFetch({
-        route: "/products/count",
-        firstFetch: false,
+        route: "/product/count",
         params: {
             where: {
                 ...(category && { categoryId: category }),
@@ -38,8 +37,7 @@ export default function CatalogClient(props: CatalogClientProps) {
     });
 
     const { data: newProductList, isLoading: isLoadingProductList } = useFetch({
-        route: "/products",
-        firstFetch: false,
+        route: "/product",
         params: {
             ...(priceOrder !== "not" && { orderBy: { price: priceOrder } }),
             ...(page > 1 && { skip: (page - 1) * take }),
@@ -68,7 +66,7 @@ export default function CatalogClient(props: CatalogClientProps) {
 }
 
 type ProductListProps = {
-    produitList: ProductType[] | null;
+    produitList: ProductModel[] | null;
     className?: string;
 };
 

@@ -1,14 +1,14 @@
 "use client";
 
-import { CategoryType } from "@actions/types/Category";
+import { CategoryModel } from "@class/CategoryClass";
 import { combo } from "@lib/combo";
 import { ChangeEventHandler, ReactNode, useContext } from "react";
 import { CatalogContext } from "./catalog.provider";
-import { QueryParamsType } from "./searchParams";
+import { SearchParamsType } from "./searchParams";
 import { useCatalogParams } from "./useCatalogParams";
 
 type SelectorsClientProps = {
-    categoryList: CategoryType[];
+    categoryList: CategoryModel[];
 };
 
 export default function SelectorsClient(props: SelectorsClientProps) {
@@ -48,7 +48,7 @@ export default function SelectorsClient(props: SelectorsClientProps) {
                 labelClass={labelClass}
                 selectClass={selectClass}
                 onChange={(e) => {
-                    setPriceOrder(e.target.value as QueryParamsType["priceOrder"]);
+                    setPriceOrder(e.target.value as SearchParamsType["priceOrder"]);
                 }}
                 value={priceOrder}
             >
@@ -79,7 +79,7 @@ export default function SelectorsClient(props: SelectorsClientProps) {
                 selectClass={selectClass}
                 onChange={(e) => {
                     setPage(1);
-                    setTake(Number(e.target.value) as QueryParamsType["take"]);
+                    setTake(Number(e.target.value) as SearchParamsType["take"]);
                 }}
                 value={take}
             >

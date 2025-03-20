@@ -11,588 +11,474 @@
  * ATTENTION: Ce fichier est généré automatiquement. Ne pas modifier manuellement.
  */
 
+import { 
+    CountUserProps, 
+    CountUserResponse,
+    FindManyUserProps,
+    FindManyUserResponse,
+    FindUniqueUserProps,
+    FindUniqueUserResponse
+} from "@services/class/UserClass";
+import { 
+    CountSessionProps, 
+    CountSessionResponse,
+    FindManySessionProps,
+    FindManySessionResponse,
+    FindUniqueSessionProps,
+    FindUniqueSessionResponse
+} from "@services/class/SessionClass";
+import { 
+    CountAccountProps, 
+    CountAccountResponse,
+    FindManyAccountProps,
+    FindManyAccountResponse,
+    FindUniqueAccountProps,
+    FindUniqueAccountResponse
+} from "@services/class/AccountClass";
+import { 
+    CountVerificationProps, 
+    CountVerificationResponse,
+    FindManyVerificationProps,
+    FindManyVerificationResponse,
+    FindUniqueVerificationProps,
+    FindUniqueVerificationResponse
+} from "@services/class/VerificationClass";
+import { 
+    CountAddressProps, 
+    CountAddressResponse,
+    FindManyAddressProps,
+    FindManyAddressResponse,
+    FindUniqueAddressProps,
+    FindUniqueAddressResponse
+} from "@services/class/AddressClass";
+import { 
+    CountArticleProps, 
+    CountArticleResponse,
+    FindManyArticleProps,
+    FindManyArticleResponse,
+    FindUniqueArticleProps,
+    FindUniqueArticleResponse
+} from "@services/class/ArticleClass";
+import { 
+    CountDoItYourselfProps, 
+    CountDoItYourselfResponse,
+    FindManyDoItYourselfProps,
+    FindManyDoItYourselfResponse,
+    FindUniqueDoItYourselfProps,
+    FindUniqueDoItYourselfResponse
+} from "@services/class/DoItYourselfClass";
+import { 
+    CountContentProps, 
+    CountContentResponse,
+    FindManyContentProps,
+    FindManyContentResponse,
+    FindUniqueContentProps,
+    FindUniqueContentResponse
+} from "@services/class/ContentClass";
+import { 
+    CountCategoryProps, 
+    CountCategoryResponse,
+    FindManyCategoryProps,
+    FindManyCategoryResponse,
+    FindUniqueCategoryProps,
+    FindUniqueCategoryResponse
+} from "@services/class/CategoryClass";
+import { 
+    CountProductProps, 
+    CountProductResponse,
+    FindManyProductProps,
+    FindManyProductResponse,
+    FindUniqueProductProps,
+    FindUniqueProductResponse
+} from "@services/class/ProductClass";
+import { 
+    CountQuantityProps, 
+    CountQuantityResponse,
+    FindManyQuantityProps,
+    FindManyQuantityResponse,
+    FindUniqueQuantityProps,
+    FindUniqueQuantityResponse
+} from "@services/class/QuantityClass";
+import { 
+    CountOrderProps, 
+    CountOrderResponse,
+    FindManyOrderProps,
+    FindManyOrderResponse,
+    FindUniqueOrderProps,
+    FindUniqueOrderResponse
+} from "@services/class/OrderClass";
+import { 
+    CountFruitProps, 
+    CountFruitResponse,
+    FindManyFruitProps,
+    FindManyFruitResponse,
+    FindUniqueFruitProps,
+    FindUniqueFruitResponse
+} from "@services/class/FruitClass";
 
-import { SelectUserAmountProps, SelectUserListProps, SelectUserProps } from "@actions/types/User";
-import { SelectUserAmountResponse } from "@app/api/users/count/route";
-import { SelectUserListResponse } from "@app/api/users/route";
-import { SelectUserResponse } from "@app/api/users/unique/route";
+/**
+ * Type representing the response format for API routes
+ * @template Response - The type of the data in the response
+ */
+export type ResponseFormat<Response> = {
+    data: Response;
+    error?: undefined;
+} | {
+    data?: undefined;
+    error: string;
+};
 
-import { SelectSessionAmountProps, SelectSessionListProps, SelectSessionProps } from "@actions/types/Session";
-import { SelectSessionAmountResponse } from "@app/api/sessions/count/route";
-import { SelectSessionListResponse } from "@app/api/sessions/route";
-import { SelectSessionResponse } from "@app/api/sessions/unique/route";
+import { Routes as StripeRoutes } from "./stripe/Routes";
 
-import { SelectAccountAmountProps, SelectAccountListProps, SelectAccountProps } from "@actions/types/Account";
-import { SelectAccountAmountResponse } from "@app/api/accounts/count/route";
-import { SelectAccountListResponse } from "@app/api/accounts/route";
-import { SelectAccountResponse } from "@app/api/accounts/unique/route";
+export type Routes = StripeRoutes & {
+    /**
+    * Route for fetching a list of users \
+    * GET `/api/user`
+    */
+    "/user": {
+        params?: FindManyUserProps;
+        response: FindManyUserResponse;
+    };
 
-import { SelectVerificationAmountProps, SelectVerificationListProps, SelectVerificationProps } from "@actions/types/Verification";
-import { SelectVerificationAmountResponse } from "@app/api/verifications/count/route";
-import { SelectVerificationListResponse } from "@app/api/verifications/route";
-import { SelectVerificationResponse } from "@app/api/verifications/unique/route";
-
-import { SelectAddressAmountProps, SelectAddressListProps, SelectAddressProps } from "@actions/types/Address";
-import { SelectAddressAmountResponse } from "@app/api/addresses/count/route";
-import { SelectAddressListResponse } from "@app/api/addresses/route";
-import { SelectAddressResponse } from "@app/api/addresses/unique/route";
-
-import { SelectArticleAmountProps, SelectArticleListProps, SelectArticleProps } from "@actions/types/Article";
-import { SelectArticleAmountResponse } from "@app/api/articles/count/route";
-import { SelectArticleListResponse } from "@app/api/articles/route";
-import { SelectArticleResponse } from "@app/api/articles/unique/route";
-
-import { SelectDoItYourselfAmountProps, SelectDoItYourselfListProps, SelectDoItYourselfProps } from "@actions/types/DoItYourself";
-import { SelectDoItYourselfAmountResponse } from "@app/api/doItYourselves/count/route";
-import { SelectDoItYourselfListResponse } from "@app/api/doItYourselves/route";
-import { SelectDoItYourselfResponse } from "@app/api/doItYourselves/unique/route";
-
-import { SelectContentAmountProps, SelectContentListProps, SelectContentProps } from "@actions/types/Content";
-import { SelectContentAmountResponse } from "@app/api/contents/count/route";
-import { SelectContentListResponse } from "@app/api/contents/route";
-import { SelectContentResponse } from "@app/api/contents/unique/route";
-
-import { SelectCategoryAmountProps, SelectCategoryListProps, SelectCategoryProps } from "@actions/types/Category";
-import { SelectCategoryAmountResponse } from "@app/api/categories/count/route";
-import { SelectCategoryListResponse } from "@app/api/categories/route";
-import { SelectCategoryResponse } from "@app/api/categories/unique/route";
-
-import { SelectProductAmountProps, SelectProductListProps, SelectProductProps } from "@actions/types/Product";
-import { SelectProductAmountResponse } from "@app/api/products/count/route";
-import { SelectProductListResponse } from "@app/api/products/route";
-import { SelectProductResponse } from "@app/api/products/unique/route";
-
-import { SelectQuantityAmountProps, SelectQuantityListProps, SelectQuantityProps } from "@actions/types/Quantity";
-import { SelectQuantityAmountResponse } from "@app/api/quantities/count/route";
-import { SelectQuantityListResponse } from "@app/api/quantities/route";
-import { SelectQuantityResponse } from "@app/api/quantities/unique/route";
-
-import { SelectOrderAmountProps, SelectOrderListProps, SelectOrderProps } from "@actions/types/Order";
-import { SelectOrderAmountResponse } from "@app/api/orders/count/route";
-import { SelectOrderListResponse } from "@app/api/orders/route";
-import { SelectOrderResponse } from "@app/api/orders/unique/route";
-
-import { SelectFruitAmountProps, SelectFruitListProps, SelectFruitProps } from "@actions/types/Fruit";
-import { SelectFruitAmountResponse } from "@app/api/fruits/count/route";
-import { SelectFruitListResponse } from "@app/api/fruits/route";
-import { SelectFruitResponse } from "@app/api/fruits/unique/route";
-import { StripeFileUploadBody, StripeFileUploadResponse } from "./stripe/file/upload/route";
-import { StripeProductsResponse } from "./stripe/products/route";
-import { CreateStripeProductProps, CreateStripeProductResponse } from "./stripe/products/create/route";
-
-export type Routes = {
-
-    // ========== Stripe routes ========== //
+    /**
+    * Route for fetching a single User by ID \
+    * GET `/api/user/unique`
+    */
+    "/user/unique": {
+        params?: FindUniqueUserProps;
+        response: FindUniqueUserResponse;
+    };
     
-    "/stripe/checkout": {
-        method: "POST";
-        params: SelectProductListProps;
-        body?: undefined;
-        response: SelectProductListResponse;
+    /**
+    * Route for fetching the count of users \
+    * GET `/api/user/count`
+    */
+    "/user/count": {
+        params?: CountUserProps;
+        response: CountUserResponse;
+    };
+
+    /**
+    * Route for fetching a list of sessions \
+    * GET `/api/session`
+    */
+    "/session": {
+        params?: FindManySessionProps;
+        response: FindManySessionResponse;
+    };
+
+    /**
+    * Route for fetching a single Session by ID \
+    * GET `/api/session/unique`
+    */
+    "/session/unique": {
+        params?: FindUniqueSessionProps;
+        response: FindUniqueSessionResponse;
     };
     
-    "/stripe/connect/become-seller": {
-        method: "POST";
-        params: SelectProductListProps;
-        body?: undefined;
-        response: SelectProductListResponse;
+    /**
+    * Route for fetching the count of sessions \
+    * GET `/api/session/count`
+    */
+    "/session/count": {
+        params?: CountSessionProps;
+        response: CountSessionResponse;
     };
 
-    "/stripe/connect/onboard": {
-        method: "POST";
-        params: SelectProductListProps;
-        body?: undefined;
-        response: SelectProductListResponse;
+    /**
+    * Route for fetching a list of accounts \
+    * GET `/api/account`
+    */
+    "/account": {
+        params?: FindManyAccountProps;
+        response: FindManyAccountResponse;
     };
 
-    "/stripe/file/upload": { // OK
-        method: "POST";
-        params?: undefined;
-        body: StripeFileUploadBody;
-        response: StripeFileUploadResponse;
+    /**
+    * Route for fetching a single Account by ID \
+    * GET `/api/account/unique`
+    */
+    "/account/unique": {
+        params?: FindUniqueAccountProps;
+        response: FindUniqueAccountResponse;
     };
     
-    "/stripe/products": { // OK
-        method: "GET";
-        params?: undefined;
-        body?: undefined;
-        response: StripeProductsResponse;
+    /**
+    * Route for fetching the count of accounts \
+    * GET `/api/account/count`
+    */
+    "/account/count": {
+        params?: CountAccountProps;
+        response: CountAccountResponse;
     };
 
-    "/stripe/products/create": { // OK
-        method: "POST";
-        params: CreateStripeProductProps;
-        body?: undefined;
-        response: CreateStripeProductResponse;
+    /**
+    * Route for fetching a list of verifications \
+    * GET `/api/verification`
+    */
+    "/verification": {
+        params?: FindManyVerificationProps;
+        response: FindManyVerificationResponse;
+    };
+
+    /**
+    * Route for fetching a single Verification by ID \
+    * GET `/api/verification/unique`
+    */
+    "/verification/unique": {
+        params?: FindUniqueVerificationProps;
+        response: FindUniqueVerificationResponse;
     };
     
-    "/stripe/products/{id}": {
-        method: "GET" | "POST";
-        params: SelectProductProps;
-        body?: undefined;
-        response: SelectProductResponse;
+    /**
+    * Route for fetching the count of verifications \
+    * GET `/api/verification/count`
+    */
+    "/verification/count": {
+        params?: CountVerificationProps;
+        response: CountVerificationResponse;
     };
 
-    "/stripe/webhooks": { // OK
-        method: "POST";
-        params: SelectProductListProps;
-        body?: undefined;
-        response: SelectProductListResponse;
+    /**
+    * Route for fetching a list of addresss \
+    * GET `/api/address`
+    */
+    "/address": {
+        params?: FindManyAddressProps;
+        response: FindManyAddressResponse;
+    };
+
+    /**
+    * Route for fetching a single Address by ID \
+    * GET `/api/address/unique`
+    */
+    "/address/unique": {
+        params?: FindUniqueAddressProps;
+        response: FindUniqueAddressResponse;
     };
     
+    /**
+    * Route for fetching the count of addresss \
+    * GET `/api/address/count`
+    */
+    "/address/count": {
+        params?: CountAddressProps;
+        response: CountAddressResponse;
+    };
+
+    /**
+    * Route for fetching a list of articles \
+    * GET `/api/article`
+    */
+    "/article": {
+        params?: FindManyArticleProps;
+        response: FindManyArticleResponse;
+    };
+
+    /**
+    * Route for fetching a single Article by ID \
+    * GET `/api/article/unique`
+    */
+    "/article/unique": {
+        params?: FindUniqueArticleProps;
+        response: FindUniqueArticleResponse;
+    };
     
-    // ========== Stripe routes ========== //
-
     /**
-     * Route for fetching a list of users \
-     * GET `/api/users`
-     */
-    "/users": {
-        method: "GET";
-        params: SelectUserListProps;
-        body?: undefined;
-        response: SelectUserListResponse;
+    * Route for fetching the count of articles \
+    * GET `/api/article/count`
+    */
+    "/article/count": {
+        params?: CountArticleProps;
+        response: CountArticleResponse;
     };
 
     /**
-     * Route for fetching a single User by ID \
-     * GET `/api/users/unique`
-     */
-    "/users/unique": {
-        method: "GET";
-        params: SelectUserProps;
-        body?: undefined;
-        response: SelectUserResponse;
-    };
-    /**
-     * Route for fetching the count of users \
-     * GET `/api/users/count`
-     */
-    "/users/count": {
-        method: "GET";
-        params: SelectUserAmountProps;
-        body?: undefined;
-        response: SelectUserAmountResponse;
-    };
-
-
-
-
-    /**
-     * Route for fetching a list of sessions \
-     * GET `/api/sessions`
-     */
-    "/sessions": {
-        method: "GET";
-        params: SelectSessionListProps;
-        body?: undefined;
-        response: SelectSessionListResponse;
+    * Route for fetching a list of doItYourselfs \
+    * GET `/api/doItYourself`
+    */
+    "/doItYourself": {
+        params?: FindManyDoItYourselfProps;
+        response: FindManyDoItYourselfResponse;
     };
 
     /**
-     * Route for fetching a single Session by ID \
-     * GET `/api/sessions/unique`
-     */
-    "/sessions/unique": {
-        method: "GET";
-        params: SelectSessionProps;
-        body?: undefined;
-        response: SelectSessionResponse;
+    * Route for fetching a single DoItYourself by ID \
+    * GET `/api/doItYourself/unique`
+    */
+    "/doItYourself/unique": {
+        params?: FindUniqueDoItYourselfProps;
+        response: FindUniqueDoItYourselfResponse;
     };
+    
     /**
-     * Route for fetching the count of sessions \
-     * GET `/api/sessions/count`
-     */
-    "/sessions/count": {
-        method: "GET";
-        params: SelectSessionAmountProps;
-        body?: undefined;
-        response: SelectSessionAmountResponse;
-    };
-
-
-
-
-    /**
-     * Route for fetching a list of accounts \
-     * GET `/api/accounts`
-     */
-    "/accounts": {
-        method: "GET";
-        params: SelectAccountListProps;
-        body?: undefined;
-        response: SelectAccountListResponse;
+    * Route for fetching the count of doItYourselfs \
+    * GET `/api/doItYourself/count`
+    */
+    "/doItYourself/count": {
+        params?: CountDoItYourselfProps;
+        response: CountDoItYourselfResponse;
     };
 
     /**
-     * Route for fetching a single Account by ID \
-     * GET `/api/accounts/unique`
-     */
-    "/accounts/unique": {
-        method: "GET";
-        params: SelectAccountProps;
-        body?: undefined;
-        response: SelectAccountResponse;
-    };
-    /**
-     * Route for fetching the count of accounts \
-     * GET `/api/accounts/count`
-     */
-    "/accounts/count": {
-        method: "GET";
-        params: SelectAccountAmountProps;
-        body?: undefined;
-        response: SelectAccountAmountResponse;
-    };
-
-
-
-
-    /**
-     * Route for fetching a list of verifications \
-     * GET `/api/verifications`
-     */
-    "/verifications": {
-        method: "GET";
-        params: SelectVerificationListProps;
-        body?: undefined;
-        response: SelectVerificationListResponse;
+    * Route for fetching a list of contents \
+    * GET `/api/content`
+    */
+    "/content": {
+        params?: FindManyContentProps;
+        response: FindManyContentResponse;
     };
 
     /**
-     * Route for fetching a single Verification by ID \
-     * GET `/api/verifications/unique`
-     */
-    "/verifications/unique": {
-        method: "GET";
-        params: SelectVerificationProps;
-        body?: undefined;
-        response: SelectVerificationResponse;
+    * Route for fetching a single Content by ID \
+    * GET `/api/content/unique`
+    */
+    "/content/unique": {
+        params?: FindUniqueContentProps;
+        response: FindUniqueContentResponse;
     };
+    
     /**
-     * Route for fetching the count of verifications \
-     * GET `/api/verifications/count`
-     */
-    "/verifications/count": {
-        method: "GET";
-        params: SelectVerificationAmountProps;
-        body?: undefined;
-        response: SelectVerificationAmountResponse;
-    };
-
-
-
-
-    /**
-     * Route for fetching a list of addresses \
-     * GET `/api/addresses`
-     */
-    "/addresses": {
-        method: "GET";
-        params: SelectAddressListProps;
-        body?: undefined;
-        response: SelectAddressListResponse;
+    * Route for fetching the count of contents \
+    * GET `/api/content/count`
+    */
+    "/content/count": {
+        params?: CountContentProps;
+        response: CountContentResponse;
     };
 
     /**
-     * Route for fetching a single Address by ID \
-     * GET `/api/addresses/unique`
-     */
-    "/addresses/unique": {
-        method: "GET";
-        params: SelectAddressProps;
-        body?: undefined;
-        response: SelectAddressResponse;
-    };
-    /**
-     * Route for fetching the count of addresses \
-     * GET `/api/addresses/count`
-     */
-    "/addresses/count": {
-        method: "GET";
-        params: SelectAddressAmountProps;
-        body?: undefined;
-        response: SelectAddressAmountResponse;
-    };
-
-
-
-
-    /**
-     * Route for fetching a list of articles \
-     * GET `/api/articles`
-     */
-    "/articles": {
-        method: "GET";
-        params: SelectArticleListProps;
-        body?: undefined;
-        response: SelectArticleListResponse;
+    * Route for fetching a list of categorys \
+    * GET `/api/category`
+    */
+    "/category": {
+        params?: FindManyCategoryProps;
+        response: FindManyCategoryResponse;
     };
 
     /**
-     * Route for fetching a single Article by ID \
-     * GET `/api/articles/unique`
-     */
-    "/articles/unique": {
-        method: "GET";
-        params: SelectArticleProps;
-        body?: undefined;
-        response: SelectArticleResponse;
+    * Route for fetching a single Category by ID \
+    * GET `/api/category/unique`
+    */
+    "/category/unique": {
+        params?: FindUniqueCategoryProps;
+        response: FindUniqueCategoryResponse;
     };
+    
     /**
-     * Route for fetching the count of articles \
-     * GET `/api/articles/count`
-     */
-    "/articles/count": {
-        method: "GET";
-        params: SelectArticleAmountProps;
-        body?: undefined;
-        response: SelectArticleAmountResponse;
-    };
-
-
-
-
-    /**
-     * Route for fetching a list of doItYourselves \
-     * GET `/api/doItYourselves`
-     */
-    "/doItYourselves": {
-        method: "GET";
-        params: SelectDoItYourselfListProps;
-        body?: undefined;
-        response: SelectDoItYourselfListResponse;
+    * Route for fetching the count of categorys \
+    * GET `/api/category/count`
+    */
+    "/category/count": {
+        params?: CountCategoryProps;
+        response: CountCategoryResponse;
     };
 
     /**
-     * Route for fetching a single DoItYourself by ID \
-     * GET `/api/doItYourselves/unique`
-     */
-    "/doItYourselves/unique": {
-        method: "GET";
-        params: SelectDoItYourselfProps;
-        body?: undefined;
-        response: SelectDoItYourselfResponse;
-    };
-    /**
-     * Route for fetching the count of doItYourselves \
-     * GET `/api/doItYourselves/count`
-     */
-    "/doItYourselves/count": {
-        method: "GET";
-        params: SelectDoItYourselfAmountProps;
-        body?: undefined;
-        response: SelectDoItYourselfAmountResponse;
-    };
-
-
-
-
-    /**
-     * Route for fetching a list of contents \
-     * GET `/api/contents`
-     */
-    "/contents": {
-        method: "GET";
-        params: SelectContentListProps;
-        body?: undefined;
-        response: SelectContentListResponse;
+    * Route for fetching a list of products \
+    * GET `/api/product`
+    */
+    "/product": {
+        params?: FindManyProductProps;
+        response: FindManyProductResponse;
     };
 
     /**
-     * Route for fetching a single Content by ID \
-     * GET `/api/contents/unique`
-     */
-    "/contents/unique": {
-        method: "GET";
-        params: SelectContentProps;
-        body?: undefined;
-        response: SelectContentResponse;
+    * Route for fetching a single Product by ID \
+    * GET `/api/product/unique`
+    */
+    "/product/unique": {
+        params?: FindUniqueProductProps;
+        response: FindUniqueProductResponse;
     };
+    
     /**
-     * Route for fetching the count of contents \
-     * GET `/api/contents/count`
-     */
-    "/contents/count": {
-        method: "GET";
-        params: SelectContentAmountProps;
-        body?: undefined;
-        response: SelectContentAmountResponse;
-    };
-
-
-
-
-    /**
-     * Route for fetching a list of categories \
-     * GET `/api/categories`
-     */
-    "/categories": {
-        method: "GET";
-        params: SelectCategoryListProps;
-        body?: undefined;
-        response: SelectCategoryListResponse;
+    * Route for fetching the count of products \
+    * GET `/api/product/count`
+    */
+    "/product/count": {
+        params?: CountProductProps;
+        response: CountProductResponse;
     };
 
     /**
-     * Route for fetching a single Category by ID \
-     * GET `/api/categories/unique`
-     */
-    "/categories/unique": {
-        method: "GET";
-        params: SelectCategoryProps;
-        body?: undefined;
-        response: SelectCategoryResponse;
-    };
-    /**
-     * Route for fetching the count of categories \
-     * GET `/api/categories/count`
-     */
-    "/categories/count": {
-        method: "GET";
-        params: SelectCategoryAmountProps;
-        body?: undefined;
-        response: SelectCategoryAmountResponse;
-    };
-
-
-
-
-    /**
-     * Route for fetching a list of products \
-     * GET `/api/products`
-     */
-    "/products": {
-        method: "GET";
-        params: SelectProductListProps;
-        body?: undefined;
-        response: SelectProductListResponse;
+    * Route for fetching a list of quantitys \
+    * GET `/api/quantity`
+    */
+    "/quantity": {
+        params?: FindManyQuantityProps;
+        response: FindManyQuantityResponse;
     };
 
     /**
-     * Route for fetching a single Product by ID \
-     * GET `/api/products/unique`
-     */
-    "/products/unique": {
-        method: "GET";
-        params: SelectProductProps;
-        body?: undefined;
-        response: SelectProductResponse;
+    * Route for fetching a single Quantity by ID \
+    * GET `/api/quantity/unique`
+    */
+    "/quantity/unique": {
+        params?: FindUniqueQuantityProps;
+        response: FindUniqueQuantityResponse;
     };
+    
     /**
-     * Route for fetching the count of products \
-     * GET `/api/products/count`
-     */
-    "/products/count": {
-        method: "GET";
-        params: SelectProductAmountProps;
-        body?: undefined;
-        response: SelectProductAmountResponse;
-    };
-
-
-
-
-    /**
-     * Route for fetching a list of quantities \
-     * GET `/api/quantities`
-     */
-    "/quantities": {
-        method: "GET";
-        params: SelectQuantityListProps;
-        body?: undefined;
-        response: SelectQuantityListResponse;
+    * Route for fetching the count of quantitys \
+    * GET `/api/quantity/count`
+    */
+    "/quantity/count": {
+        params?: CountQuantityProps;
+        response: CountQuantityResponse;
     };
 
     /**
-     * Route for fetching a single Quantity by ID \
-     * GET `/api/quantities/unique`
-     */
-    "/quantities/unique": {
-        method: "GET";
-        params: SelectQuantityProps;
-        body?: undefined;
-        response: SelectQuantityResponse;
-    };
-    /**
-     * Route for fetching the count of quantities \
-     * GET `/api/quantities/count`
-     */
-    "/quantities/count": {
-        method: "GET";
-        params: SelectQuantityAmountProps;
-        body?: undefined;
-        response: SelectQuantityAmountResponse;
-    };
-
-
-
-
-    /**
-     * Route for fetching a list of orders \
-     * GET `/api/orders`
-     */
-    "/orders": {
-        method: "GET";
-        params: SelectOrderListProps;
-        body?: undefined;
-        response: SelectOrderListResponse;
+    * Route for fetching a list of orders \
+    * GET `/api/order`
+    */
+    "/order": {
+        params?: FindManyOrderProps;
+        response: FindManyOrderResponse;
     };
 
     /**
-     * Route for fetching a single Order by ID \
-     * GET `/api/orders/unique`
-     */
-    "/orders/unique": {
-        method: "GET";
-        params: SelectOrderProps;
-        body?: undefined;
-        response: SelectOrderResponse;
+    * Route for fetching a single Order by ID \
+    * GET `/api/order/unique`
+    */
+    "/order/unique": {
+        params?: FindUniqueOrderProps;
+        response: FindUniqueOrderResponse;
     };
+    
     /**
-     * Route for fetching the count of orders \
-     * GET `/api/orders/count`
-     */
-    "/orders/count": {
-        method: "GET";
-        params: SelectOrderAmountProps;
-        body?: undefined;
-        response: SelectOrderAmountResponse;
-    };
-
-
-
-
-    /**
-     * Route for fetching a list of fruits \
-     * GET `/api/fruits`
-     */
-    "/fruits": {
-        method: "GET";
-        params: SelectFruitListProps;
-        body?: undefined;
-        response: SelectFruitListResponse;
+    * Route for fetching the count of orders \
+    * GET `/api/order/count`
+    */
+    "/order/count": {
+        params?: CountOrderProps;
+        response: CountOrderResponse;
     };
 
     /**
-     * Route for fetching a single Fruit by ID \
-     * GET `/api/fruits/unique`
-     */
-    "/fruits/unique": {
-        method: "GET";
-        params: SelectFruitProps;
-        body?: undefined;
-        response: SelectFruitResponse;
-    };
-    /**
-     * Route for fetching the count of fruits \
-     * GET `/api/fruits/count`
-     */
-    "/fruits/count": {
-        method: "GET";
-        params: SelectFruitAmountProps;
-        body?: undefined;
-        response: SelectFruitAmountResponse;
+    * Route for fetching a list of fruits \
+    * GET `/api/fruit`
+    */
+    "/fruit": {
+        params?: FindManyFruitProps;
+        response: FindManyFruitResponse;
     };
 
+    /**
+    * Route for fetching a single Fruit by ID \
+    * GET `/api/fruit/unique`
+    */
+    "/fruit/unique": {
+        params?: FindUniqueFruitProps;
+        response: FindUniqueFruitResponse;
+    };
+    
+    /**
+    * Route for fetching the count of fruits \
+    * GET `/api/fruit/count`
+    */
+    "/fruit/count": {
+        params?: CountFruitProps;
+        response: CountFruitResponse;
+    };
 };

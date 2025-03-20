@@ -1,7 +1,7 @@
-import { Fetch } from "@api/utils/Fetch";
 import { SliderClient } from "@comps/client/Slider";
 import ImageRatio from "@comps/server/ImageRatio";
 import { combo } from "@lib/combo";
+import { FetchParallelized } from "@utils/FetchParallelized";
 
 export const dynamic = "force-dynamic";
 
@@ -13,54 +13,55 @@ export default async function Page(props: PageProps) {
     const { params } = props;
     const { id } = await params;
 
-    const article = await Fetch({
-        route: "/articles/unique",
-        params: {
-            where: { id },
-            select: {
-                title: true,
-                createdAt: true,
-                Content: {
-                    select: {
-                        content: true,
-                        image: true,
+    const [article, otherArticles] = await FetchParallelized([
+        {
+            route: "/article/unique",
+            params: {
+                where: { id },
+                select: {
+                    title: true,
+                    createdAt: true,
+                    Content: {
+                        select: {
+                            content: true,
+                            image: true,
+                        },
                     },
-                },
-                Author: {
-                    select: {
-                        name: true,
+                    Author: {
+                        select: {
+                            name: true,
+                        },
                     },
                 },
             },
         },
-    });
-
-    const otherArticles = await Fetch({
-        route: "/articles",
-        params: {
-            select: {
-                id: true,
-                title: true,
-                createdAt: true,
-                Content: {
-                    select: {
-                        content: true,
-                        image: true,
+        {
+            route: "/article",
+            params: {
+                select: {
+                    id: true,
+                    title: true,
+                    createdAt: true,
+                    Content: {
+                        select: {
+                            content: true,
+                            image: true,
+                        },
+                    },
+                    Author: {
+                        select: {
+                            name: true,
+                        },
                     },
                 },
-                Author: {
-                    select: {
-                        name: true,
-                    },
+                orderBy: {
+                    createdAt: "desc",
                 },
-            },
-            orderBy: {
-                createdAt: "desc",
             },
         },
-    });
+    ]);
 
-    if (!article) {
+    if (!article || !otherArticles) {
         return <div className="container mx-auto px-4 py-10">Article non trouvé</div>;
     }
 

@@ -1,10 +1,10 @@
-import { Fetch } from "@api/utils/Fetch";
 import ImageRatio from "@comps/server/ImageRatio";
+import { Fetch } from "@utils/Fetch";
 import { ArrowLeft, Package2, ShieldCheck, Truck } from "lucide-react";
 import Link from "next/link";
 import AddToCartButton from "./AddToCartButton";
 
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";
 
 type PageProps = {
     params: Promise<{ id: string }>;
@@ -14,9 +14,9 @@ export default async function Page(props: PageProps) {
     const { params } = props;
     const { id } = await params;
 
-    const product = await Fetch({ 
-        route: "/products/unique", 
-        params: { 
+    const product = await Fetch({
+        route: "/product/unique",
+        params: {
             where: { id },
             select: {
                 id: true,
@@ -27,23 +27,23 @@ export default async function Page(props: PageProps) {
                 stock: true,
                 Vendor: {
                     select: {
-                        name: true
-                    }
+                        name: true,
+                    },
                 },
                 Category: {
                     select: {
-                        name: true
-                    }
-                }
-            }
-        }
+                        name: true,
+                    },
+                },
+            },
+        },
     });
 
     if (!product) {
         return (
             <div className="flex min-h-[50vh] flex-col items-center justify-center space-y-4">
                 <h1 className="text-2xl font-semibold">Produit non trouvé</h1>
-                <Link href="/products" className="flex items-center text-primary hover:underline">
+                <Link href="/products" className="text-primary flex items-center hover:underline">
                     <ArrowLeft className="mr-2 size-4" />
                     Retour aux produits
                 </Link>
@@ -56,7 +56,7 @@ export default async function Page(props: PageProps) {
     return (
         <div className="container mx-auto px-4 py-8">
             {/* Bouton retour */}
-            <Link href="/catalog" className="mb-8 inline-flex items-center text-primary hover:underline">
+            <Link href="/catalog" className="text-primary mb-8 inline-flex items-center hover:underline">
                 <ArrowLeft className="mr-2 size-4" />
                 Retour aux produits
             </Link>
@@ -64,18 +64,14 @@ export default async function Page(props: PageProps) {
             <div className="grid gap-8 md:grid-cols-2">
                 {/* Image du produit */}
                 <div className="rounded-2xl bg-white p-4 shadow-sm">
-                    <ImageRatio 
-                        className="rounded-xl" 
-                        src={image}
-                        alt={name} 
-                    />
+                    <ImageRatio className="rounded-xl" src={image} alt={name} />
                 </div>
 
                 {/* Informations produit */}
                 <div className="space-y-6">
                     <div>
                         {Category && (
-                            <span className="mb-2 inline-block rounded-full bg-primary/10 px-3 py-1 text-sm text-primary">
+                            <span className="bg-primary/10 text-primary mb-2 inline-block rounded-full px-3 py-1 text-sm">
                                 {Category.name}
                             </span>
                         )}
@@ -88,12 +84,12 @@ export default async function Page(props: PageProps) {
                         <div className="flex items-end justify-between">
                             <div>
                                 <p className="text-sm text-gray-500">Prix</p>
-                                <p className="text-3xl font-bold text-primary">{price.toFixed(2)} €</p>
+                                <p className="text-primary text-3xl font-bold">{price.toFixed(2)} €</p>
                             </div>
                             <div className="text-right">
                                 <p className="text-sm text-gray-500">Stock</p>
-                                <p className={`font-medium ${stock > 0 ? 'text-green-600' : 'text-red-600'}`}>
-                                    {stock > 0 ? `${stock} disponibles` : 'Rupture de stock'}
+                                <p className={`font-medium ${stock > 0 ? "text-green-600" : "text-red-600"}`}>
+                                    {stock > 0 ? `${stock} disponibles` : "Rupture de stock"}
                                 </p>
                             </div>
                         </div>
@@ -112,15 +108,15 @@ export default async function Page(props: PageProps) {
                     {/* Avantages */}
                     <div className="grid grid-cols-3 gap-4">
                         <div className="flex flex-col items-center rounded-xl bg-white p-4 text-center shadow-sm">
-                            <Truck className="mb-2 size-6 text-primary" />
+                            <Truck className="text-primary mb-2 size-6" />
                             <span className="text-sm">Livraison rapide</span>
                         </div>
                         <div className="flex flex-col items-center rounded-xl bg-white p-4 text-center shadow-sm">
-                            <Package2 className="mb-2 size-6 text-primary" />
+                            <Package2 className="text-primary mb-2 size-6" />
                             <span className="text-sm">Emballage écologique</span>
                         </div>
                         <div className="flex flex-col items-center rounded-xl bg-white p-4 text-center shadow-sm">
-                            <ShieldCheck className="mb-2 size-6 text-primary" />
+                            <ShieldCheck className="text-primary mb-2 size-6" />
                             <span className="text-sm">Qualité garantie</span>
                         </div>
                     </div>

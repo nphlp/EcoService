@@ -1,4 +1,4 @@
-import { FetchParallelized } from "@app/api/utils/FetchParallelized";
+import { FetchParallelized } from "@utils/FetchParallelized";
 import ProductSlider from "@comps/client/ProductSlider";
 import ImageRatio from "@comps/server/ImageRatio";
 import { combo } from "@lib/combo";
@@ -15,7 +15,7 @@ export default async function Page(props: PageProps) {
 
     const [diy, productList] = await FetchParallelized([
         {
-            route: "/doItYourselves/unique",
+            route: "/doItYourself/unique",
             params: {
                 where: { id },
                 select: {
@@ -36,7 +36,7 @@ export default async function Page(props: PageProps) {
             },
         },
         {
-            route: "/products",
+            route: "/product",
             params: {
                 orderBy: {
                     createdAt: "desc",

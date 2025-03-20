@@ -5,6 +5,7 @@
         "allowJs": true,
         "skipLibCheck": true,
         "strict": true,
+        "strictNullChecks": true,
         "noEmit": true,
         "esModuleInterop": true,
         "module": "esnext",
@@ -19,14 +20,17 @@
             }
         ],
         "paths": {
-            "@actions/*": ["./actions/*"],
+            "@actions/*": ["./services/actions/*"],
             "@app/*": ["./app/*"],
             "@api/*": ["./app/api/*"],
+            "@class/*": ["./services/class/*"],
             "@comps/*": ["./components/*"],
             "@lib/*": ["./lib/*"],
             "@prisma/*": ["./prisma/*"],
             "@public/*": ["./public/*"],
             "@ui/*": ["./components/ui/*"],
+            "@utils/*": ["./utils/*"],
+            "@services/*": ["./services/*"],
             "@/*": ["./*"]
         }
     },

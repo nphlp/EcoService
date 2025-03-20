@@ -1,0 +1,123 @@
+"use server";
+
+/**
+ * Actions serveur pour les opérations CRUD sur les {{modelNameLower}}s
+ * 
+ * Ce fichier expose les méthodes de {{modelName}}Service comme des actions serveur Next.js.
+ * Ces actions peuvent être appelées directement depuis les composants client.
+ * 
+ * Chaque action est une simple passerelle vers la méthode correspondante du service,
+ * ce qui permet de centraliser la logique métier dans les classes de service.
+ * 
+ * Note: Ces actions ne sont pas mises en cache et ne doivent pas être utilisées
+ * pour récupérer des données - utilisez plutôt les routes API avec mise en cache.
+ */
+
+import {
+    {{modelName}}Service,
+    Count{{modelName}}Props,
+    Count{{modelName}}Response,
+    Create{{modelName}}Props,
+    Create{{modelName}}Response,
+    Delete{{modelName}}Props,
+    Delete{{modelName}}Response,
+    FindMany{{modelName}}Props,
+    FindMany{{modelName}}Response,
+    FindUnique{{modelName}}Props,
+    FindUnique{{modelName}}Response,
+    Update{{modelName}}Props,
+    Update{{modelName}}Response
+} from "@services/class/{{modelName}}Class";
+
+/**
+ * Creates a new {{modelNameLower}}
+ * @param props {{modelName}} properties
+ * @returns Created {{modelNameLower}} or error
+ */
+export const Create{{modelName}} = async (props: Create{{modelName}}Props): Promise<Create{{modelName}}Response> => {
+    try {
+        const { data, error } = await {{modelName}}Service.create(props);
+        if (!data || error) throw new Error(error);
+        return data;
+    } catch (error) {
+        throw new Error("Create{{modelName}} -> " + (error as Error).message);
+    }
+};
+
+/**
+ * Updates a {{modelNameLower}}
+ * @param props {{modelName}} ID and new data
+ * @returns Updated {{modelNameLower}} or error
+ */
+export const Update{{modelName}} = async (props: Update{{modelName}}Props): Promise<Update{{modelName}}Response> => {
+    try {
+        const { data, error } = await {{modelName}}Service.update(props);
+        if (!data || error) throw new Error(error);
+        return data;
+    } catch (error) {
+        throw new Error("Update{{modelName}} -> " + (error as Error).message);
+    }
+};
+
+/**
+ * Deletes a {{modelNameLower}}
+ * @param props {{modelName}} ID
+ * @returns Deleted {{modelNameLower}} or error
+ */
+export const Delete{{modelName}} = async (props: Delete{{modelName}}Props): Promise<Delete{{modelName}}Response> => {
+    try {
+        const { data, error } = await {{modelName}}Service.delete(props);
+        if (!data || error) throw new Error(error);
+        return data;
+    } catch (error) {
+        throw new Error("Delete{{modelName}} -> " + (error as Error).message);
+    }
+};
+
+/**
+ * Retrieves a {{modelNameLower}} by ID or another filter (no caching) \
+ * WARNING: do not use this for fetching data -> use API routes with caching instead
+ * @param props {{modelName}} ID or other filter
+ * @returns Found {{modelNameLower}} or error
+ */
+export const Select{{modelName}} = async (props: FindUnique{{modelName}}Props): Promise<FindUnique{{modelName}}Response> => {
+    try {
+        const { data, error } = await {{modelName}}Service.findUnique(props);
+        if (!data || error) throw new Error(error);
+        return data;
+    } catch (error) {
+        throw new Error("Select{{modelName}} -> " + (error as Error).message);
+    }
+};
+
+/**
+ * Retrieves a list of {{modelNameLower}}s with filters (no caching) \
+ * WARNING: do not use this for fetching data -> use API routes with caching instead
+ * @param props Filter and pagination options
+ * @returns List of {{modelNameLower}}s or error
+ */
+export const Select{{modelName}}List = async (props: FindMany{{modelName}}Props): Promise<FindMany{{modelName}}Response> => {
+    try {
+        const { data, error } = await {{modelName}}Service.findMany(props);
+        if (!data || error) throw new Error(error);
+        return data;
+    } catch (error) {
+        throw new Error("Select{{modelName}}List -> " + (error as Error).message);
+    }
+};
+
+/**
+ * Counts {{modelNameLower}}s with filters (no caching) \
+ * WARNING: do not use this for fetching data -> use API routes with caching instead
+ * @param props Filter options
+ * @returns Count of {{modelNameLower}}s or error
+ */
+export const Select{{modelName}}Amount = async (props: Count{{modelName}}Props): Promise<Count{{modelName}}Response> => {
+    try {
+        const { data, error } = await {{modelName}}Service.count(props);
+        if (!data || error) throw new Error(error);
+        return data;
+    } catch (error) {
+        throw new Error("Select{{modelName}}Amount -> " + (error as Error).message);
+    }
+};
