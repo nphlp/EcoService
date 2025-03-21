@@ -90,9 +90,7 @@ export const useFetch = <Key extends keyof Routes>(props: FetchHookProps<Key>) =
 
         // Cleanup function to abort the request when the component unmounts
         // or when the dependencies change
-        return () => {
-            controller.abort();
-        };
+        return () => controller.abort();
     }, [memoizedProps]); // Trigger useEffect only when the memoized props change
 
     return { data, isLoading, error };

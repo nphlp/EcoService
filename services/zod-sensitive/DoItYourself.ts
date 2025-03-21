@@ -1,7 +1,7 @@
-import { CountDoItYourselfProps, FindManyDoItYourselfProps, FindUniqueDoItYourselfProps } from "@class/DoItYourselfClass";
+import { CountDiyProps, FindManyDiyProps, FindUniqueDiyProps } from "@class/DiyClass";
 import { strictObject, z, ZodType } from "zod";
 
-export const selectDoItYourselfUniqueSchema: ZodType<FindUniqueDoItYourselfProps> = strictObject({
+export const selectDiyUniqueSchema: ZodType<FindUniqueDiyProps> = strictObject({
     where: strictObject({
         id: z.string().nanoid(),
         // TODO: choose allowed filters for select request
@@ -27,7 +27,7 @@ export const selectDoItYourselfUniqueSchema: ZodType<FindUniqueDoItYourselfProps
     }).optional(),
 });
 
-export const selectDoItYourselfListSchema: ZodType<FindManyDoItYourselfProps> = strictObject({
+export const selectDiyListSchema: ZodType<FindManyDiyProps> = strictObject({
     select: strictObject({
         // TODO: choose allowed filters for select request
         // WARNING: this schema protect request from frontend
@@ -59,7 +59,7 @@ export const selectDoItYourselfListSchema: ZodType<FindManyDoItYourselfProps> = 
     }).optional(),
 });
 
-export const selectDoItYourselfAmountSchema: ZodType<CountDoItYourselfProps> = strictObject({
+export const selectDiyAmountSchema: ZodType<CountDiyProps> = strictObject({
     where: strictObject({
         // TODO: choose allowed filters for select request
         // WARNING: this schema protect request from frontend

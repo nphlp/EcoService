@@ -96,12 +96,12 @@ const CentralNav = () => {
             </ButtonClient>
             <ButtonClient
                 type="link"
-                href="/do-it-yourself"
-                label="do-it-yourself"
+                href="/diy"
+                label="diy"
                 variant="ghost"
-                className={combo("px-8", path === "/do-it-yourself" && "font-bold")}
+                className={combo("px-8", path === "/diy" && "font-bold")}
             >
-                Do It Yourself
+                DIY
             </ButtonClient>
         </div>
     );

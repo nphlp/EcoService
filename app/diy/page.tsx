@@ -1,5 +1,5 @@
 import ImageRatio from "@comps/server/ImageRatio";
-import { DoItYourselfRelationsComplete } from "@services/class/DoItYourselfClass";
+import { DiyRelationsComplete } from "@services/class/DiyClass";
 import { Fetch } from "@utils/Fetch";
 import Link from "next/link";
 
@@ -7,7 +7,7 @@ export const dynamic = "force-dynamic";
 
 export default async function Page() {
     const diyListRaw = await Fetch({
-        route: "/doItYourself",
+        route: "/diy",
         params: {
             select: {
                 id: true,
@@ -31,7 +31,7 @@ export default async function Page() {
         },
     });
 
-    const diyList = diyListRaw as DoItYourselfRelationsComplete[];
+    const diyList = diyListRaw as DiyRelationsComplete[];
 
     if (!diyList) {
         return <div className="container mx-auto px-4 py-10">Aucun tutoriel DIY disponible pour le moment.</div>;
@@ -45,7 +45,7 @@ export default async function Page() {
                 {diyList.map((diy, index) => (
                     <Link
                         key={index}
-                        href={`/do-it-yourself/${diy.id}`}
+                        href={`/diy/${diy.id}`}
                         className="group flex flex-col overflow-hidden rounded-xl border border-gray-300 bg-white shadow-md transition-shadow duration-300 hover:shadow-lg"
                     >
                         {/* Image */}

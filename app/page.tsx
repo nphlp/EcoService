@@ -2,7 +2,7 @@ import ProductSlider from "@comps/client/ProductSlider";
 import { SliderClient } from "@comps/client/Slider";
 import ImageRatio from "@comps/server/ImageRatio";
 import { combo } from "@lib/combo";
-import { DoItYourselfRelationsComplete } from "@services/index";
+import { DiyRelationsComplete } from "@services/index";
 import { ArticleRelationsComplete } from "@services/index";
 import { FetchParallelized } from "@utils/FetchParallelized";
 
@@ -37,7 +37,7 @@ export default async function Page() {
             },
         },
         {
-            route: "/doItYourself",
+            route: "/diy",
             params: {
                 select: {
                     id: true,
@@ -72,7 +72,7 @@ export default async function Page() {
     ]);
 
     const articleList = articleListRaw as ArticleRelationsComplete[];
-    const diyList = diyListRaw as DoItYourselfRelationsComplete[];
+    const diyList = diyListRaw as DiyRelationsComplete[];
 
     if (!articleList || !diyList || !productList) {
         return <div className="container mx-auto px-4 py-10">Aucun article disponible pour le moment.</div>;

@@ -22,8 +22,8 @@ type CatalogClientProps = {
 export default function CatalogClient(props: CatalogClientProps) {
     const { className } = props;
 
-    const { productListLocal } = useContext(CatalogContext);
-    const { setProductList, setProductAmount } = useCatalogStore();
+    const { productList: productListLocal } = useContext(CatalogContext);
+    const { setDataStore } = useCatalogStore();
     const { priceOrder, page, take, category, search } = useCatalogParams();
 
     const { data: newProductAmount, isLoading: isLoadingProductAmount } = useFetch({
@@ -50,9 +50,13 @@ export default function CatalogClient(props: CatalogClientProps) {
     });
 
     useEffect(() => {
-        setProductList(newProductList);
-        setProductAmount(newProductAmount);
-    }, [newProductAmount, newProductList, setProductList, setProductAmount]);
+        if (newProductList && newProductAmount) {
+            setDataStore({
+                productList: newProductList,
+                productAmount: newProductAmount,
+            });
+        }
+    }, [newProductAmount, newProductList, setDataStore]);
 
     if (isLoadingProductList || isLoadingProductAmount) {
         return (
@@ -102,7 +106,7 @@ const ProductList = (props: ProductListProps) => {
                 <Link
                     key={index}
                     href={`/product/${id}`}
-                    className="outline-none ring-transparent focus:ring-offset-2 focus-visible:ring-2 focus-visible:ring-teal-400"
+                    className="ring-transparent outline-none focus:ring-offset-2 focus-visible:ring-2 focus-visible:ring-teal-400"
                 >
                     <Card className="overflow-hidden p-0">
                         <ImageRatio src={image} alt={name} />

@@ -112,16 +112,16 @@ CREATE TABLE `Article` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `DoItYourself` (
+CREATE TABLE `Diy` (
     `id` VARCHAR(191) NOT NULL,
     `title` VARCHAR(191) NOT NULL,
     `authorId` VARCHAR(191) NOT NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,
 
-    INDEX `DoItYourself_id_idx`(`id`),
-    INDEX `DoItYourself_title_idx`(`title`),
-    INDEX `DoItYourself_authorId_idx`(`authorId`),
+    INDEX `Diy_id_idx`(`id`),
+    INDEX `Diy_title_idx`(`title`),
+    INDEX `Diy_authorId_idx`(`authorId`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -131,13 +131,13 @@ CREATE TABLE `Content` (
     `content` TEXT NOT NULL,
     `image` VARCHAR(191) NOT NULL,
     `articleId` VARCHAR(191) NULL,
-    `doItYourselfId` VARCHAR(191) NULL,
+    `diyId` VARCHAR(191) NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,
 
     INDEX `Content_id_idx`(`id`),
     INDEX `Content_articleId_idx`(`articleId`),
-    INDEX `Content_doItYourselfId_idx`(`doItYourselfId`),
+    INDEX `Content_diyId_idx`(`diyId`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -234,13 +234,13 @@ ALTER TABLE `Address` ADD CONSTRAINT `Address_userId_fkey` FOREIGN KEY (`userId`
 ALTER TABLE `Article` ADD CONSTRAINT `Article_authorId_fkey` FOREIGN KEY (`authorId`) REFERENCES `User`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `DoItYourself` ADD CONSTRAINT `DoItYourself_authorId_fkey` FOREIGN KEY (`authorId`) REFERENCES `User`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `Diy` ADD CONSTRAINT `Diy_authorId_fkey` FOREIGN KEY (`authorId`) REFERENCES `User`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `Content` ADD CONSTRAINT `Content_articleId_fkey` FOREIGN KEY (`articleId`) REFERENCES `Article`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Content` ADD CONSTRAINT `Content_doItYourselfId_fkey` FOREIGN KEY (`doItYourselfId`) REFERENCES `DoItYourself`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `Content` ADD CONSTRAINT `Content_diyId_fkey` FOREIGN KEY (`diyId`) REFERENCES `Diy`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `Product` ADD CONSTRAINT `Product_vendorId_fkey` FOREIGN KEY (`vendorId`) REFERENCES `User`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;

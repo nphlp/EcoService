@@ -513,13 +513,13 @@ export const articleData: ArticleData[] = [
     }
 ];
 
-interface DoItYourselfData {
+interface DiyData {
     title: string;
     authorEmail: string;
     contents: ContentData[];
 }
 
-export const doItYourselfData: DoItYourselfData[] = [
+export const diyData: DiyData[] = [
     {
         title: "Fabriquer son propre savon naturel",
         authorEmail: "admin@example.com",

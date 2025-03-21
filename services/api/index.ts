@@ -12,7 +12,7 @@ export * from './account';
 export * from './verification';
 export * from './address';
 export * from './article';
-export * from './doItYourself';
+export * from './diy';
 export * from './content';
 export * from './category';
 export * from './product';

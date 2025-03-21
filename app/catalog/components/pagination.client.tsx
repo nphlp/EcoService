@@ -15,7 +15,7 @@ export default function PaginationClient(props: PaginationClientProps) {
     const { className } = props;
 
     const { setPage } = useCatalogParams();
-    const { productAmountLocal } = useContext(CatalogContext);
+    const { productAmount: productAmountLocal } = useContext(CatalogContext);
     const { page, take } = useCatalogParams();
 
     return (

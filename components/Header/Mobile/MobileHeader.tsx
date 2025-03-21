@@ -79,13 +79,13 @@ export default function MobileHeader(props: MobileHeaderProps) {
                     </ButtonClient>
                     <ButtonClient
                         type="link"
-                        href="/do-it-yourself"
-                        label="do-it-yourself"
+                        href="/diy"
+                        label="diy"
                         variant="outline"
                         className={combo(buttonClass)}
                         onClick={() => setVisibilityMenu(false)}
                     >
-                        Do it yourself
+                        DIY
                     </ButtonClient>
                     {!session && (
                         <>

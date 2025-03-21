@@ -2,7 +2,7 @@ import { FetchParallelized } from "@utils/FetchParallelized";
 import ProductSlider from "@comps/client/ProductSlider";
 import ImageRatio from "@comps/server/ImageRatio";
 import { combo } from "@lib/combo";
-import { DoItYourselfRelationsComplete } from "@services/class/DoItYourselfClass";
+import { DiyRelationsComplete } from "@services/class/DiyClass";
 export const dynamic = "force-dynamic";
 
 type PageProps = {
@@ -15,7 +15,7 @@ export default async function Page(props: PageProps) {
 
     const [diyRaw, productList] = await FetchParallelized([
         {
-            route: "/doItYourself/unique",
+            route: "/diy/unique",
             params: {
                 where: { id },
                 select: {
@@ -46,7 +46,7 @@ export default async function Page(props: PageProps) {
         },
     ]);
 
-    const diy = diyRaw as DoItYourselfRelationsComplete;
+    const diy = diyRaw as DiyRelationsComplete;
 
     if (!diy || !productList) {
         return <div className="container mx-auto px-4 py-10">Something went wrong...</div>;

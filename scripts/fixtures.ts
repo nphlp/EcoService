@@ -1,5 +1,5 @@
 import PrismaInstance from "@lib/prisma";
-import { articleData, categoryData, doItYourselfData, fruitData, productData, userData } from "../fixtures/data";
+import { articleData, categoryData, diyData, fruitData, productData, userData } from "../fixtures/data";
 
 export const fixtures = async () => {
     try {
@@ -119,7 +119,7 @@ export const fixtures = async () => {
         }
 
         // DoItYourself and Contents
-        for (const { title, authorEmail, contents } of doItYourselfData) {
+        for (const { title, authorEmail, contents } of diyData) {
             // Find the author by email
             const author = await PrismaInstance.user.findUnique({
                 where: { email: authorEmail },
@@ -131,7 +131,7 @@ export const fixtures = async () => {
             }
 
             // Create DoItYourself first
-            const diy = await PrismaInstance.doItYourself.create({
+            const diy = await PrismaInstance.diy.create({
                 data: {
                     title,
                     authorId: author.id,
@@ -144,7 +144,7 @@ export const fixtures = async () => {
                     data: {
                         content: contentData.content,
                         image: contentData.image,
-                        doItYourselfId: diy.id,
+                        diyId: diy.id,
                     },
                 });
             }

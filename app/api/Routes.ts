@@ -60,13 +60,13 @@ import {
     FindUniqueArticleResponse
 } from "@services/class/ArticleClass";
 import { 
-    CountDoItYourselfProps, 
-    CountDoItYourselfResponse,
-    FindManyDoItYourselfProps,
-    FindManyDoItYourselfResponse,
-    FindUniqueDoItYourselfProps,
-    FindUniqueDoItYourselfResponse
-} from "@services/class/DoItYourselfClass";
+    CountDiyProps, 
+    CountDiyResponse,
+    FindManyDiyProps,
+    FindManyDiyResponse,
+    FindUniqueDiyProps,
+    FindUniqueDiyResponse
+} from "@services/class/DiyClass";
 import { 
     CountContentProps, 
     CountContentResponse,
@@ -294,30 +294,30 @@ export type Routes = StripeRoutes & {
     };
 
     /**
-    * Route for fetching a list of doItYourselfs \
-    * GET `/api/doItYourself`
+    * Route for fetching a list of diys \
+    * GET `/api/diy`
     */
-    "/doItYourself": {
-        params?: FindManyDoItYourselfProps;
-        response: FindManyDoItYourselfResponse;
+    "/diy": {
+        params?: FindManyDiyProps;
+        response: FindManyDiyResponse;
     };
 
     /**
-    * Route for fetching a single DoItYourself by ID \
-    * GET `/api/doItYourself/unique`
+    * Route for fetching a single Diy by ID \
+    * GET `/api/diy/unique`
     */
-    "/doItYourself/unique": {
-        params?: FindUniqueDoItYourselfProps;
-        response: FindUniqueDoItYourselfResponse;
+    "/diy/unique": {
+        params?: FindUniqueDiyProps;
+        response: FindUniqueDiyResponse;
     };
     
     /**
-    * Route for fetching the count of doItYourselfs \
-    * GET `/api/doItYourself/count`
+    * Route for fetching the count of diys \
+    * GET `/api/diy/count`
     */
-    "/doItYourself/count": {
-        params?: CountDoItYourselfProps;
-        response: CountDoItYourselfResponse;
+    "/diy/count": {
+        params?: CountDiyProps;
+        response: CountDiyResponse;
     };
 
     /**
