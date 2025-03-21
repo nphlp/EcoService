@@ -1,3 +1,4 @@
+import { ArticleRelationsComplete } from "@class/ArticleClass";
 import { SliderClient } from "@comps/client/Slider";
 import ImageRatio from "@comps/server/ImageRatio";
 import { combo } from "@lib/combo";
@@ -13,7 +14,7 @@ export default async function Page(props: PageProps) {
     const { params } = props;
     const { id } = await params;
 
-    const [article, otherArticles] = await FetchParallelized([
+    const [articleRaw, otherArticlesRaw] = await FetchParallelized([
         {
             route: "/article/unique",
             params: {
@@ -60,6 +61,9 @@ export default async function Page(props: PageProps) {
             },
         },
     ]);
+
+    const article = articleRaw as ArticleRelationsComplete;
+    const otherArticles = otherArticlesRaw as ArticleRelationsComplete[];
 
     if (!article || !otherArticles) {
         return <div className="container mx-auto px-4 py-10">Article non trouvé</div>;

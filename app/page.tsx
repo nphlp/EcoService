@@ -2,6 +2,8 @@ import ProductSlider from "@comps/client/ProductSlider";
 import { SliderClient } from "@comps/client/Slider";
 import ImageRatio from "@comps/server/ImageRatio";
 import { combo } from "@lib/combo";
+import { DoItYourselfRelationsComplete } from "@services/index";
+import { ArticleRelationsComplete } from "@services/index";
 import { FetchParallelized } from "@utils/FetchParallelized";
 
 export const dynamic = "force-dynamic";
@@ -9,7 +11,7 @@ export const dynamic = "force-dynamic";
 export default async function Page() {
     const imageClass = "h-[100px] sm:h-[150px] md:h-[120px] lg:h-[160px] xl:h-[220px] rounded";
 
-    const [articleList, diyList, productList] = await FetchParallelized([
+    const [articleListRaw, diyListRaw, productList] = await FetchParallelized([
         {
             route: "/article",
             params: {
@@ -68,6 +70,9 @@ export default async function Page() {
             },
         },
     ]);
+
+    const articleList = articleListRaw as ArticleRelationsComplete[];
+    const diyList = diyListRaw as DoItYourselfRelationsComplete[];
 
     if (!articleList || !diyList || !productList) {
         return <div className="container mx-auto px-4 py-10">Aucun article disponible pour le moment.</div>;

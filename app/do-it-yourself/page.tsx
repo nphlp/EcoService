@@ -1,11 +1,12 @@
 import ImageRatio from "@comps/server/ImageRatio";
+import { DoItYourselfRelationsComplete } from "@services/class/DoItYourselfClass";
 import { Fetch } from "@utils/Fetch";
 import Link from "next/link";
 
 export const dynamic = "force-dynamic";
 
 export default async function Page() {
-    const diyList = await Fetch({
+    const diyListRaw = await Fetch({
         route: "/doItYourself",
         params: {
             select: {
@@ -29,6 +30,8 @@ export default async function Page() {
             },
         },
     });
+
+    const diyList = diyListRaw as DoItYourselfRelationsComplete[];
 
     if (!diyList) {
         return <div className="container mx-auto px-4 py-10">Aucun tutoriel DIY disponible pour le moment.</div>;

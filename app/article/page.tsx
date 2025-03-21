@@ -1,11 +1,12 @@
 import ImageRatio from "@comps/server/ImageRatio";
+import { ArticleRelationsComplete } from "@services/class/ArticleClass";
 import { Fetch } from "@utils/Fetch";
 import Link from "next/link";
 
 export const dynamic = "force-dynamic";
 
 export default async function Page() {
-    const articleList = await Fetch({
+    const articleListRaw = await Fetch({
         route: "/article",
         params: {
             select: {
@@ -29,6 +30,8 @@ export default async function Page() {
             },
         },
     });
+
+    const articleList = articleListRaw as ArticleRelationsComplete[];
 
     if (!articleList) {
         return <div className="container mx-auto px-4 py-10">Aucun article disponible pour le moment.</div>;

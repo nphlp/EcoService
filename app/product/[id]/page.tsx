@@ -3,6 +3,7 @@ import { Fetch } from "@utils/Fetch";
 import { ArrowLeft, Package2, ShieldCheck, Truck } from "lucide-react";
 import Link from "next/link";
 import AddToCartButton from "./AddToCartButton";
+import { ProductRelationsComplete } from "@class/ProductClass";
 
 export const dynamic = "force-dynamic";
 
@@ -14,7 +15,7 @@ export default async function Page(props: PageProps) {
     const { params } = props;
     const { id } = await params;
 
-    const product = await Fetch({
+    const productRaw = await Fetch({
         route: "/product/unique",
         params: {
             where: { id },
@@ -38,6 +39,8 @@ export default async function Page(props: PageProps) {
             },
         },
     });
+
+    const product = productRaw as ProductRelationsComplete;
 
     if (!product) {
         return (

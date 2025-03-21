@@ -1,6 +1,6 @@
 "use client";
 
-import { ArticleRelationsOptional } from "@class/ArticleClass";
+import { ArticleRelationsComplete } from "@class/ArticleClass";
 import ImageRatio from "@comps/server/ImageRatio";
 import { combo } from "@lib/combo";
 import Link from "next/link";
@@ -12,7 +12,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 type SliderClientProps = {
     className?: string;
     link: string;
-    dataList: ArticleRelationsOptional[];
+    dataList: ArticleRelationsComplete[];
 };
 
 /**

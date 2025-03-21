@@ -2,7 +2,7 @@
 
 import { Routes } from "@api/Routes";
 import { DataType, Fetch, FetchProps } from "@utils/Fetch";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 /**
  * Props for the useFetch hook
@@ -31,22 +31,16 @@ export type FetchHookProps<Key extends keyof Routes> = Omit<FetchProps<Key>, "cl
 export const useFetch = <Key extends keyof Routes>(props: FetchHookProps<Key>) => {
     const { route, params, fetchOnFirstRender = false } = props;
 
-    // Keep this line to for development
-    // if (process.env.NODE_ENV === "development") console.log("Fetch on first render:", fetchOnFirstRender);
+    const stringifiedParams = JSON.stringify(params);
+
+    // Memoize the props to avoid re-rendering the component when the params change
+    const memoizedProps = useMemo(() => ({
+        route,
+        params: JSON.parse(stringifiedParams),
+    }), [route, stringifiedParams]);
 
     // Enable or disable the fetch on first render, depending on SSR (false by default) or CSR (true)
     const fetchOnFirstRenderRef = useRef(fetchOnFirstRender);
-
-    // Create a ref to give params to the fetch without causing a re-render
-    const propsRef = useRef({ route, params });
-
-    // Update the ref when the props change without causing a re-render
-    useEffect(() => {
-        propsRef.current = { route, params };
-    }, [route, params]);
-
-    // Trigger a re-render to re-fetch the data when params change
-    const paramsString = JSON.stringify(props.params);
 
     // State for managing the fetch lifecycle
     const [data, setData] = useState<DataType<Key>>();
@@ -66,9 +60,9 @@ export const useFetch = <Key extends keyof Routes>(props: FetchHookProps<Key>) =
             console.log("FETCH TRIGGERED");
 
             try {
-                const { route, params } = propsRef.current;
+                const { route, params } = memoizedProps;
 
-                // Make the API request
+                // Fetch the data
                 const response = await Fetch({
                     route,
                     params,
@@ -87,10 +81,11 @@ export const useFetch = <Key extends keyof Routes>(props: FetchHookProps<Key>) =
             }
         };
 
+        // Prevent fetching data on first render if `fetchOnFirstRender` is false
         if (fetchOnFirstRenderRef.current) {
             fetchData();
         }
-
+        // Set the `fetchOnFirstRenderRef` to true for the next renders
         fetchOnFirstRenderRef.current = true;
 
         // Cleanup function to abort the request when the component unmounts
@@ -98,7 +93,7 @@ export const useFetch = <Key extends keyof Routes>(props: FetchHookProps<Key>) =
         return () => {
             controller.abort();
         };
-    }, [paramsString]); // Re-run the effect when the params change
+    }, [memoizedProps]); // Trigger useEffect only when the memoized props change
 
     return { data, isLoading, error };
 };
