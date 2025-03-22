@@ -23,9 +23,8 @@
         "stripe:webhooks": "stripe listen --forward-to localhost:3000/api/stripe/webhooks",
         "help": "tsx scripts/help.ts help",
         "generate:list": "tsx scripts/generator.ts list",
-        "generate:model": "tsx scripts/generator.ts model",
-        "generate:test": "tsx scripts/generator.ts test",
-        "generate:all": "tsx scripts/generator.ts"
+        "generate:clear": "tsx scripts/generator.ts clear",
+        "generate:all": "tsx scripts/generator.ts all"
     },
     "dependencies": {
         "@plunk/node": "^3.0.3",

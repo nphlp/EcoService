@@ -1,89 +1,89 @@
 import path from "path";
-import { ensureDir, removePath } from "./fileUtils";
-import { generateAllRoute, generateIndexFiles } from "./indexGenerator";
+import { generateIndexFiles, generateModelFiles } from "./fileGenerator";
+import { removePath } from "./fileUtils";
+import { pathsToRemove } from "./mapping";
 import { extractModelNames } from "./modelExtractor";
-import { generateModel } from "./modelGenerator";
 
 /**
- * Génère tous les modèles
+ * Implémentation des commandes disponibles via l'interface CLI
+ * 
+ * Ce module expose les commandes principales du générateur:
+ * - list: affiche les modèles disponibles
+ * - clear: supprime les fichiers générés
+ * - generate: génère les fichiers pour tous les modèles
  */
-export function generateAllModels(): void {
-    console.log('🚀 Démarrage de la génération des fichiers...');
-    
-    // Extraire les noms des modèles
+
+/**
+ * Affiche la liste des modèles détectés dans le schéma Prisma
+ * 
+ * Extrait et affiche tous les modèles disponibles pour
+ * la génération, avec un formatage console lisible.
+ */
+export const listModels = (): void => {
+    // Extraire les noms des modèles du schéma Prisma
     const modelNames = extractModelNames();
     
+    // Vérifier si des modèles ont été trouvés
     if (modelNames.length === 0) {
         console.error('❌ Aucun modèle trouvé dans le schéma Prisma');
         return;
     }
     
-    console.log(`📋 Modèles trouvés: ${modelNames.join(', ')}`);
-    
-    // Supprimer les dossiers générés précédemment
-    removePath(path.join(process.cwd(), 'services/class'));
-    removePath(path.join(process.cwd(), 'services/actions'));
-    removePath(path.join(process.cwd(), 'services/api'));
-    removePath(path.join(process.cwd(), 'app/api/Routes.ts'));
-    removePath(path.join(process.cwd(), 'app/api/[...routes]'));
-    
-    // Créer les dossiers nécessaires
-    ensureDir(path.join(process.cwd(), 'services/class'));
-    ensureDir(path.join(process.cwd(), 'services/actions'));
-    ensureDir(path.join(process.cwd(), 'services/api'));
-    ensureDir(path.join(process.cwd(), 'app/api/[...routes]'));
-    
-    // Générer les fichiers pour chaque modèle
-    for (const modelName of modelNames) {
-        generateModel(modelName);
-    }
-    
-    // Générer les fichiers index
-    generateIndexFiles(modelNames);
-    
-    // Générer le fichier [...routes]/route.ts
-    generateAllRoute();
-    
-    console.log('✅ Génération terminée avec succès!');
-}
-
-/**
- * Liste les modèles disponibles
- */
-export function listModels(): void {
-    // Extraire les noms des modèles
-    const modelNames = extractModelNames();
-    
-    if (modelNames.length === 0) {
-        console.error('❌ Aucun modèle trouvé dans le schéma Prisma');
-        return;
-    }
-    
+    // Afficher la liste des modèles avec formatage
     console.log(`📋 Modèles trouvés (${modelNames.length}):\n  - ${modelNames.join('\n  - ')}`);
     console.log('\n✅ Listage terminé avec succès!');
-}
+};
 
 /**
- * Génère un modèle spécifique
+ * Supprime tous les fichiers générés précédemment
+ * 
+ * Nettoie l'environnement en supprimant tous les répertoires et fichiers
+ * qui ont été créés par le générateur.
  */
-export function generateSpecificModel(modelName: string): void {
-    // Vérifier si le modèle existe
+export const clearModels = (): void => {
+    console.log('🚀 Nettoyage des fichiers générés...');
+    
+    // Supprimer tous les chemins générés
+    for (const pathToRemove of pathsToRemove) {
+        removePath(path.join(process.cwd(), pathToRemove));
+    }
+    
+    console.log('✅ Suppression des fichiers générés terminée avec succès!');
+};
+
+/**
+ * Génère tous les fichiers pour tous les modèles
+ * 
+ * Processus principal de génération qui:
+ * 1. Extrait les modèles du schéma Prisma
+ * 2. Nettoie les fichiers existants
+ * 3. Génère les fichiers spécifiques à chaque modèle
+ * 4. Génère les fichiers d'index et de configuration
+ */
+export const generateModels = (): void => {
+    console.log('🚀 Démarrage de la génération des fichiers...');
+    
+    // Extraire les noms des modèles du schéma Prisma
     const modelNames = extractModelNames();
-    if (!modelNames.includes(modelName)) {
-        console.error(`❌ Modèle "${modelName}" non trouvé dans le schéma Prisma`);
-        console.log(`📋 Modèles disponibles: ${modelNames.join(', ')}`);
+    
+    // Vérifier si des modèles ont été trouvés
+    if (modelNames.length === 0) {
+        console.error('❌ Aucun modèle trouvé dans le schéma Prisma');
         return;
     }
     
-    console.log(`🚀 Démarrage de la génération pour le modèle ${modelName}...`);
+    // Nettoyer l'environnement avant la génération
+    for (const pathToRemove of pathsToRemove) {
+        removePath(path.join(process.cwd(), pathToRemove));
+    }
     
-    // Créer les dossiers nécessaires s'ils n'existent pas
-    ensureDir(path.join(process.cwd(), 'services/class'));
-    ensureDir(path.join(process.cwd(), 'services/actions'));
-    ensureDir(path.join(process.cwd(), 'services/api'));
+    // Générer les fichiers pour chaque modèle individuellement
+    for (const modelName of modelNames) {
+        generateModelFiles(modelName);
+    }
     
-    // Générer les fichiers pour le modèle spécifique
-    generateModel(modelName);
+    // Générer les fichiers globaux (index, routes)
+    generateIndexFiles(modelNames);
     
-    console.log(`✅ Génération pour le modèle ${modelName} terminée avec succès!`);
-} 
+    console.log('✅ Génération terminée avec succès!');
+};

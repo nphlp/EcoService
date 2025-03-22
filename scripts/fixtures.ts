@@ -1,5 +1,5 @@
 import PrismaInstance from "@lib/prisma";
-import { articleData, categoryData, diyData, fruitData, productData, userData } from "../fixtures/data";
+import { articleData, categoryData, diyData, fruitData, productData, userData } from "./fixtures/data";
 
 export const fixtures = async () => {
     try {

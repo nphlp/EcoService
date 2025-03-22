@@ -8,4 +8,4 @@
  */
 export * from './actions';
 export * from './api';
-export * from './class'; 
+export * from './class';

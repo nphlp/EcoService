@@ -3,28 +3,40 @@ import Handlebars from 'handlebars';
 import path from "path";
 
 /**
- * Crée un dossier s'il n'existe pas
+ * Utilitaires de gestion des fichiers pour le générateur
+ * 
+ * Ce module fournit des fonctions pour:
+ * - Créer des répertoires si nécessaire
+ * - Générer des fichiers à partir de templates Handlebars
+ * - Supprimer des fichiers ou répertoires
  */
-export function ensureDir(dir: string): void {
+
+/**
+ * Crée un répertoire s'il n'existe pas déjà
+ * 
+ * @param dir Chemin du répertoire à créer
+ */
+export const ensureDir = (dir: string): void => {
     if (!fs.existsSync(dir)) {
         fs.mkdirSync(dir, { recursive: true });
     }
-}
+};
 
 /**
- * Génère un fichier à partir d'un template
+ * Génère un fichier à partir d'un template Handlebars
+ * 
+ * Lit un template, applique les substitutions de variables,
+ * crée les répertoires nécessaires et écrit le fichier généré.
+ * 
+ * @param templatePath Chemin du fichier template (.hbs)
+ * @param outputPath Chemin où le fichier généré sera écrit
+ * @param replacements Dictionnaire des variables à remplacer dans le template
+ * @throws Error si le template n'existe pas
  */
-export function generateFile(templatePath: string, outputPath: string, replacements: Record<string, unknown>): void {
-    // Vérifier si le fichier existe déjà
-    if (fs.existsSync(outputPath)) {
-        console.log(`⏩ Fichier existant, ignoré: ${outputPath}`);
-        return;
-    }
-    
+export const generateFile = (templatePath: string, outputPath: string, replacements: Record<string, unknown>): void => {
     // Vérifier si le template existe
     if (!fs.existsSync(templatePath)) {
-        console.error(`❌ Template non trouvé: ${templatePath}`);
-        return;
+        throw new Error(`Template ${templatePath} not found`);
     }
     
     // Lire le template
@@ -41,21 +53,22 @@ export function generateFile(templatePath: string, outputPath: string, replaceme
     
     // Écrire le fichier généré
     fs.writeFileSync(outputPath, content);
-    
-    console.log(`✅ Fichier généré: ${outputPath}`);
-}
+};
 
 /**
- * Supprime un dossier ou un fichier
+ * Supprime un fichier ou un répertoire complet
+ * 
+ * Détecte automatiquement si le chemin est un fichier ou un répertoire
+ * et utilise la méthode de suppression appropriée.
+ * 
+ * @param pathToRemove Chemin du fichier ou répertoire à supprimer
  */
-export function removePath(pathToRemove: string): void {
+export const removePath = (pathToRemove: string): void => {
     if (!fs.existsSync(pathToRemove)) return;
     
     if (fs.lstatSync(pathToRemove).isDirectory()) {
         fs.rmSync(pathToRemove, { recursive: true, force: true });
-        console.log(`🗑️ Dossier supprimé: ${pathToRemove}`);
     } else {
         fs.unlinkSync(pathToRemove);
-        console.log(`🗑️ Fichier supprimé: ${pathToRemove}`);
     }
-} 
+};
