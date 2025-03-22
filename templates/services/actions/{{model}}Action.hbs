@@ -1,18 +1,6 @@
 "use server";
 
-/**
- * Actions serveur pour les opérations CRUD sur les {{modelNameLower}}s
- * 
- * Ce fichier expose les méthodes de {{modelName}}Service comme des actions serveur Next.js.
- * Ces actions peuvent être appelées directement depuis les composants client.
- * 
- * Chaque action est une simple passerelle vers la méthode correspondante du service,
- * ce qui permet de centraliser la logique métier dans les classes de service.
- * 
- * Note: Ces actions ne sont pas mises en cache et ne doivent pas être utilisées
- * pour récupérer des données - utilisez plutôt les routes API avec mise en cache.
- */
-
+import { Prisma } from "@prisma/client";
 import {
     {{modelName}}Service,
     Count{{modelName}}Props,
@@ -26,15 +14,12 @@ import {
     FindUnique{{modelName}}Props,
     FindUnique{{modelName}}Response,
     Update{{modelName}}Props,
-    Update{{modelName}}Response
+    Update{{modelName}}Response,
+    Upsert{{modelName}}Props,
+    Upsert{{modelName}}Response
 } from "@services/class/{{modelName}}Class";
 
-/**
- * Creates a new {{modelNameLower}}
- * @param props {{modelName}} properties
- * @returns Created {{modelNameLower}} or error
- */
-export const Create{{modelName}} = async (props: Create{{modelName}}Props): Promise<Create{{modelName}}Response> => {
+export const Create{{modelName}} = async <T extends Create{{modelName}}Props>(props: T): Promise<Create{{modelName}}Response<T>> => {
     try {
         const { data, error } = await {{modelName}}Service.create(props);
         if (!data || error) throw new Error(error);
@@ -45,11 +30,17 @@ export const Create{{modelName}} = async (props: Create{{modelName}}Props): Prom
 };
 
 /**
- * Updates a {{modelNameLower}}
- * @param props {{modelName}} ID and new data
- * @returns Updated {{modelNameLower}} or error
- */
-export const Update{{modelName}} = async (props: Update{{modelName}}Props): Promise<Update{{modelName}}Response> => {
+export const Upsert{{modelName}} = async <T extends Upsert{{modelName}}Props>(props: T): Promise<Upsert{{modelName}}Response<T>> => {
+    try {
+        const { data, error } = await {{modelName}}Service.upsert(props);
+        if (!data || error) throw new Error(error);
+        return data;
+    } catch (error) {
+        throw new Error("Upsert{{modelName}} -> " + (error as Error).message);
+    }
+};
+
+export const Update{{modelName}} = async <T extends Update{{modelName}}Props>(props: T): Promise<Update{{modelName}}Response<T>> => {
     try {
         const { data, error } = await {{modelName}}Service.update(props);
         if (!data || error) throw new Error(error);
@@ -59,12 +50,7 @@ export const Update{{modelName}} = async (props: Update{{modelName}}Props): Prom
     }
 };
 
-/**
- * Deletes a {{modelNameLower}}
- * @param props {{modelName}} ID
- * @returns Deleted {{modelNameLower}} or error
- */
-export const Delete{{modelName}} = async (props: Delete{{modelName}}Props): Promise<Delete{{modelName}}Response> => {
+export const Delete{{modelName}} = async <T extends Delete{{modelName}}Props>(props: T): Promise<Delete{{modelName}}Response<T>> => {
     try {
         const { data, error } = await {{modelName}}Service.delete(props);
         if (!data || error) throw new Error(error);
@@ -75,28 +61,26 @@ export const Delete{{modelName}} = async (props: Delete{{modelName}}Props): Prom
 };
 
 /**
- * Retrieves a {{modelNameLower}} by ID or another filter (no caching) \
  * WARNING: do not use this for fetching data -> use API routes with caching instead
- * @param props {{modelName}} ID or other filter
- * @returns Found {{modelNameLower}} or error
  */
-export const Select{{modelName}} = async (props: FindUnique{{modelName}}Props): Promise<FindUnique{{modelName}}Response> => {
+export const Select{{modelName}} = async <T extends FindUnique{{modelName}}Props>(
+    props: T
+): Promise<FindUnique{{modelName}}Response<T>> => {
     try {
         const { data, error } = await {{modelName}}Service.findUnique(props);
-        if (!data || error) throw new Error(error);
-        return data;
+        if (error) throw new Error(error);
+        return data ?? null;
     } catch (error) {
         throw new Error("Select{{modelName}} -> " + (error as Error).message);
     }
 };
 
 /**
- * Retrieves a list of {{modelNameLower}}s with filters (no caching) \
  * WARNING: do not use this for fetching data -> use API routes with caching instead
- * @param props Filter and pagination options
- * @returns List of {{modelNameLower}}s or error
  */
-export const Select{{modelName}}List = async (props: FindMany{{modelName}}Props): Promise<FindMany{{modelName}}Response> => {
+export const Select{{modelName}}List = async <T extends FindMany{{modelName}}Props>(
+    props: T
+): Promise<FindMany{{modelName}}Response<T>> => {
     try {
         const { data, error } = await {{modelName}}Service.findMany(props);
         if (!data || error) throw new Error(error);
@@ -107,12 +91,9 @@ export const Select{{modelName}}List = async (props: FindMany{{modelName}}Props)
 };
 
 /**
- * Counts {{modelNameLower}}s with filters (no caching) \
  * WARNING: do not use this for fetching data -> use API routes with caching instead
- * @param props Filter options
- * @returns Count of {{modelNameLower}}s or error
  */
-export const Select{{modelName}}Amount = async (props: Count{{modelName}}Props): Promise<Count{{modelName}}Response> => {
+export const Select{{modelName}}Amount = async (props: Prisma.{{modelName}}CountArgs): Promise<number> => {
     try {
         const { data, error } = await {{modelName}}Service.count(props);
         if (!data || error) throw new Error(error);

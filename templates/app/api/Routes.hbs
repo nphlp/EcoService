@@ -1,31 +1,14 @@
-/**
- * Type definition for all API routes in the application.
- * This serves as a centralized registry for route parameters and response types.
- *
- * Each route is defined with:
- * - params: The expected parameters for the route (optional)
- * - response: The expected response type from the route
- *
- * This type is used by the Fetch utility to provide type safety when making API requests.
- * 
- * ATTENTION: Ce fichier est généré automatiquement. Ne pas modifier manuellement.
- */
-
-{{#each models}}
 import { 
+    {{#each models}}
     Count{{this.name}}Props, 
     Count{{this.name}}Response,
     FindMany{{this.name}}Props,
     FindMany{{this.name}}Response,
     FindUnique{{this.name}}Props,
-    FindUnique{{this.name}}Response
-} from "@services/class/{{this.name}}Class";
-{{/each}}
+    FindUnique{{this.name}}Response{{#unless @last}},{{/unless}}
+    {{/each}}
+} from "@services/class";
 
-/**
- * Type representing the response format for API routes
- * @template Response - The type of the data in the response
- */
 export type ResponseFormat<Response> = {
     data: Response;
     error?: undefined;
@@ -37,30 +20,18 @@ export type ResponseFormat<Response> = {
 import { Routes as StripeRoutes } from "./stripe/Routes";
 
 export type Routes = StripeRoutes & {
-{{!-- export type Routes = { --}}
     {{#each models}}
-    /**
-    * Route for fetching a list of {{this.nameLower}}s \
-    * GET `/api/{{this.nameLower}}`
-    */
+
     "/{{this.nameLower}}": {
         params?: FindMany{{this.name}}Props;
         response: FindMany{{this.name}}Response;
     };
 
-    /**
-    * Route for fetching a single {{this.name}} by ID \
-    * GET `/api/{{this.nameLower}}/unique`
-    */
     "/{{this.nameLower}}/unique": {
         params?: FindUnique{{this.name}}Props;
         response: FindUnique{{this.name}}Response;
     };
-    
-    /**
-    * Route for fetching the count of {{this.nameLower}}s \
-    * GET `/api/{{this.nameLower}}/count`
-    */
+
     "/{{this.nameLower}}/count": {
         params?: Count{{this.name}}Props;
         response: Count{{this.name}}Response;

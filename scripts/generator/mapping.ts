@@ -36,6 +36,7 @@ export const pathsToRemove: string[] = [
  * Variables disponibles dans les templates:
  * - {{modelName}}: Nom du modèle (ex: User)
  * - {{modelNameLower}}: Nom du modèle en minuscule (ex: user)
+ * - {{modelNameUpper}}: Nom du modèle en majuscule (ex: USER)
  * - {{model}}: Placeholder remplacé par le nom du modèle dans les chemins de template
  */
 export const templates: FileTemplate[] = [
@@ -51,20 +52,8 @@ export const templates: FileTemplate[] = [
     },
     // Endpoints API
     {
-        input: `templates/services/api/{{model}}/index.hbs`,
-        output: `services/api/{{modelNameLower}}/index.ts`
-    },
-    {
-        input: `templates/services/api/{{model}}/list.hbs`,
-        output: `services/api/{{modelNameLower}}/list.ts`
-    },
-    {
-        input: `templates/services/api/{{model}}/unique.hbs`,
-        output: `services/api/{{modelNameLower}}/unique.ts`
-    },
-    {
-        input: `templates/services/api/{{model}}/count.hbs`,
-        output: `services/api/{{modelNameLower}}/count.ts`
+        input: `templates/services/api/{{model}}Api.hbs`,
+        output: `services/api/{{modelName}}Api.ts`
     }
 ];
 

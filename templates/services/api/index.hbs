@@ -1,11 +1,3 @@
-/**
- * Point d'entrée pour toutes les API
- * 
- * Ce fichier exporte toutes les API, permettant de les importer
- * depuis "@services/api" plutôt que depuis leurs dossiers individuels.
- * 
- * À mesure que de nouvelles API sont ajoutées, elles doivent être exportées ici.
- */
 {{#each models}}
-export * from './{{this.nameLower}}';
+export * from './{{this.name}}Api';
 {{/each}}

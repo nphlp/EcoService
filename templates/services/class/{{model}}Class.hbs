@@ -1,19 +1,8 @@
-/**
- * Classe de service pour les opérations CRUD sur les {{modelNameLower}}s
- * 
- * Ce fichier centralise toute la logique d'accès aux données pour les {{modelNameLower}}s.
- * Il utilise les schémas Zod générés par zod-prisma-types pour la validation des données.
- * Chaque méthode retourne soit les données demandées, soit une erreur formatée.
- * 
- * Les types sont définis pour correspondre aux opérations Prisma (create, update, delete, etc.)
- * et suivent une nomenclature cohérente avec l'API Prisma.
- */
 import { ResponseFormat } from "@app/api/Routes";
 import PrismaInstance from "@lib/prisma";
 import { Prisma } from "@prisma/client";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import {
-    {{modelName}},
     {{modelName}}CreateArgsSchema,
     {{modelName}}DeleteArgsSchema,
     {{modelName}}FindManyArgsSchema,
@@ -34,37 +23,20 @@ import { z, ZodError, ZodType } from "zod";
 // ============== Types ============== //
 
 export type {{modelName}}Model = z.infer<typeof {{modelName}}Schema>;
-
 {{#if hasRelations}}
 export type {{modelName}}RelationsOptional = z.infer<typeof {{modelName}}Schema> & z.infer<typeof {{modelName}}IncludeSchema>;
-
 export type {{modelName}}RelationsComplete = z.infer<typeof {{modelName}}WithRelationsSchema>;
-
 {{/if}}
 export type {{modelName}}Count = number;
 
 // ============== Schema Types ============== //
 
 const create{{modelName}}Schema: ZodType<Prisma.{{modelName}}CreateArgs> = {{modelName}}CreateArgsSchema;
-
 const upsert{{modelName}}Schema: ZodType<Prisma.{{modelName}}UpsertArgs> = {{modelName}}UpsertArgsSchema;
-
 const update{{modelName}}Schema: ZodType<Prisma.{{modelName}}UpdateArgs> = {{modelName}}UpdateArgsSchema;
-
 const delete{{modelName}}Schema: ZodType<Prisma.{{modelName}}DeleteArgs> = {{modelName}}DeleteArgsSchema;
-
 const select{{modelName}}Schema: ZodType<Prisma.{{modelName}}FindUniqueArgs> = {{modelName}}FindUniqueArgsSchema;
-
 const selectMany{{modelName}}Schema: ZodType<Prisma.{{modelName}}FindManyArgs> = {{modelName}}FindManyArgsSchema;
-
-/**
- * Définition du schéma pour {{modelName}}CountArgs
- * 
- * Ce schéma correspond au type Prisma.{{modelName}}CountArgs qui est défini comme:
- * Omit<{{modelName}}FindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
- *   select?: {{modelName}}CountAggregateInputType | true
- * }
- */
 const count{{modelName}}Schema: ZodType<Prisma.{{modelName}}CountArgs> = z.object({
     where: z.lazy(() => {{modelName}}WhereInputSchema).optional(),
     orderBy: z.union([
@@ -80,64 +52,39 @@ const count{{modelName}}Schema: ZodType<Prisma.{{modelName}}CountArgs> = z.objec
 // ============== CRUD Props Types ============== //
 
 export type Create{{modelName}}Props = z.infer<typeof create{{modelName}}Schema>;
-
 export type Upsert{{modelName}}Props = z.infer<typeof upsert{{modelName}}Schema>;
-
 export type Update{{modelName}}Props = z.infer<typeof update{{modelName}}Schema>;
-
 export type Delete{{modelName}}Props = z.infer<typeof delete{{modelName}}Schema>;
-
 export type FindUnique{{modelName}}Props = z.infer<typeof select{{modelName}}Schema>;
-
 export type FindMany{{modelName}}Props = z.infer<typeof selectMany{{modelName}}Schema>;
-
 export type Count{{modelName}}Props = z.infer<typeof count{{modelName}}Schema>;
 
 // ============== CRUD Response Types ============== //
 
-export type Create{{modelName}}Response = {{modelName}}Model;
-
-export type Upsert{{modelName}}Response = {{modelName}}Model;
-
-export type Update{{modelName}}Response = {{modelName}}Model;
-
-export type Delete{{modelName}}Response = {{modelName}}Model;
-
-{{#if hasRelations}}
-export type FindUnique{{modelName}}Response = {{modelName}}RelationsOptional | null;
-
-export type FindMany{{modelName}}Response = {{modelName}}RelationsOptional[];
-{{else}}
-export type FindUnique{{modelName}}Response = {{modelName}}Model | null;
-
-export type FindMany{{modelName}}Response = {{modelName}}Model[];
-{{/if}}
-
+export type Create{{modelName}}Response<T extends Create{{modelName}}Props> = Prisma.{{modelName}}GetPayload<T>;
+export type Upsert{{modelName}}Response<T extends Upsert{{modelName}}Props> = Prisma.{{modelName}}GetPayload<T>;
+export type Update{{modelName}}Response<T extends Update{{modelName}}Props> = Prisma.{{modelName}}GetPayload<T>;
+export type Delete{{modelName}}Response<T extends Delete{{modelName}}Props> = Prisma.{{modelName}}GetPayload<T>;
+export type FindUnique{{modelName}}Response<T extends FindUnique{{modelName}}Props> = Prisma.{{modelName}}GetPayload<T> | null;
+export type FindMany{{modelName}}Response<T extends FindMany{{modelName}}Props> = Prisma.{{modelName}}GetPayload<T>[];
 export type Count{{modelName}}Response = {{modelName}}Count;
 
 // ============== Services ============== //
 
-/**
- * Service pour les opérations de base de données sur les {{modelNameLower}}s
- */
 export class {{modelName}}Service {
-    /**
-     * Crée un(e) nouveau/nouvelle {{modelNameLower}}
-     * @param props Propriétés du/de la {{modelNameLower}}
-     * @returns {{modelName}} créé(e) ou erreur
-     */
-    static async create(props: Create{{modelName}}Props): Promise<ResponseFormat<Create{{modelName}}Response>> {
+
+    static async create<T extends Create{{modelName}}Props>(props: T): Promise<ResponseFormat<Create{{modelName}}Response<T>>> {
         try {
             const { data{{#if hasRelations}}, include{{/if}}, omit, select } = create{{modelName}}Schema.parse(props);
 
-            const {{modelNameLower}}: {{modelName}} = await PrismaInstance.{{modelNameLower}}.create({
+            const {{modelNameLower}} = await PrismaInstance.{{modelNameLower}}.create({
                 data,
                 {{#if hasRelations}}...(include && { include }),{{/if}}
                 ...(omit && { omit }),
                 ...(select && { select }),
             });
 
-            return { data: {{modelNameLower}} };
+            return { data: {{modelNameLower}} as Create{{modelName}}Response<T> };
         } catch (error) {
             console.error("{{modelName}}Service -> Create -> " + (error as Error).message);
             if (process.env.NODE_ENV === "development") {
@@ -152,11 +99,11 @@ export class {{modelName}}Service {
         }
     }
 
-    static async upsert(props: Upsert{{modelName}}Props): Promise<ResponseFormat<Upsert{{modelName}}Response>> {
+    static async upsert<T extends Upsert{{modelName}}Props>(props: T): Promise<ResponseFormat<Upsert{{modelName}}Response<T>>> {
         try {
             const { create, update, where{{#if hasRelations}}, include{{/if}}, omit, select } = upsert{{modelName}}Schema.parse(props);
 
-            const {{modelNameLower}}: {{modelName}} = await PrismaInstance.{{modelNameLower}}.upsert({
+            const {{modelNameLower}} = await PrismaInstance.{{modelNameLower}}.upsert({
                 create,
                 update,
                 where,
@@ -165,7 +112,7 @@ export class {{modelName}}Service {
                 ...(select && { select }),
             });
 
-            return { data: {{modelNameLower}} };
+            return { data: {{modelNameLower}} as Upsert{{modelName}}Response<T> };
         } catch (error) {
             console.error("{{modelName}}Service -> Upsert -> " + (error as Error).message);
             if (process.env.NODE_ENV === "development") {
@@ -180,16 +127,11 @@ export class {{modelName}}Service {
         }
     }
 
-    /**
-     * Met à jour un(e) {{modelNameLower}}
-     * @param props ID du/de la {{modelNameLower}} et nouvelles données
-     * @returns {{modelName}} mis(e) à jour ou erreur
-     */
-    static async update(props: Update{{modelName}}Props): Promise<ResponseFormat<Update{{modelName}}Response>> {
+    static async update<T extends Update{{modelName}}Props>(props: T): Promise<ResponseFormat<Update{{modelName}}Response<T>>> {
         try {
             const { data, where{{#if hasRelations}}, include{{/if}}, omit, select } = update{{modelName}}Schema.parse(props);
 
-            const {{modelNameLower}}: {{modelName}} = await PrismaInstance.{{modelNameLower}}.update({
+            const {{modelNameLower}} = await PrismaInstance.{{modelNameLower}}.update({
                 data,
                 where,
                 {{#if hasRelations}}...(include && { include }),{{/if}}
@@ -197,7 +139,7 @@ export class {{modelName}}Service {
                 ...(select && { select }),
             });
 
-            return { data: {{modelNameLower}} };
+            return { data: {{modelNameLower}} as Update{{modelName}}Response<T> };
         } catch (error) {
             console.error("{{modelName}}Service -> Update -> " + (error as Error).message);
             if (process.env.NODE_ENV === "development") {
@@ -212,23 +154,18 @@ export class {{modelName}}Service {
         }
     }
 
-    /**
-     * Supprime un(e) {{modelNameLower}}
-     * @param props ID du/de la {{modelNameLower}}
-     * @returns {{modelName}} supprimé(e) ou erreur
-     */
-    static async delete(props: Delete{{modelName}}Props): Promise<ResponseFormat<Delete{{modelName}}Response>> {
+    static async delete<T extends Delete{{modelName}}Props>(props: T): Promise<ResponseFormat<Delete{{modelName}}Response<T>>> {
         try {
             const { where{{#if hasRelations}}, include{{/if}}, omit, select } = delete{{modelName}}Schema.parse(props);
 
-            const {{modelNameLower}}: {{modelName}} = await PrismaInstance.{{modelNameLower}}.delete({
+            const {{modelNameLower}} = await PrismaInstance.{{modelNameLower}}.delete({
                 where,
                 {{#if hasRelations}}...(include && { include }),{{/if}}
                 ...(omit && { omit }),
                 ...(select && { select }),
             });
 
-            return { data: {{modelNameLower}} };
+            return { data: {{modelNameLower}} as Delete{{modelName}}Response<T> };
         } catch (error) {
             console.error("{{modelName}}Service -> Delete -> " + (error as Error).message);
             if (process.env.NODE_ENV === "development") {
@@ -243,25 +180,18 @@ export class {{modelName}}Service {
         }
     }
 
-    /**
-     * Récupère un(e) {{modelNameLower}} par ID ou autre filtre
-     */
-    static async findUnique(props: FindUnique{{modelName}}Props): Promise<ResponseFormat<FindUnique{{modelName}}Response>> {
+    static async findUnique<T extends FindUnique{{modelName}}Props>(props: T): Promise<ResponseFormat<FindUnique{{modelName}}Response<T>>> {
         try {
             const { where{{#if hasRelations}}, include{{/if}}, omit, select } = select{{modelName}}Schema.parse(props);
 
-            {{#if hasRelations}}
-            const {{modelNameLower}}: {{modelName}}RelationsOptional | null = await PrismaInstance.{{modelNameLower}}.findUnique({
-            {{else}}
-            const {{modelNameLower}}: {{modelName}}Model | null = await PrismaInstance.{{modelNameLower}}.findUnique({
-            {{/if}}
+            const {{modelNameLower}} = await PrismaInstance.{{modelNameLower}}.findUnique({
                 where,
                 {{#if hasRelations}}...(include && { include }),{{/if}}
                 ...(omit && { omit }),
                 ...(select && { select }),
             });
 
-            return { data: {{modelNameLower}} };
+            return { data: {{modelNameLower}} as FindUnique{{modelName}}Response<T> };
         } catch (error) {
             console.error("{{modelName}}Service -> FindUnique -> " + (error as Error).message);
             if (process.env.NODE_ENV === "development") {
@@ -276,10 +206,7 @@ export class {{modelName}}Service {
         }
     }
 
-    /**
-     * Récupère une liste de {{modelNameLower}}s avec filtres
-     */
-    static async findMany(props: FindMany{{modelName}}Props): Promise<ResponseFormat<FindMany{{modelName}}Response>> {
+    static async findMany<T extends FindMany{{modelName}}Props>(props: T): Promise<ResponseFormat<FindMany{{modelName}}Response<T>>> {
         try {
             const {
                 cursor,
@@ -293,11 +220,7 @@ export class {{modelName}}Service {
                 where,
             } = selectMany{{modelName}}Schema.parse(props);
 
-            {{#if hasRelations}}
-            const {{modelNameLower}}List: {{modelName}}RelationsOptional[] = await PrismaInstance.{{modelNameLower}}.findMany({
-            {{else}}
-            const {{modelNameLower}}List: {{modelName}}Model[] = await PrismaInstance.{{modelNameLower}}.findMany({
-            {{/if}}
+            const {{modelNameLower}}List = await PrismaInstance.{{modelNameLower}}.findMany({
                 ...(cursor && { cursor }),
                 ...(distinct && { distinct }),
                 {{#if hasRelations}}...(include && { include }),{{/if}}
@@ -309,7 +232,7 @@ export class {{modelName}}Service {
                 ...(where && { where }),
             });
 
-            return { data: {{modelNameLower}}List };
+            return { data: {{modelNameLower}}List as FindMany{{modelName}}Response<T> };
         } catch (error) {
             console.error("{{modelName}}Service -> FindMany -> " + (error as Error).message);
             if (process.env.NODE_ENV === "development") {
@@ -324,9 +247,6 @@ export class {{modelName}}Service {
         }
     }
 
-    /**
-     * Compte les {{modelNameLower}}s avec filtres
-     */
     static async count(props: Count{{modelName}}Props): Promise<ResponseFormat<Count{{modelName}}Response>> {
         try {
             const { cursor, orderBy, select, skip, take, where } = count{{modelName}}Schema.parse(props);

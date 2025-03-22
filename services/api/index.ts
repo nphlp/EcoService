@@ -6,16 +6,17 @@
  * 
  * À mesure que de nouvelles API sont ajoutées, elles doivent être exportées ici.
  */
-export * from './user';
-export * from './session';
 export * from './account';
-export * from './verification';
 export * from './address';
-export * from './article';
-export * from './diy';
-export * from './content';
+export { getArticleCount, getArticleList, getArticleUnique } from './ArticleApi';
 export * from './category';
+export * from './content';
+export * from './diy';
+export * from './fruit';
+export * from './order';
 export * from './product';
 export * from './quantity';
-export * from './order';
-export * from './fruit';
+export * from './session';
+export * from './user';
+export * from './verification';
+

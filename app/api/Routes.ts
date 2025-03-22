@@ -272,7 +272,7 @@ export type Routes = StripeRoutes & {
     */
     "/article": {
         params?: FindManyArticleProps;
-        response: FindManyArticleResponse;
+        response: FindManyArticleResponse<FindManyArticleProps>;
     };
 
     /**
@@ -281,7 +281,7 @@ export type Routes = StripeRoutes & {
     */
     "/article/unique": {
         params?: FindUniqueArticleProps;
-        response: FindUniqueArticleResponse;
+        response: FindUniqueArticleResponse<FindUniqueArticleProps>;
     };
     
     /**

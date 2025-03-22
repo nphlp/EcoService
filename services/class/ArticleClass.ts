@@ -1,19 +1,8 @@
-/**
- * Classe de service pour les opérations CRUD sur les articles
- * 
- * Ce fichier centralise toute la logique d'accès aux données pour les articles.
- * Il utilise les schémas Zod générés par zod-prisma-types pour la validation des données.
- * Chaque méthode retourne soit les données demandées, soit une erreur formatée.
- * 
- * Les types sont définis pour correspondre aux opérations Prisma (create, update, delete, etc.)
- * et suivent une nomenclature cohérente avec l'API Prisma.
- */
 import { ResponseFormat } from "@app/api/Routes";
 import PrismaInstance from "@lib/prisma";
 import { Prisma } from "@prisma/client";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import {
-    Article,
     ArticleCreateArgsSchema,
     ArticleDeleteArgsSchema,
     ArticleFindManyArgsSchema,
@@ -24,7 +13,7 @@ import {
     ArticleUpsertArgsSchema,
     ArticleWhereInputSchema,
     ArticleWhereUniqueInputSchema,
-    ArticleWithRelationsSchema
+    ArticleWithRelationsSchema,
 } from "@services/schemas";
 import { ArticleIncludeSchema } from "@services/schemas/inputTypeSchemas/ArticleIncludeSchema";
 import { z, ZodError, ZodType } from "zod";
@@ -32,102 +21,67 @@ import { z, ZodError, ZodType } from "zod";
 // ============== Types ============== //
 
 export type ArticleModel = z.infer<typeof ArticleSchema>;
-
 export type ArticleRelationsOptional = z.infer<typeof ArticleSchema> & z.infer<typeof ArticleIncludeSchema>;
-
 export type ArticleRelationsComplete = z.infer<typeof ArticleWithRelationsSchema>;
-
 export type ArticleCount = number;
 
 // ============== Schema Types ============== //
 
 const createArticleSchema: ZodType<Prisma.ArticleCreateArgs> = ArticleCreateArgsSchema;
-
 const upsertArticleSchema: ZodType<Prisma.ArticleUpsertArgs> = ArticleUpsertArgsSchema;
-
 const updateArticleSchema: ZodType<Prisma.ArticleUpdateArgs> = ArticleUpdateArgsSchema;
-
 const deleteArticleSchema: ZodType<Prisma.ArticleDeleteArgs> = ArticleDeleteArgsSchema;
-
 const selectArticleSchema: ZodType<Prisma.ArticleFindUniqueArgs> = ArticleFindUniqueArgsSchema;
-
 const selectManyArticleSchema: ZodType<Prisma.ArticleFindManyArgs> = ArticleFindManyArgsSchema;
-
-/**
- * Définition du schéma pour ArticleCountArgs
- * 
- * Ce schéma correspond au type Prisma.ArticleCountArgs qui est défini comme:
- * Omit<ArticleFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
- *   select?: ArticleCountAggregateInputType | true
- * }
- */
 const countArticleSchema: ZodType<Prisma.ArticleCountArgs> = z.object({
     where: z.lazy(() => ArticleWhereInputSchema).optional(),
-    orderBy: z.union([
-        z.lazy(() => ArticleOrderByWithRelationInputSchema),
-        z.array(z.lazy(() => ArticleOrderByWithRelationInputSchema))
-    ]).optional(),
+    orderBy: z
+        .union([
+            z.lazy(() => ArticleOrderByWithRelationInputSchema),
+            z.array(z.lazy(() => ArticleOrderByWithRelationInputSchema)),
+        ])
+        .optional(),
     cursor: z.lazy(() => ArticleWhereUniqueInputSchema).optional(),
     take: z.number().optional(),
     skip: z.number().optional(),
-    select: z.union([z.literal(true), z.record(z.boolean())]).optional()
+    select: z.union([z.literal(true), z.record(z.boolean())]).optional(),
 });
 
 // ============== CRUD Props Types ============== //
 
 export type CreateArticleProps = z.infer<typeof createArticleSchema>;
-
 export type UpsertArticleProps = z.infer<typeof upsertArticleSchema>;
-
 export type UpdateArticleProps = z.infer<typeof updateArticleSchema>;
-
 export type DeleteArticleProps = z.infer<typeof deleteArticleSchema>;
-
 export type FindUniqueArticleProps = z.infer<typeof selectArticleSchema>;
-
 export type FindManyArticleProps = z.infer<typeof selectManyArticleSchema>;
-
 export type CountArticleProps = z.infer<typeof countArticleSchema>;
 
 // ============== CRUD Response Types ============== //
 
-export type CreateArticleResponse = ArticleModel;
-
-export type UpsertArticleResponse = ArticleModel;
-
-export type UpdateArticleResponse = ArticleModel;
-
-export type DeleteArticleResponse = ArticleModel;
-
-export type FindUniqueArticleResponse = ArticleRelationsOptional | null;
-
-export type FindManyArticleResponse = ArticleRelationsOptional[];
-
+export type CreateArticleResponse<T extends CreateArticleProps> = Prisma.ArticleGetPayload<T>;
+export type UpsertArticleResponse<T extends UpsertArticleProps> = Prisma.ArticleGetPayload<T>;
+export type UpdateArticleResponse<T extends UpdateArticleProps> = Prisma.ArticleGetPayload<T>;
+export type DeleteArticleResponse<T extends DeleteArticleProps> = Prisma.ArticleGetPayload<T>;
+export type FindUniqueArticleResponse<T extends FindUniqueArticleProps> = Prisma.ArticleGetPayload<T> | null;
+export type FindManyArticleResponse<T extends FindManyArticleProps> = Prisma.ArticleGetPayload<T>[];
 export type CountArticleResponse = ArticleCount;
 
 // ============== Services ============== //
 
-/**
- * Service pour les opérations de base de données sur les articles
- */
 export class ArticleService {
-    /**
-     * Crée un(e) nouveau/nouvelle article
-     * @param props Propriétés du/de la article
-     * @returns Article créé(e) ou erreur
-     */
-    static async create(props: CreateArticleProps): Promise<ResponseFormat<CreateArticleResponse>> {
+    static async create<T extends CreateArticleProps>(props: T): Promise<ResponseFormat<CreateArticleResponse<T>>> {
         try {
             const { data, include, omit, select } = createArticleSchema.parse(props);
 
-            const article: Article = await PrismaInstance.article.create({
+            const article = await PrismaInstance.article.create({
                 data,
                 ...(include && { include }),
                 ...(omit && { omit }),
                 ...(select && { select }),
             });
 
-            return { data: article };
+            return { data: article as CreateArticleResponse<T> };
         } catch (error) {
             console.error("ArticleService -> Create -> " + (error as Error).message);
             if (process.env.NODE_ENV === "development") {
@@ -142,11 +96,11 @@ export class ArticleService {
         }
     }
 
-    static async upsert(props: UpsertArticleProps): Promise<ResponseFormat<UpsertArticleResponse>> {
+    static async upsert<T extends UpsertArticleProps>(props: T): Promise<ResponseFormat<UpsertArticleResponse<T>>> {
         try {
             const { create, update, where, include, omit, select } = upsertArticleSchema.parse(props);
 
-            const article: Article = await PrismaInstance.article.upsert({
+            const article = await PrismaInstance.article.upsert({
                 create,
                 update,
                 where,
@@ -155,7 +109,7 @@ export class ArticleService {
                 ...(select && { select }),
             });
 
-            return { data: article };
+            return { data: article as UpsertArticleResponse<T> };
         } catch (error) {
             console.error("ArticleService -> Upsert -> " + (error as Error).message);
             if (process.env.NODE_ENV === "development") {
@@ -170,16 +124,11 @@ export class ArticleService {
         }
     }
 
-    /**
-     * Met à jour un(e) article
-     * @param props ID du/de la article et nouvelles données
-     * @returns Article mis(e) à jour ou erreur
-     */
-    static async update(props: UpdateArticleProps): Promise<ResponseFormat<UpdateArticleResponse>> {
+    static async update<T extends UpdateArticleProps>(props: T): Promise<ResponseFormat<UpdateArticleResponse<T>>> {
         try {
             const { data, where, include, omit, select } = updateArticleSchema.parse(props);
 
-            const article: Article = await PrismaInstance.article.update({
+            const article = await PrismaInstance.article.update({
                 data,
                 where,
                 ...(include && { include }),
@@ -187,7 +136,7 @@ export class ArticleService {
                 ...(select && { select }),
             });
 
-            return { data: article };
+            return { data: article as UpdateArticleResponse<T> };
         } catch (error) {
             console.error("ArticleService -> Update -> " + (error as Error).message);
             if (process.env.NODE_ENV === "development") {
@@ -202,23 +151,18 @@ export class ArticleService {
         }
     }
 
-    /**
-     * Supprime un(e) article
-     * @param props ID du/de la article
-     * @returns Article supprimé(e) ou erreur
-     */
-    static async delete(props: DeleteArticleProps): Promise<ResponseFormat<DeleteArticleResponse>> {
+    static async delete<T extends DeleteArticleProps>(props: T): Promise<ResponseFormat<DeleteArticleResponse<T>>> {
         try {
             const { where, include, omit, select } = deleteArticleSchema.parse(props);
 
-            const article: Article = await PrismaInstance.article.delete({
+            const article = await PrismaInstance.article.delete({
                 where,
                 ...(include && { include }),
                 ...(omit && { omit }),
                 ...(select && { select }),
             });
 
-            return { data: article };
+            return { data: article as DeleteArticleResponse<T> };
         } catch (error) {
             console.error("ArticleService -> Delete -> " + (error as Error).message);
             if (process.env.NODE_ENV === "development") {
@@ -233,21 +177,18 @@ export class ArticleService {
         }
     }
 
-    /**
-     * Récupère un(e) article par ID ou autre filtre
-     */
-    static async findUnique(props: FindUniqueArticleProps): Promise<ResponseFormat<FindUniqueArticleResponse>> {
+    static async findUnique<T extends FindUniqueArticleProps>(props: T): Promise<ResponseFormat<FindUniqueArticleResponse<T>>> {
         try {
             const { where, include, omit, select } = selectArticleSchema.parse(props);
 
-            const article: ArticleRelationsOptional | null = await PrismaInstance.article.findUnique({
+            const article = await PrismaInstance.article.findUnique({
                 where,
                 ...(include && { include }),
                 ...(omit && { omit }),
                 ...(select && { select }),
             });
 
-            return { data: article };
+            return { data: article as FindUniqueArticleResponse<T> };
         } catch (error) {
             console.error("ArticleService -> FindUnique -> " + (error as Error).message);
             if (process.env.NODE_ENV === "development") {
@@ -265,7 +206,7 @@ export class ArticleService {
     /**
      * Récupère une liste de articles avec filtres
      */
-    static async findMany(props: FindManyArticleProps): Promise<ResponseFormat<FindManyArticleResponse>> {
+    static async findMany<T extends FindManyArticleProps>(props: T): Promise<ResponseFormat<FindManyArticleResponse<T>>> {
         try {
             const {
                 cursor,
@@ -279,7 +220,7 @@ export class ArticleService {
                 where,
             } = selectManyArticleSchema.parse(props);
 
-            const articleList: ArticleRelationsOptional[] = await PrismaInstance.article.findMany({
+            const articleList = await PrismaInstance.article.findMany({
                 ...(cursor && { cursor }),
                 ...(distinct && { distinct }),
                 ...(include && { include }),
@@ -291,7 +232,7 @@ export class ArticleService {
                 ...(where && { where }),
             });
 
-            return { data: articleList };
+            return { data: articleList as FindManyArticleResponse<T> };
         } catch (error) {
             console.error("ArticleService -> FindMany -> " + (error as Error).message);
             if (process.env.NODE_ENV === "development") {

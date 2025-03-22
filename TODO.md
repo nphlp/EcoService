@@ -16,6 +16,8 @@ Complete auth and user management
 - Testing for classes
 - Split generator.ts and fixtures.ts
 
+- Rework DB insertion
+
 - ESlint Tailwind
 - Prettier
 
