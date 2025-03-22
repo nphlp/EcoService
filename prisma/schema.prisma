@@ -162,7 +162,7 @@ model Article {
     @@index([authorId])
 }
 
-/// DoItYourself model
+/// Diy model
 model Diy {
     id    String @id @default(nanoid())
     title String
@@ -203,7 +203,7 @@ model Content {
 /// Category model
 model Category {
     id          String  @id @default(nanoid())
-    name        String
+    name        String  @unique
     description String?
 
     Products Product[] @relation("CategoryToProduct")

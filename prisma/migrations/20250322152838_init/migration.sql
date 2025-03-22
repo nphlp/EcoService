@@ -149,6 +149,7 @@ CREATE TABLE `Category` (
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,
 
+    UNIQUE INDEX `Category_name_key`(`name`),
     INDEX `Category_id_idx`(`id`),
     INDEX `Category_name_idx`(`name`),
     PRIMARY KEY (`id`)

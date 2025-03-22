@@ -23,6 +23,7 @@
             "@actions/*": ["./services/actions/*"],
             "@app/*": ["./app/*"],
             "@api/*": ["./app/api/*"],
+            "@fixtures/*": ["./fixtures/*"],
             "@class/*": ["./services/class/*"],
             "@comps/*": ["./components/*"],
             "@lib/*": ["./lib/*"],
