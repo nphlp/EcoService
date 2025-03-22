@@ -1,40 +1,9 @@
 "use server";
 
-/**
- * Actions serveur pour les opérations CRUD sur les verifications
- * 
- * Ce fichier expose les méthodes de VerificationService comme des actions serveur Next.js.
- * Ces actions peuvent être appelées directement depuis les composants client.
- * 
- * Chaque action est une simple passerelle vers la méthode correspondante du service,
- * ce qui permet de centraliser la logique métier dans les classes de service.
- * 
- * Note: Ces actions ne sont pas mises en cache et ne doivent pas être utilisées
- * pour récupérer des données - utilisez plutôt les routes API avec mise en cache.
- */
+import VerificationService from "@services/class/VerificationClass";
+import { CountVerificationProps, CountVerificationResponse, CreateVerificationProps, CreateVerificationResponse, DeleteVerificationProps, DeleteVerificationResponse, FindManyVerificationProps, FindManyVerificationResponse, FindUniqueVerificationProps, FindUniqueVerificationResponse, UpdateVerificationProps, UpdateVerificationResponse, UpsertVerificationProps, UpsertVerificationResponse } from "@services/types/VerificationType";
 
-import {
-    VerificationService,
-    CountVerificationProps,
-    CountVerificationResponse,
-    CreateVerificationProps,
-    CreateVerificationResponse,
-    DeleteVerificationProps,
-    DeleteVerificationResponse,
-    FindManyVerificationProps,
-    FindManyVerificationResponse,
-    FindUniqueVerificationProps,
-    FindUniqueVerificationResponse,
-    UpdateVerificationProps,
-    UpdateVerificationResponse
-} from "@services/class/VerificationClass";
-
-/**
- * Creates a new verification
- * @param props Verification properties
- * @returns Created verification or error
- */
-export const CreateVerification = async (props: CreateVerificationProps): Promise<CreateVerificationResponse> => {
+export const CreateVerification = async <T extends CreateVerificationProps>(props: T): Promise<CreateVerificationResponse<T>> => {
     try {
         const { data, error } = await VerificationService.create(props);
         if (!data || error) throw new Error(error);
@@ -44,12 +13,17 @@ export const CreateVerification = async (props: CreateVerificationProps): Promis
     }
 };
 
-/**
- * Updates a verification
- * @param props Verification ID and new data
- * @returns Updated verification or error
- */
-export const UpdateVerification = async (props: UpdateVerificationProps): Promise<UpdateVerificationResponse> => {
+export const UpsertVerification = async <T extends UpsertVerificationProps>(props: T): Promise<UpsertVerificationResponse<T>> => {
+    try {
+        const { data, error } = await VerificationService.upsert(props);
+        if (!data || error) throw new Error(error);
+        return data;
+    } catch (error) {
+        throw new Error("UpsertVerification -> " + (error as Error).message);
+    }
+};
+
+export const UpdateVerification = async <T extends UpdateVerificationProps>(props: T): Promise<UpdateVerificationResponse<T>> => {
     try {
         const { data, error } = await VerificationService.update(props);
         if (!data || error) throw new Error(error);
@@ -59,12 +33,7 @@ export const UpdateVerification = async (props: UpdateVerificationProps): Promis
     }
 };
 
-/**
- * Deletes a verification
- * @param props Verification ID
- * @returns Deleted verification or error
- */
-export const DeleteVerification = async (props: DeleteVerificationProps): Promise<DeleteVerificationResponse> => {
+export const DeleteVerification = async <T extends DeleteVerificationProps>(props: T): Promise<DeleteVerificationResponse<T>> => {
     try {
         const { data, error } = await VerificationService.delete(props);
         if (!data || error) throw new Error(error);
@@ -75,28 +44,26 @@ export const DeleteVerification = async (props: DeleteVerificationProps): Promis
 };
 
 /**
- * Retrieves a verification by ID or another filter (no caching) \
  * WARNING: do not use this for fetching data -> use API routes with caching instead
- * @param props Verification ID or other filter
- * @returns Found verification or error
  */
-export const SelectVerification = async (props: FindUniqueVerificationProps): Promise<FindUniqueVerificationResponse> => {
+export const SelectVerification = async <T extends FindUniqueVerificationProps>(
+    props: T
+): Promise<FindUniqueVerificationResponse<T>> => {
     try {
         const { data, error } = await VerificationService.findUnique(props);
-        if (!data || error) throw new Error(error);
-        return data;
+        if (error) throw new Error(error);
+        return data ?? null;
     } catch (error) {
         throw new Error("SelectVerification -> " + (error as Error).message);
     }
 };
 
 /**
- * Retrieves a list of verifications with filters (no caching) \
  * WARNING: do not use this for fetching data -> use API routes with caching instead
- * @param props Filter and pagination options
- * @returns List of verifications or error
  */
-export const SelectVerificationList = async (props: FindManyVerificationProps): Promise<FindManyVerificationResponse> => {
+export const SelectVerificationList = async <T extends FindManyVerificationProps>(
+    props: T
+): Promise<FindManyVerificationResponse<T>> => {
     try {
         const { data, error } = await VerificationService.findMany(props);
         if (!data || error) throw new Error(error);
@@ -107,10 +74,7 @@ export const SelectVerificationList = async (props: FindManyVerificationProps): 
 };
 
 /**
- * Counts verifications with filters (no caching) \
  * WARNING: do not use this for fetching data -> use API routes with caching instead
- * @param props Filter options
- * @returns Count of verifications or error
  */
 export const SelectVerificationAmount = async (props: CountVerificationProps): Promise<CountVerificationResponse> => {
     try {

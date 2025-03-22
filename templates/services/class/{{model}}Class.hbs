@@ -1,78 +1,10 @@
 import { ResponseFormat } from "@app/api/Routes";
 import PrismaInstance from "@lib/prisma";
-import { Prisma } from "@prisma/client";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
-import {
-    {{modelName}}CreateArgsSchema,
-    {{modelName}}DeleteArgsSchema,
-    {{modelName}}FindManyArgsSchema,
-    {{modelName}}FindUniqueArgsSchema,
-    {{modelName}}OrderByWithRelationInputSchema,
-    {{modelName}}Schema,
-    {{modelName}}UpdateArgsSchema,
-    {{modelName}}UpsertArgsSchema,
-    {{modelName}}WhereInputSchema,
-    {{modelName}}WhereUniqueInputSchema{{#if hasRelations}},
-    {{modelName}}WithRelationsSchema{{/if}}
-} from "@services/schemas";
-{{#if hasRelations}}
-import { {{modelName}}IncludeSchema } from "@services/schemas/inputTypeSchemas/{{modelName}}IncludeSchema";
-{{/if}}
-import { z, ZodError, ZodType } from "zod";
+import { {{modelName}}Count, Count{{modelName}}Props, Count{{modelName}}Response, Create{{modelName}}Props, Create{{modelName}}Response, Delete{{modelName}}Props, Delete{{modelName}}Response, FindMany{{modelName}}Props, FindMany{{modelName}}Response, FindUnique{{modelName}}Props, FindUnique{{modelName}}Response, Update{{modelName}}Props, Update{{modelName}}Response, Upsert{{modelName}}Props, Upsert{{modelName}}Response, count{{modelName}}Schema, create{{modelName}}Schema, delete{{modelName}}Schema, select{{modelName}}Schema, selectMany{{modelName}}Schema, update{{modelName}}Schema, upsert{{modelName}}Schema } from "@services/types/{{modelName}}Type";
+import { ZodError } from "zod";
 
-// ============== Types ============== //
-
-export type {{modelName}}Model = z.infer<typeof {{modelName}}Schema>;
-{{#if hasRelations}}
-export type {{modelName}}RelationsOptional = z.infer<typeof {{modelName}}Schema> & z.infer<typeof {{modelName}}IncludeSchema>;
-export type {{modelName}}RelationsComplete = z.infer<typeof {{modelName}}WithRelationsSchema>;
-{{/if}}
-export type {{modelName}}Count = number;
-
-// ============== Schema Types ============== //
-
-const create{{modelName}}Schema: ZodType<Prisma.{{modelName}}CreateArgs> = {{modelName}}CreateArgsSchema;
-const upsert{{modelName}}Schema: ZodType<Prisma.{{modelName}}UpsertArgs> = {{modelName}}UpsertArgsSchema;
-const update{{modelName}}Schema: ZodType<Prisma.{{modelName}}UpdateArgs> = {{modelName}}UpdateArgsSchema;
-const delete{{modelName}}Schema: ZodType<Prisma.{{modelName}}DeleteArgs> = {{modelName}}DeleteArgsSchema;
-const select{{modelName}}Schema: ZodType<Prisma.{{modelName}}FindUniqueArgs> = {{modelName}}FindUniqueArgsSchema;
-const selectMany{{modelName}}Schema: ZodType<Prisma.{{modelName}}FindManyArgs> = {{modelName}}FindManyArgsSchema;
-const count{{modelName}}Schema: ZodType<Prisma.{{modelName}}CountArgs> = z.object({
-    where: z.lazy(() => {{modelName}}WhereInputSchema).optional(),
-    orderBy: z.union([
-        z.lazy(() => {{modelName}}OrderByWithRelationInputSchema),
-        z.array(z.lazy(() => {{modelName}}OrderByWithRelationInputSchema))
-    ]).optional(),
-    cursor: z.lazy(() => {{modelName}}WhereUniqueInputSchema).optional(),
-    take: z.number().optional(),
-    skip: z.number().optional(),
-    select: z.union([z.literal(true), z.record(z.boolean())]).optional()
-});
-
-// ============== CRUD Props Types ============== //
-
-export type Create{{modelName}}Props = z.infer<typeof create{{modelName}}Schema>;
-export type Upsert{{modelName}}Props = z.infer<typeof upsert{{modelName}}Schema>;
-export type Update{{modelName}}Props = z.infer<typeof update{{modelName}}Schema>;
-export type Delete{{modelName}}Props = z.infer<typeof delete{{modelName}}Schema>;
-export type FindUnique{{modelName}}Props = z.infer<typeof select{{modelName}}Schema>;
-export type FindMany{{modelName}}Props = z.infer<typeof selectMany{{modelName}}Schema>;
-export type Count{{modelName}}Props = z.infer<typeof count{{modelName}}Schema>;
-
-// ============== CRUD Response Types ============== //
-
-export type Create{{modelName}}Response<T extends Create{{modelName}}Props> = Prisma.{{modelName}}GetPayload<T>;
-export type Upsert{{modelName}}Response<T extends Upsert{{modelName}}Props> = Prisma.{{modelName}}GetPayload<T>;
-export type Update{{modelName}}Response<T extends Update{{modelName}}Props> = Prisma.{{modelName}}GetPayload<T>;
-export type Delete{{modelName}}Response<T extends Delete{{modelName}}Props> = Prisma.{{modelName}}GetPayload<T>;
-export type FindUnique{{modelName}}Response<T extends FindUnique{{modelName}}Props> = Prisma.{{modelName}}GetPayload<T> | null;
-export type FindMany{{modelName}}Response<T extends FindMany{{modelName}}Props> = Prisma.{{modelName}}GetPayload<T>[];
-export type Count{{modelName}}Response = {{modelName}}Count;
-
-// ============== Services ============== //
-
-export class {{modelName}}Service {
-
+export default class {{modelName}}Service {
     static async create<T extends Create{{modelName}}Props>(props: T): Promise<ResponseFormat<Create{{modelName}}Response<T>>> {
         try {
             const { data{{#if hasRelations}}, include{{/if}}, omit, select } = create{{modelName}}Schema.parse(props);

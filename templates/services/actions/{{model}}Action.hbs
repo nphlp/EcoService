@@ -1,23 +1,7 @@
 "use server";
 
-import { Prisma } from "@prisma/client";
-import {
-    {{modelName}}Service,
-    Count{{modelName}}Props,
-    Count{{modelName}}Response,
-    Create{{modelName}}Props,
-    Create{{modelName}}Response,
-    Delete{{modelName}}Props,
-    Delete{{modelName}}Response,
-    FindMany{{modelName}}Props,
-    FindMany{{modelName}}Response,
-    FindUnique{{modelName}}Props,
-    FindUnique{{modelName}}Response,
-    Update{{modelName}}Props,
-    Update{{modelName}}Response,
-    Upsert{{modelName}}Props,
-    Upsert{{modelName}}Response
-} from "@services/class/{{modelName}}Class";
+import {{modelName}}Service from "@services/class/{{modelName}}Class";
+import { Count{{modelName}}Props, Count{{modelName}}Response, Create{{modelName}}Props, Create{{modelName}}Response, Delete{{modelName}}Props, Delete{{modelName}}Response, FindMany{{modelName}}Props, FindMany{{modelName}}Response, FindUnique{{modelName}}Props, FindUnique{{modelName}}Response, Update{{modelName}}Props, Update{{modelName}}Response, Upsert{{modelName}}Props, Upsert{{modelName}}Response } from "@services/types/{{modelName}}Type";
 
 export const Create{{modelName}} = async <T extends Create{{modelName}}Props>(props: T): Promise<Create{{modelName}}Response<T>> => {
     try {
@@ -29,7 +13,6 @@ export const Create{{modelName}} = async <T extends Create{{modelName}}Props>(pr
     }
 };
 
-/**
 export const Upsert{{modelName}} = async <T extends Upsert{{modelName}}Props>(props: T): Promise<Upsert{{modelName}}Response<T>> => {
     try {
         const { data, error } = await {{modelName}}Service.upsert(props);
@@ -93,7 +76,7 @@ export const Select{{modelName}}List = async <T extends FindMany{{modelName}}Pro
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const Select{{modelName}}Amount = async (props: Prisma.{{modelName}}CountArgs): Promise<number> => {
+export const Select{{modelName}}Amount = async (props: Count{{modelName}}Props): Promise<Count{{modelName}}Response> => {
     try {
         const { data, error } = await {{modelName}}Service.count(props);
         if (!data || error) throw new Error(error);

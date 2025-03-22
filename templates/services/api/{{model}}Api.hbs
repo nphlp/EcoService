@@ -1,150 +1,74 @@
-import { ResponseFormat } from "@app/api/Routes";
-import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
-import {
-    {{modelName}}Service,
-    Count{{modelName}}Props,
-    Count{{modelName}}Response,
-    FindMany{{modelName}}Props,
-    FindMany{{modelName}}Response,
-    FindUnique{{modelName}}Props,
-    FindUnique{{modelName}}Response
-} from "@services/class/{{modelName}}Class";
+import {{modelName}}Service from "@services/class/{{modelName}}Class";
+import { Count{{modelName}}Props, Count{{modelName}}Response, FindMany{{modelName}}Props, FindMany{{modelName}}Response, FindUnique{{modelName}}Props, FindUnique{{modelName}}Response } from "@services/types/{{modelName}}Type";
+import { parseAndDecodeParams, revalidate } from "@utils/FetchV2";
 import { unstable_cache as cache } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
-import { ZodError } from "zod";
 
-// ==================== LISTE DES {{modelNameUpper}}S ====================
+// ============== API Routes Types ============== //
 
-const get{{modelName}}ListCached = cache(
-    async <T extends FindMany{{modelName}}Props>(stringParams: string): Promise<ResponseFormat<FindMany{{modelName}}Response<T>>> => {
-        // Parse les paramètres en objet
-        const params: T = JSON.parse(stringParams);
-
-        // Utilise le service pour récupérer la liste des {{modelNameLower}}s
-        const response = await {{modelName}}Service.findMany(params);
-
-        console.log("get{{modelName}}List -> Revalidating {{modelNameLower}}s list from database...");
-
-        return response;
+export type {{modelName}}Routes<T> = {
+    "/{{modelNameLower}}": {
+        props: FindMany{{modelName}}Props,
+        response: FindMany{{modelName}}Response<T extends FindMany{{modelName}}Props ? T : never>
     },
-    ["{{modelNameLower}}"],
-    {
-        revalidate: process.env.NODE_ENV === "development" ? 5 : 300,
-        tags: ["{{modelNameLower}}"],
+    "/{{modelNameLower}}/unique": {
+        props: FindUnique{{modelName}}Props,
+        response: FindUnique{{modelName}}Response<T extends FindUnique{{modelName}}Props ? T : never>
     },
-);
+    "/{{modelNameLower}}/count": {
+        props: Count{{modelName}}Props,
+        response: Count{{modelName}}Response
+    }
+}
 
-export const get{{modelName}}List = async <T extends FindMany{{modelName}}Props>(request: NextRequest): Promise<NextResponse<ResponseFormat<FindMany{{modelName}}Response<T>>>> => {
+// ==================== Find Many ==================== //
+
+const {{modelNameLower}}ListCached = cache(async (params: FindMany{{modelName}}Props) => {{modelName}}Service.findMany(params), ["{{modelNameLower}}"], {
+    revalidate,
+    tags: ["{{modelNameLower}}"],
+});
+
+export const Select{{modelName}}List = async (request: NextRequest) => {
     try {
-        // Récupère les paramètres et les décode
-        const encodedParams = request.nextUrl.searchParams.get("params") ?? "{}";
-        const stringParams = decodeURIComponent(encodedParams);
-
-        // Récupère la liste des {{modelNameLower}}s
-        const response = await get{{modelName}}ListCached<T>(stringParams);
-
-        // Retourne la liste des {{modelNameLower}}s
+        const params = parseAndDecodeParams(request);
+        const response = await {{modelNameLower}}ListCached(params);
         return NextResponse.json(response, { status: 200 });
     } catch (error) {
-        console.error("get{{modelName}}ListCached -> " + (error as Error).message);
-        if (process.env.NODE_ENV === "development") {
-            if (error instanceof ZodError)
-                return NextResponse.json({
-                    error: "get{{modelName}}ListCached -> Invalid Zod params -> " + error.message,
-                });
-            if (error instanceof PrismaClientKnownRequestError)
-                return NextResponse.json({ error: "get{{modelName}}ListCached -> Prisma error -> " + error.message });
-            return NextResponse.json({ error: "get{{modelName}}ListCached -> " + (error as Error).message });
-        }
-        // TODO: add logging
-        return NextResponse.json({ error: "Something went wrong..." }, { status: 500 });
+        return NextResponse.json({ error: "get{{modelName}}ListCached -> " + (error as Error).message }, { status: 500 });
     }
 };
 
-// ==================== {{modelNameUpper}} UNIQUE ====================
+// ==================== Find Unique ==================== //
 
-const get{{modelName}}UniqueCached = cache(
-    async <T extends FindUnique{{modelName}}Props>(stringParams: string): Promise<ResponseFormat<FindUnique{{modelName}}Response<T>>> => {
-        // Parse les paramètres en objet
-        const params: T = JSON.parse(stringParams);
-        
-        // Utilise le service pour récupérer le {{modelNameLower}}
-        const response = await {{modelName}}Service.findUnique(params);
-        
-        console.log("get{{modelName}}Unique -> Revalidating {{modelNameLower}} from database...");
-        
-        return response;
-    },
+const {{modelNameLower}}UniqueCached = cache(
+    async <T extends FindUnique{{modelName}}Props>(params: T) => {{modelName}}Service.findUnique(params),
     ["{{modelNameLower}}/unique"],
-    {
-        revalidate: process.env.NODE_ENV === "development" ? 5 : 300,
-        tags: ["{{modelNameLower}}/unique"],
-    },
+    { revalidate, tags: ["{{modelNameLower}}/unique"] },
 );
 
-export const get{{modelName}}Unique = async <T extends FindUnique{{modelName}}Props>(request: NextRequest): Promise<NextResponse<ResponseFormat<FindUnique{{modelName}}Response<T>>>> => {
+export const Select{{modelName}}Unique = async <T extends FindUnique{{modelName}}Props>(request: NextRequest) => {
     try {
-        const encodedParams = request.nextUrl.searchParams.get("params") ?? "{}";
-        const stringParams = decodeURIComponent(encodedParams);
-        
-        const response = await get{{modelName}}UniqueCached<T>(stringParams);
-        
+        const params: T = parseAndDecodeParams(request);
+        const response = await {{modelNameLower}}UniqueCached<T>(params);
         return NextResponse.json(response, { status: 200 });
     } catch (error) {
-        console.error("get{{modelName}}UniqueCached -> " + (error as Error).message);
-        if (process.env.NODE_ENV === "development") {
-            if (error instanceof ZodError)
-                return NextResponse.json({
-                    error: "get{{modelName}}UniqueCached -> Invalid Zod params -> " + error.message
-                });
-            if (error instanceof PrismaClientKnownRequestError)
-                return NextResponse.json({ error: "get{{modelName}}UniqueCached -> Prisma error -> " + error.message });
-            return NextResponse.json({ error: "get{{modelName}}UniqueCached -> " + (error as Error).message });
-        }
-        return NextResponse.json({ error: "Something went wrong..." }, { status: 500 });
+        return NextResponse.json({ error: "get{{modelName}}UniqueCached -> " + (error as Error).message }, { status: 500 });
     }
 };
 
-// ==================== COMPTE DES {{modelNameUpper}}S ====================
+// ==================== Count ==================== //
 
-const get{{modelName}}CountCached = cache(
-    async (stringParams: string): Promise<ResponseFormat<Count{{modelName}}Response>> => {
-        // Parse les paramètres en objet
-        const params: Count{{modelName}}Props = JSON.parse(stringParams);
-        
-        // Utilise le service pour compter les {{modelNameLower}}s
-        const response = await {{modelName}}Service.count(params);
-        
-        console.log("get{{modelName}}Count -> Revalidating {{modelNameLower}}s count from database...");
-        
-        return response;
-    },
-    ["{{modelNameLower}}/count"],
-    {
-        revalidate: process.env.NODE_ENV === "development" ? 5 : 300,
-        tags: ["{{modelNameLower}}/count"],
-    },
-);
+const {{modelNameLower}}CountCached = cache(async (params: Count{{modelName}}Props) => {{modelName}}Service.count(params), ["{{modelNameLower}}/count"], {
+    revalidate,
+    tags: ["{{modelNameLower}}/count"],
+});
 
-export const get{{modelName}}Count = async (request: NextRequest): Promise<NextResponse<ResponseFormat<Count{{modelName}}Response>>> => {
+export const Select{{modelName}}Count = async (request: NextRequest) => {
     try {
-        const encodedParams = request.nextUrl.searchParams.get("params") ?? "{}";
-        const stringParams = decodeURIComponent(encodedParams);
-        
-        const response = await get{{modelName}}CountCached(stringParams);
-        
+        const params: Count{{modelName}}Props = parseAndDecodeParams(request);
+        const response = await {{modelNameLower}}CountCached(params);
         return NextResponse.json(response, { status: 200 });
     } catch (error) {
-        console.error("get{{modelName}}CountCached -> " + (error as Error).message);
-        if (process.env.NODE_ENV === "development") {
-            if (error instanceof ZodError)
-                return NextResponse.json({
-                    error: "get{{modelName}}CountCached -> Invalid Zod params -> " + error.message
-                });
-            if (error instanceof PrismaClientKnownRequestError)
-                return NextResponse.json({ error: "get{{modelName}}CountCached -> Prisma error -> " + error.message });
-            return NextResponse.json({ error: "get{{modelName}}CountCached -> " + (error as Error).message });
-        }
-        return NextResponse.json({ error: "Something went wrong..." }, { status: 500 });
+        return NextResponse.json({ error: "get{{modelName}}CountCached -> " + (error as Error).message }, { status: 500 });
     }
-}; 
+};

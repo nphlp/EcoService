@@ -1,6 +1,6 @@
 import PrismaInstance from "@lib/prisma";
 import { SelectArticleList } from "@services/actions/ArticleAction";
-import { Fetch } from "@utils/Fetch";
+import { FetchV2 } from "@utils/FetchV2";
 
 export default async function Page() {
     const articlesPrisma = await PrismaInstance.article.findMany({
@@ -11,7 +11,7 @@ export default async function Page() {
         select: { id: true, authorId: true },
     });
 
-    const articlesApi = await Fetch({ route: "/article", params: {
+    const articlesApi = await FetchV2({ route: "/article", params: {
         select: { id: true, authorId: true },
     } });
 

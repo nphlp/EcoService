@@ -29,7 +29,7 @@ const findRoute = (path: string[]): Route | null => {
     const ModelName = path[0].charAt(0).toUpperCase() + path[0].slice(1);
 
     if (path.length === 1) {
-        return ApiRoutes[`get${ModelName}List`] ?? null;
+        return ApiRoutes[`Select${ModelName}List`] ?? null;
     }
 
     // Si le chemin a deux segments, vérifier les sous-routes
@@ -38,12 +38,12 @@ const findRoute = (path: string[]): Route | null => {
 
         // Si la sous-route est "unique", retourner le gestionnaire pour obtenir un élément unique
         if (subRoute === "unique") {
-            return ApiRoutes[`get${ModelName}Unique`] ?? null;
+            return ApiRoutes[`Select${ModelName}Unique`] ?? null;
         }
 
         // Si la sous-route est "count", retourner le gestionnaire pour obtenir le nombre d'éléments
         if (subRoute === "count") {
-            return ApiRoutes[`get${ModelName}Count`] ?? null;
+            return ApiRoutes[`Select${ModelName}Count`] ?? null;
         }
     }
 

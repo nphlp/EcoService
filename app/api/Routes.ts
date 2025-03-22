@@ -1,125 +1,84 @@
-/**
- * Type definition for all API routes in the application.
- * This serves as a centralized registry for route parameters and response types.
- *
- * Each route is defined with:
- * - params: The expected parameters for the route (optional)
- * - response: The expected response type from the route
- *
- * This type is used by the Fetch utility to provide type safety when making API requests.
- * 
- * ATTENTION: Ce fichier est généré automatiquement. Ne pas modifier manuellement.
- */
-
 import { 
     CountUserProps, 
     CountUserResponse,
     FindManyUserProps,
     FindManyUserResponse,
     FindUniqueUserProps,
-    FindUniqueUserResponse
-} from "@services/class/UserClass";
-import { 
+    FindUniqueUserResponse,
     CountSessionProps, 
     CountSessionResponse,
     FindManySessionProps,
     FindManySessionResponse,
     FindUniqueSessionProps,
-    FindUniqueSessionResponse
-} from "@services/class/SessionClass";
-import { 
+    FindUniqueSessionResponse,
     CountAccountProps, 
     CountAccountResponse,
     FindManyAccountProps,
     FindManyAccountResponse,
     FindUniqueAccountProps,
-    FindUniqueAccountResponse
-} from "@services/class/AccountClass";
-import { 
+    FindUniqueAccountResponse,
     CountVerificationProps, 
     CountVerificationResponse,
     FindManyVerificationProps,
     FindManyVerificationResponse,
     FindUniqueVerificationProps,
-    FindUniqueVerificationResponse
-} from "@services/class/VerificationClass";
-import { 
+    FindUniqueVerificationResponse,
     CountAddressProps, 
     CountAddressResponse,
     FindManyAddressProps,
     FindManyAddressResponse,
     FindUniqueAddressProps,
-    FindUniqueAddressResponse
-} from "@services/class/AddressClass";
-import { 
+    FindUniqueAddressResponse,
     CountArticleProps, 
     CountArticleResponse,
     FindManyArticleProps,
     FindManyArticleResponse,
     FindUniqueArticleProps,
-    FindUniqueArticleResponse
-} from "@services/class/ArticleClass";
-import { 
+    FindUniqueArticleResponse,
     CountDiyProps, 
     CountDiyResponse,
     FindManyDiyProps,
     FindManyDiyResponse,
     FindUniqueDiyProps,
-    FindUniqueDiyResponse
-} from "@services/class/DiyClass";
-import { 
+    FindUniqueDiyResponse,
     CountContentProps, 
     CountContentResponse,
     FindManyContentProps,
     FindManyContentResponse,
     FindUniqueContentProps,
-    FindUniqueContentResponse
-} from "@services/class/ContentClass";
-import { 
+    FindUniqueContentResponse,
     CountCategoryProps, 
     CountCategoryResponse,
     FindManyCategoryProps,
     FindManyCategoryResponse,
     FindUniqueCategoryProps,
-    FindUniqueCategoryResponse
-} from "@services/class/CategoryClass";
-import { 
+    FindUniqueCategoryResponse,
     CountProductProps, 
     CountProductResponse,
     FindManyProductProps,
     FindManyProductResponse,
     FindUniqueProductProps,
-    FindUniqueProductResponse
-} from "@services/class/ProductClass";
-import { 
+    FindUniqueProductResponse,
     CountQuantityProps, 
     CountQuantityResponse,
     FindManyQuantityProps,
     FindManyQuantityResponse,
     FindUniqueQuantityProps,
-    FindUniqueQuantityResponse
-} from "@services/class/QuantityClass";
-import { 
+    FindUniqueQuantityResponse,
     CountOrderProps, 
     CountOrderResponse,
     FindManyOrderProps,
     FindManyOrderResponse,
     FindUniqueOrderProps,
-    FindUniqueOrderResponse
-} from "@services/class/OrderClass";
-import { 
+    FindUniqueOrderResponse,
     CountFruitProps, 
     CountFruitResponse,
     FindManyFruitProps,
     FindManyFruitResponse,
     FindUniqueFruitProps,
     FindUniqueFruitResponse
-} from "@services/class/FruitClass";
+} from "@services/class";
 
-/**
- * Type representing the response format for API routes
- * @template Response - The type of the data in the response
- */
 export type ResponseFormat<Response> = {
     data: Response;
     error?: undefined;
@@ -131,352 +90,184 @@ export type ResponseFormat<Response> = {
 import { Routes as StripeRoutes } from "./stripe/Routes";
 
 export type Routes = StripeRoutes & {
-    /**
-    * Route for fetching a list of users \
-    * GET `/api/user`
-    */
+
+    // User Routes
     "/user": {
         params?: FindManyUserProps;
-        response: FindManyUserResponse;
+        response: FindManyUserResponse<FindManyUserProps>;
     };
-
-    /**
-    * Route for fetching a single User by ID \
-    * GET `/api/user/unique`
-    */
     "/user/unique": {
         params?: FindUniqueUserProps;
-        response: FindUniqueUserResponse;
+        response: FindUniqueUserResponse<FindUniqueUserProps>;
     };
-    
-    /**
-    * Route for fetching the count of users \
-    * GET `/api/user/count`
-    */
     "/user/count": {
         params?: CountUserProps;
         response: CountUserResponse;
     };
 
-    /**
-    * Route for fetching a list of sessions \
-    * GET `/api/session`
-    */
+    // Session Routes
     "/session": {
         params?: FindManySessionProps;
-        response: FindManySessionResponse;
+        response: FindManySessionResponse<FindManySessionProps>;
     };
-
-    /**
-    * Route for fetching a single Session by ID \
-    * GET `/api/session/unique`
-    */
     "/session/unique": {
         params?: FindUniqueSessionProps;
-        response: FindUniqueSessionResponse;
+        response: FindUniqueSessionResponse<FindUniqueSessionProps>;
     };
-    
-    /**
-    * Route for fetching the count of sessions \
-    * GET `/api/session/count`
-    */
     "/session/count": {
         params?: CountSessionProps;
         response: CountSessionResponse;
     };
 
-    /**
-    * Route for fetching a list of accounts \
-    * GET `/api/account`
-    */
+    // Account Routes
     "/account": {
         params?: FindManyAccountProps;
-        response: FindManyAccountResponse;
+        response: FindManyAccountResponse<FindManyAccountProps>;
     };
-
-    /**
-    * Route for fetching a single Account by ID \
-    * GET `/api/account/unique`
-    */
     "/account/unique": {
         params?: FindUniqueAccountProps;
-        response: FindUniqueAccountResponse;
+        response: FindUniqueAccountResponse<FindUniqueAccountProps>;
     };
-    
-    /**
-    * Route for fetching the count of accounts \
-    * GET `/api/account/count`
-    */
     "/account/count": {
         params?: CountAccountProps;
         response: CountAccountResponse;
     };
 
-    /**
-    * Route for fetching a list of verifications \
-    * GET `/api/verification`
-    */
+    // Verification Routes
     "/verification": {
         params?: FindManyVerificationProps;
-        response: FindManyVerificationResponse;
+        response: FindManyVerificationResponse<FindManyVerificationProps>;
     };
-
-    /**
-    * Route for fetching a single Verification by ID \
-    * GET `/api/verification/unique`
-    */
     "/verification/unique": {
         params?: FindUniqueVerificationProps;
-        response: FindUniqueVerificationResponse;
+        response: FindUniqueVerificationResponse<FindUniqueVerificationProps>;
     };
-    
-    /**
-    * Route for fetching the count of verifications \
-    * GET `/api/verification/count`
-    */
     "/verification/count": {
         params?: CountVerificationProps;
         response: CountVerificationResponse;
     };
 
-    /**
-    * Route for fetching a list of addresss \
-    * GET `/api/address`
-    */
+    // Address Routes
     "/address": {
         params?: FindManyAddressProps;
-        response: FindManyAddressResponse;
+        response: FindManyAddressResponse<FindManyAddressProps>;
     };
-
-    /**
-    * Route for fetching a single Address by ID \
-    * GET `/api/address/unique`
-    */
     "/address/unique": {
         params?: FindUniqueAddressProps;
-        response: FindUniqueAddressResponse;
+        response: FindUniqueAddressResponse<FindUniqueAddressProps>;
     };
-    
-    /**
-    * Route for fetching the count of addresss \
-    * GET `/api/address/count`
-    */
     "/address/count": {
         params?: CountAddressProps;
         response: CountAddressResponse;
     };
 
-    /**
-    * Route for fetching a list of articles \
-    * GET `/api/article`
-    */
+    // Article Routes
     "/article": {
         params?: FindManyArticleProps;
         response: FindManyArticleResponse<FindManyArticleProps>;
     };
-
-    /**
-    * Route for fetching a single Article by ID \
-    * GET `/api/article/unique`
-    */
     "/article/unique": {
         params?: FindUniqueArticleProps;
         response: FindUniqueArticleResponse<FindUniqueArticleProps>;
     };
-    
-    /**
-    * Route for fetching the count of articles \
-    * GET `/api/article/count`
-    */
     "/article/count": {
         params?: CountArticleProps;
         response: CountArticleResponse;
     };
 
-    /**
-    * Route for fetching a list of diys \
-    * GET `/api/diy`
-    */
+    // Diy Routes
     "/diy": {
         params?: FindManyDiyProps;
-        response: FindManyDiyResponse;
+        response: FindManyDiyResponse<FindManyDiyProps>;
     };
-
-    /**
-    * Route for fetching a single Diy by ID \
-    * GET `/api/diy/unique`
-    */
     "/diy/unique": {
         params?: FindUniqueDiyProps;
-        response: FindUniqueDiyResponse;
+        response: FindUniqueDiyResponse<FindUniqueDiyProps>;
     };
-    
-    /**
-    * Route for fetching the count of diys \
-    * GET `/api/diy/count`
-    */
     "/diy/count": {
         params?: CountDiyProps;
         response: CountDiyResponse;
     };
 
-    /**
-    * Route for fetching a list of contents \
-    * GET `/api/content`
-    */
+    // Content Routes
     "/content": {
         params?: FindManyContentProps;
-        response: FindManyContentResponse;
+        response: FindManyContentResponse<FindManyContentProps>;
     };
-
-    /**
-    * Route for fetching a single Content by ID \
-    * GET `/api/content/unique`
-    */
     "/content/unique": {
         params?: FindUniqueContentProps;
-        response: FindUniqueContentResponse;
+        response: FindUniqueContentResponse<FindUniqueContentProps>;
     };
-    
-    /**
-    * Route for fetching the count of contents \
-    * GET `/api/content/count`
-    */
     "/content/count": {
         params?: CountContentProps;
         response: CountContentResponse;
     };
 
-    /**
-    * Route for fetching a list of categorys \
-    * GET `/api/category`
-    */
+    // Category Routes
     "/category": {
         params?: FindManyCategoryProps;
-        response: FindManyCategoryResponse;
+        response: FindManyCategoryResponse<FindManyCategoryProps>;
     };
-
-    /**
-    * Route for fetching a single Category by ID \
-    * GET `/api/category/unique`
-    */
     "/category/unique": {
         params?: FindUniqueCategoryProps;
-        response: FindUniqueCategoryResponse;
+        response: FindUniqueCategoryResponse<FindUniqueCategoryProps>;
     };
-    
-    /**
-    * Route for fetching the count of categorys \
-    * GET `/api/category/count`
-    */
     "/category/count": {
         params?: CountCategoryProps;
         response: CountCategoryResponse;
     };
 
-    /**
-    * Route for fetching a list of products \
-    * GET `/api/product`
-    */
+    // Product Routes
     "/product": {
         params?: FindManyProductProps;
-        response: FindManyProductResponse;
+        response: FindManyProductResponse<FindManyProductProps>;
     };
-
-    /**
-    * Route for fetching a single Product by ID \
-    * GET `/api/product/unique`
-    */
     "/product/unique": {
         params?: FindUniqueProductProps;
-        response: FindUniqueProductResponse;
+        response: FindUniqueProductResponse<FindUniqueProductProps>;
     };
-    
-    /**
-    * Route for fetching the count of products \
-    * GET `/api/product/count`
-    */
     "/product/count": {
         params?: CountProductProps;
         response: CountProductResponse;
     };
 
-    /**
-    * Route for fetching a list of quantitys \
-    * GET `/api/quantity`
-    */
+    // Quantity Routes
     "/quantity": {
         params?: FindManyQuantityProps;
-        response: FindManyQuantityResponse;
+        response: FindManyQuantityResponse<FindManyQuantityProps>;
     };
-
-    /**
-    * Route for fetching a single Quantity by ID \
-    * GET `/api/quantity/unique`
-    */
     "/quantity/unique": {
         params?: FindUniqueQuantityProps;
-        response: FindUniqueQuantityResponse;
+        response: FindUniqueQuantityResponse<FindUniqueQuantityProps>;
     };
-    
-    /**
-    * Route for fetching the count of quantitys \
-    * GET `/api/quantity/count`
-    */
     "/quantity/count": {
         params?: CountQuantityProps;
         response: CountQuantityResponse;
     };
 
-    /**
-    * Route for fetching a list of orders \
-    * GET `/api/order`
-    */
+    // Order Routes
     "/order": {
         params?: FindManyOrderProps;
-        response: FindManyOrderResponse;
+        response: FindManyOrderResponse<FindManyOrderProps>;
     };
-
-    /**
-    * Route for fetching a single Order by ID \
-    * GET `/api/order/unique`
-    */
     "/order/unique": {
         params?: FindUniqueOrderProps;
-        response: FindUniqueOrderResponse;
+        response: FindUniqueOrderResponse<FindUniqueOrderProps>;
     };
-    
-    /**
-    * Route for fetching the count of orders \
-    * GET `/api/order/count`
-    */
     "/order/count": {
         params?: CountOrderProps;
         response: CountOrderResponse;
     };
 
-    /**
-    * Route for fetching a list of fruits \
-    * GET `/api/fruit`
-    */
+    // Fruit Routes
     "/fruit": {
         params?: FindManyFruitProps;
-        response: FindManyFruitResponse;
+        response: FindManyFruitResponse<FindManyFruitProps>;
     };
-
-    /**
-    * Route for fetching a single Fruit by ID \
-    * GET `/api/fruit/unique`
-    */
     "/fruit/unique": {
         params?: FindUniqueFruitProps;
-        response: FindUniqueFruitResponse;
+        response: FindUniqueFruitResponse<FindUniqueFruitProps>;
     };
-    
-    /**
-    * Route for fetching the count of fruits \
-    * GET `/api/fruit/count`
-    */
     "/fruit/count": {
         params?: CountFruitProps;
         response: CountFruitResponse;

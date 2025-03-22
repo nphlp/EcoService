@@ -1,40 +1,9 @@
 "use server";
 
-/**
- * Actions serveur pour les opérations CRUD sur les quantitys
- * 
- * Ce fichier expose les méthodes de QuantityService comme des actions serveur Next.js.
- * Ces actions peuvent être appelées directement depuis les composants client.
- * 
- * Chaque action est une simple passerelle vers la méthode correspondante du service,
- * ce qui permet de centraliser la logique métier dans les classes de service.
- * 
- * Note: Ces actions ne sont pas mises en cache et ne doivent pas être utilisées
- * pour récupérer des données - utilisez plutôt les routes API avec mise en cache.
- */
+import QuantityService from "@services/class/QuantityClass";
+import { CountQuantityProps, CountQuantityResponse, CreateQuantityProps, CreateQuantityResponse, DeleteQuantityProps, DeleteQuantityResponse, FindManyQuantityProps, FindManyQuantityResponse, FindUniqueQuantityProps, FindUniqueQuantityResponse, UpdateQuantityProps, UpdateQuantityResponse, UpsertQuantityProps, UpsertQuantityResponse } from "@services/types/QuantityType";
 
-import {
-    QuantityService,
-    CountQuantityProps,
-    CountQuantityResponse,
-    CreateQuantityProps,
-    CreateQuantityResponse,
-    DeleteQuantityProps,
-    DeleteQuantityResponse,
-    FindManyQuantityProps,
-    FindManyQuantityResponse,
-    FindUniqueQuantityProps,
-    FindUniqueQuantityResponse,
-    UpdateQuantityProps,
-    UpdateQuantityResponse
-} from "@services/class/QuantityClass";
-
-/**
- * Creates a new quantity
- * @param props Quantity properties
- * @returns Created quantity or error
- */
-export const CreateQuantity = async (props: CreateQuantityProps): Promise<CreateQuantityResponse> => {
+export const CreateQuantity = async <T extends CreateQuantityProps>(props: T): Promise<CreateQuantityResponse<T>> => {
     try {
         const { data, error } = await QuantityService.create(props);
         if (!data || error) throw new Error(error);
@@ -44,12 +13,17 @@ export const CreateQuantity = async (props: CreateQuantityProps): Promise<Create
     }
 };
 
-/**
- * Updates a quantity
- * @param props Quantity ID and new data
- * @returns Updated quantity or error
- */
-export const UpdateQuantity = async (props: UpdateQuantityProps): Promise<UpdateQuantityResponse> => {
+export const UpsertQuantity = async <T extends UpsertQuantityProps>(props: T): Promise<UpsertQuantityResponse<T>> => {
+    try {
+        const { data, error } = await QuantityService.upsert(props);
+        if (!data || error) throw new Error(error);
+        return data;
+    } catch (error) {
+        throw new Error("UpsertQuantity -> " + (error as Error).message);
+    }
+};
+
+export const UpdateQuantity = async <T extends UpdateQuantityProps>(props: T): Promise<UpdateQuantityResponse<T>> => {
     try {
         const { data, error } = await QuantityService.update(props);
         if (!data || error) throw new Error(error);
@@ -59,12 +33,7 @@ export const UpdateQuantity = async (props: UpdateQuantityProps): Promise<Update
     }
 };
 
-/**
- * Deletes a quantity
- * @param props Quantity ID
- * @returns Deleted quantity or error
- */
-export const DeleteQuantity = async (props: DeleteQuantityProps): Promise<DeleteQuantityResponse> => {
+export const DeleteQuantity = async <T extends DeleteQuantityProps>(props: T): Promise<DeleteQuantityResponse<T>> => {
     try {
         const { data, error } = await QuantityService.delete(props);
         if (!data || error) throw new Error(error);
@@ -75,28 +44,26 @@ export const DeleteQuantity = async (props: DeleteQuantityProps): Promise<Delete
 };
 
 /**
- * Retrieves a quantity by ID or another filter (no caching) \
  * WARNING: do not use this for fetching data -> use API routes with caching instead
- * @param props Quantity ID or other filter
- * @returns Found quantity or error
  */
-export const SelectQuantity = async (props: FindUniqueQuantityProps): Promise<FindUniqueQuantityResponse> => {
+export const SelectQuantity = async <T extends FindUniqueQuantityProps>(
+    props: T
+): Promise<FindUniqueQuantityResponse<T>> => {
     try {
         const { data, error } = await QuantityService.findUnique(props);
-        if (!data || error) throw new Error(error);
-        return data;
+        if (error) throw new Error(error);
+        return data ?? null;
     } catch (error) {
         throw new Error("SelectQuantity -> " + (error as Error).message);
     }
 };
 
 /**
- * Retrieves a list of quantitys with filters (no caching) \
  * WARNING: do not use this for fetching data -> use API routes with caching instead
- * @param props Filter and pagination options
- * @returns List of quantitys or error
  */
-export const SelectQuantityList = async (props: FindManyQuantityProps): Promise<FindManyQuantityResponse> => {
+export const SelectQuantityList = async <T extends FindManyQuantityProps>(
+    props: T
+): Promise<FindManyQuantityResponse<T>> => {
     try {
         const { data, error } = await QuantityService.findMany(props);
         if (!data || error) throw new Error(error);
@@ -107,10 +74,7 @@ export const SelectQuantityList = async (props: FindManyQuantityProps): Promise<
 };
 
 /**
- * Counts quantitys with filters (no caching) \
  * WARNING: do not use this for fetching data -> use API routes with caching instead
- * @param props Filter options
- * @returns Count of quantitys or error
  */
 export const SelectQuantityAmount = async (props: CountQuantityProps): Promise<CountQuantityResponse> => {
     try {

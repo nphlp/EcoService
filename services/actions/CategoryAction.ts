@@ -1,40 +1,9 @@
 "use server";
 
-/**
- * Actions serveur pour les opérations CRUD sur les categorys
- * 
- * Ce fichier expose les méthodes de CategoryService comme des actions serveur Next.js.
- * Ces actions peuvent être appelées directement depuis les composants client.
- * 
- * Chaque action est une simple passerelle vers la méthode correspondante du service,
- * ce qui permet de centraliser la logique métier dans les classes de service.
- * 
- * Note: Ces actions ne sont pas mises en cache et ne doivent pas être utilisées
- * pour récupérer des données - utilisez plutôt les routes API avec mise en cache.
- */
+import CategoryService from "@services/class/CategoryClass";
+import { CountCategoryProps, CountCategoryResponse, CreateCategoryProps, CreateCategoryResponse, DeleteCategoryProps, DeleteCategoryResponse, FindManyCategoryProps, FindManyCategoryResponse, FindUniqueCategoryProps, FindUniqueCategoryResponse, UpdateCategoryProps, UpdateCategoryResponse, UpsertCategoryProps, UpsertCategoryResponse } from "@services/types/CategoryType";
 
-import {
-    CategoryService,
-    CountCategoryProps,
-    CountCategoryResponse,
-    CreateCategoryProps,
-    CreateCategoryResponse,
-    DeleteCategoryProps,
-    DeleteCategoryResponse,
-    FindManyCategoryProps,
-    FindManyCategoryResponse,
-    FindUniqueCategoryProps,
-    FindUniqueCategoryResponse,
-    UpdateCategoryProps,
-    UpdateCategoryResponse
-} from "@services/class/CategoryClass";
-
-/**
- * Creates a new category
- * @param props Category properties
- * @returns Created category or error
- */
-export const CreateCategory = async (props: CreateCategoryProps): Promise<CreateCategoryResponse> => {
+export const CreateCategory = async <T extends CreateCategoryProps>(props: T): Promise<CreateCategoryResponse<T>> => {
     try {
         const { data, error } = await CategoryService.create(props);
         if (!data || error) throw new Error(error);
@@ -44,12 +13,17 @@ export const CreateCategory = async (props: CreateCategoryProps): Promise<Create
     }
 };
 
-/**
- * Updates a category
- * @param props Category ID and new data
- * @returns Updated category or error
- */
-export const UpdateCategory = async (props: UpdateCategoryProps): Promise<UpdateCategoryResponse> => {
+export const UpsertCategory = async <T extends UpsertCategoryProps>(props: T): Promise<UpsertCategoryResponse<T>> => {
+    try {
+        const { data, error } = await CategoryService.upsert(props);
+        if (!data || error) throw new Error(error);
+        return data;
+    } catch (error) {
+        throw new Error("UpsertCategory -> " + (error as Error).message);
+    }
+};
+
+export const UpdateCategory = async <T extends UpdateCategoryProps>(props: T): Promise<UpdateCategoryResponse<T>> => {
     try {
         const { data, error } = await CategoryService.update(props);
         if (!data || error) throw new Error(error);
@@ -59,12 +33,7 @@ export const UpdateCategory = async (props: UpdateCategoryProps): Promise<Update
     }
 };
 
-/**
- * Deletes a category
- * @param props Category ID
- * @returns Deleted category or error
- */
-export const DeleteCategory = async (props: DeleteCategoryProps): Promise<DeleteCategoryResponse> => {
+export const DeleteCategory = async <T extends DeleteCategoryProps>(props: T): Promise<DeleteCategoryResponse<T>> => {
     try {
         const { data, error } = await CategoryService.delete(props);
         if (!data || error) throw new Error(error);
@@ -75,28 +44,26 @@ export const DeleteCategory = async (props: DeleteCategoryProps): Promise<Delete
 };
 
 /**
- * Retrieves a category by ID or another filter (no caching) \
  * WARNING: do not use this for fetching data -> use API routes with caching instead
- * @param props Category ID or other filter
- * @returns Found category or error
  */
-export const SelectCategory = async (props: FindUniqueCategoryProps): Promise<FindUniqueCategoryResponse> => {
+export const SelectCategory = async <T extends FindUniqueCategoryProps>(
+    props: T
+): Promise<FindUniqueCategoryResponse<T>> => {
     try {
         const { data, error } = await CategoryService.findUnique(props);
-        if (!data || error) throw new Error(error);
-        return data;
+        if (error) throw new Error(error);
+        return data ?? null;
     } catch (error) {
         throw new Error("SelectCategory -> " + (error as Error).message);
     }
 };
 
 /**
- * Retrieves a list of categorys with filters (no caching) \
  * WARNING: do not use this for fetching data -> use API routes with caching instead
- * @param props Filter and pagination options
- * @returns List of categorys or error
  */
-export const SelectCategoryList = async (props: FindManyCategoryProps): Promise<FindManyCategoryResponse> => {
+export const SelectCategoryList = async <T extends FindManyCategoryProps>(
+    props: T
+): Promise<FindManyCategoryResponse<T>> => {
     try {
         const { data, error } = await CategoryService.findMany(props);
         if (!data || error) throw new Error(error);
@@ -107,10 +74,7 @@ export const SelectCategoryList = async (props: FindManyCategoryProps): Promise<
 };
 
 /**
- * Counts categorys with filters (no caching) \
  * WARNING: do not use this for fetching data -> use API routes with caching instead
- * @param props Filter options
- * @returns Count of categorys or error
  */
 export const SelectCategoryAmount = async (props: CountCategoryProps): Promise<CountCategoryResponse> => {
     try {

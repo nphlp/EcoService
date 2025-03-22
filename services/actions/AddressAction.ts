@@ -1,40 +1,9 @@
 "use server";
 
-/**
- * Actions serveur pour les opérations CRUD sur les addresss
- * 
- * Ce fichier expose les méthodes de AddressService comme des actions serveur Next.js.
- * Ces actions peuvent être appelées directement depuis les composants client.
- * 
- * Chaque action est une simple passerelle vers la méthode correspondante du service,
- * ce qui permet de centraliser la logique métier dans les classes de service.
- * 
- * Note: Ces actions ne sont pas mises en cache et ne doivent pas être utilisées
- * pour récupérer des données - utilisez plutôt les routes API avec mise en cache.
- */
+import AddressService from "@services/class/AddressClass";
+import { CountAddressProps, CountAddressResponse, CreateAddressProps, CreateAddressResponse, DeleteAddressProps, DeleteAddressResponse, FindManyAddressProps, FindManyAddressResponse, FindUniqueAddressProps, FindUniqueAddressResponse, UpdateAddressProps, UpdateAddressResponse, UpsertAddressProps, UpsertAddressResponse } from "@services/types/AddressType";
 
-import {
-    AddressService,
-    CountAddressProps,
-    CountAddressResponse,
-    CreateAddressProps,
-    CreateAddressResponse,
-    DeleteAddressProps,
-    DeleteAddressResponse,
-    FindManyAddressProps,
-    FindManyAddressResponse,
-    FindUniqueAddressProps,
-    FindUniqueAddressResponse,
-    UpdateAddressProps,
-    UpdateAddressResponse
-} from "@services/class/AddressClass";
-
-/**
- * Creates a new address
- * @param props Address properties
- * @returns Created address or error
- */
-export const CreateAddress = async (props: CreateAddressProps): Promise<CreateAddressResponse> => {
+export const CreateAddress = async <T extends CreateAddressProps>(props: T): Promise<CreateAddressResponse<T>> => {
     try {
         const { data, error } = await AddressService.create(props);
         if (!data || error) throw new Error(error);
@@ -44,12 +13,17 @@ export const CreateAddress = async (props: CreateAddressProps): Promise<CreateAd
     }
 };
 
-/**
- * Updates a address
- * @param props Address ID and new data
- * @returns Updated address or error
- */
-export const UpdateAddress = async (props: UpdateAddressProps): Promise<UpdateAddressResponse> => {
+export const UpsertAddress = async <T extends UpsertAddressProps>(props: T): Promise<UpsertAddressResponse<T>> => {
+    try {
+        const { data, error } = await AddressService.upsert(props);
+        if (!data || error) throw new Error(error);
+        return data;
+    } catch (error) {
+        throw new Error("UpsertAddress -> " + (error as Error).message);
+    }
+};
+
+export const UpdateAddress = async <T extends UpdateAddressProps>(props: T): Promise<UpdateAddressResponse<T>> => {
     try {
         const { data, error } = await AddressService.update(props);
         if (!data || error) throw new Error(error);
@@ -59,12 +33,7 @@ export const UpdateAddress = async (props: UpdateAddressProps): Promise<UpdateAd
     }
 };
 
-/**
- * Deletes a address
- * @param props Address ID
- * @returns Deleted address or error
- */
-export const DeleteAddress = async (props: DeleteAddressProps): Promise<DeleteAddressResponse> => {
+export const DeleteAddress = async <T extends DeleteAddressProps>(props: T): Promise<DeleteAddressResponse<T>> => {
     try {
         const { data, error } = await AddressService.delete(props);
         if (!data || error) throw new Error(error);
@@ -75,28 +44,26 @@ export const DeleteAddress = async (props: DeleteAddressProps): Promise<DeleteAd
 };
 
 /**
- * Retrieves a address by ID or another filter (no caching) \
  * WARNING: do not use this for fetching data -> use API routes with caching instead
- * @param props Address ID or other filter
- * @returns Found address or error
  */
-export const SelectAddress = async (props: FindUniqueAddressProps): Promise<FindUniqueAddressResponse> => {
+export const SelectAddress = async <T extends FindUniqueAddressProps>(
+    props: T
+): Promise<FindUniqueAddressResponse<T>> => {
     try {
         const { data, error } = await AddressService.findUnique(props);
-        if (!data || error) throw new Error(error);
-        return data;
+        if (error) throw new Error(error);
+        return data ?? null;
     } catch (error) {
         throw new Error("SelectAddress -> " + (error as Error).message);
     }
 };
 
 /**
- * Retrieves a list of addresss with filters (no caching) \
  * WARNING: do not use this for fetching data -> use API routes with caching instead
- * @param props Filter and pagination options
- * @returns List of addresss or error
  */
-export const SelectAddressList = async (props: FindManyAddressProps): Promise<FindManyAddressResponse> => {
+export const SelectAddressList = async <T extends FindManyAddressProps>(
+    props: T
+): Promise<FindManyAddressResponse<T>> => {
     try {
         const { data, error } = await AddressService.findMany(props);
         if (!data || error) throw new Error(error);
@@ -107,10 +74,7 @@ export const SelectAddressList = async (props: FindManyAddressProps): Promise<Fi
 };
 
 /**
- * Counts addresss with filters (no caching) \
  * WARNING: do not use this for fetching data -> use API routes with caching instead
- * @param props Filter options
- * @returns Count of addresss or error
  */
 export const SelectAddressAmount = async (props: CountAddressProps): Promise<CountAddressResponse> => {
     try {

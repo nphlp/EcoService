@@ -1,133 +1,22 @@
-/**
- * Classe de service pour les opérations CRUD sur les categorys
- * 
- * Ce fichier centralise toute la logique d'accès aux données pour les categorys.
- * Il utilise les schémas Zod générés par zod-prisma-types pour la validation des données.
- * Chaque méthode retourne soit les données demandées, soit une erreur formatée.
- * 
- * Les types sont définis pour correspondre aux opérations Prisma (create, update, delete, etc.)
- * et suivent une nomenclature cohérente avec l'API Prisma.
- */
 import { ResponseFormat } from "@app/api/Routes";
 import PrismaInstance from "@lib/prisma";
-import { Prisma } from "@prisma/client";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
-import {
-    Category,
-    CategoryCreateArgsSchema,
-    CategoryDeleteArgsSchema,
-    CategoryFindManyArgsSchema,
-    CategoryFindUniqueArgsSchema,
-    CategoryOrderByWithRelationInputSchema,
-    CategorySchema,
-    CategoryUpdateArgsSchema,
-    CategoryUpsertArgsSchema,
-    CategoryWhereInputSchema,
-    CategoryWhereUniqueInputSchema,
-    CategoryWithRelationsSchema
-} from "@services/schemas";
-import { CategoryIncludeSchema } from "@services/schemas/inputTypeSchemas/CategoryIncludeSchema";
-import { z, ZodError, ZodType } from "zod";
+import { CategoryCount, CountCategoryProps, CountCategoryResponse, CreateCategoryProps, CreateCategoryResponse, DeleteCategoryProps, DeleteCategoryResponse, FindManyCategoryProps, FindManyCategoryResponse, FindUniqueCategoryProps, FindUniqueCategoryResponse, UpdateCategoryProps, UpdateCategoryResponse, UpsertCategoryProps, UpsertCategoryResponse, countCategorySchema, createCategorySchema, deleteCategorySchema, selectCategorySchema, selectManyCategorySchema, updateCategorySchema, upsertCategorySchema } from "@services/types/CategoryType";
+import { ZodError } from "zod";
 
-// ============== Types ============== //
-
-export type CategoryModel = z.infer<typeof CategorySchema>;
-
-export type CategoryRelationsOptional = z.infer<typeof CategorySchema> & z.infer<typeof CategoryIncludeSchema>;
-
-export type CategoryRelationsComplete = z.infer<typeof CategoryWithRelationsSchema>;
-
-export type CategoryCount = number;
-
-// ============== Schema Types ============== //
-
-const createCategorySchema: ZodType<Prisma.CategoryCreateArgs> = CategoryCreateArgsSchema;
-
-const upsertCategorySchema: ZodType<Prisma.CategoryUpsertArgs> = CategoryUpsertArgsSchema;
-
-const updateCategorySchema: ZodType<Prisma.CategoryUpdateArgs> = CategoryUpdateArgsSchema;
-
-const deleteCategorySchema: ZodType<Prisma.CategoryDeleteArgs> = CategoryDeleteArgsSchema;
-
-const selectCategorySchema: ZodType<Prisma.CategoryFindUniqueArgs> = CategoryFindUniqueArgsSchema;
-
-const selectManyCategorySchema: ZodType<Prisma.CategoryFindManyArgs> = CategoryFindManyArgsSchema;
-
-/**
- * Définition du schéma pour CategoryCountArgs
- * 
- * Ce schéma correspond au type Prisma.CategoryCountArgs qui est défini comme:
- * Omit<CategoryFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
- *   select?: CategoryCountAggregateInputType | true
- * }
- */
-const countCategorySchema: ZodType<Prisma.CategoryCountArgs> = z.object({
-    where: z.lazy(() => CategoryWhereInputSchema).optional(),
-    orderBy: z.union([
-        z.lazy(() => CategoryOrderByWithRelationInputSchema),
-        z.array(z.lazy(() => CategoryOrderByWithRelationInputSchema))
-    ]).optional(),
-    cursor: z.lazy(() => CategoryWhereUniqueInputSchema).optional(),
-    take: z.number().optional(),
-    skip: z.number().optional(),
-    select: z.union([z.literal(true), z.record(z.boolean())]).optional()
-});
-
-// ============== CRUD Props Types ============== //
-
-export type CreateCategoryProps = z.infer<typeof createCategorySchema>;
-
-export type UpsertCategoryProps = z.infer<typeof upsertCategorySchema>;
-
-export type UpdateCategoryProps = z.infer<typeof updateCategorySchema>;
-
-export type DeleteCategoryProps = z.infer<typeof deleteCategorySchema>;
-
-export type FindUniqueCategoryProps = z.infer<typeof selectCategorySchema>;
-
-export type FindManyCategoryProps = z.infer<typeof selectManyCategorySchema>;
-
-export type CountCategoryProps = z.infer<typeof countCategorySchema>;
-
-// ============== CRUD Response Types ============== //
-
-export type CreateCategoryResponse = CategoryModel;
-
-export type UpsertCategoryResponse = CategoryModel;
-
-export type UpdateCategoryResponse = CategoryModel;
-
-export type DeleteCategoryResponse = CategoryModel;
-
-export type FindUniqueCategoryResponse = CategoryRelationsOptional | null;
-
-export type FindManyCategoryResponse = CategoryRelationsOptional[];
-
-export type CountCategoryResponse = CategoryCount;
-
-// ============== Services ============== //
-
-/**
- * Service pour les opérations de base de données sur les categorys
- */
-export class CategoryService {
-    /**
-     * Crée un(e) nouveau/nouvelle category
-     * @param props Propriétés du/de la category
-     * @returns Category créé(e) ou erreur
-     */
-    static async create(props: CreateCategoryProps): Promise<ResponseFormat<CreateCategoryResponse>> {
+export default class CategoryService {
+    static async create<T extends CreateCategoryProps>(props: T): Promise<ResponseFormat<CreateCategoryResponse<T>>> {
         try {
             const { data, include, omit, select } = createCategorySchema.parse(props);
 
-            const category: Category = await PrismaInstance.category.create({
+            const category = await PrismaInstance.category.create({
                 data,
                 ...(include && { include }),
                 ...(omit && { omit }),
                 ...(select && { select }),
             });
 
-            return { data: category };
+            return { data: category as CreateCategoryResponse<T> };
         } catch (error) {
             console.error("CategoryService -> Create -> " + (error as Error).message);
             if (process.env.NODE_ENV === "development") {
@@ -142,11 +31,11 @@ export class CategoryService {
         }
     }
 
-    static async upsert(props: UpsertCategoryProps): Promise<ResponseFormat<UpsertCategoryResponse>> {
+    static async upsert<T extends UpsertCategoryProps>(props: T): Promise<ResponseFormat<UpsertCategoryResponse<T>>> {
         try {
             const { create, update, where, include, omit, select } = upsertCategorySchema.parse(props);
 
-            const category: Category = await PrismaInstance.category.upsert({
+            const category = await PrismaInstance.category.upsert({
                 create,
                 update,
                 where,
@@ -155,7 +44,7 @@ export class CategoryService {
                 ...(select && { select }),
             });
 
-            return { data: category };
+            return { data: category as UpsertCategoryResponse<T> };
         } catch (error) {
             console.error("CategoryService -> Upsert -> " + (error as Error).message);
             if (process.env.NODE_ENV === "development") {
@@ -170,16 +59,11 @@ export class CategoryService {
         }
     }
 
-    /**
-     * Met à jour un(e) category
-     * @param props ID du/de la category et nouvelles données
-     * @returns Category mis(e) à jour ou erreur
-     */
-    static async update(props: UpdateCategoryProps): Promise<ResponseFormat<UpdateCategoryResponse>> {
+    static async update<T extends UpdateCategoryProps>(props: T): Promise<ResponseFormat<UpdateCategoryResponse<T>>> {
         try {
             const { data, where, include, omit, select } = updateCategorySchema.parse(props);
 
-            const category: Category = await PrismaInstance.category.update({
+            const category = await PrismaInstance.category.update({
                 data,
                 where,
                 ...(include && { include }),
@@ -187,7 +71,7 @@ export class CategoryService {
                 ...(select && { select }),
             });
 
-            return { data: category };
+            return { data: category as UpdateCategoryResponse<T> };
         } catch (error) {
             console.error("CategoryService -> Update -> " + (error as Error).message);
             if (process.env.NODE_ENV === "development") {
@@ -202,23 +86,18 @@ export class CategoryService {
         }
     }
 
-    /**
-     * Supprime un(e) category
-     * @param props ID du/de la category
-     * @returns Category supprimé(e) ou erreur
-     */
-    static async delete(props: DeleteCategoryProps): Promise<ResponseFormat<DeleteCategoryResponse>> {
+    static async delete<T extends DeleteCategoryProps>(props: T): Promise<ResponseFormat<DeleteCategoryResponse<T>>> {
         try {
             const { where, include, omit, select } = deleteCategorySchema.parse(props);
 
-            const category: Category = await PrismaInstance.category.delete({
+            const category = await PrismaInstance.category.delete({
                 where,
                 ...(include && { include }),
                 ...(omit && { omit }),
                 ...(select && { select }),
             });
 
-            return { data: category };
+            return { data: category as DeleteCategoryResponse<T> };
         } catch (error) {
             console.error("CategoryService -> Delete -> " + (error as Error).message);
             if (process.env.NODE_ENV === "development") {
@@ -233,21 +112,18 @@ export class CategoryService {
         }
     }
 
-    /**
-     * Récupère un(e) category par ID ou autre filtre
-     */
-    static async findUnique(props: FindUniqueCategoryProps): Promise<ResponseFormat<FindUniqueCategoryResponse>> {
+    static async findUnique<T extends FindUniqueCategoryProps>(props: T): Promise<ResponseFormat<FindUniqueCategoryResponse<T>>> {
         try {
             const { where, include, omit, select } = selectCategorySchema.parse(props);
 
-            const category: CategoryRelationsOptional | null = await PrismaInstance.category.findUnique({
+            const category = await PrismaInstance.category.findUnique({
                 where,
                 ...(include && { include }),
                 ...(omit && { omit }),
                 ...(select && { select }),
             });
 
-            return { data: category };
+            return { data: category as FindUniqueCategoryResponse<T> };
         } catch (error) {
             console.error("CategoryService -> FindUnique -> " + (error as Error).message);
             if (process.env.NODE_ENV === "development") {
@@ -262,10 +138,7 @@ export class CategoryService {
         }
     }
 
-    /**
-     * Récupère une liste de categorys avec filtres
-     */
-    static async findMany(props: FindManyCategoryProps): Promise<ResponseFormat<FindManyCategoryResponse>> {
+    static async findMany<T extends FindManyCategoryProps>(props: T): Promise<ResponseFormat<FindManyCategoryResponse<T>>> {
         try {
             const {
                 cursor,
@@ -279,7 +152,7 @@ export class CategoryService {
                 where,
             } = selectManyCategorySchema.parse(props);
 
-            const categoryList: CategoryRelationsOptional[] = await PrismaInstance.category.findMany({
+            const categoryList = await PrismaInstance.category.findMany({
                 ...(cursor && { cursor }),
                 ...(distinct && { distinct }),
                 ...(include && { include }),
@@ -291,7 +164,7 @@ export class CategoryService {
                 ...(where && { where }),
             });
 
-            return { data: categoryList };
+            return { data: categoryList as FindManyCategoryResponse<T> };
         } catch (error) {
             console.error("CategoryService -> FindMany -> " + (error as Error).message);
             if (process.env.NODE_ENV === "development") {
@@ -306,9 +179,6 @@ export class CategoryService {
         }
     }
 
-    /**
-     * Compte les categorys avec filtres
-     */
     static async count(props: CountCategoryProps): Promise<ResponseFormat<CountCategoryResponse>> {
         try {
             const { cursor, orderBy, select, skip, take, where } = countCategorySchema.parse(props);

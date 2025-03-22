@@ -1,3 +1,11 @@
 {{#each models}}
 export * from './{{this.name}}Api';
 {{/each}}
+
+{{#each models}}
+import { {{this.name}}Routes } from "./{{this.name}}Api";
+{{/each}}
+
+export type Routes<T> = 
+{{#each models}}{{#if @first}}    {{/if}}{{this.name}}Routes<T>{{#unless @last}} &
+    {{/unless}}{{/each}};

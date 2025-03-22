@@ -1,40 +1,9 @@
 "use server";
 
-/**
- * Actions serveur pour les opérations CRUD sur les orders
- * 
- * Ce fichier expose les méthodes de OrderService comme des actions serveur Next.js.
- * Ces actions peuvent être appelées directement depuis les composants client.
- * 
- * Chaque action est une simple passerelle vers la méthode correspondante du service,
- * ce qui permet de centraliser la logique métier dans les classes de service.
- * 
- * Note: Ces actions ne sont pas mises en cache et ne doivent pas être utilisées
- * pour récupérer des données - utilisez plutôt les routes API avec mise en cache.
- */
+import OrderService from "@services/class/OrderClass";
+import { CountOrderProps, CountOrderResponse, CreateOrderProps, CreateOrderResponse, DeleteOrderProps, DeleteOrderResponse, FindManyOrderProps, FindManyOrderResponse, FindUniqueOrderProps, FindUniqueOrderResponse, UpdateOrderProps, UpdateOrderResponse, UpsertOrderProps, UpsertOrderResponse } from "@services/types/OrderType";
 
-import {
-    OrderService,
-    CountOrderProps,
-    CountOrderResponse,
-    CreateOrderProps,
-    CreateOrderResponse,
-    DeleteOrderProps,
-    DeleteOrderResponse,
-    FindManyOrderProps,
-    FindManyOrderResponse,
-    FindUniqueOrderProps,
-    FindUniqueOrderResponse,
-    UpdateOrderProps,
-    UpdateOrderResponse
-} from "@services/class/OrderClass";
-
-/**
- * Creates a new order
- * @param props Order properties
- * @returns Created order or error
- */
-export const CreateOrder = async (props: CreateOrderProps): Promise<CreateOrderResponse> => {
+export const CreateOrder = async <T extends CreateOrderProps>(props: T): Promise<CreateOrderResponse<T>> => {
     try {
         const { data, error } = await OrderService.create(props);
         if (!data || error) throw new Error(error);
@@ -44,12 +13,17 @@ export const CreateOrder = async (props: CreateOrderProps): Promise<CreateOrderR
     }
 };
 
-/**
- * Updates a order
- * @param props Order ID and new data
- * @returns Updated order or error
- */
-export const UpdateOrder = async (props: UpdateOrderProps): Promise<UpdateOrderResponse> => {
+export const UpsertOrder = async <T extends UpsertOrderProps>(props: T): Promise<UpsertOrderResponse<T>> => {
+    try {
+        const { data, error } = await OrderService.upsert(props);
+        if (!data || error) throw new Error(error);
+        return data;
+    } catch (error) {
+        throw new Error("UpsertOrder -> " + (error as Error).message);
+    }
+};
+
+export const UpdateOrder = async <T extends UpdateOrderProps>(props: T): Promise<UpdateOrderResponse<T>> => {
     try {
         const { data, error } = await OrderService.update(props);
         if (!data || error) throw new Error(error);
@@ -59,12 +33,7 @@ export const UpdateOrder = async (props: UpdateOrderProps): Promise<UpdateOrderR
     }
 };
 
-/**
- * Deletes a order
- * @param props Order ID
- * @returns Deleted order or error
- */
-export const DeleteOrder = async (props: DeleteOrderProps): Promise<DeleteOrderResponse> => {
+export const DeleteOrder = async <T extends DeleteOrderProps>(props: T): Promise<DeleteOrderResponse<T>> => {
     try {
         const { data, error } = await OrderService.delete(props);
         if (!data || error) throw new Error(error);
@@ -75,28 +44,26 @@ export const DeleteOrder = async (props: DeleteOrderProps): Promise<DeleteOrderR
 };
 
 /**
- * Retrieves a order by ID or another filter (no caching) \
  * WARNING: do not use this for fetching data -> use API routes with caching instead
- * @param props Order ID or other filter
- * @returns Found order or error
  */
-export const SelectOrder = async (props: FindUniqueOrderProps): Promise<FindUniqueOrderResponse> => {
+export const SelectOrder = async <T extends FindUniqueOrderProps>(
+    props: T
+): Promise<FindUniqueOrderResponse<T>> => {
     try {
         const { data, error } = await OrderService.findUnique(props);
-        if (!data || error) throw new Error(error);
-        return data;
+        if (error) throw new Error(error);
+        return data ?? null;
     } catch (error) {
         throw new Error("SelectOrder -> " + (error as Error).message);
     }
 };
 
 /**
- * Retrieves a list of orders with filters (no caching) \
  * WARNING: do not use this for fetching data -> use API routes with caching instead
- * @param props Filter and pagination options
- * @returns List of orders or error
  */
-export const SelectOrderList = async (props: FindManyOrderProps): Promise<FindManyOrderResponse> => {
+export const SelectOrderList = async <T extends FindManyOrderProps>(
+    props: T
+): Promise<FindManyOrderResponse<T>> => {
     try {
         const { data, error } = await OrderService.findMany(props);
         if (!data || error) throw new Error(error);
@@ -107,10 +74,7 @@ export const SelectOrderList = async (props: FindManyOrderProps): Promise<FindMa
 };
 
 /**
- * Counts orders with filters (no caching) \
  * WARNING: do not use this for fetching data -> use API routes with caching instead
- * @param props Filter options
- * @returns Count of orders or error
  */
 export const SelectOrderAmount = async (props: CountOrderProps): Promise<CountOrderResponse> => {
     try {

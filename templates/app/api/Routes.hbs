@@ -22,22 +22,20 @@ import { Routes as StripeRoutes } from "./stripe/Routes";
 export type Routes = StripeRoutes & {
     {{#each models}}
 
+    // {{this.name}} Routes
     "/{{this.nameLower}}": {
         params?: FindMany{{this.name}}Props;
-        response: FindMany{{this.name}}Response;
+        response: FindMany{{this.name}}Response<FindMany{{this.name}}Props>;
     };
-
     "/{{this.nameLower}}/unique": {
         params?: FindUnique{{this.name}}Props;
-        response: FindUnique{{this.name}}Response;
+        response: FindUnique{{this.name}}Response<FindUnique{{this.name}}Props>;
     };
-
     "/{{this.nameLower}}/count": {
         params?: Count{{this.name}}Props;
         response: Count{{this.name}}Response;
     };
     {{#unless @last}}
-
     {{/unless}}
     {{/each}}
 };

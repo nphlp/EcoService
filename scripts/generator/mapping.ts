@@ -25,6 +25,7 @@ export const pathsToRemove: string[] = [
     "services/class",
     "services/actions",
     "services/api",
+    "services/types",
     "services/index.ts",
     "app/api/Routes.ts",
     "app/api/[...routes]"
@@ -36,7 +37,6 @@ export const pathsToRemove: string[] = [
  * Variables disponibles dans les templates:
  * - {{modelName}}: Nom du modèle (ex: User)
  * - {{modelNameLower}}: Nom du modèle en minuscule (ex: user)
- * - {{modelNameUpper}}: Nom du modèle en majuscule (ex: USER)
  * - {{model}}: Placeholder remplacé par le nom du modèle dans les chemins de template
  */
 export const templates: FileTemplate[] = [
@@ -54,6 +54,11 @@ export const templates: FileTemplate[] = [
     {
         input: `templates/services/api/{{model}}Api.hbs`,
         output: `services/api/{{modelName}}Api.ts`
+    },
+    // Types
+    {
+        input: `templates/services/types/{{model}}Type.hbs`,
+        output: `services/types/{{modelName}}Type.ts`
     }
 ];
 
@@ -80,8 +85,8 @@ export const indexTemplates: FileTemplate[] = [
         output: 'services/api/index.ts'
     },
     {
-        input: 'templates/services/index.hbs',
-        output: 'services/index.ts'
+        input: 'templates/services/types/index.hbs',
+        output: 'services/types/index.ts'
     },
     // Configuration des routes API
     {

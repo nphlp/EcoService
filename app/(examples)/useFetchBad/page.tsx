@@ -2,7 +2,7 @@
 
 import { useFetch } from "@utils/FetchHook";
 import { SelectArticleList } from "@actions/ArticleAction";
-import { FindManyArticleResponse } from "@class/ArticleClass";
+import { FindManyArticleProps, FindManyArticleResponse } from "@class/ArticleClass";
 import { useEffect, useState } from "react";
 
 export default function Page() {
@@ -22,7 +22,7 @@ export default function Page() {
     });
 
     // Without useFetch
-    const [dataAction, setDataAction] = useState<FindManyArticleResponse>();
+    const [dataAction, setDataAction] = useState<FindManyArticleResponse<FindManyArticleProps>>();
     const [isLoadingAction, setIsLoadingAction] = useState(false);
     const [errorAction, setErrorAction] = useState<string>();
     useEffect(() => {

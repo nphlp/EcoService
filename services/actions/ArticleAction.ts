@@ -1,21 +1,7 @@
 "use server";
 
-import { Prisma } from "@prisma/client";
-import {
-    ArticleService,
-    CreateArticleProps,
-    CreateArticleResponse,
-    DeleteArticleProps,
-    DeleteArticleResponse,
-    FindManyArticleProps,
-    FindManyArticleResponse,
-    FindUniqueArticleProps,
-    FindUniqueArticleResponse,
-    UpdateArticleProps,
-    UpdateArticleResponse,
-    UpsertArticleProps,
-    UpsertArticleResponse,
-} from "@services/class/ArticleClass";
+import ArticleService from "@services/class/ArticleClass";
+import { CountArticleProps, CountArticleResponse, CreateArticleProps, CreateArticleResponse, DeleteArticleProps, DeleteArticleResponse, FindManyArticleProps, FindManyArticleResponse, FindUniqueArticleProps, FindUniqueArticleResponse, UpdateArticleProps, UpdateArticleResponse, UpsertArticleProps, UpsertArticleResponse } from "@services/types/ArticleType";
 
 export const CreateArticle = async <T extends CreateArticleProps>(props: T): Promise<CreateArticleResponse<T>> => {
     try {
@@ -61,7 +47,7 @@ export const DeleteArticle = async <T extends DeleteArticleProps>(props: T): Pro
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
 export const SelectArticle = async <T extends FindUniqueArticleProps>(
-    props: T,
+    props: T
 ): Promise<FindUniqueArticleResponse<T>> => {
     try {
         const { data, error } = await ArticleService.findUnique(props);
@@ -76,7 +62,7 @@ export const SelectArticle = async <T extends FindUniqueArticleProps>(
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
 export const SelectArticleList = async <T extends FindManyArticleProps>(
-    props: T,
+    props: T
 ): Promise<FindManyArticleResponse<T>> => {
     try {
         const { data, error } = await ArticleService.findMany(props);
@@ -90,7 +76,7 @@ export const SelectArticleList = async <T extends FindManyArticleProps>(
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const SelectArticleAmount = async (props: Prisma.ArticleCountArgs): Promise<number> => {
+export const SelectArticleAmount = async (props: CountArticleProps): Promise<CountArticleResponse> => {
     try {
         const { data, error } = await ArticleService.count(props);
         if (!data || error) throw new Error(error);

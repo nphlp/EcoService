@@ -1,133 +1,22 @@
-/**
- * Classe de service pour les opérations CRUD sur les addresss
- * 
- * Ce fichier centralise toute la logique d'accès aux données pour les addresss.
- * Il utilise les schémas Zod générés par zod-prisma-types pour la validation des données.
- * Chaque méthode retourne soit les données demandées, soit une erreur formatée.
- * 
- * Les types sont définis pour correspondre aux opérations Prisma (create, update, delete, etc.)
- * et suivent une nomenclature cohérente avec l'API Prisma.
- */
 import { ResponseFormat } from "@app/api/Routes";
 import PrismaInstance from "@lib/prisma";
-import { Prisma } from "@prisma/client";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
-import {
-    Address,
-    AddressCreateArgsSchema,
-    AddressDeleteArgsSchema,
-    AddressFindManyArgsSchema,
-    AddressFindUniqueArgsSchema,
-    AddressOrderByWithRelationInputSchema,
-    AddressSchema,
-    AddressUpdateArgsSchema,
-    AddressUpsertArgsSchema,
-    AddressWhereInputSchema,
-    AddressWhereUniqueInputSchema,
-    AddressWithRelationsSchema
-} from "@services/schemas";
-import { AddressIncludeSchema } from "@services/schemas/inputTypeSchemas/AddressIncludeSchema";
-import { z, ZodError, ZodType } from "zod";
+import { AddressCount, CountAddressProps, CountAddressResponse, CreateAddressProps, CreateAddressResponse, DeleteAddressProps, DeleteAddressResponse, FindManyAddressProps, FindManyAddressResponse, FindUniqueAddressProps, FindUniqueAddressResponse, UpdateAddressProps, UpdateAddressResponse, UpsertAddressProps, UpsertAddressResponse, countAddressSchema, createAddressSchema, deleteAddressSchema, selectAddressSchema, selectManyAddressSchema, updateAddressSchema, upsertAddressSchema } from "@services/types/AddressType";
+import { ZodError } from "zod";
 
-// ============== Types ============== //
-
-export type AddressModel = z.infer<typeof AddressSchema>;
-
-export type AddressRelationsOptional = z.infer<typeof AddressSchema> & z.infer<typeof AddressIncludeSchema>;
-
-export type AddressRelationsComplete = z.infer<typeof AddressWithRelationsSchema>;
-
-export type AddressCount = number;
-
-// ============== Schema Types ============== //
-
-const createAddressSchema: ZodType<Prisma.AddressCreateArgs> = AddressCreateArgsSchema;
-
-const upsertAddressSchema: ZodType<Prisma.AddressUpsertArgs> = AddressUpsertArgsSchema;
-
-const updateAddressSchema: ZodType<Prisma.AddressUpdateArgs> = AddressUpdateArgsSchema;
-
-const deleteAddressSchema: ZodType<Prisma.AddressDeleteArgs> = AddressDeleteArgsSchema;
-
-const selectAddressSchema: ZodType<Prisma.AddressFindUniqueArgs> = AddressFindUniqueArgsSchema;
-
-const selectManyAddressSchema: ZodType<Prisma.AddressFindManyArgs> = AddressFindManyArgsSchema;
-
-/**
- * Définition du schéma pour AddressCountArgs
- * 
- * Ce schéma correspond au type Prisma.AddressCountArgs qui est défini comme:
- * Omit<AddressFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
- *   select?: AddressCountAggregateInputType | true
- * }
- */
-const countAddressSchema: ZodType<Prisma.AddressCountArgs> = z.object({
-    where: z.lazy(() => AddressWhereInputSchema).optional(),
-    orderBy: z.union([
-        z.lazy(() => AddressOrderByWithRelationInputSchema),
-        z.array(z.lazy(() => AddressOrderByWithRelationInputSchema))
-    ]).optional(),
-    cursor: z.lazy(() => AddressWhereUniqueInputSchema).optional(),
-    take: z.number().optional(),
-    skip: z.number().optional(),
-    select: z.union([z.literal(true), z.record(z.boolean())]).optional()
-});
-
-// ============== CRUD Props Types ============== //
-
-export type CreateAddressProps = z.infer<typeof createAddressSchema>;
-
-export type UpsertAddressProps = z.infer<typeof upsertAddressSchema>;
-
-export type UpdateAddressProps = z.infer<typeof updateAddressSchema>;
-
-export type DeleteAddressProps = z.infer<typeof deleteAddressSchema>;
-
-export type FindUniqueAddressProps = z.infer<typeof selectAddressSchema>;
-
-export type FindManyAddressProps = z.infer<typeof selectManyAddressSchema>;
-
-export type CountAddressProps = z.infer<typeof countAddressSchema>;
-
-// ============== CRUD Response Types ============== //
-
-export type CreateAddressResponse = AddressModel;
-
-export type UpsertAddressResponse = AddressModel;
-
-export type UpdateAddressResponse = AddressModel;
-
-export type DeleteAddressResponse = AddressModel;
-
-export type FindUniqueAddressResponse = AddressRelationsOptional | null;
-
-export type FindManyAddressResponse = AddressRelationsOptional[];
-
-export type CountAddressResponse = AddressCount;
-
-// ============== Services ============== //
-
-/**
- * Service pour les opérations de base de données sur les addresss
- */
-export class AddressService {
-    /**
-     * Crée un(e) nouveau/nouvelle address
-     * @param props Propriétés du/de la address
-     * @returns Address créé(e) ou erreur
-     */
-    static async create(props: CreateAddressProps): Promise<ResponseFormat<CreateAddressResponse>> {
+export default class AddressService {
+    static async create<T extends CreateAddressProps>(props: T): Promise<ResponseFormat<CreateAddressResponse<T>>> {
         try {
             const { data, include, omit, select } = createAddressSchema.parse(props);
 
-            const address: Address = await PrismaInstance.address.create({
+            const address = await PrismaInstance.address.create({
                 data,
                 ...(include && { include }),
                 ...(omit && { omit }),
                 ...(select && { select }),
             });
 
-            return { data: address };
+            return { data: address as CreateAddressResponse<T> };
         } catch (error) {
             console.error("AddressService -> Create -> " + (error as Error).message);
             if (process.env.NODE_ENV === "development") {
@@ -142,11 +31,11 @@ export class AddressService {
         }
     }
 
-    static async upsert(props: UpsertAddressProps): Promise<ResponseFormat<UpsertAddressResponse>> {
+    static async upsert<T extends UpsertAddressProps>(props: T): Promise<ResponseFormat<UpsertAddressResponse<T>>> {
         try {
             const { create, update, where, include, omit, select } = upsertAddressSchema.parse(props);
 
-            const address: Address = await PrismaInstance.address.upsert({
+            const address = await PrismaInstance.address.upsert({
                 create,
                 update,
                 where,
@@ -155,7 +44,7 @@ export class AddressService {
                 ...(select && { select }),
             });
 
-            return { data: address };
+            return { data: address as UpsertAddressResponse<T> };
         } catch (error) {
             console.error("AddressService -> Upsert -> " + (error as Error).message);
             if (process.env.NODE_ENV === "development") {
@@ -170,16 +59,11 @@ export class AddressService {
         }
     }
 
-    /**
-     * Met à jour un(e) address
-     * @param props ID du/de la address et nouvelles données
-     * @returns Address mis(e) à jour ou erreur
-     */
-    static async update(props: UpdateAddressProps): Promise<ResponseFormat<UpdateAddressResponse>> {
+    static async update<T extends UpdateAddressProps>(props: T): Promise<ResponseFormat<UpdateAddressResponse<T>>> {
         try {
             const { data, where, include, omit, select } = updateAddressSchema.parse(props);
 
-            const address: Address = await PrismaInstance.address.update({
+            const address = await PrismaInstance.address.update({
                 data,
                 where,
                 ...(include && { include }),
@@ -187,7 +71,7 @@ export class AddressService {
                 ...(select && { select }),
             });
 
-            return { data: address };
+            return { data: address as UpdateAddressResponse<T> };
         } catch (error) {
             console.error("AddressService -> Update -> " + (error as Error).message);
             if (process.env.NODE_ENV === "development") {
@@ -202,23 +86,18 @@ export class AddressService {
         }
     }
 
-    /**
-     * Supprime un(e) address
-     * @param props ID du/de la address
-     * @returns Address supprimé(e) ou erreur
-     */
-    static async delete(props: DeleteAddressProps): Promise<ResponseFormat<DeleteAddressResponse>> {
+    static async delete<T extends DeleteAddressProps>(props: T): Promise<ResponseFormat<DeleteAddressResponse<T>>> {
         try {
             const { where, include, omit, select } = deleteAddressSchema.parse(props);
 
-            const address: Address = await PrismaInstance.address.delete({
+            const address = await PrismaInstance.address.delete({
                 where,
                 ...(include && { include }),
                 ...(omit && { omit }),
                 ...(select && { select }),
             });
 
-            return { data: address };
+            return { data: address as DeleteAddressResponse<T> };
         } catch (error) {
             console.error("AddressService -> Delete -> " + (error as Error).message);
             if (process.env.NODE_ENV === "development") {
@@ -233,21 +112,18 @@ export class AddressService {
         }
     }
 
-    /**
-     * Récupère un(e) address par ID ou autre filtre
-     */
-    static async findUnique(props: FindUniqueAddressProps): Promise<ResponseFormat<FindUniqueAddressResponse>> {
+    static async findUnique<T extends FindUniqueAddressProps>(props: T): Promise<ResponseFormat<FindUniqueAddressResponse<T>>> {
         try {
             const { where, include, omit, select } = selectAddressSchema.parse(props);
 
-            const address: AddressRelationsOptional | null = await PrismaInstance.address.findUnique({
+            const address = await PrismaInstance.address.findUnique({
                 where,
                 ...(include && { include }),
                 ...(omit && { omit }),
                 ...(select && { select }),
             });
 
-            return { data: address };
+            return { data: address as FindUniqueAddressResponse<T> };
         } catch (error) {
             console.error("AddressService -> FindUnique -> " + (error as Error).message);
             if (process.env.NODE_ENV === "development") {
@@ -262,10 +138,7 @@ export class AddressService {
         }
     }
 
-    /**
-     * Récupère une liste de addresss avec filtres
-     */
-    static async findMany(props: FindManyAddressProps): Promise<ResponseFormat<FindManyAddressResponse>> {
+    static async findMany<T extends FindManyAddressProps>(props: T): Promise<ResponseFormat<FindManyAddressResponse<T>>> {
         try {
             const {
                 cursor,
@@ -279,7 +152,7 @@ export class AddressService {
                 where,
             } = selectManyAddressSchema.parse(props);
 
-            const addressList: AddressRelationsOptional[] = await PrismaInstance.address.findMany({
+            const addressList = await PrismaInstance.address.findMany({
                 ...(cursor && { cursor }),
                 ...(distinct && { distinct }),
                 ...(include && { include }),
@@ -291,7 +164,7 @@ export class AddressService {
                 ...(where && { where }),
             });
 
-            return { data: addressList };
+            return { data: addressList as FindManyAddressResponse<T> };
         } catch (error) {
             console.error("AddressService -> FindMany -> " + (error as Error).message);
             if (process.env.NODE_ENV === "development") {
@@ -306,9 +179,6 @@ export class AddressService {
         }
     }
 
-    /**
-     * Compte les addresss avec filtres
-     */
     static async count(props: CountAddressProps): Promise<ResponseFormat<CountAddressResponse>> {
         try {
             const { cursor, orderBy, select, skip, take, where } = countAddressSchema.parse(props);

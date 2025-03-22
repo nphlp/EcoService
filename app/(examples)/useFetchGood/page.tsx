@@ -1,31 +1,26 @@
+import { Fetch } from "@utils/Fetch";
 import Client from "./client";
-import { FetchParallelized } from "@utils/FetchParallelized";
 
 export default async function Page() {
-    const [userList, articleList] = await FetchParallelized([
+    const diyList = await Fetch(
         {
-            route: "/article",
+            route: "/diy",
             params: {
                 include: {
-                    Author: true,
+                    Author: {
+                        select: {
+                            name: true,
+                        },
+                    },
                 },
                 take: 2,
             },
         },
-        {
-            route: "/article",
-            params: {
-                include: {
-                    Author: true,
-                },
-                take: 2,
-            },
-        },
-    ]);
+    );
 
-    if (!userList.length || !articleList.length) {
+    if (!diyList.length) {
         return <div>There is no data.</div>;
     }
 
-    return <Client initialData={{ dataApiInit: userList, dataActionInit: articleList }} />;
+    return <Client initialData={{ diyList }} />;
 }
