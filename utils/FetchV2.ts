@@ -30,18 +30,21 @@ export type ResponseFormat<Response> =
 export type Keys<T> = keyof Routes<T>;
 
 // Fetch props type
-export type FetchProps<K extends Keys<T>, T> = {
+export type FetchProps<K extends Keys<T>, P extends Routes<T>[K]["props"], T> = {
     route: K;
-    params?: Routes<T>[K]["props"];
+    params?: P;
     signal?: AbortSignal;
     client?: boolean;
 };
 
-export type FetchResponse<K extends Keys<T>, T> = Routes<T>[K]["response"];
+export type FetchResponse<K extends Keys<T>, P extends Routes<T>[K]["props"], T> = Routes<P>[K]["response"];
 
 // Generic function for all routes
-export async function FetchV2<K extends Keys<T>, T>(props: FetchProps<K, T>): Promise<FetchResponse<K, T>> {
-    const { route, params, signal, client = false }: FetchProps<K, T> = props;
+export const FetchV2 = async <K extends Keys<T>, P extends Routes<T>[K]["props"], T>(
+    props: FetchProps<K, P, T>,
+): Promise<FetchResponse<K, P, T>> => {
+    
+    const { route, params, signal, client = false }: FetchProps<K, P, T> = props;
 
     const baseUrl = client ? "" : process.env.BASE_URL;
     const encodedParams = params ? encodeURIComponent(JSON.stringify(params)) : "";
@@ -59,7 +62,7 @@ export async function FetchV2<K extends Keys<T>, T>(props: FetchProps<K, T>): Pr
         throw new Error(responseJson.error ?? "Something went wrong...");
     }
 
-    const data: FetchResponse<K, T> = responseJson.data;
-    
+    const data: FetchResponse<K, P, T> = responseJson.data;
+
     return data;
-}
+};
