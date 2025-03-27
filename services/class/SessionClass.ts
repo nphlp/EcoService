@@ -1,7 +1,7 @@
-import { ResponseFormat } from "@app/api/Routes";
 import PrismaInstance from "@lib/prisma";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { SessionCount, CountSessionProps, CountSessionResponse, CreateSessionProps, CreateSessionResponse, DeleteSessionProps, DeleteSessionResponse, FindManySessionProps, FindManySessionResponse, FindUniqueSessionProps, FindUniqueSessionResponse, UpdateSessionProps, UpdateSessionResponse, UpsertSessionProps, UpsertSessionResponse, countSessionSchema, createSessionSchema, deleteSessionSchema, selectSessionSchema, selectManySessionSchema, updateSessionSchema, upsertSessionSchema } from "@services/types/SessionType";
+import { ResponseFormat } from "@utils/FetchV2";
 import { ZodError } from "zod";
 
 export default class SessionService {

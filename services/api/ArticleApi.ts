@@ -6,32 +6,32 @@ import { NextRequest, NextResponse } from "next/server";
 
 // ============== API Routes Types ============== //
 
-export type ArticleRoutes<T> = {
+export type ArticleRoutes<Input> = {
     "/article": {
-        props: FindManyArticleProps,
-        response: FindManyArticleResponse<T extends FindManyArticleProps ? T : never>
+        params: FindManyArticleProps,
+        response: FindManyArticleResponse<Input extends FindManyArticleProps ? Input : never>
     },
     "/article/unique": {
-        props: FindUniqueArticleProps,
-        response: FindUniqueArticleResponse<T extends FindUniqueArticleProps ? T : never>
+        params: FindUniqueArticleProps,
+        response: FindUniqueArticleResponse<Input extends FindUniqueArticleProps ? Input : never>
     },
     "/article/count": {
-        props: CountArticleProps,
+        params: CountArticleProps,
         response: CountArticleResponse
     }
 }
 
 // ==================== Find Many ==================== //
 
-const articleListCached = cache(async (params: FindManyArticleProps) => ArticleService.findMany(params), ["article"], {
+const articleListCached = cache(async <T extends FindManyArticleProps>(params: T) => ArticleService.findMany(params), ["article"], {
     revalidate,
     tags: ["article"],
 });
 
-export const SelectArticleList = async (request: NextRequest) => {
+export const SelectArticleList = async <T extends FindManyArticleProps>(request: NextRequest) => {
     try {
-        const params = parseAndDecodeParams(request);
-        const response = await articleListCached(params);
+        const params: T = parseAndDecodeParams(request);
+        const response = await articleListCached<T>(params);
         return NextResponse.json(response, { status: 200 });
     } catch (error) {
         return NextResponse.json({ error: "getArticleListCached -> " + (error as Error).message }, { status: 500 });

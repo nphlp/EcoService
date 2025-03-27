@@ -1,9 +1,7 @@
-import { Routes } from "@services/api";
+import { Routes } from "@app/api/Routes";
 import { NextRequest } from "next/server";
 
-// =============================================== //
-// ==================== Utils ==================== //
-// =============================================== //
+// ==================== Config ==================== //
 
 export const revalidate = process.env.NODE_ENV === "development" ? 5 : 300;
 
@@ -23,28 +21,45 @@ export type ResponseFormat<Response> =
           error: string;
       };
 
-// ===================================== //
 // =============== Fetch =============== //
-// ===================================== //
 
-export type Keys<T> = keyof Routes<T>;
+// Routes keys type
+export type Route<Input> = keyof Routes<Input>;
+
+// Params type for a specific route
+export type Params<
+    Input,
+    R extends Route<Input>
+> = Routes<Input>[R]["params"];
 
 // Fetch props type
-export type FetchProps<K extends Keys<T>, P extends Routes<T>[K]["props"], T> = {
-    route: K;
+export type FetchProps<
+    Input,
+    R extends Route<Input>,
+    P extends Params<Input, R>
+> = {
+    route: R;
     params?: P;
     signal?: AbortSignal;
     client?: boolean;
 };
 
-export type FetchResponse<K extends Keys<T>, P extends Routes<T>[K]["props"], T> = Routes<P>[K]["response"];
+// Fetch response type
+export type FetchResponse<
+    Input,
+    R extends Route<Input>,
+    P extends Params<Input, R>
+> = Routes<P>[R]["response"];
 
 // Generic function for all routes
-export const FetchV2 = async <K extends Keys<T>, P extends Routes<T>[K]["props"], T>(
-    props: FetchProps<K, P, T>,
-): Promise<FetchResponse<K, P, T>> => {
-    
-    const { route, params, signal, client = false }: FetchProps<K, P, T> = props;
+export const FetchV2 = async <
+    Input,
+    R extends Route<Input>,
+    P extends Params<Input, R>
+>(
+    props: FetchProps<Input, R, P>
+): Promise<FetchResponse<Input, R, P>> => {
+    const { route, params, signal, client = false } = props;
 
     const baseUrl = client ? "" : process.env.BASE_URL;
     const encodedParams = params ? encodeURIComponent(JSON.stringify(params)) : "";
@@ -56,13 +71,11 @@ export const FetchV2 = async <K extends Keys<T>, P extends Routes<T>[K]["props"]
         signal: signal ?? AbortSignal.timeout(10000),
     });
 
-    const responseJson = await response.json();
+    const { data, error }: ResponseFormat<FetchResponse<Input, R, P>> = await response.json();
 
-    if (responseJson.error) {
-        throw new Error(responseJson.error ?? "Something went wrong...");
+    if (!data || error) {
+        throw new Error(error ?? "Something went wrong...");
     }
-
-    const data: FetchResponse<K, P, T> = responseJson.data;
 
     return data;
 };

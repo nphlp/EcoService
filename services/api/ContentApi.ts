@@ -6,32 +6,32 @@ import { NextRequest, NextResponse } from "next/server";
 
 // ============== API Routes Types ============== //
 
-export type ContentRoutes<T> = {
+export type ContentRoutes<Input> = {
     "/content": {
-        props: FindManyContentProps,
-        response: FindManyContentResponse<T extends FindManyContentProps ? T : never>
+        params: FindManyContentProps,
+        response: FindManyContentResponse<Input extends FindManyContentProps ? Input : never>
     },
     "/content/unique": {
-        props: FindUniqueContentProps,
-        response: FindUniqueContentResponse<T extends FindUniqueContentProps ? T : never>
+        params: FindUniqueContentProps,
+        response: FindUniqueContentResponse<Input extends FindUniqueContentProps ? Input : never>
     },
     "/content/count": {
-        props: CountContentProps,
+        params: CountContentProps,
         response: CountContentResponse
     }
 }
 
 // ==================== Find Many ==================== //
 
-const contentListCached = cache(async (params: FindManyContentProps) => ContentService.findMany(params), ["content"], {
+const contentListCached = cache(async <T extends FindManyContentProps>(params: T) => ContentService.findMany(params), ["content"], {
     revalidate,
     tags: ["content"],
 });
 
-export const SelectContentList = async (request: NextRequest) => {
+export const SelectContentList = async <T extends FindManyContentProps>(request: NextRequest) => {
     try {
-        const params = parseAndDecodeParams(request);
-        const response = await contentListCached(params);
+        const params: T = parseAndDecodeParams(request);
+        const response = await contentListCached<T>(params);
         return NextResponse.json(response, { status: 200 });
     } catch (error) {
         return NextResponse.json({ error: "getContentListCached -> " + (error as Error).message }, { status: 500 });

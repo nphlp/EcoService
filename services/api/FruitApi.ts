@@ -6,32 +6,32 @@ import { NextRequest, NextResponse } from "next/server";
 
 // ============== API Routes Types ============== //
 
-export type FruitRoutes<T> = {
+export type FruitRoutes<Input> = {
     "/fruit": {
-        props: FindManyFruitProps,
-        response: FindManyFruitResponse<T extends FindManyFruitProps ? T : never>
+        params: FindManyFruitProps,
+        response: FindManyFruitResponse<Input extends FindManyFruitProps ? Input : never>
     },
     "/fruit/unique": {
-        props: FindUniqueFruitProps,
-        response: FindUniqueFruitResponse<T extends FindUniqueFruitProps ? T : never>
+        params: FindUniqueFruitProps,
+        response: FindUniqueFruitResponse<Input extends FindUniqueFruitProps ? Input : never>
     },
     "/fruit/count": {
-        props: CountFruitProps,
+        params: CountFruitProps,
         response: CountFruitResponse
     }
 }
 
 // ==================== Find Many ==================== //
 
-const fruitListCached = cache(async (params: FindManyFruitProps) => FruitService.findMany(params), ["fruit"], {
+const fruitListCached = cache(async <T extends FindManyFruitProps>(params: T) => FruitService.findMany(params), ["fruit"], {
     revalidate,
     tags: ["fruit"],
 });
 
-export const SelectFruitList = async (request: NextRequest) => {
+export const SelectFruitList = async <T extends FindManyFruitProps>(request: NextRequest) => {
     try {
-        const params = parseAndDecodeParams(request);
-        const response = await fruitListCached(params);
+        const params: T = parseAndDecodeParams(request);
+        const response = await fruitListCached<T>(params);
         return NextResponse.json(response, { status: 200 });
     } catch (error) {
         return NextResponse.json({ error: "getFruitListCached -> " + (error as Error).message }, { status: 500 });

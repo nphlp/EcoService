@@ -1,7 +1,7 @@
-import { ResponseFormat } from "@app/api/Routes";
 import PrismaInstance from "@lib/prisma";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { FruitCount, CountFruitProps, CountFruitResponse, CreateFruitProps, CreateFruitResponse, DeleteFruitProps, DeleteFruitResponse, FindManyFruitProps, FindManyFruitResponse, FindUniqueFruitProps, FindUniqueFruitResponse, UpdateFruitProps, UpdateFruitResponse, UpsertFruitProps, UpsertFruitResponse, countFruitSchema, createFruitSchema, deleteFruitSchema, selectFruitSchema, selectManyFruitSchema, updateFruitSchema, upsertFruitSchema } from "@services/types/FruitType";
+import { ResponseFormat } from "@utils/FetchV2";
 import { ZodError } from "zod";
 
 export default class FruitService {

@@ -6,32 +6,32 @@ import { NextRequest, NextResponse } from "next/server";
 
 // ============== API Routes Types ============== //
 
-export type SessionRoutes<T> = {
+export type SessionRoutes<Input> = {
     "/session": {
-        props: FindManySessionProps,
-        response: FindManySessionResponse<T extends FindManySessionProps ? T : never>
+        params: FindManySessionProps,
+        response: FindManySessionResponse<Input extends FindManySessionProps ? Input : never>
     },
     "/session/unique": {
-        props: FindUniqueSessionProps,
-        response: FindUniqueSessionResponse<T extends FindUniqueSessionProps ? T : never>
+        params: FindUniqueSessionProps,
+        response: FindUniqueSessionResponse<Input extends FindUniqueSessionProps ? Input : never>
     },
     "/session/count": {
-        props: CountSessionProps,
+        params: CountSessionProps,
         response: CountSessionResponse
     }
 }
 
 // ==================== Find Many ==================== //
 
-const sessionListCached = cache(async (params: FindManySessionProps) => SessionService.findMany(params), ["session"], {
+const sessionListCached = cache(async <T extends FindManySessionProps>(params: T) => SessionService.findMany(params), ["session"], {
     revalidate,
     tags: ["session"],
 });
 
-export const SelectSessionList = async (request: NextRequest) => {
+export const SelectSessionList = async <T extends FindManySessionProps>(request: NextRequest) => {
     try {
-        const params = parseAndDecodeParams(request);
-        const response = await sessionListCached(params);
+        const params: T = parseAndDecodeParams(request);
+        const response = await sessionListCached<T>(params);
         return NextResponse.json(response, { status: 200 });
     } catch (error) {
         return NextResponse.json({ error: "getSessionListCached -> " + (error as Error).message }, { status: 500 });

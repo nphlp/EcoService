@@ -6,32 +6,32 @@ import { NextRequest, NextResponse } from "next/server";
 
 // ============== API Routes Types ============== //
 
-export type VerificationRoutes<T> = {
+export type VerificationRoutes<Input> = {
     "/verification": {
-        props: FindManyVerificationProps,
-        response: FindManyVerificationResponse<T extends FindManyVerificationProps ? T : never>
+        params: FindManyVerificationProps,
+        response: FindManyVerificationResponse<Input extends FindManyVerificationProps ? Input : never>
     },
     "/verification/unique": {
-        props: FindUniqueVerificationProps,
-        response: FindUniqueVerificationResponse<T extends FindUniqueVerificationProps ? T : never>
+        params: FindUniqueVerificationProps,
+        response: FindUniqueVerificationResponse<Input extends FindUniqueVerificationProps ? Input : never>
     },
     "/verification/count": {
-        props: CountVerificationProps,
+        params: CountVerificationProps,
         response: CountVerificationResponse
     }
 }
 
 // ==================== Find Many ==================== //
 
-const verificationListCached = cache(async (params: FindManyVerificationProps) => VerificationService.findMany(params), ["verification"], {
+const verificationListCached = cache(async <T extends FindManyVerificationProps>(params: T) => VerificationService.findMany(params), ["verification"], {
     revalidate,
     tags: ["verification"],
 });
 
-export const SelectVerificationList = async (request: NextRequest) => {
+export const SelectVerificationList = async <T extends FindManyVerificationProps>(request: NextRequest) => {
     try {
-        const params = parseAndDecodeParams(request);
-        const response = await verificationListCached(params);
+        const params: T = parseAndDecodeParams(request);
+        const response = await verificationListCached<T>(params);
         return NextResponse.json(response, { status: 200 });
     } catch (error) {
         return NextResponse.json({ error: "getVerificationListCached -> " + (error as Error).message }, { status: 500 });

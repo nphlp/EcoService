@@ -6,32 +6,32 @@ import { NextRequest, NextResponse } from "next/server";
 
 // ============== API Routes Types ============== //
 
-export type DiyRoutes<T> = {
+export type DiyRoutes<Input> = {
     "/diy": {
-        props: FindManyDiyProps,
-        response: FindManyDiyResponse<T extends FindManyDiyProps ? T : never>
+        params: FindManyDiyProps,
+        response: FindManyDiyResponse<Input extends FindManyDiyProps ? Input : never>
     },
     "/diy/unique": {
-        props: FindUniqueDiyProps,
-        response: FindUniqueDiyResponse<T extends FindUniqueDiyProps ? T : never>
+        params: FindUniqueDiyProps,
+        response: FindUniqueDiyResponse<Input extends FindUniqueDiyProps ? Input : never>
     },
     "/diy/count": {
-        props: CountDiyProps,
+        params: CountDiyProps,
         response: CountDiyResponse
     }
 }
 
 // ==================== Find Many ==================== //
 
-const diyListCached = cache(async (params: FindManyDiyProps) => DiyService.findMany(params), ["diy"], {
+const diyListCached = cache(async <T extends FindManyDiyProps>(params: T) => DiyService.findMany(params), ["diy"], {
     revalidate,
     tags: ["diy"],
 });
 
-export const SelectDiyList = async (request: NextRequest) => {
+export const SelectDiyList = async <T extends FindManyDiyProps>(request: NextRequest) => {
     try {
-        const params = parseAndDecodeParams(request);
-        const response = await diyListCached(params);
+        const params: T = parseAndDecodeParams(request);
+        const response = await diyListCached<T>(params);
         return NextResponse.json(response, { status: 200 });
     } catch (error) {
         return NextResponse.json({ error: "getDiyListCached -> " + (error as Error).message }, { status: 500 });

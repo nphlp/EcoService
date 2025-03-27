@@ -6,32 +6,32 @@ import { NextRequest, NextResponse } from "next/server";
 
 // ============== API Routes Types ============== //
 
-export type AddressRoutes<T> = {
+export type AddressRoutes<Input> = {
     "/address": {
-        props: FindManyAddressProps,
-        response: FindManyAddressResponse<T extends FindManyAddressProps ? T : never>
+        params: FindManyAddressProps,
+        response: FindManyAddressResponse<Input extends FindManyAddressProps ? Input : never>
     },
     "/address/unique": {
-        props: FindUniqueAddressProps,
-        response: FindUniqueAddressResponse<T extends FindUniqueAddressProps ? T : never>
+        params: FindUniqueAddressProps,
+        response: FindUniqueAddressResponse<Input extends FindUniqueAddressProps ? Input : never>
     },
     "/address/count": {
-        props: CountAddressProps,
+        params: CountAddressProps,
         response: CountAddressResponse
     }
 }
 
 // ==================== Find Many ==================== //
 
-const addressListCached = cache(async (params: FindManyAddressProps) => AddressService.findMany(params), ["address"], {
+const addressListCached = cache(async <T extends FindManyAddressProps>(params: T) => AddressService.findMany(params), ["address"], {
     revalidate,
     tags: ["address"],
 });
 
-export const SelectAddressList = async (request: NextRequest) => {
+export const SelectAddressList = async <T extends FindManyAddressProps>(request: NextRequest) => {
     try {
-        const params = parseAndDecodeParams(request);
-        const response = await addressListCached(params);
+        const params: T = parseAndDecodeParams(request);
+        const response = await addressListCached<T>(params);
         return NextResponse.json(response, { status: 200 });
     } catch (error) {
         return NextResponse.json({ error: "getAddressListCached -> " + (error as Error).message }, { status: 500 });

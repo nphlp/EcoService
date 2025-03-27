@@ -6,32 +6,32 @@ import { NextRequest, NextResponse } from "next/server";
 
 // ============== API Routes Types ============== //
 
-export type {{modelName}}Routes<T> = {
+export type {{modelName}}Routes<Input> = {
     "/{{modelNameLower}}": {
-        props: FindMany{{modelName}}Props,
-        response: FindMany{{modelName}}Response<T extends FindMany{{modelName}}Props ? T : never>
+        params: FindMany{{modelName}}Props,
+        response: FindMany{{modelName}}Response<Input extends FindMany{{modelName}}Props ? Input : never>
     },
     "/{{modelNameLower}}/unique": {
-        props: FindUnique{{modelName}}Props,
-        response: FindUnique{{modelName}}Response<T extends FindUnique{{modelName}}Props ? T : never>
+        params: FindUnique{{modelName}}Props,
+        response: FindUnique{{modelName}}Response<Input extends FindUnique{{modelName}}Props ? Input : never>
     },
     "/{{modelNameLower}}/count": {
-        props: Count{{modelName}}Props,
+        params: Count{{modelName}}Props,
         response: Count{{modelName}}Response
     }
 }
 
 // ==================== Find Many ==================== //
 
-const {{modelNameLower}}ListCached = cache(async (params: FindMany{{modelName}}Props) => {{modelName}}Service.findMany(params), ["{{modelNameLower}}"], {
+const {{modelNameLower}}ListCached = cache(async <T extends FindMany{{modelName}}Props>(params: T) => {{modelName}}Service.findMany(params), ["{{modelNameLower}}"], {
     revalidate,
     tags: ["{{modelNameLower}}"],
 });
 
-export const Select{{modelName}}List = async (request: NextRequest) => {
+export const Select{{modelName}}List = async <T extends FindMany{{modelName}}Props>(request: NextRequest) => {
     try {
-        const params = parseAndDecodeParams(request);
-        const response = await {{modelNameLower}}ListCached(params);
+        const params: T = parseAndDecodeParams(request);
+        const response = await {{modelNameLower}}ListCached<T>(params);
         return NextResponse.json(response, { status: 200 });
     } catch (error) {
         return NextResponse.json({ error: "get{{modelName}}ListCached -> " + (error as Error).message }, { status: 500 });

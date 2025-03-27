@@ -6,32 +6,32 @@ import { NextRequest, NextResponse } from "next/server";
 
 // ============== API Routes Types ============== //
 
-export type QuantityRoutes<T> = {
+export type QuantityRoutes<Input> = {
     "/quantity": {
-        props: FindManyQuantityProps,
-        response: FindManyQuantityResponse<T extends FindManyQuantityProps ? T : never>
+        params: FindManyQuantityProps,
+        response: FindManyQuantityResponse<Input extends FindManyQuantityProps ? Input : never>
     },
     "/quantity/unique": {
-        props: FindUniqueQuantityProps,
-        response: FindUniqueQuantityResponse<T extends FindUniqueQuantityProps ? T : never>
+        params: FindUniqueQuantityProps,
+        response: FindUniqueQuantityResponse<Input extends FindUniqueQuantityProps ? Input : never>
     },
     "/quantity/count": {
-        props: CountQuantityProps,
+        params: CountQuantityProps,
         response: CountQuantityResponse
     }
 }
 
 // ==================== Find Many ==================== //
 
-const quantityListCached = cache(async (params: FindManyQuantityProps) => QuantityService.findMany(params), ["quantity"], {
+const quantityListCached = cache(async <T extends FindManyQuantityProps>(params: T) => QuantityService.findMany(params), ["quantity"], {
     revalidate,
     tags: ["quantity"],
 });
 
-export const SelectQuantityList = async (request: NextRequest) => {
+export const SelectQuantityList = async <T extends FindManyQuantityProps>(request: NextRequest) => {
     try {
-        const params = parseAndDecodeParams(request);
-        const response = await quantityListCached(params);
+        const params: T = parseAndDecodeParams(request);
+        const response = await quantityListCached<T>(params);
         return NextResponse.json(response, { status: 200 });
     } catch (error) {
         return NextResponse.json({ error: "getQuantityListCached -> " + (error as Error).message }, { status: 500 });

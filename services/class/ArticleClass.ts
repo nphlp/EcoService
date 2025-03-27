@@ -1,7 +1,7 @@
-import { ResponseFormat } from "@app/api/Routes";
 import PrismaInstance from "@lib/prisma";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { ArticleCount, CountArticleProps, CountArticleResponse, CreateArticleProps, CreateArticleResponse, DeleteArticleProps, DeleteArticleResponse, FindManyArticleProps, FindManyArticleResponse, FindUniqueArticleProps, FindUniqueArticleResponse, UpdateArticleProps, UpdateArticleResponse, UpsertArticleProps, UpsertArticleResponse, countArticleSchema, createArticleSchema, deleteArticleSchema, selectArticleSchema, selectManyArticleSchema, updateArticleSchema, upsertArticleSchema } from "@services/types/ArticleType";
+import { ResponseFormat } from "@utils/FetchV2";
 import { ZodError } from "zod";
 
 export default class ArticleService {

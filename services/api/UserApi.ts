@@ -6,32 +6,32 @@ import { NextRequest, NextResponse } from "next/server";
 
 // ============== API Routes Types ============== //
 
-export type UserRoutes<T> = {
+export type UserRoutes<Input> = {
     "/user": {
-        props: FindManyUserProps,
-        response: FindManyUserResponse<T extends FindManyUserProps ? T : never>
+        params: FindManyUserProps,
+        response: FindManyUserResponse<Input extends FindManyUserProps ? Input : never>
     },
     "/user/unique": {
-        props: FindUniqueUserProps,
-        response: FindUniqueUserResponse<T extends FindUniqueUserProps ? T : never>
+        params: FindUniqueUserProps,
+        response: FindUniqueUserResponse<Input extends FindUniqueUserProps ? Input : never>
     },
     "/user/count": {
-        props: CountUserProps,
+        params: CountUserProps,
         response: CountUserResponse
     }
 }
 
 // ==================== Find Many ==================== //
 
-const userListCached = cache(async (params: FindManyUserProps) => UserService.findMany(params), ["user"], {
+const userListCached = cache(async <T extends FindManyUserProps>(params: T) => UserService.findMany(params), ["user"], {
     revalidate,
     tags: ["user"],
 });
 
-export const SelectUserList = async (request: NextRequest) => {
+export const SelectUserList = async <T extends FindManyUserProps>(request: NextRequest) => {
     try {
-        const params = parseAndDecodeParams(request);
-        const response = await userListCached(params);
+        const params: T = parseAndDecodeParams(request);
+        const response = await userListCached<T>(params);
         return NextResponse.json(response, { status: 200 });
     } catch (error) {
         return NextResponse.json({ error: "getUserListCached -> " + (error as Error).message }, { status: 500 });

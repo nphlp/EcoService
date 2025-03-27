@@ -6,32 +6,32 @@ import { NextRequest, NextResponse } from "next/server";
 
 // ============== API Routes Types ============== //
 
-export type ProductRoutes<T> = {
+export type ProductRoutes<Input> = {
     "/product": {
-        props: FindManyProductProps,
-        response: FindManyProductResponse<T extends FindManyProductProps ? T : never>
+        params: FindManyProductProps,
+        response: FindManyProductResponse<Input extends FindManyProductProps ? Input : never>
     },
     "/product/unique": {
-        props: FindUniqueProductProps,
-        response: FindUniqueProductResponse<T extends FindUniqueProductProps ? T : never>
+        params: FindUniqueProductProps,
+        response: FindUniqueProductResponse<Input extends FindUniqueProductProps ? Input : never>
     },
     "/product/count": {
-        props: CountProductProps,
+        params: CountProductProps,
         response: CountProductResponse
     }
 }
 
 // ==================== Find Many ==================== //
 
-const productListCached = cache(async (params: FindManyProductProps) => ProductService.findMany(params), ["product"], {
+const productListCached = cache(async <T extends FindManyProductProps>(params: T) => ProductService.findMany(params), ["product"], {
     revalidate,
     tags: ["product"],
 });
 
-export const SelectProductList = async (request: NextRequest) => {
+export const SelectProductList = async <T extends FindManyProductProps>(request: NextRequest) => {
     try {
-        const params = parseAndDecodeParams(request);
-        const response = await productListCached(params);
+        const params: T = parseAndDecodeParams(request);
+        const response = await productListCached<T>(params);
         return NextResponse.json(response, { status: 200 });
     } catch (error) {
         return NextResponse.json({ error: "getProductListCached -> " + (error as Error).message }, { status: 500 });

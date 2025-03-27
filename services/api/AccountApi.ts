@@ -6,32 +6,32 @@ import { NextRequest, NextResponse } from "next/server";
 
 // ============== API Routes Types ============== //
 
-export type AccountRoutes<T> = {
+export type AccountRoutes<Input> = {
     "/account": {
-        props: FindManyAccountProps,
-        response: FindManyAccountResponse<T extends FindManyAccountProps ? T : never>
+        params: FindManyAccountProps,
+        response: FindManyAccountResponse<Input extends FindManyAccountProps ? Input : never>
     },
     "/account/unique": {
-        props: FindUniqueAccountProps,
-        response: FindUniqueAccountResponse<T extends FindUniqueAccountProps ? T : never>
+        params: FindUniqueAccountProps,
+        response: FindUniqueAccountResponse<Input extends FindUniqueAccountProps ? Input : never>
     },
     "/account/count": {
-        props: CountAccountProps,
+        params: CountAccountProps,
         response: CountAccountResponse
     }
 }
 
 // ==================== Find Many ==================== //
 
-const accountListCached = cache(async (params: FindManyAccountProps) => AccountService.findMany(params), ["account"], {
+const accountListCached = cache(async <T extends FindManyAccountProps>(params: T) => AccountService.findMany(params), ["account"], {
     revalidate,
     tags: ["account"],
 });
 
-export const SelectAccountList = async (request: NextRequest) => {
+export const SelectAccountList = async <T extends FindManyAccountProps>(request: NextRequest) => {
     try {
-        const params = parseAndDecodeParams(request);
-        const response = await accountListCached(params);
+        const params: T = parseAndDecodeParams(request);
+        const response = await accountListCached<T>(params);
         return NextResponse.json(response, { status: 200 });
     } catch (error) {
         return NextResponse.json({ error: "getAccountListCached -> " + (error as Error).message }, { status: 500 });

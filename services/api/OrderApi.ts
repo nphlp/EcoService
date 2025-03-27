@@ -6,32 +6,32 @@ import { NextRequest, NextResponse } from "next/server";
 
 // ============== API Routes Types ============== //
 
-export type OrderRoutes<T> = {
+export type OrderRoutes<Input> = {
     "/order": {
-        props: FindManyOrderProps,
-        response: FindManyOrderResponse<T extends FindManyOrderProps ? T : never>
+        params: FindManyOrderProps,
+        response: FindManyOrderResponse<Input extends FindManyOrderProps ? Input : never>
     },
     "/order/unique": {
-        props: FindUniqueOrderProps,
-        response: FindUniqueOrderResponse<T extends FindUniqueOrderProps ? T : never>
+        params: FindUniqueOrderProps,
+        response: FindUniqueOrderResponse<Input extends FindUniqueOrderProps ? Input : never>
     },
     "/order/count": {
-        props: CountOrderProps,
+        params: CountOrderProps,
         response: CountOrderResponse
     }
 }
 
 // ==================== Find Many ==================== //
 
-const orderListCached = cache(async (params: FindManyOrderProps) => OrderService.findMany(params), ["order"], {
+const orderListCached = cache(async <T extends FindManyOrderProps>(params: T) => OrderService.findMany(params), ["order"], {
     revalidate,
     tags: ["order"],
 });
 
-export const SelectOrderList = async (request: NextRequest) => {
+export const SelectOrderList = async <T extends FindManyOrderProps>(request: NextRequest) => {
     try {
-        const params = parseAndDecodeParams(request);
-        const response = await orderListCached(params);
+        const params: T = parseAndDecodeParams(request);
+        const response = await orderListCached<T>(params);
         return NextResponse.json(response, { status: 200 });
     } catch (error) {
         return NextResponse.json({ error: "getOrderListCached -> " + (error as Error).message }, { status: 500 });
