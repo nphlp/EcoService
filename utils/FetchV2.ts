@@ -1,27 +1,5 @@
 import { Routes } from "@app/api/Routes";
-import { NextRequest } from "next/server";
-
-// ==================== Config ==================== //
-
-export const revalidate = process.env.NODE_ENV === "development" ? 5 : 300;
-
-export const parseAndDecodeParams = (request: NextRequest) => {
-    const encodedParams = request.nextUrl.searchParams.get("params") ?? "{}";
-    const stringParams = decodeURIComponent(encodedParams);
-    return JSON.parse(stringParams);
-};
-
-export type ResponseFormat<Response> =
-    | {
-          data: Response;
-          error?: undefined;
-      }
-    | {
-          data?: undefined;
-          error: string;
-      };
-
-// =============== Fetch =============== //
+import { ResponseFormat } from "@utils/FetchConfig";
 
 // Routes keys type
 export type Route<Input> = keyof Routes<Input>;

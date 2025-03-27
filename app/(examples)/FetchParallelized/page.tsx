@@ -58,8 +58,10 @@ export default async function Page() {
     ]);
 
     const tests = testList[0].Author;
-    const diys = diyList[0].Author;
-    const articles = articleList[0].Author;
+    const diys = diyList[0];
+    // const diys = diyList[0].Author;
+    const articles = articleList[0];
+    // const articles = articleList[0].Author;
     const users = userList[0];
 
     console.log(tests, diys, articles, users);

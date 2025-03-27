@@ -39,18 +39,18 @@ export default async function Page() {
             <h1 className="mb-10 text-center text-3xl font-bold md:text-4xl">Nos tutoriels DIY</h1>
 
             <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-                {diyList.map(({ id, title, createdAt, Content, Author }, index) => (
+                {diyList.map((diy, index) => (
                     <Link
                         key={index}
-                        href={`/diy/${id}`}
+                        href={`/diy/${diy.id}`}
                         className="group flex flex-col overflow-hidden rounded-xl border border-gray-300 bg-white shadow-md transition-shadow duration-300 hover:shadow-lg"
                     >
                         {/* Image */}
-                        {Content[0] && (
+                        {diy.Content[0] && (
                             <div className="h-48 overflow-hidden">
                                 <ImageRatio
-                                    src={`/illustration/${Content[0].image}`}
-                                    alt={title}
+                                    src={`/illustration/${diy.Content[0].image}`}
+                                    alt={diy.title}
                                     className="size-full transition-transform duration-300 group-hover:scale-105"
                                 />
                             </div>
@@ -59,17 +59,17 @@ export default async function Page() {
                         {/* Contenu */}
                         <div className="flex flex-1 flex-col p-4">
                             <h2 className="mb-2 text-xl font-semibold transition-colors duration-300 group-hover:text-teal-600">
-                                {title}
+                                {diy.title}
                             </h2>
 
-                            {Content[0] && (
-                                <p className="mb-4 line-clamp-3 text-gray-600">{Content[0].content}</p>
+                            {diy.Content[0] && (
+                                <p className="mb-4 line-clamp-3 text-gray-600">{diy.Content[0].content}</p>
                             )}
 
                             <div className="mt-auto flex items-center justify-between">
-                                <span className="text-sm text-gray-500">Par {Author.name}</span>
+                                <span className="text-sm text-gray-500">Par {diy.Author.name}</span>
                                 <span className="text-sm text-gray-500">
-                                    {new Date(createdAt).toLocaleDateString("fr-FR")}
+                                    {new Date(diy.createdAt).toLocaleDateString("fr-FR")}
                                 </span>
                             </div>
                         </div>

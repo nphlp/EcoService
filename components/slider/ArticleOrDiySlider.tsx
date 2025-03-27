@@ -1,7 +1,7 @@
 "use client";
 
-import { ArticleRelationsComplete } from "@class/ArticleClass";
 import ImageRatio from "@comps/server/ImageRatio";
+import { ArticleOrDiyListType } from "@comps/slider/fetchParams";
 import { combo } from "@lib/combo";
 import Link from "next/link";
 import "swiper/css";
@@ -12,14 +12,14 @@ import { Swiper, SwiperSlide } from "swiper/react";
 type SliderClientProps = {
     className?: string;
     link: string;
-    dataList: ArticleRelationsComplete[];
+    dataList: ArticleOrDiyListType;
 };
 
 /**
  * @doc [React hooks](https://swiperjs.com/react)
  * @doc [Demos and examples](https://swiperjs.com/demos)
  */
-export const SliderClient = (props: SliderClientProps) => {
+export const ArticleOrDiySlider = (props: SliderClientProps) => {
     const { className, dataList, link } = props;
 
     return (
@@ -49,7 +49,7 @@ export const SliderClient = (props: SliderClientProps) => {
                 },
                 20: {
                     slidesPerView: 1.2,
-                },  
+                },
             }}
             modules={[Pagination]}
             loop

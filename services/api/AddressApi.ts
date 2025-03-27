@@ -1,6 +1,6 @@
 import AddressService from "@services/class/AddressClass";
 import { CountAddressProps, CountAddressResponse, FindManyAddressProps, FindManyAddressResponse, FindUniqueAddressProps, FindUniqueAddressResponse } from "@services/types/AddressType";
-import { parseAndDecodeParams, revalidate } from "@utils/FetchV2";
+import { parseAndDecodeParams, revalidate } from "@utils/FetchConfig";
 import { unstable_cache as cache } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 

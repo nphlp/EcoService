@@ -1,8 +1,9 @@
 import { StripeInstance } from "@lib/stripe";
+import { ResponseFormat } from "@utils/FetchConfig";
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 import { z, ZodError, ZodType } from "zod";
-import { ResponseFormat } from "@app/api/Routes";
+
 export type CreateStripeProductProps = {
     name: string;
     description: string;

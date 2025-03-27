@@ -1,4 +1,4 @@
-import { CountArticleProps, FindManyArticleProps, FindUniqueArticleProps } from "@class/ArticleClass";
+import { CountArticleProps, FindManyArticleProps, FindUniqueArticleProps } from "@services/types";
 import { strictObject, z, ZodType } from "zod";
 
 export const selectArticleUniqueSchema: ZodType<FindUniqueArticleProps> = strictObject({

@@ -1,7 +1,7 @@
 import PrismaInstance from "@lib/prisma";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { OrderCount, CountOrderProps, CountOrderResponse, CreateOrderProps, CreateOrderResponse, DeleteOrderProps, DeleteOrderResponse, FindManyOrderProps, FindManyOrderResponse, FindUniqueOrderProps, FindUniqueOrderResponse, UpdateOrderProps, UpdateOrderResponse, UpsertOrderProps, UpsertOrderResponse, countOrderSchema, createOrderSchema, deleteOrderSchema, selectOrderSchema, selectManyOrderSchema, updateOrderSchema, upsertOrderSchema } from "@services/types/OrderType";
-import { ResponseFormat } from "@utils/FetchV2";
+import { ResponseFormat } from "@utils/FetchConfig";
 import { ZodError } from "zod";
 
 export default class OrderService {

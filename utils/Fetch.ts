@@ -1,5 +1,5 @@
 import { Routes } from "@app/api/stripe/Routes";
-import { ResponseFormat } from "./FetchV2";
+import { ResponseFormat } from "@utils/FetchConfig";
 
 export type Route = keyof Routes;
 

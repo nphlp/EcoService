@@ -3,7 +3,7 @@ import { StringToSlug } from "@utils/StringToSlug";
 import { StripeInstance } from "@lib/stripe";
 import { NextRequest, NextResponse } from "next/server";
 import { strictObject, z, ZodError, ZodType } from "zod";
-import { ResponseFormat } from "@app/api/Routes";
+import { ResponseFormat } from "@utils/FetchConfig";
 
 export type StripeFileUploadBody = {
     file: File;

@@ -1,5 +1,5 @@
-import { ResponseFormat } from "@app/api/Routes";
 import { StripeInstance } from "@lib/stripe";
+import { ResponseFormat } from "@utils/FetchConfig";
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 import { ZodError } from "zod";

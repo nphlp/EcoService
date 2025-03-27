@@ -1,7 +1,7 @@
 import PrismaInstance from "@lib/prisma";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { {{modelName}}Count, Count{{modelName}}Props, Count{{modelName}}Response, Create{{modelName}}Props, Create{{modelName}}Response, Delete{{modelName}}Props, Delete{{modelName}}Response, FindMany{{modelName}}Props, FindMany{{modelName}}Response, FindUnique{{modelName}}Props, FindUnique{{modelName}}Response, Update{{modelName}}Props, Update{{modelName}}Response, Upsert{{modelName}}Props, Upsert{{modelName}}Response, count{{modelName}}Schema, create{{modelName}}Schema, delete{{modelName}}Schema, select{{modelName}}Schema, selectMany{{modelName}}Schema, update{{modelName}}Schema, upsert{{modelName}}Schema } from "@services/types/{{modelName}}Type";
-import { ResponseFormat } from "@utils/FetchV2";
+import { ResponseFormat } from "@utils/FetchConfig";
 import { ZodError } from "zod";
 
 export default class {{modelName}}Service {

@@ -1,9 +1,9 @@
 "use client";
 
-import { ProductRelationsOptional } from "@class/ProductClass";
 import { useBasketStore } from "@comps/Basket/BasketStore";
 import ButtonClient from "@comps/client/Button";
 import ImageRatio from "@comps/server/ImageRatio";
+import { ProductListType } from "@comps/slider/fetchParams";
 import { combo } from "@lib/combo";
 import { CircleCheck, CirclePlus, CircleX, ShoppingCart } from "lucide-react";
 import Link from "next/link";
@@ -14,7 +14,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 
 type ProductSliderProps = {
     className?: string;
-    dataList: ProductRelationsOptional[];
+    dataList: ProductListType;
 };
 
 export default function ProductSlider(props: ProductSliderProps) {
@@ -22,47 +22,47 @@ export default function ProductSlider(props: ProductSliderProps) {
 
     const { basketProductList, addProductToBasket, removeProductFromBasket } = useBasketStore();
 
-    const handleClick = (e: React.MouseEvent, product: typeof dataList[0]) => {
+    const handleClick = (e: React.MouseEvent, product: (typeof dataList)[0]) => {
         e.preventDefault();
-        
-        if (basketProductList.some((p) => p.id === product.id)) {
-            removeProductFromBasket(product);
+
+        if (basketProductList.some((id) => id === product.id)) {
+            removeProductFromBasket(product.id);
         } else {
-            addProductToBasket(product);
+            addProductToBasket(product.id);
         }
     };
 
     return (
         <Swiper
-        className={combo(className)}
-        slidesPerView={3.2}
-        pagination={{
-            enabled: true,
-            dynamicBullets: true,
-            clickable: true,
-        }}
-        breakpoints={{
-            1280: {
-                slidesPerView: 4.2,
-            },
-            1024: {
-                slidesPerView: 3.2,
-            },
-            768: {
-                slidesPerView: 2.2,
-            },
-            480: {
-                slidesPerView: 1.2,
-            },
-            320: {
-                slidesPerView: 1.2,
-            },
-            20: {
-                slidesPerView: 1.2,
-            },  
-        }}
-        modules={[Pagination]}
-        loop
+            className={combo(className)}
+            slidesPerView={3.2}
+            pagination={{
+                enabled: true,
+                dynamicBullets: true,
+                clickable: true,
+            }}
+            breakpoints={{
+                1280: {
+                    slidesPerView: 4.2,
+                },
+                1024: {
+                    slidesPerView: 3.2,
+                },
+                768: {
+                    slidesPerView: 2.2,
+                },
+                480: {
+                    slidesPerView: 1.2,
+                },
+                320: {
+                    slidesPerView: 1.2,
+                },
+                20: {
+                    slidesPerView: 1.2,
+                },
+            }}
+            modules={[Pagination]}
+            loop
         >
             {dataList.map((product) => (
                 <SwiperSlide key={product.id} className="h-full">
@@ -81,7 +81,7 @@ export default function ProductSlider(props: ProductSliderProps) {
                             <h3 className="mb-2 line-clamp-1 text-xl font-semibold transition-colors duration-300 group-hover:text-teal-600">
                                 {product.name}
                             </h3>
-                            <p className="mb-4 text-lg text-primary">{product.price.toFixed(2)} €</p>
+                            <p className="text-primary mb-4 text-lg">{product.price.toFixed(2)} €</p>
                             <div className="mt-auto flex items-center justify-end">
                                 <ButtonClient
                                     type="button"
@@ -89,7 +89,7 @@ export default function ProductSlider(props: ProductSliderProps) {
                                     onClick={(e) => handleClick(e, product)}
                                     className="group relative size-fit rounded-xl p-[10px] transition-all duration-300 hover:scale-105"
                                 >
-                                    {basketProductList.some((p) => p.id === product.id) ? (
+                                    {basketProductList.some((id) => id === product.id) ? (
                                         <>
                                             <CircleCheck className="group-hover:hidden" />
                                             <CircleX className="hidden group-hover:block" />
@@ -108,4 +108,4 @@ export default function ProductSlider(props: ProductSliderProps) {
             ))}
         </Swiper>
     );
-} 
+}

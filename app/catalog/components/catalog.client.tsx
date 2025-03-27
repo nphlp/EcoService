@@ -1,19 +1,20 @@
 "use client";
 
-import { useFetch } from "@utils/FetchHook";
 import { useBasketStore } from "@comps/Basket/BasketStore";
 import ButtonClient from "@comps/client/Button";
 import Card from "@comps/server/Card";
 import ImageRatio from "@comps/server/ImageRatio";
 import Loader from "@comps/ui/Loader";
 import { combo } from "@lib/combo";
+import { ProductModel } from "@services/types";
+import { useFetchV2 } from "@utils/FetchHookV2";
 import { CircleCheck, CirclePlus, CircleX, ShoppingCart } from "lucide-react";
 import Link from "next/link";
 import { MouseEvent, useContext, useEffect } from "react";
 import { CatalogContext } from "./catalog.provider";
+import { ProductAmountFetchParams, ProductListFetchParams } from "./fetchParams";
 import { useCatalogParams } from "./useCatalogParams";
 import { useCatalogStore } from "./useCatalogStore";
-import { ProductModel } from "@class/ProductClass";
 
 type CatalogClientProps = {
     className?: string;
@@ -26,27 +27,14 @@ export default function CatalogClient(props: CatalogClientProps) {
     const { setDataStore } = useCatalogStore();
     const { priceOrder, page, take, category, search } = useCatalogParams();
 
-    const { data: newProductAmount, isLoading: isLoadingProductAmount } = useFetch({
+    const { data: newProductAmount, isLoading: isLoadingProductAmount } = useFetchV2({
         route: "/product/count",
-        params: {
-            where: {
-                ...(category && { categoryId: category }),
-                ...(search && { name: { contains: search } }),
-            },
-        },
+        params: ProductAmountFetchParams({ category, search }),
     });
 
-    const { data: newProductList, isLoading: isLoadingProductList } = useFetch({
+    const { data: newProductList, isLoading: isLoadingProductList } = useFetchV2({
         route: "/product",
-        params: {
-            ...(priceOrder !== "not" && { orderBy: { price: priceOrder } }),
-            ...(page > 1 && { skip: (page - 1) * take }),
-            take,
-            where: {
-                ...(category && { categoryId: category }),
-                ...(search && { name: { contains: search } }),
-            },
-        },
+        params: ProductListFetchParams({ priceOrder, page, take, category, search }),
     });
 
     useEffect(() => {
@@ -87,16 +75,16 @@ const ProductList = (props: ProductListProps) => {
         );
     }
 
-    const handleClick = (e: MouseEvent<HTMLButtonElement>, id: string) => {
+    const handleClick = (e: MouseEvent<HTMLButtonElement>, newId: string) => {
         e.preventDefault();
 
-        const product = produitList.find((product) => product.id === id);
+        const product = produitList.find((product) => product.id === newId);
         if (!product) return;
 
-        if (basketProductList.some((product) => product.id === id)) {
-            removeProductFromBasket(product);
+        if (basketProductList.some((currentId) => currentId === newId)) {
+            removeProductFromBasket(newId);
         } else {
-            addProductToBasket(product);
+            addProductToBasket(newId);
         }
     };
 
@@ -121,7 +109,7 @@ const ProductList = (props: ProductListProps) => {
                                 onClick={(e) => handleClick(e, id)}
                                 className="group relative size-fit rounded-xl p-[10px] transition-all duration-300 hover:scale-105"
                             >
-                                {basketProductList.some((product) => product.id === id) ? (
+                                {basketProductList.some((currentId) => currentId === id) ? (
                                     <>
                                         <CircleCheck className="group-hover:hidden" />
                                         <CircleX className="hidden group-hover:block" />

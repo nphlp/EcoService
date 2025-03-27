@@ -1,6 +1,6 @@
 import ContentService from "@services/class/ContentClass";
 import { CountContentProps, CountContentResponse, FindManyContentProps, FindManyContentResponse, FindUniqueContentProps, FindUniqueContentResponse } from "@services/types/ContentType";
-import { parseAndDecodeParams, revalidate } from "@utils/FetchV2";
+import { parseAndDecodeParams, revalidate } from "@utils/FetchConfig";
 import { unstable_cache as cache } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 

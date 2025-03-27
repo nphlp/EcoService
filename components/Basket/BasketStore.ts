@@ -1,14 +1,14 @@
-import { ProductModel } from "@class/ProductClass";
+import { ProductModel } from "@services/types";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
 type Store = {
     // State
-    basketProductList: ProductModel[];
+    basketProductList: ProductModel["id"][];
 
     // Actions
-    addProductToBasket: (product: ProductModel) => void;
-    removeProductFromBasket: (product: ProductModel) => void;
+    addProductToBasket: (product: ProductModel["id"]) => void;
+    removeProductFromBasket: (product: ProductModel["id"]) => void;
     clearBasket: () => void;
 };
 
@@ -22,12 +22,12 @@ export const useBasketStore = create<Store>()(
             basketProductList: [],
 
             // Actions
-            addProductToBasket: (product: ProductModel) =>
+            addProductToBasket: (product: ProductModel["id"]) =>
                 set({ basketProductList: [...get().basketProductList, product] }),
 
-            removeProductFromBasket: (product: ProductModel) =>
+            removeProductFromBasket: (currentId: ProductModel["id"]) =>
                 set({
-                    basketProductList: get().basketProductList.filter((p) => p.id !== product.id),
+                    basketProductList: get().basketProductList.filter((newId) => newId !== currentId),
                 }),
 
             clearBasket: () => set({ basketProductList: [] }),

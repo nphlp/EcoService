@@ -1,5 +1,5 @@
-import { FetchParallelized } from "@utils/FetchParallelized";
 import { Category } from "@prisma/client";
+import { FetchV2 } from "@utils/FetchV2";
 import Basket from "../Basket/Basket";
 import Navigation from "./Browser/Navigation";
 import SectionList from "./Browser/SectionList";
@@ -25,10 +25,15 @@ export type SearchKeywords = {
 );
 
 export default async function Header() {
-    const [productList, categorieList] = await FetchParallelized([
-        { route: "/product", params: { take: 100 } },
-        { route: "/category", params: { take: 100 } },
-    ]);
+    const productList = await FetchV2({
+        route: "/product",
+        params: { take: 100 },
+    });
+
+    const categorieList = await FetchV2({
+        route: "/category",
+        params: { take: 100 },
+    });
 
     if (!productList || !categorieList) {
         return <div>Mmmm... It seems there is not data.</div>;

@@ -1,4 +1,4 @@
-import { CountCategoryProps, FindManyCategoryProps, FindUniqueCategoryProps } from "@class/CategoryClass";
+import { CountCategoryProps, FindManyCategoryProps, FindUniqueCategoryProps } from "@services/types";
 import { strictObject, z, ZodType } from "zod";
 
 export const selectCategoryUniqueSchema: ZodType<FindUniqueCategoryProps> = strictObject({

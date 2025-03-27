@@ -1,12 +1,11 @@
 import ImageRatio from "@comps/server/ImageRatio";
-import { ArticleRelationsComplete } from "@services/class/ArticleClass";
-import { Fetch } from "@utils/Fetch";
+import { FetchV2 } from "@utils/FetchV2";
 import Link from "next/link";
 
 export const dynamic = "force-dynamic";
 
 export default async function Page() {
-    const articleListRaw = await Fetch({
+    const articleList = await FetchV2({
         route: "/article",
         params: {
             select: {
@@ -30,8 +29,6 @@ export default async function Page() {
             },
         },
     });
-
-    const articleList = articleListRaw as ArticleRelationsComplete[];
 
     if (!articleList) {
         return <div className="container mx-auto px-4 py-10">Aucun article disponible pour le moment.</div>;
@@ -65,12 +62,12 @@ export default async function Page() {
                                 {article.title}
                             </h2>
 
-                            {article.Content?.[0] && (
+                            {article.Content[0] && (
                                 <p className="mb-4 line-clamp-3 text-gray-600">{article.Content[0].content}</p>
                             )}
 
                             <div className="mt-auto flex items-center justify-between">
-                                <span className="text-sm text-gray-500">Par {article.Author?.name}</span>
+                                <span className="text-sm text-gray-500">Par {article.Author.name}</span>
                                 <span className="text-sm text-gray-500">
                                     {new Date(article.createdAt).toLocaleDateString("fr-FR")}
                                 </span>

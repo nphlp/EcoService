@@ -1,6 +1,6 @@
 "use client";
 
-import { CategoryModel } from "@class/CategoryClass";
+import { CategoryModel } from "@services/types";
 import { combo } from "@lib/combo";
 import { ChangeEventHandler, ReactNode, useContext } from "react";
 import { CatalogContext } from "./catalog.provider";

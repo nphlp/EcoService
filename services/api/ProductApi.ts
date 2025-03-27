@@ -1,6 +1,6 @@
 import ProductService from "@services/class/ProductClass";
 import { CountProductProps, CountProductResponse, FindManyProductProps, FindManyProductResponse, FindUniqueProductProps, FindUniqueProductResponse } from "@services/types/ProductType";
-import { parseAndDecodeParams, revalidate } from "@utils/FetchV2";
+import { parseAndDecodeParams, revalidate } from "@utils/FetchConfig";
 import { unstable_cache as cache } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 

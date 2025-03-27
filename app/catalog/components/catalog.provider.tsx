@@ -1,6 +1,6 @@
 "use client";
 
-import { ProductModel } from "@class/ProductClass";
+import { ProductModel } from "@services/types";
 import { createContext, ReactNode, useEffect, useState } from "react";
 import { useCatalogStore } from "./useCatalogStore";
 

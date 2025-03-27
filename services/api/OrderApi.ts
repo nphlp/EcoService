@@ -1,6 +1,6 @@
 import OrderService from "@services/class/OrderClass";
 import { CountOrderProps, CountOrderResponse, FindManyOrderProps, FindManyOrderResponse, FindUniqueOrderProps, FindUniqueOrderResponse } from "@services/types/OrderType";
-import { parseAndDecodeParams, revalidate } from "@utils/FetchV2";
+import { parseAndDecodeParams, revalidate } from "@utils/FetchConfig";
 import { unstable_cache as cache } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 

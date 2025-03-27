@@ -1,7 +1,10 @@
-import ProductSlider from "@comps/client/ProductSlider";
 import ImageRatio from "@comps/server/ImageRatio";
+import { ProductFetchParams } from "@comps/slider/fetchParams";
+import ProductSlider from "@comps/slider/ProductSlider";
+import Link from "@comps/ui/Link";
 import { combo } from "@lib/combo";
-import { FetchParallelizedV2 } from "@utils/FetchParallelizedV2";
+import { FetchV2 } from "@utils/FetchV2";
+
 export const dynamic = "force-dynamic";
 
 type PageProps = {
@@ -12,38 +15,32 @@ export default async function Page(props: PageProps) {
     const { params } = props;
     const { id } = await params;
 
-    const [diy, productList] = await FetchParallelizedV2([
-        {
-            route: "/diy/unique",
-            params: {
-                where: { id },
-                select: {
-                    title: true,
-                    createdAt: true,
-                    Content: {
-                        select: {
-                            content: true,
-                            image: true,
-                        },
+    const diy = await FetchV2({
+        route: "/diy/unique",
+        params: {
+            where: { id },
+            select: {
+                title: true,
+                createdAt: true,
+                Content: {
+                    select: {
+                        content: true,
+                        image: true,
                     },
-                    Author: {
-                        select: {
-                            name: true,
-                        },
+                },
+                Author: {
+                    select: {
+                        name: true,
                     },
                 },
             },
         },
-        {
-            route: "/product",
-            params: {
-                orderBy: {
-                    createdAt: "desc",
-                },
-                take: 10,
-            },
-        },
-    ]);
+    });
+
+    const productList = await FetchV2({
+        route: "/product",
+        params: ProductFetchParams
+    });
 
     if (!diy || !productList) {
         return <div className="container mx-auto px-4 py-10">Something went wrong...</div>;
@@ -92,11 +89,11 @@ export default async function Page(props: PageProps) {
                 <ProductSlider dataList={productList} />
             </section>
 
-            {/* <div className="mt-16 flex justify-center">
-                <ButtonClient type="link"  href="/do-it-yourself" label="Retour aux DIY" variant="outline">
+            <div className="mt-16 flex justify-center">
+                <Link  href="/do-it-yourself" label="Retour aux DIY" variant="outline">
                     Retour aux DIY
-                </ButtonClient>
-            </div> */}
+                </Link>
+            </div>
         </div>
     );
 }

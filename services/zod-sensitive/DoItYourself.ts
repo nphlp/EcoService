@@ -1,4 +1,4 @@
-import { CountDiyProps, FindManyDiyProps, FindUniqueDiyProps } from "@class/DiyClass";
+import { CountDiyProps, FindManyDiyProps, FindUniqueDiyProps } from "@services/types";
 import { strictObject, z, ZodType } from "zod";
 
 export const selectDiyUniqueSchema: ZodType<FindUniqueDiyProps> = strictObject({

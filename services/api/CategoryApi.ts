@@ -1,6 +1,6 @@
 import CategoryService from "@services/class/CategoryClass";
 import { CountCategoryProps, CountCategoryResponse, FindManyCategoryProps, FindManyCategoryResponse, FindUniqueCategoryProps, FindUniqueCategoryResponse } from "@services/types/CategoryType";
-import { parseAndDecodeParams, revalidate } from "@utils/FetchV2";
+import { parseAndDecodeParams, revalidate } from "@utils/FetchConfig";
 import { unstable_cache as cache } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 

@@ -1,9 +1,9 @@
 import ImageRatio from "@comps/server/ImageRatio";
-import { Fetch } from "@utils/Fetch";
+import { FetchV2 } from "@utils/FetchV2";
 import { ArrowLeft, Package2, ShieldCheck, Truck } from "lucide-react";
 import Link from "next/link";
 import AddToCartButton from "./AddToCartButton";
-import { ProductRelationsComplete } from "@class/ProductClass";
+import { ProductFetchParams } from "./fetchParams";
 
 export const dynamic = "force-dynamic";
 
@@ -15,32 +15,10 @@ export default async function Page(props: PageProps) {
     const { params } = props;
     const { id } = await params;
 
-    const productRaw = await Fetch({
+    const product = await FetchV2({
         route: "/product/unique",
-        params: {
-            where: { id },
-            select: {
-                id: true,
-                name: true,
-                description: true,
-                image: true,
-                price: true,
-                stock: true,
-                Vendor: {
-                    select: {
-                        name: true,
-                    },
-                },
-                Category: {
-                    select: {
-                        name: true,
-                    },
-                },
-            },
-        },
+        params: ProductFetchParams(id),
     });
-
-    const product = productRaw as ProductRelationsComplete;
 
     if (!product) {
         return (

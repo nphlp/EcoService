@@ -1,7 +1,7 @@
 import PrismaInstance from "@lib/prisma";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { AccountCount, CountAccountProps, CountAccountResponse, CreateAccountProps, CreateAccountResponse, DeleteAccountProps, DeleteAccountResponse, FindManyAccountProps, FindManyAccountResponse, FindUniqueAccountProps, FindUniqueAccountResponse, UpdateAccountProps, UpdateAccountResponse, UpsertAccountProps, UpsertAccountResponse, countAccountSchema, createAccountSchema, deleteAccountSchema, selectAccountSchema, selectManyAccountSchema, updateAccountSchema, upsertAccountSchema } from "@services/types/AccountType";
-import { ResponseFormat } from "@utils/FetchV2";
+import { ResponseFormat } from "@utils/FetchConfig";
 import { ZodError } from "zod";
 
 export default class AccountService {

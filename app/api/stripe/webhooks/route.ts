@@ -2,7 +2,7 @@ import { StripeInstance } from "@lib/stripe";
 import { StripeError } from "@stripe/stripe-js";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
-import { ResponseFormat } from "@app/api/Routes";
+import { ResponseFormat } from "@utils/FetchConfig";
 
 export type StripeWebhookResponse = boolean
 

@@ -1,7 +1,7 @@
 "use client";
 
-import { Routes } from "@api/Routes";
-import { DataType, Fetch, FetchProps } from "@utils/Fetch";
+import { Routes } from "@app/api/stripe/Routes";
+import { Fetch, FetchProps, FetchResponse } from "@utils/Fetch";
 import { useEffect, useMemo, useRef, useState } from "react";
 
 /**
@@ -43,7 +43,7 @@ export const useFetch = <Key extends keyof Routes>(props: FetchHookProps<Key>) =
     const fetchOnFirstRenderRef = useRef(fetchOnFirstRender);
 
     // State for managing the fetch lifecycle
-    const [data, setData] = useState<DataType<Key>>();
+    const [data, setData] = useState<FetchResponse<Key>>();
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string>();
 

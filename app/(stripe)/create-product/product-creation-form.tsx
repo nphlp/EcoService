@@ -1,19 +1,19 @@
 "use client";
 
 import { CreateStripeProductProcess } from "@/process/CreateStripeProduct";
-import { authorizedFileSize, authorizedFormats } from "@utils/ImageValidation";
-import { CategoryRelationsOptional } from "@class/CategoryClass";
 import Card from "@comps/server/Card";
 import FeedbackClient, { FeedbackMode } from "@comps/ui/Feedback";
 import { combo } from "@lib/combo";
+import { FindManyCategoryProps, FindManyCategoryResponse } from "@services/types";
 import Button from "@ui/Button";
 import Input from "@ui/Input";
 import InputImage from "@ui/InputImage";
 import Select from "@ui/Select";
+import { authorizedFileSize, authorizedFormats } from "@utils/ImageValidation";
 import { useState } from "react";
 
 type ProductCreationFormPros = {
-    categoryList: CategoryRelationsOptional[];
+    categoryList: FindManyCategoryResponse<FindManyCategoryProps>    ;
 };
 
 export default function ProductCreationForm(props: ProductCreationFormPros) {

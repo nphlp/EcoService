@@ -4,6 +4,7 @@ import { CreateProduct } from "@actions/ProductAction";
 import { isVendorOrEmployeeOrAdmin } from "@lib/checkRole";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { Fetch } from "@utils/Fetch";
+import { FetchV2 } from "@utils/FetchV2";
 import { strictObject, z, ZodError, ZodType } from "zod";
 
 export type CreateStripeProductProps = {
@@ -41,7 +42,7 @@ export const CreateStripeProductProcess = async (
         }
 
         // Check if product already exists in DB (this route does not exist yet)
-        const existingProductInDatabase = await Fetch({
+        const existingProductInDatabase = await FetchV2({
             route: "/product/unique",
             params: {
                 where: { name },
@@ -53,7 +54,7 @@ export const CreateStripeProductProcess = async (
         }
 
         // Check if category exists in DB
-        const categoryExists = await Fetch({
+        const categoryExists = await FetchV2({
             route: "/category/unique",
             params: {
                 where: {

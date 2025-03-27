@@ -1,9 +1,9 @@
-import { ArticleRelationsComplete } from "@class/ArticleClass";
-import { SliderClient } from "@comps/client/Slider";
 import ImageRatio from "@comps/server/ImageRatio";
+import { ArticleOrDiySlider } from "@comps/slider/ArticleOrDiySlider";
+import { ArticleOrDiyFetchParams } from "@comps/slider/fetchParams";
+import Link from "@comps/ui/Link";
 import { combo } from "@lib/combo";
-import { FetchParallelized } from "@utils/FetchParallelized";
-
+import { FetchV2 } from "@utils/FetchV2";
 export const dynamic = "force-dynamic";
 
 type PageProps = {
@@ -14,58 +14,34 @@ export default async function Page(props: PageProps) {
     const { params } = props;
     const { id } = await params;
 
-    const [articleRaw, otherArticlesRaw] = await FetchParallelized([
-        {
-            route: "/article/unique",
-            params: {
-                where: { id },
-                select: {
-                    title: true,
-                    createdAt: true,
-                    Content: {
-                        select: {
-                            content: true,
-                            image: true,
-                        },
+    const article = await FetchV2({
+        route: "/article/unique",
+        params: {
+            where: { id },
+            select: {
+                title: true,
+                createdAt: true,
+                Content: {
+                    select: {
+                        content: true,
+                        image: true,
                     },
-                    Author: {
-                        select: {
-                            name: true,
-                        },
+                },
+                Author: {
+                    select: {
+                        name: true,
                     },
                 },
             },
         },
-        {
-            route: "/article",
-            params: {
-                select: {
-                    id: true,
-                    title: true,
-                    createdAt: true,
-                    Content: {
-                        select: {
-                            content: true,
-                            image: true,
-                        },
-                    },
-                    Author: {
-                        select: {
-                            name: true,
-                        },
-                    },
-                },
-                orderBy: {
-                    createdAt: "desc",
-                },
-            },
-        },
-    ]);
+    });
 
-    const article = articleRaw as ArticleRelationsComplete;
-    const otherArticles = otherArticlesRaw as ArticleRelationsComplete[];
+    const otherArticleList = await FetchV2({
+        route: "/article",
+        params: ArticleOrDiyFetchParams,
+    });
 
-    if (!article || !otherArticles) {
+    if (!article || !otherArticleList) {
         return <div className="container mx-auto px-4 py-10">Article non trouvé</div>;
     }
 
@@ -87,7 +63,7 @@ export default async function Page(props: PageProps) {
             </div>
 
             <div className="mx-auto max-w-[900px] space-y-16">
-                {article.Content?.map((content, index) => (
+                {article.Content.map((content, index) => (
                     <div
                         key={index}
                         className={combo(
@@ -107,13 +83,19 @@ export default async function Page(props: PageProps) {
             </div>
 
             {/* Ajoute un slider d'autres articles à lire */}
-            {otherArticles && otherArticles.length > 0 && (
+            {otherArticleList && otherArticleList.length > 0 && (
                 <section className="space-y-6 border-t border-gray-200 px-6 py-8 md:px-12 md:py-16">
                     <h2 className="text-center text-3xl font-bold">À lire aussi</h2>
                     <p className="text-center text-gray-600">D&apos;autres articles qui pourraient vous intéresser</p>
-                    <SliderClient dataList={otherArticles} link="/article" />
+                    <ArticleOrDiySlider dataList={otherArticleList} link="/article" />
                 </section>
             )}
+
+            <div className="mt-16 flex justify-center">
+                <Link href="/article" label="Retour aux articles" variant="outline">
+                    Retour aux articles
+                </Link>
+            </div>
         </div>
     );
 }

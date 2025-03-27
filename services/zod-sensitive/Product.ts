@@ -1,4 +1,4 @@
-import { CountProductProps, FindManyProductProps, FindUniqueProductProps } from "@class/ProductClass";
+import { CountProductProps, FindManyProductProps, FindUniqueProductProps } from "@services/types";
 import { strictObject, z, ZodType } from "zod";
 
 export const selectProductUniqueSchema: ZodType<FindUniqueProductProps> = strictObject({

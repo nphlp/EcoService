@@ -1,6 +1,6 @@
 "use client";
 
-import { ProductModel } from "@class/ProductClass";
+import { ProductModel } from "@services/types";
 import { create } from "zustand";
 
 type ProductListState = ProductModel[] | null;
