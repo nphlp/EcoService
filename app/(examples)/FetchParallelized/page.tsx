@@ -2,7 +2,7 @@ import { FetchParallelizedV2 } from "@utils/FetchParallelizedV2";
 import { FetchV2 } from "@utils/FetchV2";
 
 export default async function Page() {
-    const testList = await FetchV2({
+    const diyListA = await FetchV2({
         route: "/diy",
         params: {
             select: {
@@ -16,22 +16,18 @@ export default async function Page() {
         },
     });
 
-    const [diyList, articleList, userList] = await FetchParallelizedV2([
-        {
-            route: "/diy",
-            params: {
-                select: {
-                    Author: {
-                        select: {
-                            name: true,
-                        },
-                    },
-                },
-                take: 2,
+    const userListA = await FetchV2({
+        route: "/user",
+        params: {
+            select: {
+                name: true,
             },
         },
+    });
+
+    const [diyListB, userListB] = await FetchParallelizedV2([
         {
-            route: "/article",
+            route: "/diy",
             params: {
                 select: {
                     Author: {
@@ -53,19 +49,24 @@ export default async function Page() {
         },
     ]);
 
-    const tests = testList[0].Author;
-    const diys = diyList[0].Author;
-    const articles = articleList[0].Author;
-    const users = userList[0];
+    // Expected output
+    const diysA = diyListA[0].Author;
+    // Current output
+    const diysB = diyListB[0].Author;
 
-    console.log(tests, diys, articles, users);
+    // Expected output
+    const usersA = userListA[0];
+    // Current output
+    const usersB = userListB[0];
+
+    console.log(diysA, diysB, usersA, usersB);
 
     return (
         <div className="grid grid-cols-4 gap-4">
-            <pre>{JSON.stringify(testList, null, 2)}</pre>
-            <pre>{JSON.stringify(diyList, null, 2)}</pre>
-            <pre>{JSON.stringify(articleList, null, 2)}</pre>
-            <pre>{JSON.stringify(userList, null, 2)}</pre>
+            <pre>{JSON.stringify(diyListA, null, 2)}</pre>
+            <pre>{JSON.stringify(diyListB, null, 2)}</pre>
+            <pre>{JSON.stringify(userListA, null, 2)}</pre>
+            <pre>{JSON.stringify(userListB, null, 2)}</pre>
         </div>
     );
 }
