@@ -15,6 +15,7 @@ export default async function Page() {
             take: 2,
         },
     });
+
     const [diyList, articleList, userList] = await FetchParallelizedV2([
         {
             route: "/diy",
@@ -47,21 +48,14 @@ export default async function Page() {
             params: {
                 select: {
                     name: true,
-                    Order: {
-                        select: {
-                            _count: true,
-                        },
-                    },
                 },
             },
         },
     ]);
 
     const tests = testList[0].Author;
-    const diys = diyList[0];
-    // const diys = diyList[0].Author;
-    const articles = articleList[0];
-    // const articles = articleList[0].Author;
+    const diys = diyList[0].Author;
+    const articles = articleList[0].Author;
     const users = userList[0];
 
     console.log(tests, diys, articles, users);

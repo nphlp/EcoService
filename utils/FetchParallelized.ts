@@ -3,14 +3,14 @@ import { Fetch, FetchProps, FetchResponse, Route } from "@utils/Fetch";
 type MapProps<
     R extends Route[]
 > = {
-    [r in keyof R]: FetchProps<R[r]>;
+    [K in keyof R]: FetchProps<R[K]>;
 };
 
 type MapResponse<
     R extends Route[]
 > = {
-    [r in keyof R]: R[r] extends Route
-        ? FetchResponse<R[r]>
+    [K in keyof R]: R[K] extends Route
+        ? FetchResponse<R[K]>
         : never;
 };
 
