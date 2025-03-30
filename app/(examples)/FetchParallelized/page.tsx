@@ -50,9 +50,9 @@ export default async function Page() {
     ]);
 
     // Expected output
-    const diysA = diyListA[0].Author;
+    const diysA = diyListA[0];
     // Current output
-    const diysB = diyListB[0].Author;
+    const diysB = diyListB[0];
 
     // Expected output
     const usersA = userListA[0];

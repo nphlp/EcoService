@@ -44,7 +44,7 @@ export default async function Page(props: PageProps) {
 
             <div className="grid gap-8 md:grid-cols-2">
                 {/* Image du produit */}
-                <div className="rounded-2xl bg-white p-4 shadow-sm">
+                <div className="rounded-2xl bg-white p-4 border border-gray-300 shadow-[2px_2px_7px_rgba(0,0,0,0.1)]">
                     <ImageRatio className="rounded-xl" src={image} alt={name} />
                 </div>
 
@@ -61,7 +61,7 @@ export default async function Page(props: PageProps) {
                     </div>
 
                     {/* Prix et stock */}
-                    <div className="space-y-4 rounded-xl bg-white p-6 shadow-sm">
+                    <div className="space-y-4 rounded-xl bg-white p-6 border border-gray-300 shadow-[2px_2px_7px_rgba(0,0,0,0.1)]">
                         <div className="flex items-end justify-between">
                             <div>
                                 <p className="text-sm text-gray-500">Prix</p>
@@ -80,7 +80,7 @@ export default async function Page(props: PageProps) {
 
                     {/* Vendeur */}
                     {Vendor && (
-                        <div className="rounded-xl bg-white p-6 shadow-sm">
+                        <div className="rounded-xl bg-white p-6 border border-gray-300 shadow-[2px_2px_7px_rgba(0,0,0,0.1)]">
                             <p className="text-sm text-gray-500">Vendu par</p>
                             <p className="font-medium">{Vendor.name}</p>
                         </div>
@@ -88,15 +88,15 @@ export default async function Page(props: PageProps) {
 
                     {/* Avantages */}
                     <div className="grid grid-cols-3 gap-4">
-                        <div className="flex flex-col items-center rounded-xl bg-white p-4 text-center shadow-sm">
+                        <div className="flex flex-col items-center rounded-xl bg-white p-4 text-center border border-gray-300 shadow-[2px_2px_7px_rgba(0,0,0,0.1)]">
                             <Truck className="text-primary mb-2 size-6" />
                             <span className="text-sm">Livraison rapide</span>
                         </div>
-                        <div className="flex flex-col items-center rounded-xl bg-white p-4 text-center shadow-sm">
+                        <div className="flex flex-col items-center rounded-xl bg-white p-4 text-center border border-gray-300 shadow-[2px_2px_7px_rgba(0,0,0,0.1)]">
                             <Package2 className="text-primary mb-2 size-6" />
                             <span className="text-sm">Emballage écologique</span>
                         </div>
-                        <div className="flex flex-col items-center rounded-xl bg-white p-4 text-center shadow-sm">
+                        <div className="flex flex-col items-center rounded-xl bg-white p-4 text-center border border-gray-300 shadow-[2px_2px_7px_rgba(0,0,0,0.1)]">
                             <ShieldCheck className="text-primary mb-2 size-6" />
                             <span className="text-sm">Qualité garantie</span>
                         </div>
