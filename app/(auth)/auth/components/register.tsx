@@ -87,7 +87,7 @@ export default function RegisterClient() {
                         <Button
                             type="button"
                             label="toggle-password-visibility"
-                            className="p-2"
+                            className="p-2 hover:border-gray-300"
                             variant="outline"
                             baseStyleWithout={["padding", "font"]}
                             onClick={() => setToggleVisibility(!toggleVisibility)}

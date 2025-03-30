@@ -4,24 +4,21 @@ import { combo } from "@lib/combo";
 import NextLink, { LinkProps as NextLinkProps } from "next/link";
 import { ReactNode } from "react";
 import {
-    baseStyleOnlyFilter,
-    baseStyleWithoutFilter,
+    buttonBaseTheme,
     ButtonBaseKeys,
-    buttonStyleComplete,
-    buttonTheme,
     ButtonVariant,
-} from "./buttonTheme";
-
+    buttonTheme,
+} from "./themes/buttonTheme";
+import { getBaseStyle } from "./themes/utils";
 type LinkProps = {
     label: string;
     variant?: ButtonVariant;
     className?: string;
     children?: ReactNode;
-    baseStyle?: boolean;
 } & (
-    | { baseStyleOnly?: ButtonBaseKeys[]; baseStyleWithout?: never }
-    | { baseStyleWithout?: ButtonBaseKeys[]; baseStyleOnly?: never }
-    | { baseStyleOnly?: never; baseStyleWithout?: never }
+    | { baseStyle?: boolean; baseStyleOnly?: never; baseStyleWithout?: never }
+    | { baseStyle?: never; baseStyleOnly?: ButtonBaseKeys[]; baseStyleWithout?: never }
+    | { baseStyle?: never; baseStyleOnly?: never; baseStyleWithout?: ButtonBaseKeys[] }
 ) &
     Omit<NextLinkProps, "className" | "children">;
 
@@ -48,20 +45,14 @@ export default function Link(props: LinkProps) {
         ...others
     } = props;
 
-    let baseStyleList = buttonStyleComplete;
-
-    if (baseStyleOnly) {
-        baseStyleList = baseStyleOnlyFilter(baseStyleOnly as ButtonBaseKeys[]);
-    } else if (baseStyleWithout) {
-        baseStyleList = baseStyleWithoutFilter(baseStyleWithout as ButtonBaseKeys[]);
-    }
-
     return (
         <NextLink
             className={combo(
-                baseStyle && baseStyleList,
-                variant && buttonTheme[variant].button,
-                variant && buttonTheme[variant].disabled,
+                // Base styles
+                getBaseStyle({ baseTheme: buttonBaseTheme, baseStyle, baseStyleOnly, baseStyleWithout }),
+                // Variant styles
+                buttonTheme[variant].button,
+                buttonTheme[variant].disabled,
                 className,
             )}
             {...others}

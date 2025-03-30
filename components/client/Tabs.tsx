@@ -76,12 +76,12 @@ export default function TabClient(props: TabClientProps) {
                     <Button
                         key={index}
                         variant="none"
-                        baseStyleOnly={["pointer", "padding"]}
+                        baseStyleOnly={["pointer", "padding", "rounded", "transition"]}
                         type="button"
                         label={"tab" + label}
                         className={combo(
-                            "relative z-20 w-full rounded-lg",
-                            "transition-colors duration-200",
+                            "border border-transparent", // to get the same size for buttons and indicator
+                            "relative z-20 w-full",
                             index !== activeTab && "hover:bg-gray-100",
                         )}
                         onClick={() => setActiveTab(index)}

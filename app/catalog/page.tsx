@@ -6,8 +6,6 @@ import PaginationClient from "./components/pagination.client";
 import { SearchParamsCached, SearchParamsType } from "./components/searchParams";
 import SelectorsClient from "./components/selectors.client";
 
-export const dynamic = "force-dynamic";
-
 type PageProps = {
     searchParams: Promise<SearchParamsType>;
 };

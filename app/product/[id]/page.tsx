@@ -4,8 +4,7 @@ import { ArrowLeft, Package2, ShieldCheck, Truck } from "lucide-react";
 import Link from "next/link";
 import AddToCartButton from "./AddToCartButton";
 import { ProductFetchParams } from "./fetchParams";
-
-export const dynamic = "force-dynamic";
+import { unstable_ViewTransition as ViewTransition } from "react";
 
 type PageProps = {
     params: Promise<{ id: string }>;
@@ -34,6 +33,8 @@ export default async function Page(props: PageProps) {
 
     const { name, image, price, description, stock, Vendor, Category } = product;
 
+    {console.log(`product-${id}`)}
+
     return (
         <div className="container mx-auto px-4 py-8">
             {/* Bouton retour */}
@@ -45,7 +46,9 @@ export default async function Page(props: PageProps) {
             <div className="grid gap-8 md:grid-cols-2">
                 {/* Image du produit */}
                 <div className="rounded-2xl bg-white p-4 border border-gray-300 shadow-[2px_2px_7px_rgba(0,0,0,0.1)]">
-                    <ImageRatio className="rounded-xl" src={image} alt={name} />
+                    <ViewTransition name={`product-${id}`}>
+                        <ImageRatio src={image} alt={name} />
+                    </ViewTransition>
                 </div>
 
                 {/* Informations produit */}

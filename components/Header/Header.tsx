@@ -1,9 +1,10 @@
-import { Category } from "@prisma/client";
+// import { Category } from "@prisma/client";
 import { FetchV2 } from "@utils/FetchV2";
 import Basket from "../Basket/Basket";
 import Navigation from "./Browser/Navigation";
 import SectionList from "./Browser/SectionList";
 import MobileHeader from "./Mobile/MobileHeader";
+import { CategoryModel } from "@services/types";
 
 export const dynamic = "force-dynamic";
 
@@ -72,7 +73,7 @@ export default async function Header() {
 
 type BrowserHeaderProps = {
     keywords: SearchKeywords[];
-    categorieList: Category[];
+    categorieList: CategoryModel[];
     className?: string;
 };
 

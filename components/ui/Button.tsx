@@ -3,28 +3,22 @@
 import { combo } from "@lib/combo";
 import Loader, { LoaderColor } from "@ui/Loader";
 import { ButtonHTMLAttributes, ReactNode } from "react";
-import {
-    baseStyleOnlyFilter,
-    baseStyleWithoutFilter,
-    ButtonBaseKeys,
-    buttonStyleComplete,
-    buttonTheme,
-    ButtonVariant,
-} from "./buttonTheme";
+import { ButtonBaseKeys, buttonBaseTheme, buttonTheme, ButtonVariant } from "./themes/buttonTheme";
+import { getBaseStyle } from "./themes/utils";
 
 type ButtonProps = {
     label: string;
     variant?: ButtonVariant;
     isLoading?: boolean;
+    isDisabled?: boolean;
     loadingLabel?: string;
     loaderColor?: LoaderColor;
     className?: string;
     children?: ReactNode;
-    baseStyle?: boolean;
 } & (
-    | { baseStyleOnly?: ButtonBaseKeys[]; baseStyleWithout?: never }
-    | { baseStyleWithout?: ButtonBaseKeys[]; baseStyleOnly?: never }
-    | { baseStyleOnly?: never; baseStyleWithout?: never }
+    | { baseStyle?: boolean; baseStyleOnly?: never; baseStyleWithout?: never }
+    | { baseStyle?: never; baseStyleOnly?: ButtonBaseKeys[]; baseStyleWithout?: never }
+    | { baseStyle?: never; baseStyleOnly?: never; baseStyleWithout?: ButtonBaseKeys[] }
 ) &
     Omit<ButtonHTMLAttributes<HTMLButtonElement>, "className" | "children">;
 
@@ -52,6 +46,7 @@ export default function Button(props: ButtonProps) {
         variant = "default",
         baseStyle = true,
         isLoading,
+        isDisabled,
         loadingLabel = "Loading...",
         loaderColor,
         className,
@@ -61,28 +56,22 @@ export default function Button(props: ButtonProps) {
         ...others
     } = props;
 
-    let baseStyleList = buttonStyleComplete;
-
-    if (baseStyleOnly) {
-        baseStyleList = baseStyleOnlyFilter(baseStyleOnly as ButtonBaseKeys[]);
-    } else if (baseStyleWithout) {
-        baseStyleList = baseStyleWithoutFilter(baseStyleWithout as ButtonBaseKeys[]);
-    }
-
     return (
         <button
             className={combo(
-                baseStyle && baseStyleList,
-                variant && buttonTheme[variant].button,
-                isLoading ? variant && buttonTheme[variant].isLoading : variant && buttonTheme[variant].disabled,
+                // Base styles
+                getBaseStyle({ baseTheme: buttonBaseTheme, baseStyle, baseStyleOnly, baseStyleWithout }),
+                // Variant styles
+                buttonTheme[variant].button,
+                isLoading ? buttonTheme[variant].isLoading : buttonTheme[variant].disabled,
                 className,
             )}
-            disabled={isLoading}
+            disabled={isLoading || isDisabled}
             {...others}
         >
             {isLoading ? (
                 <>
-                    <Loader color={loaderColor ?? (variant && buttonTheme[variant].loaderColor)} />
+                    <Loader color={loaderColor ?? buttonTheme[variant].loaderColor} />
                     <span>{loadingLabel}</span>
                 </>
             ) : (

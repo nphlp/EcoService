@@ -1,10 +1,10 @@
 import { combo } from "@lib/combo";
-import { LoaderColor } from "./Loader";
+import { LoaderColor } from "../Loader";
 
 // =============== Button Base ================= //
 
 /** Shared base styles for buttons and links */
-export const buttonBase = {
+export const buttonBaseTheme = {
     pointer: "cursor-pointer disabled:cursor-not-allowed",
     rounded: "rounded-lg",
     padding: "px-4 py-1.5",
@@ -14,39 +14,11 @@ export const buttonBase = {
     outline: "outline-none ring-0 focus:ring-2 focus:ring-teal-300",
 };
 
-/** Keys for the `buttonBase` object */
-export type ButtonBaseKeys = keyof typeof buttonBase;
+/** Shared base styles for buttons and links */
+export type ButtonBaseTheme = typeof buttonBaseTheme;
 
-export const buttonStyleComplete = Object.values(buttonBase).map((value) => value).join(" ");
-
-/**
- * Return a string of combined styles for the given keys
- * @example
- * ```tsx
- * <Button baseStyleOnly={["rounded", "transition", "outline"]} />
- * <Link baseStyleOnly={["font", "transition", "outline"]} />
- * ```
- */
-export const baseStyleOnlyFilter = (onlyKeys: ButtonBaseKeys[]): string => {
-    const baseStyleKeys = Object.keys(buttonBase);
-    const filteredKeys = baseStyleKeys.filter((key) => onlyKeys.includes(key as ButtonBaseKeys));
-    const filteredValues = filteredKeys.map((key) => buttonBase[key as ButtonBaseKeys]);
-    return combo(filteredValues);
-};
-
-/**
- * Return a string of combined styles excluding the given keys
- * @example
- * ```tsx
- * <Button baseStyleWithout={["flex", "rounded"]} />
- * <Link baseStyleWithout={["transition", "outline"]} />
- */
-export const baseStyleWithoutFilter = (withoutKeys: ButtonBaseKeys[]): string => {
-    const baseStyleKeys = Object.keys(buttonBase);
-    const filteredKeys = baseStyleKeys.filter((key) => !withoutKeys.includes(key as ButtonBaseKeys));
-    const filteredValues = filteredKeys.map((key) => buttonBase[key as ButtonBaseKeys]);
-    return combo(filteredValues);
-};
+/** Keys for the `buttonBaseTheme` object */
+export type ButtonBaseKeys = keyof ButtonBaseTheme;
 
 // =============== Button Theme ================= //
 

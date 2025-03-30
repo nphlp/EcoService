@@ -15,6 +15,7 @@ import { CatalogContext } from "./catalog.provider";
 import { ProductAmountFetchParams, ProductListFetchParams } from "./fetchParams";
 import { useCatalogParams } from "./useCatalogParams";
 import { useCatalogStore } from "./useCatalogStore";
+import { unstable_ViewTransition as ViewTransition } from "react";
 
 type CatalogClientProps = {
     className?: string;
@@ -97,7 +98,9 @@ const ProductList = (props: ProductListProps) => {
                     className="ring-transparent outline-none focus:ring-offset-2 focus-visible:ring-2 focus-visible:ring-teal-400"
                 >
                     <Card className="overflow-hidden p-0">
-                        <ImageRatio src={image} alt={name} />
+                        <ViewTransition name={`product-${id}`}>
+                            <ImageRatio src={image} alt={name} />
+                        </ViewTransition>
                         <div className="flex flex-row items-center justify-between p-4">
                             <div>
                                 <div className="text-lg font-bold">{name}</div>
