@@ -22,18 +22,21 @@ export type ButtonBaseKeys = keyof ButtonBaseTheme;
 
 // =============== Button Theme ================= //
 
-/** Shared variants for buttons and links */
+/** Type for the button variant */
 export type ButtonVariant = "default" | "outline" | "ghost" | "underline" | "none";
 
-/** Shared theme for buttons and links */
-export const buttonTheme: {
+/** Type for the button theme */
+export type ButtonThemeType = {
     [key in ButtonVariant]: {
         button: string;
         isLoading: string;
         disabled: string;
         loaderColor: LoaderColor;
     };
-} = {
+}
+
+/** Shared theme for buttons and links */
+export const buttonTheme: ButtonThemeType = {
     default: {
         button: combo("bg-black text-white", "hover:bg-gray-700"),
         isLoading: combo("hover:bg-black"),

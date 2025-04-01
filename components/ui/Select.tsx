@@ -1,42 +1,25 @@
 "use client";
 
 import { combo } from "@lib/combo";
+import { ChevronDown } from "lucide-react";
 import type { KeyboardEvent, MouseEvent } from "react";
 import { SelectHTMLAttributes } from "react";
+import { selectTheme, SelectVariant } from "./themes/selectTheme";
 
-const theme = {
-    default: {
-        component: combo("block space-y-1"),
-        label: combo("text-sm font-medium text-black"),
-        input: combo(
-            "w-full rounded-lg border border-black/20 bg-white px-4 py-1.5",
-            "outline-none ring-0 focus:ring-2 focus:ring-teal-300",
-            "transition-all duration-150",
-        ),
-        option: combo("text-black bg-white"),
-    },
-    dark: {
-        component: combo("block space-y-1"),
-        label: combo("text-sm font-medium text-white"),
-        input: combo(
-            "w-full rounded-lg border border-white/20 bg-white/10 px-4 py-1.5",
-            "outline-none ring-0 focus:ring-2 focus:ring-teal-300",
-            "transition-all duration-150",
-        ),
-        option: combo("text-black bg-white"),
-    },
-};
+/** Options type */
+export type OptionsType = {
+    label: string;
+    value: string;
+}[];
 
-type InputProps = {
+/** Select props */
+type SelectProps = {
     label: string;
     defaultValue?: string;
     placeholder?: string;
-    variant?: keyof typeof theme | false;
+    variant?: SelectVariant;
     required?: boolean;
-    options: {
-        label: string;
-        value: string;
-    }[];
+    options: OptionsType;
     classComponent?: string;
     classLabel?: string;
     classInput?: string;
@@ -56,6 +39,7 @@ type InputProps = {
  * // Use the component
  * <Select
  *     label="Categories"
+ *     placeholder="Sélectionnez une catégorie"
  *     options={categories.map((category) => ({
  *         label: category.name,
  *         value: category.id,
@@ -65,7 +49,7 @@ type InputProps = {
  * />
  * ```
  */
-export default function Select(props: InputProps) {
+export default function Select(props: SelectProps) {
     const {
         label,
         defaultValue,
@@ -96,25 +80,30 @@ export default function Select(props: InputProps) {
     };
 
     return (
-        <label onClick={preventDefault} className={combo(variant && theme[variant].component, classComponent)}>
+        <label onClick={preventDefault} className={combo("relative", selectTheme[variant].component, classComponent)}>
             {/* Label */}
-            <div className={combo(variant && theme[variant].label, classLabel)}>{label}</div>
+            <div className={combo(selectTheme[variant].label, classLabel)}>{label}</div>
+
+            {/* Arrow */}
+            <div className="absolute right-2 bottom-1 z-20 flex items-center justify-center">
+                <ChevronDown className="" />
+            </div>
 
             {/* Input */}
             <select
-                className={combo(variant && theme[variant].input, classInput)}
+                className={combo("appearance-none", selectTheme[variant].input, classInput)}
                 required={required}
                 defaultValue={defaultValue}
                 onKeyDown={handleKeyDown}
                 {...others}
             >
                 {!defaultValue && (
-                    <option value="" className={combo(variant && theme[variant].option, classOption)} disabled>
+                    <option value="" className={combo(selectTheme[variant].option, classOption)} disabled>
                         {placeholder ?? label}
                     </option>
                 )}
                 {options.map(({ label, value }, index) => (
-                    <option key={index} value={value} className={combo(variant && theme[variant].option, classOption)}>
+                    <option key={index} value={value} className={combo(selectTheme[variant].option, classOption)}>
                         {label}
                     </option>
                 ))}

@@ -2,31 +2,12 @@
 
 import { combo } from "@lib/combo";
 import { InputHTMLAttributes, MouseEvent } from "react";
+import { InputVariant, inputTheme } from "./themes/inputTheme";
 
-const theme = {
-    default: {
-        component: combo("block space-y-1"),
-        label: combo("text-sm font-medium text-gray-600"),
-        input: combo(
-            "w-full rounded-lg border border-black/20 bg-white px-4 py-1.5",
-            "outline-none ring-0 focus:ring-2 focus:ring-teal-300",
-            "transition-all duration-150",
-        ),
-    },
-    dark: {
-        component: combo("block space-y-1"),
-        label: combo("text-sm font-medium text-gray-400"),
-        input: combo(
-            "w-full rounded-lg border border-white/20 bg-white/10 px-4 py-1.5",
-            "outline-none ring-0 focus:ring-2 focus:ring-teal-300",
-            "transition-all duration-150",
-        ),
-    },
-};
-
+/** Input props */
 type InputProps = {
     label: string;
-    variant?: keyof typeof theme | false;
+    variant?: InputVariant;
     required?: boolean;
     classComponent?: string;
     classLabel?: string;
@@ -59,12 +40,12 @@ export default function Input(props: InputProps) {
     };
 
     return (
-        <label onClick={preventDefault} className={combo(variant && theme[variant].component, classComponent)}>
+        <label onClick={preventDefault} className={combo(inputTheme[variant].component, classComponent)}>
             {/* Label */}
-            <div className={combo(variant && theme[variant].label, classLabel)}>{label}</div>
+            <div className={combo(inputTheme[variant].label, classLabel)}>{label}</div>
 
             {/* Input */}
-            <input className={combo(variant && theme[variant].input, classInput)} required={required} {...others} />
+            <input className={combo(inputTheme[variant].input, classInput)} required={required} {...others} />
         </label>
     );
 }

@@ -6,6 +6,7 @@ import { ButtonHTMLAttributes, ReactNode } from "react";
 import { ButtonBaseKeys, buttonBaseTheme, buttonTheme, ButtonVariant } from "./themes/buttonTheme";
 import { getBaseStyle } from "./themes/utils";
 
+/** Button variant */
 type ButtonProps = {
     label: string;
     variant?: ButtonVariant;

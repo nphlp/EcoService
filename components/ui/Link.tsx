@@ -10,6 +10,8 @@ import {
     buttonTheme,
 } from "./themes/buttonTheme";
 import { getBaseStyle } from "./themes/utils";
+
+/** Link variant */
 type LinkProps = {
     label: string;
     variant?: ButtonVariant;
