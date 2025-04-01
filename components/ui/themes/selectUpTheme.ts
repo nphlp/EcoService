@@ -7,7 +7,7 @@ export type SelectUpThemeType = {
         component: string;
         label: string;
         input: string;
-        optionContainer: string;
+        // optionContainer: string;
     };
 };
 
@@ -20,10 +20,6 @@ export const selectUpTheme: SelectUpThemeType = {
             "outline-none ring-0 focus:ring-2 focus:ring-teal-300",
             "transition-all duration-150",
         ),
-        optionContainer: combo(
-            "absolute top-full left-0 mt-1.5 w-full",
-            "shadow-md shadow-black/20 rounded-xl bg-white border border-black/20 p-2 space-y-1.5",
-        ),
     },
     dark: {
         component: combo("flex flex-col gap-1"),
@@ -33,15 +29,10 @@ export const selectUpTheme: SelectUpThemeType = {
             "outline-none ring-0 focus:ring-2 focus:ring-teal-300",
             "transition-all duration-150",
         ),
-        optionContainer: combo(
-            "absolute top-full left-0 mt-1.5 w-full",
-            "shadow-md shadow-white/20 rounded-xl bg-black/10 border border-white/20 p-2 space-y-1.5",
-        ),
     },
     none: {
         component: "",
         label: "",
         input: "",
-        optionContainer: "",
     },
 };

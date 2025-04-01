@@ -2,7 +2,7 @@
 
 import { CreateStripeProductProcess } from "@/process/CreateStripeProduct";
 import Card from "@comps/server/Card";
-import FeedbackClient, { FeedbackMode } from "@comps/ui/Feedback";
+import Feedback, { FeedbackMode } from "@comps/ui/Feedback";
 import { combo } from "@lib/combo";
 import { FindManyCategoryProps, FindManyCategoryResponse } from "@services/types";
 import Button from "@ui/Button";
@@ -130,7 +130,7 @@ export default function ProductCreationForm(props: ProductCreationFormPros) {
 
                 <InputImage label="Image" onChange={handleImageChange} imagePreview={image} />
 
-                <FeedbackClient message={message} mode={mode} />
+                <Feedback message={message} mode={mode} />
 
                 <div className="flex justify-center">
                     <Button

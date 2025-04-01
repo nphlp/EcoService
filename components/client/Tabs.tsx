@@ -12,9 +12,11 @@ type TabClientProps = {
     }[];
 };
 
+// Params for the tabs
 const PADDING = "16px";
 const GAP = "8px";
 
+// TODO: add description
 export default function TabClient(props: TabClientProps) {
     const { cardList } = props;
 

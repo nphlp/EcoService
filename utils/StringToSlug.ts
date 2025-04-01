@@ -1,6 +1,4 @@
-"use server";
-
-export const StringToSlug = async (text: string) => {
+export const StringToSlug = (text: string) => {
     return text
         .toLowerCase()
         .replace(/œ/g, "oe")

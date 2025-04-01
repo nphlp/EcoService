@@ -4,7 +4,7 @@ import Card from "@comps/server/Card";
 import { combo } from "@lib/combo";
 import { Filter } from "lucide-react";
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 import ButtonClient from "../../../components/client/Button";
 
 interface Product {
@@ -125,7 +125,7 @@ export default function ProductManager() {
     //     window.scrollTo({ top: 0, behavior: "smooth" });
     // };
 
-    const createProduct = async (e: React.FormEvent) => {
+    const createProduct = async (e: FormEvent) => {
         e.preventDefault();
         setLoading(true);
 

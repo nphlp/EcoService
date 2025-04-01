@@ -4,7 +4,7 @@ import ButtonClient from "@comps/client/Button";
 import InputClient from "@comps/client/Input";
 import Card from "@comps/server/Card";
 import { Content, ImageCard, Img, Text, Title } from "@comps/server/ImageCard";
-import FeedbackClient, { FeedbackMode } from "@comps/ui/Feedback";
+import Feedback, { FeedbackMode } from "@comps/ui/Feedback";
 import { ChangeEvent, useState } from "react";
 import { CreateFruit } from "./utils/FruitActions";
 import { ImageValidation } from "./utils/ImageUploads";
@@ -97,7 +97,7 @@ export default function AddFruitClient() {
                     value={description}
                 />
                 <InputClient label="file" type="file" onChange={handleImageChange} />
-                <FeedbackClient message={message} mode={mode} />
+                <Feedback message={message} mode={mode} />
                 <ButtonClient type="button" label="add-fruit" onClick={handleSubmit} isLoading={isLoading}>
                     Add new fruit
                 </ButtonClient>

@@ -1,7 +1,7 @@
 "use client";
 
 import Button from "@comps/ui/Button";
-import FeedbackClient, { FeedbackMode } from "@comps/ui/Feedback";
+import Feedback, { FeedbackMode } from "@comps/ui/Feedback";
 import Input from "@comps/ui/Input";
 import Link from "@comps/ui/Link";
 import { signIn } from "@lib/authClient";
@@ -99,7 +99,7 @@ export default function LoginClient() {
                 >
                     Pas encore inscrit ?
                 </Link>
-                <FeedbackClient message={message} mode={mode} />
+                <Feedback message={message} mode={mode} />
                 <Button type="button" onClick={handleSubmit} label="login" isLoading={isLoading}>
                     Connexion
                 </Button>

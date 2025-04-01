@@ -1,3 +1,5 @@
+"use client";
+
 import { combo } from "@lib/combo";
 import { motion } from "framer-motion";
 import { CircleAlert, CircleCheck, CircleHelp, CircleX } from "lucide-react";
@@ -11,7 +13,31 @@ type FeedbackProps = {
     classFeedback?: string;
 };
 
-export default function FeedbackClient(props: FeedbackProps) {
+/**
+ * Feedback component
+ * @example
+ * ```tsx
+ * // Define the state
+ * const [message, setMessage] = useState("");
+ * const [mode, setMode] = useState<FeedbackMode>("none"); // Hidden
+ *
+ * // Update the state
+ * const handleSubmit = (e: FormEvent) => {
+ *     e.preventDefault();
+ * 
+ *     setMode("success");
+ *     setMessage("Product created successfully");
+ * }
+ *
+ * // Use the component
+ * return <form onSubmit={handleSubmit}>
+ *     <Input label="Product name" name="product-name" />
+ *     <Feedback message={message} mode={mode} />
+ *     <Button label="Submit" />
+ * </form>
+ * ```
+ */
+export default function Feedback(props: FeedbackProps) {
     const { message, mode, classComponent, classFeedback } = props;
 
     const modeStyle = {
