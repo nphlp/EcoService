@@ -10,7 +10,7 @@ import { selectTheme, SelectVariant } from "./themes/selectTheme";
 export type OptionsType = {
     label: string;
     value: string;
-}[];
+};
 
 /** Select props */
 type SelectProps = {
@@ -19,7 +19,7 @@ type SelectProps = {
     placeholder?: string;
     variant?: SelectVariant;
     required?: boolean;
-    options: OptionsType;
+    options: OptionsType[];
     classComponent?: string;
     classLabel?: string;
     classInput?: string;
@@ -85,8 +85,8 @@ export default function Select(props: SelectProps) {
             <div className={combo(selectTheme[variant].label, classLabel)}>{label}</div>
 
             {/* Arrow */}
-            <div className="absolute right-2 bottom-1 z-20 flex items-center justify-center">
-                <ChevronDown className="" />
+            <div className="pointer-events-none absolute right-2 bottom-[5px] z-20 flex items-center justify-center">
+                <ChevronDown className="-translate-y-px" />
             </div>
 
             {/* Input */}
