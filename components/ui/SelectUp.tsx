@@ -3,9 +3,9 @@
 import { combo } from "@lib/combo";
 import { StringToSlug } from "@utils/StringToSlug";
 import { motion } from "framer-motion";
-import { ChevronUp, X } from "lucide-react";
+import { Check, ChevronUp, X } from "lucide-react";
 import type { ChangeEvent, FocusEvent, KeyboardEvent, MouseEvent } from "react";
-import { InputHTMLAttributes, useState } from "react";
+import { InputHTMLAttributes, useEffect, useState } from "react";
 import { selectUpTheme, SelectUpVariant } from "./themes/selectUpTheme";
 
 /** Options type */
@@ -20,8 +20,9 @@ type SelectUpProps = {
     placeholder: string;
     variant?: SelectUpVariant;
     required?: boolean;
+    onSelectValueChange: (selected: OptionsType["value"]) => void;
     options: OptionsType[];
-    defaultValue?: OptionsType["label"];
+    defaultOption?: OptionsType;
     classComponent?: string;
     classLabel?: string;
     classInput?: string;
@@ -29,7 +30,15 @@ type SelectUpProps = {
     classOptionContainer?: string;
 } & Omit<
     InputHTMLAttributes<HTMLInputElement>,
-    "className" | "label" | "required" | "placeholder" | "options" | "defaultValue" | "defaultChecked"
+    | "onChange"
+    | "value"
+    | "className"
+    | "label"
+    | "required"
+    | "placeholder"
+    | "options"
+    | "defaultValue"
+    | "defaultChecked"
 >;
 
 /**
@@ -47,19 +56,19 @@ type SelectUpProps = {
  *         label: category.name,
  *         value: category.id,
  *     }))}
- *     onChange={(e) => setCategory(e.target.value)}
- *     value={category}
+ *     onSelectValueChange={setCategory}
  * />
  * ```
  */
 export default function SelectUp(props: SelectUpProps) {
     const {
         label,
-        defaultValue,
         variant = "default",
         options,
+        defaultOption,
         placeholder,
         required = true,
+        onSelectValueChange,
         classComponent,
         classLabel,
         classInput,
@@ -69,8 +78,8 @@ export default function SelectUp(props: SelectUpProps) {
     } = props;
 
     const [isOpen, setIsOpen] = useState<boolean>(false);
+    const [selectedLabel, setSelectedLabel] = useState<OptionsType["label"]>(defaultOption?.label ?? "");
     const [filteredOptions, setFilteredOptions] = useState<OptionsType[]>(options);
-    const [selected, setSelected] = useState(defaultValue ?? "");
     const [isValid, setIsValid] = useState(false);
 
     /** Prevent a clic on the label to focus the input */
@@ -94,11 +103,11 @@ export default function SelectUp(props: SelectUpProps) {
 
         setIsValid(false);
         setFilteredOptions(filteredOptions);
-        setSelected(userValue);
+        setSelectedLabel(userValue);
     };
 
     const handleSelect = (value: OptionsType["label"]) => () => {
-        setSelected(value);
+        setSelectedLabel(value);
         setIsOpen(false);
         setIsValid(true);
         setFilteredOptions(options);
@@ -115,7 +124,7 @@ export default function SelectUp(props: SelectUpProps) {
             setIsOpen(false);
             // If the input is not valid, reset the selected value
             if (!isValid) {
-                setSelected("");
+                setSelectedLabel("");
             }
         }
 
@@ -171,17 +180,25 @@ export default function SelectUp(props: SelectUpProps) {
         }
     };
 
+    // Fire the parent state when the selectedLabel changes
+    useEffect(() => {
+        const newSelectedValue = options.find((option) => option.label === selectedLabel)?.value;
+
+        if (newSelectedValue) onSelectValueChange(newSelectedValue);
+        else onSelectValueChange("");
+    }, [selectedLabel, options, onSelectValueChange]);
+
     return (
         <label onClick={preventDefault} className={combo("relative", selectUpTheme[variant].component, classComponent)}>
             {/* Label */}
             <div className={combo(selectUpTheme[variant].label, classLabel)}>{label}</div>
 
             {/* Arrow */}
-            {selected !== "" ? (
+            {selectedLabel !== "" ? (
                 <button
                     type="button"
                     onClick={() => {
-                        setSelected("");
+                        setSelectedLabel("");
                         setIsOpen(false);
                         setIsValid(false);
                     }}
@@ -222,7 +239,7 @@ export default function SelectUp(props: SelectUpProps) {
                 type="text"
                 id={`input-${StringToSlug(label)}`}
                 className={combo(
-                    "appearance-none",
+                    "appearance-none placeholder:text-gray-400",
                     !isValid && "text-gray-400",
                     selectUpTheme[variant].input,
                     classInput,
@@ -233,7 +250,7 @@ export default function SelectUp(props: SelectUpProps) {
                 onClick={() => setIsOpen(true)}
                 onBlur={handleBlur}
                 onChange={handleWrite}
-                value={selected}
+                value={selectedLabel}
                 {...others}
             />
 
@@ -264,13 +281,18 @@ export default function SelectUp(props: SelectUpProps) {
                                     onBlur={handleBlur}
                                     onKeyDown={handleKeyDownOption}
                                     className={combo(
-                                        "hover:cursor-pointer hover:bg-gray-100 text-left",
+                                        "flex flex-row justify-start items-center gap-2",
+                                        "hover:cursor-pointer hover:bg-gray-100",
                                         "ring-0 outline-none focus:ring-2 focus:ring-teal-300",
                                         "w-full rounded-md px-3 py-0.5 text-sm",
+                                        selectedLabel === label && "font-semibold",
                                         classOption,
                                     )}
                                 >
-                                    {label}
+                                    {selectedLabel === label ? <Check className={combo("size-4 stroke-3")} />
+                                        :
+                                        <div className="size-4"></div>}
+                                    <span>{label}</span>
                                 </button>
                             ))
                         ) : (

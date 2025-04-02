@@ -7,10 +7,9 @@ import { CircleAlert, CircleCheck, CircleHelp, CircleX } from "lucide-react";
 export type FeedbackMode = "success" | "info" | "warning" | "error" | "none";
 
 type FeedbackProps = {
+    isFeedbackOpen: boolean;
     message: string;
     mode: FeedbackMode;
-    classComponent?: string;
-    classFeedback?: string;
 };
 
 /**
@@ -19,26 +18,27 @@ type FeedbackProps = {
  * ```tsx
  * // Define the state
  * const [message, setMessage] = useState("");
- * const [mode, setMode] = useState<FeedbackMode>("none"); // Hidden
+ * const [mode, setMode] = useState<FeedbackMode>("succes");
+ * const [isFeedbackOpen, setIsFeedbackOpen] = useState(false);
  *
  * // Update the state
  * const handleSubmit = (e: FormEvent) => {
  *     e.preventDefault();
- * 
  *     setMode("success");
  *     setMessage("Product created successfully");
+ *     setIsFeedbackOpen(true);
  * }
  *
  * // Use the component
  * return <form onSubmit={handleSubmit}>
  *     <Input label="Product name" name="product-name" />
- *     <Feedback message={message} mode={mode} />
+ *     <Feedback message={message} mode={mode} isFeedbackOpen={isFeedbackOpen} />
  *     <Button label="Submit" />
  * </form>
  * ```
  */
 export default function Feedback(props: FeedbackProps) {
-    const { message, mode, classComponent, classFeedback } = props;
+    const { message, mode, isFeedbackOpen } = props;
 
     const modeStyle = {
         success: {
@@ -58,8 +58,8 @@ export default function Feedback(props: FeedbackProps) {
             icon: <CircleX className="size-5" />,
         },
         none: {
-            class: combo("h-0"),
-            icon: <></>,
+            class: combo("text-gray-500 border-gray-500 bg-gray-100"),
+            icon: <CircleCheck className="size-5"></CircleCheck>,
         },
     };
 
@@ -69,20 +69,21 @@ export default function Feedback(props: FeedbackProps) {
                 height: "0px",
             }}
             animate={{
-                height: mode === "none" ? "0px" : "auto",
+                height: isFeedbackOpen ? "auto" : "0px",
             }}
-            transition={{ duration: 0.3 }}
-            className={combo("overflow-hidden w-full flex justify-center", classComponent)}
+            transition={{ duration: 1 }}
+            className={combo("flex w-full justify-center overflow-hidden")}
         >
             <div
                 className={combo(
-                    "flex items-center justify-center gap-2 text-wrap rounded-xl border px-5 py-2 text-center text-sm",
-                    modeStyle[mode].class,
-                    classFeedback,
+                    "rounded-xl border text-sm text-wrap",
+                    modeStyle[mode].class
                 )}
             >
-                {modeStyle[mode].icon}
-                <span>{message}</span>
+                <div className={combo("px-5 py-2 flex items-center justify-center gap-2 ")}>
+                    {modeStyle[mode].icon}
+                    <span>{message}</span>
+                </div>
             </div>
         </motion.div>
     );

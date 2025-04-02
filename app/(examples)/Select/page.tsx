@@ -1,20 +1,9 @@
-"use client";
+import { FetchV2 } from "@utils/FetchV2";
+import Form from "./form";
 
-import Button from "@comps/ui/Button";
-import Feedback from "@comps/ui/Feedback";
-import Input from "@comps/ui/Input";
-import InputImage from "@comps/ui/InputImage";
-import Select from "@comps/ui/Select";
-import SelectUp from "@comps/ui/SelectUp";
-import { useFetchV2 } from "@utils/FetchHookV2";
-import { useState } from "react";
-
-export default function Page() {
-
-    const [image, setImage] = useState<File | null>(null);
-
-    const { data: categoryList } = useFetchV2({
-        fetchOnFirstRender: true,
+export default async function Page() {
+    // Fetch the data
+    const categoryList = await FetchV2({
         route: "/category",
         params: {
             select: {
@@ -23,22 +12,29 @@ export default function Page() {
             },
         },
     });
+    const productList = await FetchV2({
+        route: "/product",
+        params: {
+            select: {
+                id: true,
+                name: true,
+            }
+        }
+    });
 
-    const categoryOptions = categoryList?.map(({ id, name }) => ({
+    // Format the options
+    const categoryOptions = categoryList.map(({ id, name }) => ({
         label: name,
         value: id,
-    })) ?? [];
+    }));
+    const productOptions = productList.map(({ id, name }) => ({
+        label: name,
+        value: id,
+    }));
 
     return (
         <div className="flex min-h-screen items-center justify-center">
-            <form className="flex flex-col gap-4 w-[350px]">
-                <Input label="Nom" placeholder="Entrez votre nom" />
-                <Select label="Genre" placeholder="Sélectionnez un genre" options={categoryOptions} />
-                <SelectUp label="Catégorie" placeholder="Sélectionnez une catégorie" options={categoryOptions} />
-                <InputImage label="Image" onChange={setImage} imagePreview={image} />
-                <Feedback message="Remplissez le formulaire" mode="info" />
-                <Button label="Envoyer" />
-            </form>
+            <Form categoryOptions={categoryOptions} productOptions={productOptions} />
         </div>
     );
 }
