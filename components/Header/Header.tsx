@@ -1,31 +1,40 @@
-import { FetchParallelized } from "@api/utils/FetchParallelized";
-import { Category } from "@prisma/client";
+// import { Category } from "@prisma/client";
+import { FetchV2 } from "@utils/FetchV2";
 import Basket from "../Basket/Basket";
 import Navigation from "./Browser/Navigation";
 import SectionList from "./Browser/SectionList";
 import MobileHeader from "./Mobile/MobileHeader";
+import { CategoryModel } from "@services/types";
 
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";
 
 export type SearchKeywords = {
     id: string;
     type: "product" | "category";
     keyword: string;
-} & ({
-    type: "product";
-    image: string;
-    price: number;
-} | {
-    type: "category";
-    image?: never;
-    price?: never;
-});
+} & (
+    | {
+          type: "product";
+          image: string;
+          price: number;
+      }
+    | {
+          type: "category";
+          image?: never;
+          price?: never;
+      }
+);
 
 export default async function Header() {
-    const [productList, categorieList] = await FetchParallelized([
-        { route: "/products", params: { take: 100 } },
-        { route: "/categories", params: { take: 100 } },
-    ]);
+    const productList = await FetchV2({
+        route: "/product",
+        params: { take: 100 },
+    });
+
+    const categorieList = await FetchV2({
+        route: "/category",
+        params: { take: 100 },
+    });
 
     if (!productList || !categorieList) {
         return <div>Mmmm... It seems there is not data.</div>;
@@ -64,7 +73,7 @@ export default async function Header() {
 
 type BrowserHeaderProps = {
     keywords: SearchKeywords[];
-    categorieList: Category[];
+    categorieList: CategoryModel[];
     className?: string;
 };
 

@@ -1,225 +1,48 @@
-import PrismaInstance from "@lib/prisma";
-import { articleData, categoryData, doItYourselfData, fruitData, productData, userData } from "./data";
+#!/usr/bin/env tsx
 
-export const fixtures = async () => {
-    try {
-        // User table
-        for (const { name, email, emailVerified, role, password } of userData) {
-            const createdUser = await PrismaInstance.user.create({
-                data: {
-                    name,
-                    email,
-                    emailVerified,
-                    role,
-                    Account: {
-                        create: {
-                            providerId: "credential",
-                            accountId: "user-id",
-                            password,
-                        },
-                    },
-                },
-                include: {
-                    Account: true,
-                },
-            });
+/**
+ * Gestion des données de test (fixtures)
+ *
+ * Ce script permet de:
+ * - Initialiser la base de données avec des données de test
+ * - Réinitialiser la base de données
+ * - Recharger entièrement les données (reset + fixtures)
+ *
+ * Architecture:
+ * - data.ts: définit les données à charger dans la base
+ * - commands.ts: implémente les commandes pour manipuler les données
+ */
 
-            await PrismaInstance.account.update({
-                where: {
-                    id: createdUser.Account[0].id,
-                },
-                data: {
-                    providerId: createdUser.Account[0].providerId,
-                    accountId: createdUser.id,
-                    password: createdUser.Account[0].password,
-                },
-            });
-        }
+import { fixtures, reload, reset } from "./fixtures/commands";
 
-        for (const { name, description, image } of fruitData) {
-            await PrismaInstance.fruit.create({
-                data: {
-                    name,
-                    description,
-                    image,
-                },
-            });
-        }
+/**
+ * Point d'entrée principal du script
+ * Analyse les arguments de ligne de commande et exécute la commande appropriée
+ */
+const main = async (): Promise<void> => {
+    const command = process.argv[2];
 
-        for (const { name, description } of categoryData) {
-            await PrismaInstance.category.create({
-                data: {
-                    name,
-                    description,
-                },
-            });
-        }
+    switch (command) {
+        case "setup":
+            // Charge les données de test dans la base de données
+            await fixtures();
+            break;
 
-        // Create products
-        const vendor = await PrismaInstance.user.findFirst({
-            where: { role: "VENDOR" },
-        });
+        case "reset":
+            // Supprime toutes les données de la base
+            await reset();
+            break;
 
-        if (!vendor) {
-            throw new Error("No vendor found");
-        }
+        case "reload":
+            // Réinitialise et recharge toutes les données
+            await reload();
+            break;
 
-        for (const { name, description, image, price, stock, category } of productData) {
-            const categoryRecord = await PrismaInstance.category.findFirst({
-                where: { name: category },
-            });
-
-            if (!categoryRecord) {
-                throw new Error(`Category ${category} not found`);
-            }
-
-            await PrismaInstance.product.create({
-                data: {
-                    name,
-                    description,
-                    image,
-                    price,
-                    stock,
-                    vendorId: vendor.id,
-                    categoryId: categoryRecord.id,
-                },
-            });
-        }
-
-        // Articles and Contents
-        for (const { title, authorEmail, contents } of articleData) {
-            // Find the author by email
-            const author = await PrismaInstance.user.findUnique({
-                where: { email: authorEmail },
-            });
-
-            if (!author) {
-                console.error(`Author with email ${authorEmail} not found`);
-                continue;
-            }
-
-            // Create article first
-            const article = await PrismaInstance.article.create({
-                data: {
-                    title,
-                    authorId: author.id,
-                }
-            });
-
-            // Create contents linked to this article
-            for (const contentData of contents) {
-                await PrismaInstance.content.create({
-                    data: {
-                        content: contentData.content,
-                        image: contentData.image,
-                        articleId: article.id,
-                    },
-                });
-            }
-        }
-
-        // DoItYourself and Contents
-        for (const { title, authorEmail, contents } of doItYourselfData) {
-            // Find the author by email
-            const author = await PrismaInstance.user.findUnique({
-                where: { email: authorEmail },
-            });
-
-            if (!author) {
-                console.error(`Author with email ${authorEmail} not found`);
-                continue;
-            }
-
-            // Create DoItYourself first
-            const diy = await PrismaInstance.doItYourself.create({
-                data: {
-                    title,
-                    authorId: author.id,
-                }
-            });
-
-            // Create contents linked to this DoItYourself
-            for (const contentData of contents) {
-                await PrismaInstance.content.create({
-                    data: {
-                        content: contentData.content,
-                        image: contentData.image,
-                        doItYourselfId: diy.id,
-                    },
-                });
-            }
-        }
-
-        console.log("Fixtures loaded successfully");
-        return true;
-    } catch (error) {
-        console.error("Error loading fixtures:", error);
-        return false;
+        default:
+            console.error("❌ Invalid command. Use 'setup', 'reset', or 'reload'");
+            break;
     }
 };
 
-export const reset = async () => {
-    try {
-        await PrismaInstance.verification.deleteMany({});
-        await PrismaInstance.session.deleteMany({});
-        await PrismaInstance.account.deleteMany({});
-        await PrismaInstance.user.deleteMany({});
-        await PrismaInstance.fruit.deleteMany({});
-        await PrismaInstance.category.deleteMany({});
-
-        return true;
-    } catch (error) {
-        console.error("An error occurred ->", error);
-        return false;
-    }
-};
-
-const reload = async () => {
-    try {
-        const resultReset = await reset();
-        if (!resultReset) {
-            throw new Error("Reset failed...");
-        }
-
-        const resultFixtures = await fixtures();
-        if (!resultFixtures) {
-            throw new Error("Fixtures failed...");
-        }
-
-        console.log("Fixtures reloaded with success");
-        return true;
-    } catch (error) {
-        console.error("An error occurred ->", error);
-        return false;
-    }
-};
-
-// Command handler
-const command = process.argv[2];
-
-switch (command) {
-    case "setup":
-        fixtures().then((success) => {
-            if (success) {
-                console.log("Fixtures created with success");
-            }
-            process.exit(success ? 0 : 1);
-        });
-        break;
-    case "reset":
-        reset().then((success) => {
-            if (success) {
-                console.log("Database reset with success");
-            }
-            process.exit(success ? 0 : 1);
-        });
-        break;
-    case "reload":
-        reload().then((success) => {
-            process.exit(success ? 0 : 1);
-        });
-        break;
-    default:
-        console.error("Invalid command. Use 'setup', 'reset', or 'reload'");
-        process.exit(1);
-}
+// Exécuter le script
+main();

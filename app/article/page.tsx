@@ -1,12 +1,12 @@
-import { Fetch } from "@app/api/utils/Fetch";
 import ImageRatio from "@comps/server/ImageRatio";
+import { FetchV2 } from "@utils/FetchV2";
 import Link from "next/link";
 
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";
 
 export default async function Page() {
-    const articleList = await Fetch({
-        route: "/articles",
+    const articleList = await FetchV2({
+        route: "/article",
         params: {
             select: {
                 id: true,
@@ -46,7 +46,7 @@ export default async function Page() {
                         className="group flex flex-col overflow-hidden rounded-xl border border-gray-300 bg-white shadow-md transition-shadow duration-300 hover:shadow-lg"
                     >
                         {/* Image */}
-                        {article.Content?.[0] && (
+                        {article.Content && article.Content[0] && (
                             <div className="h-48 overflow-hidden">
                                 <ImageRatio
                                     src={`/illustration/${article.Content[0].image}`}
@@ -62,12 +62,12 @@ export default async function Page() {
                                 {article.title}
                             </h2>
 
-                            {article.Content?.[0] && (
+                            {article.Content[0] && (
                                 <p className="mb-4 line-clamp-3 text-gray-600">{article.Content[0].content}</p>
                             )}
 
                             <div className="mt-auto flex items-center justify-between">
-                                <span className="text-sm text-gray-500">Par {article.Author?.name}</span>
+                                <span className="text-sm text-gray-500">Par {article.Author.name}</span>
                                 <span className="text-sm text-gray-500">
                                     {new Date(article.createdAt).toLocaleDateString("fr-FR")}
                                 </span>

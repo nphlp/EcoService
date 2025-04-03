@@ -39,6 +39,7 @@ const categories: Record<string, CommandCategory> = {
             "prisma:generate": "Generate Prisma client",
             "prisma:migrate": "Create or apply Prisma migrations",
             "prisma:deploy": "Apply Prisma migrations in production",
+            "prisma:reset": "Reset Prisma migrations",
         },
     },
     fixtures: {
@@ -50,8 +51,17 @@ const categories: Record<string, CommandCategory> = {
             "fixtures:reload": "Reload test data",
         },
     },
-    deployment: {
+    generator: {
         color: "\x1b[36m", // cyan
+        description: "Generator commands",
+        commands: {
+            "gen:all": "Generate all models",
+            "gen:list": "List all models",
+            "gen:model": "Generate a model",
+        },
+    },
+    deployment: {
+        color: "\x1b[37m", // white
         description: "Deployment commands",
         commands: {
             build: "Build the project for production",

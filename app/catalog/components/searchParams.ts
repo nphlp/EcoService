@@ -11,7 +11,7 @@ import {
 //    Query params types     //
 // ========================= //
 
-export type QueryParamsType = {
+export type SearchParamsType = {
     /** Page number (default value: `1`) */
     page: number;
     /** Items per page (default value: `20`) */
@@ -36,7 +36,7 @@ const parseAsItemsPerPage = createParser({
         }
         return 10;
     },
-    serialize: (value: QueryParamsType["take"]) => {
+    serialize: (value: SearchParamsType["take"]) => {
         return String(value);
     },
 });
@@ -45,7 +45,7 @@ const parseAsItemsPerPage = createParser({
 //  Query params client parsers  //
 // ============================= //
 
-export const QueryParams = {
+export const SearchParams = {
     /** Page number (default value: `1`) */
     page: parseAsInteger.withDefault(1),
     /** Items per page (default value: `20`) */
@@ -62,7 +62,7 @@ export const QueryParams = {
 //   Query param server parsers  //
 // ============================= //
 
-export const queryParamsCached = createSearchParamsCache(QueryParams);
+export const SearchParamsCached = createSearchParamsCache(SearchParams);
 
 /**
  * Serializer to construct an URL with query params
@@ -74,4 +74,4 @@ export const queryParamsCached = createSearchParamsCache(QueryParams);
  * });
  * ```
  */
-export const urlSerializer = createSerializer(QueryParams);
+export const urlSerializer = createSerializer(SearchParams);

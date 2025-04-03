@@ -1,6 +1,6 @@
 import "@/globals.css";
 import Header from "@comps/Header/Header";
-import FooterClient from "@comps/server/Footer";
+import Footer from "@comps/server/Footer";
 import { combo } from "@lib/combo";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
@@ -34,23 +34,9 @@ export default async function Layout(props: LayoutProps) {
                             <div className="h-4 bg-gradient-to-b from-gray-900/50 to-transparent" />
                         </div>
                     </main>
-                    <FooterClient className="pointer-events-auto absolute bottom-0 h-[300px] w-full bg-primary" />
+                    <Footer className="pointer-events-auto absolute bottom-0 h-[300px] w-full bg-primary" />
                 </NuqsAdapter>
             </body>
         </html>
     );
 }
-
-/* 
-
-Method center/scroll
-- justify-center (y-axis) if the content is not scrollable
-- justify-start (y-axis) if the content is scrollable
-    
-<main className="flex size-full flex-col items-center justify-center overflow-hidden">
-    <div className="flex w-full flex-col items-center justify-start overflow-y-auto p-4">
-        {children}
-    </div>
-</main>
-
-*/

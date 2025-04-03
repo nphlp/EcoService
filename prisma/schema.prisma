@@ -2,6 +2,13 @@ generator client {
     provider = "prisma-client-js"
 }
 
+generator zod {
+    provider                  = "zod-prisma-types"
+    useMultipleFiles          = true
+    createRelationValuesTypes = true
+    output                    = "../services/schemas"
+}
+
 datasource db {
     provider = "mysql"
     url      = env("DATABASE_URL")
@@ -9,21 +16,21 @@ datasource db {
 
 /// User model
 model User {
-    id            String  @id @default(nanoid()) /// @zod.nanoid()
+    id            String  @id @default(nanoid())
     /// Firstname Lastname
     name          String
-    email         String  @unique /// @zod.email()
+    email         String  @unique
     emailVerified Boolean
     image         String?
 
     role  Role    @default(USER)
     phone String?
 
-    Article      Article[]
-    DoItYourself DoItYourself[]
-    Adress       Address[]
-    Order        Order[]
-    Product      Product[]
+    Article Article[]
+    Diy     Diy[]
+    Address Address[]
+    Order   Order[]
+    Product Product[]
 
     /// Regular Stripe Customer ID
     stripeId        String?
@@ -55,7 +62,7 @@ enum Role {
 
 /// Session model (BetterAuth)
 model Session {
-    id        String   @id @default(nanoid()) /// @zod.nanoid()
+    id        String   @id @default(nanoid())
     token     String   @unique
     expiresAt DateTime
     ipAddress String?
@@ -74,7 +81,7 @@ model Session {
 
 /// Account model (BetterAuth)
 model Account {
-    id         String @id @default(nanoid()) /// @zod.nanoid()
+    id         String @id @default(nanoid())
     accountId  String
     providerId String
 
@@ -105,7 +112,7 @@ model Account {
 
 /// Verification model (BetterAuth)
 model Verification {
-    id         String   @id @default(nanoid()) /// @zod.nanoid()
+    id         String   @id @default(nanoid())
     identifier String
     value      String
     expiresAt  DateTime
@@ -119,7 +126,7 @@ model Verification {
 
 /// Address model
 model Address {
-    id      String @id @default(nanoid()) /// @zod.nanoid()
+    id      String @id @default(nanoid())
     address String
     postal  String
     city    String
@@ -139,7 +146,7 @@ model Address {
 
 /// Article model
 model Article {
-    id    String @id @default(nanoid()) /// @zod.nanoid()
+    id    String @id @default(nanoid())
     title String
 
     Content Content[]
@@ -155,9 +162,9 @@ model Article {
     @@index([authorId])
 }
 
-/// DoItYourself model
-model DoItYourself {
-    id    String @id @default(nanoid()) /// @zod.nanoid()
+/// Diy model
+model Diy {
+    id    String @id @default(nanoid())
     title String
 
     Content Content[]
@@ -175,28 +182,28 @@ model DoItYourself {
 
 /// Content model
 model Content {
-    id      String @id @default(nanoid()) /// @zod.nanoid()
+    id      String @id @default(nanoid())
     content String @db.Text
     image   String
 
     articleId String?
     Article   Article? @relation(fields: [articleId], references: [id], onDelete: Cascade)
 
-    doItYourselfId String?
-    DoItYourself   DoItYourself? @relation(fields: [doItYourselfId], references: [id], onDelete: Cascade)
+    diyId String?
+    Diy   Diy?    @relation(fields: [diyId], references: [id], onDelete: Cascade)
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
     @@index([id])
     @@index([articleId])
-    @@index([doItYourselfId])
+    @@index([diyId])
 }
 
 /// Category model
 model Category {
-    id          String  @id @default(nanoid()) /// @zod.nanoid()
-    name        String
+    id          String  @id @default(nanoid())
+    name        String  @unique
     description String?
 
     Products Product[] @relation("CategoryToProduct")
@@ -210,7 +217,7 @@ model Category {
 
 /// Product model
 model Product {
-    id          String @id @default(nanoid()) /// @zod.nanoid()
+    id          String @id @default(nanoid())
     name        String @unique
     description String
     image       String
@@ -236,7 +243,7 @@ model Product {
 
 /// Quantity model
 model Quantity {
-    id       String @id @default(nanoid()) /// @zod.nanoid()
+    id       String @id @default(nanoid())
     quantity Int
 
     productId String
@@ -255,7 +262,7 @@ model Quantity {
 
 /// Order model
 model Order {
-    id String @id @default(nanoid()) /// @zod.nanoid()
+    id String @id @default(nanoid())
 
     /// Order number for the customer
     orderNumber Int @unique @default(autoincrement())
@@ -308,7 +315,7 @@ enum PaymentStatus {
 
 /// Fruit model
 model Fruit {
-    id          String @id @default(nanoid()) /// @zod.nanoid()
+    id          String @id @default(nanoid())
     name        String
     description String
     image       String

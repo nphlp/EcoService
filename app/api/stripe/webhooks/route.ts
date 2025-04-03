@@ -2,8 +2,16 @@ import { StripeInstance } from "@lib/stripe";
 import { StripeError } from "@stripe/stripe-js";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
+import { ResponseFormat } from "@utils/FetchConfig";
 
-export async function POST(request: Request) {
+export type StripeWebhookResponse = boolean
+
+/**
+ * Route for handling Stripe webhooks
+ * @param request - The request object
+ * @returns A JSON response indicating the webhook was received
+ */
+export async function POST(request: Request): Promise<NextResponse<ResponseFormat<StripeWebhookResponse>>> {
     try {
         // Get the body of the request
         const body = await request.text();
@@ -31,14 +39,14 @@ export async function POST(request: Request) {
             case "account.updated":
                 // const account = event.data.object;
                 // if (account.details_submitted && account.charges_enabled) {
-                    // await PrismaInstance.user.update({
-                    //     where: { stripeConnectId: account.id },
-                    //     data: {
-                    //         isOnboarded: true,
-                    //         isSeller: true,
-                    //     },
-                    // });
-                    // console.log("RSeller onboarding completed:", account.id);
+                // await PrismaInstance.user.update({
+                //     where: { stripeConnectId: account.id },
+                //     data: {
+                //         isOnboarded: true,
+                //         isSeller: true,
+                //     },
+                // });
+                // console.log("RSeller onboarding completed:", account.id);
                 // }
                 console.log("Account updated");
                 break;
@@ -73,16 +81,18 @@ export async function POST(request: Request) {
 
             case "product.created":
                 console.log("product.created");
+                // TODO: revalidate products cache
                 break;
 
             case "product.updated":
                 console.log("product.updated");
+                // TODO: revalidate products cache
                 break;
 
             // Add other event handlers as needed
         }
 
-        return NextResponse.json({ received: true });
+        return NextResponse.json({ data: true }, { status: 200 });
     } catch (error) {
         console.error("Webhook error:", (error as StripeError).message);
         return NextResponse.json({ error: "Webhook handler failed" }, { status: 400 });

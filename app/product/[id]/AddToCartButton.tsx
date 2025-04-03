@@ -1,8 +1,8 @@
 "use client";
 
-import { ProductType } from "@actions/types/Product";
 import { useBasketStore } from "@comps/Basket/BasketStore";
 import ButtonClient from "@comps/client/Button";
+import { ProductType } from "./fetchParams";
 
 type AddToCartButtonProps = {
     product: ProductType;
@@ -13,13 +13,13 @@ export default function AddToCartButton(props: AddToCartButtonProps) {
     const { product, stock } = props;
     const { basketProductList, addProductToBasket, removeProductFromBasket } = useBasketStore();
 
-    const isInBasket = basketProductList.some((p) => p.id === product.id);
+    const isInBasket = basketProductList.some((id) => id === product.id);
 
     const handleClick = () => {
         if (isInBasket) {
-            removeProductFromBasket(product);
+            removeProductFromBasket(product.id);
         } else {
-            addProductToBasket(product);
+            addProductToBasket(product.id);
         }
     };
 

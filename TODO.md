@@ -2,21 +2,36 @@
 
 Complete auth and user management
 
+## Priority
+
+- Rework Fetch Parallelized V2
+- API and Zod -> Page per page
+- Rework frontend
+    - Components
+    - Theme and styles
+
+## API and Zod -> Page per page
+
+- Create a `public API router` and `Fetch()` (page per page)
+- Create a `private API router` and `PrivateFetch()` (based on Class)
+- Server and Client components use `public api`, that use `private api`, that use `class`
+- Json Web Token protection on private API ?
+
+## Vrac
+
+- Theme and dark mode
 - METADATA !!!!!!!!!
-
-- Auto infer zod common schema
-- Zod schema page per page
-- Auth issues
-
+- REMOVE `export const dynamic = "force-dynamic";` when an update solve it
 - Cursor rules
 - Header disapearing issue ??
-
-- ESlint Tailwind
-- Prettier
+- Add a logging system
+- Testing for classes
+- View Transition ??
+- Eslint and Prettier
+- Internationalization
 
 ## User Experience
 
-- [ ] Home icone: underline animation when hover on header categories link
 - [ ] Header mobile
 - [ ] Search: make request and zod validation
 - [ ] Accessibility: header menu `enter` key to open menu
@@ -26,27 +41,34 @@ Complete auth and user management
 - [ ] Issue: if user is on `/catalog`, header categories link does not refresh the categories list
 - [ ] Issue: footer links or scrollbar not clickable
 
-## Security
+## Stripe
 
-- [ ] Middleware to protect server actions
-- [ ] Use `fetch` for data fetching instead of server actions
+- [ ] Product (CRUD)
+- [ ] Clients (CRUD)
+- [ ] Adress and payments methods (CRUD)
 
-## Features
+- [ ] Vendor (CRUD)
+    - [ ] Pre-Create (vendor has to completion his inscription on Stripe, to add Iban, personnal informations...)
 
-- [ ] Auth page
+- [ ] Payment
+    - [ ] Buy product (users)
+    - [ ] Refound (admin and vendors)
+    - [ ] Pay vendors (admin)
+    - [ ] Pay myself (admin)
 
-    - [ ] Email and password
-        - [ ] Register
-        - [ ] Login
-        - [ ] Reset password
-    - [ ] Auth0
-    - [ ] Magic link
-    - [ ] Passkey
-    - [ ] 2FA
-    - [ ] Logout
+- [ ] Webhook
+    - [ ] Send confirmation mail...
+      - [ ] An user bought a product: payment succesfuly or failed
+      - [ ] An user become a vendor after admin validation
+
+## Authentification
+
+- [ ] Auth
+    - [ ] Reset passowrd
+    - [ ] OTP / 2FA
+    - [ ] Magic link / Passkey
 
 - [ ] Edit profile
-
     - [ ] Image
     - [ ] Firstname
     - [ ] Lastname
@@ -54,19 +76,5 @@ Complete auth and user management
     - [ ] Password
 
 - [ ] Session
-
-    - [ ] View list
-    - [ ] Disconnect session
-
-- [ ] Dashboard
-
-    - [ ] Cookie timing
-    - [ ] Auth protected
-    - [ ] Role protected
-
-- [ ] Protection pages
-
-    - [ ] Middleware
-    - [ ] In each component
-
-- [ ] Internationalization
+    - [ ] See all session: `Browser` / `IP` / `OS` / `Last activity`
+    - [ ] Disconnect: `only one` / `all others` / `all sessions`

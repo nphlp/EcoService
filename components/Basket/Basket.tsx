@@ -1,10 +1,11 @@
 "use client";
 
 import ButtonClient from "@comps/client/Button";
+import { useHeaderStore } from "@comps/Header/HeaderStore";
 import ImageRatio from "@comps/server/ImageRatio";
 import { combo } from "@lib/combo";
+import { useFetchV2 } from "@utils/FetchHookV2";
 import { motion } from "framer-motion";
-import { useHeaderStore } from "../Header/HeaderStore";
 import { useBasketStore } from "./BasketStore";
 
 export default function Basket() {
@@ -43,8 +44,8 @@ export default function Basket() {
                         </div>
                     </div>
 
-                    {basketProductList.map((item, index) => (
-                        <BasketItem key={index} {...item} />
+                    {basketProductList.map((productId, index) => (
+                        <BasketItem key={index} productId={productId} />
                     ))}
 
                     <div className="space-y-3">
@@ -74,13 +75,22 @@ export default function Basket() {
 }
 
 type BasketItemProps = {
-    name: string;
-    price: number;
-    image: string;
+    productId: string;
 };
 
 const BasketItem = (props: BasketItemProps) => {
-    const { name, price, image } = props;
+    const { productId } = props;
+
+    const { data: product } = useFetchV2({
+        route: "/product/unique",
+        params: {
+            where: { id: productId },
+        },
+    });
+
+    if (!product) return null;
+
+    const { name, price, image } = product;
 
     return (
         <div className="flex w-full flex-row gap-4">

@@ -1,4 +1,5 @@
 import { StripeInstance } from "@lib/stripe";
+import { ResponseFormat } from "@utils/FetchConfig";
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 import { z, ZodError, ZodType } from "zod";
@@ -29,7 +30,7 @@ const createStripeProductPropsSchema: ZodType<CreateStripeProductProps> = z.obje
 
 export type CreateStripeProductResponse = Stripe.Product;
 
-export async function POST(request: NextRequest) {
+export async function POST(request: NextRequest): Promise<NextResponse<ResponseFormat<CreateStripeProductResponse>>> {
     try {
         // Get the params and decode them
         const encodedParams = request.nextUrl.searchParams.get("params") ?? "{}";

@@ -1,20 +1,20 @@
 "use client";
 
-import { CategoryType } from "@actions/types/Category";
+import { CategoryModel } from "@services/types";
 import { combo } from "@lib/combo";
 import { ChangeEventHandler, ReactNode, useContext } from "react";
 import { CatalogContext } from "./catalog.provider";
-import { QueryParamsType } from "./searchParams";
+import { SearchParamsType } from "./searchParams";
 import { useCatalogParams } from "./useCatalogParams";
 
 type SelectorsClientProps = {
-    categoryList: CategoryType[];
+    categoryList: CategoryModel[];
 };
 
 export default function SelectorsClient(props: SelectorsClientProps) {
     const { categoryList } = props;
 
-    const { productAmountLocal } = useContext(CatalogContext);
+    const { productAmount: productAmountLocal } = useContext(CatalogContext);
     const { priceOrder, page, take, category, setCategory, setPage, setPriceOrder, setTake } = useCatalogParams();
 
     const divClass = "w-full space-y-2";
@@ -23,7 +23,7 @@ export default function SelectorsClient(props: SelectorsClientProps) {
         "bg-white rounded-md border p-2 text-gray-700 shadow-sm w-full outline-none ring-0 focus:ring-2 focus:ring-teal-300";
 
     return (
-        <div className="grid grid-cols-2 gap-4 bg-primary px-6 py-4 md:grid-cols-4">
+        <div className="bg-primary grid grid-cols-2 gap-4 px-6 py-4 md:grid-cols-4">
             <Select
                 label="Catégorie"
                 divClass={divClass}
@@ -48,7 +48,7 @@ export default function SelectorsClient(props: SelectorsClientProps) {
                 labelClass={labelClass}
                 selectClass={selectClass}
                 onChange={(e) => {
-                    setPriceOrder(e.target.value as QueryParamsType["priceOrder"]);
+                    setPriceOrder(e.target.value as SearchParamsType["priceOrder"]);
                 }}
                 value={priceOrder}
             >
@@ -79,7 +79,7 @@ export default function SelectorsClient(props: SelectorsClientProps) {
                 selectClass={selectClass}
                 onChange={(e) => {
                     setPage(1);
-                    setTake(Number(e.target.value) as QueryParamsType["take"]);
+                    setTake(Number(e.target.value) as SearchParamsType["take"]);
                 }}
                 value={take}
             >

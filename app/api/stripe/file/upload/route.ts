@@ -1,9 +1,9 @@
-import { StringToSlug } from "@actions/(examples)/StringToSlug";
-import { authorizedFormats } from "@app/api/utils/ImageValidation";
-import { authorizedFileSize } from "@app/api/utils/ImageValidation";
+import { authorizedFileSize, authorizedFormats } from "@utils/ImageValidation";
+import { StringToSlug } from "@utils/StringToSlug";
 import { StripeInstance } from "@lib/stripe";
 import { NextRequest, NextResponse } from "next/server";
 import { strictObject, z, ZodError, ZodType } from "zod";
+import { ResponseFormat } from "@utils/FetchConfig";
 
 export type StripeFileUploadBody = {
     file: File;
@@ -15,15 +15,9 @@ const StripeFileUploadBodySchema: ZodType<StripeFileUploadBody> = strictObject({
     file: z.instanceof(File),
 });
 
-export type StripeFileUploadResponse =
-    | {
-          data: string;
-      }
-    | {
-          error: string;
-      };
+export type StripeFileUploadResponse = string;
 
-export async function POST(request: NextRequest): Promise<NextResponse<StripeFileUploadResponse>> {
+export async function POST(request: NextRequest): Promise<NextResponse<ResponseFormat<StripeFileUploadResponse>>> {
     try {
         // Get the params and decode them
         const formData = await request.formData();

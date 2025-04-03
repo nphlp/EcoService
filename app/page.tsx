@@ -1,101 +1,56 @@
-import ProductSlider from "@comps/client/ProductSlider";
-import { SliderClient } from "@comps/client/Slider";
 import ImageRatio from "@comps/server/ImageRatio";
+import { ArticleOrDiySlider } from "@comps/slider/ArticleOrDiySlider";
+import ProductSlider from "@comps/slider/ProductSlider";
 import { combo } from "@lib/combo";
-import { FetchParallelized } from "./api/utils/FetchParallelized";
-
+import { FetchV2 } from "@utils/FetchV2";
+import { ArticleOrDiyFetchParams, ProductFetchParams } from "../components/slider/fetchParams";
 export const dynamic = "force-dynamic";
 
 export default async function Page() {
     const imageClass = "h-[100px] sm:h-[150px] md:h-[120px] lg:h-[160px] xl:h-[220px] rounded";
 
-    const [articleList, diyList, productList] = await FetchParallelized([
-        {
-            route: "/articles",
-            params: {
-                select: {
-                    id: true,
-                    title: true,
-                    createdAt: true,
-                    Content: {
-                        select: {
-                            content: true,
-                            image: true,
-                        },
-                    },
-                    Author: {
-                        select: {
-                            name: true,
-                        },
-                    },
-                },
-                orderBy: {
-                    createdAt: "desc",
-                },
-            },
-        },
-        {
-            route: "/doItYourselves",
-            params: {
-                select: {
-                    id: true,
-                    title: true,
-                    createdAt: true,
-                    Content: {
-                        select: {
-                            content: true,
-                            image: true,
-                        },
-                    },
-                    Author: {
-                        select: {
-                            name: true,
-                        },
-                    },
-                },
-                orderBy: {
-                    createdAt: "desc",
-                },
-            },
-        },
-        {
-            route: "/products",
-            params: {
-                orderBy: {
-                    createdAt: "desc",
-                },
-                take: 10,
-            },
-        },
-    ]);
+    const articleList = await FetchV2({
+        route: "/article",
+        params: ArticleOrDiyFetchParams,
+    });
+
+    const diyList = await FetchV2({
+        route: "/diy",
+        params: ArticleOrDiyFetchParams,
+    });
+
+    const productList = await FetchV2({
+        route: "/product",
+        params: ProductFetchParams,
+    });
 
     if (!articleList || !diyList || !productList) {
         return <div className="container mx-auto px-4 py-10">Aucun article disponible pour le moment.</div>;
     }
-    
+
     return (
         <>
-            <section className="flex flex-row items-center justify-between gap-12 bg-primary p-8 md:p-16">
-                <div className="w-full text-nowrap text-4xl font-bold sm:text-5xl md:text-4xl lg:text-5xl xl:text-6xl">
+            <section className="bg-primary flex flex-row items-center justify-between gap-12 p-8 md:p-16">
+                <div className="w-full text-4xl font-bold text-nowrap sm:text-5xl md:text-4xl lg:text-5xl xl:text-6xl">
                     <div className="text-white">Passez au</div>
                     <div className="text-secondary">zéro déchet</div>
                 </div>
                 <div className="flex flex-row items-center justify-center gap-8">
-                <ImageRatio
-                src="/illustration/produit 2.jpg"
-                alt="produit"
-                className={combo("max-md:hidden", imageClass)}
-                />
-                <ImageRatio
-                src="/illustration/produit 3.jpg"
-                alt="produit"
-                className={combo("max-md:hidden", imageClass)}
-                />
+                    <ImageRatio
+                        src="/illustration/produit 2.jpg"
+                        alt="produit"
+                        className={combo("max-md:hidden", imageClass)}
+                    />
+                    <ImageRatio
+                        src="/illustration/produit 3.jpg"
+                        alt="produit"
+                        className={combo("max-md:hidden", imageClass)}
+                    />
                 </div>
             </section>
             <section className="flex flex-col items-center gap-12 px-8 pt-8 text-center lg:flex-row lg:justify-between lg:px-16 lg:pt-16 lg:text-left">
                 <div className="space-y-4 lg:w-1/2">
-                    <h1 className="text-xl font-bold text-secondary md:text-3xl">Réinventez Votre Quotidien !</h1>
+                    <h1 className="text-secondary text-xl font-bold md:text-3xl">Réinventez Votre Quotidien !</h1>
                     <p className="mt-2 text-gray-700">
                         Dans un monde où la surconsommation génère des tonnes de déchets chaque jour, le zéro déchet
                         apparaît comme une solution incontournable pour préserver notre environnement.
@@ -122,13 +77,13 @@ export default async function Page() {
                 <h2 className="text-center text-4xl font-bold">Nos produits vedettes</h2>
                 <ProductSlider dataList={productList} />
             </section>
-            <section className="space-y-6 bg-primary px-6 py-8 md:px-12 md:py-16">
+            <section className="bg-primary space-y-6 px-6 py-8 md:px-12 md:py-16">
                 <h2 className="text-center text-4xl font-bold text-white">Nos Do It Yourself</h2>
-                <SliderClient dataList={diyList} link="/do-it-yourself" />
+                <ArticleOrDiySlider dataList={diyList} link="/diy" />
             </section>
             <section className="space-y-6 px-6 py-8 md:px-12 md:py-16">
                 <h2 className="text-center text-4xl font-bold">Nos articles</h2>
-                <SliderClient dataList={articleList} link="/article" />
+                <ArticleOrDiySlider dataList={articleList} link="/article" />
             </section>
         </>
     );

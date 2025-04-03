@@ -1,60 +1,50 @@
 "use client";
 
-import { ProductType } from "@actions/types/Product";
+import { ProductModel } from "@services/types";
 import { createContext, ReactNode, useEffect, useState } from "react";
 import { useCatalogStore } from "./useCatalogStore";
 
 export type CatalogContextType = {
     // State
-    productListLocal: ProductType[] | null;
-    productAmountLocal: number | null;
+    productList: ProductModel[] | null;
+    productAmount: number | null;
 };
 
 export const CatalogContext = createContext<CatalogContextType>({} as CatalogContextType);
 
 type CatalogContextProviderProps = {
-    productList: ProductType[] | null;
-    productAmount: number | null;
+    initialData: {
+        productList: ProductModel[] | null;
+        productAmount: number | null;
+    };
     children: ReactNode;
 };
 
 export default function CatalogProvider(props: CatalogContextProviderProps) {
-    const { productList: productListInit, productAmount: productAmountInit, children } = props;
+    const { initialData, children } = props;
 
     // Define local states and actions
-    const [productListLocal, setProductListLocal] = useState<ProductType[] | null>(productListInit);
-    const [productAmountLocal, setProductAmountLocal] = useState<number | null>(productAmountInit);
+    const [dataLocalState, setDataLocalState] = useState(initialData);
 
     // Get store states and actions
-    const { productList, productAmount, setProductList, setProductAmount } = useCatalogStore((state) => state);
+    const { dataStore, setDataStore } = useCatalogStore();
 
     // Initialize store values on first context render
     useEffect(() => {
-        if (productList === undefined || productAmount === undefined) {
-            console.log("Initializing store values on first context render...");
-            setProductList(productListInit);
-            setProductAmount(productAmountInit);
+        if (dataStore === undefined) {
+            console.log("Initializing store ✅");
+            setDataStore(initialData);
         }
-    }, [productListInit, productAmountInit, productList, productAmount, setProductList, setProductAmount]);
+    }, [initialData, dataStore, setDataStore]);
 
     // Update context when a store state change
     useEffect(() => {
-        if (productList !== undefined && productAmount !== undefined) {
-            console.log("Updating context when a store state change...");
-            setProductListLocal(productList);
-            setProductAmountLocal(productAmount);
+        if (dataStore !== undefined) {
+            console.log("Updating context 🔄");
+            setDataLocalState(dataStore);
         }
-    }, [productList, productAmount, setProductListLocal, setProductAmountLocal]);
+    }, [dataStore, setDataLocalState]);
 
     // Provide only the local state, but do not provide local actions
-    return (
-        <CatalogContext.Provider
-            value={{
-                productListLocal,
-                productAmountLocal,
-            }}
-        >
-            {children}
-        </CatalogContext.Provider>
-    );
+    return <CatalogContext.Provider value={dataLocalState}>{children}</CatalogContext.Provider>;
 }

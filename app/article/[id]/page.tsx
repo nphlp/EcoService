@@ -1,8 +1,9 @@
-import { Fetch } from "@api/utils/Fetch";
-import { SliderClient } from "@comps/client/Slider";
 import ImageRatio from "@comps/server/ImageRatio";
+import { ArticleOrDiySlider } from "@comps/slider/ArticleOrDiySlider";
+import { ArticleOrDiyFetchParams } from "@comps/slider/fetchParams";
+import Link from "@comps/ui/Link";
 import { combo } from "@lib/combo";
-
+import { FetchV2 } from "@utils/FetchV2";
 export const dynamic = "force-dynamic";
 
 type PageProps = {
@@ -13,8 +14,8 @@ export default async function Page(props: PageProps) {
     const { params } = props;
     const { id } = await params;
 
-    const article = await Fetch({
-        route: "/articles/unique",
+    const article = await FetchV2({
+        route: "/article/unique",
         params: {
             where: { id },
             select: {
@@ -35,32 +36,12 @@ export default async function Page(props: PageProps) {
         },
     });
 
-    const otherArticles = await Fetch({
-        route: "/articles",
-        params: {
-            select: {
-                id: true,
-                title: true,
-                createdAt: true,
-                Content: {
-                    select: {
-                        content: true,
-                        image: true,
-                    },
-                },
-                Author: {
-                    select: {
-                        name: true,
-                    },
-                },
-            },
-            orderBy: {
-                createdAt: "desc",
-            },
-        },
+    const otherArticleList = await FetchV2({
+        route: "/article",
+        params: ArticleOrDiyFetchParams,
     });
 
-    if (!article) {
+    if (!article || !otherArticleList) {
         return <div className="container mx-auto px-4 py-10">Article non trouvé</div>;
     }
 
@@ -82,7 +63,7 @@ export default async function Page(props: PageProps) {
             </div>
 
             <div className="mx-auto max-w-[900px] space-y-16">
-                {article.Content?.map((content, index) => (
+                {article.Content.map((content, index) => (
                     <div
                         key={index}
                         className={combo(
@@ -102,13 +83,19 @@ export default async function Page(props: PageProps) {
             </div>
 
             {/* Ajoute un slider d'autres articles à lire */}
-            {otherArticles && otherArticles.length > 0 && (
+            {otherArticleList && otherArticleList.length > 0 && (
                 <section className="space-y-6 border-t border-gray-200 px-6 py-8 md:px-12 md:py-16">
                     <h2 className="text-center text-3xl font-bold">À lire aussi</h2>
                     <p className="text-center text-gray-600">D&apos;autres articles qui pourraient vous intéresser</p>
-                    <SliderClient dataList={otherArticles} link="/article" />
+                    <ArticleOrDiySlider dataList={otherArticleList} link="/article" />
                 </section>
             )}
+
+            <div className="mt-16 flex justify-center">
+                <Link href="/article" label="Retour aux articles" variant="outline">
+                    Retour aux articles
+                </Link>
+            </div>
         </div>
     );
 }

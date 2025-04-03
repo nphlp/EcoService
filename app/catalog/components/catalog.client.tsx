@@ -1,19 +1,21 @@
 "use client";
 
-import { ProductType } from "@actions/types/Product";
-import { useFetch } from "@api/utils/FetchHook";
 import { useBasketStore } from "@comps/Basket/BasketStore";
 import ButtonClient from "@comps/client/Button";
 import Card from "@comps/server/Card";
 import ImageRatio from "@comps/server/ImageRatio";
 import Loader from "@comps/ui/Loader";
 import { combo } from "@lib/combo";
+import { ProductModel } from "@services/types";
+import { useFetchV2 } from "@utils/FetchHookV2";
 import { CircleCheck, CirclePlus, CircleX, ShoppingCart } from "lucide-react";
 import Link from "next/link";
 import { MouseEvent, useContext, useEffect } from "react";
 import { CatalogContext } from "./catalog.provider";
+import { ProductAmountFetchParams, ProductListFetchParams } from "./fetchParams";
 import { useCatalogParams } from "./useCatalogParams";
 import { useCatalogStore } from "./useCatalogStore";
+import { unstable_ViewTransition as ViewTransition } from "react";
 
 type CatalogClientProps = {
     className?: string;
@@ -22,39 +24,28 @@ type CatalogClientProps = {
 export default function CatalogClient(props: CatalogClientProps) {
     const { className } = props;
 
-    const { productListLocal } = useContext(CatalogContext);
-    const { setProductList, setProductAmount } = useCatalogStore();
+    const { productList: productListLocal } = useContext(CatalogContext);
+    const { setDataStore } = useCatalogStore();
     const { priceOrder, page, take, category, search } = useCatalogParams();
 
-    const { data: newProductAmount, isLoading: isLoadingProductAmount } = useFetch({
-        route: "/products/count",
-        firstFetch: false,
-        params: {
-            where: {
-                ...(category && { categoryId: category }),
-                ...(search && { name: { contains: search } }),
-            },
-        },
+    const { data: newProductAmount, isLoading: isLoadingProductAmount } = useFetchV2({
+        route: "/product/count",
+        params: ProductAmountFetchParams({ category, search }),
     });
 
-    const { data: newProductList, isLoading: isLoadingProductList } = useFetch({
-        route: "/products",
-        firstFetch: false,
-        params: {
-            ...(priceOrder !== "not" && { orderBy: { price: priceOrder } }),
-            ...(page > 1 && { skip: (page - 1) * take }),
-            take,
-            where: {
-                ...(category && { categoryId: category }),
-                ...(search && { name: { contains: search } }),
-            },
-        },
+    const { data: newProductList, isLoading: isLoadingProductList } = useFetchV2({
+        route: "/product",
+        params: ProductListFetchParams({ priceOrder, page, take, category, search }),
     });
 
     useEffect(() => {
-        setProductList(newProductList);
-        setProductAmount(newProductAmount);
-    }, [newProductAmount, newProductList, setProductList, setProductAmount]);
+        if (newProductList && newProductAmount) {
+            setDataStore({
+                productList: newProductList,
+                productAmount: newProductAmount,
+            });
+        }
+    }, [newProductAmount, newProductList, setDataStore]);
 
     if (isLoadingProductList || isLoadingProductAmount) {
         return (
@@ -68,7 +59,7 @@ export default function CatalogClient(props: CatalogClientProps) {
 }
 
 type ProductListProps = {
-    produitList: ProductType[] | null;
+    produitList: ProductModel[] | null;
     className?: string;
 };
 
@@ -85,16 +76,16 @@ const ProductList = (props: ProductListProps) => {
         );
     }
 
-    const handleClick = (e: MouseEvent<HTMLButtonElement>, id: string) => {
+    const handleClick = (e: MouseEvent<HTMLButtonElement>, newId: string) => {
         e.preventDefault();
 
-        const product = produitList.find((product) => product.id === id);
+        const product = produitList.find((product) => product.id === newId);
         if (!product) return;
 
-        if (basketProductList.some((product) => product.id === id)) {
-            removeProductFromBasket(product);
+        if (basketProductList.some((currentId) => currentId === newId)) {
+            removeProductFromBasket(newId);
         } else {
-            addProductToBasket(product);
+            addProductToBasket(newId);
         }
     };
 
@@ -104,10 +95,12 @@ const ProductList = (props: ProductListProps) => {
                 <Link
                     key={index}
                     href={`/product/${id}`}
-                    className="outline-none ring-transparent focus:ring-offset-2 focus-visible:ring-2 focus-visible:ring-teal-400"
+                    className="ring-transparent outline-none focus:ring-offset-2 focus-visible:ring-2 focus-visible:ring-teal-400"
                 >
                     <Card className="overflow-hidden p-0">
-                        <ImageRatio src={image} alt={name} />
+                        <ViewTransition name={`product-${id}`}>
+                            <ImageRatio src={image} alt={name} />
+                        </ViewTransition>
                         <div className="flex flex-row items-center justify-between p-4">
                             <div>
                                 <div className="text-lg font-bold">{name}</div>
@@ -119,7 +112,7 @@ const ProductList = (props: ProductListProps) => {
                                 onClick={(e) => handleClick(e, id)}
                                 className="group relative size-fit rounded-xl p-[10px] transition-all duration-300 hover:scale-105"
                             >
-                                {basketProductList.some((product) => product.id === id) ? (
+                                {basketProductList.some((currentId) => currentId === id) ? (
                                     <>
                                         <CircleCheck className="group-hover:hidden" />
                                         <CircleX className="hidden group-hover:block" />

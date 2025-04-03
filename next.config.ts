@@ -13,8 +13,8 @@ const nextConfig: NextConfig = {
     },
 
     experimental: {
-        viewTransition: true,
-        authInterrupts: true,
+        viewTransition: true, // enable view transition API with "<ViewTransition() />"
+        authInterrupts: true, // enable "unauthorized()" to redirect to unauthorized page
         // nodeMiddleware: true,
     },
 };

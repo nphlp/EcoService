@@ -1,16 +1,23 @@
 "use client";
 
-import { ProductType } from "@actions/types/Product";
+import { ProductModel } from "@services/types";
 import { create } from "zustand";
+
+type ProductListState = ProductModel[] | null;
+type ProductAmountState = number | null;
 
 export type CatalogStoreType = {
     // State
-    productList?: ProductType[] | null;
-    productAmount?: number | null;
+    dataStore?: {
+        productList: ProductListState;
+        productAmount: ProductAmountState;
+    };
 
     // Actions
-    setProductList: (productList?: ProductType[] | null) => void;
-    setProductAmount: (productAmount?: number | null) => void;
+    setDataStore: (newDataStore: {
+        productList: ProductListState;
+        productAmount: ProductAmountState;
+    }) => void;
 };
 
 /**
@@ -18,10 +25,17 @@ export type CatalogStoreType = {
  */
 export const useCatalogStore = create<CatalogStoreType>()((set) => ({
     // State
-    productList: undefined,
-    productAmount: undefined,
+    dataStore: undefined,
 
     // Actions
-    setProductList: (productList?: ProductType[] | null) => set({ productList }),
-    setProductAmount: (productAmount?: number | null) => set({ productAmount }),
+    setDataStore: (newDataStore: CatalogStoreType["dataStore"]) =>
+        set(({dataStore}) => ({
+            dataStore: {
+                ...(dataStore ?? {
+                    productList: null,
+                    productAmount: null,
+                }),
+                ...newDataStore,
+            },
+        })),
 }));

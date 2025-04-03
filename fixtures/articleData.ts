@@ -1,0 +1,160 @@
+import PrismaInstance from "@lib/prisma";
+import { Prisma } from "@prisma/client";
+
+export const insertArticles = async () => {
+    try {
+        for (const data of articleData) {
+            await PrismaInstance.article.create({ data });
+        }
+    } catch (error) {
+        throw new Error("❌ Erreur lors de la création des articles -> " + (error as Error).message);
+    }
+};
+
+export const articleData: Prisma.ArticleCreateInput[] = [
+    {
+        title: "Vivre écologiquement au quotidien",
+        Author: {
+            connect: {
+                email: "admin@example.com",
+            },
+        },
+        Content: {
+            createMany: {
+                data: [
+                    {
+                        image: "terre-main.jpg",
+                        content:
+                            "L'écologie au quotidien se construit par des gestes simples mais impactants. La transition écologique n'est pas qu'une notion abstraite, elle se concrétise dans nos choix quotidiens. Que ce soit dans notre consommation, nos déplacements ou notre gestion des déchets, chaque action contribue à la préservation de notre environnement. L'effet cumulé de ces gestes individuels crée un changement significatif.",
+                    },
+                    {
+                        image: "eolienne.jpg",
+                        content:
+                            "La gestion responsable de l'eau et de l'électricité est fondamentale. Installez des mousseurs sur vos robinets, privilégiez les douches aux bains, et fermez l'eau pendant le brossage des dents. Pour l'électricité, optez pour des ampoules LED, éteignez les appareils en veille et isolez efficacement votre logement. Ces habitudes réduisent votre impact environnemental et vos factures.",
+                    },
+                    {
+                        image: "produit 1.jpg",
+                        content:
+                            "Les produits locaux et de saison offrent de nombreux avantages écologiques. Ils nécessitent moins de transport, donc moins d'émissions de CO2. Cultivés naturellement, ils sont plus savoureux et nutritifs car récoltés à maturité. Cette approche soutient l'économie locale, préserve la biodiversité et maintient les traditions agricoles de nos régions.",
+                    },
+                ],
+            },
+        },
+    },
+    {
+        title: "Les alternatives aux produits ménagers chimiques",
+        Author: {
+            connect: {
+                email: "vendor@example.com",
+            },
+        },
+        Content: {
+            createMany: {
+                data: [
+                    {
+                        image: "lessive 1.jpg",
+                        content:
+                            "Les produits ménagers naturels rivalisent efficacement avec leurs équivalents chimiques. Ils évitent l'exposition aux substances toxiques qui peuvent provoquer allergies et irritations. Ces alternatives écologiques sont biodégradables et respectueuses de l'environnement, réduisant la pollution des eaux et la production de déchets plastiques.",
+                    },
+                    {
+                        image: "lessive 2.jpg",
+                        content:
+                            "Le trio vinaigre blanc, bicarbonate et savon noir forme la base d'un nettoyage écologique efficace. Le vinaigre désinfecte et détartre, le bicarbonate absorbe les odeurs et nettoie sans rayer, tandis que le savon noir dégraisse puissamment. Ces produits polyvalents s'utilisent purs ou combinés selon les besoins.",
+                    },
+                    {
+                        image: "produit 2.jpg",
+                        content:
+                            "La fabrication maison des produits ménagers présente de multiples avantages. Elle réduit les emballages plastiques, permet de contrôler les ingrédients utilisés et génère des économies substantielles. Les recettes simples et personnalisables s'adaptent aux besoins spécifiques de chaque foyer, garantissant une efficacité optimale.",
+                    },
+                ],
+            },
+        },
+    },
+    {
+        title: "Jardinage écologique et permaculture",
+        Author: {
+            connect: {
+                email: "user@example.com",
+            },
+        },
+        Content: {
+            createMany: {
+                data: [
+                    {
+                        image: "feuille.jpg",
+                        content:
+                            "La permaculture réinvente le jardinage en s'inspirant des écosystèmes naturels. Cette approche crée des espaces productifs et autonomes qui nécessitent peu d'entretien. En observant les interactions naturelles entre les plantes, le sol et les insectes, nous pouvons concevoir des jardins qui s'auto-régulent et produisent des aliments sains toute l'année.",
+                    },
+                    {
+                        image: "pots.jpg",
+                        content:
+                            "Le compostage est au cœur de la permaculture, transformant les déchets organiques en un amendement riche en nutriments. Ce processus naturel améliore la structure du sol, stimule la vie microbienne et fournit aux plantes les éléments nutritifs nécessaires. Un bon compost réduit les besoins en fertilisants et optimise la rétention d'eau.",
+                    },
+                    {
+                        image: "produit 3.jpg",
+                        content:
+                            "Les associations de plantes compagnes constituent une stratégie efficace pour un jardin résilient. Certaines plantes repoussent naturellement les parasites, d'autres enrichissent le sol en azote ou attirent les pollinisateurs. Ces synergies naturelles permettent de réduire, voire d'éliminer, l'utilisation de pesticides tout en augmentant la biodiversité.",
+                    },
+                ],
+            },
+        },
+    },
+    {
+        title: "Réduire son empreinte carbone au quotidien",
+        Author: {
+            connect: {
+                email: "employee@example.com",
+            },
+        },
+        Content: {
+            createMany: {
+                data: [
+                    {
+                        image: "espace 1.jpg",
+                        content:
+                            "Les transports représentent une part majeure de notre empreinte carbone individuelle. Privilégier le vélo, la marche ou les transports en commun réduit significativement nos émissions de CO2. Le covoiturage et l'autopartage offrent des alternatives flexibles, tandis que le télétravail, quand possible, évite des déplacements inutiles.",
+                    },
+                    {
+                        image: "produit 4.jpg",
+                        content:
+                            "L'alimentation influence fortement notre impact environnemental. Réduire sa consommation de viande, même partiellement, diminue considérablement les émissions de gaz à effet de serre. Privilégier les protéines végétales et les produits locaux de saison permet de maintenir une alimentation équilibrée tout en respectant la planète.",
+                    },
+                    {
+                        image: "produit 5.jpg",
+                        content:
+                            "La consommation d'énergie domestique peut être optimisée par des choix d'équipements judicieux. Les appareils électroménagers de classe énergétique A+++ consomment jusqu'à 60% moins d'énergie. La programmation du chauffage, l'isolation efficace et l'utilisation d'ampoules LED réduisent durablement notre impact énergétique.",
+                    },
+                ],
+            },
+        },
+    },
+    {
+        title: "Hygiène personnelle zéro déchet",
+        Author: {
+            connect: {
+                email: "admin@example.com",
+            },
+        },
+        Content: {
+            createMany: {
+                data: [
+                    {
+                        image: "brosse-a-dent.jpg",
+                        content:
+                            "Les alternatives réutilisables révolutionnent notre routine d'hygiène quotidienne. Les cotons démaquillants lavables, brosses à dents en bambou et protections périodiques réutilisables réduisent drastiquement nos déchets. Ces solutions durables, plus économiques à long terme, évitent l'accumulation de déchets plastiques tout en préservant notre confort.",
+                    },
+                    {
+                        image: "coton 1.jpg",
+                        content:
+                            "Les cosmétiques solides représentent une innovation majeure dans la beauté durable. Shampooings, savons et déodorants en format solide éliminent les emballages plastiques superflus. Plus concentrés que leurs équivalents liquides, ils durent plus longtemps et facilitent le transport. Leur fabrication nécessite moins d'eau et d'énergie.",
+                    },
+                    {
+                        image: "coton 2.jpg",
+                        content:
+                            "La fabrication maison de cosmétiques permet un contrôle total des ingrédients utilisés. En choisissant des composants naturels et biologiques, nous évitons les substances controversées présentes dans les produits industriels. Cette approche personnalisée s'adapte à nos besoins spécifiques tout en réduisant notre impact environnemental.",
+                    },
+                ],
+            },
+        },
+    },
+];

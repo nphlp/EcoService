@@ -91,7 +91,16 @@ export default function InputFile(props: InputFileProps) {
     const theme = {
         default: {
             component: combo("block space-y-2"),
-            label: combo("text-lg font-medium text-white"),
+            label: combo("text-sm font-medium text-black"),
+            content: combo(
+                "rounded-xl border border-dashed border-black/20 bg-white",
+                "outline-none ring-0 focus:ring-2 focus:ring-teal-300",
+                "transition-all duration-150",
+            ),
+        },
+        dark: {
+            component: combo("block space-y-2"),
+            label: combo("text-sm font-medium text-white"),
             content: combo(
                 "rounded-xl border border-dashed border-white/20 bg-white/10",
                 "outline-none ring-0 focus:ring-2 focus:ring-teal-300",
@@ -138,7 +147,7 @@ export default function InputFile(props: InputFileProps) {
                         />
                         <Button
                             label="Retirer l'image"
-                            baseStyleList={["outline", "rounded", "transition"]}
+                            baseStyleOnly={["outline", "rounded", "transition"]}
                             variant="none"
                             onClick={handleReset}
                             onKeyDown={(e) => {
