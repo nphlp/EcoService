@@ -1,6 +1,6 @@
 import "@/globals.css";
-import Header from "@comps/Header/Header";
-import Footer from "@comps/server/Footer";
+import Header from "@comps/header/header";
+import Footer from "@comps/server/footer";
 import { combo } from "@lib/combo";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";

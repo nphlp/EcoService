@@ -1,4 +1,4 @@
-import ImageRatio from "@comps/server/ImageRatio";
+import ImageRatio from "@comps/server/imageRatio";
 import { FetchV2 } from "@utils/FetchV2";
 import Link from "next/link";
 

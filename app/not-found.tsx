@@ -1,4 +1,4 @@
-import ButtonClient from "@comps/client/Button";
+import ButtonClient from "@comps/client/button";
 
 export const dynamic = 'force-dynamic';
 

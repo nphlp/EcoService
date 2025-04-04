@@ -1,5 +1,5 @@
-import ImageRatio from "@comps/server/ImageRatio";
-import Link from "@comps/ui/Link";
+import ImageRatio from "@comps/server/imageRatio";
+import Link from "@comps/ui/link";
 import { unstable_ViewTransition as ViewTransition } from "react";
 
 export default function Page() {

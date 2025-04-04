@@ -1,6 +1,6 @@
 "use client";
 
-import ButtonClient from "@comps/client/Button";
+import ButtonClient from "@comps/client/button";
 import { useEffect } from "react";
 
 type ErrorProps = {

@@ -1,6 +1,6 @@
 "use server";
 
-import EmailTemplate from "@comps/server/Email";
+import EmailTemplate from "@comps/server/email";
 import Plunk from "@plunk/node";
 import { render } from "@react-email/render";
 

@@ -1,4 +1,6 @@
-import ButtonClient from "@comps/client/Button";
+"use client";
+
+import ButtonClient from "@comps/client/button";
 
 export default function Unauthorized() {
     return (

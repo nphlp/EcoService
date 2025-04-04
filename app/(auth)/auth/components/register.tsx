@@ -1,9 +1,9 @@
 "use client";
 
-import Button from "@comps/ui/Button";
-import Feedback, { FeedbackMode } from "@comps/ui/Feedback";
-import Input from "@comps/ui/Input";
-import Link from "@comps/ui/Link";
+import Button from "@comps/ui/button";
+import Feedback, { FeedbackMode } from "@comps/ui/feedback";
+import Input from "@comps/ui/input";
+import Link from "@comps/ui/link";
 import { signUp } from "@lib/authClient";
 import { Eye, EyeClosed } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -11,8 +11,10 @@ import { useState } from "react";
 
 export default function RegisterClient() {
     const [isLoading, setIsLoading] = useState<boolean>(false);
+
     const [message, setMessage] = useState<string>("");
     const [mode, setMode] = useState<FeedbackMode>("none");
+    const [isFeedbackOpen, setIsFeedbackOpen] = useState<boolean>(false);
 
     const [firstname, setFirstname] = useState("");
     const [lastname, setLastname] = useState("");
@@ -28,6 +30,7 @@ export default function RegisterClient() {
         if (!firstname || !lastname || !email || !password) {
             setMessage("Please fill all fields.");
             setMode("warning");
+            setIsFeedbackOpen(true);
             setIsLoading(false);
             return;
         }
@@ -42,13 +45,14 @@ export default function RegisterClient() {
         if (data) {
             setMessage("Successfully registered.");
             setMode("success");
-
+            setIsFeedbackOpen(true);
             setTimeout(() => {
                 router.push("/profile");
             }, 2000);
         } else if (error) {
             setMessage("Failed to register.");
             setMode("error");
+            setIsFeedbackOpen(true);
             setIsLoading(false);
         }
     };
@@ -106,7 +110,7 @@ export default function RegisterClient() {
                 >
                     Déjà inscrit?
                 </Link>
-                <Feedback message={message} mode={mode} />
+                <Feedback message={message} mode={mode} isFeedbackOpen={isFeedbackOpen} />
                 <Button type="button" onClick={handleSubmit} label="register" isLoading={isLoading}>
                     S&apos;inscrire
                 </Button>

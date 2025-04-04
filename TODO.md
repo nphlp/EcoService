@@ -4,6 +4,7 @@ Complete auth and user management
 
 ## Priority
 
+- Autorization
 - Rework Fetch Parallelized V2
 - API and Zod -> Page per page
 - Rework frontend

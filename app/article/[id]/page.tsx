@@ -1,7 +1,7 @@
-import ImageRatio from "@comps/server/ImageRatio";
-import { ArticleOrDiySlider } from "@comps/slider/ArticleOrDiySlider";
+import ImageRatio from "@comps/server/imageRatio";
+import { ArticleOrDiySlider } from "@comps/slider/articleOrDiySlider";
 import { ArticleOrDiyFetchParams } from "@comps/slider/fetchParams";
-import Link from "@comps/ui/Link";
+import Link from "@comps/ui/link";
 import { combo } from "@lib/combo";
 import { FetchV2 } from "@utils/FetchV2";
 export const dynamic = "force-dynamic";

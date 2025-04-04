@@ -1,5 +1,5 @@
 import { combo } from "@lib/combo";
-import { LoaderColor } from "../Loader";
+import { LoaderColor } from "../loader";
 
 // =============== Button Base ================= //
 

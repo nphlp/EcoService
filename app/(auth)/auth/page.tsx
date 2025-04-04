@@ -1,6 +1,6 @@
+import TabClient from "@comps/client/tabs";
 import LoginClient from "./components/login";
 import RegisterClient from "./components/register";
-import TabClient from "@comps/client/Tabs";
 
 export const dynamic = 'force-dynamic';
 

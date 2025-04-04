@@ -1,18 +1,20 @@
 "use client";
 
-import ButtonClient from "@comps/client/Button";
-import InputClient from "@comps/client/Input";
-import Card from "@comps/server/Card";
-import { Content, ImageCard, Img, Text, Title } from "@comps/server/ImageCard";
-import Feedback, { FeedbackMode } from "@comps/ui/Feedback";
+import ButtonClient from "@comps/client/button";
+import InputClient from "@comps/client/input";
+import Card from "@comps/server/card";
+import { Content, ImageCard, Img, Text, Title } from "@comps/server/imageCard";
+import Feedback, { FeedbackMode } from "@comps/ui/feedback";
 import { ChangeEvent, useState } from "react";
 import { CreateFruit } from "./utils/FruitActions";
 import { ImageValidation } from "./utils/ImageUploads";
 
 export default function AddFruitClient() {
     const [isLoading, setIsLoading] = useState(false);
+
     const [message, setMessage] = useState<string>("");
     const [mode, setMode] = useState<FeedbackMode>("none");
+    const [isFeedbackOpen, setIsFeedbackOpen] = useState<boolean>(false);
 
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
@@ -26,10 +28,12 @@ export default function AddFruitClient() {
         if (status) {
             setMessage(message);
             setMode("info");
+            setIsFeedbackOpen(true);
             setImage(imageFile);
         } else {
             setMessage(message);
             setMode("warning");
+            setIsFeedbackOpen(true);
         }
     };
 
@@ -39,6 +43,7 @@ export default function AddFruitClient() {
         if (!name || !description || !image) {
             setMessage("Please fill all fields.");
             setMode("warning");
+            setIsFeedbackOpen(true);
             setIsLoading(false);
             return;
         }
@@ -52,17 +57,20 @@ export default function AddFruitClient() {
         if (fruitData === "Already exists") {
             setMessage("This fruit already exists.");
             setMode("warning");
+            setIsFeedbackOpen(true);
             setIsLoading(false);
             return;
         } else if (!fruitData) {
             setMessage("Upload failed, please try again later.");
             setMode("error");
+            setIsFeedbackOpen(true);
             setIsLoading(false);
             return;
         }
 
         setMessage("Fruit added with success.");
         setMode("success");
+        setIsFeedbackOpen(true);
         setIsLoading(false);
     };
 
@@ -97,7 +105,7 @@ export default function AddFruitClient() {
                     value={description}
                 />
                 <InputClient label="file" type="file" onChange={handleImageChange} />
-                <Feedback message={message} mode={mode} />
+                <Feedback message={message} mode={mode} isFeedbackOpen={isFeedbackOpen} />
                 <ButtonClient type="button" label="add-fruit" onClick={handleSubmit} isLoading={isLoading}>
                     Add new fruit
                 </ButtonClient>

@@ -1,7 +1,7 @@
-import PaymentButton from "@app/(stripe)/stripe/PaymentButton";
-import ProductManager from "@app/(stripe)/stripe/ProductManager";
-import SellerOnboard from "@app/(stripe)/stripe/SellerOnboard";
-import LogoutClient from "@comps/client/Logout";
+import PaymentButton from "@app/(stripe)/stripe/components/paymentButton";
+import ProductManager from "@app/(stripe)/stripe/components/productManager";
+import SellerOnboard from "@app/(stripe)/stripe/components/sellerOnboard";
+import LogoutClient from "@comps/client/logout";
 import { GetSession } from "@lib/auth";
 import PrismaInstance from "@lib/prisma";
 import { LogOut } from "lucide-react";

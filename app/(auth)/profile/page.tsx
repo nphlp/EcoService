@@ -1,5 +1,5 @@
-import LogoutClient from "@comps/client/Logout";
-import Card from "@comps/server/Card";
+import LogoutClient from "@comps/client/logout";
+import Card from "@comps/server/card";
 import { GetSession } from "@lib/auth";
 import { CircleCheck, CircleX, LogOut } from "lucide-react";
 import { unauthorized } from "next/navigation";

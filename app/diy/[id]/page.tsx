@@ -1,7 +1,7 @@
-import ImageRatio from "@comps/server/ImageRatio";
+import ImageRatio from "@comps/server/imageRatio";
 import { ProductFetchParams } from "@comps/slider/fetchParams";
-import ProductSlider from "@comps/slider/ProductSlider";
-import Link from "@comps/ui/Link";
+import ProductSlider from "@comps/slider/productSlider";
+import Link from "@comps/ui/link";
 import { combo } from "@lib/combo";
 import { FetchV2 } from "@utils/FetchV2";
 
@@ -90,7 +90,7 @@ export default async function Page(props: PageProps) {
             </section>
 
             <div className="mt-16 flex justify-center">
-                <Link  href="/do-it-yourself" label="Retour aux DIY" variant="outline">
+                <Link  href="/diy" label="Retour aux DIY" variant="outline">
                     Retour aux DIY
                 </Link>
             </div>

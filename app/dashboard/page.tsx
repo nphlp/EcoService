@@ -1,4 +1,4 @@
-import ButtonClient from "@comps/client/Button";
+import ButtonClient from "@comps/client/button";
 import { GetSession } from "@lib/auth";
 import { unauthorized } from "next/navigation";
 

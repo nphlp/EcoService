@@ -1,10 +1,10 @@
-import ImageRatio from "@comps/server/ImageRatio";
+import ImageRatio from "@comps/server/imageRatio";
 import { FetchV2 } from "@utils/FetchV2";
 import { ArrowLeft, Package2, ShieldCheck, Truck } from "lucide-react";
 import Link from "next/link";
-import AddToCartButton from "./AddToCartButton";
-import { ProductFetchParams } from "./fetchParams";
 import { unstable_ViewTransition as ViewTransition } from "react";
+import AddToCartButton from "./addToCartButton";
+import { ProductFetchParams } from "./fetchParams";
 
 type PageProps = {
     params: Promise<{ id: string }>;

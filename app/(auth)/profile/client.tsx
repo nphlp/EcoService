@@ -1,10 +1,10 @@
 "use client";
 
-import ButtonClient from "@comps/client/Button";
-import InputClient from "@comps/client/Input";
-import ModalClient from "@comps/client/Modal";
-import Card from "@comps/server/Card";
-import Loader from "@comps/ui/Loader";
+import ButtonClient from "@comps/client/button";
+import InputClient from "@comps/client/input";
+import ModalClient from "@comps/client/modal";
+import Card from "@comps/server/card";
+import Loader from "@comps/ui/loader";
 import {
     changeEmail,
     listSessions,
@@ -24,7 +24,7 @@ export default function ProfileClient() {
 
     const router = useRouter();
 
-    const [modalVisible, setModalVisible] = useState<boolean>(false);
+    const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
     const [sessionList, setSessionList] = useState<SessionList[] | null>(null);
     const [name, setName] = useState<string>("");
     const [email, setEmail] = useState<string>("");
@@ -40,7 +40,7 @@ export default function ProfileClient() {
     useEffect(() => {
         // Check if user has verified email
         if (session) {
-            setModalVisible(!session?.user.emailVerified);
+            setIsModalOpen(!session?.user.emailVerified);
         }
         fetchSessions();
     }, [session]);
@@ -48,14 +48,14 @@ export default function ProfileClient() {
     return (
         <>
             <ModalClient
-                modalVisible={modalVisible}
-                setModalVisible={setModalVisible}
+                isModalOpen={isModalOpen}
+                setIsModalOpen={setIsModalOpen}
                 className="max-w-[350px] space-y-3"
             >
                 <h2 className="text-center text-xl font-bold">Confirmation d&apos;email</h2>
                 <div className="text-sm">Veuillez vérifier votre adresse email.</div>
                 <div className="flex flex-col items-center">
-                    <ButtonClient type="button" label="close" onClick={() => setModalVisible(false)}>
+                    <ButtonClient type="button" label="close" onClick={() => setIsModalOpen(false)}>
                         Fermer
                     </ButtonClient>
                 </div>

@@ -1,10 +1,10 @@
 import { FetchV2 } from "@utils/FetchV2";
-import CatalogClient from "./components/catalog.client";
-import CatalogProvider from "./components/catalog.provider";
+import CatalogClient from "./components/catalog";
 import { CategoryListFetchParams, ProductAmountFetchParams, ProductListFetchParams } from "./components/fetchParams";
-import PaginationClient from "./components/pagination.client";
+import SelectorsClient from "./components/filters";
+import PaginationClient from "./components/pagination";
+import CatalogProvider from "./components/provider";
 import { SearchParamsCached, SearchParamsType } from "./components/searchParams";
-import SelectorsClient from "./components/selectors.client";
 
 type PageProps = {
     searchParams: Promise<SearchParamsType>;
