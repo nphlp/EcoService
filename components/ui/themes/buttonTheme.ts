@@ -33,7 +33,7 @@ export type ButtonThemeType = {
         disabled: string;
         loaderColor: LoaderColor;
     };
-}
+};
 
 /** Shared theme for buttons and links */
 export const buttonTheme: ButtonThemeType = {

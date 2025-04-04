@@ -20,9 +20,7 @@ export default async function Page() {
             <div className="flex flex-col gap-5 md:flex-row">
                 <Card className="flex w-[300px] flex-col gap-3 rounded-2xl p-6">
                     <h1 className="text-xl font-bold">Profil</h1>
-                    <div className="text-wrap text-xs text-gray-500">
-                        Consulter vos informations personnelles.
-                    </div>
+                    <div className="text-xs text-wrap text-gray-500">Consulter vos informations personnelles.</div>
                     <div className="space-y-2">
                         <div>
                             <div className="text-xs font-bold">Nom</div>

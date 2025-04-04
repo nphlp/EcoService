@@ -61,7 +61,7 @@ export default function RegisterClient() {
         <>
             <div className="space-y-2">
                 <h1 className="text-center text-2xl font-bold">S&apos;inscrire</h1>
-                <div className="text-wrap text-center text-xs text-gray-500">
+                <div className="text-center text-xs text-wrap text-gray-500">
                     Entrez vos informations personnelles pour vous inscrire.
                 </div>
             </div>
@@ -73,12 +73,7 @@ export default function RegisterClient() {
                         onChange={(e) => setFirstname(e.target.value)}
                         value={firstname}
                     />
-                    <Input
-                        label="Nom"
-                        type="text"
-                        onChange={(e) => setLastname(e.target.value)}
-                        value={lastname}
-                    />
+                    <Input label="Nom" type="text" onChange={(e) => setLastname(e.target.value)} value={lastname} />
                     <Input label="Email" type="email" onChange={(e) => setEmail(e.target.value)} value={email} />
                     <div className="flex flex-row items-end gap-1.5">
                         <Input

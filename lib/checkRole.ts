@@ -16,7 +16,7 @@ export const isVendorOrEmployeeOrAdmin = async (): Promise<BetterSessionServer |
     const isVendorOrEmployeeOrAdmin = role === "VENDOR" || role === "EMPLOYEE" || role === "ADMIN";
 
     if (!session || !isVendorOrEmployeeOrAdmin) {
-        return null
+        return null;
     }
 
     return session;

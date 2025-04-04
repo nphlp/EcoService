@@ -71,7 +71,7 @@ export const auth = betterAuth({
                 session,
             };
         }),
-        // twoFactor({ 
+        // twoFactor({
         //     twoFactorPage: "/two-factor" // the page to redirect if a user need to verify 2nd factor
         // }) // TODO: Add two factor authentication
     ],

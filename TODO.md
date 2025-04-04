@@ -49,9 +49,11 @@ Complete auth and user management
 - [ ] Adress and payments methods (CRUD)
 
 - [ ] Vendor (CRUD)
+
     - [ ] Pre-Create (vendor has to completion his inscription on Stripe, to add Iban, personnal informations...)
 
 - [ ] Payment
+
     - [ ] Buy product (users)
     - [ ] Refound (admin and vendors)
     - [ ] Pay vendors (admin)
@@ -59,17 +61,19 @@ Complete auth and user management
 
 - [ ] Webhook
     - [ ] Send confirmation mail...
-      - [ ] An user bought a product: payment succesfuly or failed
-      - [ ] An user become a vendor after admin validation
+        - [ ] An user bought a product: payment succesfuly or failed
+        - [ ] An user become a vendor after admin validation
 
 ## Authentification
 
 - [ ] Auth
+
     - [ ] Reset passowrd
     - [ ] OTP / 2FA
     - [ ] Magic link / Passkey
 
 - [ ] Edit profile
+
     - [ ] Image
     - [ ] Firstname
     - [ ] Lastname

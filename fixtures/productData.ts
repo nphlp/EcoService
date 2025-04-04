@@ -22,13 +22,13 @@ export const productData: Prisma.ProductCreateInput[] = [
         Category: {
             connect: {
                 name: "Fruits & Légumes",
-            }
+            },
         },
         Vendor: {
             connect: {
                 email: "vendor@example.com",
-            }
-        }
+            },
+        },
     },
     {
         name: "Légumes locaux",
@@ -39,13 +39,13 @@ export const productData: Prisma.ProductCreateInput[] = [
         Category: {
             connect: {
                 name: "Fruits & Légumes",
-            }
+            },
         },
         Vendor: {
             connect: {
                 email: "vendor@example.com",
-            }
-        }
+            },
+        },
     },
     {
         name: "Herbes aromatiques",
@@ -56,13 +56,13 @@ export const productData: Prisma.ProductCreateInput[] = [
         Category: {
             connect: {
                 name: "Fruits & Légumes",
-            }
+            },
         },
         Vendor: {
             connect: {
                 email: "vendor@example.com",
-            }
-        }
+            },
+        },
     },
 
     // Produits Laitiers
@@ -75,13 +75,13 @@ export const productData: Prisma.ProductCreateInput[] = [
         Category: {
             connect: {
                 name: "Produits Laitiers",
-            }
+            },
         },
         Vendor: {
             connect: {
                 email: "vendor@example.com",
-            }
-        }
+            },
+        },
     },
     {
         name: "Yaourt bio",
@@ -92,13 +92,13 @@ export const productData: Prisma.ProductCreateInput[] = [
         Category: {
             connect: {
                 name: "Produits Laitiers",
-            }
+            },
         },
         Vendor: {
             connect: {
                 email: "vendor@example.com",
-            }
-        }
+            },
+        },
     },
     {
         name: "Beurre fermier",
@@ -109,13 +109,13 @@ export const productData: Prisma.ProductCreateInput[] = [
         Category: {
             connect: {
                 name: "Produits Laitiers",
-            }
+            },
         },
         Vendor: {
             connect: {
                 email: "vendor@example.com",
-            }
-        }
+            },
+        },
     },
 
     // Boulangerie
@@ -128,13 +128,13 @@ export const productData: Prisma.ProductCreateInput[] = [
         Category: {
             connect: {
                 name: "Boulangerie",
-            }
+            },
         },
         Vendor: {
             connect: {
                 email: "vendor@example.com",
-            }
-        }
+            },
+        },
     },
     {
         name: "Croissants",
@@ -145,13 +145,13 @@ export const productData: Prisma.ProductCreateInput[] = [
         Category: {
             connect: {
                 name: "Boulangerie",
-            }
+            },
         },
         Vendor: {
             connect: {
                 email: "vendor@example.com",
-            }
-        }
+            },
+        },
     },
     {
         name: "Baguette tradition",
@@ -162,13 +162,13 @@ export const productData: Prisma.ProductCreateInput[] = [
         Category: {
             connect: {
                 name: "Boulangerie",
-            }
+            },
         },
         Vendor: {
             connect: {
                 email: "vendor@example.com",
-            }
-        }
+            },
+        },
     },
 
     // Viandes & Poissons
@@ -181,13 +181,13 @@ export const productData: Prisma.ProductCreateInput[] = [
         Category: {
             connect: {
                 name: "Viandes & Poissons",
-            }
+            },
         },
         Vendor: {
             connect: {
                 email: "vendor@example.com",
-            }
-        }
+            },
+        },
     },
     {
         name: "Saumon frais",
@@ -198,13 +198,13 @@ export const productData: Prisma.ProductCreateInput[] = [
         Category: {
             connect: {
                 name: "Viandes & Poissons",
-            }
+            },
         },
         Vendor: {
             connect: {
                 email: "vendor@example.com",
-            }
-        }
+            },
+        },
     },
     {
         name: "Poulet fermier",
@@ -215,13 +215,13 @@ export const productData: Prisma.ProductCreateInput[] = [
         Category: {
             connect: {
                 name: "Viandes & Poissons",
-            }
+            },
         },
         Vendor: {
             connect: {
                 email: "vendor@example.com",
-            }
-        }
+            },
+        },
     },
 
     // Épicerie
@@ -234,13 +234,13 @@ export const productData: Prisma.ProductCreateInput[] = [
         Category: {
             connect: {
                 name: "Épicerie",
-            }
+            },
         },
         Vendor: {
             connect: {
                 email: "vendor@example.com",
-            }
-        }
+            },
+        },
     },
     {
         name: "Miel local",
@@ -251,13 +251,13 @@ export const productData: Prisma.ProductCreateInput[] = [
         Category: {
             connect: {
                 name: "Épicerie",
-            }
+            },
         },
         Vendor: {
             connect: {
                 email: "vendor@example.com",
-            }
-        }
+            },
+        },
     },
     {
         name: "Pâtes artisanales",
@@ -268,13 +268,13 @@ export const productData: Prisma.ProductCreateInput[] = [
         Category: {
             connect: {
                 name: "Épicerie",
-            }
+            },
         },
         Vendor: {
             connect: {
                 email: "vendor@example.com",
-            }
-        }
+            },
+        },
     },
 
     // Boissons
@@ -287,13 +287,13 @@ export const productData: Prisma.ProductCreateInput[] = [
         Category: {
             connect: {
                 name: "Boissons",
-            }
+            },
         },
         Vendor: {
             connect: {
                 email: "vendor@example.com",
-            }
-        }
+            },
+        },
     },
     {
         name: "Jus de pomme",
@@ -304,13 +304,13 @@ export const productData: Prisma.ProductCreateInput[] = [
         Category: {
             connect: {
                 name: "Boissons",
-            }
+            },
         },
         Vendor: {
             connect: {
                 email: "vendor@example.com",
-            }
-        }
+            },
+        },
     },
     {
         name: "Bière artisanale",
@@ -321,13 +321,13 @@ export const productData: Prisma.ProductCreateInput[] = [
         Category: {
             connect: {
                 name: "Boissons",
-            }
+            },
         },
         Vendor: {
             connect: {
                 email: "vendor@example.com",
-            }
-        }
+            },
+        },
     },
 
     // Bio & Sans Gluten
@@ -340,13 +340,13 @@ export const productData: Prisma.ProductCreateInput[] = [
         Category: {
             connect: {
                 name: "Bio & Sans Gluten",
-            }
+            },
         },
         Vendor: {
             connect: {
                 email: "vendor@example.com",
-            }
-        }
+            },
+        },
     },
     {
         name: "Granola bio",
@@ -357,13 +357,13 @@ export const productData: Prisma.ProductCreateInput[] = [
         Category: {
             connect: {
                 name: "Bio & Sans Gluten",
-            }
+            },
         },
         Vendor: {
             connect: {
                 email: "vendor@example.com",
-            }
-        }
+            },
+        },
     },
     {
         name: "Cookies vegan",
@@ -374,13 +374,13 @@ export const productData: Prisma.ProductCreateInput[] = [
         Category: {
             connect: {
                 name: "Bio & Sans Gluten",
-            }
+            },
         },
         Vendor: {
             connect: {
                 email: "vendor@example.com",
-            }
-        }
+            },
+        },
     },
 
     // Surgelés
@@ -393,13 +393,13 @@ export const productData: Prisma.ProductCreateInput[] = [
         Category: {
             connect: {
                 name: "Surgelés",
-            }
+            },
         },
         Vendor: {
             connect: {
                 email: "vendor@example.com",
-            }
-        }
+            },
+        },
     },
     {
         name: "Poisson surgelé",
@@ -410,13 +410,13 @@ export const productData: Prisma.ProductCreateInput[] = [
         Category: {
             connect: {
                 name: "Surgelés",
-            }
+            },
         },
         Vendor: {
             connect: {
                 email: "vendor@example.com",
-            }
-        }
+            },
+        },
     },
     {
         name: "Glace artisanale",
@@ -427,13 +427,13 @@ export const productData: Prisma.ProductCreateInput[] = [
         Category: {
             connect: {
                 name: "Surgelés",
-            }
+            },
         },
         Vendor: {
             connect: {
                 email: "vendor@example.com",
-            }
-        }
+            },
+        },
     },
 
     // Hygiène & Beauté
@@ -446,13 +446,13 @@ export const productData: Prisma.ProductCreateInput[] = [
         Category: {
             connect: {
                 name: "Hygiène & Beauté",
-            }
+            },
         },
         Vendor: {
             connect: {
                 email: "vendor@example.com",
-            }
-        }
+            },
+        },
     },
     {
         name: "Shampooing solide",
@@ -463,13 +463,13 @@ export const productData: Prisma.ProductCreateInput[] = [
         Category: {
             connect: {
                 name: "Hygiène & Beauté",
-            }
+            },
         },
         Vendor: {
             connect: {
                 email: "vendor@example.com",
-            }
-        }
+            },
+        },
     },
     {
         name: "Crème visage",
@@ -480,13 +480,13 @@ export const productData: Prisma.ProductCreateInput[] = [
         Category: {
             connect: {
                 name: "Hygiène & Beauté",
-            }
+            },
         },
         Vendor: {
             connect: {
                 email: "vendor@example.com",
-            }
-        }
+            },
+        },
     },
 
     // Maison & Entretien
@@ -499,13 +499,13 @@ export const productData: Prisma.ProductCreateInput[] = [
         Category: {
             connect: {
                 name: "Maison & Entretien",
-            }
+            },
         },
         Vendor: {
             connect: {
                 email: "vendor@example.com",
-            }
-        }
+            },
+        },
     },
     {
         name: "Éponges naturelles",
@@ -516,13 +516,13 @@ export const productData: Prisma.ProductCreateInput[] = [
         Category: {
             connect: {
                 name: "Maison & Entretien",
-            }
+            },
         },
         Vendor: {
             connect: {
                 email: "vendor@example.com",
-            }
-        }
+            },
+        },
     },
     {
         name: "Spray multi-usage",
@@ -533,12 +533,12 @@ export const productData: Prisma.ProductCreateInput[] = [
         Category: {
             connect: {
                 name: "Maison & Entretien",
-            }
+            },
         },
         Vendor: {
             connect: {
                 email: "vendor@example.com",
-            }
-        }
+            },
+        },
     },
 ];

@@ -18,12 +18,12 @@ export default function LogoutClient(props: LogoutClientProps) {
 
     const router = useRouter();
     const [isLoading, setIsLoading] = useState(false);
-    
+
     const handleClick = async () => {
-        setIsLoading(true)
-        
+        setIsLoading(true);
+
         onClick?.();
-        
+
         const { data } = await signOut();
 
         if (data) {

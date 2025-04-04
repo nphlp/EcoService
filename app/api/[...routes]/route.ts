@@ -49,7 +49,7 @@ const findRoute = (path: string[]): Route | null => {
 
     // Si le chemin est plus long ou la sous-route n'est pas reconnue, retourner null
     return null;
-}
+};
 
 // Type pour les paramètres de la requête
 type ParamsProps = { params: Promise<{ routes: string[] }> };

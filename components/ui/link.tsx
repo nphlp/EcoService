@@ -3,12 +3,7 @@
 import { combo } from "@lib/combo";
 import NextLink, { LinkProps as NextLinkProps } from "next/link";
 import { ReactNode } from "react";
-import {
-    buttonBaseTheme,
-    ButtonBaseKeys,
-    ButtonVariant,
-    buttonTheme,
-} from "./themes/buttonTheme";
+import { buttonBaseTheme, ButtonBaseKeys, ButtonVariant, buttonTheme } from "./themes/buttonTheme";
 import { getBaseStyle } from "./themes/utils";
 
 /** Link variant */

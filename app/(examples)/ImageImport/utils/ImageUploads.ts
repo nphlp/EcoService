@@ -21,7 +21,7 @@ export const ImageValidation = async (props: ImageValidationProps): Promise<Imag
         if (!imageAllowedExtensionList.includes(imageExtension)) {
             return { status: false, message: "Invalid file format." };
         }
-        
+
         // Image size
         const imageSize = imageFile.size;
         const imageLimitSize = 1 * 1024 * 1024; // 1MB

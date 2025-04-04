@@ -3,26 +3,26 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { FetchProps, FetchResponse, FetchV2, Params, Route } from "./FetchV2";
 
-export type FetchHookProps<
-    Input,
-    R extends Route<Input>,
-    P extends Params<Input, R>
-> = Omit<FetchProps<Input, R, P>, "client"> & {
+export type FetchHookProps<Input, R extends Route<Input>, P extends Params<Input, R>> = Omit<
+    FetchProps<Input, R, P>,
+    "client"
+> & {
     fetchOnFirstRender?: boolean;
 };
 
-export const useFetchV2 = <
-    Input,
-    R extends Route<Input>,
-    P extends Params<Input, R>
->(props: FetchHookProps<Input, R, P>) => {
+export const useFetchV2 = <Input, R extends Route<Input>, P extends Params<Input, R>>(
+    props: FetchHookProps<Input, R, P>,
+) => {
     const { route, params, fetchOnFirstRender = false } = props;
 
     const stringifiedParams = JSON.stringify(params);
-    const memoizedProps = useMemo(() => ({
-        route,
-        params: JSON.parse(stringifiedParams),
-    }), [route, stringifiedParams]);
+    const memoizedProps = useMemo(
+        () => ({
+            route,
+            params: JSON.parse(stringifiedParams),
+        }),
+        [route, stringifiedParams],
+    );
 
     const fetchOnFirstRenderRef = useRef(fetchOnFirstRender);
 

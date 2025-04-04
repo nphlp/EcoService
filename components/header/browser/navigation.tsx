@@ -165,24 +165,22 @@ const RightNav = () => {
             )}
 
             {/* Dashboard button */}
-            {(role === "ADMIN" ||
-                role === "EMPLOYEE" ||
-                role === "VENDOR") && (
-                    <ButtonClient
-                        type="link"
-                        href="/dashboard"
-                        label="dashboard"
-                        variant="ghost"
-                        className="p-2"
-                        onClick={() => {
-                            setSearchOpen(false);
-                            setCategorieOpen(false);
-                            setBasketOpen(false);
-                        }}
-                    >
-                        <Store />
-                    </ButtonClient>
-                )}
+            {(role === "ADMIN" || role === "EMPLOYEE" || role === "VENDOR") && (
+                <ButtonClient
+                    type="link"
+                    href="/dashboard"
+                    label="dashboard"
+                    variant="ghost"
+                    className="p-2"
+                    onClick={() => {
+                        setSearchOpen(false);
+                        setCategorieOpen(false);
+                        setBasketOpen(false);
+                    }}
+                >
+                    <Store />
+                </ButtonClient>
+            )}
 
             {/* Basket button */}
             <ButtonClient

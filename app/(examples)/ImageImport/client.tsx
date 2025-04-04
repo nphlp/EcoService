@@ -23,7 +23,7 @@ export default function AddFruitClient() {
     const handleImageChange = async (e: ChangeEvent<HTMLInputElement>) => {
         const imageFile = e.target.files?.[0] as File;
 
-        const {status, message} = await ImageValidation({ imageFile });
+        const { status, message } = await ImageValidation({ imageFile });
 
         if (status) {
             setMessage(message);
@@ -89,7 +89,7 @@ export default function AddFruitClient() {
             </ImageCard>
             <Card className="flex flex-col items-center gap-4">
                 <h1 className="text-center text-xl font-bold">Add fruit</h1>
-                <div className="text-wrap text-center text-xs text-gray-500">Fill the fields to add a new fruit.</div>
+                <div className="text-center text-xs text-wrap text-gray-500">Fill the fields to add a new fruit.</div>
                 <InputClient
                     type="text"
                     label="name"

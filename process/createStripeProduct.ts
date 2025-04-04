@@ -115,7 +115,8 @@ export const CreateStripeProductProcess = async (
             },
         });
 
-        if (!createProductInStripe) { // TODO: check this condition
+        if (!createProductInStripe) {
+            // TODO: check this condition
             return {
                 message:
                     "Failed to create product in Stripe, but product was created in database successfully. Please contact support.",

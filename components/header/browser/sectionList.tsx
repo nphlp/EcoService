@@ -137,7 +137,7 @@ export default function SectionList(props: SubProps) {
                     setBasketOpen(false);
                 }}
             >
-                <h3 className="w-full text-2xl font-bold text-primary">Catégories</h3>
+                <h3 className="text-primary w-full text-2xl font-bold">Catégories</h3>
                 <div className="flex w-full flex-row flex-wrap items-center justify-center gap-x-5 gap-y-3 xl:w-3/4">
                     <ButtonClient
                         type="link"
@@ -168,7 +168,7 @@ export default function SectionList(props: SubProps) {
 
             {/* Search section */}
             <MotionSection open={searchOpen}>
-                <h3 className="w-full text-2xl font-bold text-primary">Rechercher</h3>
+                <h3 className="text-primary w-full text-2xl font-bold">Rechercher</h3>
                 <div className="flex w-1/2 flex-row gap-3">
                     <InputClient
                         ref={inputSearchRef}
@@ -189,7 +189,7 @@ export default function SectionList(props: SubProps) {
                         type="link"
                         label="search"
                         variant="none"
-                        className="rounded-md border border-gray-300 bg-white p-1 focus:ring-secondary focus:ring-offset-0"
+                        className="focus:ring-secondary rounded-md border border-gray-300 bg-white p-1 focus:ring-offset-0"
                         href={urlSerializer("/catalog", { search: searchValue })}
                         onClick={handleSearch}
                     >
@@ -265,7 +265,7 @@ export default function SectionList(props: SubProps) {
                                         href={urlSerializer("/catalog", { category: id })}
                                         onClick={() => handleCategorySearch(id)}
                                     >
-                                        <span className="rounded bg-gray-100 px-2 py-0.5 text-xxs font-bold text-gray-500">
+                                        <span className="text-xxs rounded bg-gray-100 px-2 py-0.5 font-bold text-gray-500">
                                             CATEGORY
                                         </span>
                                         <span>{keyword}</span>

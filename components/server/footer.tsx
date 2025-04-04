@@ -15,7 +15,7 @@ export default function Footer(props: FooterProps) {
                 <div className="flex size-[70px] items-center justify-center rounded-full bg-white md:size-[108px]">
                     <Logo className="size-16 md:size-24" />
                 </div>
-                <h1 className="text-4xl font-bold uppercase text-white">Circle</h1>
+                <h1 className="text-4xl font-bold text-white uppercase">Circle</h1>
             </div>
             <div className="flex flex-row items-center justify-center gap-20">
                 <div className="flex flex-col items-start justify-center gap-3 text-lg text-white">

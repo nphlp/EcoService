@@ -33,7 +33,9 @@ export default async function Page(props: PageProps) {
 
     const { name, image, price, description, stock, Vendor, Category } = product;
 
-    {console.log(`product-${id}`)}
+    {
+        console.log(`product-${id}`);
+    }
 
     return (
         <div className="container mx-auto px-4 py-8">
@@ -45,7 +47,7 @@ export default async function Page(props: PageProps) {
 
             <div className="grid gap-8 md:grid-cols-2">
                 {/* Image du produit */}
-                <div className="rounded-2xl bg-white p-4 border border-gray-300 shadow-[2px_2px_7px_rgba(0,0,0,0.1)]">
+                <div className="rounded-2xl border border-gray-300 bg-white p-4 shadow-[2px_2px_7px_rgba(0,0,0,0.1)]">
                     <ViewTransition name={`product-${id}`}>
                         <ImageRatio src={image} alt={name} />
                     </ViewTransition>
@@ -64,7 +66,7 @@ export default async function Page(props: PageProps) {
                     </div>
 
                     {/* Prix et stock */}
-                    <div className="space-y-4 rounded-xl bg-white p-6 border border-gray-300 shadow-[2px_2px_7px_rgba(0,0,0,0.1)]">
+                    <div className="space-y-4 rounded-xl border border-gray-300 bg-white p-6 shadow-[2px_2px_7px_rgba(0,0,0,0.1)]">
                         <div className="flex items-end justify-between">
                             <div>
                                 <p className="text-sm text-gray-500">Prix</p>
@@ -83,7 +85,7 @@ export default async function Page(props: PageProps) {
 
                     {/* Vendeur */}
                     {Vendor && (
-                        <div className="rounded-xl bg-white p-6 border border-gray-300 shadow-[2px_2px_7px_rgba(0,0,0,0.1)]">
+                        <div className="rounded-xl border border-gray-300 bg-white p-6 shadow-[2px_2px_7px_rgba(0,0,0,0.1)]">
                             <p className="text-sm text-gray-500">Vendu par</p>
                             <p className="font-medium">{Vendor.name}</p>
                         </div>
@@ -91,15 +93,15 @@ export default async function Page(props: PageProps) {
 
                     {/* Avantages */}
                     <div className="grid grid-cols-3 gap-4">
-                        <div className="flex flex-col items-center rounded-xl bg-white p-4 text-center border border-gray-300 shadow-[2px_2px_7px_rgba(0,0,0,0.1)]">
+                        <div className="flex flex-col items-center rounded-xl border border-gray-300 bg-white p-4 text-center shadow-[2px_2px_7px_rgba(0,0,0,0.1)]">
                             <Truck className="text-primary mb-2 size-6" />
                             <span className="text-sm">Livraison rapide</span>
                         </div>
-                        <div className="flex flex-col items-center rounded-xl bg-white p-4 text-center border border-gray-300 shadow-[2px_2px_7px_rgba(0,0,0,0.1)]">
+                        <div className="flex flex-col items-center rounded-xl border border-gray-300 bg-white p-4 text-center shadow-[2px_2px_7px_rgba(0,0,0,0.1)]">
                             <Package2 className="text-primary mb-2 size-6" />
                             <span className="text-sm">Emballage écologique</span>
                         </div>
-                        <div className="flex flex-col items-center rounded-xl bg-white p-4 text-center border border-gray-300 shadow-[2px_2px_7px_rgba(0,0,0,0.1)]">
+                        <div className="flex flex-col items-center rounded-xl border border-gray-300 bg-white p-4 text-center shadow-[2px_2px_7px_rgba(0,0,0,0.1)]">
                             <ShieldCheck className="text-primary mb-2 size-6" />
                             <span className="text-sm">Qualité garantie</span>
                         </div>

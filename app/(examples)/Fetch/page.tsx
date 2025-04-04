@@ -11,13 +11,16 @@ export default async function Page() {
         select: { id: true, authorId: true },
     });
 
-    const articlesApi = await FetchV2({ route: "/article", params: {
-        select: { id: true, authorId: true },
-    } });
+    const articlesApi = await FetchV2({
+        route: "/article",
+        params: {
+            select: { id: true, authorId: true },
+        },
+    });
 
-    const dataPrisma = articlesPrisma[0]
-    const dataAction = articlesAction[0]
-    const dataApi = articlesApi[0]
+    const dataPrisma = articlesPrisma[0];
+    const dataAction = articlesAction[0];
+    const dataApi = articlesApi[0];
 
     if (!dataPrisma || !dataAction || !dataApi) {
         return <div>No data</div>;

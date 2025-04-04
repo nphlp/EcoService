@@ -5,17 +5,10 @@ import { ResponseFormat } from "@utils/FetchConfig";
 export type Route<Input> = keyof Routes<Input>;
 
 // Params type for a specific route
-export type Params<
-    Input,
-    R extends Route<Input>
-> = Routes<Input>[R]["params"];
+export type Params<Input, R extends Route<Input>> = Routes<Input>[R]["params"];
 
 // Fetch props type
-export type FetchProps<
-    Input,
-    R extends Route<Input>,
-    P extends Params<Input, R>
-> = {
+export type FetchProps<Input, R extends Route<Input>, P extends Params<Input, R>> = {
     route: R;
     params?: P;
     signal?: AbortSignal;
@@ -23,19 +16,11 @@ export type FetchProps<
 };
 
 // Fetch response type
-export type FetchResponse<
-    Input,
-    R extends Route<Input>,
-    P extends Params<Input, R>
-> = Routes<P>[R]["response"];
+export type FetchResponse<Input, R extends Route<Input>, P extends Params<Input, R>> = Routes<P>[R]["response"];
 
 // Generic function for all routes
-export const FetchV2 = async <
-    Input,
-    R extends Route<Input>,
-    P extends Params<Input, R>
->(
-    props: FetchProps<Input, R, P>
+export const FetchV2 = async <Input, R extends Route<Input>, P extends Params<Input, R>>(
+    props: FetchProps<Input, R, P>,
 ): Promise<FetchResponse<Input, R, P>> => {
     const { route, params, signal, client = false } = props;
 

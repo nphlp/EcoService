@@ -2,13 +2,13 @@
 
 /**
  * Générateur de fichiers backend basé sur le schéma Prisma
- * 
+ *
  * Ce script examine le schéma Prisma pour générer automatiquement:
  * - Des classes de service pour chaque modèle
  * - Des actions pour les opérations CRUD
  * - Des endpoints API REST
  * - Des fichiers index pour faciliter les imports
- * 
+ *
  * Architecture:
  * - mapping.ts: définit les templates et leurs destinations
  * - fileUtils.ts: gère les opérations de fichiers (création, suppression)

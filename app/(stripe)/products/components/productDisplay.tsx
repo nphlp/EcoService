@@ -26,7 +26,7 @@ export default function ProductDisplay(props: ProductDisplayProps) {
             {/* Hero Section */}
             <div className="bg-gradient-to-br from-[#0A0A2C] to-[#1a1a4b] text-white">
                 <div className="mx-auto max-w-7xl px-4 py-24">
-                    <h1 className="text-center text-5xl font-bold leading-tight md:text-6xl">
+                    <h1 className="text-center text-5xl leading-tight font-bold md:text-6xl">
                         <div>
                             <span className="text-[#5CEBDF]">Découvrez</span>
                             <span> nos produits</span>
@@ -63,10 +63,9 @@ export default function ProductDisplay(props: ProductDisplayProps) {
                             )}
                         </div>
                         <div className="mt-4 text-center">
-                            <h3 className="text-xl text-primary">{product.name}</h3>
+                            <h3 className="text-primary text-xl">{product.name}</h3>
                             <p className="mt-1 text-lg">
-                                {((product.default_price as Stripe.Price).unit_amount as number / 100).toFixed(2)}
-                                €
+                                {(((product.default_price as Stripe.Price).unit_amount as number) / 100).toFixed(2)}€
                             </p>
                         </div>
                     </div>

@@ -7,7 +7,7 @@ import { Inter } from "next/font/google";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
 import { ReactNode } from "react";
 
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -28,13 +28,13 @@ export default async function Layout(props: LayoutProps) {
             <body className={combo("flex h-full flex-col overflow-hidden", inter.className)}>
                 <NuqsAdapter>
                     <Header />
-                    <main className="pointer-events-none relative z-10 w-full flex-1 overflow-y-auto overflow-x-hidden">
+                    <main className="pointer-events-none relative z-10 w-full flex-1 overflow-x-hidden overflow-y-auto">
                         <div className="pointer-events-auto flex min-h-full w-full flex-col bg-white">{children}</div>
                         <div className="h-[300px] w-full bg-transparent">
                             <div className="h-4 bg-gradient-to-b from-gray-900/50 to-transparent" />
                         </div>
                     </main>
-                    <Footer className="pointer-events-auto absolute bottom-0 h-[300px] w-full bg-primary" />
+                    <Footer className="bg-primary pointer-events-auto absolute bottom-0 h-[300px] w-full" />
                 </NuqsAdapter>
             </body>
         </html>

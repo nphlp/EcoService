@@ -1,12 +1,6 @@
 import { insertUsers } from "@fixtures/userData";
 import PrismaInstance from "@lib/prisma";
-import {
-    insertArticles,
-    insertCategories,
-    insertDIYs,
-    insertFruits,
-    insertProducts,
-} from "./index";
+import { insertArticles, insertCategories, insertDIYs, insertFruits, insertProducts } from "./index";
 
 /**
  * Commandes pour la gestion des données de test (fixtures)

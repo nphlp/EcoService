@@ -26,7 +26,13 @@ type ProductListFetchParams = {
     search: SearchParamsType["search"];
 };
 
-export const ProductListFetchParams = ({ priceOrder, page, take, category, search }: ProductListFetchParams): FindManyProductProps => ({
+export const ProductListFetchParams = ({
+    priceOrder,
+    page,
+    take,
+    category,
+    search,
+}: ProductListFetchParams): FindManyProductProps => ({
     ...(priceOrder !== "not" && { orderBy: { price: priceOrder } }),
     ...(page > 1 && { skip: (page - 1) * take }),
     take,

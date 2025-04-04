@@ -14,10 +14,7 @@ export type CatalogStoreType = {
     };
 
     // Actions
-    setDataStore: (newDataStore: {
-        productList: ProductListState;
-        productAmount: ProductAmountState;
-    }) => void;
+    setDataStore: (newDataStore: { productList: ProductListState; productAmount: ProductAmountState }) => void;
 };
 
 /**
@@ -29,7 +26,7 @@ export const useCatalogStore = create<CatalogStoreType>()((set) => ({
 
     // Actions
     setDataStore: (newDataStore: CatalogStoreType["dataStore"]) =>
-        set(({dataStore}) => ({
+        set(({ dataStore }) => ({
             dataStore: {
                 ...(dataStore ?? {
                     productList: null,

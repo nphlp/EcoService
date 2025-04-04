@@ -35,5 +35,5 @@ export const Title = (props: { children: ReactNode }) => {
 
 export const Text = (props: { children: ReactNode }) => {
     const { children } = props;
-    return <p className="line-clamp-3 text-wrap text-sm">{children}</p>;
+    return <p className="line-clamp-3 text-sm text-wrap">{children}</p>;
 };

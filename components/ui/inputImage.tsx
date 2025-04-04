@@ -157,7 +157,7 @@ export default function InputFile(props: InputFileProps) {
                                     handleReset();
                                 }
                             }}
-                            className={combo(imagePreview && "cursor-pointer", "absolute right-2 top-2")}
+                            className={combo(imagePreview && "cursor-pointer", "absolute top-2 right-2")}
                         >
                             <X className="size-8 text-white drop-shadow-[0_0_2px_rgba(0,0,0,0.7)]" />
                         </Button>

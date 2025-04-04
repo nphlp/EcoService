@@ -74,13 +74,8 @@ export default function Feedback(props: FeedbackProps) {
             transition={{ duration: 1 }}
             className={combo("flex w-full justify-center overflow-hidden")}
         >
-            <div
-                className={combo(
-                    "rounded-xl border text-sm text-wrap",
-                    modeStyle[mode].class
-                )}
-            >
-                <div className={combo("px-5 py-2 flex items-center justify-center gap-2 ")}>
+            <div className={combo("rounded-xl border text-sm text-wrap", modeStyle[mode].class)}>
+                <div className={combo("flex items-center justify-center gap-2 px-5 py-2")}>
                     {modeStyle[mode].icon}
                     <span>{message}</span>
                 </div>

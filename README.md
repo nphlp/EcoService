@@ -40,7 +40,7 @@ Install the project in three steps: `software requirements`, `environment variab
     2. Create a [Stripe Account](https://dashboard.stripe.com) (an IBAN is required, even for development/testing accounts)
     3. Go to the [Workbench section](https://dashboard.stripe.com/test/workbench/overview) and get your Stripe Public and Private API keys
 
-- `STRIPE_WEBHOOK_SECRET` 
+- `STRIPE_WEBHOOK_SECRET`
     1. Create a [Webhook endpoint](https://dashboard.stripe.com/test/workbench/webhooks) with the following events:
         - `account.updated`
         - `charge.dispute.created`
@@ -50,7 +50,7 @@ Install the project in three steps: `software requirements`, `environment variab
         - `payment_intent.succeeded`
         - `payout.failed`
         - `payout.paid`
-    5. You will recive your Webhook Key when starting `pnpm stripe:webhooks` at the end of the setup
+    2. You will recive your Webhook Key when starting `pnpm stripe:webhooks` at the end of the setup
 
 ### Project setup
 

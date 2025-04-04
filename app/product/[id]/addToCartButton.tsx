@@ -24,14 +24,14 @@ export default function AddToCartButton(props: AddToCartButtonProps) {
     };
 
     return (
-        <ButtonClient 
-            type="button" 
+        <ButtonClient
+            type="button"
             disabled={stock === 0}
             className="w-full"
-            label={stock === 0 ? 'Indisponible' : isInBasket ? 'Retirer du panier' : 'Ajouter au panier'}
+            label={stock === 0 ? "Indisponible" : isInBasket ? "Retirer du panier" : "Ajouter au panier"}
             onClick={handleClick}
         >
-            {stock === 0 ? 'Indisponible' : isInBasket ? 'Retirer du panier' : 'Ajouter au panier'}
+            {stock === 0 ? "Indisponible" : isInBasket ? "Retirer du panier" : "Ajouter au panier"}
         </ButtonClient>
     );
-} 
+}

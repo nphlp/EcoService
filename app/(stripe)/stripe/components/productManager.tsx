@@ -131,7 +131,12 @@ export default function ProductManager() {
 
         try {
             // Validate required fields
-            if (!formData.name.trim() || !formData.description.trim() || !formData.amount.trim() || !formData.categoryId) {
+            if (
+                !formData.name.trim() ||
+                !formData.description.trim() ||
+                !formData.amount.trim() ||
+                !formData.categoryId
+            ) {
                 throw new Error("Veuillez remplir tous les champs obligatoires et sélectionner une catégorie");
             }
 
@@ -145,10 +150,13 @@ export default function ProductManager() {
                 formDataToSend.append("image", formData.image);
             }
 
-            const response = await fetch(editingProduct ? `/api/stripe/products/${editingProduct.id}` : "/api/stripe/products", {
-                method: editingProduct ? "PUT" : "POST",
-                body: formDataToSend,
-            });
+            const response = await fetch(
+                editingProduct ? `/api/stripe/products/${editingProduct.id}` : "/api/stripe/products",
+                {
+                    method: editingProduct ? "PUT" : "POST",
+                    body: formDataToSend,
+                },
+            );
 
             const data = await response.json();
 
@@ -182,7 +190,7 @@ export default function ProductManager() {
     const createCategory = async (e: React.FormEvent) => {
         e.preventDefault();
         setCategoryLoading(true);
-        
+
         try {
             // Create a POST endpoint for categories if it doesn't exist
             const response = await fetch("/api/categories", {
@@ -192,12 +200,12 @@ export default function ProductManager() {
                 },
                 body: JSON.stringify(newCategory),
             });
-            
+
             if (!response.ok) {
                 const errorData = await response.json();
                 throw new Error(errorData.error || "Failed to create category");
             }
-            
+
             await fetchCategories();
             setNewCategory({ name: "", description: "" });
             setShowCategoryForm(false);
@@ -237,7 +245,7 @@ export default function ProductManager() {
             {/* Hero Section */}
             <div className="bg-gradient-to-br from-[#0A0A2C] to-[#1a1a4b] text-white">
                 <div className="mx-auto max-w-7xl px-4 py-24">
-                    <h1 className="text-center text-5xl font-bold leading-tight md:text-6xl">
+                    <h1 className="text-center text-5xl leading-tight font-bold md:text-6xl">
                         <span className="text-[#5CEBDF]">Découvrez</span> nos
                         <br />
                         services écologiques
@@ -287,12 +295,12 @@ export default function ProductManager() {
                                 )}
                             </div>
                             <div className="mt-4 text-center">
-                                <h3 className="text-xl text-primary">{product.name}</h3>
+                                <h3 className="text-primary text-xl">{product.name}</h3>
                                 <p className="mt-1 text-lg">{(product.default_price?.unit_amount || 0) / 100}€</p>
                             </div>
                         </div>
                     ))}
-                    
+
                     {(!products || products.length === 0) && (
                         <div className="col-span-full py-12 text-center">
                             <p className="text-lg text-gray-600">Aucun produit disponible pour le moment.</p>
@@ -321,7 +329,7 @@ export default function ProductManager() {
                                     }
                                     className={combo(
                                         "w-full rounded-xl border border-white/20 bg-white/10 px-4 py-3 text-white",
-                                        "focus:border-transparent focus:outline-none focus:ring-2 focus:ring-[#5CEBDF]",
+                                        "focus:border-transparent focus:ring-2 focus:ring-[#5CEBDF] focus:outline-none",
                                         "placeholder:text-gray-400",
                                     )}
                                     required
@@ -343,7 +351,7 @@ export default function ProductManager() {
                                     }
                                     className={combo(
                                         "w-full rounded-xl border border-white/20 bg-white/10 px-4 py-3 text-white",
-                                        "focus:border-transparent focus:outline-none focus:ring-2 focus:ring-[#5CEBDF]",
+                                        "focus:border-transparent focus:ring-2 focus:ring-[#5CEBDF] focus:outline-none",
                                         "min-h-[120px] placeholder:text-gray-400",
                                     )}
                                     required
@@ -368,12 +376,12 @@ export default function ProductManager() {
                                         }
                                         className={combo(
                                             "w-full rounded-xl border border-white/20 bg-white/10 px-4 py-3 pl-10 text-white",
-                                            "focus:border-transparent focus:outline-none focus:ring-2 focus:ring-[#5CEBDF]",
+                                            "focus:border-transparent focus:ring-2 focus:ring-[#5CEBDF] focus:outline-none",
                                             "placeholder:text-gray-400",
                                         )}
                                         required
                                     />
-                                    <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">€</span>
+                                    <span className="absolute top-1/2 left-4 -translate-y-1/2 text-gray-400">€</span>
                                 </div>
                             </div>
 
@@ -390,38 +398,48 @@ export default function ProductManager() {
                                         {showCategoryForm ? "Annuler" : "+ Ajouter une catégorie"}
                                     </button>
                                 </div>
-                                
+
                                 {showCategoryForm ? (
                                     <div className="mb-4 rounded-xl border border-white/20 bg-white/10 p-4">
                                         <h4 className="mb-3 text-lg font-medium text-white">Nouvelle catégorie</h4>
                                         <form onSubmit={createCategory} className="space-y-4">
                                             <div>
-                                                <label htmlFor="categoryName" className="mb-1 block text-sm text-gray-300">
+                                                <label
+                                                    htmlFor="categoryName"
+                                                    className="mb-1 block text-sm text-gray-300"
+                                                >
                                                     Nom
                                                 </label>
                                                 <input
                                                     id="categoryName"
                                                     value={newCategory.name}
-                                                    onChange={(e) => setNewCategory({...newCategory, name: e.target.value})}
+                                                    onChange={(e) =>
+                                                        setNewCategory({ ...newCategory, name: e.target.value })
+                                                    }
                                                     className={combo(
                                                         "w-full rounded-xl border border-white/20 bg-white/10 px-4 py-2 text-white",
-                                                        "focus:border-transparent focus:outline-none focus:ring-2 focus:ring-[#5CEBDF]",
+                                                        "focus:border-transparent focus:ring-2 focus:ring-[#5CEBDF] focus:outline-none",
                                                         "placeholder:text-gray-400",
                                                     )}
                                                     required
                                                 />
                                             </div>
                                             <div>
-                                                <label htmlFor="categoryDescription" className="mb-1 block text-sm text-gray-300">
+                                                <label
+                                                    htmlFor="categoryDescription"
+                                                    className="mb-1 block text-sm text-gray-300"
+                                                >
                                                     Description (optionnel)
                                                 </label>
                                                 <input
                                                     id="categoryDescription"
                                                     value={newCategory.description}
-                                                    onChange={(e) => setNewCategory({...newCategory, description: e.target.value})}
+                                                    onChange={(e) =>
+                                                        setNewCategory({ ...newCategory, description: e.target.value })
+                                                    }
                                                     className={combo(
                                                         "w-full rounded-xl border border-white/20 bg-white/10 px-4 py-2 text-white",
-                                                        "focus:border-transparent focus:outline-none focus:ring-2 focus:ring-[#5CEBDF]",
+                                                        "focus:border-transparent focus:ring-2 focus:ring-[#5CEBDF] focus:outline-none",
                                                         "placeholder:text-gray-400",
                                                     )}
                                                 />
@@ -443,15 +461,17 @@ export default function ProductManager() {
                                     <select
                                         id="category"
                                         value={formData.categoryId}
-                                        onChange={(e) => setFormData({...formData, categoryId: e.target.value})}
+                                        onChange={(e) => setFormData({ ...formData, categoryId: e.target.value })}
                                         className={combo(
                                             "w-full rounded-xl border border-white/20 bg-white/10 px-4 py-3 text-white",
-                                            "focus:border-transparent focus:outline-none focus:ring-2 focus:ring-[#5CEBDF]",
+                                            "focus:border-transparent focus:ring-2 focus:ring-[#5CEBDF] focus:outline-none",
                                             "placeholder:text-gray-400",
                                         )}
                                         required
                                     >
-                                        <option value="" disabled>Sélectionnez une catégorie</option>
+                                        <option value="" disabled>
+                                            Sélectionnez une catégorie
+                                        </option>
                                         {categories.map((category) => (
                                             <option key={category.id} value={category.id}>
                                                 {category.name}

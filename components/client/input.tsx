@@ -20,7 +20,8 @@ type InputProps = {
           // If type is file
           type: "file";
       } & Omit<InputHTMLAttributes<HTMLInputElement>, "type">)
-) & RefAttributes<HTMLInputElement>;
+) &
+    RefAttributes<HTMLInputElement>;
 
 export default function InputClient(props: InputProps) {
     const {
@@ -63,7 +64,7 @@ export default function InputClient(props: InputProps) {
             <input
                 className={combo(
                     ring && "ring-transparent ring-offset-0 focus:ring-2 focus:ring-teal-400 focus:ring-offset-2",
-                    "rounded-md border border-gray-300 px-2 outline-none transition-all duration-150",
+                    "rounded-md border border-gray-300 px-2 transition-all duration-150 outline-none",
                     classInput,
                 )}
                 type={type}

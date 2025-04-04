@@ -5,8 +5,8 @@ export const insertUsers = async () => {
     try {
         for (const data of userData) {
             // Creer l'utilisateur et son compte
-            const { id, Account} = await PrismaInstance.user.create({ data, include: { Account: true } });
-            
+            const { id, Account } = await PrismaInstance.user.create({ data, include: { Account: true } });
+
             // Copier l'id de l'utilisateur dans l'accountId pour correspondre aux spécifications de BetterAuth
             await PrismaInstance.account.update({
                 where: { id: Account[0].id },

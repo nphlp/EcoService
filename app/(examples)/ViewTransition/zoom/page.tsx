@@ -9,7 +9,7 @@ export default function Page() {
                 <ImageRatio className="h-96 rounded-xl" src={"/illustration/produit 2.jpg"} alt={"Product 1"} />
             </ViewTransition>
             <ViewTransition name="button">
-            <Link href="/ViewTransition" label="Back" />
+                <Link href="/ViewTransition" label="Back" />
             </ViewTransition>
         </div>
     );

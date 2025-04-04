@@ -281,7 +281,7 @@ export default function SelectUp(props: SelectUpProps) {
                                     onBlur={handleBlur}
                                     onKeyDown={handleKeyDownOption}
                                     className={combo(
-                                        "flex flex-row justify-start items-center gap-2",
+                                        "flex flex-row items-center justify-start gap-2",
                                         "hover:cursor-pointer hover:bg-gray-100",
                                         "ring-0 outline-none focus:ring-2 focus:ring-teal-300",
                                         "w-full rounded-md px-3 py-0.5 text-sm",
@@ -289,9 +289,11 @@ export default function SelectUp(props: SelectUpProps) {
                                         classOption,
                                     )}
                                 >
-                                    {selectedLabel === label ? <Check className={combo("size-4 stroke-3")} />
-                                        :
-                                        <div className="size-4"></div>}
+                                    {selectedLabel === label ? (
+                                        <Check className={combo("size-4 stroke-3")} />
+                                    ) : (
+                                        <div className="size-4"></div>
+                                    )}
                                     <span>{label}</span>
                                 </button>
                             ))

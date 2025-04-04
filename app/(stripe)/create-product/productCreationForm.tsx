@@ -13,7 +13,7 @@ import { authorizedFileSize, authorizedFormats } from "@utils/ImageValidation";
 import { useState } from "react";
 
 type ProductCreationFormPros = {
-    categoryList: FindManyCategoryResponse<FindManyCategoryProps>    ;
+    categoryList: FindManyCategoryResponse<FindManyCategoryProps>;
 };
 
 export default function ProductCreationForm(props: ProductCreationFormPros) {

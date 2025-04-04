@@ -34,10 +34,13 @@ export const useFetch = <Key extends keyof Routes>(props: FetchHookProps<Key>) =
     const stringifiedParams = JSON.stringify(params);
 
     // Memoize the props to avoid re-rendering the component when the params change
-    const memoizedProps = useMemo(() => ({
-        route,
-        params: JSON.parse(stringifiedParams),
-    }), [route, stringifiedParams]);
+    const memoizedProps = useMemo(
+        () => ({
+            route,
+            params: JSON.parse(stringifiedParams),
+        }),
+        [route, stringifiedParams],
+    );
 
     // Enable or disable the fetch on first render, depending on SSR (false by default) or CSR (true)
     const fetchOnFirstRenderRef = useRef(fetchOnFirstRender);

@@ -27,7 +27,7 @@ export default function MobileHeader(props: MobileHeaderProps) {
                 variant="none"
                 padding="none"
                 className={combo(
-                    "absolute bottom-5 right-5 z-50 rounded-full border border-gray-500 bg-white p-3 shadow-md",
+                    "absolute right-5 bottom-5 z-50 rounded-full border border-gray-500 bg-white p-3 shadow-md",
                     visibilityMenu && "hidden",
                 )}
                 onClick={() => setVisibilityMenu(true)}
@@ -113,7 +113,11 @@ export default function MobileHeader(props: MobileHeaderProps) {
                             >
                                 Profile
                             </ButtonClient>
-                            <LogoutClient variant="outline" onClick={() => setVisibilityMenu(false)} className={combo(buttonClass)}>
+                            <LogoutClient
+                                variant="outline"
+                                onClick={() => setVisibilityMenu(false)}
+                                className={combo(buttonClass)}
+                            >
                                 Déconnexion
                             </LogoutClient>
                         </>

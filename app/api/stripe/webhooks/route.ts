@@ -4,7 +4,7 @@ import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { ResponseFormat } from "@utils/FetchConfig";
 
-export type StripeWebhookResponse = boolean
+export type StripeWebhookResponse = boolean;
 
 /**
  * Route for handling Stripe webhooks

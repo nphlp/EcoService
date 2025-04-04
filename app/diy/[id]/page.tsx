@@ -39,7 +39,7 @@ export default async function Page(props: PageProps) {
 
     const productList = await FetchV2({
         route: "/product",
-        params: ProductFetchParams
+        params: ProductFetchParams,
     });
 
     if (!diy || !productList) {
@@ -90,7 +90,7 @@ export default async function Page(props: PageProps) {
             </section>
 
             <div className="mt-16 flex justify-center">
-                <Link  href="/diy" label="Retour aux DIY" variant="outline">
+                <Link href="/diy" label="Retour aux DIY" variant="outline">
                     Retour aux DIY
                 </Link>
             </div>

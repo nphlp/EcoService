@@ -9,7 +9,7 @@
         "start:debug": "NODE_OPTIONS='--trace-warnings --enable-source-maps' NODE_ENV=development NEXTJS_SHOW_SERVER_ERRORS=true next start",
         "lint": "next lint",
         "type": "tsc --noEmit",
-        "format": "pnpm exec prettier . --write",
+        "format": "pnpm exec prettier . --write --ignore-path .prettierignore",
         "auto": "pnpm install && pnpm db:reload && pnpm prisma:generate && pnpm prisma:migrate && pnpm fixtures:reload && pnpm run dev",
         "db:setup": "tsx scripts/db.ts setup.sql",
         "db:reset": "tsx scripts/db.ts reset.sql",

@@ -57,7 +57,7 @@ export default function Modal(props: ModalClientProps) {
                         baseStyleWithout={["font", "padding"]}
                         onClick={() => setIsModalOpen(false)}
                         className="absolute top-2 right-2 p-0.5"
-                >
+                    >
                         <X className="stroke-[2.2px] text-black" />
                     </Button>
                 )}

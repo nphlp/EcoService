@@ -47,11 +47,7 @@ export default function ProfileClient() {
 
     return (
         <>
-            <ModalClient
-                isModalOpen={isModalOpen}
-                setIsModalOpen={setIsModalOpen}
-                className="max-w-[350px] space-y-3"
-            >
+            <ModalClient isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} className="max-w-[350px] space-y-3">
                 <h2 className="text-center text-xl font-bold">Confirmation d&apos;email</h2>
                 <div className="text-sm">Veuillez vérifier votre adresse email.</div>
                 <div className="flex flex-col items-center">
@@ -97,7 +93,7 @@ export default function ProfileClient() {
                         <div key={index}>
                             <div className="flex flex-row gap-2 text-xs">
                                 <span className="font-bold">Session {index + 1}</span>
-                                <span className="italic text-gray-500">{session?.session.id === id && "Current"}</span>
+                                <span className="text-gray-500 italic">{session?.session.id === id && "Current"}</span>
                             </div>
                             <div className="flex flex-row items-center justify-between gap-1">
                                 <div className="line-clamp-1 text-sm text-gray-700">{userAgent}</div>
@@ -128,7 +124,7 @@ export default function ProfileClient() {
             </Card>
             <Card className="w-[300px] space-y-3 rounded-2xl p-6">
                 <div className="text-xl font-bold">Modifer</div>
-                <div className="text-wrap text-xs text-gray-500">Mettre à jour vos informations personnelles.</div>
+                <div className="text-xs text-wrap text-gray-500">Mettre à jour vos informations personnelles.</div>
                 <div className="flex flex-col items-center gap-2">
                     <InputClient
                         label="Nom"

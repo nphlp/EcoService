@@ -43,7 +43,7 @@ export default function LoginClient() {
             setMessage("Successfully logged in.");
             setMode("success");
             setIsFeedbackOpen(true);
-            const isAuthorizedToDashboard = await isVendorOrEmployeeOrAdmin();  
+            const isAuthorizedToDashboard = await isVendorOrEmployeeOrAdmin();
             const redirectPath = isAuthorizedToDashboard ? "/dashboard" : "/profile";
 
             setTimeout(() => {
@@ -61,18 +61,13 @@ export default function LoginClient() {
         <>
             <div className="space-y-2">
                 <h1 className="text-center text-2xl font-bold">Connexion</h1>
-                <div className="text-wrap text-center text-xs text-gray-500">
+                <div className="text-center text-xs text-wrap text-gray-500">
                     Entrez vos informations personnelles pour vous connecter.
                 </div>
             </div>
             <div className="flex flex-col items-center justify-center gap-4">
                 <div className="w-full space-y-4">
-                    <Input
-                        label="Email"
-                        type="email"
-                        onChange={(e) => setEmail(e.target.value)}
-                        value={email}
-                    />
+                    <Input label="Email" type="email" onChange={(e) => setEmail(e.target.value)} value={email} />
                     <div className="flex flex-row items-end gap-1.5">
                         <Input
                             label="Mot de passe"

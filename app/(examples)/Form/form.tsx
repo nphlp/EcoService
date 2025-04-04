@@ -36,7 +36,7 @@ export default function Form(props: FormProps) {
         await new Promise((resolve) => setTimeout(resolve, 500));
 
         console.log("Name:", name, "\nCategory:", category, "\nProduct:", product, "\nImage:", image?.name);
-        
+
         setMessage("Formulaire envoyé avec succès");
         setMode("success");
         setIsFeedbackOpen(true);
