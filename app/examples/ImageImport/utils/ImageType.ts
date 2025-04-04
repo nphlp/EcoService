@@ -1,7 +1,7 @@
 export type ImageExtension = "png" | "jpg" | "jpeg" | "webp";
 
 export interface ImageValidationProps {
-    imageFile: File;
+    imageFile: File | null;
 }
 
 export type ImageValidationReturn = {

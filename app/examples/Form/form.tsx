@@ -49,7 +49,7 @@ export default function Form(props: FormProps) {
     };
 
     return (
-        <Card className="w-[450px] space-y-4 p-7">
+        <Card className="w-[450px] space-y-4">
             <Info />
             <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
                 <Input

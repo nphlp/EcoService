@@ -71,7 +71,7 @@ export default function Feedback(props: FeedbackProps) {
             animate={{
                 height: isFeedbackOpen ? "auto" : "0px",
             }}
-            transition={{ duration: 1 }}
+            transition={{ duration: 0.3 }}
             className={combo("flex w-full justify-center overflow-hidden")}
         >
             <div className={combo("rounded-xl border text-sm text-wrap", modeStyle[mode].class)}>

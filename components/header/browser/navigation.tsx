@@ -11,6 +11,7 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 import ButtonClient from "@comps/client/button";
 import { useHeaderStore } from "@comps/header/headerStore";
+import Link from "@comps/ui/link";
 
 export default function Navigation() {
     return (
@@ -103,6 +104,12 @@ const CentralNav = () => {
             >
                 DIY
             </ButtonClient>
+            <Link
+                label="Examples"
+                href="/examples"
+                variant="ghost"
+                baseStyleOnly={["padding", "rounded"]}
+            />
         </div>
     );
 };
