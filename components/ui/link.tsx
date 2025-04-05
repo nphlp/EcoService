@@ -2,8 +2,8 @@
 
 import { combo } from "@lib/combo";
 import NextLink, { LinkProps as NextLinkProps } from "next/link";
-import { ReactNode } from "react";
-import { buttonBaseTheme, ButtonBaseKeys, ButtonVariant, buttonTheme } from "./themes/buttonTheme";
+import { AnchorHTMLAttributes, ReactNode } from "react";
+import { ButtonBaseKeys, ButtonVariant, buttonBaseTheme, buttonTheme } from "./themes/buttonTheme";
 import { getBaseStyle } from "./themes/utils";
 
 /** Link variant */
@@ -17,7 +17,7 @@ type LinkProps = {
     | { baseStyle?: never; baseStyleOnly?: ButtonBaseKeys[]; baseStyleWithout?: never }
     | { baseStyle?: never; baseStyleOnly?: never; baseStyleWithout?: ButtonBaseKeys[] }
 ) &
-    Omit<NextLinkProps, "className" | "children">;
+    Omit<AnchorHTMLAttributes<HTMLAnchorElement> & NextLinkProps, "className" | "children">;
 
 /**
  * Button component
@@ -44,6 +44,7 @@ export default function Link(props: LinkProps) {
 
     return (
         <NextLink
+            aria-label={label}
             className={combo(
                 // Base styles
                 getBaseStyle({ baseTheme: buttonBaseTheme, baseStyle, baseStyleOnly, baseStyleWithout }),

@@ -1,6 +1,6 @@
+import { ArticleOrDiySlider } from "@comps/articleOrDiySlider";
 import ImageRatio from "@comps/server/imageRatio";
-import { ArticleOrDiySlider } from "@comps/slider/articleOrDiySlider";
-import { ArticleOrDiyFetchParams } from "@comps/slider/fetchParams";
+import { ArticleOrDiyFetchParams } from "@comps/sliderFetchParams";
 import Link from "@comps/ui/link";
 import { combo } from "@lib/combo";
 import { FetchV2 } from "@utils/FetchV2";
@@ -82,14 +82,11 @@ export default async function Page(props: PageProps) {
                 ))}
             </div>
 
-            {/* Ajoute un slider d'autres articles à lire */}
-            {otherArticleList && otherArticleList.length > 0 && (
-                <section className="space-y-6 border-t border-gray-200 px-6 py-8 md:px-12 md:py-16">
-                    <h2 className="text-center text-3xl font-bold">À lire aussi</h2>
-                    <p className="text-center text-gray-600">D&apos;autres articles qui pourraient vous intéresser</p>
-                    <ArticleOrDiySlider dataList={otherArticleList} link="/article" />
-                </section>
-            )}
+            <section className="space-y-6 border-t border-gray-200 px-6 py-8 md:px-12 md:py-16">
+                <h2 className="text-center text-3xl font-bold">À lire aussi</h2>
+                <p className="text-center text-gray-600">D&apos;autres articles qui pourraient vous intéresser</p>
+                <ArticleOrDiySlider articleOrDiy={otherArticleList} link="/article" />
+            </section>
 
             <div className="mt-16 flex justify-center">
                 <Link href="/article" label="Retour aux articles" variant="outline">

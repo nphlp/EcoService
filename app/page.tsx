@@ -1,9 +1,10 @@
 import ImageRatio from "@comps/server/imageRatio";
-import { ArticleOrDiySlider } from "@comps/slider/articleOrDiySlider";
-import ProductSlider from "@comps/slider/productSlider";
 import { combo } from "@lib/combo";
 import { FetchV2 } from "@utils/FetchV2";
-import { ArticleOrDiyFetchParams, ProductFetchParams } from "../components/slider/fetchParams";
+import ProductSlider from "@comps/productSlider";
+import { ArticleOrDiyFetchParams, ProductFetchParams } from "@comps/sliderFetchParams";
+import { ArticleOrDiySlider } from "@comps/articleOrDiySlider";
+
 export const dynamic = "force-dynamic";
 
 export default async function Page() {
@@ -75,15 +76,15 @@ export default async function Page() {
             </section>
             <section className="space-y-6 px-6 py-8 md:px-12 md:py-16">
                 <h2 className="text-center text-4xl font-bold">Nos produits vedettes</h2>
-                <ProductSlider dataList={productList} />
+                <ProductSlider productList={productList} />
             </section>
             <section className="bg-primary space-y-6 px-6 py-8 md:px-12 md:py-16">
                 <h2 className="text-center text-4xl font-bold text-white">Nos Do It Yourself</h2>
-                <ArticleOrDiySlider dataList={diyList} link="/diy" />
+                <ArticleOrDiySlider articleOrDiy={diyList} link="/diy" />
             </section>
             <section className="space-y-6 px-6 py-8 md:px-12 md:py-16">
                 <h2 className="text-center text-4xl font-bold">Nos articles</h2>
-                <ArticleOrDiySlider dataList={articleList} link="/article" />
+                <ArticleOrDiySlider articleOrDiy={articleList} link="/article" />
             </section>
         </>
     );

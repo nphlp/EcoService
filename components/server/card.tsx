@@ -1,14 +1,13 @@
 import { combo } from "@lib/combo";
-import { ReactNode } from "react";
+import { HTMLAttributes } from "react";
 
-type CardProps = {
+export type CardProps = {
     className?: string;
-    children: ReactNode;
-};
+} & Omit<HTMLAttributes<HTMLDivElement>, "className">;
 
 export default function Card(props: CardProps) {
-    const { className, children } = props;
+    const { className, ...others } = props;
     return (
-        <div className={combo("bg-white rounded-xl border border-gray-300 p-7 shadow-md", className)}>{children}</div>
+        <div className={combo("bg-white rounded-xl border border-gray-300 p-7 shadow-md", className)} {...others} />
     );
 }

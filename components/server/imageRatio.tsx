@@ -1,3 +1,5 @@
+"use client";
+
 import { combo } from "@lib/combo";
 import { Image as ImageTemplate } from "lucide-react";
 import Image from "next/image";
@@ -5,14 +7,13 @@ import Image from "next/image";
 type ImageRatioProps = {
     src: string | null;
     alt: string;
-    onMouseDown?: (e: React.MouseEvent<HTMLDivElement>) => void;
     /** Define width or height */
     className?: string;
     loading?: "eager" | "lazy";
 };
 
 export default function ImageRatio(props: ImageRatioProps) {
-    const { src, alt, className, loading = "eager", onMouseDown } = props;
+    const { src, alt, className, loading = "eager" } = props;
 
     if (!src) {
         return (
@@ -31,7 +32,7 @@ export default function ImageRatio(props: ImageRatioProps) {
                 sizes="100%"
                 fill
                 loading={loading}
-                onMouseDown={onMouseDown}
+                onMouseDown={(e) => e.preventDefault()}
             />
         </div>
     );

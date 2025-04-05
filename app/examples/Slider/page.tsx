@@ -1,18 +1,24 @@
+import ProductCard from "@comps/productCard";
+import Slider from "@comps/ui/slider";
 import { FetchV2 } from "@utils/FetchV2";
-import { ProductFetchParams } from "./fetchParams";
-import Slider from "./slider";
 
 export default async function Page() {
     const productList = await FetchV2({
         route: "/product",
-        params: ProductFetchParams,
+        params: {
+            take: 15,
+        },
     });
 
     return (
         <div className="flex min-h-screen flex-col items-start justify-start p-5">
             <h1 className="text-2xl font-bold">Incredible slider</h1>
-            <p className="text-gray-500 text-sm">A custom slider made with framer motion</p>
-            <Slider dataList={productList} />
+            <p className="text-sm text-gray-500">A custom slider made with framer motion</p>
+            <Slider dataListLength={productList.length}>
+                {productList.map((product, index) => (
+                    <ProductCard key={index} product={product} />
+                ))}
+            </Slider>
         </div>
     );
 }

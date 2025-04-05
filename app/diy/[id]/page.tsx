@@ -1,6 +1,6 @@
+import ProductSlider from "@comps/productSlider";
 import ImageRatio from "@comps/server/imageRatio";
-import { ProductFetchParams } from "@comps/slider/fetchParams";
-import ProductSlider from "@comps/slider/productSlider";
+import { ProductFetchParams } from "@comps/sliderFetchParams";
 import Link from "@comps/ui/link";
 import { combo } from "@lib/combo";
 import { FetchV2 } from "@utils/FetchV2";
@@ -86,7 +86,7 @@ export default async function Page(props: PageProps) {
             <section className="space-y-6 border-t border-gray-200 px-6 py-8 md:px-12 md:py-16">
                 <h2 className="text-center text-3xl font-bold">Produits recommandés</h2>
                 <p className="text-center text-gray-600">Découvrez notre sélection de produits zéro déchet</p>
-                <ProductSlider dataList={productList} />
+                <ProductSlider productList={productList}  />
             </section>
 
             <div className="mt-16 flex justify-center">
