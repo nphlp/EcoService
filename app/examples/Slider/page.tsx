@@ -9,7 +9,9 @@ export default async function Page() {
     });
 
     return (
-        <div className="flex min-h-screen flex-col items-center justify-start p-5">
+        <div className="flex min-h-screen flex-col items-start justify-start p-5">
+            <h1 className="text-2xl font-bold">Incredible slider</h1>
+            <p className="text-gray-500 text-sm">A custom slider made with framer motion</p>
             <Slider dataList={productList} />
         </div>
     );

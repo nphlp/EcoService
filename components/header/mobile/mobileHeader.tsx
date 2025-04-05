@@ -87,6 +87,16 @@ export default function MobileHeader(props: MobileHeaderProps) {
                     >
                         DIY
                     </ButtonClient>
+                    <ButtonClient
+                        type="link"
+                        href="/examples"
+                        label="examples"
+                        variant="outline"
+                        className={combo(buttonClass)}
+                        onClick={() => setVisibilityMenu(false)}
+                    >
+                        Exemples
+                    </ButtonClient>
                     {!session && (
                         <>
                             <ButtonClient
