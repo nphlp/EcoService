@@ -1,5 +1,4 @@
 import { FindUniqueProductProps } from "@services/types/ProductType";
-
 import { FindUniqueProductResponse } from "@services/types";
 
 // Product fetch params

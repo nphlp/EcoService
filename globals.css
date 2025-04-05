@@ -13,3 +13,16 @@
         --background: hsl(0, 0%, 5%);
     }
 }
+
+/* Hide scrollbar */
+.scrollbar-hide {
+    /* For Internet Explorer, and Edge */
+    -ms-overflow-style: none;
+    /* For Firefox */
+    scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+    /* For Chrome, Safari, and Opera */
+    display: none;
+}

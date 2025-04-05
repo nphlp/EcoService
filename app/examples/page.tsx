@@ -2,37 +2,74 @@ import Card from "@comps/server/card";
 import Link from "@comps/ui/link";
 
 export default function Page() {
+    const links = [
+        {
+            label: "Fetch",
+            href: "/examples/Fetch",
+            text: "How to fetch data from the server",
+        },
+        {
+            label: "useFetch",
+            href: "/examples/useFetch",
+            text: "How to fetch data from the client",
+        },
+        {
+            label: "Fetch Parallelized",
+            href: "/examples/FetchParallelized",
+            text: "How to fetch data from the server in parallel",
+        },
+        {
+            label: "Form",
+            href: "/examples/Form",
+            text: "How to create a form",
+        },
+        {
+            label: "Image Import",
+            href: "/examples/ImageImport",
+            text: "How to import an image",
+        },
+        {
+            label: "View Transition",
+            href: "/examples/ViewTransition",
+            text: "How to create a view transition",
+        },
+        {
+            label: "Slider",
+            href: "/examples/Slider",
+            text: "How to create a slider",
+        },
+    ];
     return (
-        <div className="min-h-screen flex flex-col items-center justify-center gap-4">
-            <Card className="pl-10 flex flex-col items-center gap-4">
+        <div className="flex min-h-screen flex-col items-center justify-center gap-4">
+            <Card className="flex flex-col items-center gap-4 pl-10">
                 <h1 className="text-2xl font-bold">Examples</h1>
                 <ul className="space-y-2">
-                    <li className="list-disc">
-                        <Link href="/examples/Fetch" variant="underline" label="Fetch" baseStyleWithout={["padding", "flex", "font"]}/>
-                        <p className="text-xs text-gray-500">How to fetch data from the server</p>
-                    </li>
-                    <li className="list-disc">
-                        <Link href="/examples/useFetch" variant="underline" label="useFetch" baseStyleWithout={["padding", "flex", "font"]}/>
-                        <p className="text-xs text-gray-500">How to fetch data from the client</p>
-                    </li>
-                    <li className="list-disc">
-                        <Link href="/examples/FetchParallelized" variant="underline" label="Fetch Parallelized" baseStyleWithout={["padding", "flex", "font"]}/>
-                        <p className="text-xs text-gray-500">How to fetch data from the server in parallel</p>
-                    </li>
-                    <li className="list-disc">
-                        <Link href="/examples/Form" variant="underline" label="Form" baseStyleWithout={["padding", "flex", "font"]}/>
-                        <p className="text-xs text-gray-500">How to create a form</p>
-                    </li>
-                    <li className="list-disc">
-                        <Link href="/examples/ImageImport" variant="underline" label="Image Import" baseStyleWithout={["padding", "flex", "font"]}/>
-                        <p className="text-xs text-gray-500">How to import an image</p>
-                    </li>
-                    <li className="list-disc">
-                        <Link href="/examples/ViewTransition" variant="underline" label="View Transition" baseStyleWithout={["padding", "flex", "font"]}/>
-                        <p className="text-xs text-gray-500">How to create a view transition</p>
-                    </li>
+                    {links.map(({ label, href, text }) => (
+                        <UnderlinedLink key={label} label={label} href={href} text={text} />
+                    ))}
                 </ul>
             </Card>
         </div>
-    )
+    );
 }
+
+type UnderlinedLinkProps = {
+    href: string;
+    label: string;
+    text: string;
+};
+
+const UnderlinedLink = (props: UnderlinedLinkProps) => {
+    const { href, label, text } = props;
+    return (
+        <li className="list-disc">
+            <Link
+                href={href}
+                variant="underline"
+                label={label}
+                baseStyleWithout={["outline", "padding", "flex", "font"]}
+            />
+            <p className="text-xs text-gray-500">{text}</p>
+        </li>
+    );
+};
