@@ -6,9 +6,9 @@ import { combo } from "@lib/combo";
 import { useWidth } from "@utils/useWidth";
 import { motion, PanInfo } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { Children, CSSProperties, ReactNode, useEffect, useMemo, useRef, useState } from "react";
 import Link from "./link";
-import { useRouter } from "next/navigation";
 
 type ItemNumberType = { minWidth: number; itemAmount: number }[];
 export type LinkInfoType = { label: string; href: string };
@@ -210,11 +210,14 @@ const DivOrLink = (props: DivOrLinkProps) => {
 
     const router = useRouter();
 
+    const ref = useRef<HTMLAnchorElement>(null);
+
     if (linkList) {
         const { label, href } = linkList;
 
         return (
             <Link
+                ref={ref}
                 label={label}
                 href={href}
                 style={style}
@@ -223,7 +226,16 @@ const DivOrLink = (props: DivOrLinkProps) => {
                 // Prevent clicking while swiping
                 onClick={(e) => {
                     e.preventDefault();
-                    if (!isDragging) router.push(href);
+                    const linkElement = ref.current;
+                    if (linkElement) {
+                        const current = e.target as HTMLElement;
+                        // Find all buttons in the link element
+                        const buttons = Array.from(linkElement.querySelectorAll("button"));
+                        // Check if the current element is a button or a child of a button
+                        const isButtonOrChild = buttons.some((button) => button.contains(current));
+                        // If the current element is not a button or a child of a button, push the link
+                        if (!isDragging && !isButtonOrChild) router.push(href);
+                    }
                 }}
                 // Prevent "drag link" behavior
                 onMouseDown={(e) => e.preventDefault()}

@@ -2,7 +2,7 @@ import Loader from "@comps/ui/loader";
 
 export default function Loading() {
     return (
-        <div className="flex flex-1 flex-row items-center justify-center">
+        <div className="flex h-full flex-row items-center justify-center">
             <div className="flex flex-row items-center justify-center gap-4">
                 <Loader />
                 <span className="text-lg text-gray-600">

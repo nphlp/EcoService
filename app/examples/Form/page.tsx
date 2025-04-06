@@ -33,7 +33,7 @@ export default async function Page() {
     }));
 
     return (
-        <div className="flex min-h-screen items-center justify-center">
+        <div className="flex h-full items-center justify-center">
             <Form categoryOptions={categoryOptions} productOptions={productOptions} />
         </div>
     );

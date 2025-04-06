@@ -17,7 +17,7 @@ export default function Error(props: ErrorProps) {
     }, [error]);
 
     return (
-        <div className="flex flex-1 flex-col items-center justify-center">
+        <div className="flex h-full flex-col items-center justify-center">
             <div className="w-3/4 space-y-4">
                 <h2 className="text-2xl font-bold">Oups!</h2>
                 <div>{error.message}</div>

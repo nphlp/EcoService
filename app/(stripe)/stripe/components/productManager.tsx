@@ -1,11 +1,11 @@
 "use client";
 
+import ButtonClient from "@comps/client/button";
 import Card from "@comps/server/card";
 import { combo } from "@lib/combo";
 import { Filter } from "lucide-react";
 import Image from "next/image";
 import { FormEvent, useEffect, useRef, useState } from "react";
-import ButtonClient from "@comps/client/button";
 
 interface Product {
     id: string;
@@ -241,7 +241,7 @@ export default function ProductManager() {
     // };
 
     return (
-        <div className="min-h-screen bg-gray-50">
+        <div className="h-full bg-gray-50">
             {/* Hero Section */}
             <div className="bg-gradient-to-br from-[#0A0A2C] to-[#1a1a4b] text-white">
                 <div className="mx-auto max-w-7xl px-4 py-24">

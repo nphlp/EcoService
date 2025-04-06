@@ -25,7 +25,13 @@ export type SearchKeywords = {
       }
 );
 
-export default async function Header() {
+type HeaderProps = {
+    className?: string;
+};
+
+export default async function Header(props: HeaderProps) {
+    const { className } = props;
+
     const productList = await FetchV2({
         route: "/product",
         params: { take: 100 },
@@ -60,7 +66,7 @@ export default async function Header() {
     );
 
     return (
-        <header>
+        <header className={className}>
             <BrowserHeader
                 className="bg-white text-center max-md:hidden"
                 keywords={keywords}

@@ -9,13 +9,17 @@ import { ProductAmountFetchParams, ProductListFetchParams } from "./fetchParams"
 import { CatalogContext } from "./provider";
 import { useCatalogParams } from "./useCatalogParams";
 import { useCatalogStore } from "./useCatalogStore";
-
+import Link from "@comps/ui/link";
+import { useRouter } from "next/navigation";
+import { ProductModel } from "@services/types";
 type CatalogClientProps = {
     className?: string;
 };
 
 export default function CatalogClient(props: CatalogClientProps) {
     const { className } = props;
+
+    const router = useRouter();
 
     const { productList: productListLocal } = useContext(CatalogContext);
     const { setDataStore } = useCatalogStore();
@@ -30,6 +34,20 @@ export default function CatalogClient(props: CatalogClientProps) {
         route: "/product",
         params: ProductListFetchParams({ priceOrder, page, take, category, search }),
     });
+
+    const handleClick = (e: React.MouseEvent<HTMLAnchorElement>, productId: ProductModel["id"]) => {
+        e.preventDefault();
+        const linkElement = document.getElementById(`product-${productId}`);
+        if (linkElement) {
+            const current = e.target as HTMLElement;
+            // Find all buttons in the link element
+            const buttons = Array.from(linkElement.querySelectorAll("button"));
+            // Check if the current element is a button or a child of a button
+            const isButtonOrChild = buttons.some((button) => button.contains(current));
+            // If the current element is not a button or a child of a button, push the link
+            if (!isButtonOrChild) router.push(`/product/${productId}`);
+        }
+    }
 
     useEffect(() => {
         if (newProductList && newProductAmount) {
@@ -58,8 +76,11 @@ export default function CatalogClient(props: CatalogClientProps) {
 
     return (
         <div className={combo("grid grid-cols-1 gap-5 overflow-y-auto sm:grid-cols-2 lg:grid-cols-4", className)}>
-            {productListLocal.map((produit, index) => (
-                <ProductCard key={index} produit={produit} />
+            {productListLocal.map((product, index) => (
+                <Link key={index} id={`product-${product.id}`} label={product.name} href={`/product/${product.id}`} variant="none" baseStyle={false}
+                onClick={(e) => handleClick(e, product.id)}>
+                    <ProductCard product={product} />
+                </Link>
             ))}
         </div>
     );

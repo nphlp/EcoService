@@ -29,9 +29,14 @@ export default function Page() {
             text: "How to import an image",
         },
         {
-            label: "View Transition",
-            href: "/examples/ViewTransition",
-            text: "How to create a view transition",
+            label: "View Transition Image",
+            href: "/examples/ViewTransitionImage",
+            text: "How to create a view transition image",
+        },
+        {
+            label: "View Transition Link",
+            href: "/examples/ViewTransitionLink",
+            text: "How to create a view transition link",
         },
         {
             label: "Slider",
@@ -40,7 +45,7 @@ export default function Page() {
         },
     ];
     return (
-        <div className="flex min-h-screen flex-col items-center justify-center gap-4">
+        <div className="flex h-full flex-col items-center justify-center gap-4">
             <Card className="flex flex-col items-center gap-4 pl-10">
                 <h1 className="text-2xl font-bold">Examples</h1>
                 <ul className="space-y-2">

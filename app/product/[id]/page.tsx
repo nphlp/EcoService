@@ -2,7 +2,6 @@ import ImageRatio from "@comps/server/imageRatio";
 import { FetchV2 } from "@utils/FetchV2";
 import { ArrowLeft, Package2, ShieldCheck, Truck } from "lucide-react";
 import Link from "next/link";
-import { unstable_ViewTransition as ViewTransition } from "react";
 import AddToCartButton from "./addToCartButton";
 import { ProductFetchParams } from "./fetchParams";
 
@@ -21,7 +20,7 @@ export default async function Page(props: PageProps) {
 
     if (!product) {
         return (
-            <div className="flex min-h-[50vh] flex-col items-center justify-center space-y-4">
+            <div className="flex flex-col items-center justify-center space-y-4">
                 <h1 className="text-2xl font-semibold">Produit non trouvé</h1>
                 <Link href="/products" className="text-primary flex items-center hover:underline">
                     <ArrowLeft className="mr-2 size-4" />
@@ -38,7 +37,7 @@ export default async function Page(props: PageProps) {
     }
 
     return (
-        <div className="container mx-auto px-4 py-8">
+        <div className="p-7">
             {/* Bouton retour */}
             <Link href="/catalog" className="text-primary mb-8 inline-flex items-center hover:underline">
                 <ArrowLeft className="mr-2 size-4" />
@@ -48,9 +47,7 @@ export default async function Page(props: PageProps) {
             <div className="grid gap-8 md:grid-cols-2">
                 {/* Image du produit */}
                 <div className="rounded-2xl border border-gray-300 bg-white p-4 shadow-[2px_2px_7px_rgba(0,0,0,0.1)]">
-                    <ViewTransition name={`product-${id}`}>
-                        <ImageRatio src={image} alt={name} />
-                    </ViewTransition>
+                    <ImageRatio src={image} alt={name} className="rounded-lg" />
                 </div>
 
                 {/* Informations produit */}

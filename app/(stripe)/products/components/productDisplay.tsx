@@ -22,7 +22,7 @@ export default function ProductDisplay(props: ProductDisplayProps) {
     const { stripeProductList } = props;
 
     return (
-        <div className="min-h-screen bg-gray-50">
+        <div className="h-full bg-gray-50">
             {/* Hero Section */}
             <div className="bg-gradient-to-br from-[#0A0A2C] to-[#1a1a4b] text-white">
                 <div className="mx-auto max-w-7xl px-4 py-24">

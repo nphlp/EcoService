@@ -2,12 +2,12 @@
 
 import { combo } from "@lib/combo";
 import NextLink, { LinkProps as NextLinkProps } from "next/link";
-import { AnchorHTMLAttributes, ReactNode } from "react";
+import { AnchorHTMLAttributes, ReactNode, forwardRef } from "react";
 import { ButtonBaseKeys, ButtonVariant, buttonBaseTheme, buttonTheme } from "./themes/buttonTheme";
 import { getBaseStyle } from "./themes/utils";
 
 /** Link variant */
-type LinkProps = {
+export type LinkProps = {
     label: string;
     variant?: ButtonVariant;
     className?: string;
@@ -30,7 +30,7 @@ type LinkProps = {
  * <Link href="/" label="Home page">Home page</Link>
  * ```
  */
-export default function Link(props: LinkProps) {
+const Link = forwardRef<HTMLAnchorElement, LinkProps>((props, ref) => {
     const {
         label,
         variant = "default",
@@ -44,6 +44,7 @@ export default function Link(props: LinkProps) {
 
     return (
         <NextLink
+            ref={ref}
             aria-label={label}
             className={combo(
                 // Base styles
@@ -58,4 +59,7 @@ export default function Link(props: LinkProps) {
             {children ?? label}
         </NextLink>
     );
-}
+});
+
+Link.displayName = "Link";
+export default Link;
