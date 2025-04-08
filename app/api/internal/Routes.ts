@@ -12,7 +12,8 @@ import { QuantityRoutes } from "@services/api/QuantityApi";
 import { OrderRoutes } from "@services/api/OrderApi";
 import { FruitRoutes } from "@services/api/FruitApi";
 
-export type Routes<Input> = UserRoutes<Input> &
+export type Routes<Input> = 
+    UserRoutes<Input> &
     SessionRoutes<Input> &
     AccountRoutes<Input> &
     VerificationRoutes<Input> &

@@ -1,4 +1,4 @@
-import { Routes } from "@app/api/Routes";
+import { Routes } from "@app/api/internal/Routes";
 import { ResponseFormat } from "@utils/FetchConfig";
 
 // Routes keys type
@@ -27,7 +27,7 @@ export const FetchV2 = async <Input, R extends Route<Input>, P extends Params<In
     const baseUrl = client ? "" : process.env.BASE_URL;
     const encodedParams = params ? encodeURIComponent(JSON.stringify(params)) : "";
     const urlParams = params ? "?params=" + encodedParams : "";
-    const url = baseUrl + "/api" + route + urlParams;
+    const url = baseUrl + "/api/internal" + route + urlParams;
 
     const response = await fetch(url, {
         method: "GET",

@@ -26,8 +26,7 @@ export const pathsToRemove: string[] = [
     "services/actions",
     "services/api",
     "services/types",
-    "app/api/Routes.ts",
-    "app/api/[...routes]",
+    "app/api/internal",
 ];
 
 /**
@@ -89,12 +88,12 @@ export const indexTemplates: FileTemplate[] = [
     },
     // Routes
     {
-        input: "templates/app/api/Routes.hbs",
-        output: "app/api/Routes.ts",
+        input: "templates/app/api/internal/Routes.hbs",
+        output: "app/api/internal/Routes.ts",
     },
     // Handler Next.js pour les routes API
     {
-        input: "templates/app/api/[...routes]/route.hbs",
-        output: "app/api/[...routes]/route.ts",
+        input: "templates/app/api/internal/[...routes]/route.hbs",
+        output: "app/api/internal/[...routes]/route.ts",
     },
 ];

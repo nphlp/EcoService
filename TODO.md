@@ -13,10 +13,10 @@ Complete auth and user management
 
 ## API and Zod -> Page per page
 
-- Create a `public API router` and `Fetch()` (page per page)
-- Create a `private API router` and `PrivateFetch()` (based on Class)
-- Server and Client components use `public api`, that use `private api`, that use `class`
-- Json Web Token protection on private API ?
+- Create a `external API router` and `Fetch()` (page per page)
+- Create a `internal API router` and `PrivateFetch()` (based on Class)
+- Server and Client components use `external api`, that use `internal api`, that use `class`
+- `Json Web Token` protection on `internal API` ?
 
 ## Vrac
 
