@@ -154,13 +154,6 @@ export default function Slider(props: SliderProps) {
                     isDragging ? "cursor-grabbing" : "cursor-grab",
                 )}
                 // Events
-                onWheel={(e) => {
-                    const delta = e.deltaX;
-                    if (delta !== 0) {
-                        if (delta > 0) handleNext();
-                        else handlePrevious();
-                    }
-                }}
                 onKeyDown={(e) => {
                     if (e.key === "ArrowLeft") {
                         handlePrevious();

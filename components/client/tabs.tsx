@@ -78,7 +78,7 @@ export default function TabClient(props: TabClientProps) {
                     <Button
                         key={index}
                         variant="none"
-                        baseStyleOnly={["pointer", "padding", "rounded", "transition"]}
+                        baseStyleOnly={["padding", "rounded", "transition"]}
                         type="button"
                         label={"tab" + label}
                         className={combo(

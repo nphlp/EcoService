@@ -47,6 +47,7 @@ const Link = forwardRef<HTMLAnchorElement, LinkProps>((props, ref) => {
             ref={ref}
             aria-label={label}
             className={combo(
+                "cursor-pointer disabled:cursor-not-allowed",
                 // Base styles
                 getBaseStyle({ baseTheme: buttonBaseTheme, baseStyle, baseStyleOnly, baseStyleWithout }),
                 // Variant styles

@@ -24,7 +24,7 @@ export default function AddToCartButton(props: AddToCartButtonProps) {
                 e.preventDefault();
                 return isInBasket ? removeProductFromBasket(productId) : addProductToBasket(productId);
             }}
-            baseStyleOnly={["outline", "pointer"]}
+            baseStyleOnly={["outline"]}
             className="group relative size-fit rounded-xl p-[10px] transition-all duration-300 hover:scale-105"
         >
             {isInBasket ? (

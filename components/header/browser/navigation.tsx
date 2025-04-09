@@ -1,17 +1,17 @@
 "use client";
 
 import { useBasketStore } from "@comps/basket/basketStore";
-import LogoutClient from "@comps/client/logout";
+import Logout from "@comps/client/logout";
+import { useHeaderStore } from "@comps/header/headerStore";
 import Logo from "@comps/server/logo";
+import Button from "@comps/ui/button";
+import Link from "@comps/ui/link";
 import { useSession } from "@lib/authClient";
 import { combo } from "@lib/combo";
 import { motion } from "framer-motion";
 import { ChevronUp, LogOut, Search, ShoppingCart, Store, UserRound } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import ButtonClient from "@comps/client/button";
-import { useHeaderStore } from "@comps/header/headerStore";
-import Link from "@comps/ui/link";
 
 export default function Navigation() {
     return (
@@ -29,13 +29,13 @@ const LeftNav = () => {
 
     return (
         <motion.div onHoverStart={() => setIsHomeHovered(true)} onHoverEnd={() => setIsHomeHovered(false)}>
-            <ButtonClient
+            <Link
                 type="link"
                 // pageTransition={true}
                 href="/"
                 label="home"
-                padding="none"
                 variant="none"
+                baseStyleOnly={["flex"]}
                 className={combo(path === "/" && "font-bold")}
             >
                 <Logo className="size-9" />
@@ -52,7 +52,7 @@ const LeftNav = () => {
                         className="absolute bottom-0 left-0.5 h-0.5 rounded bg-black"
                     />
                 </span>
-            </ButtonClient>
+            </Link>
         </motion.div>
     );
 };
@@ -63,16 +63,17 @@ const CentralNav = () => {
 
     return (
         <div className="flex flex-row items-center justify-center gap-5">
-            <ButtonClient
+            <Button
                 type="button"
                 label="catalog"
                 variant="ghost"
+                baseStyleOnly={["flex", "padding", "rounded"]}
+                className={combo(path.includes("/catalog") && "font-bold")}
                 onClick={() => {
                     setCategorieOpen(!categorieOpen);
                     setSearchOpen(false);
                     setBasketOpen(false);
                 }}
-                className={combo(path === "/catalog" && "font-bold")}
             >
                 <span>Catalogue</span>
                 <motion.span
@@ -85,30 +86,33 @@ const CentralNav = () => {
                 >
                     <ChevronUp className="text-gray-700" />
                 </motion.span>
-            </ButtonClient>
-            <ButtonClient
+            </Button>
+            <Link
                 type="link"
                 href="/article"
                 label="article"
                 variant="ghost"
-                className={combo("px-8", path === "/article" && "font-bold")}
+                baseStyleOnly={["padding", "rounded"]}
+                className={combo(path.includes("/article") && "font-bold")}
             >
                 Articles
-            </ButtonClient>
-            <ButtonClient
+            </Link>
+            <Link
                 type="link"
                 href="/diy"
                 label="diy"
                 variant="ghost"
-                className={combo("px-8", path === "/diy" && "font-bold")}
+                baseStyleOnly={["padding", "rounded"]}
+                className={combo(path.includes("/diy") && "font-bold")}
             >
                 DIY
-            </ButtonClient>
+            </Link>
             <Link
                 label="Examples"
                 href="/examples"
                 variant="ghost"
                 baseStyleOnly={["padding", "rounded"]}
+                className={combo(path.includes("/examples") && "font-bold")}
             />
         </div>
     );
@@ -124,11 +128,11 @@ const RightNav = () => {
     return (
         <div className="flex flex-row gap-3">
             {/* Search button */}
-            <ButtonClient
-                type="button"
+            <Button
                 label="toggle-search-section-visibility"
                 variant="ghost"
                 className="p-2"
+                baseStyleOnly={['flex', 'rounded']}
                 onClick={() => {
                     setSearchOpen(!searchOpen);
                     setCategorieOpen(false);
@@ -136,16 +140,16 @@ const RightNav = () => {
                 }}
             >
                 <Search />
-            </ButtonClient>
+            </Button>
 
             {/* Account button */}
             {session ? (
-                <ButtonClient
-                    type="link"
-                    href="/profile"
+                <Link
                     label="profile"
+                    href="/profile"
                     variant="ghost"
                     className="p-2"
+                    baseStyleOnly={['flex', 'rounded']}
                     onClick={() => {
                         setSearchOpen(false);
                         setCategorieOpen(false);
@@ -153,14 +157,14 @@ const RightNav = () => {
                     }}
                 >
                     <UserRound />
-                </ButtonClient>
+                </Link>
             ) : (
-                <ButtonClient
-                    type="link"
-                    href="/auth"
+                <Link
                     label="auth"
+                    href="/auth"
                     variant="ghost"
                     className="p-2"
+                    baseStyleOnly={['flex', 'rounded']}
                     onClick={() => {
                         setSearchOpen(false);
                         setCategorieOpen(false);
@@ -168,17 +172,17 @@ const RightNav = () => {
                     }}
                 >
                     <UserRound />
-                </ButtonClient>
+                </Link>
             )}
 
             {/* Dashboard button */}
             {(role === "ADMIN" || role === "EMPLOYEE" || role === "VENDOR") && (
-                <ButtonClient
-                    type="link"
-                    href="/dashboard"
+                <Link
                     label="dashboard"
+                    href="/dashboard"
                     variant="ghost"
                     className="p-2"
+                    baseStyleOnly={['flex', 'rounded']}
                     onClick={() => {
                         setSearchOpen(false);
                         setCategorieOpen(false);
@@ -186,15 +190,15 @@ const RightNav = () => {
                     }}
                 >
                     <Store />
-                </ButtonClient>
+                </Link>
             )}
 
             {/* Basket button */}
-            <ButtonClient
-                type="button"
+            <Button
                 label="toggle-basket-section-visibility"
                 variant="ghost"
                 className="relative p-2"
+                baseStyleOnly={['flex', 'rounded']}
                 onClick={() => {
                     setSearchOpen(false);
                     setCategorieOpen(false);
@@ -205,12 +209,13 @@ const RightNav = () => {
                     {basketProductList.length}
                 </div>
                 <ShoppingCart />
-            </ButtonClient>
+            </Button>
 
             {/* Logout button */}
             {session && (
-                <LogoutClient
+                <Logout
                     variant="ghost"
+                    baseStyleOnly={["flex", "rounded"]}
                     className="p-2"
                     onClick={() => {
                         setSearchOpen(false);
@@ -219,7 +224,7 @@ const RightNav = () => {
                     }}
                 >
                     <LogOut />
-                </LogoutClient>
+                </Logout>
             )}
         </div>
     );

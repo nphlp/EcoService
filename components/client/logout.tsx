@@ -1,19 +1,22 @@
 "use client";
 
-import ButtonClient, { ButtonClientProps } from "@comps/client/button";
+import Button, { ButtonProps } from "@comps/ui/button";
 import Loader from "@comps/ui/loader";
+import { ButtonBaseKeys } from "@comps/ui/themes/buttonTheme";
 import { signOut } from "@lib/authClient";
 import { useRouter } from "next/navigation";
-import { ButtonHTMLAttributes, ReactNode, useState } from "react";
+import { ReactNode, useState } from "react";
 
-type ButtonType = Exclude<ButtonHTMLAttributes<HTMLButtonElement>["type"], undefined>;
-
-type LogoutClientProps = {
+type LogoutProps = {
     children: ReactNode;
     onClick?: () => void;
-} & Omit<Extract<ButtonClientProps, { type: ButtonType }>, "onClick" | "type" | "label" | "children">;
+} & (
+    | { baseStyle?: boolean; baseStyleOnly?: never; baseStyleWithout?: never }
+    | { baseStyle?: never; baseStyleOnly?: ButtonBaseKeys[]; baseStyleWithout?: never }
+    | { baseStyle?: never; baseStyleOnly?: never; baseStyleWithout?: ButtonBaseKeys[] }
+) & Omit<ButtonProps, "onClick" | "label" | "children">;
 
-export default function LogoutClient(props: LogoutClientProps) {
+export default function Logout(props: LogoutProps) {
     const { children, onClick, ...others } = props;
 
     const router = useRouter();
@@ -34,8 +37,8 @@ export default function LogoutClient(props: LogoutClientProps) {
     };
 
     return (
-        <ButtonClient type="button" label="logout" onClick={handleClick} {...others}>
+        <Button label="logout" onClick={handleClick} {...others}>
             {isLoading ? <Loader /> : children}
-        </ButtonClient>
+        </Button>
     );
 }

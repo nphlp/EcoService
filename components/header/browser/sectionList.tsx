@@ -156,7 +156,7 @@ export default function SectionList(props: SubProps) {
                             label={name}
                             href={urlSerializer("/catalog", { category: id })}
                             onClick={(e) => handleCategory(e, id)}
-                            className="rounded-full"
+                            className="rounded-full hover:bg-gray-200 hover:border-gray-400"
                             padding="lg"
                             variant="outline"
                         >

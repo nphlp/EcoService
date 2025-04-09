@@ -7,7 +7,7 @@ import { ButtonBaseKeys, buttonBaseTheme, buttonTheme, ButtonVariant } from "./t
 import { getBaseStyle } from "./themes/utils";
 
 /** Button variant */
-type ButtonProps = {
+export type ButtonProps = {
     label: string;
     variant?: ButtonVariant;
     isLoading?: boolean;
@@ -45,13 +45,13 @@ export default function Button(props: ButtonProps) {
     const {
         label,
         variant = "default",
-        baseStyle = true,
         isLoading,
         isDisabled,
         loadingLabel = "Loading...",
         loaderColor,
         className,
         children,
+        baseStyle = true,
         baseStyleOnly,
         baseStyleWithout,
         ...others
@@ -60,6 +60,7 @@ export default function Button(props: ButtonProps) {
     return (
         <button
             className={combo(
+                "cursor-pointer disabled:cursor-not-allowed",
                 // Base styles
                 getBaseStyle({ baseTheme: buttonBaseTheme, baseStyle, baseStyleOnly, baseStyleWithout }),
                 // Variant styles
