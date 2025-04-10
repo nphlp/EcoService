@@ -2,8 +2,6 @@ import ButtonClient from "@comps/client/button";
 import { GetSession } from "@lib/auth";
 import { unauthorized } from "next/navigation";
 
-export const dynamic = "force-dynamic";
-
 export default async function Page() {
     const session = await GetSession();
 

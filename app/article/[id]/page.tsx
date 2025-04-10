@@ -4,7 +4,6 @@ import { ArticleOrDiyFetchParams } from "@comps/sliderFetchParams";
 import Link from "@comps/ui/link";
 import { combo } from "@lib/combo";
 import { FetchV2 } from "@utils/FetchV2/FetchV2";
-export const dynamic = "force-dynamic";
 
 type PageProps = {
     params: Promise<{ id: string }>;

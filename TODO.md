@@ -22,7 +22,6 @@ Complete auth and user management
 
 - Theme and dark mode
 - METADATA !!!!!!!!!
-- REMOVE `export const dynamic = "force-dynamic";` when an update solve it
 - Cursor rules
 - Header disapearing issue ??
 - Add a logging system

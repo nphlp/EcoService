@@ -5,8 +5,6 @@ import ProductSlider from "@comps/productSlider";
 import { ArticleOrDiyFetchParams, ProductFetchParams } from "@comps/sliderFetchParams";
 import { ArticleOrDiySlider } from "@comps/articleOrDiySlider";
 
-export const dynamic = "force-dynamic";
-
 export default async function Page() {
     const imageClass = "h-[100px] sm:h-[150px] md:h-[120px] lg:h-[160px] xl:h-[220px] rounded";
 

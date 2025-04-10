@@ -6,8 +6,6 @@ import SectionList from "@comps/header/browser/sectionList";
 import MobileHeader from "@comps/header/mobile/mobileHeader";
 import { CategoryModel } from "@services/types";
 
-export const dynamic = "force-dynamic";
-
 export type SearchKeywords = {
     id: string;
     type: "product" | "category";

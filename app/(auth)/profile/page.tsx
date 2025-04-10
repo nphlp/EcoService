@@ -4,7 +4,6 @@ import { GetSession } from "@lib/auth";
 import { CircleCheck, CircleX, LogOut } from "lucide-react";
 import { unauthorized } from "next/navigation";
 import ProfileClient from "./client";
-export const dynamic = "force-dynamic";
 
 export default async function Page() {
     const session = await GetSession();
