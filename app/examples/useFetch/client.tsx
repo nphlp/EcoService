@@ -23,7 +23,7 @@ export default function Client(props: ClientProps) {
 
     const { data, isLoading, error } = useFetchV2({
         route: "/diy",
-        params: DiyFetchParams,
+        params: DiyFetchParams({ author: fetchAuthor }),
     });
 
     useEffect(() => {

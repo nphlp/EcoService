@@ -5,7 +5,7 @@ import { DiyFetchParams } from "./fetchParams";
 export default async function Page() {
     const diyList = await FetchV2({
         route: "/diy",
-        params: DiyFetchParams,
+        params: DiyFetchParams({ author: true }),
     });
 
     if (!diyList.length) {
