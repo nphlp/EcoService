@@ -1,5 +1,43 @@
 import { FetchProps, FetchResponse, FetchV2, Params, Route } from "./FetchV2";
 
+/**
+ * Ci-dessous se trouve la version initiale qui fonctionne pour le typage des `params` en fonction de la `route` sélectionnée. L'inférence dynamique du typage de la réponse Prisma ne fonctionne pas.
+ */
+
+// type MapProps<
+//     Input,
+//     R extends Route<Input>[],
+//     P extends { [K in keyof R]: Params<Input, R[K]> }
+// > = {
+//     [K in keyof R]: FetchProps<Input, R[K], P[K]>;
+// };
+
+// type MapResponse<
+//     Input,
+//     R extends Route<Input>[],
+//     P extends { [K in keyof R]: Params<Input, R[K]> }
+// > = {
+//     [K in keyof R]: R[K] extends Route<Input>
+//         ? FetchResponse<Input, R[K], P[K]>
+//         : never;
+// };
+
+// export const FetchParallelizedV2 = async <
+//     Input,
+//     R extends Route<Input>[],
+//     P extends { [K in keyof R]: Params<Input, R[K]> },
+// >(
+//     paramList: MapProps<Input, R, P>,
+// ) => {
+//     const promises = Promise.all(paramList.map((p) => FetchV2(p)));
+
+//     return promises as Promise<MapResponse<Input, R, P>>;
+// };
+
+/**
+ * Ci-dessous se trouve la version où l'inférence dynamique du typage de la réponse Prisma fonctionne. Mais le typage des `params` en fonction de la `route` sélectionnée ne fonctionne pas.
+ */
+
 type MapProps<
     Input,
     R extends Route<Input>[],
@@ -25,16 +63,26 @@ export const FetchParallelizedV2 = async <
     return Promise.all(promises) as Promise<{ [K in keyof T]: MapResponse<T[K]> }>;
 };
 
+/**
+ * Ci-dessous se trouve la version qui doit faire les deux :
+ * - Inférence dynamique du typage des `params` en fonction de la `route` sélectionnée
+ * - Inférence dynamique du typage de la réponse Prisma
+ */
 
-// export const FetchParallelizedV3 = async <
-//     Input,
-//     R extends Route<Input>[],
-//     P extends { [K in keyof R]: Params<Input, R[K]> },
-// >(paramList: {
-//     [K in keyof R]: FetchProps<Input, R[K], P[K]>;
-// }) => {
-//     return Promise.all(paramList.map((p) => FetchV2(p))) as Promise<{
-//         [K in keyof R]: R[K] extends Route<Input> ? FetchResponse<Input, R[K], P[K]> : never;
-//     }>;
+// type MapProps<Input, R extends Route<Input>[]> = {
+//     [K in keyof R]: FetchProps<Input, R[K], Params<Input, R[K]>>;
 // };
 
+// type MapResponse<Input, R extends Route<Input>[]> = {
+//     [K in keyof R]: FetchResponse<Input, R[K], Params<Input, R[K]>>;
+// };
+
+// export function FetchParallelizedV2<
+//     Input,
+//     R extends Route<Input>[]
+// >(
+//     paramList: MapProps<Input, R>
+// ): Promise<MapResponse<Input, R>> {
+//     const promises = paramList.map((param) => FetchV2(param));
+//     return Promise.all(promises) as Promise<MapResponse<Input, R>>;
+// }
