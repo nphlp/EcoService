@@ -1,5 +1,5 @@
 import ImageRatio from "@comps/server/imageRatio";
-import { FetchV2 } from "@utils/FetchV2";
+import { FetchV2 } from "@utils/FetchV2/FetchV2";
 import { ArrowLeft, Package2, ShieldCheck, Truck } from "lucide-react";
 import Link from "next/link";
 import AddToCartButton from "./addToCartButton";

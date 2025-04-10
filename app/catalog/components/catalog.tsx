@@ -3,7 +3,7 @@
 import ProductCard from "@comps/productCard";
 import Loader from "@comps/ui/loader";
 import { combo } from "@lib/combo";
-import { useFetchV2 } from "@utils/FetchHookV2";
+import { useFetchV2 } from "@utils/FetchV2/FetchHookV2";
 import { useContext, useEffect } from "react";
 import { ProductAmountFetchParams, ProductListFetchParams } from "./fetchParams";
 import { CatalogContext } from "./provider";

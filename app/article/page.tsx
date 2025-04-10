@@ -1,5 +1,5 @@
 import ImageRatio from "@comps/server/imageRatio";
-import { FetchV2 } from "@utils/FetchV2";
+import { FetchV2 } from "@utils/FetchV2/FetchV2";
 import Link from "next/link";
 
 export const dynamic = "force-dynamic";

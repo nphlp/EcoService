@@ -4,7 +4,7 @@ import ButtonClient from "@comps/client/button";
 import { useHeaderStore } from "@comps/header/headerStore";
 import ImageRatio from "@comps/server/imageRatio";
 import { combo } from "@lib/combo";
-import { useFetchV2 } from "@utils/FetchHookV2";
+import { useFetchV2 } from "@utils/FetchV2/FetchHookV2";
 import { motion } from "framer-motion";
 import { useBasketStore } from "./basketStore";
 

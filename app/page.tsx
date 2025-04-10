@@ -1,6 +1,6 @@
 import ImageRatio from "@comps/server/imageRatio";
 import { combo } from "@lib/combo";
-import { FetchV2 } from "@utils/FetchV2";
+import { FetchV2 } from "@utils/FetchV2/FetchV2";
 import ProductSlider from "@comps/productSlider";
 import { ArticleOrDiyFetchParams, ProductFetchParams } from "@comps/sliderFetchParams";
 import { ArticleOrDiySlider } from "@comps/articleOrDiySlider";

@@ -1,7 +1,7 @@
 "use client";
 
 import Button from "@comps/ui/button";
-import { useFetchV2 } from "@utils/FetchHookV2";
+import { useFetchV2 } from "@utils/FetchV2/FetchHookV2";
 import { useEffect, useState } from "react";
 import { DiyFetchParams, DiyListType } from "./fetchParams";
 

@@ -1,6 +1,6 @@
 import ImageRatio from "@comps/server/imageRatio";
 import Link from "@comps/ui/link";
-import { FetchV2 } from "@utils/FetchV2";
+import { FetchV2 } from "@utils/FetchV2/FetchV2";
 import { unstable_ViewTransition as ViewTransition } from "react";
 
 export default async function Page() {

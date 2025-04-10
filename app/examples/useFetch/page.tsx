@@ -1,4 +1,4 @@
-import { FetchV2 } from "@utils/FetchV2";
+import { FetchV2 } from "@utils/FetchV2/FetchV2";
 import Client from "./client";
 import { DiyFetchParams } from "./fetchParams";
 

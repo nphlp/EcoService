@@ -1,4 +1,4 @@
-import { FetchV2 } from "@utils/FetchV2";
+import { FetchV2 } from "@utils/FetchV2/FetchV2";
 import CatalogClient from "./components/catalog";
 import { CategoryListFetchParams, ProductAmountFetchParams, ProductListFetchParams } from "./components/fetchParams";
 import SelectorsClient from "./components/filters";

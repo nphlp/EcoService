@@ -3,8 +3,8 @@
 import { CreateProduct } from "@actions/ProductAction";
 import { isVendorOrEmployeeOrAdmin } from "@lib/checkRole";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
-import { Fetch } from "@utils/Fetch";
-import { FetchV2 } from "@utils/FetchV2";
+import { Fetch } from "@utils/Fetch/Fetch";
+import { FetchV2 } from "@utils/FetchV2/FetchV2";
 import { strictObject, z, ZodError, ZodType } from "zod";
 
 export type CreateStripeProductProps = {

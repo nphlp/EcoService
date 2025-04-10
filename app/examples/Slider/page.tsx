@@ -1,6 +1,6 @@
 import ProductCard from "@comps/productCard";
 import Slider from "@comps/ui/slider";
-import { FetchV2 } from "@utils/FetchV2";
+import { FetchV2 } from "@utils/FetchV2/FetchV2";
 
 export default async function Page() {
     const productList = await FetchV2({

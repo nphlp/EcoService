@@ -1,6 +1,6 @@
 import ProductDisplay from "@app/(stripe)/products/components/productDisplay";
 import { GetSession } from "@lib/auth";
-import { Fetch } from "@utils/Fetch";
+import { Fetch } from "@utils/Fetch/Fetch";
 import { Metadata } from "next";
 import { unauthorized } from "next/navigation";
 

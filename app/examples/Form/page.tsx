@@ -1,4 +1,4 @@
-import { FetchV2 } from "@utils/FetchV2";
+import { FetchV2 } from "@utils/FetchV2/FetchV2";
 import Form from "./form";
 
 export default async function Page() {

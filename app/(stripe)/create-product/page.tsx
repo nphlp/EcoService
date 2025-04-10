@@ -1,7 +1,7 @@
 import ProductCreationForm from "@app/(stripe)/create-product/productCreationForm";
 import { isVendorOrEmployeeOrAdmin } from "@lib/checkRole";
 import Link from "@comps/ui/link";
-import { FetchV2 } from "@utils/FetchV2";
+import { FetchV2 } from "@utils/FetchV2/FetchV2";
 import { unauthorized } from "next/navigation";
 
 export default async function Page() {

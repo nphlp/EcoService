@@ -1,4 +1,4 @@
-import { Fetch, FetchProps, FetchResponse, Route } from "@utils/Fetch";
+import { Fetch, FetchProps, FetchResponse, Route } from "./Fetch";
 
 type MapProps<R extends Route[]> = {
     [K in keyof R]: FetchProps<R[K]>;

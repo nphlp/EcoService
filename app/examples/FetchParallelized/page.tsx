@@ -1,5 +1,5 @@
-import { FetchParallelizedV2 } from "@utils/FetchParallelizedV2";
-import { FetchV2 } from "@utils/FetchV2";
+import { FetchParallelizedV2 } from "@utils/FetchV2/FetchParallelizedV2";
+import { FetchV2 } from "@utils/FetchV2/FetchV2";
 
 export default async function Page() {
     const diyListA = await FetchV2({
