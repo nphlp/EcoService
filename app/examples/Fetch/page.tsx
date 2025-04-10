@@ -3,14 +3,26 @@ import { SelectArticleList } from "@services/actions/ArticleAction";
 import { FetchV2 } from "@utils/FetchV2/FetchV2";
 
 export default async function Page() {
+    /**
+     * Prisma fetch
+     * To avoid, not cachable and parallelizable
+     */
     const articlesPrisma = await PrismaInstance.article.findMany({
         select: { id: true, authorId: true },
     });
 
+    /**
+     * Action fetch
+     * To avoid, not cachable and parallelizable
+     */
     const articlesAction = await SelectArticleList({
         select: { id: true, authorId: true },
     });
 
+    /**
+     * Api fetch
+     * Prefer this method, cacheable and parallelizable!
+     */
     const articlesApi = await FetchV2({
         route: "/article",
         params: {

@@ -28,7 +28,7 @@ export default async function Page() {
 
     const [diyListB, userListB] = await FetchParallelizedV2([
         {
-            route: "/diy",
+            route: "/diy" as const,
             params: {
                 select: {
                     Author: {
@@ -41,7 +41,7 @@ export default async function Page() {
             },
         },
         {
-            route: "/user",
+            route: "/user" as const,
             params: {
                 select: {
                     name: true,
