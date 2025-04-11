@@ -3,11 +3,13 @@
 import Button from "@comps/ui/button";
 import { combo } from "@lib/combo";
 import { motion } from "framer-motion";
+import { parseAsStringEnum, useQueryState } from "nuqs";
 import { ReactNode, useEffect, useRef, useState } from "react";
 
 type TabClientProps = {
     cardList: {
         label: string;
+        searchParams: string;
         component: ReactNode;
     }[];
 };
@@ -26,8 +28,12 @@ export default function TabClient(props: TabClientProps) {
     const resizeObserverRef = useRef<ResizeObserver | null>(null);
 
     // Active tab
-    const [activeTab, setActiveTab] = useState(0);
+    // const [activeTab, setActiveTab] = useState(0);
+    // Tab as url search params
+    const tabList = cardList.map(({ searchParams }) => searchParams);
+    const [tab, setTab] = useQueryState("tab", parseAsStringEnum(tabList).withDefault(tabList[0]));
 
+    const activeTab = cardList.indexOf(cardList.find(({ searchParams }) => searchParams === tab)!)
     const tabAmount = cardList.length;
     const realActiveTab = activeTab + 1;
 
@@ -44,7 +50,7 @@ export default function TabClient(props: TabClientProps) {
     // Update tab position
     useEffect(() => {
         setTabPosition({ left: leftSide, right: rightSide });
-    }, [activeTab, leftSide, rightSide]);
+    }, [tab, leftSide, rightSide]);
 
     // Update card height
     useEffect(() => {
@@ -65,7 +71,7 @@ export default function TabClient(props: TabClientProps) {
                 resizeObserverRef.current.disconnect();
             }
         };
-    }, [activeTab]);
+    }, [tab]);
 
     return (
         <div className="min-w-[350px] space-y-3">
@@ -86,7 +92,7 @@ export default function TabClient(props: TabClientProps) {
                             "relative z-20 w-full",
                             index !== activeTab && "hover:bg-gray-100",
                         )}
-                        onClick={() => setActiveTab(index)}
+                        onClick={() => setTab(cardList[index].searchParams)}
                     >
                         {label}
                     </Button>

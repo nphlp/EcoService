@@ -90,11 +90,11 @@ export default function LoginClient() {
                     </div>
                 </div>
                 <Link
-                    className="text-sm text-gray-500"
-                    href="/auth"
+                    className="rounded px-1 text-sm text-gray-500"
+                    href="/auth?tab=register"
                     label="not-registered-yet"
                     variant="underline"
-                    baseStyleWithout={["padding", "font"]}
+                    baseStyleWithout={["padding", "font", "rounded"]}
                 >
                     Pas encore inscrit ?
                 </Link>

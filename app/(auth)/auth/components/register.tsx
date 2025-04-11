@@ -98,10 +98,10 @@ export default function RegisterClient() {
                 </div>
                 <Link
                     href="/auth"
-                    className="text-sm text-gray-500"
+                    className="rounded px-1 text-sm text-gray-500"
                     label="already-registered"
                     variant="underline"
-                    baseStyleWithout={["padding", "font"]}
+                    baseStyleWithout={["padding", "font", "rounded"]}
                 >
                     Déjà inscrit?
                 </Link>
