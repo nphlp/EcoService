@@ -6,7 +6,7 @@ import { ArticleOrDiyFetchParams, ProductFetchParams } from "@comps/sliderFetchP
 import { ArticleOrDiySlider } from "@comps/articleOrDiySlider";
 
 export default async function Page() {
-    const imageClass = "h-[100px] sm:h-[150px] md:h-[120px] lg:h-[160px] xl:h-[220px] rounded";
+    const imageClass = "h-[100px] sm:h-[150px] md:h-[120px] lg:h-[160px] xl:h-[220px] rounded shadow-lg";
 
     const articleList = await FetchV2({
         route: "/article",
@@ -29,10 +29,19 @@ export default async function Page() {
 
     return (
         <>
-            <section className="bg-primary flex flex-row items-center justify-between gap-12 p-8 md:p-16">
+            <section
+                className="bg-primary flex flex-row items-center justify-between gap-12 p-8 md:p-16 backdrop-blur-md"
+                style={{
+                    backgroundImage: "url('/illustration/produit 4.jpg')",
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                    backgroundBlendMode: "multiply",
+                    backgroundColor: "rgba(0, 0, 0, 0.5)",
+                }}
+            >
                 <div className="w-full text-4xl font-bold text-nowrap sm:text-5xl md:text-4xl lg:text-5xl xl:text-6xl">
-                    <div className="text-white">Passez au</div>
-                    <div className="text-secondary">zéro déchet</div>
+                    <div className="text-white text-shadow-lg">Passez au</div>
+                    <div className="text-secondary text-shadow-lg">zéro déchet</div>
                 </div>
                 <div className="flex flex-row items-center justify-center gap-8">
                     <ImageRatio
@@ -67,7 +76,7 @@ export default async function Page() {
                     </p>
                 </div>
                 <ImageRatio
-                    src="/illustration/produit 2.jpg"
+                    src="/illustration/produit 5.jpg"
                     alt="produit"
                     className="rounded-lg shadow-md max-lg:w-full lg:h-80"
                 />

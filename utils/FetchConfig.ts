@@ -17,6 +17,14 @@ export const parseAndDecodeParams = (request: NextRequest) => {
 };
 
 /**
+ * Exact type
+ * Used to ensure that the params are exactly the same as the shape of the object, without any extra properties
+ */
+export type Exact<T, Shape extends T> = T & {
+    [K in Exclude<keyof Shape, keyof T>]?: never;
+};
+
+/**
  * Response format
  */
 export type ResponseFormat<Response> =

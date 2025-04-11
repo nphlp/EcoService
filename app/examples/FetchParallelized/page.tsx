@@ -11,6 +11,7 @@ export default async function Page() {
                         name: true,
                     },
                 },
+                // ICI
             },
             take: 2,
         },
@@ -27,7 +28,7 @@ export default async function Page() {
 
     const [diyListB, userListB] = await FetchParallelizedV2([
         {
-            route: "/diy" as const,
+            route: "/diy",
             params: {
                 select: {
                     Author: {
@@ -35,12 +36,13 @@ export default async function Page() {
                             name: true,
                         },
                     },
+                    // ICI
                 },
                 take: 2,
             },
         },
         {
-            route: "/user" as const,
+            route: "/user",
             params: {
                 select: {
                     name: true,
@@ -60,7 +62,7 @@ export default async function Page() {
     const usersB = userListB[0];
 
     return (
-        <div className="h-full grid grid-cols-2 gap-4 p-10">
+        <div className="grid h-full grid-cols-2 gap-4 p-10">
             <div className="space-y-4">
                 <pre>{JSON.stringify(diysA, null, 2)}</pre>
                 <pre>{JSON.stringify(diysB, null, 2)}</pre>

@@ -6,6 +6,7 @@ Complete auth and user management
 
 - Autorization
 - Rework Fetch Parallelized V2
+- Make API Fetch props "Exact< Schema, S >"
 - API and Zod -> Page per page
 - Rework frontend
     - Components
