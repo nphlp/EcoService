@@ -1,6 +1,6 @@
 // ============== Types ============== //
 
-import { Prisma } from "@prisma/client";
+import { Prisma } from "@services/prisma";
 import { AccountCreateArgsSchema, AccountDeleteArgsSchema, AccountFindManyArgsSchema, AccountFindUniqueArgsSchema, AccountOrderByWithRelationInputSchema, AccountSchema, AccountUpdateArgsSchema, AccountUpsertArgsSchema, AccountWhereInputSchema, AccountWhereUniqueInputSchema, AccountWithRelationsSchema } from "@services/schemas";
 import AccountIncludeSchema from "@services/schemas/inputTypeSchemas/AccountIncludeSchema";
 import { z, ZodType } from "zod";

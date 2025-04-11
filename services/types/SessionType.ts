@@ -1,6 +1,6 @@
 // ============== Types ============== //
 
-import { Prisma } from "@prisma/client";
+import { Prisma } from "@services/prisma";
 import { SessionCreateArgsSchema, SessionDeleteArgsSchema, SessionFindManyArgsSchema, SessionFindUniqueArgsSchema, SessionOrderByWithRelationInputSchema, SessionSchema, SessionUpdateArgsSchema, SessionUpsertArgsSchema, SessionWhereInputSchema, SessionWhereUniqueInputSchema, SessionWithRelationsSchema } from "@services/schemas";
 import SessionIncludeSchema from "@services/schemas/inputTypeSchemas/SessionIncludeSchema";
 import { z, ZodType } from "zod";

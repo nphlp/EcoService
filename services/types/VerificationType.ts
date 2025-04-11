@@ -1,6 +1,6 @@
 // ============== Types ============== //
 
-import { Prisma } from "@prisma/client";
+import { Prisma } from "@services/prisma";
 import { VerificationCreateArgsSchema, VerificationDeleteArgsSchema, VerificationFindManyArgsSchema, VerificationFindUniqueArgsSchema, VerificationOrderByWithRelationInputSchema, VerificationSchema, VerificationUpdateArgsSchema, VerificationUpsertArgsSchema, VerificationWhereInputSchema, VerificationWhereUniqueInputSchema,  } from "@services/schemas";
 import { z, ZodType } from "zod";
 

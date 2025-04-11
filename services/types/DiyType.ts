@@ -1,6 +1,6 @@
 // ============== Types ============== //
 
-import { Prisma } from "@prisma/client";
+import { Prisma } from "@services/prisma";
 import { DiyCreateArgsSchema, DiyDeleteArgsSchema, DiyFindManyArgsSchema, DiyFindUniqueArgsSchema, DiyOrderByWithRelationInputSchema, DiySchema, DiyUpdateArgsSchema, DiyUpsertArgsSchema, DiyWhereInputSchema, DiyWhereUniqueInputSchema, DiyWithRelationsSchema } from "@services/schemas";
 import DiyIncludeSchema from "@services/schemas/inputTypeSchemas/DiyIncludeSchema";
 import { z, ZodType } from "zod";

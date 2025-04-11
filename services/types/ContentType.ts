@@ -1,6 +1,6 @@
 // ============== Types ============== //
 
-import { Prisma } from "@prisma/client";
+import { Prisma } from "@services/prisma";
 import { ContentCreateArgsSchema, ContentDeleteArgsSchema, ContentFindManyArgsSchema, ContentFindUniqueArgsSchema, ContentOrderByWithRelationInputSchema, ContentSchema, ContentUpdateArgsSchema, ContentUpsertArgsSchema, ContentWhereInputSchema, ContentWhereUniqueInputSchema, ContentWithRelationsSchema } from "@services/schemas";
 import ContentIncludeSchema from "@services/schemas/inputTypeSchemas/ContentIncludeSchema";
 import { z, ZodType } from "zod";

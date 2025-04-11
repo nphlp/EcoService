@@ -1,6 +1,6 @@
 // ============== Types ============== //
 
-import { Prisma } from "@prisma/client";
+import { Prisma } from "@services/prisma";
 import { AddressCreateArgsSchema, AddressDeleteArgsSchema, AddressFindManyArgsSchema, AddressFindUniqueArgsSchema, AddressOrderByWithRelationInputSchema, AddressSchema, AddressUpdateArgsSchema, AddressUpsertArgsSchema, AddressWhereInputSchema, AddressWhereUniqueInputSchema, AddressWithRelationsSchema } from "@services/schemas";
 import AddressIncludeSchema from "@services/schemas/inputTypeSchemas/AddressIncludeSchema";
 import { z, ZodType } from "zod";

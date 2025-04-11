@@ -1,6 +1,6 @@
 // ============== Types ============== //
 
-import { Prisma } from "@prisma/client";
+import { Prisma } from "@services/prisma";
 import { QuantityCreateArgsSchema, QuantityDeleteArgsSchema, QuantityFindManyArgsSchema, QuantityFindUniqueArgsSchema, QuantityOrderByWithRelationInputSchema, QuantitySchema, QuantityUpdateArgsSchema, QuantityUpsertArgsSchema, QuantityWhereInputSchema, QuantityWhereUniqueInputSchema, QuantityWithRelationsSchema } from "@services/schemas";
 import QuantityIncludeSchema from "@services/schemas/inputTypeSchemas/QuantityIncludeSchema";
 import { z, ZodType } from "zod";

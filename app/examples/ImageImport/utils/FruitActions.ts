@@ -1,7 +1,7 @@
 "use server";
 
 import PrismaInstance from "@lib/prisma";
-import { Fruit } from "@prisma/client";
+import { Fruit } from "@services/prisma";
 import { FileExists } from "./FileExists";
 import { ImageUploads } from "./ImageUploads";
 

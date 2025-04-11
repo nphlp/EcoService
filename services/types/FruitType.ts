@@ -1,6 +1,6 @@
 // ============== Types ============== //
 
-import { Prisma } from "@prisma/client";
+import { Prisma } from "@services/prisma";
 import { FruitCreateArgsSchema, FruitDeleteArgsSchema, FruitFindManyArgsSchema, FruitFindUniqueArgsSchema, FruitOrderByWithRelationInputSchema, FruitSchema, FruitUpdateArgsSchema, FruitUpsertArgsSchema, FruitWhereInputSchema, FruitWhereUniqueInputSchema,  } from "@services/schemas";
 import { z, ZodType } from "zod";
 

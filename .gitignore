@@ -44,3 +44,6 @@ next-env.d.ts
 
 # zod
 services/schemas
+
+# prisma
+services/prisma
