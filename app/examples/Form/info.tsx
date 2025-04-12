@@ -1,7 +1,7 @@
 "use client";
 
-import Modal from "@comps/client/modal";
 import Button from "@comps/ui/button";
+import Modal from "@comps/ui/modal";
 import { useState } from "react";
 
 export default function Info() {

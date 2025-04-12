@@ -22,7 +22,7 @@ export default async function Page(props: PageProps) {
         return (
             <div className="flex flex-col items-center justify-center space-y-4">
                 <h1 className="text-2xl font-semibold">Produit non trouvé</h1>
-                <Link href="/products" className="text-primary flex items-center hover:underline">
+                <Link href="/products" className="text-eco flex items-center hover:underline">
                     <ArrowLeft className="mr-2 size-4" />
                     Retour aux produits
                 </Link>
@@ -39,7 +39,7 @@ export default async function Page(props: PageProps) {
     return (
         <div className="p-7">
             {/* Bouton retour */}
-            <Link href="/catalog" className="text-primary mb-8 inline-flex items-center hover:underline">
+            <Link href="/catalog" className="text-eco mb-8 inline-flex items-center hover:underline">
                 <ArrowLeft className="mr-2 size-4" />
                 Retour aux produits
             </Link>
@@ -54,7 +54,7 @@ export default async function Page(props: PageProps) {
                 <div className="space-y-6">
                     <div>
                         {Category && (
-                            <span className="bg-primary/10 text-primary mb-2 inline-block rounded-full px-3 py-1 text-sm">
+                            <span className="bg-eco/10 text-eco mb-2 inline-block rounded-full px-3 py-1 text-sm">
                                 {Category.name}
                             </span>
                         )}
@@ -67,7 +67,7 @@ export default async function Page(props: PageProps) {
                         <div className="flex items-end justify-between">
                             <div>
                                 <p className="text-sm text-gray-500">Prix</p>
-                                <p className="text-primary text-3xl font-bold">{price.toFixed(2)} €</p>
+                                <p className="text-eco text-3xl font-bold">{price.toFixed(2)} €</p>
                             </div>
                             <div className="text-right">
                                 <p className="text-sm text-gray-500">Stock</p>
@@ -91,15 +91,15 @@ export default async function Page(props: PageProps) {
                     {/* Avantages */}
                     <div className="grid grid-cols-3 gap-4">
                         <div className="flex flex-col items-center rounded-xl border border-gray-300 bg-white p-4 text-center shadow-[2px_2px_7px_rgba(0,0,0,0.1)]">
-                            <Truck className="text-primary mb-2 size-6" />
+                            <Truck className="text-eco mb-2 size-6" />
                             <span className="text-sm">Livraison rapide</span>
                         </div>
                         <div className="flex flex-col items-center rounded-xl border border-gray-300 bg-white p-4 text-center shadow-[2px_2px_7px_rgba(0,0,0,0.1)]">
-                            <Package2 className="text-primary mb-2 size-6" />
+                            <Package2 className="text-eco mb-2 size-6" />
                             <span className="text-sm">Emballage écologique</span>
                         </div>
                         <div className="flex flex-col items-center rounded-xl border border-gray-300 bg-white p-4 text-center shadow-[2px_2px_7px_rgba(0,0,0,0.1)]">
-                            <ShieldCheck className="text-primary mb-2 size-6" />
+                            <ShieldCheck className="text-eco mb-2 size-6" />
                             <span className="text-sm">Qualité garantie</span>
                         </div>
                     </div>

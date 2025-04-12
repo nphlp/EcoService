@@ -129,8 +129,7 @@ export default function Slider(props: SliderProps) {
                 ref={sliderRef}
                 // Drag
                 drag="x"
-                dragConstraints={{ left: 0, right: 0 }}
-                dragElastic={0.1}
+                dragConstraints={{ left: 50, right: 50 }}
                 onDragStart={() => setIsDragging(true)}
                 onDragEnd={handleDrag}
                 // Style

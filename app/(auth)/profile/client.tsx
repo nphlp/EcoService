@@ -2,9 +2,9 @@
 
 import ButtonClient from "@comps/client/button";
 import InputClient from "@comps/client/input";
-import ModalClient from "@comps/client/modal";
 import Card from "@comps/server/card";
 import Loader from "@comps/ui/loader";
+import Modal from "@comps/ui/modal";
 import {
     changeEmail,
     listSessions,
@@ -47,7 +47,7 @@ export default function ProfileClient() {
 
     return (
         <>
-            <ModalClient isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} className="max-w-[350px] space-y-3">
+            <Modal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} className="max-w-[350px] space-y-3">
                 <h2 className="text-center text-xl font-bold">Confirmation d&apos;email</h2>
                 <div className="text-sm">Veuillez vérifier votre adresse email.</div>
                 <div className="flex flex-col items-center">
@@ -55,7 +55,7 @@ export default function ProfileClient() {
                         Fermer
                     </ButtonClient>
                 </div>
-            </ModalClient>
+            </Modal>
             <Card className="flex w-[280px] flex-col gap-3">
                 <div className="space-y-1">
                     <div className="text-xl font-bold">Session List</div>

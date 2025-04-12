@@ -23,7 +23,7 @@ export default function SelectorsClient(props: SelectorsClientProps) {
         "bg-white rounded-md border p-2 text-gray-700 shadow-sm w-full outline-none ring-0 focus:ring-2 focus:ring-teal-300";
 
     return (
-        <div className="bg-primary grid grid-cols-2 gap-4 px-6 py-4 md:grid-cols-4">
+        <div className="bg-eco grid grid-cols-2 gap-4 px-6 py-4 md:grid-cols-4">
             <Select
                 label="Catégorie"
                 divClass={divClass}

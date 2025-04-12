@@ -21,7 +21,7 @@ export default function Loader(props: LoaderProps) {
         white: "border-gray-300",
         gray: "border-gray-500",
         black: "border-gray-700",
-        primary: "border-primary",
+        primary: "border-eco",
     };
 
     return (

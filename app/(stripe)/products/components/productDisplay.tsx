@@ -63,7 +63,7 @@ export default function ProductDisplay(props: ProductDisplayProps) {
                             )}
                         </div>
                         <div className="mt-4 text-center">
-                            <h3 className="text-primary text-xl">{product.name}</h3>
+                            <h3 className="text-eco text-xl">{product.name}</h3>
                             <p className="mt-1 text-lg">
                                 {(((product.default_price as Stripe.Price).unit_amount as number) / 100).toFixed(2)}€
                             </p>

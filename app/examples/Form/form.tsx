@@ -6,7 +6,7 @@ import Feedback, { FeedbackMode } from "@comps/ui/feedback";
 import Input from "@comps/ui/input";
 import InputImage from "@comps/ui/inputImage";
 import Select from "@comps/ui/select";
-import SelectUp, { OptionsType } from "@comps/ui/selectUp";
+import Combobox, { OptionsType } from "@comps/ui/combobox";
 import { FormEvent, useState } from "react";
 import Info from "./info";
 
@@ -67,7 +67,7 @@ export default function Form(props: FormProps) {
                     value={category}
                     required={false}
                 />
-                <SelectUp
+                <Combobox
                     label="Produit"
                     placeholder="Sélectionnez un produit"
                     options={productOptions}

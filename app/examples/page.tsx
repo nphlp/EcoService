@@ -43,6 +43,11 @@ export default function Page() {
             href: "/examples/Slider",
             text: "How to create a slider",
         },
+        {
+            label: "Combobox (Shadcn)",
+            href: "/examples/Combobox",
+            text: "How to create a combobox",
+        },
     ];
     return (
         <div className="flex h-full flex-col items-center justify-center gap-4">

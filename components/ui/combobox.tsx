@@ -14,8 +14,8 @@ export type OptionsType = {
     value: string;
 };
 
-/** Select props */
-type SelectUpProps = {
+/** Combobox props */
+type ComboboxProps = {
     label: string;
     placeholder: string;
     variant?: SelectUpVariant;
@@ -49,7 +49,7 @@ type SelectUpProps = {
  * const [category, setCategory] = useState<string>("");
  *
  * // Use the component
- * <Select
+ * <Combobox
  *     label="Categories"
  *     placeholder="Sélectionnez une catégorie"
  *     options={categories.map((category) => ({
@@ -60,7 +60,7 @@ type SelectUpProps = {
  * />
  * ```
  */
-export default function SelectUp(props: SelectUpProps) {
+export default function Combobox(props: ComboboxProps) {
     const {
         label,
         variant = "default",
@@ -136,7 +136,7 @@ export default function SelectUp(props: SelectUpProps) {
 
     const handleKeyDownInput = (e: KeyboardEvent<HTMLInputElement>) => {
         // If the Enter key is pressed, open the options
-        if (e.key === "Enter" || e.key === "ArrowDown") {
+        if (e.key === "Enter") {
             e.preventDefault();
             const firstChildTarget = document.getElementById(`options-container-${StringToSlug(label)}`)
                 ?.children[0] as HTMLButtonElement;
@@ -204,7 +204,7 @@ export default function SelectUp(props: SelectUpProps) {
                     }}
                     className={combo(
                         "absolute right-2 bottom-[6.5px] z-20",
-                        "rounded-full bg-white shadow-[0_0_3px_3px_rgba(255,255,255,1)] backdrop-blur-sm hover:cursor-pointer",
+                        "rounded-full bg-white hover:cursor-pointer",
                         "flex size-6 items-center justify-center",
                         "ring-0 outline-none focus:ring-2 focus:ring-teal-300",
                     )}

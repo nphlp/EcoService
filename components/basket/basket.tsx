@@ -38,7 +38,7 @@ export default function Basket() {
                 <div className="absolute top-0 h-3 w-full bg-gradient-to-b from-gray-300 to-transparent" />
                 <div className="w-[400px] space-y-4 px-5 py-6">
                     <div>
-                        <h3 className="text-primary w-full text-2xl font-bold">Mon Panier</h3>
+                        <h3 className="text-eco w-full text-2xl font-bold">Mon Panier</h3>
                         <div className="text-xs text-gray-500">
                             Vous avez {basketProductList.length} produits dans votre panier.
                         </div>

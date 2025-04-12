@@ -32,7 +32,7 @@ export default async function Layout(props: LayoutProps) {
                     <Header />
                     <main className="flex-1 overflow-x-hidden overflow-y-auto">
                         <div className="h-full bg-white">{children}</div>
-                        {/* <Footer className="bg-primary h-[300px]" /> */}
+                        {/* <Footer className="bg-eco h-[300px]" /> */}
                     </main>
                 </NuqsAdapter>
             </body>
