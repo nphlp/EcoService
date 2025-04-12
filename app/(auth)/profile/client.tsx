@@ -56,7 +56,7 @@ export default function ProfileClient() {
                     </ButtonClient>
                 </div>
             </Modal>
-            <Card className="flex w-[280px] flex-col gap-3">
+            <Card className="flex w-[300px] flex-col gap-3">
                 <div className="space-y-1">
                     <div className="text-xl font-bold">Session List</div>
                     <div className="flex flex-row gap-1">
