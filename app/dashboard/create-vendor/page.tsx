@@ -1,6 +1,6 @@
-import PaymentButton from "@app/(stripe)/stripe/components/paymentButton";
-import ProductManager from "@app/(stripe)/stripe/components/productManager";
-import SellerOnboard from "@app/(stripe)/stripe/components/sellerOnboard";
+import PaymentButton from "./components/paymentButton";
+import ProductManager from "./components/productManager";
+import SellerOnboard from "./components/sellerOnboard";
 import LogoutClient from "@comps/client/logout";
 import { GetSession } from "@lib/auth";
 import PrismaInstance from "@lib/prisma";

@@ -1,4 +1,4 @@
-import ProductDisplay from "@app/(stripe)/products/components/productDisplay";
+import ProductDisplay from "./components/productDisplay";
 import { GetSession } from "@lib/auth";
 import { Fetch } from "@utils/Fetch/Fetch";
 import { Metadata } from "next";

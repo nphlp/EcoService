@@ -1,4 +1,4 @@
-import ProductCreationForm from "@app/(stripe)/create-product/productCreationForm";
+import ProductCreationForm from "./productCreationForm";
 import Link from "@comps/ui/link";
 import { isVendorOrEmployeeOrAdmin } from "@lib/checkRole";
 import { FetchV2 } from "@utils/FetchV2/FetchV2";
