@@ -15,10 +15,10 @@ export default async function Page() {
     const expirationFormatted = expirationDate.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" });
 
     return (
-        <div className="h-full bg-gray-50 border-t-1 border-gray-300 p-6 overflow-y-auto">
-            <div className="min-h-full flex flex-col items-center justify-center">
+        <div className="h-full overflow-y-auto border-t-1 border-gray-300 bg-gray-50 p-6">
+            <div className="flex min-h-full flex-col items-center justify-center">
                 <div className="flex flex-col items-center">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-5 lg:grid-cols-3">
+                    <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
                         <Card className="flex w-[300px] flex-col gap-3 rounded-2xl p-6">
                             <h1 className="text-xl font-bold">Profil</h1>
                             <div className="text-xs text-wrap text-gray-500">

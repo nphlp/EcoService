@@ -1,7 +1,6 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-    /* config options here */
     images: {
         remotePatterns: [
             {
@@ -13,9 +12,8 @@ const nextConfig: NextConfig = {
     },
 
     experimental: {
-        viewTransition: true, // enable view transition API with "<ViewTransition() />"
-        authInterrupts: true, // enable "unauthorized()" to redirect to unauthorized page
-        // nodeMiddleware: true,
+        viewTransition: true, // enable view transition API
+        authInterrupts: true, // enable unauthorized()
     },
 };
 

@@ -4,6 +4,7 @@ Complete auth and user management
 
 ## Priority
 
+- Move Shadcn CSS Theme to a dedicated file
 - Autorization / Permissions
 - Rework Fetch Parallelized V2
 - Make API Fetch props "Exact< Schema, S >"

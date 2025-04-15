@@ -11,7 +11,7 @@ type AddToCartButtonProps = {
 
 export default function AddToCartButton(props: AddToCartButtonProps) {
     const { productId } = props;
-    
+
     const { basketProductList, addProductToBasket, removeProductFromBasket } = useBasketStore();
 
     const isInBasket = basketProductList.some((currentId) => currentId === productId);

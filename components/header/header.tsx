@@ -1,4 +1,3 @@
-// import { Category } from "@prisma/client";
 import { FetchV2 } from "@utils/FetchV2/FetchV2";
 import Basket from "@comps/basket/basket";
 import Navigation from "@comps/header/browser/navigation";

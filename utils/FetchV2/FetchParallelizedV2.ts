@@ -70,35 +70,26 @@ import { FetchProps, FetchResponse, FetchV2, Params, Route } from "./FetchV2";
  * - Inférence dynamique du typage de la `response` Prisma selon les `params` fournis
  */
 
-type MapProps<
-    Input,
-    R extends Route<Input>,
-    P extends Params<Input, R>,
-    T extends Array<FetchProps<Input, R, P>>
-> = {
-    [K in keyof T]: T[K] extends FetchProps<infer Input, infer R, infer P>
-        ? FetchProps<Input, R, P>
-        : never;
+type MapProps<Input, R extends Route<Input>, P extends Params<Input, R>, T extends Array<FetchProps<Input, R, P>>> = {
+    [K in keyof T]: T[K] extends FetchProps<infer Input, infer R, infer P> ? FetchProps<Input, R, P> : never;
 };
 
 type MapResponse<
     Input,
     R extends Route<Input>,
     P extends Params<Input, R>,
-    T extends Array<FetchProps<Input, R, P>>
+    T extends Array<FetchProps<Input, R, P>>,
 > = {
-    [K in keyof T]: T[K] extends FetchProps<infer Input, infer R, infer P>
-        ? FetchResponse<Input, R, P>
-        : never;
+    [K in keyof T]: T[K] extends FetchProps<infer Input, infer R, infer P> ? FetchResponse<Input, R, P> : never;
 };
 
-export const FetchParallelizedV2 = async<
+export const FetchParallelizedV2 = async <
     Input,
     R extends Route<Input>,
     P extends Params<Input, R>,
     T extends Array<FetchProps<Input, R, P>>,
 >(
-    paramList: [...T extends MapProps<Input, R, P, T> ? T : never]
+    paramList: [...(T extends MapProps<Input, R, P, T> ? T : never)],
 ): Promise<MapResponse<Input, R, P, T>> => {
     const promises = paramList.map((props) => FetchV2(props));
 

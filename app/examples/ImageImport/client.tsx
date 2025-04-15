@@ -75,10 +75,10 @@ export default function AddFruitClient() {
     };
 
     return (
-        <div className="flex flex-col lg:flex-row gap-4">
-            <Card className="w-[400px] h-fit p-0 overflow-hidden">
+        <div className="flex flex-col gap-4 lg:flex-row">
+            <Card className="h-fit w-[400px] overflow-hidden p-0">
                 <ImageRatio src={image ? URL.createObjectURL(image) : null} alt="Preview" />
-                <div className="p-7 space-y-2">
+                <div className="space-y-2 p-7">
                     <div className="text-xl font-bold">{name !== "" ? name : "Fruit Preview"}</div>
                     <div className="line-clamp-3 text-sm text-wrap">
                         {description !== ""
@@ -87,29 +87,21 @@ export default function AddFruitClient() {
                     </div>
                 </div>
             </Card>
-            <Card className="flex flex-col w-[400px] items-center gap-4">
+            <Card className="flex w-[400px] flex-col items-center gap-4">
                 <div className="space-y-2">
                     <h1 className="text-center text-2xl font-bold">Add fruit</h1>
-                    <div className="text-center text-xs text-wrap text-gray-500">Fill the fields to add a new fruit.</div>
+                    <div className="text-center text-xs text-wrap text-gray-500">
+                        Fill the fields to add a new fruit.
+                    </div>
                 </div>
-                <Input
-                    label="Name"
-                    classComponent="w-full"
-                    onChange={(e) => setName(e.target.value)}
-                    value={name}
-                />
+                <Input label="Name" classComponent="w-full" onChange={(e) => setName(e.target.value)} value={name} />
                 <Input
                     label="Description"
                     classComponent="w-full"
                     onChange={(e) => setDescription(e.target.value)}
                     value={description}
                 />
-                <InputFile
-                    label="Image"
-                    onChange={handleImageChange}
-                    imagePreview={image}
-                    classComponent="w-full"
-                />
+                <InputFile label="Image" onChange={handleImageChange} imagePreview={image} classComponent="w-full" />
                 <Feedback message={message} mode={mode} isFeedbackOpen={isFeedbackOpen} />
                 <Button label="add-fruit" onClick={handleSubmit} isLoading={isLoading}>
                     Add new fruit

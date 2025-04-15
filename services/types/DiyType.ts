@@ -39,7 +39,7 @@ export const countDiySchema: ZodType<CountDiyProps> =  z.object({
     cursor: z.lazy(() => DiyWhereUniqueInputSchema).optional(),
     take: z.number().optional(),
     skip: z.number().optional(),
-    select: z.union([z.literal(true), z.record(z.boolean())]).optional()
+    select: z.union([z.literal(true), z.record(z.string(), z.boolean())]).optional()
 });
 
 // ============== Response Types ============== //

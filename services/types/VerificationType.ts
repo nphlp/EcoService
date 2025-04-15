@@ -36,7 +36,7 @@ export const countVerificationSchema: ZodType<CountVerificationProps> =  z.objec
     cursor: z.lazy(() => VerificationWhereUniqueInputSchema).optional(),
     take: z.number().optional(),
     skip: z.number().optional(),
-    select: z.union([z.literal(true), z.record(z.boolean())]).optional()
+    select: z.union([z.literal(true), z.record(z.string(), z.boolean())]).optional()
 });
 
 // ============== Response Types ============== //

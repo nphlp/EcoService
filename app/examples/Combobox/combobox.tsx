@@ -23,7 +23,7 @@ type ComboboxProps = {
 
 export default function Combobox(props: ComboboxProps) {
     const { options } = props;
-    
+
     const [value, setValue] = useState("");
     const [open, setOpen] = useState(false);
 

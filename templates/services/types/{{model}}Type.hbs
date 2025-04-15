@@ -43,7 +43,7 @@ export const count{{modelName}}Schema: ZodType<Count{{modelName}}Props> =  z.obj
     cursor: z.lazy(() => {{modelName}}WhereUniqueInputSchema).optional(),
     take: z.number().optional(),
     skip: z.number().optional(),
-    select: z.union([z.literal(true), z.record(z.boolean())]).optional()
+    select: z.union([z.literal(true), z.record(z.string(), z.boolean())]).optional()
 });
 
 // ============== Response Types ============== //

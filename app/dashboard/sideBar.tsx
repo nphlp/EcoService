@@ -25,27 +25,27 @@ const SideBarProvider = (props: { children: ReactNode }) => {
 };
 
 // SideBar
-const SideBar = (props: {width?: number, className?: string; children: ReactNode }) => {
+const SideBar = (props: { width?: number; className?: string; children: ReactNode }) => {
     const { width = 250, className, children } = props;
     const { isOpen } = useContext(SideBarContext);
     return (
+        <motion.div
+            initial={{ width }}
+            animate={{ width: isOpen ? width : 0 }}
+            transition={{ duration: 0.3 }}
+            className={combo(className)}
+        >
             <motion.div
-                initial={{ width }}
-                animate={{ width: isOpen ? width : 0 }}
+                initial={{ x: 0 }}
+                animate={{ x: isOpen ? 0 : -width }}
                 transition={{ duration: 0.3 }}
-                className={combo(className)}
+                style={{ width }}
+                className={combo("h-full overflow-hidden", "border-r-1 border-gray-300", "space-y-4 p-5")}
             >
-                <motion.div
-                    initial={{ x: 0 }}
-                    animate={{ x: isOpen ? 0 : -width }}
-                    transition={{ duration: 0.3 }}
-                    style={{ width }}
-                    className={combo("h-full overflow-hidden", "border-r-1 border-gray-300", "space-y-4 p-5")}
-                >
-                    <div className="text-2xl font-bold text-center text-gray-700">Side Bar</div>
-                    <div className="space-y-1">{children}</div>
-                </motion.div>
+                <div className="text-center text-2xl font-bold text-gray-700">Side Bar</div>
+                <div className="space-y-1">{children}</div>
             </motion.div>
+        </motion.div>
     );
 };
 

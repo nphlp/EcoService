@@ -30,7 +30,7 @@ export default async function Page() {
     return (
         <>
             <section
-                className="flex flex-row items-center justify-between gap-12 p-8 md:p-16 backdrop-blur-md"
+                className="flex flex-row items-center justify-between gap-12 p-8 backdrop-blur-md md:p-16"
                 style={{
                     backgroundImage: "url('/illustration/produit 4.jpg')",
                     backgroundSize: "cover",

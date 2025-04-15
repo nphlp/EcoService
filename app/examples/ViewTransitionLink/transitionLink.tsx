@@ -48,7 +48,7 @@ const cssAnimation = {
                 easing: "ease-in-out",
                 fill: "forwards",
                 pseudoElement: "::view-transition-old(root)",
-            }
+            },
         );
 
         // New page transition
@@ -68,7 +68,7 @@ const cssAnimation = {
                 easing: "ease-in-out",
                 fill: "forwards",
                 pseudoElement: "::view-transition-new(root)",
-            }
+            },
         );
     },
     swipeToRight: (duration: number) => {
@@ -79,7 +79,7 @@ const cssAnimation = {
                     transform: "translateX(0)",
                 },
                 {
-                    transform: "translateX(-100%)"
+                    transform: "translateX(-100%)",
                 },
             ],
             {
@@ -87,14 +87,14 @@ const cssAnimation = {
                 easing: "ease-in-out",
                 fill: "forwards",
                 pseudoElement: "::view-transition-old(root)",
-            }
+            },
         );
 
         // New page transition
         document.documentElement.animate(
             [
                 {
-                    transform: "translateX(100%)"
+                    transform: "translateX(100%)",
                 },
                 {
                     transform: "translateX(0)",
@@ -105,7 +105,7 @@ const cssAnimation = {
                 easing: "ease-in-out",
                 fill: "forwards",
                 pseudoElement: "::view-transition-new(root)",
-            }
+            },
         );
     },
     swipeToLeft: (duration: number) => {
@@ -116,7 +116,7 @@ const cssAnimation = {
                     transform: "translateX(0)",
                 },
                 {
-                    transform: "translateX(100%)"
+                    transform: "translateX(100%)",
                 },
             ],
             {
@@ -124,14 +124,14 @@ const cssAnimation = {
                 easing: "ease-in-out",
                 fill: "forwards",
                 pseudoElement: "::view-transition-old(root)",
-            }
+            },
         );
 
         // New page transition
         document.documentElement.animate(
             [
                 {
-                    transform: "translateX(-100%)"
+                    transform: "translateX(-100%)",
                 },
                 {
                     transform: "translateX(0)",
@@ -142,7 +142,7 @@ const cssAnimation = {
                 easing: "ease-in-out",
                 fill: "forwards",
                 pseudoElement: "::view-transition-new(root)",
-            }
+            },
         );
-    }
+    },
 };

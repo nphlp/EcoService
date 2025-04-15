@@ -11,16 +11,15 @@ import { FetchV2 } from "@utils/FetchV2/FetchV2";
 import Combobox from "./combobox";
 
 export default async function Page() {
-
     const productList = await FetchV2({
         route: "/product",
         params: {
             select: {
                 id: true,
                 name: true,
-            }
-        }
-    })
+            },
+        },
+    });
 
     const productOptions = productList.map((product) => ({
         label: product.name,

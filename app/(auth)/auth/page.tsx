@@ -10,12 +10,12 @@ export default function Page() {
                     {
                         label: "Connexion",
                         component: <LoginClient />,
-                        searchParams: "login"
+                        searchParams: "login",
                     },
                     {
                         label: "S'inscrire",
                         component: <RegisterClient />,
-                        searchParams: "register"
+                        searchParams: "register",
                     },
                 ]}
             />

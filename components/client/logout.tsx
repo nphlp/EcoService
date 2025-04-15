@@ -14,7 +14,8 @@ type LogoutProps = {
     | { baseStyle?: boolean; baseStyleOnly?: never; baseStyleWithout?: never }
     | { baseStyle?: never; baseStyleOnly?: ButtonBaseKeys[]; baseStyleWithout?: never }
     | { baseStyle?: never; baseStyleOnly?: never; baseStyleWithout?: ButtonBaseKeys[] }
-) & Omit<ButtonProps, "onClick" | "label" | "children">;
+) &
+    Omit<ButtonProps, "onClick" | "label" | "children">;
 
 export default function Logout(props: LogoutProps) {
     const { children, onClick, ...others } = props;

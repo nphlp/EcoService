@@ -132,7 +132,7 @@ const RightNav = () => {
                 label="toggle-search-section-visibility"
                 variant="ghost"
                 className="p-2"
-                baseStyleOnly={['flex', 'rounded']}
+                baseStyleOnly={["flex", "rounded"]}
                 onClick={() => {
                     setSearchOpen(!searchOpen);
                     setCategorieOpen(false);
@@ -149,7 +149,7 @@ const RightNav = () => {
                     href="/profile"
                     variant="ghost"
                     className="p-2"
-                    baseStyleOnly={['flex', 'rounded']}
+                    baseStyleOnly={["flex", "rounded"]}
                     onClick={() => {
                         setSearchOpen(false);
                         setCategorieOpen(false);
@@ -164,7 +164,7 @@ const RightNav = () => {
                     href="/auth"
                     variant="ghost"
                     className="p-2"
-                    baseStyleOnly={['flex', 'rounded']}
+                    baseStyleOnly={["flex", "rounded"]}
                     onClick={() => {
                         setSearchOpen(false);
                         setCategorieOpen(false);
@@ -182,7 +182,7 @@ const RightNav = () => {
                     href="/dashboard"
                     variant="ghost"
                     className="p-2"
-                    baseStyleOnly={['flex', 'rounded']}
+                    baseStyleOnly={["flex", "rounded"]}
                     onClick={() => {
                         setSearchOpen(false);
                         setCategorieOpen(false);
@@ -198,7 +198,7 @@ const RightNav = () => {
                 label="toggle-basket-section-visibility"
                 variant="ghost"
                 className="relative p-2"
-                baseStyleOnly={['flex', 'rounded']}
+                baseStyleOnly={["flex", "rounded"]}
                 onClick={() => {
                     setSearchOpen(false);
                     setCategorieOpen(false);

@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 
 export default function LinkList() {
     const path = usePathname();
-    
+
     return (
         <>
             <Link

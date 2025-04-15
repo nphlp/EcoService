@@ -3,13 +3,13 @@
 } */
 
 ::view-transition-group(root) {
-    position: auto !important
+    position: auto !important;
 }
 
 ::view-transition-image-pair(root) {
     isolation: isolate;
     will-change: transform, opacity, scale;
-    z-index: 1
+    z-index: 1;
 }
 
 ::view-transition-new(root) {

@@ -47,7 +47,7 @@ export default function CatalogClient(props: CatalogClientProps) {
             // If the current element is not a button or a child of a button, push the link
             if (!isButtonOrChild) router.push(`/product/${productId}`);
         }
-    }
+    };
 
     useEffect(() => {
         if (newProductList && newProductAmount) {
@@ -77,8 +77,15 @@ export default function CatalogClient(props: CatalogClientProps) {
     return (
         <div className={combo("grid grid-cols-1 gap-5 overflow-y-auto sm:grid-cols-2 lg:grid-cols-4", className)}>
             {productListLocal.map((product, index) => (
-                <Link key={index} id={`product-${product.id}`} label={product.name} href={`/product/${product.id}`} variant="none" baseStyle={false}
-                onClick={(e) => handleClick(e, product.id)}>
+                <Link
+                    key={index}
+                    id={`product-${product.id}`}
+                    label={product.name}
+                    href={`/product/${product.id}`}
+                    variant="none"
+                    baseStyle={false}
+                    onClick={(e) => handleClick(e, product.id)}
+                >
                     <ProductCard product={product} />
                 </Link>
             ))}

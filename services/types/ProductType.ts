@@ -39,7 +39,7 @@ export const countProductSchema: ZodType<CountProductProps> =  z.object({
     cursor: z.lazy(() => ProductWhereUniqueInputSchema).optional(),
     take: z.number().optional(),
     skip: z.number().optional(),
-    select: z.union([z.literal(true), z.record(z.boolean())]).optional()
+    select: z.union([z.literal(true), z.record(z.string(), z.boolean())]).optional()
 });
 
 // ============== Response Types ============== //

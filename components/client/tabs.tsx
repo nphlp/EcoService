@@ -33,7 +33,7 @@ export default function TabClient(props: TabClientProps) {
     const tabList = cardList.map(({ searchParams }) => searchParams);
     const [tab, setTab] = useQueryState("tab", parseAsStringEnum(tabList).withDefault(tabList[0]));
 
-    const activeTab = cardList.indexOf(cardList.find(({ searchParams }) => searchParams === tab)!)
+    const activeTab = cardList.indexOf(cardList.find(({ searchParams }) => searchParams === tab)!);
     const tabAmount = cardList.length;
     const realActiveTab = activeTab + 1;
 

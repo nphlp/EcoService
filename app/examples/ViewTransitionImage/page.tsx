@@ -17,7 +17,7 @@ export default async function Page() {
                 <h1 className="text-2xl font-bold">Image transition</h1>
                 <p className="text-sm text-gray-500">An example of a view transition image</p>
             </div>
-            <div className="flex flex-row items-center justify-between gap-4 w-full">
+            <div className="flex w-full flex-row items-center justify-between gap-4">
                 {productList.map(({ id, name, image }, index) => (
                     <Link
                         key={index}
