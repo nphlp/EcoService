@@ -4,6 +4,9 @@ Complete auth and user management
 
 ## Priority
 
+- Image profile
+- Reset password
+
 - Move Shadcn CSS Theme to a dedicated file
 - Autorization / Permissions
 - Rework Fetch Parallelized V2

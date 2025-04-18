@@ -1,5 +1,8 @@
-import { Routes } from "@app/api/stripe/Routes";
+import { Routes as ExternalRoutes } from "@app/api/external/Routes";
+import { Routes as StripeRoutes } from "@app/api/stripe/Routes";
 import { ResponseFormat } from "@utils/FetchConfig";
+
+export type Routes = ExternalRoutes & StripeRoutes;
 
 export type Route = keyof Routes;
 

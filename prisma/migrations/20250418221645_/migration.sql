@@ -4,7 +4,7 @@ CREATE TABLE `User` (
     `name` VARCHAR(191) NOT NULL,
     `email` VARCHAR(191) NOT NULL,
     `emailVerified` BOOLEAN NOT NULL,
-    `image` VARCHAR(191) NULL,
+    `image` LONGTEXT NULL,
     `role` ENUM('USER', 'VENDOR', 'EMPLOYEE', 'ADMIN') NOT NULL DEFAULT 'USER',
     `phone` VARCHAR(191) NULL,
     `stripeId` VARCHAR(191) NULL,

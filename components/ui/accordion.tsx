@@ -73,6 +73,7 @@ const AccordionButton = (props: AccordionButtonProps) => {
                 className={combo(
                     "w-full items-center justify-between rounded-lg px-3 py-1.5",
                     "hover:cursor-pointer hover:bg-gray-100",
+                    "transition-colors duration-200",
                     "flex items-center justify-between",
                 )}
             >
