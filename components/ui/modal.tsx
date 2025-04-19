@@ -1,6 +1,5 @@
 "use client";
 
-import Card from "@comps/server/card";
 import Button from "@comps/ui/button";
 import { combo } from "@lib/combo";
 import { X } from "lucide-react";
@@ -49,7 +48,13 @@ export default function Modal(props: ModalClientProps) {
                 onClick={() => setIsModalOpen(false)}
                 className="absolute top-0 left-0 z-50 h-screen w-screen bg-black/50 backdrop-blur-[1.5px]"
             />
-            <Card className={combo("relative z-50 bg-white", className)}>
+            <div
+                className={combo(
+                    "rounded-xl border border-gray-300 bg-white px-12 py-5 shadow-md",
+                    "relative z-50 bg-white",
+                    className,
+                )}
+            >
                 {withCross && (
                     <Button
                         label="Close modal"
@@ -62,7 +67,7 @@ export default function Modal(props: ModalClientProps) {
                     </Button>
                 )}
                 {children}
-            </Card>
+            </div>
         </div>
     );
 }

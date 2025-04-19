@@ -9,14 +9,15 @@ const plunk = new Plunk(process.env.PLUNK_API_KEY as string);
 type SendEmailProps = {
     subject: string;
     email: string;
-    url: string;
+    buttonUrl: string;
+    changingEmail?: boolean;
 };
 
 export const SendEmail = async (props: SendEmailProps) => {
     try {
-        const { subject, email, url } = props;
+        const { subject, email, buttonUrl, changingEmail = false } = props;
 
-        const body = await render(EmailTemplate({ buttonUrl: url }), {
+        const body = await render(EmailTemplate({ buttonUrl, changingEmail }), {
             pretty: true,
         });
 

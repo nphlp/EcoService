@@ -3,12 +3,12 @@
 import Button from "@comps/ui/button";
 import Feedback, { FeedbackMode } from "@comps/ui/feedback";
 import Input from "@comps/ui/input";
+import InputPassword from "@comps/ui/inputPassword";
 import Link from "@comps/ui/link";
 import { signIn } from "@lib/authClient";
 import { isVendorOrEmployeeOrAdmin } from "@lib/checkRole";
-import { Eye, EyeClosed } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 
 export default function LoginClient() {
     const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -19,11 +19,12 @@ export default function LoginClient() {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [toggleVisibility, setToggleVisibility] = useState(false);
 
     const router = useRouter();
 
-    const handleSubmit = async () => {
+    const handleSubmit = async (e: FormEvent) => {
+        e.preventDefault();
+        console.log(e)
         setIsLoading(true);
 
         if (!email || !password) {
@@ -65,29 +66,15 @@ export default function LoginClient() {
                     Entrez vos informations personnelles pour vous connecter.
                 </div>
             </div>
-            <div className="flex flex-col items-center justify-center gap-4">
+            <form onSubmit={handleSubmit} className="flex flex-col items-center justify-center gap-4">
                 <div className="w-full space-y-4">
                     <Input label="Email" type="email" onChange={(e) => setEmail(e.target.value)} value={email} />
-                    <div className="flex flex-row items-end gap-1.5">
-                        <Input
-                            label="Mot de passe"
-                            type={toggleVisibility ? "text" : "password"}
-                            classComponent="w-full"
-                            onChange={(e) => setPassword(e.target.value)}
-                            value={password}
-                        />
-                        <Button
-                            type="button"
-                            label="toggle-password-visibility"
-                            className="p-2 hover:border-gray-300"
-                            variant="outline"
-                            baseStyleWithout={["padding", "font"]}
-                            onClick={() => setToggleVisibility(!toggleVisibility)}
-                        >
-                            {toggleVisibility && <Eye className="size-5" />}
-                            {!toggleVisibility && <EyeClosed className="size-5" />}
-                        </Button>
-                    </div>
+                    <InputPassword
+                        label="Mot de passe"
+                        onChange={(e) => setPassword(e.target.value)}
+                        value={password}
+                        required={false}
+                    />
                 </div>
                 <Link
                     className="rounded px-1 text-sm text-gray-500"
@@ -99,10 +86,10 @@ export default function LoginClient() {
                     Pas encore inscrit ?
                 </Link>
                 <Feedback message={message} mode={mode} isFeedbackOpen={isFeedbackOpen} />
-                <Button type="button" onClick={handleSubmit} label="login" isLoading={isLoading}>
+                <Button type="submit" label="login" isLoading={isLoading}>
                     Connexion
                 </Button>
-            </div>
+            </form>
         </>
     );
 }

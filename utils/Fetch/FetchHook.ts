@@ -1,6 +1,6 @@
 "use client";
 
-import { Routes } from "@app/api/stripe/Routes";
+import { Routes } from "./Fetch";
 import { Fetch, FetchProps, FetchResponse } from "./Fetch";
 import { useEffect, useMemo, useRef, useState } from "react";
 

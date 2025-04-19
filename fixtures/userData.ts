@@ -22,7 +22,8 @@ export const insertUsers = async () => {
 
 export const userData: Prisma.UserCreateInput[] = [
     {
-        name: "User Lastname",
+        name: "User",
+        lastname: "UserLastname",
         email: "user@example.com",
         emailVerified: true,
         role: "USER",
@@ -36,7 +37,8 @@ export const userData: Prisma.UserCreateInput[] = [
         },
     },
     {
-        name: "Vendor Lastname",
+        name: "Vendor",
+        lastname: "VendorLastname",
         email: "vendor@example.com",
         emailVerified: true,
         role: "VENDOR",
@@ -50,7 +52,8 @@ export const userData: Prisma.UserCreateInput[] = [
         },
     },
     {
-        name: "Employee Lastname",
+        name: "Employee",
+        lastname: "EmployeeLastname",
         email: "employee@example.com",
         emailVerified: true,
         role: "EMPLOYEE",
@@ -64,7 +67,8 @@ export const userData: Prisma.UserCreateInput[] = [
         },
     },
     {
-        name: "Admin Lastname",
+        name: "Admin",
+        lastname: "AdminLastname",
         email: "admin@example.com",
         emailVerified: true,
         role: "ADMIN",

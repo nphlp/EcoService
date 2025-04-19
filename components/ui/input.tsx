@@ -5,7 +5,7 @@ import { InputHTMLAttributes, MouseEvent } from "react";
 import { InputVariant, inputTheme } from "./themes/inputTheme";
 
 /** Input props */
-type InputProps = {
+export type InputProps = {
     label: string;
     variant?: InputVariant;
     required?: boolean;

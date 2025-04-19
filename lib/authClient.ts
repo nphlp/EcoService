@@ -12,29 +12,14 @@ export const {
     signUp,
     signOut,
     useSession,
-    updateUser,
-    changeEmail,
-    listSessions,
     revokeSession,
     revokeOtherSessions,
-    revokeSessions,
+    updateUser,
+    changeEmail,
+    changePassword
 } = authClient;
 
 /**
  * Type for the session data
  */
 export type BetterSessionClient = ReturnType<typeof useSession>["data"];
-
-/**
- * Type for the session list
- */
-export type SessionList = {
-    id: string;
-    token: string;
-    expiresAt: Date;
-    ipAddress: string | null;
-    userAgent: string | null;
-    userId: string;
-    createdAt: Date;
-    updatedAt: Date;
-};

@@ -1,13 +1,14 @@
 "use client";
 
+import { UpdateUser } from "@actions/UserAction";
 import Button from "@comps/ui/button";
 import Feedback, { FeedbackMode } from "@comps/ui/feedback";
 import Input from "@comps/ui/input";
+import InputPassword from "@comps/ui/inputPassword";
 import Link from "@comps/ui/link";
 import { signUp } from "@lib/authClient";
-import { Eye, EyeClosed } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 
 export default function RegisterClient() {
     const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -20,11 +21,11 @@ export default function RegisterClient() {
     const [lastname, setLastname] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [toggleVisibility, setToggleVisibility] = useState(false);
 
     const router = useRouter();
 
-    const handleSubmit = async () => {
+    const handleSubmit = async (e: FormEvent) => {
+        e.preventDefault();
         setIsLoading(true);
 
         if (!firstname || !lastname || !email || !password) {
@@ -35,22 +36,39 @@ export default function RegisterClient() {
             return;
         }
 
-        const { data, error } = await signUp.email({
-            name: firstname + " " + lastname,
-            email,
-            password,
-            image: undefined,
-        });
+        try {
+            const { data } = await signUp.email({
+                name: firstname,
+                email,
+                password,
+                image: undefined,
+            });
 
-        if (data) {
-            setMessage("Successfully registered.");
-            setMode("success");
-            setIsFeedbackOpen(true);
-            setTimeout(() => {
-                router.push("/profile");
-            }, 2000);
-        } else if (error) {
-            setMessage("Failed to register.");
+            if (data) {
+                const userData = await UpdateUser({
+                    where: { id: data.user.id },
+                    data: {
+                        lastname,
+                    },
+                });
+
+                if (userData) {
+                    setMessage("Successfully registered.");
+                    setMode("success");
+                    setIsFeedbackOpen(true);
+
+                    // Redirect to profile page
+                    setTimeout(() => {
+                        router.push("/profile");
+                    }, 2000);
+                } else {
+                    throw new Error("Something went wrong.");
+                }
+            } else {
+                throw new Error("Failed to register.");
+            }
+        } catch (error) {
+            setMessage((error as Error).message);
             setMode("error");
             setIsFeedbackOpen(true);
             setIsLoading(false);
@@ -65,7 +83,7 @@ export default function RegisterClient() {
                     Entrez vos informations personnelles pour vous inscrire.
                 </div>
             </div>
-            <div className="flex flex-col items-center justify-center gap-4">
+            <form onSubmit={handleSubmit} className="flex flex-col items-center justify-center gap-4">
                 <div className="w-full space-y-4">
                     <Input
                         label="Prénom"
@@ -75,26 +93,12 @@ export default function RegisterClient() {
                     />
                     <Input label="Nom" type="text" onChange={(e) => setLastname(e.target.value)} value={lastname} />
                     <Input label="Email" type="email" onChange={(e) => setEmail(e.target.value)} value={email} />
-                    <div className="flex flex-row items-end gap-1.5">
-                        <Input
-                            label="Mot de passe"
-                            type={toggleVisibility ? "text" : "password"}
-                            classComponent="w-full"
-                            onChange={(e) => setPassword(e.target.value)}
-                            value={password}
-                        />
-                        <Button
-                            type="button"
-                            label="toggle-password-visibility"
-                            className="p-2 hover:border-gray-300"
-                            variant="outline"
-                            baseStyleWithout={["padding", "font"]}
-                            onClick={() => setToggleVisibility(!toggleVisibility)}
-                        >
-                            {toggleVisibility && <Eye className="size-5" />}
-                            {!toggleVisibility && <EyeClosed className="size-5" />}
-                        </Button>
-                    </div>
+                    <InputPassword
+                        label="Mot de passe"
+                        onChange={(e) => setPassword(e.target.value)}
+                        value={password}
+                        required={false}
+                    />
                 </div>
                 <Link
                     href="/auth"
@@ -109,7 +113,7 @@ export default function RegisterClient() {
                 <Button type="button" onClick={handleSubmit} label="register" isLoading={isLoading}>
                     S&apos;inscrire
                 </Button>
-            </div>
+            </form>
         </>
     );
 }

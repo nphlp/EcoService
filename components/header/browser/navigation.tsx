@@ -5,11 +5,12 @@ import Logout from "@comps/client/logout";
 import { useHeaderStore } from "@comps/header/headerStore";
 import Logo from "@comps/server/logo";
 import Button from "@comps/ui/button";
+import ImageProfile from "@comps/ui/imageProfile";
 import Link from "@comps/ui/link";
 import { useSession } from "@lib/authClient";
 import { combo } from "@lib/combo";
 import { motion } from "framer-motion";
-import { ChevronUp, LogOut, Search, ShoppingCart, Store, UserRound } from "lucide-react";
+import { ChevronUp, LogOut, PanelsTopLeft, Search, ShoppingCart, UserRound } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 
@@ -126,7 +127,7 @@ const RightNav = () => {
     const role = session?.user.role;
 
     return (
-        <div className="flex flex-row gap-3">
+        <div className="flex flex-row items-center justify-center gap-3">
             {/* Search button */}
             <Button
                 label="toggle-search-section-visibility"
@@ -148,7 +149,7 @@ const RightNav = () => {
                     label="profile"
                     href="/profile"
                     variant="ghost"
-                    className="p-2"
+                    className={combo(session.user.image ? "p-1.5" : "p-2")}
                     baseStyleOnly={["flex", "rounded"]}
                     onClick={() => {
                         setSearchOpen(false);
@@ -156,7 +157,11 @@ const RightNav = () => {
                         setBasketOpen(false);
                     }}
                 >
-                    <UserRound />
+                    {session.user.image ? (
+                        <ImageProfile image={session.user.image} name={session.user.name} />
+                    ) : (
+                        <UserRound />
+                    )}
                 </Link>
             ) : (
                 <Link
@@ -189,7 +194,7 @@ const RightNav = () => {
                         setBasketOpen(false);
                     }}
                 >
-                    <Store />
+                    <PanelsTopLeft />
                 </Link>
             )}
 

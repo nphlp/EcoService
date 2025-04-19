@@ -59,6 +59,7 @@ export default function Button(props: ButtonProps) {
 
     return (
         <button
+            aria-label={label}
             className={combo(
                 "cursor-pointer disabled:cursor-not-allowed",
                 // Base styles

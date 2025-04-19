@@ -19,32 +19,25 @@ export const auth = betterAuth({
     emailVerification: {
         sendOnSignUp: true,
         autoSignInAfterVerification: true,
-        sendVerificationEmail: async ({ user, token }) => {
-            const callbackURL = "/profile";
-            const urlToken =
-                baseUrl + "/api/auth/verify-email?token=" + token + "&callbackURL=" + baseUrl + callbackURL;
-
+        sendVerificationEmail: async ({ user, url }) => {
             // Send email template
             await SendEmail({
-                subject: "Welcome! Let's verify your email.",
+                subject: `Welcome ${user.name}! Let's verify your email.`,
                 email: user.email,
-                url: urlToken,
+                buttonUrl: url,
             });
         },
     },
     user: {
         changeEmail: {
             enabled: true,
-            sendChangeEmailVerification: async ({ newEmail, token }) => {
-                const callbackURL = "/profile";
-                const urlToken =
-                    baseUrl + "/api/auth/verify-email?token=" + token + "&callbackURL=" + baseUrl + callbackURL;
-
+            sendChangeEmailVerification: async ({ newEmail, url, user }) => {
                 // Send email template
                 await SendEmail({
-                    subject: "Hey! Let's verify your new email.",
+                    subject: `Hey ${user.name}! Let's verify your new email.`,
                     email: newEmail,
-                    url: urlToken,
+                    buttonUrl: url,
+                    changingEmail: true,
                 });
             },
         },
@@ -66,6 +59,7 @@ export const auth = betterAuth({
             return {
                 user: {
                     ...user,
+                    lastname: userData.lastname,
                     role: userData.role,
                 },
                 session,
@@ -75,6 +69,12 @@ export const auth = betterAuth({
         //     twoFactorPage: "/two-factor" // the page to redirect if a user need to verify 2nd factor
         // }) // TODO: Add two factor authentication
     ],
+    advanced: {
+        ipAddress: {
+            disableIpTracking: false,
+            ipAddressHeaders: ["x-forwarded-for", "x-real-ip", "x-client-ip"],
+        },
+    },
 });
 
 /**
@@ -91,3 +91,18 @@ export const GetSession = async () => {
  * Type for the session data
  */
 export type BetterSessionServer = Awaited<ReturnType<typeof GetSession>>;
+
+/**
+ * Get the session list from server side
+ */
+export const GetSessionList = async () => {
+    const sessionList = await auth.api.listSessions({
+        headers: await headers(),
+    });
+    return sessionList;
+};
+
+/**
+ * Type for the session list
+ */
+export type BetterSessionListServer = Awaited<ReturnType<typeof GetSessionList>>;

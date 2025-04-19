@@ -1,19 +1,19 @@
+import { StripeInstance } from "@lib/stripe";
+import { ResponseFormat } from "@utils/FetchConfig";
 import { authorizedFileSize, authorizedFormats } from "@utils/ImageValidation";
 import { StringToSlug } from "@utils/StringToSlug";
-import { StripeInstance } from "@lib/stripe";
 import { NextRequest, NextResponse } from "next/server";
-import { strictObject, z, ZodError, ZodType } from "zod";
-import { ResponseFormat } from "@utils/FetchConfig";
+import { ZodError } from "zod";
 
 export type StripeFileUploadBody = {
     file: File;
     fileNameToSlugify: string;
 };
 
-const StripeFileUploadBodySchema: ZodType<StripeFileUploadBody> = strictObject({
-    fileNameToSlugify: z.string(),
-    file: z.instanceof(File),
-});
+// const StripeFileUploadBodySchema: ZodType<StripeFileUploadBody> = strictObject({
+//     fileNameToSlugify: z.string(),
+//     file: z.instanceof(File),
+// });
 
 export type StripeFileUploadResponse = string;
 
@@ -22,15 +22,18 @@ export async function POST(request: NextRequest): Promise<NextResponse<ResponseF
         // Get the params and decode them
         const formData = await request.formData();
         const params = Object.fromEntries(formData.entries());
-        const { file, fileNameToSlugify } = StripeFileUploadBodySchema.parse(params);
+        // const { file, fileNameToSlugify } = StripeFileUploadBodySchema.parse(params);
+        const { file, fileNameToSlugify } = params;
 
-        if (!file || !fileNameToSlugify) {
+        if (!file || !(file instanceof File) || !(typeof fileNameToSlugify === "string")) {
             return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
         }
 
-        // Convert File to Buffer
-        const fileBytes = await file.bytes();
-        const fileBuffer = Buffer.from(fileBytes);
+        // Convert file to Buffer
+        const arrayBuffer = await file.arrayBuffer();
+        const fileBuffer = Buffer.from(arrayBuffer);
+        // const fileBytes = await file.bytes();
+        // const fileBuffer = Buffer.from(fileBytes);
 
         // Check if the file size is too big
         if (fileBuffer.length > authorizedFileSize) {
@@ -38,7 +41,7 @@ export async function POST(request: NextRequest): Promise<NextResponse<ResponseF
         }
 
         // Slugify the image name
-        const fileNameSlugified = await StringToSlug(fileNameToSlugify);
+        const fileNameSlugified = StringToSlug(fileNameToSlugify);
 
         // Get the file extension
         const fileExtension = file.type.replace("image/", "");
