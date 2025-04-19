@@ -9,7 +9,6 @@ import Modal from "@comps/ui/modal";
 import { BetterSessionListServer } from "@lib/auth";
 import { revokeOtherSessions, revokeSession } from "@lib/authClient";
 import { createContext, Fragment, ReactNode, useContext, useState } from "react";
-import RevokeOtherSessions from "./revokeOtherSessions";
 import { getBrowser, getOs, locationString } from "./utils";
 
 export type SessionAndLocation = {
@@ -55,6 +54,7 @@ const SessionList = () => {
         <div className="space-y-2">
             <div className="flex flex-row items-baseline justify-between">
                 <div className="text-lg font-bold">Autres appareils</div>
+                {/* Revoke other sessions button */}
                 {data.length ? (
                     <Button
                         label="Revoquer les sessions"
@@ -66,6 +66,7 @@ const SessionList = () => {
                 ) : (
                     <></>
                 )}
+                {/* Revoke other sessions modal */}
                 <Modal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen}>
                     <div className="flex flex-col gap-4">
                         <div className="text-xl font-bold">Déconnexion globale</div>
@@ -85,6 +86,7 @@ const SessionList = () => {
                     </div>
                 </Modal>
             </div>
+            {/* Other sessions list */}
             <div className="space-y-2 rounded-lg border border-gray-300 px-5 py-3">
                 {data.length ? (
                     data.map((sessionAndLocation, index) => (
@@ -126,6 +128,7 @@ const SessionItem = (props: SessionItemProps) => {
 
     return (
         <div className="flex flex-row items-center justify-between gap-4">
+            {/* Session item */}
             <div className="flex w-full flex-row items-center gap-3">
                 <div className="size-2 rounded-full bg-green-500" />
                 <div className="flex w-full flex-row items-center justify-between gap-3">
@@ -143,6 +146,7 @@ const SessionItem = (props: SessionItemProps) => {
                     </div>
                 </div>
             </div>
+            {/* Revoke this session button */}
             <Button
                 label={`Déconnecter la session du ${formattedDate} à ${formattedTime}`}
                 variant="outline"
@@ -152,6 +156,7 @@ const SessionItem = (props: SessionItemProps) => {
             >
                 <X className="size-4" />
             </Button>
+            {/* Revoke this session modal */}
             <Modal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen}>
                 <div className="flex flex-col gap-4">
                     <div className="text-xl font-bold">Déconnexion</div>

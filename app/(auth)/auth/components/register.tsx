@@ -7,7 +7,7 @@ import InputPassword from "@comps/ui/inputPassword";
 import Link from "@comps/ui/link";
 import { signUp } from "@lib/authClient";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 
 export default function RegisterClient() {
     const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -23,7 +23,8 @@ export default function RegisterClient() {
 
     const router = useRouter();
 
-    const handleSubmit = async () => {
+    const handleSubmit = async (e: FormEvent) => {
+        e.preventDefault();
         setIsLoading(true);
 
         if (!firstname || !lastname || !email || !password) {
@@ -64,7 +65,7 @@ export default function RegisterClient() {
                     Entrez vos informations personnelles pour vous inscrire.
                 </div>
             </div>
-            <div className="flex flex-col items-center justify-center gap-4">
+            <form onSubmit={handleSubmit} className="flex flex-col items-center justify-center gap-4">
                 <div className="w-full space-y-4">
                     <Input
                         label="Prénom"
@@ -94,7 +95,7 @@ export default function RegisterClient() {
                 <Button type="button" onClick={handleSubmit} label="register" isLoading={isLoading}>
                     S&apos;inscrire
                 </Button>
-            </div>
+            </form>
         </>
     );
 }

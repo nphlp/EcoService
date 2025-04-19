@@ -8,9 +8,9 @@ import Button from "@comps/ui/button";
 import Link from "@comps/ui/link";
 import { useSession } from "@lib/authClient";
 import { combo } from "@lib/combo";
-import { decodeBase64 } from "@oslojs/encoding";
+import { base64ToUrl } from "@utils/base64";
 import { motion } from "framer-motion";
-import { ChevronUp, LogOut, Search, ShoppingCart, Store, UserRound } from "lucide-react";
+import { ChevronUp, LogOut, PanelsTopLeft, Search, ShoppingCart, UserRound } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 
@@ -126,18 +126,6 @@ const RightNav = () => {
 
     const role = session?.user.role;
 
-    const imageFile = (base64String: string) => {
-        if (!base64String) return '';
-        try {
-            const uint8Array = decodeBase64(base64String);
-            const blob = new Blob([uint8Array], { type: 'image/jpeg' });
-            return URL.createObjectURL(blob);
-        } catch (error) {
-            console.error("Erreur lors du décodage de l'image:", error);
-            return '';
-        }
-    }
-
     return (
         <div className="flex flex-row gap-3">
             {/* Search button */}
@@ -173,7 +161,7 @@ const RightNav = () => {
                         <div className="flex items-center justify-center">
                             <div className="size-7 overflow-hidden rounded-full">
                                 <img
-                                    src={imageFile(session.user.image)}
+                                    src={base64ToUrl(session.user.image)}
                                     alt={`Avatar de ${session.user.name}`}
                                     className="size-7 object-cover"
                                 />
@@ -214,7 +202,7 @@ const RightNav = () => {
                         setBasketOpen(false);
                     }}
                 >
-                    <Store />
+                    <PanelsTopLeft />
                 </Link>
             )}
 

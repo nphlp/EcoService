@@ -13,15 +13,21 @@ type AccordionContextType = {
 // Context
 const AccordionContext = createContext<AccordionContextType>({} as AccordionContextType);
 
+type AccordionProviderProps = {
+    children: ReactNode;
+    openByDefault: boolean;
+};
+
 // Provider
-const AccordionProvider = (props: { children: ReactNode }) => {
-    const { children } = props;
-    const [open, setOpen] = useState(false);
+const AccordionProvider = (props: AccordionProviderProps) => {
+    const { children, openByDefault } = props;
+    const [open, setOpen] = useState(openByDefault);
 
     return <AccordionContext.Provider value={{ open, setOpen }}>{children}</AccordionContext.Provider>;
 };
 
 type AccordionProps = {
+    openByDefault?: boolean;
     className?: string;
     children: ReactNode;
 };
@@ -39,10 +45,10 @@ type AccordionProps = {
  * ```
  */
 const Accordion = (props: AccordionProps) => {
-    const { className, children } = props;
+    const { className, children, openByDefault = false } = props;
 
     return (
-        <AccordionProvider>
+        <AccordionProvider openByDefault={openByDefault}>
             <div
                 className={combo(
                     "w-full overflow-hidden rounded-2xl border border-gray-300 bg-white shadow-md",
@@ -99,7 +105,7 @@ const AccordionContent = (props: AccordionContentProps) => {
 
     return (
         <motion.div
-            initial={{ height: 0 }}
+            initial={{ height: open ? "auto" : 0 }}
             animate={{ height: open ? "auto" : 0 }}
             transition={{ duration: 0.3 }}
             className={combo(className)}

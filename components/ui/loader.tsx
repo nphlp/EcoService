@@ -1,4 +1,5 @@
 import { combo } from "@lib/combo";
+import { LoaderCircle } from "lucide-react";
 
 export type LoaderColor = "white" | "gray" | "black" | "primary";
 
@@ -18,17 +19,17 @@ export default function Loader(props: LoaderProps) {
     const { color = "gray", className } = props;
 
     const colorMap: Record<LoaderColor, string> = {
-        white: "border-gray-300",
-        gray: "border-gray-500",
-        black: "border-gray-700",
-        primary: "border-eco",
+        white: "stroke-gray-300",
+        gray: "stroke-gray-500",
+        black: "stroke-gray-700",
+        primary: "stroke-eco",
     };
 
     return (
-        <div
+        <LoaderCircle
             className={combo(
                 colorMap[color],
-                "size-4 animate-spin rounded-full border-2 border-t-transparent",
+                "size-6 animate-spin stroke-2",
                 className,
             )}
         />

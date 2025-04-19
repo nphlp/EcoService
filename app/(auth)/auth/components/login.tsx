@@ -8,7 +8,7 @@ import Link from "@comps/ui/link";
 import { signIn } from "@lib/authClient";
 import { isVendorOrEmployeeOrAdmin } from "@lib/checkRole";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 
 export default function LoginClient() {
     const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -22,7 +22,9 @@ export default function LoginClient() {
 
     const router = useRouter();
 
-    const handleSubmit = async () => {
+    const handleSubmit = async (e: FormEvent) => {
+        e.preventDefault();
+        console.log(e)
         setIsLoading(true);
 
         if (!email || !password) {
@@ -64,7 +66,7 @@ export default function LoginClient() {
                     Entrez vos informations personnelles pour vous connecter.
                 </div>
             </div>
-            <div className="flex flex-col items-center justify-center gap-4">
+            <form onSubmit={handleSubmit} className="flex flex-col items-center justify-center gap-4">
                 <div className="w-full space-y-4">
                     <Input label="Email" type="email" onChange={(e) => setEmail(e.target.value)} value={email} />
                     <InputPassword
@@ -84,10 +86,10 @@ export default function LoginClient() {
                     Pas encore inscrit ?
                 </Link>
                 <Feedback message={message} mode={mode} isFeedbackOpen={isFeedbackOpen} />
-                <Button type="button" onClick={handleSubmit} label="login" isLoading={isLoading}>
+                <Button type="submit" label="login" isLoading={isLoading}>
                     Connexion
                 </Button>
-            </div>
+            </form>
         </>
     );
 }

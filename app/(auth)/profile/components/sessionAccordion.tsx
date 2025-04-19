@@ -4,6 +4,7 @@ import { BetterSessionListServer, BetterSessionServer, GetSessionList } from "@l
 import { Fetch } from "@utils/Fetch/Fetch";
 import { FetchParallelized } from "@utils/Fetch/FetchParallelized";
 import { LogOut } from "lucide-react";
+import LocationMap from "./LocationMap";
 import SessionManager, { SessionAndLocation } from "./sessionManager";
 import { getBrowser, getOs, locationString } from "./utils";
 
@@ -17,7 +18,7 @@ export default async function SessionAccordion(props: { session: NonNullable<Bet
     );
 
     return (
-        <Accordion>
+        <Accordion openByDefault={true}>
             <AccordionButton>
                 <div className="text-lg font-bold">Sessions</div>
                 <div className="text-xs text-gray-500">Gérer vos sessions actives.</div>
@@ -45,22 +46,29 @@ const CurrentSession = async (props: CurrentSessionProps) => {
     const location = ipAddress ? await Fetch({ route: "/external/location", params: { ipAddress } }) : null;
 
     return (
-        <div className="flex flex-row items-center justify-between rounded-lg border border-gray-300 px-5 py-3">
-            <div className="flex flex-row items-center gap-3">
-                <div className="min-h-2 min-w-2 rounded-full bg-green-500" />
-                <div>
-                    <div className="line-clamp-1">
-                        <span className="text-sm font-bold">Current Session</span>
-                        <span className="text-xs text-gray-500"> • </span>
-                        <span className="text-xs text-gray-500">{`${getBrowser(userAgent)}, ${getOs(userAgent)}`}</span>
+        <div className="space-y-2 rounded-lg border border-gray-300 px-5 py-3">
+            <div className="flex flex-row items-center justify-between">
+                <div className="flex flex-row items-center gap-3">
+                    <div className="min-h-2 min-w-2 rounded-full bg-green-500" />
+                    <div>
+                        <div className="line-clamp-1">
+                            <span className="text-sm font-bold">Current Session</span>
+                            <span className="text-xs text-gray-500"> • </span>
+                            <span className="text-xs text-gray-500">{`${getBrowser(userAgent)}, ${getOs(userAgent)}`}</span>
+                        </div>
+                        <div className="text-xxs line-clamp-1 text-gray-500">{locationString(location)}</div>
                     </div>
-                    <div className="text-xxs line-clamp-1 text-gray-500">{locationString(location)}</div>
                 </div>
+                <Logout
+                    variant="outline"
+                    className="rounded-md px-3 py-1.5 text-xs"
+                    baseStyleOnly={["flex", "outline"]}
+                >
+                    <span>Déconnexion</span>
+                    <LogOut className="size-4" />
+                </Logout>
             </div>
-            <Logout variant="outline" className="rounded-md px-3 py-1.5 text-xs" baseStyleOnly={["flex", "outline"]}>
-                <span>Déconnexion</span>
-                <LogOut className="size-4" />
-            </Logout>
+            <LocationMap location={location} />
         </div>
     );
 };
