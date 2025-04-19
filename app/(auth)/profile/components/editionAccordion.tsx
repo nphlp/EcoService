@@ -1,5 +1,6 @@
 "use client";
 
+import { UpdateUser } from "@actions/UserAction";
 import { Accordion, AccordionButton, AccordionContent } from "@comps/ui/accordion";
 import Button from "@comps/ui/button";
 import Input from "@comps/ui/input";
@@ -12,10 +13,12 @@ import { Dispatch, SetStateAction, useState } from "react";
 
 type EditionAccordionProps = {
     session: NonNullable<BetterSessionServer>;
+    index?: number;
 };
 
 export default function EditionAccordion(props: EditionAccordionProps) {
     const { session: init } = props;
+    
     const [session, setSession] = useState(init);
 
     return (
@@ -26,6 +29,7 @@ export default function EditionAccordion(props: EditionAccordionProps) {
             </AccordionButton>
             <AccordionContent>
                 <div className="space-y-4">
+                    <UpdateLastnameForm session={session} setSession={setSession} />
                     <UpdateNameForm session={session} setSession={setSession} />
                     <UpdateEmailForm session={session} setSession={setSession} />
                     <UpdatePasswordForm />
@@ -39,6 +43,48 @@ export default function EditionAccordion(props: EditionAccordionProps) {
 type UpdateFormProps = {
     session: NonNullable<BetterSessionServer>;
     setSession: Dispatch<SetStateAction<NonNullable<BetterSessionServer>>>;
+};
+
+const UpdateLastnameForm = (props: UpdateFormProps) => {
+    const { session, setSession } = props;
+
+    const [lastname, setLastname] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
+
+    const handleNameUpdate = async (e: React.FormEvent) => {
+        try {
+            e.preventDefault();
+            if (!lastname) return;
+            setIsLoading(true);
+            // Change name and revalidate session
+            await UpdateUser({
+                where: { id: session.user.id },
+                data: {
+                    lastname,
+                },
+            });
+            setSession({ ...session, user: { ...session.user, lastname } });
+        } catch (error) {
+            console.error("Erreur lors de la modification du nom:", error);
+        } finally {
+            setLastname("");
+            setIsLoading(false);
+        }
+    };
+
+    return (
+        <form onSubmit={handleNameUpdate} className="flex flex-col items-center gap-2">
+            <Input
+                label="Nom"
+                placeholder={session.user.lastname ?? ""}
+                onChange={(e) => setLastname(e.target.value)}
+                value={lastname}
+                required={false}
+                classComponent="w-full"
+            />
+            <Button label="Modifier" isLoading={isLoading} type="submit" />
+        </form>
+    );
 };
 
 const UpdateNameForm = (props: UpdateFormProps) => {

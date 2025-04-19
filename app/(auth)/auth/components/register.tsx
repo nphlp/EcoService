@@ -1,5 +1,6 @@
 "use client";
 
+import { UpdateUser } from "@actions/UserAction";
 import Button from "@comps/ui/button";
 import Feedback, { FeedbackMode } from "@comps/ui/feedback";
 import Input from "@comps/ui/input";
@@ -35,22 +36,39 @@ export default function RegisterClient() {
             return;
         }
 
-        const { data, error } = await signUp.email({
-            name: firstname + " " + lastname,
-            email,
-            password,
-            image: undefined,
-        });
+        try {
+            const { data } = await signUp.email({
+                name: firstname,
+                email,
+                password,
+                image: undefined,
+            });
 
-        if (data) {
-            setMessage("Successfully registered.");
-            setMode("success");
-            setIsFeedbackOpen(true);
-            setTimeout(() => {
-                router.push("/profile");
-            }, 2000);
-        } else if (error) {
-            setMessage("Failed to register.");
+            if (data) {
+                const userData = await UpdateUser({
+                    where: { id: data.user.id },
+                    data: {
+                        lastname,
+                    },
+                });
+
+                if (userData) {
+                    setMessage("Successfully registered.");
+                    setMode("success");
+                    setIsFeedbackOpen(true);
+
+                    // Redirect to profile page
+                    setTimeout(() => {
+                        router.push("/profile");
+                    }, 2000);
+                } else {
+                    throw new Error("Something went wrong.");
+                }
+            } else {
+                throw new Error("Failed to register.");
+            }
+        } catch (error) {
+            setMessage((error as Error).message);
             setMode("error");
             setIsFeedbackOpen(true);
             setIsLoading(false);

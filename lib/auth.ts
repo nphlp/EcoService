@@ -59,6 +59,7 @@ export const auth = betterAuth({
             return {
                 user: {
                     ...user,
+                    lastname: userData.lastname,
                     role: userData.role,
                 },
                 session,

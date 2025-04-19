@@ -5,6 +5,7 @@ import Logout from "@comps/client/logout";
 import { useHeaderStore } from "@comps/header/headerStore";
 import Logo from "@comps/server/logo";
 import Button from "@comps/ui/button";
+import ImageProfile from "@comps/ui/imageProfile";
 import Link from "@comps/ui/link";
 import { useSession } from "@lib/authClient";
 import { combo } from "@lib/combo";
@@ -127,7 +128,7 @@ const RightNav = () => {
     const role = session?.user.role;
 
     return (
-        <div className="flex flex-row gap-3">
+        <div className="flex flex-row items-center justify-center gap-3">
             {/* Search button */}
             <Button
                 label="toggle-search-section-visibility"
@@ -149,7 +150,7 @@ const RightNav = () => {
                     label="profile"
                     href="/profile"
                     variant="ghost"
-                    className={combo(session.user.image ? "size-[40px]" : "p-2")}
+                    className={combo(session.user.image ? "p-1.5" : "p-2")}
                     baseStyleOnly={["flex", "rounded"]}
                     onClick={() => {
                         setSearchOpen(false);
@@ -158,15 +159,7 @@ const RightNav = () => {
                     }}
                 >
                     {session.user.image ? (
-                        <div className="flex items-center justify-center">
-                            <div className="size-7 overflow-hidden rounded-full">
-                                <img
-                                    src={base64ToUrl(session.user.image)}
-                                    alt={`Avatar de ${session.user.name}`}
-                                    className="size-7 object-cover"
-                                />
-                            </div>
-                        </div>
+                        <ImageProfile image={session.user.image} name={session.user.name} />
                     ) : (
                         <UserRound />
                     )}

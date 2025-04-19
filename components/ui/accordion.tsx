@@ -1,13 +1,73 @@
 "use client";
 
 import { combo } from "@lib/combo";
+import { nanoid } from "nanoid";
 import { motion } from "framer-motion";
 import { ChevronUp } from "lucide-react";
-import { createContext, ReactNode, useContext, useState } from "react";
+import {
+    createContext,
+    Dispatch,
+    ReactNode,
+    RefObject,
+    SetStateAction,
+    useContext,
+    useEffect,
+    useRef,
+    useState,
+} from "react";
+
+// ==== Accordion Group ==== //
+
+type AccordionGroupContextType = {
+    openedAccordionIndex: number | null;
+    setOpenedAccordionIndex: Dispatch<SetStateAction<number | null>>;
+    idListRef: RefObject<Map<string, number>>;
+};
+
+// Context
+const AccordionGroupContext = createContext<AccordionGroupContextType>({} as AccordionGroupContextType);
+
+type AccordionGroupProps = {
+    children: ReactNode;
+    openByDefaultIndex?: number | null;
+};
+
+/**
+ * Accordion Group to open one accordion at a time
+ * Even if sub-accordion are nested in other tags
+ * @example
+ * ```tsx
+ * <AccordionGroup openByDefaultIndex={1}>
+ *     <Accordion />
+ *     <Accordion /> // This will be opened by default
+ *     <div>
+ *         <Accordion />
+ *         <Accordion />
+ *     </div>
+ * </AccordionGroup>
+ * ```
+ */
+const AccordionGroup = (props: AccordionGroupProps) => {
+    const { children, openByDefaultIndex = null } = props;
+
+    const [openedAccordionIndex, setOpenedAccordionIndex] = useState(openByDefaultIndex);
+
+    // Store the unique id list
+    const idListRef = useRef<Map<string, number>>(new Map());
+
+    return (
+        <AccordionGroupContext.Provider value={{ openedAccordionIndex, setOpenedAccordionIndex, idListRef }}>
+            {children}
+        </AccordionGroupContext.Provider>
+    );
+};
+
+// ==== Accordion Item ==== //
 
 type AccordionContextType = {
     open: boolean;
-    setOpen: (open: boolean) => void;
+    setOpen: Dispatch<SetStateAction<boolean>>;
+    index?: number;
 };
 
 // Context
@@ -16,14 +76,36 @@ const AccordionContext = createContext<AccordionContextType>({} as AccordionCont
 type AccordionProviderProps = {
     children: ReactNode;
     openByDefault: boolean;
+    index?: number;
 };
 
-// Provider
+// Item Provider
 const AccordionProvider = (props: AccordionProviderProps) => {
-    const { children, openByDefault } = props;
-    const [open, setOpen] = useState(openByDefault);
+    const { children, openByDefault, index } = props;
 
-    return <AccordionContext.Provider value={{ open, setOpen }}>{children}</AccordionContext.Provider>;
+    const { openedAccordionIndex, setOpenedAccordionIndex } = useContext(AccordionGroupContext);
+
+    // Check if this accordion is default opened by the group
+    const isOpenByGroup = index !== undefined && index === openedAccordionIndex;
+
+    // Check if default is from accordion or group
+    const [open, setOpen] = useState(isOpenByGroup ?? openByDefault);
+
+    // Update the opened index
+    useEffect(() => {
+        if (typeof index === "number" && open === true) {
+            setOpenedAccordionIndex(index);
+        }
+    }, [open]);
+
+    // Update all accordions
+    useEffect(() => {
+        if (typeof index === "number" && openedAccordionIndex !== index) {
+            setOpen(false);
+        }
+    }, [openedAccordionIndex]);
+
+    return <AccordionContext.Provider value={{ open, setOpen, index }}>{children}</AccordionContext.Provider>;
 };
 
 type AccordionProps = {
@@ -47,8 +129,36 @@ type AccordionProps = {
 const Accordion = (props: AccordionProps) => {
     const { className, children, openByDefault = false } = props;
 
+    // Store the index of this accordion
+    const indexRef = useRef<number>(undefined);
+
+    // Get the id list
+    const { idListRef } = useContext(AccordionGroupContext);
+
+    // Get the id of this accordion
+    const idRef = useRef<string>(nanoid());
+    const id = idRef.current;
+
+    // Register the accordion if it's not already in the list
+    if (idListRef) {
+        const idList = idListRef.current;
+        if (!idList.has(id)) {
+            idList.set(id, idList.size);
+        }
+    }
+
+    // Prevent hydration error
+    const [mounted, setMounted] = useState(false);
+    useEffect(() => setMounted(true), []);
+    if (!mounted) return <></>;
+
+    // Determine the index of this accordion after the first render
+    if (idListRef) {
+        indexRef.current = idListRef.current.get(id);
+    }
+
     return (
-        <AccordionProvider openByDefault={openByDefault}>
+        <AccordionProvider openByDefault={openByDefault} index={indexRef.current}>
             <div
                 className={combo(
                     "w-full overflow-hidden rounded-2xl border border-gray-300 bg-white shadow-md",
@@ -116,4 +226,4 @@ const AccordionContent = (props: AccordionContentProps) => {
     );
 };
 
-export { Accordion, AccordionButton, AccordionContent };
+export { Accordion, AccordionButton, AccordionContent, AccordionGroup };

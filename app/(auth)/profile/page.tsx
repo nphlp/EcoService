@@ -1,3 +1,4 @@
+import { AccordionGroup } from "@comps/ui/accordion";
 import { GetSession } from "@lib/auth";
 import { unauthorized } from "next/navigation";
 import EditionAccordion from "./components/editionAccordion";
@@ -13,14 +14,16 @@ export default async function Page() {
 
     return (
         <div className="h-full overflow-y-auto border-t-1 border-gray-300 bg-gray-50 p-6">
-            <div className="flex min-h-full flex-col items-center justify-center">
-                <div className="flex flex-col items-center space-y-5 w-full sm:w-2/3 lg:w-1/2">
-                    <EmailConfirmModal session={session} />
-                    <ProfileAccordion session={session} />
-                    <SessionAccordion session={session} />
-                    <EditionAccordion session={session} />
+            <AccordionGroup openByDefaultIndex={1}>
+                <div className="flex min-h-full flex-col items-center justify-center">
+                    <div className="flex w-full flex-col items-center space-y-5 sm:w-2/3 lg:w-1/2">
+                        <EmailConfirmModal session={session} />
+                        <ProfileAccordion session={session} />
+                        <SessionAccordion session={session} />
+                        <EditionAccordion session={session} />
+                    </div>
                 </div>
-            </div>
+            </AccordionGroup>
         </div>
     );
 }

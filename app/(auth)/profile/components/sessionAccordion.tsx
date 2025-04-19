@@ -8,7 +8,12 @@ import LocationMap from "./LocationMap";
 import SessionManager, { SessionAndLocation } from "./sessionManager";
 import { getBrowser, getOs, locationString } from "./utils";
 
-export default async function SessionAccordion(props: { session: NonNullable<BetterSessionServer> }) {
+type SessionAccordionProps = {
+    session: NonNullable<BetterSessionServer>;
+    index?: number;
+};
+
+export default async function SessionAccordion(props: SessionAccordionProps) {
     const { session } = props;
 
     const sessionList = await GetSessionList();
@@ -18,7 +23,7 @@ export default async function SessionAccordion(props: { session: NonNullable<Bet
     );
 
     return (
-        <Accordion openByDefault={true}>
+        <Accordion>
             <AccordionButton>
                 <div className="text-lg font-bold">Sessions</div>
                 <div className="text-xs text-gray-500">Gérer vos sessions actives.</div>
