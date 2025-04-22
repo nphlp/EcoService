@@ -20,7 +20,7 @@ export default function ImageProfile(props: ImageProfileProps) {
             {image ? (
                 <Image src={base64ToUrl(image)} alt={`Avatar de ${name}`} className="object-cover" sizes="100%" fill />
             ) : (
-                <CircleUserRound className={combo("stroke-[1.5px] size-full", classTemplate)} />
+                <CircleUserRound className={combo("size-full stroke-[1.5px]", classTemplate)} />
             )}
         </div>
     );

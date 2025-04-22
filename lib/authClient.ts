@@ -16,7 +16,7 @@ export const {
     revokeOtherSessions,
     updateUser,
     changeEmail,
-    changePassword
+    changePassword,
 } = authClient;
 
 /**

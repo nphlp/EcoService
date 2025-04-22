@@ -25,13 +25,5 @@ export default function Loader(props: LoaderProps) {
         primary: "stroke-eco",
     };
 
-    return (
-        <LoaderCircle
-            className={combo(
-                colorMap[color],
-                "size-6 animate-spin stroke-2",
-                className,
-            )}
-        />
-    );
+    return <LoaderCircle className={combo(colorMap[color], "size-6 animate-spin stroke-2", className)} />;
 }

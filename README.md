@@ -137,7 +137,7 @@ There is three types of users.
 ## Deployment (Coolify process)
 
 1. Create a `Mysql` environnment:
-  
+
 - Name: `Eco Service (database)`
 - Normal User: `eco-service-user`
 - Initial Database: `eco-service-db`

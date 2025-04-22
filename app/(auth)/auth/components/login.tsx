@@ -24,7 +24,6 @@ export default function LoginClient() {
 
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
-        console.log(e)
         setIsLoading(true);
 
         if (!email || !password) {
