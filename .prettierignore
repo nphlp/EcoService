@@ -2,3 +2,4 @@ templates/
 services/
 .next/
 .node_modules/
+.github/
