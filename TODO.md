@@ -4,6 +4,9 @@ Complete auth and user management
 
 ## Priority
 
+- Add test with :
+    - Vitest for API, Components, Hooks, Services
+    - Playwright for e2e (login, register...)
 - Image profile
 - Reset password
 
