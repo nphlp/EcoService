@@ -185,7 +185,7 @@ pnpm run start
 4. Add environment variables
 
 ```env
-BASE_URL=https://eco-service.domain.com
+NEXT_PUBLIC_BASE_URL=https://eco-service.domain.com
 
 # Database connection (get it in the Mysql environnment)
 DATABASE_URL=mysql://eco-service-user: ******** @ ******** /eco-service-db

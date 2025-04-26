@@ -2,6 +2,12 @@ import { Routes as ExternalRoutes } from "@app/api/external/Routes";
 import { Routes as StripeRoutes } from "@app/api/stripe/Routes";
 import { ResponseFormat } from "@utils/FetchConfig";
 
+const NEXT_PUBLIC_BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+
+if (!NEXT_PUBLIC_BASE_URL) {
+    throw new Error("NEXT_PUBLIC_BASE_URL environment variable is not defined");
+}
+
 export type Routes = ExternalRoutes & StripeRoutes;
 
 export type Route = keyof Routes;
@@ -22,7 +28,7 @@ export type FetchResponse<R extends Route> = Routes[R]["response"];
 export const Fetch = async <R extends Route>(props: FetchProps<R>): Promise<FetchResponse<R>> => {
     const { route, params, method = "GET", body, signal, client = false } = props;
 
-    const baseUrl = client ? "" : process.env.BASE_URL;
+    const baseUrl = client ? "" : NEXT_PUBLIC_BASE_URL;
     const encodedParams = encodeURIComponent(JSON.stringify(params));
     const urlParams = params ? "?params=" + encodedParams : "";
     const url = baseUrl + "/api" + route + urlParams;

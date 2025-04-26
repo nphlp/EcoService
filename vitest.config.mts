@@ -7,7 +7,7 @@ export default defineConfig({
     test: {
         environment: "jsdom",
         env: {
-            BASE_URL: "http://localhost:3000",
+            NEXT_PUBLIC_BASE_URL: "http://localhost:3000",
         },
     },
 });

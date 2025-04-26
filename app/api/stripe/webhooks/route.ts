@@ -4,6 +4,12 @@ import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { ResponseFormat } from "@utils/FetchConfig";
 
+const STRIPE_WEBHOOK_SECRET = process.env.STRIPE_WEBHOOK_SECRET;
+
+if (!STRIPE_WEBHOOK_SECRET) {
+    throw new Error("STRIPE_WEBHOOK_SECRET environment variable is not defined");
+}
+
 export type StripeWebhookResponse = boolean;
 
 /**
@@ -20,16 +26,13 @@ export async function POST(request: Request): Promise<NextResponse<ResponseForma
         const headersAwaited = await headers();
         const signature = headersAwaited.get("stripe-signature");
 
-        // Get the secret of the webhook
-        const stripeWebhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
-
         // If the signature or the secret is not provided, return an error
-        if (!signature || !stripeWebhookSecret) {
+        if (!signature) {
             return NextResponse.json({ error: "No signature or secret provided" }, { status: 400 });
         }
 
         // Construct the event
-        const event = StripeInstance.webhooks.constructEvent(body, signature, stripeWebhookSecret);
+        const event = StripeInstance.webhooks.constructEvent(body, signature, STRIPE_WEBHOOK_SECRET as string);
 
         // Log the event
         console.log("=============>> EVENT\n", event.type);

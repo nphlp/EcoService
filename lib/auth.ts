@@ -6,13 +6,17 @@ import { customSession } from "better-auth/plugins";
 import { headers } from "next/headers";
 import { SendEmail } from "./plunk";
 
-const baseUrl = process.env.BASE_URL;
+const NEXT_PUBLIC_BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+
+if (!NEXT_PUBLIC_BASE_URL) {
+    throw new Error("NEXT_PUBLIC_BASE_URL environment variable is not defined");
+}
 
 export const auth = betterAuth({
     database: prismaAdapter(PrismaInstance, {
         provider: "mysql",
     }),
-    trustedOrigins: [`${baseUrl}/auth`],
+    trustedOrigins: [`${NEXT_PUBLIC_BASE_URL}/auth`],
     emailAndPassword: {
         enabled: true,
     },

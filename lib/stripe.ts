@@ -1,15 +1,15 @@
 import Stripe from "stripe";
 
-const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
+const STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY;
 
-if (!stripeSecretKey) {
-    throw new Error("STRIPE_SECRET_KEY is not set in environment variables");
+if (!STRIPE_SECRET_KEY) {
+    throw new Error("STRIPE_SECRET_KEY environment variable is not defined");
 }
 
 /**
  * Stripe instance related to the API key in the environment variables
  */
-export const StripeInstance = new Stripe(stripeSecretKey, {
+export const StripeInstance = new Stripe(STRIPE_SECRET_KEY, {
     apiVersion: "2025-02-24.acacia",
     typescript: true,
     appInfo: {

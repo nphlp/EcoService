@@ -1,8 +1,14 @@
 import { GetSession } from "@lib/auth";
 import PrismaInstance from "@lib/prisma";
-import { StripeError } from "@stripe/stripe-js";
 import { StripeInstance } from "@lib/stripe";
+import { StripeError } from "@stripe/stripe-js";
 import { NextResponse } from "next/server";
+
+const NEXT_PUBLIC_BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+
+if (!NEXT_PUBLIC_BASE_URL) {
+    throw new Error("NEXT_PUBLIC_BASE_URL environment variable is not defined");
+}
 
 export async function POST(request: Request) {
     try {
@@ -98,8 +104,8 @@ export async function POST(request: Request) {
         // Create account onboarding link
         const accountLinks = await StripeInstance.accountLinks.create({
             account: stripeAccountId,
-            refresh_url: `${process.env.BASE_URL}/seller/onboard`,
-            return_url: `${process.env.BASE_URL}/seller/dashboard`,
+            refresh_url: `${NEXT_PUBLIC_BASE_URL}/seller/onboard`,
+            return_url: `${NEXT_PUBLIC_BASE_URL}/seller/dashboard`,
             type: "account_onboarding",
             collect: "eventually_due",
         });
