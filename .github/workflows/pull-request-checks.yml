@@ -1,15 +1,22 @@
 name: Pull Request Checks
-description: On pull request to test or main branches, run commit, lint, format and type checks, then build and test the application.
+description: On pull request to test or main branches, run commit message check, lint check, format check and type check, then build and test the application
 
 on:
     pull_request:
         branches: [main, test]
 
 jobs:
-    # commit:
+    commit:
+        name: Commit message check
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+            - uses: wagoid/commitlint-github-action@v6
+
     lint:
         name: Lint check
         runs-on: ubuntu-latest
+        needs: [commit]
         steps:
             - uses: actions/checkout@v4
             - id: setup-node-pnpm
@@ -19,6 +26,7 @@ jobs:
     format:
         name: Format check
         runs-on: ubuntu-latest
+        needs: [commit]
         steps:
             - uses: actions/checkout@v4
             - id: setup-node-pnpm
@@ -28,6 +36,7 @@ jobs:
     type:
         name: Type check
         runs-on: ubuntu-latest
+        needs: [commit]
         steps:
             - uses: actions/checkout@v4
             - id: setup-node-pnpm

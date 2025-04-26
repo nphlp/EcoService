@@ -73,6 +73,7 @@
         "zustand": "^5.0.3"
     },
     "devDependencies": {
+        "@commitlint/config-conventional": "^19.8.0",
         "@eslint/eslintrc": "^3.3.1",
         "@tailwindcss/postcss": "^4",
         "@testing-library/dom": "^10.4.0",
@@ -111,6 +112,6 @@
     },
     "lint-staged": {
         "*.{js,ts,tsx}": "pnpm lint:file",
-        "*.{js,ts,tsx,json,css,md}": "pnpm format:file"
+        "*.{js,ts,tsx,json,css,md,yml,yaml}": "pnpm format:file"
     }
 }
