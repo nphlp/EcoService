@@ -12,16 +12,8 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v4
-            - name: Install nodejs
-              uses: actions/setup-node@v4
-              with:
-                  node-version: 23
-            - name: Install pnpm
-              uses: pnpm/action-setup@v3
-              with:
-                  version: 10
-            - name: Install dependencies
-              run: pnpm install
+            - id: setup-node-pnpm
+              uses: ./.github/actions/setup-node-pnpm
             - name: Generate Prisma client
               run: pnpm prisma:generate
             - name: Lint check
@@ -52,8 +44,10 @@ jobs:
                   --health-retries=10
                   --health-start-period=60s
         env:
-            NEXT_PUBLIC_BASE_URL: "http://localhost:3000"
+            # Used in the workflow
             DATABASE_URL: "mysql://eco_service_user:eco_service_password@127.0.0.1:3306/eco_service_db"
+            NEXT_PUBLIC_BASE_URL: "http://localhost:3000"
+            # Required to prevent errors
             BETTER_AUTH_SECRET: "session-encryption-key"
             PLUNK_API_KEY: "plunk-private-key"
             NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: "pk_test_xxxxx"
@@ -62,20 +56,10 @@ jobs:
 
         steps:
             - uses: actions/checkout@v4
-            - name: Install nodejs
-              uses: actions/setup-node@v4
-              with:
-                  node-version: 23
-            - name: Install pnpm
-              uses: pnpm/action-setup@v3
-              with:
-                  version: 10
-            - name: Install dependencies
-              run: pnpm install
-            - name: Grant all privileges (global)
-              run: mysql -h 127.0.0.1 -u root -proot -e "GRANT ALL PRIVILEGES ON *.* TO 'eco_service_user'@'%'; FLUSH PRIVILEGES;"
-            - name: Grant all privileges (db)
-              run: mysql -h 127.0.0.1 -u root -proot -e "GRANT ALL PRIVILEGES ON eco_service_db.* TO 'eco_service_user'@'%'; FLUSH PRIVILEGES;"
+            - id: setup-node-pnpm
+              uses: ./.github/actions/setup-node-pnpm
+            - name: Grant all privileges
+              run: mysql -h 127.0.0.1 -u root -proot -e "GRANT ALL PRIVILEGES ON *.* TO 'eco_service_user'@'%'; GRANT ALL PRIVILEGES ON eco_service_db.* TO 'eco_service_user'@'%'; FLUSH PRIVILEGES;"
             - name: Generate Prisma client
               run: pnpm prisma:generate
             - name: Deploy Prisma migrations

@@ -1,0 +1,23 @@
+name: Setup node, pnpm and dependencies
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/checkout@v4
+    - name: Install nodejs
+      uses: actions/setup-node@v4
+      with:
+        node-version: 23
+    - name: Install pnpm
+      uses: pnpm/action-setup@v3
+      with:
+        version: 10
+    - name: Cache pnpm store
+      uses: actions/cache@v4
+      with:
+        path: ~/.pnpm-store
+        key: ${{ runner.os }}-pnpm-${{ hashFiles('pnpm-lock.yaml') }}
+        restore-keys: |
+          ${{ runner.os }}-pnpm-
+    - name: Install dependencies
+      run: pnpm install
+      shell: bash 
