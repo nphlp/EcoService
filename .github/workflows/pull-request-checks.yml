@@ -1,9 +1,8 @@
-name: CI
+name: Pull Request Checks
+description: On pull request to test or main branches, run commit, lint, format and type checks, then build and test the application.
 
 on:
     pull_request:
-        branches: [main, test]
-    push:
         branches: [main, test]
 
 jobs:
