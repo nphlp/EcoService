@@ -136,6 +136,8 @@ There is three types of users.
 
 ## Deployment (Coolify process)
 
+> Pipeline process [here](https://github.com/nansphilip/EcoService/tree/main/.github/README.md)
+
 1. Create a `Mysql` environnment:
 
 - Name: `Eco Service (database)`
