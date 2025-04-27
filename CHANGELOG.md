@@ -1,3 +1,9 @@
+## [1.0.1](https://github.com/nansphilip/EcoService/compare/v1.0.0...v1.0.1) (2025-04-27)
+
+### Bug Fixes
+
+- lazyloading ([ee65e90](https://github.com/nansphilip/EcoService/commit/ee65e90b2c128ced6e0396376395de3d1682781f))
+
 # 1.0.0 (2025-04-27)
 
 ### Features
