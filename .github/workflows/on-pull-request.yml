@@ -1,0 +1,107 @@
+name: Pull Request Checks
+description: On pull request to test or main branches, run commit message check, lint check, format check and type check, then build and test the application.
+
+on:
+    pull_request:
+        branches: [test, main]
+
+jobs:
+    commit:
+        name: Commit message check
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+            - uses: wagoid/commitlint-github-action@v6
+
+    lint:
+        name: Lint check
+        runs-on: ubuntu-latest
+        needs: [commit]
+        steps:
+            - uses: actions/checkout@v4
+            - id: setup-node-pnpm
+              uses: ./.github/actions/setup-node-pnpm
+            - name: Lint check
+              run: pnpm lint
+    format:
+        name: Format check
+        runs-on: ubuntu-latest
+        needs: [commit]
+        steps:
+            - uses: actions/checkout@v4
+            - id: setup-node-pnpm
+              uses: ./.github/actions/setup-node-pnpm
+            - name: Format check
+              run: pnpm format
+    type:
+        name: Type check
+        runs-on: ubuntu-latest
+        needs: [commit]
+        steps:
+            - uses: actions/checkout@v4
+            - id: setup-node-pnpm
+              uses: ./.github/actions/setup-node-pnpm
+            - name: Generate Prisma client
+              run: pnpm prisma:generate
+            - name: Type check
+              run: pnpm type
+
+    build:
+        name: Build and test check
+        runs-on: ubuntu-latest
+        needs: [lint, format, type]
+        services:
+            mysql:
+                image: mysql:9.3
+                ports:
+                    - "3306:3306"
+                env:
+                    MYSQL_DATABASE: eco_service_db
+                    MYSQL_USER: eco_service_user
+                    MYSQL_PASSWORD: eco_service_password
+                    MYSQL_ROOT_PASSWORD: root
+                options: >-
+                  --health-cmd="mysqladmin ping -h localhost -u root -proot"
+                  --health-interval=5s
+                  --health-timeout=5s
+                  --health-retries=10
+                  --health-start-period=60s
+        env:
+            # Used in the workflow
+            DATABASE_URL: "mysql://eco_service_user:eco_service_password@127.0.0.1:3306/eco_service_db"
+            NEXT_PUBLIC_BASE_URL: "http://localhost:3000"
+            # Required to prevent errors
+            BETTER_AUTH_SECRET: "session-encryption-key"
+            PLUNK_API_KEY: "plunk-private-key"
+            NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: "pk_test_xxxxx"
+            STRIPE_SECRET_KEY: "sk_test_pk_test_xxxxx"
+            STRIPE_WEBHOOK_SECRET: "whsec_xxxxx"
+
+        steps:
+            - uses: actions/checkout@v4
+            - id: setup-node-pnpm
+              uses: ./.github/actions/setup-node-pnpm
+            - id: setup-db-build
+              uses: ./.github/actions/setup-db-build
+            - name: Start server in background for tests
+              run: pnpm start &
+            - name: Wait for server to be ready
+              run: |
+                for i in {1..30}; do
+                  if nc -z localhost 3000; then
+                    echo "Server is up!"
+                    break
+                  fi
+                  echo "Waiting for server..."
+                  sleep 2
+                done
+            - name: Run unit tests
+              run: pnpm test:run
+            # - name: Run integration tests
+            #   run: pnpm test:integration
+            # - name: Run functional tests
+            #   run: pnpm test:functional
+            # - name: Run coverage
+            #   run: pnpm test:coverage
+            # - name: Run e2e tests
+            #   run: pnpm test:e2e

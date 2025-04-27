@@ -3,6 +3,12 @@
 import { loadStripe } from "@stripe/stripe-js";
 import { useState } from "react";
 
+const NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY;
+
+if (!NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY) {
+    throw new Error("NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY environment variable is not defined");
+}
+
 interface PaymentButtonProps {
     priceId: string;
     sellerId: string;
@@ -51,9 +57,10 @@ export default function PaymentButton({ priceId, sellerId }: PaymentButtonProps)
                 throw new Error(data.error);
             }
 
-            const stripe = await loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
+            const stripe = await loadStripe(NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY as string);
+
             if (!stripe) {
-                throw new Error("Stripe failed to initialize");
+                throw new Error("Stripe failed to initialize.");
             }
 
             const result = await stripe.redirectToCheckout({

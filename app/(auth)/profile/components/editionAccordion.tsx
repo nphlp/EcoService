@@ -18,7 +18,7 @@ type EditionAccordionProps = {
 
 export default function EditionAccordion(props: EditionAccordionProps) {
     const { session: init } = props;
-    
+
     const [session, setSession] = useState(init);
 
     return (

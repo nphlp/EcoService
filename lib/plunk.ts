@@ -4,7 +4,13 @@ import EmailTemplate from "@comps/server/email";
 import Plunk from "@plunk/node";
 import { render } from "@react-email/render";
 
-const plunk = new Plunk(process.env.PLUNK_API_KEY as string);
+const PLUNK_API_KEY = process.env.PLUNK_API_KEY;
+
+if (!PLUNK_API_KEY) {
+    throw new Error("PLUNK_API_KEY environment variable is not defined");
+}
+
+const plunk = new Plunk(PLUNK_API_KEY);
 
 type SendEmailProps = {
     subject: string;

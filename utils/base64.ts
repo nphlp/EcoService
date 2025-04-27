@@ -11,7 +11,7 @@ export const fileToBase64 = async (image: File): Promise<string> => {
         return encodeBase64(uint8Array);
     } catch (error) {
         console.error("Erreur lors de l'encodage du fichier:", error);
-        return '';
+        return "";
     }
 };
 
@@ -40,6 +40,6 @@ export const base64ToUrl = (base64: string): string => {
         return URL.createObjectURL(blob);
     } catch (error) {
         console.error("Erreur lors du décodage du fichier:", error);
-        return '';
+        return "";
     }
 };

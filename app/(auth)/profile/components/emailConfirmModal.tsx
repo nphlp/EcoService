@@ -7,7 +7,7 @@ import { useState } from "react";
 
 type EmailConfirmModalProps = {
     session: NonNullable<BetterSessionServer>;
-}
+};
 
 export default function EmailConfirmModal(props: EmailConfirmModalProps) {
     const { session } = props;

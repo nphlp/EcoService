@@ -1,6 +1,12 @@
 import { Routes } from "@app/api/internal/Routes";
 import { ResponseFormat } from "@utils/FetchConfig";
 
+const NEXT_PUBLIC_BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+
+if (!NEXT_PUBLIC_BASE_URL) {
+    throw new Error("NEXT_PUBLIC_BASE_URL environment variable is not defined");
+}
+
 // Routes keys type
 export type Route<Input> = keyof Routes<Input>;
 
@@ -24,7 +30,7 @@ export const FetchV2 = async <Input, R extends Route<Input>, P extends Params<In
 ): Promise<FetchResponse<Input, R, P>> => {
     const { route, params, signal, client = false } = props;
 
-    const baseUrl = client ? "" : process.env.BASE_URL;
+    const baseUrl = client ? "" : NEXT_PUBLIC_BASE_URL;
     const encodedParams = params ? encodeURIComponent(JSON.stringify(params)) : "";
     const urlParams = params ? "?params=" + encodedParams : "";
     const url = baseUrl + "/api/internal" + route + urlParams;

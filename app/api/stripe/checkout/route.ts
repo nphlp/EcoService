@@ -1,7 +1,13 @@
 import { GetSession } from "@lib/auth";
 import PrismaInstance from "@lib/prisma";
-import { NextResponse } from "next/server";
 import { StripeInstance } from "@lib/stripe";
+import { NextResponse } from "next/server";
+
+const NEXT_PUBLIC_BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+
+if (!NEXT_PUBLIC_BASE_URL) {
+    throw new Error("NEXT_PUBLIC_BASE_URL environment variable is not defined");
+}
 
 export async function POST(request: Request) {
     try {
@@ -53,8 +59,8 @@ export async function POST(request: Request) {
                 },
             ],
             mode: "payment",
-            success_url: `${process.env.BASE_URL}/success?session_id={CHECKOUT_SESSION_ID}`,
-            cancel_url: `${process.env.BASE_URL}`,
+            success_url: `${NEXT_PUBLIC_BASE_URL}/success?session_id={CHECKOUT_SESSION_ID}`,
+            cancel_url: `${NEXT_PUBLIC_BASE_URL}`,
             customer_email: session.user.email,
             payment_intent_data: {
                 application_fee_amount: 123,

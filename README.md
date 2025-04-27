@@ -136,8 +136,10 @@ There is three types of users.
 
 ## Deployment (Coolify process)
 
+> Pipeline process [here](https://github.com/nansphilip/EcoService/tree/main/.github/README.md)
+
 1. Create a `Mysql` environnment:
-  
+
 - Name: `Eco Service (database)`
 - Normal User: `eco-service-user`
 - Initial Database: `eco-service-db`
@@ -185,7 +187,7 @@ pnpm run start
 4. Add environment variables
 
 ```env
-BASE_URL=https://eco-service.domain.com
+NEXT_PUBLIC_BASE_URL=https://eco-service.domain.com
 
 # Database connection (get it in the Mysql environnment)
 DATABASE_URL=mysql://eco-service-user: ******** @ ******** /eco-service-db
