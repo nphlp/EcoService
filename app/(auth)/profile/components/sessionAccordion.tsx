@@ -4,7 +4,7 @@ import { BetterSessionListServer, BetterSessionServer, GetSessionList } from "@l
 import { Fetch } from "@utils/Fetch/Fetch";
 import { FetchParallelized } from "@utils/Fetch/FetchParallelized";
 import { LogOut } from "lucide-react";
-import LocationMap from "./LocationMap";
+import LocationWrapper from "./locationWrapper";
 import SessionManager, { SessionAndLocation } from "./sessionManager";
 import { getBrowser, getOs, locationString } from "./utils";
 
@@ -73,7 +73,7 @@ const CurrentSession = async (props: CurrentSessionProps) => {
                     <LogOut className="size-4" />
                 </Logout>
             </div>
-            <LocationMap location={location} />
+            <LocationWrapper location={location} />
         </div>
     );
 };
