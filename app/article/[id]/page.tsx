@@ -81,11 +81,7 @@ export default async function Page(props: PageProps) {
                 ))}
             </div>
 
-            <section className="space-y-6 border-t border-gray-200 px-6 py-8 md:px-12 md:py-16">
-                <h2 className="text-center text-3xl font-bold">À lire aussi</h2>
-                <p className="text-center text-gray-600">D&apos;autres articles qui pourraient vous intéresser</p>
-                <ArticleOrDiySlider articleOrDiy={otherArticleList} link="/article" />
-            </section>
+            <ArticleOrDiySlider articleOrDiy={otherArticleList} link="/article" title="À lire aussi" />
 
             <div className="mt-16 flex justify-center">
                 <Link href="/article" label="Retour aux articles" variant="outline">
