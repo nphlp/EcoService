@@ -81,24 +81,9 @@ export default async function Page() {
                     className="rounded-lg shadow-md max-lg:w-full lg:h-80"
                 />
             </section>
-            {productList.length && (
-                <section className="space-y-6 px-6 py-8 md:px-12 md:py-16">
-                    <h2 className="text-center text-4xl font-bold">Nos produits vedettes</h2>
-                    <ProductSlider productList={productList} />
-                </section>
-            )}
-            {diyList.length && (
-                <section className="bg-eco space-y-6 px-6 py-8 md:px-12 md:py-16">
-                    <h2 className="text-center text-4xl font-bold text-white">Nos Do It Yourself</h2>
-                    <ArticleOrDiySlider articleOrDiy={diyList} link="/diy" />
-                </section>
-            )}
-            {articleList.length && (
-                <section className="space-y-6 px-6 py-8 md:px-12 md:py-16">
-                    <h2 className="text-center text-4xl font-bold">Nos articles</h2>
-                    <ArticleOrDiySlider articleOrDiy={articleList} link="/article" />
-                </section>
-            )}
+            <ProductSlider productList={productList} title="Nos produits vedettes" />
+            <ArticleOrDiySlider articleOrDiy={diyList} link="/diy" title="Nos Do It Yourself" />
+            <ArticleOrDiySlider articleOrDiy={articleList} link="/article" title="Nos articles" />
         </>
     );
 }
