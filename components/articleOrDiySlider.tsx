@@ -1,17 +1,22 @@
 "use client";
 
-import Slider, { LinkInfoType } from "./ui/slider";
-import { ArticleOrDiyListType } from "./sliderFetchParams";
 import ArticleOrDiyCard from "./articleOrDiyCard";
+import { ArticleOrDiyListType } from "./sliderFetchParams";
+import Slider, { LinkInfoType } from "./ui/slider";
 
 type SliderClientProps = {
     className?: string;
     link: string;
     articleOrDiy: ArticleOrDiyListType;
+    title: string;
 };
 
 export const ArticleOrDiySlider = (props: SliderClientProps) => {
-    const { articleOrDiy, link } = props;
+    const { articleOrDiy, link, title } = props;
+
+    if (!articleOrDiy.length) {
+        return <></>;
+    }
 
     const linkList: LinkInfoType[] = articleOrDiy.map((articleOrDiy) => ({
         label: articleOrDiy.title,
@@ -19,10 +24,13 @@ export const ArticleOrDiySlider = (props: SliderClientProps) => {
     }));
 
     return (
-        <Slider dataListLength={articleOrDiy.length} linkList={linkList}>
-            {articleOrDiy.map((articleOrDiy, index) => (
-                <ArticleOrDiyCard key={index} articleOrDiy={articleOrDiy} />
-            ))}
-        </Slider>
+        <section className="space-y-6 px-6 py-8 md:px-12 md:py-16">
+            <h2 className="text-center text-4xl font-bold">{title}</h2>
+            <Slider dataListLength={articleOrDiy.length} linkList={linkList}>
+                {articleOrDiy.map((articleOrDiy, index) => (
+                    <ArticleOrDiyCard key={index} articleOrDiy={articleOrDiy} />
+                ))}
+            </Slider>
+        </section>
     );
 };

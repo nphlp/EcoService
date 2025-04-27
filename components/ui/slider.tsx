@@ -107,6 +107,14 @@ export default function Slider(props: SliderProps) {
         }
     }, [windowWidth, currentIndex, gap]); // windowWidth is required to re-position the slider on resize
 
+    if (dataListLength === 0) {
+        return (
+            <div className="flex h-40 w-full items-center justify-center gap-3">
+                <span>No data...</span>
+            </div>
+        );
+    }
+
     // Display a loader until the window width is defined
     if (windowWidth === undefined) {
         return (

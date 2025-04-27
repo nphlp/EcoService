@@ -46,12 +46,7 @@ export async function GET(request: NextRequest): Promise<NextResponse<ResponseFo
 
         const { ipAddress } = locationSchema.parse(params);
 
-        const ip =
-            process.env.NODE_ENV === "development" && (ipAddress === "::1" || ipAddress === "127.0.0.1")
-                ? "2a02:8429:805c:e501:51fe:1f20:a904:751d"
-                : ipAddress;
-
-        const location = await getLocationCached(ip);
+        const location = await getLocationCached(ipAddress);
 
         return NextResponse.json({ data: location }, { status: 200 });
     } catch (error) {
@@ -67,20 +62,10 @@ export async function GET(request: NextRequest): Promise<NextResponse<ResponseFo
 }
 
 const getLocationCached = cache(
-    async (ip: string) => {
-        const url = `https://ipapi.co/${ip}/json/`;
+    async (ipAddress: string) => {
+        const url = `https://ipapi.co/${ipAddress}/json/`;
 
-        const response = await fetch(url, {
-            method: "GET",
-            headers: {
-                // Fake user agent to avoid being rate limited
-                "User-Agent":
-                    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36",
-                Accept: "application/json",
-                "Accept-Language": "fr,fr-FR;q=0.9,en-US;q=0.8,en;q=0.7",
-                "Cache-Control": "no-cache",
-            },
-        });
+        const response = await fetch(url, { method: "GET" });
 
         const data: LocationResponse = await response.json();
 

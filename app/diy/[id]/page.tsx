@@ -80,12 +80,7 @@ export default async function Page(props: PageProps) {
                 ))}
             </div>
 
-            {/* Ajoute un slider */}
-            <section className="space-y-6 border-t border-gray-200 px-6 py-8 md:px-12 md:py-16">
-                <h2 className="text-center text-3xl font-bold">Produits recommandés</h2>
-                <p className="text-center text-gray-600">Découvrez notre sélection de produits zéro déchet</p>
-                <ProductSlider productList={productList} />
-            </section>
+            <ProductSlider productList={productList} title="Produits recommandés" />
 
             <div className="mt-16 flex justify-center">
                 <Link href="/diy" label="Retour aux DIY" variant="outline">

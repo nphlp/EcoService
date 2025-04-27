@@ -1,21 +1,11 @@
 "use client";
 
 import { LocationResponse } from "@app/api/external/location/route";
-import Loader from "@comps/ui/loader";
 import "leaflet/dist/leaflet.css";
 import { MapPin } from "lucide-react";
-import { useEffect, useState } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
-
-const ImportLeaflet = import("leaflet");
-const ImportReactLeaflet = import("react-leaflet");
-
-type ImportLeafletType = {
-    L: typeof import("leaflet");
-    MapContainer: typeof import("react-leaflet").MapContainer;
-    TileLayer: typeof import("react-leaflet").TileLayer;
-    Marker: typeof import("react-leaflet").Marker;
-};
+import L from "leaflet";
+import { MapContainer, TileLayer, Marker } from "react-leaflet";
 
 type LocationMapProps = {
     location: LocationResponse | null;
@@ -24,28 +14,10 @@ type LocationMapProps = {
 export default function LocationMap(props: LocationMapProps) {
     const { location } = props;
 
-    // Import dynamically Leaflet and ReactLeaflet, to prevent SSR errors due to "window" property
-    const [clientImports, setClientImports] = useState<ImportLeafletType | null>(null);
-
-    useEffect(() => {
-        Promise.all([ImportLeaflet, ImportReactLeaflet]).then(([L, reactLeaflet]) =>
-            setClientImports({ L, ...reactLeaflet }),
-        );
-    }, []);
-
     if (!location || !location.latitude || !location.longitude) {
         return <></>;
     }
 
-    if (!clientImports) {
-        return (
-            <div className="mt-3 mb-2 flex h-56 w-full items-center justify-center overflow-hidden rounded-md">
-                <Loader className="size-12 stroke-[1.5px]" />
-            </div>
-        );
-    }
-
-    const { L, MapContainer, TileLayer, Marker } = clientImports;
     const position: [number, number] = [location.latitude, location.longitude];
 
     const iconSize = 40;
