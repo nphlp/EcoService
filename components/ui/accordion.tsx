@@ -194,7 +194,11 @@ const AccordionButton = (props: AccordionButtonProps) => {
                 )}
             >
                 <div className={combo("flex flex-col items-start", classLabel)}>{children}</div>
-                <motion.div animate={{ rotate: open ? -180 : 0 }} transition={{ duration: 0.3 }}>
+                <motion.div
+                    initial={{ rotate: open ? -180 : 0 }}
+                    animate={{ rotate: open ? -180 : 0 }}
+                    transition={{ duration: 0.3 }}
+                >
                     <ChevronUp className="size-6" />
                 </motion.div>
             </div>
