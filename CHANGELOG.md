@@ -1,3 +1,9 @@
+## [1.0.2](https://github.com/nansphilip/EcoService/compare/v1.0.1...v1.0.2) (2025-04-29)
+
+### Bug Fixes
+
+- workflow push test ([35db8cd](https://github.com/nansphilip/EcoService/commit/35db8cdfedaae5639c13b2592884562afc069497))
+
 ## [1.0.1](https://github.com/nansphilip/EcoService/compare/v1.0.0...v1.0.1) (2025-04-27)
 
 ### Bug Fixes
