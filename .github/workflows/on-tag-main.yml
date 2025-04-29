@@ -2,9 +2,10 @@ name: Deploy main
 description: On tag on main branch, deploy to production.
 
 on:
-    push:
-        tags:
-          - '*'
+    workflow_dispatch:
+    # push:
+    #     tags:
+    #       - '*'
 
 jobs:
     deploy:

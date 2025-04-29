@@ -2,8 +2,9 @@ name: Tag and Release
 description: On push on main branch, create tag and release.
 
 on:
-    push:
-        branches: [main]
+    workflow_dispatch:
+    # push:
+    #     branches: [main]
 
 jobs:
     release:

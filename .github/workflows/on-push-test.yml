@@ -2,8 +2,9 @@ name: Deploy preview
 description: On push on test branch, deploy preview to Coolify.
 
 on:
-    push:
-        branches: [test]
+    workflow_dispatch:
+    # push:
+    #     branches: [test]
 
 jobs:
     deploy:
