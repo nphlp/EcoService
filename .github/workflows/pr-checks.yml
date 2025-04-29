@@ -1,5 +1,4 @@
-name: PR checks
-description: On pull request to test or main branches, run commit message check, lint check, format check and type check, then build and test the application.
+name: PR checks (main/test)
 
 on:
     pull_request:

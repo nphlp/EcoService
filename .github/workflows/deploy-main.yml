@@ -1,0 +1,27 @@
+name: Deploy production (main)
+
+on:
+    workflow_dispatch:
+
+jobs:
+    release:
+        name: Create a release commit and a new tag
+        if: github.ref == 'refs/heads/main'
+        runs-on: ubuntu-latest
+        steps:
+        - uses: actions/checkout@v4
+        - id: setup-node-pnpm
+          uses: ./.github/actions/setup-node-pnpm
+        - run: pnpm dlx semantic-release
+          env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    deploy:
+        name: Deploy latest tag in production
+        runs-on: ubuntu-latest
+        needs: [release]
+        steps:
+          - name: Trigger Coolify Deploy
+            run: |
+              curl -X GET "${{ secrets.COOLIFY_API_URL }}/api/v1/deploy?uuid=${{ secrets.COOLIFY_ECO_SERVICE_UUID }}&force=false&branch=main" \
+                -H "Authorization: Bearer ${{ secrets.COOLIFY_API_TOKEN }}"
