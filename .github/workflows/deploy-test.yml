@@ -1,13 +1,12 @@
-name: Deploy preview
-description: On push on test branch, deploy preview to Coolify.
+name: Deploy preview (test)
 
 on:
-    push:
-        branches: [test]
+    workflow_dispatch:
 
 jobs:
     deploy:
-        name: Deploy to Coolify
+        name: Deploy test branch in preview
+        if: github.ref == 'refs/heads/test'
         runs-on: ubuntu-latest
         steps:
           - name: Trigger Coolify Deploy
