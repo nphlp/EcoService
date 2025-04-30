@@ -7,11 +7,11 @@ import { ZodError } from "zod";
 export default class ProductService {
     static async create<T extends CreateProductProps>(props: T): Promise<ResponseFormat<CreateProductResponse<T>>> {
         try {
-            const { data, include, omit, select } = createProductSchema.parse(props);
+            const { data, omit, select } = createProductSchema.parse(props);
 
             const product = await PrismaInstance.product.create({
                 data,
-                ...(include && { include }),
+                
                 ...(omit && { omit }),
                 ...(select && { select }),
             });
@@ -33,13 +33,13 @@ export default class ProductService {
 
     static async upsert<T extends UpsertProductProps>(props: T): Promise<ResponseFormat<UpsertProductResponse<T>>> {
         try {
-            const { create, update, where, include, omit, select } = upsertProductSchema.parse(props);
+            const { create, update, where, omit, select } = upsertProductSchema.parse(props);
 
             const product = await PrismaInstance.product.upsert({
                 create,
                 update,
                 where,
-                ...(include && { include }),
+                
                 ...(omit && { omit }),
                 ...(select && { select }),
             });
@@ -61,12 +61,12 @@ export default class ProductService {
 
     static async update<T extends UpdateProductProps>(props: T): Promise<ResponseFormat<UpdateProductResponse<T>>> {
         try {
-            const { data, where, include, omit, select } = updateProductSchema.parse(props);
+            const { data, where, omit, select } = updateProductSchema.parse(props);
 
             const product = await PrismaInstance.product.update({
                 data,
                 where,
-                ...(include && { include }),
+                
                 ...(omit && { omit }),
                 ...(select && { select }),
             });
@@ -88,11 +88,11 @@ export default class ProductService {
 
     static async delete<T extends DeleteProductProps>(props: T): Promise<ResponseFormat<DeleteProductResponse<T>>> {
         try {
-            const { where, include, omit, select } = deleteProductSchema.parse(props);
+            const { where, omit, select } = deleteProductSchema.parse(props);
 
             const product = await PrismaInstance.product.delete({
                 where,
-                ...(include && { include }),
+                
                 ...(omit && { omit }),
                 ...(select && { select }),
             });
@@ -114,11 +114,11 @@ export default class ProductService {
 
     static async findUnique<T extends FindUniqueProductProps>(props: T): Promise<ResponseFormat<FindUniqueProductResponse<T>>> {
         try {
-            const { where, include, omit, select } = selectProductSchema.parse(props);
+            const { where, omit, select } = selectProductSchema.parse(props);
 
             const product = await PrismaInstance.product.findUnique({
                 where,
-                ...(include && { include }),
+                
                 ...(omit && { omit }),
                 ...(select && { select }),
             });
@@ -143,7 +143,7 @@ export default class ProductService {
             const {
                 cursor,
                 distinct,
-                include,
+                
                 omit,
                 orderBy,
                 select,
@@ -155,7 +155,7 @@ export default class ProductService {
             const productList = await PrismaInstance.product.findMany({
                 ...(cursor && { cursor }),
                 ...(distinct && { distinct }),
-                ...(include && { include }),
+                
                 ...(omit && { omit }),
                 ...(orderBy && { orderBy }),
                 ...(select && { select }),

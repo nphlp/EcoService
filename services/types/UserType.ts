@@ -1,15 +1,12 @@
 // ============== Types ============== //
 
-import { Prisma } from "@services/prisma";
-import { UserCreateArgsSchema, UserDeleteArgsSchema, UserFindManyArgsSchema, UserFindUniqueArgsSchema, UserOrderByWithRelationInputSchema, UserSchema, UserUpdateArgsSchema, UserUpsertArgsSchema, UserWhereInputSchema, UserWhereUniqueInputSchema, UserWithRelationsSchema } from "@services/schemas";
-import UserIncludeSchema from "@services/schemas/inputTypeSchemas/UserIncludeSchema";
+import { Prisma } from "@prisma/client";
+import { UserCreateArgsSchema, UserDeleteArgsSchema, UserFindManyArgsSchema, UserFindUniqueArgsSchema, UserOrderByWithRelationInputSchema, UserSchema, UserUpdateArgsSchema, UserUpsertArgsSchema, UserWhereInputSchema, UserWhereUniqueInputSchema,  } from "@prisma/zod";
 import { z, ZodType } from "zod";
 
 // ============== Model Types ============== //
 
 export type UserModel = z.infer<typeof UserSchema>;
-export type UserRelationsOptional = z.infer<typeof UserSchema> & z.infer<typeof UserIncludeSchema>;
-export type UserRelationsComplete = z.infer<typeof UserWithRelationsSchema>;
 export type UserCount = number;
 
 // ============== Props Types ============== //

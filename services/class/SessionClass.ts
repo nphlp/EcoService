@@ -7,11 +7,11 @@ import { ZodError } from "zod";
 export default class SessionService {
     static async create<T extends CreateSessionProps>(props: T): Promise<ResponseFormat<CreateSessionResponse<T>>> {
         try {
-            const { data, include, omit, select } = createSessionSchema.parse(props);
+            const { data, omit, select } = createSessionSchema.parse(props);
 
             const session = await PrismaInstance.session.create({
                 data,
-                ...(include && { include }),
+                
                 ...(omit && { omit }),
                 ...(select && { select }),
             });
@@ -33,13 +33,13 @@ export default class SessionService {
 
     static async upsert<T extends UpsertSessionProps>(props: T): Promise<ResponseFormat<UpsertSessionResponse<T>>> {
         try {
-            const { create, update, where, include, omit, select } = upsertSessionSchema.parse(props);
+            const { create, update, where, omit, select } = upsertSessionSchema.parse(props);
 
             const session = await PrismaInstance.session.upsert({
                 create,
                 update,
                 where,
-                ...(include && { include }),
+                
                 ...(omit && { omit }),
                 ...(select && { select }),
             });
@@ -61,12 +61,12 @@ export default class SessionService {
 
     static async update<T extends UpdateSessionProps>(props: T): Promise<ResponseFormat<UpdateSessionResponse<T>>> {
         try {
-            const { data, where, include, omit, select } = updateSessionSchema.parse(props);
+            const { data, where, omit, select } = updateSessionSchema.parse(props);
 
             const session = await PrismaInstance.session.update({
                 data,
                 where,
-                ...(include && { include }),
+                
                 ...(omit && { omit }),
                 ...(select && { select }),
             });
@@ -88,11 +88,11 @@ export default class SessionService {
 
     static async delete<T extends DeleteSessionProps>(props: T): Promise<ResponseFormat<DeleteSessionResponse<T>>> {
         try {
-            const { where, include, omit, select } = deleteSessionSchema.parse(props);
+            const { where, omit, select } = deleteSessionSchema.parse(props);
 
             const session = await PrismaInstance.session.delete({
                 where,
-                ...(include && { include }),
+                
                 ...(omit && { omit }),
                 ...(select && { select }),
             });
@@ -114,11 +114,11 @@ export default class SessionService {
 
     static async findUnique<T extends FindUniqueSessionProps>(props: T): Promise<ResponseFormat<FindUniqueSessionResponse<T>>> {
         try {
-            const { where, include, omit, select } = selectSessionSchema.parse(props);
+            const { where, omit, select } = selectSessionSchema.parse(props);
 
             const session = await PrismaInstance.session.findUnique({
                 where,
-                ...(include && { include }),
+                
                 ...(omit && { omit }),
                 ...(select && { select }),
             });
@@ -143,7 +143,7 @@ export default class SessionService {
             const {
                 cursor,
                 distinct,
-                include,
+                
                 omit,
                 orderBy,
                 select,
@@ -155,7 +155,7 @@ export default class SessionService {
             const sessionList = await PrismaInstance.session.findMany({
                 ...(cursor && { cursor }),
                 ...(distinct && { distinct }),
-                ...(include && { include }),
+                
                 ...(omit && { omit }),
                 ...(orderBy && { orderBy }),
                 ...(select && { select }),

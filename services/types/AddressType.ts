@@ -1,15 +1,12 @@
 // ============== Types ============== //
 
-import { Prisma } from "@services/prisma";
-import { AddressCreateArgsSchema, AddressDeleteArgsSchema, AddressFindManyArgsSchema, AddressFindUniqueArgsSchema, AddressOrderByWithRelationInputSchema, AddressSchema, AddressUpdateArgsSchema, AddressUpsertArgsSchema, AddressWhereInputSchema, AddressWhereUniqueInputSchema, AddressWithRelationsSchema } from "@services/schemas";
-import AddressIncludeSchema from "@services/schemas/inputTypeSchemas/AddressIncludeSchema";
+import { Prisma } from "@prisma/client";
+import { AddressCreateArgsSchema, AddressDeleteArgsSchema, AddressFindManyArgsSchema, AddressFindUniqueArgsSchema, AddressOrderByWithRelationInputSchema, AddressSchema, AddressUpdateArgsSchema, AddressUpsertArgsSchema, AddressWhereInputSchema, AddressWhereUniqueInputSchema,  } from "@prisma/zod";
 import { z, ZodType } from "zod";
 
 // ============== Model Types ============== //
 
 export type AddressModel = z.infer<typeof AddressSchema>;
-export type AddressRelationsOptional = z.infer<typeof AddressSchema> & z.infer<typeof AddressIncludeSchema>;
-export type AddressRelationsComplete = z.infer<typeof AddressWithRelationsSchema>;
 export type AddressCount = number;
 
 // ============== Props Types ============== //

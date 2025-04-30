@@ -7,11 +7,11 @@ import { ZodError } from "zod";
 export default class CategoryService {
     static async create<T extends CreateCategoryProps>(props: T): Promise<ResponseFormat<CreateCategoryResponse<T>>> {
         try {
-            const { data, include, omit, select } = createCategorySchema.parse(props);
+            const { data, omit, select } = createCategorySchema.parse(props);
 
             const category = await PrismaInstance.category.create({
                 data,
-                ...(include && { include }),
+                
                 ...(omit && { omit }),
                 ...(select && { select }),
             });
@@ -33,13 +33,13 @@ export default class CategoryService {
 
     static async upsert<T extends UpsertCategoryProps>(props: T): Promise<ResponseFormat<UpsertCategoryResponse<T>>> {
         try {
-            const { create, update, where, include, omit, select } = upsertCategorySchema.parse(props);
+            const { create, update, where, omit, select } = upsertCategorySchema.parse(props);
 
             const category = await PrismaInstance.category.upsert({
                 create,
                 update,
                 where,
-                ...(include && { include }),
+                
                 ...(omit && { omit }),
                 ...(select && { select }),
             });
@@ -61,12 +61,12 @@ export default class CategoryService {
 
     static async update<T extends UpdateCategoryProps>(props: T): Promise<ResponseFormat<UpdateCategoryResponse<T>>> {
         try {
-            const { data, where, include, omit, select } = updateCategorySchema.parse(props);
+            const { data, where, omit, select } = updateCategorySchema.parse(props);
 
             const category = await PrismaInstance.category.update({
                 data,
                 where,
-                ...(include && { include }),
+                
                 ...(omit && { omit }),
                 ...(select && { select }),
             });
@@ -88,11 +88,11 @@ export default class CategoryService {
 
     static async delete<T extends DeleteCategoryProps>(props: T): Promise<ResponseFormat<DeleteCategoryResponse<T>>> {
         try {
-            const { where, include, omit, select } = deleteCategorySchema.parse(props);
+            const { where, omit, select } = deleteCategorySchema.parse(props);
 
             const category = await PrismaInstance.category.delete({
                 where,
-                ...(include && { include }),
+                
                 ...(omit && { omit }),
                 ...(select && { select }),
             });
@@ -114,11 +114,11 @@ export default class CategoryService {
 
     static async findUnique<T extends FindUniqueCategoryProps>(props: T): Promise<ResponseFormat<FindUniqueCategoryResponse<T>>> {
         try {
-            const { where, include, omit, select } = selectCategorySchema.parse(props);
+            const { where, omit, select } = selectCategorySchema.parse(props);
 
             const category = await PrismaInstance.category.findUnique({
                 where,
-                ...(include && { include }),
+                
                 ...(omit && { omit }),
                 ...(select && { select }),
             });
@@ -143,7 +143,7 @@ export default class CategoryService {
             const {
                 cursor,
                 distinct,
-                include,
+                
                 omit,
                 orderBy,
                 select,
@@ -155,7 +155,7 @@ export default class CategoryService {
             const categoryList = await PrismaInstance.category.findMany({
                 ...(cursor && { cursor }),
                 ...(distinct && { distinct }),
-                ...(include && { include }),
+                
                 ...(omit && { omit }),
                 ...(orderBy && { orderBy }),
                 ...(select && { select }),

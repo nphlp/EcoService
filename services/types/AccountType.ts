@@ -1,15 +1,12 @@
 // ============== Types ============== //
 
-import { Prisma } from "@services/prisma";
-import { AccountCreateArgsSchema, AccountDeleteArgsSchema, AccountFindManyArgsSchema, AccountFindUniqueArgsSchema, AccountOrderByWithRelationInputSchema, AccountSchema, AccountUpdateArgsSchema, AccountUpsertArgsSchema, AccountWhereInputSchema, AccountWhereUniqueInputSchema, AccountWithRelationsSchema } from "@services/schemas";
-import AccountIncludeSchema from "@services/schemas/inputTypeSchemas/AccountIncludeSchema";
+import { Prisma } from "@prisma/client";
+import { AccountCreateArgsSchema, AccountDeleteArgsSchema, AccountFindManyArgsSchema, AccountFindUniqueArgsSchema, AccountOrderByWithRelationInputSchema, AccountSchema, AccountUpdateArgsSchema, AccountUpsertArgsSchema, AccountWhereInputSchema, AccountWhereUniqueInputSchema,  } from "@prisma/zod";
 import { z, ZodType } from "zod";
 
 // ============== Model Types ============== //
 
 export type AccountModel = z.infer<typeof AccountSchema>;
-export type AccountRelationsOptional = z.infer<typeof AccountSchema> & z.infer<typeof AccountIncludeSchema>;
-export type AccountRelationsComplete = z.infer<typeof AccountWithRelationsSchema>;
 export type AccountCount = number;
 
 // ============== Props Types ============== //

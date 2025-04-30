@@ -1,15 +1,12 @@
 // ============== Types ============== //
 
-import { Prisma } from "@services/prisma";
-import { DiyCreateArgsSchema, DiyDeleteArgsSchema, DiyFindManyArgsSchema, DiyFindUniqueArgsSchema, DiyOrderByWithRelationInputSchema, DiySchema, DiyUpdateArgsSchema, DiyUpsertArgsSchema, DiyWhereInputSchema, DiyWhereUniqueInputSchema, DiyWithRelationsSchema } from "@services/schemas";
-import DiyIncludeSchema from "@services/schemas/inputTypeSchemas/DiyIncludeSchema";
+import { Prisma } from "@prisma/client";
+import { DiyCreateArgsSchema, DiyDeleteArgsSchema, DiyFindManyArgsSchema, DiyFindUniqueArgsSchema, DiyOrderByWithRelationInputSchema, DiySchema, DiyUpdateArgsSchema, DiyUpsertArgsSchema, DiyWhereInputSchema, DiyWhereUniqueInputSchema,  } from "@prisma/zod";
 import { z, ZodType } from "zod";
 
 // ============== Model Types ============== //
 
 export type DiyModel = z.infer<typeof DiySchema>;
-export type DiyRelationsOptional = z.infer<typeof DiySchema> & z.infer<typeof DiyIncludeSchema>;
-export type DiyRelationsComplete = z.infer<typeof DiyWithRelationsSchema>;
 export type DiyCount = number;
 
 // ============== Props Types ============== //

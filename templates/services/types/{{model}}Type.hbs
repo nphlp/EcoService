@@ -1,9 +1,9 @@
 // ============== Types ============== //
 
-import { Prisma } from "@services/prisma";
-import { {{modelName}}CreateArgsSchema, {{modelName}}DeleteArgsSchema, {{modelName}}FindManyArgsSchema, {{modelName}}FindUniqueArgsSchema, {{modelName}}OrderByWithRelationInputSchema, {{modelName}}Schema, {{modelName}}UpdateArgsSchema, {{modelName}}UpsertArgsSchema, {{modelName}}WhereInputSchema, {{modelName}}WhereUniqueInputSchema, {{#if hasRelations}}{{modelName}}WithRelationsSchema{{/if}} } from "@services/schemas";
+import { Prisma } from "@prisma/client";
+import { {{modelName}}CreateArgsSchema, {{modelName}}DeleteArgsSchema, {{modelName}}FindManyArgsSchema, {{modelName}}FindUniqueArgsSchema, {{modelName}}OrderByWithRelationInputSchema, {{modelName}}Schema, {{modelName}}UpdateArgsSchema, {{modelName}}UpsertArgsSchema, {{modelName}}WhereInputSchema, {{modelName}}WhereUniqueInputSchema, {{#if hasRelations}}{{modelName}}WithRelationsSchema{{/if}} } from "@prisma/zod";
 {{#if hasRelations}}
-import {{modelName}}IncludeSchema from "@services/schemas/inputTypeSchemas/{{modelName}}IncludeSchema";
+import {{modelName}}IncludeSchema from "@prisma/zod/inputTypeSchemas/{{modelName}}IncludeSchema";
 {{/if}}
 import { z, ZodType } from "zod";
 

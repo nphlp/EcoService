@@ -1,15 +1,12 @@
 // ============== Types ============== //
 
-import { Prisma } from "@services/prisma";
-import { ArticleCreateArgsSchema, ArticleDeleteArgsSchema, ArticleFindManyArgsSchema, ArticleFindUniqueArgsSchema, ArticleOrderByWithRelationInputSchema, ArticleSchema, ArticleUpdateArgsSchema, ArticleUpsertArgsSchema, ArticleWhereInputSchema, ArticleWhereUniqueInputSchema, ArticleWithRelationsSchema } from "@services/schemas";
-import ArticleIncludeSchema from "@services/schemas/inputTypeSchemas/ArticleIncludeSchema";
+import { Prisma } from "@prisma/client";
+import { ArticleCreateArgsSchema, ArticleDeleteArgsSchema, ArticleFindManyArgsSchema, ArticleFindUniqueArgsSchema, ArticleOrderByWithRelationInputSchema, ArticleSchema, ArticleUpdateArgsSchema, ArticleUpsertArgsSchema, ArticleWhereInputSchema, ArticleWhereUniqueInputSchema,  } from "@prisma/zod";
 import { z, ZodType } from "zod";
 
 // ============== Model Types ============== //
 
 export type ArticleModel = z.infer<typeof ArticleSchema>;
-export type ArticleRelationsOptional = z.infer<typeof ArticleSchema> & z.infer<typeof ArticleIncludeSchema>;
-export type ArticleRelationsComplete = z.infer<typeof ArticleWithRelationsSchema>;
 export type ArticleCount = number;
 
 // ============== Props Types ============== //

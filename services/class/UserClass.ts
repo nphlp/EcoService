@@ -7,11 +7,11 @@ import { ZodError } from "zod";
 export default class UserService {
     static async create<T extends CreateUserProps>(props: T): Promise<ResponseFormat<CreateUserResponse<T>>> {
         try {
-            const { data, include, omit, select } = createUserSchema.parse(props);
+            const { data, omit, select } = createUserSchema.parse(props);
 
             const user = await PrismaInstance.user.create({
                 data,
-                ...(include && { include }),
+                
                 ...(omit && { omit }),
                 ...(select && { select }),
             });
@@ -33,13 +33,13 @@ export default class UserService {
 
     static async upsert<T extends UpsertUserProps>(props: T): Promise<ResponseFormat<UpsertUserResponse<T>>> {
         try {
-            const { create, update, where, include, omit, select } = upsertUserSchema.parse(props);
+            const { create, update, where, omit, select } = upsertUserSchema.parse(props);
 
             const user = await PrismaInstance.user.upsert({
                 create,
                 update,
                 where,
-                ...(include && { include }),
+                
                 ...(omit && { omit }),
                 ...(select && { select }),
             });
@@ -61,12 +61,12 @@ export default class UserService {
 
     static async update<T extends UpdateUserProps>(props: T): Promise<ResponseFormat<UpdateUserResponse<T>>> {
         try {
-            const { data, where, include, omit, select } = updateUserSchema.parse(props);
+            const { data, where, omit, select } = updateUserSchema.parse(props);
 
             const user = await PrismaInstance.user.update({
                 data,
                 where,
-                ...(include && { include }),
+                
                 ...(omit && { omit }),
                 ...(select && { select }),
             });
@@ -88,11 +88,11 @@ export default class UserService {
 
     static async delete<T extends DeleteUserProps>(props: T): Promise<ResponseFormat<DeleteUserResponse<T>>> {
         try {
-            const { where, include, omit, select } = deleteUserSchema.parse(props);
+            const { where, omit, select } = deleteUserSchema.parse(props);
 
             const user = await PrismaInstance.user.delete({
                 where,
-                ...(include && { include }),
+                
                 ...(omit && { omit }),
                 ...(select && { select }),
             });
@@ -114,11 +114,11 @@ export default class UserService {
 
     static async findUnique<T extends FindUniqueUserProps>(props: T): Promise<ResponseFormat<FindUniqueUserResponse<T>>> {
         try {
-            const { where, include, omit, select } = selectUserSchema.parse(props);
+            const { where, omit, select } = selectUserSchema.parse(props);
 
             const user = await PrismaInstance.user.findUnique({
                 where,
-                ...(include && { include }),
+                
                 ...(omit && { omit }),
                 ...(select && { select }),
             });
@@ -143,7 +143,7 @@ export default class UserService {
             const {
                 cursor,
                 distinct,
-                include,
+                
                 omit,
                 orderBy,
                 select,
@@ -155,7 +155,7 @@ export default class UserService {
             const userList = await PrismaInstance.user.findMany({
                 ...(cursor && { cursor }),
                 ...(distinct && { distinct }),
-                ...(include && { include }),
+                
                 ...(omit && { omit }),
                 ...(orderBy && { orderBy }),
                 ...(select && { select }),
