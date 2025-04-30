@@ -1,5 +1,5 @@
 import PrismaInstance from "@lib/prisma";
-import { Prisma } from "@services/prisma";
+import { Prisma } from "@prisma/client";
 
 export const insertDIYs = async () => {
     try {

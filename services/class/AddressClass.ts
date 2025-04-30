@@ -7,11 +7,11 @@ import { ZodError } from "zod";
 export default class AddressService {
     static async create<T extends CreateAddressProps>(props: T): Promise<ResponseFormat<CreateAddressResponse<T>>> {
         try {
-            const { data, include, omit, select } = createAddressSchema.parse(props);
+            const { data, omit, select } = createAddressSchema.parse(props);
 
             const address = await PrismaInstance.address.create({
                 data,
-                ...(include && { include }),
+                
                 ...(omit && { omit }),
                 ...(select && { select }),
             });
@@ -33,13 +33,13 @@ export default class AddressService {
 
     static async upsert<T extends UpsertAddressProps>(props: T): Promise<ResponseFormat<UpsertAddressResponse<T>>> {
         try {
-            const { create, update, where, include, omit, select } = upsertAddressSchema.parse(props);
+            const { create, update, where, omit, select } = upsertAddressSchema.parse(props);
 
             const address = await PrismaInstance.address.upsert({
                 create,
                 update,
                 where,
-                ...(include && { include }),
+                
                 ...(omit && { omit }),
                 ...(select && { select }),
             });
@@ -61,12 +61,12 @@ export default class AddressService {
 
     static async update<T extends UpdateAddressProps>(props: T): Promise<ResponseFormat<UpdateAddressResponse<T>>> {
         try {
-            const { data, where, include, omit, select } = updateAddressSchema.parse(props);
+            const { data, where, omit, select } = updateAddressSchema.parse(props);
 
             const address = await PrismaInstance.address.update({
                 data,
                 where,
-                ...(include && { include }),
+                
                 ...(omit && { omit }),
                 ...(select && { select }),
             });
@@ -88,11 +88,11 @@ export default class AddressService {
 
     static async delete<T extends DeleteAddressProps>(props: T): Promise<ResponseFormat<DeleteAddressResponse<T>>> {
         try {
-            const { where, include, omit, select } = deleteAddressSchema.parse(props);
+            const { where, omit, select } = deleteAddressSchema.parse(props);
 
             const address = await PrismaInstance.address.delete({
                 where,
-                ...(include && { include }),
+                
                 ...(omit && { omit }),
                 ...(select && { select }),
             });
@@ -114,11 +114,11 @@ export default class AddressService {
 
     static async findUnique<T extends FindUniqueAddressProps>(props: T): Promise<ResponseFormat<FindUniqueAddressResponse<T>>> {
         try {
-            const { where, include, omit, select } = selectAddressSchema.parse(props);
+            const { where, omit, select } = selectAddressSchema.parse(props);
 
             const address = await PrismaInstance.address.findUnique({
                 where,
-                ...(include && { include }),
+                
                 ...(omit && { omit }),
                 ...(select && { select }),
             });
@@ -143,7 +143,7 @@ export default class AddressService {
             const {
                 cursor,
                 distinct,
-                include,
+                
                 omit,
                 orderBy,
                 select,
@@ -155,7 +155,7 @@ export default class AddressService {
             const addressList = await PrismaInstance.address.findMany({
                 ...(cursor && { cursor }),
                 ...(distinct && { distinct }),
-                ...(include && { include }),
+                
                 ...(omit && { omit }),
                 ...(orderBy && { orderBy }),
                 ...(select && { select }),

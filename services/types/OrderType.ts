@@ -1,15 +1,12 @@
 // ============== Types ============== //
 
-import { Prisma } from "@services/prisma";
-import { OrderCreateArgsSchema, OrderDeleteArgsSchema, OrderFindManyArgsSchema, OrderFindUniqueArgsSchema, OrderOrderByWithRelationInputSchema, OrderSchema, OrderUpdateArgsSchema, OrderUpsertArgsSchema, OrderWhereInputSchema, OrderWhereUniqueInputSchema, OrderWithRelationsSchema } from "@services/schemas";
-import OrderIncludeSchema from "@services/schemas/inputTypeSchemas/OrderIncludeSchema";
+import { Prisma } from "@prisma/client";
+import { OrderCreateArgsSchema, OrderDeleteArgsSchema, OrderFindManyArgsSchema, OrderFindUniqueArgsSchema, OrderOrderByWithRelationInputSchema, OrderSchema, OrderUpdateArgsSchema, OrderUpsertArgsSchema, OrderWhereInputSchema, OrderWhereUniqueInputSchema,  } from "@prisma/zod";
 import { z, ZodType } from "zod";
 
 // ============== Model Types ============== //
 
 export type OrderModel = z.infer<typeof OrderSchema>;
-export type OrderRelationsOptional = z.infer<typeof OrderSchema> & z.infer<typeof OrderIncludeSchema>;
-export type OrderRelationsComplete = z.infer<typeof OrderWithRelationsSchema>;
 export type OrderCount = number;
 
 // ============== Props Types ============== //

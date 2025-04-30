@@ -7,11 +7,11 @@ import { ZodError } from "zod";
 export default class DiyService {
     static async create<T extends CreateDiyProps>(props: T): Promise<ResponseFormat<CreateDiyResponse<T>>> {
         try {
-            const { data, include, omit, select } = createDiySchema.parse(props);
+            const { data, omit, select } = createDiySchema.parse(props);
 
             const diy = await PrismaInstance.diy.create({
                 data,
-                ...(include && { include }),
+                
                 ...(omit && { omit }),
                 ...(select && { select }),
             });
@@ -33,13 +33,13 @@ export default class DiyService {
 
     static async upsert<T extends UpsertDiyProps>(props: T): Promise<ResponseFormat<UpsertDiyResponse<T>>> {
         try {
-            const { create, update, where, include, omit, select } = upsertDiySchema.parse(props);
+            const { create, update, where, omit, select } = upsertDiySchema.parse(props);
 
             const diy = await PrismaInstance.diy.upsert({
                 create,
                 update,
                 where,
-                ...(include && { include }),
+                
                 ...(omit && { omit }),
                 ...(select && { select }),
             });
@@ -61,12 +61,12 @@ export default class DiyService {
 
     static async update<T extends UpdateDiyProps>(props: T): Promise<ResponseFormat<UpdateDiyResponse<T>>> {
         try {
-            const { data, where, include, omit, select } = updateDiySchema.parse(props);
+            const { data, where, omit, select } = updateDiySchema.parse(props);
 
             const diy = await PrismaInstance.diy.update({
                 data,
                 where,
-                ...(include && { include }),
+                
                 ...(omit && { omit }),
                 ...(select && { select }),
             });
@@ -88,11 +88,11 @@ export default class DiyService {
 
     static async delete<T extends DeleteDiyProps>(props: T): Promise<ResponseFormat<DeleteDiyResponse<T>>> {
         try {
-            const { where, include, omit, select } = deleteDiySchema.parse(props);
+            const { where, omit, select } = deleteDiySchema.parse(props);
 
             const diy = await PrismaInstance.diy.delete({
                 where,
-                ...(include && { include }),
+                
                 ...(omit && { omit }),
                 ...(select && { select }),
             });
@@ -114,11 +114,11 @@ export default class DiyService {
 
     static async findUnique<T extends FindUniqueDiyProps>(props: T): Promise<ResponseFormat<FindUniqueDiyResponse<T>>> {
         try {
-            const { where, include, omit, select } = selectDiySchema.parse(props);
+            const { where, omit, select } = selectDiySchema.parse(props);
 
             const diy = await PrismaInstance.diy.findUnique({
                 where,
-                ...(include && { include }),
+                
                 ...(omit && { omit }),
                 ...(select && { select }),
             });
@@ -143,7 +143,7 @@ export default class DiyService {
             const {
                 cursor,
                 distinct,
-                include,
+                
                 omit,
                 orderBy,
                 select,
@@ -155,7 +155,7 @@ export default class DiyService {
             const diyList = await PrismaInstance.diy.findMany({
                 ...(cursor && { cursor }),
                 ...(distinct && { distinct }),
-                ...(include && { include }),
+                
                 ...(omit && { omit }),
                 ...(orderBy && { orderBy }),
                 ...(select && { select }),

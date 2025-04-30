@@ -1,15 +1,12 @@
 // ============== Types ============== //
 
-import { Prisma } from "@services/prisma";
-import { QuantityCreateArgsSchema, QuantityDeleteArgsSchema, QuantityFindManyArgsSchema, QuantityFindUniqueArgsSchema, QuantityOrderByWithRelationInputSchema, QuantitySchema, QuantityUpdateArgsSchema, QuantityUpsertArgsSchema, QuantityWhereInputSchema, QuantityWhereUniqueInputSchema, QuantityWithRelationsSchema } from "@services/schemas";
-import QuantityIncludeSchema from "@services/schemas/inputTypeSchemas/QuantityIncludeSchema";
+import { Prisma } from "@prisma/client";
+import { QuantityCreateArgsSchema, QuantityDeleteArgsSchema, QuantityFindManyArgsSchema, QuantityFindUniqueArgsSchema, QuantityOrderByWithRelationInputSchema, QuantitySchema, QuantityUpdateArgsSchema, QuantityUpsertArgsSchema, QuantityWhereInputSchema, QuantityWhereUniqueInputSchema,  } from "@prisma/zod";
 import { z, ZodType } from "zod";
 
 // ============== Model Types ============== //
 
 export type QuantityModel = z.infer<typeof QuantitySchema>;
-export type QuantityRelationsOptional = z.infer<typeof QuantitySchema> & z.infer<typeof QuantityIncludeSchema>;
-export type QuantityRelationsComplete = z.infer<typeof QuantityWithRelationsSchema>;
 export type QuantityCount = number;
 
 // ============== Props Types ============== //

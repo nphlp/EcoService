@@ -9,7 +9,7 @@ import { SearchKeywords } from "@comps/header/header";
 import { useHeaderStore } from "@comps/header/headerStore";
 import ImageRatio from "@comps/server/imageRatio";
 import { combo } from "@lib/combo";
-import { Category } from "@services/prisma";
+import { Category } from "@prisma/client";
 import { motion } from "framer-motion";
 import { CircleChevronRight } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";

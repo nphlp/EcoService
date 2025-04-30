@@ -1,15 +1,12 @@
 // ============== Types ============== //
 
-import { Prisma } from "@services/prisma";
-import { CategoryCreateArgsSchema, CategoryDeleteArgsSchema, CategoryFindManyArgsSchema, CategoryFindUniqueArgsSchema, CategoryOrderByWithRelationInputSchema, CategorySchema, CategoryUpdateArgsSchema, CategoryUpsertArgsSchema, CategoryWhereInputSchema, CategoryWhereUniqueInputSchema, CategoryWithRelationsSchema } from "@services/schemas";
-import CategoryIncludeSchema from "@services/schemas/inputTypeSchemas/CategoryIncludeSchema";
+import { Prisma } from "@prisma/client";
+import { CategoryCreateArgsSchema, CategoryDeleteArgsSchema, CategoryFindManyArgsSchema, CategoryFindUniqueArgsSchema, CategoryOrderByWithRelationInputSchema, CategorySchema, CategoryUpdateArgsSchema, CategoryUpsertArgsSchema, CategoryWhereInputSchema, CategoryWhereUniqueInputSchema,  } from "@prisma/zod";
 import { z, ZodType } from "zod";
 
 // ============== Model Types ============== //
 
 export type CategoryModel = z.infer<typeof CategorySchema>;
-export type CategoryRelationsOptional = z.infer<typeof CategorySchema> & z.infer<typeof CategoryIncludeSchema>;
-export type CategoryRelationsComplete = z.infer<typeof CategoryWithRelationsSchema>;
 export type CategoryCount = number;
 
 // ============== Props Types ============== //

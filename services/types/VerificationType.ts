@@ -1,7 +1,7 @@
 // ============== Types ============== //
 
-import { Prisma } from "@services/prisma";
-import { VerificationCreateArgsSchema, VerificationDeleteArgsSchema, VerificationFindManyArgsSchema, VerificationFindUniqueArgsSchema, VerificationOrderByWithRelationInputSchema, VerificationSchema, VerificationUpdateArgsSchema, VerificationUpsertArgsSchema, VerificationWhereInputSchema, VerificationWhereUniqueInputSchema,  } from "@services/schemas";
+import { Prisma } from "@prisma/client";
+import { VerificationCreateArgsSchema, VerificationDeleteArgsSchema, VerificationFindManyArgsSchema, VerificationFindUniqueArgsSchema, VerificationOrderByWithRelationInputSchema, VerificationSchema, VerificationUpdateArgsSchema, VerificationUpsertArgsSchema, VerificationWhereInputSchema, VerificationWhereUniqueInputSchema,  } from "@prisma/zod";
 import { z, ZodType } from "zod";
 
 // ============== Model Types ============== //

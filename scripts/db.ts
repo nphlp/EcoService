@@ -113,10 +113,10 @@ async function executeSqlFile(password: string, filename: string): Promise<boole
     });
 }
 
-async function executeMultipleFiles(files: string[]): Promise<boolean> {
+async function executeMultipleFiles(files: string[], passwordArg?: string): Promise<boolean> {
     if (files.length === 0) return true;
 
-    const password = await question("🔑 Mot de passe MySQL : ");
+    const password = passwordArg || (await question("🔑 Mot de passe MySQL : "));
 
     // Si nous sommes en train de faire un reload (reset.sql + setup.sql)
     if (files.includes("reset.sql") && files.includes("setup.sql")) {
@@ -160,20 +160,21 @@ async function executeMultipleFiles(files: string[]): Promise<boolean> {
 async function main() {
     try {
         const sqlFile = process.argv[2];
+        const passwordArg = process.argv[3];
         if (!sqlFile) {
             console.log("❌ Veuillez spécifier un fichier SQL");
             return; // Ne pas quitter avec un code d'erreur
         }
 
         if (sqlFile === "reload") {
-            const success = await executeMultipleFiles(["reset.sql", "setup.sql"]);
+            const success = await executeMultipleFiles(["reset.sql", "setup.sql"], passwordArg);
             if (success) {
                 console.log("✅ Base de données rechargée");
             }
             return; // Toujours quitter avec succès
         }
 
-        const password = await question("🔑 Mot de passe MySQL : ");
+        const password = passwordArg || (await question("🔑 Mot de passe MySQL : "));
         const success = await executeSqlFile(password, sqlFile);
 
         if (success) {

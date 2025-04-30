@@ -7,11 +7,11 @@ import { ZodError } from "zod";
 export default class QuantityService {
     static async create<T extends CreateQuantityProps>(props: T): Promise<ResponseFormat<CreateQuantityResponse<T>>> {
         try {
-            const { data, include, omit, select } = createQuantitySchema.parse(props);
+            const { data, omit, select } = createQuantitySchema.parse(props);
 
             const quantity = await PrismaInstance.quantity.create({
                 data,
-                ...(include && { include }),
+                
                 ...(omit && { omit }),
                 ...(select && { select }),
             });
@@ -33,13 +33,13 @@ export default class QuantityService {
 
     static async upsert<T extends UpsertQuantityProps>(props: T): Promise<ResponseFormat<UpsertQuantityResponse<T>>> {
         try {
-            const { create, update, where, include, omit, select } = upsertQuantitySchema.parse(props);
+            const { create, update, where, omit, select } = upsertQuantitySchema.parse(props);
 
             const quantity = await PrismaInstance.quantity.upsert({
                 create,
                 update,
                 where,
-                ...(include && { include }),
+                
                 ...(omit && { omit }),
                 ...(select && { select }),
             });
@@ -61,12 +61,12 @@ export default class QuantityService {
 
     static async update<T extends UpdateQuantityProps>(props: T): Promise<ResponseFormat<UpdateQuantityResponse<T>>> {
         try {
-            const { data, where, include, omit, select } = updateQuantitySchema.parse(props);
+            const { data, where, omit, select } = updateQuantitySchema.parse(props);
 
             const quantity = await PrismaInstance.quantity.update({
                 data,
                 where,
-                ...(include && { include }),
+                
                 ...(omit && { omit }),
                 ...(select && { select }),
             });
@@ -88,11 +88,11 @@ export default class QuantityService {
 
     static async delete<T extends DeleteQuantityProps>(props: T): Promise<ResponseFormat<DeleteQuantityResponse<T>>> {
         try {
-            const { where, include, omit, select } = deleteQuantitySchema.parse(props);
+            const { where, omit, select } = deleteQuantitySchema.parse(props);
 
             const quantity = await PrismaInstance.quantity.delete({
                 where,
-                ...(include && { include }),
+                
                 ...(omit && { omit }),
                 ...(select && { select }),
             });
@@ -114,11 +114,11 @@ export default class QuantityService {
 
     static async findUnique<T extends FindUniqueQuantityProps>(props: T): Promise<ResponseFormat<FindUniqueQuantityResponse<T>>> {
         try {
-            const { where, include, omit, select } = selectQuantitySchema.parse(props);
+            const { where, omit, select } = selectQuantitySchema.parse(props);
 
             const quantity = await PrismaInstance.quantity.findUnique({
                 where,
-                ...(include && { include }),
+                
                 ...(omit && { omit }),
                 ...(select && { select }),
             });
@@ -143,7 +143,7 @@ export default class QuantityService {
             const {
                 cursor,
                 distinct,
-                include,
+                
                 omit,
                 orderBy,
                 select,
@@ -155,7 +155,7 @@ export default class QuantityService {
             const quantityList = await PrismaInstance.quantity.findMany({
                 ...(cursor && { cursor }),
                 ...(distinct && { distinct }),
-                ...(include && { include }),
+                
                 ...(omit && { omit }),
                 ...(orderBy && { orderBy }),
                 ...(select && { select }),

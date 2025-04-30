@@ -7,11 +7,11 @@ import { ZodError } from "zod";
 export default class ArticleService {
     static async create<T extends CreateArticleProps>(props: T): Promise<ResponseFormat<CreateArticleResponse<T>>> {
         try {
-            const { data, include, omit, select } = createArticleSchema.parse(props);
+            const { data, omit, select } = createArticleSchema.parse(props);
 
             const article = await PrismaInstance.article.create({
                 data,
-                ...(include && { include }),
+                
                 ...(omit && { omit }),
                 ...(select && { select }),
             });
@@ -33,13 +33,13 @@ export default class ArticleService {
 
     static async upsert<T extends UpsertArticleProps>(props: T): Promise<ResponseFormat<UpsertArticleResponse<T>>> {
         try {
-            const { create, update, where, include, omit, select } = upsertArticleSchema.parse(props);
+            const { create, update, where, omit, select } = upsertArticleSchema.parse(props);
 
             const article = await PrismaInstance.article.upsert({
                 create,
                 update,
                 where,
-                ...(include && { include }),
+                
                 ...(omit && { omit }),
                 ...(select && { select }),
             });
@@ -61,12 +61,12 @@ export default class ArticleService {
 
     static async update<T extends UpdateArticleProps>(props: T): Promise<ResponseFormat<UpdateArticleResponse<T>>> {
         try {
-            const { data, where, include, omit, select } = updateArticleSchema.parse(props);
+            const { data, where, omit, select } = updateArticleSchema.parse(props);
 
             const article = await PrismaInstance.article.update({
                 data,
                 where,
-                ...(include && { include }),
+                
                 ...(omit && { omit }),
                 ...(select && { select }),
             });
@@ -88,11 +88,11 @@ export default class ArticleService {
 
     static async delete<T extends DeleteArticleProps>(props: T): Promise<ResponseFormat<DeleteArticleResponse<T>>> {
         try {
-            const { where, include, omit, select } = deleteArticleSchema.parse(props);
+            const { where, omit, select } = deleteArticleSchema.parse(props);
 
             const article = await PrismaInstance.article.delete({
                 where,
-                ...(include && { include }),
+                
                 ...(omit && { omit }),
                 ...(select && { select }),
             });
@@ -114,11 +114,11 @@ export default class ArticleService {
 
     static async findUnique<T extends FindUniqueArticleProps>(props: T): Promise<ResponseFormat<FindUniqueArticleResponse<T>>> {
         try {
-            const { where, include, omit, select } = selectArticleSchema.parse(props);
+            const { where, omit, select } = selectArticleSchema.parse(props);
 
             const article = await PrismaInstance.article.findUnique({
                 where,
-                ...(include && { include }),
+                
                 ...(omit && { omit }),
                 ...(select && { select }),
             });
@@ -143,7 +143,7 @@ export default class ArticleService {
             const {
                 cursor,
                 distinct,
-                include,
+                
                 omit,
                 orderBy,
                 select,
@@ -155,7 +155,7 @@ export default class ArticleService {
             const articleList = await PrismaInstance.article.findMany({
                 ...(cursor && { cursor }),
                 ...(distinct && { distinct }),
-                ...(include && { include }),
+                
                 ...(omit && { omit }),
                 ...(orderBy && { orderBy }),
                 ...(select && { select }),

@@ -7,11 +7,11 @@ import { ZodError } from "zod";
 export default class OrderService {
     static async create<T extends CreateOrderProps>(props: T): Promise<ResponseFormat<CreateOrderResponse<T>>> {
         try {
-            const { data, include, omit, select } = createOrderSchema.parse(props);
+            const { data, omit, select } = createOrderSchema.parse(props);
 
             const order = await PrismaInstance.order.create({
                 data,
-                ...(include && { include }),
+                
                 ...(omit && { omit }),
                 ...(select && { select }),
             });
@@ -33,13 +33,13 @@ export default class OrderService {
 
     static async upsert<T extends UpsertOrderProps>(props: T): Promise<ResponseFormat<UpsertOrderResponse<T>>> {
         try {
-            const { create, update, where, include, omit, select } = upsertOrderSchema.parse(props);
+            const { create, update, where, omit, select } = upsertOrderSchema.parse(props);
 
             const order = await PrismaInstance.order.upsert({
                 create,
                 update,
                 where,
-                ...(include && { include }),
+                
                 ...(omit && { omit }),
                 ...(select && { select }),
             });
@@ -61,12 +61,12 @@ export default class OrderService {
 
     static async update<T extends UpdateOrderProps>(props: T): Promise<ResponseFormat<UpdateOrderResponse<T>>> {
         try {
-            const { data, where, include, omit, select } = updateOrderSchema.parse(props);
+            const { data, where, omit, select } = updateOrderSchema.parse(props);
 
             const order = await PrismaInstance.order.update({
                 data,
                 where,
-                ...(include && { include }),
+                
                 ...(omit && { omit }),
                 ...(select && { select }),
             });
@@ -88,11 +88,11 @@ export default class OrderService {
 
     static async delete<T extends DeleteOrderProps>(props: T): Promise<ResponseFormat<DeleteOrderResponse<T>>> {
         try {
-            const { where, include, omit, select } = deleteOrderSchema.parse(props);
+            const { where, omit, select } = deleteOrderSchema.parse(props);
 
             const order = await PrismaInstance.order.delete({
                 where,
-                ...(include && { include }),
+                
                 ...(omit && { omit }),
                 ...(select && { select }),
             });
@@ -114,11 +114,11 @@ export default class OrderService {
 
     static async findUnique<T extends FindUniqueOrderProps>(props: T): Promise<ResponseFormat<FindUniqueOrderResponse<T>>> {
         try {
-            const { where, include, omit, select } = selectOrderSchema.parse(props);
+            const { where, omit, select } = selectOrderSchema.parse(props);
 
             const order = await PrismaInstance.order.findUnique({
                 where,
-                ...(include && { include }),
+                
                 ...(omit && { omit }),
                 ...(select && { select }),
             });
@@ -143,7 +143,7 @@ export default class OrderService {
             const {
                 cursor,
                 distinct,
-                include,
+                
                 omit,
                 orderBy,
                 select,
@@ -155,7 +155,7 @@ export default class OrderService {
             const orderList = await PrismaInstance.order.findMany({
                 ...(cursor && { cursor }),
                 ...(distinct && { distinct }),
-                ...(include && { include }),
+                
                 ...(omit && { omit }),
                 ...(orderBy && { orderBy }),
                 ...(select && { select }),

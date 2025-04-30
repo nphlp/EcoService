@@ -1,15 +1,12 @@
 // ============== Types ============== //
 
-import { Prisma } from "@services/prisma";
-import { SessionCreateArgsSchema, SessionDeleteArgsSchema, SessionFindManyArgsSchema, SessionFindUniqueArgsSchema, SessionOrderByWithRelationInputSchema, SessionSchema, SessionUpdateArgsSchema, SessionUpsertArgsSchema, SessionWhereInputSchema, SessionWhereUniqueInputSchema, SessionWithRelationsSchema } from "@services/schemas";
-import SessionIncludeSchema from "@services/schemas/inputTypeSchemas/SessionIncludeSchema";
+import { Prisma } from "@prisma/client";
+import { SessionCreateArgsSchema, SessionDeleteArgsSchema, SessionFindManyArgsSchema, SessionFindUniqueArgsSchema, SessionOrderByWithRelationInputSchema, SessionSchema, SessionUpdateArgsSchema, SessionUpsertArgsSchema, SessionWhereInputSchema, SessionWhereUniqueInputSchema,  } from "@prisma/zod";
 import { z, ZodType } from "zod";
 
 // ============== Model Types ============== //
 
 export type SessionModel = z.infer<typeof SessionSchema>;
-export type SessionRelationsOptional = z.infer<typeof SessionSchema> & z.infer<typeof SessionIncludeSchema>;
-export type SessionRelationsComplete = z.infer<typeof SessionWithRelationsSchema>;
 export type SessionCount = number;
 
 // ============== Props Types ============== //

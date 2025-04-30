@@ -7,11 +7,11 @@ import { ZodError } from "zod";
 export default class ContentService {
     static async create<T extends CreateContentProps>(props: T): Promise<ResponseFormat<CreateContentResponse<T>>> {
         try {
-            const { data, include, omit, select } = createContentSchema.parse(props);
+            const { data, omit, select } = createContentSchema.parse(props);
 
             const content = await PrismaInstance.content.create({
                 data,
-                ...(include && { include }),
+                
                 ...(omit && { omit }),
                 ...(select && { select }),
             });
@@ -33,13 +33,13 @@ export default class ContentService {
 
     static async upsert<T extends UpsertContentProps>(props: T): Promise<ResponseFormat<UpsertContentResponse<T>>> {
         try {
-            const { create, update, where, include, omit, select } = upsertContentSchema.parse(props);
+            const { create, update, where, omit, select } = upsertContentSchema.parse(props);
 
             const content = await PrismaInstance.content.upsert({
                 create,
                 update,
                 where,
-                ...(include && { include }),
+                
                 ...(omit && { omit }),
                 ...(select && { select }),
             });
@@ -61,12 +61,12 @@ export default class ContentService {
 
     static async update<T extends UpdateContentProps>(props: T): Promise<ResponseFormat<UpdateContentResponse<T>>> {
         try {
-            const { data, where, include, omit, select } = updateContentSchema.parse(props);
+            const { data, where, omit, select } = updateContentSchema.parse(props);
 
             const content = await PrismaInstance.content.update({
                 data,
                 where,
-                ...(include && { include }),
+                
                 ...(omit && { omit }),
                 ...(select && { select }),
             });
@@ -88,11 +88,11 @@ export default class ContentService {
 
     static async delete<T extends DeleteContentProps>(props: T): Promise<ResponseFormat<DeleteContentResponse<T>>> {
         try {
-            const { where, include, omit, select } = deleteContentSchema.parse(props);
+            const { where, omit, select } = deleteContentSchema.parse(props);
 
             const content = await PrismaInstance.content.delete({
                 where,
-                ...(include && { include }),
+                
                 ...(omit && { omit }),
                 ...(select && { select }),
             });
@@ -114,11 +114,11 @@ export default class ContentService {
 
     static async findUnique<T extends FindUniqueContentProps>(props: T): Promise<ResponseFormat<FindUniqueContentResponse<T>>> {
         try {
-            const { where, include, omit, select } = selectContentSchema.parse(props);
+            const { where, omit, select } = selectContentSchema.parse(props);
 
             const content = await PrismaInstance.content.findUnique({
                 where,
-                ...(include && { include }),
+                
                 ...(omit && { omit }),
                 ...(select && { select }),
             });
@@ -143,7 +143,7 @@ export default class ContentService {
             const {
                 cursor,
                 distinct,
-                include,
+                
                 omit,
                 orderBy,
                 select,
@@ -155,7 +155,7 @@ export default class ContentService {
             const contentList = await PrismaInstance.content.findMany({
                 ...(cursor && { cursor }),
                 ...(distinct && { distinct }),
-                ...(include && { include }),
+                
                 ...(omit && { omit }),
                 ...(orderBy && { orderBy }),
                 ...(select && { select }),

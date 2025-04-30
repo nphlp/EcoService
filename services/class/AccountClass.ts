@@ -7,11 +7,11 @@ import { ZodError } from "zod";
 export default class AccountService {
     static async create<T extends CreateAccountProps>(props: T): Promise<ResponseFormat<CreateAccountResponse<T>>> {
         try {
-            const { data, include, omit, select } = createAccountSchema.parse(props);
+            const { data, omit, select } = createAccountSchema.parse(props);
 
             const account = await PrismaInstance.account.create({
                 data,
-                ...(include && { include }),
+                
                 ...(omit && { omit }),
                 ...(select && { select }),
             });
@@ -33,13 +33,13 @@ export default class AccountService {
 
     static async upsert<T extends UpsertAccountProps>(props: T): Promise<ResponseFormat<UpsertAccountResponse<T>>> {
         try {
-            const { create, update, where, include, omit, select } = upsertAccountSchema.parse(props);
+            const { create, update, where, omit, select } = upsertAccountSchema.parse(props);
 
             const account = await PrismaInstance.account.upsert({
                 create,
                 update,
                 where,
-                ...(include && { include }),
+                
                 ...(omit && { omit }),
                 ...(select && { select }),
             });
@@ -61,12 +61,12 @@ export default class AccountService {
 
     static async update<T extends UpdateAccountProps>(props: T): Promise<ResponseFormat<UpdateAccountResponse<T>>> {
         try {
-            const { data, where, include, omit, select } = updateAccountSchema.parse(props);
+            const { data, where, omit, select } = updateAccountSchema.parse(props);
 
             const account = await PrismaInstance.account.update({
                 data,
                 where,
-                ...(include && { include }),
+                
                 ...(omit && { omit }),
                 ...(select && { select }),
             });
@@ -88,11 +88,11 @@ export default class AccountService {
 
     static async delete<T extends DeleteAccountProps>(props: T): Promise<ResponseFormat<DeleteAccountResponse<T>>> {
         try {
-            const { where, include, omit, select } = deleteAccountSchema.parse(props);
+            const { where, omit, select } = deleteAccountSchema.parse(props);
 
             const account = await PrismaInstance.account.delete({
                 where,
-                ...(include && { include }),
+                
                 ...(omit && { omit }),
                 ...(select && { select }),
             });
@@ -114,11 +114,11 @@ export default class AccountService {
 
     static async findUnique<T extends FindUniqueAccountProps>(props: T): Promise<ResponseFormat<FindUniqueAccountResponse<T>>> {
         try {
-            const { where, include, omit, select } = selectAccountSchema.parse(props);
+            const { where, omit, select } = selectAccountSchema.parse(props);
 
             const account = await PrismaInstance.account.findUnique({
                 where,
-                ...(include && { include }),
+                
                 ...(omit && { omit }),
                 ...(select && { select }),
             });
@@ -143,7 +143,7 @@ export default class AccountService {
             const {
                 cursor,
                 distinct,
-                include,
+                
                 omit,
                 orderBy,
                 select,
@@ -155,7 +155,7 @@ export default class AccountService {
             const accountList = await PrismaInstance.account.findMany({
                 ...(cursor && { cursor }),
                 ...(distinct && { distinct }),
-                ...(include && { include }),
+                
                 ...(omit && { omit }),
                 ...(orderBy && { orderBy }),
                 ...(select && { select }),

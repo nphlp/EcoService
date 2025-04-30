@@ -42,8 +42,6 @@ next-env.d.ts
 # vscode
 .vscode
 
-# zod
-services/schemas
-
 # prisma
-services/prisma
+prisma/client
+prisma/zod

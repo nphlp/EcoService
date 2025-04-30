@@ -1,15 +1,12 @@
 // ============== Types ============== //
 
-import { Prisma } from "@services/prisma";
-import { ProductCreateArgsSchema, ProductDeleteArgsSchema, ProductFindManyArgsSchema, ProductFindUniqueArgsSchema, ProductOrderByWithRelationInputSchema, ProductSchema, ProductUpdateArgsSchema, ProductUpsertArgsSchema, ProductWhereInputSchema, ProductWhereUniqueInputSchema, ProductWithRelationsSchema } from "@services/schemas";
-import ProductIncludeSchema from "@services/schemas/inputTypeSchemas/ProductIncludeSchema";
+import { Prisma } from "@prisma/client";
+import { ProductCreateArgsSchema, ProductDeleteArgsSchema, ProductFindManyArgsSchema, ProductFindUniqueArgsSchema, ProductOrderByWithRelationInputSchema, ProductSchema, ProductUpdateArgsSchema, ProductUpsertArgsSchema, ProductWhereInputSchema, ProductWhereUniqueInputSchema,  } from "@prisma/zod";
 import { z, ZodType } from "zod";
 
 // ============== Model Types ============== //
 
 export type ProductModel = z.infer<typeof ProductSchema>;
-export type ProductRelationsOptional = z.infer<typeof ProductSchema> & z.infer<typeof ProductIncludeSchema>;
-export type ProductRelationsComplete = z.infer<typeof ProductWithRelationsSchema>;
 export type ProductCount = number;
 
 // ============== Props Types ============== //
