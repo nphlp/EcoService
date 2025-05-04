@@ -1,10 +1,10 @@
-"use client";
-
 import { StripeProductsResponse } from "@app/api/stripe/products/route";
 import ImageRatio from "@comps/server/imageRatio";
 import Link from "@comps/ui/link";
 import { combo } from "@lib/combo";
 import Stripe from "stripe";
+
+const env = process.env.NODE_ENV;
 
 // TODO: make utils function
 function getImageUrl(imageUrl: string) {
@@ -25,14 +25,7 @@ export default function ProductDisplay(props: ProductDisplayProps) {
     return (
         <div className="grid grid-cols-1 gap-8 p-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {stripeProductList.map((product, index) => (
-                <Link
-                    key={index}
-                    label={product.name}
-                    baseStyleOnly={["rounded"]}
-                    href={`https://dashboard.stripe.com/test/products/${product.id}`}
-                    className="group relative"
-                    target="_blank"
-                >
+                <div key={index} className="group relative">
                     <div className="w-full overflow-hidden rounded-lg">
                         <ImageRatio src={getImageUrl(product.images[0])} alt={product.name} />
                     </div>
@@ -40,11 +33,26 @@ export default function ProductDisplay(props: ProductDisplayProps) {
                         className={combo(
                             "opacity-0 transition-opacity duration-300 group-hover:opacity-100",
                             "absolute top-0 size-full",
-                            "flex items-center justify-center rounded-lg",
+                            "flex flex-col items-center justify-center gap-2 rounded-lg",
                             "bg-black/50 text-xl font-medium text-gray-100",
                         )}
                     >
-                        Voir sur Stripe
+                        <Link
+                            label={product.name}
+                            variant="outline"
+                            className="text-sm"
+                            href={`https://dashboard.stripe.com/${env === "production" ? "" : "test"}/products/${product.id}`}
+                            target="_blank"
+                        >
+                            Voir sur Stripe
+                        </Link>
+                        <Link
+                            label={product.name}
+                            className="border border-gray-600 text-sm"
+                            href={`/dashboard/edit-product/${product.id}`}
+                        >
+                            Éditer
+                        </Link>
                     </div>
                     <div
                         className={combo(
@@ -58,7 +66,7 @@ export default function ProductDisplay(props: ProductDisplayProps) {
                             {(((product.default_price as Stripe.Price).unit_amount as number) / 100).toFixed(2)}€
                         </div>
                     </div>
-                </Link>
+                </div>
             ))}
         </div>
     );

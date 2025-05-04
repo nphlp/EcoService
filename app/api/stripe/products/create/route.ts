@@ -1,5 +1,5 @@
 import { StripeInstance } from "@lib/stripe";
-import { ResponseFormat } from "@utils/FetchConfig";
+import { parseAndDecodeParams, ResponseFormat } from "@utils/FetchConfig";
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 import { z, ZodError, ZodType } from "zod";
@@ -32,12 +32,8 @@ export type CreateStripeProductResponse = Stripe.Product;
 
 export async function POST(request: NextRequest): Promise<NextResponse<ResponseFormat<CreateStripeProductResponse>>> {
     try {
-        // Get the params and decode them
-        const encodedParams = request.nextUrl.searchParams.get("params") ?? "{}";
-        const stringParams = decodeURIComponent(encodedParams);
-
         // Parse the params
-        const params: CreateStripeProductProps = JSON.parse(stringParams);
+        const params: CreateStripeProductProps = parseAndDecodeParams(request);
 
         // Validate and extract the params
         const { name, description, price, currency, categoryId, categoryName, productId, vendorId, imageUrl } =

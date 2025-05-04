@@ -1,6 +1,4 @@
-import { Routes as ExternalRoutes } from "@app/api/external/Routes";
-import { Routes as StripeRoutes } from "@app/api/stripe/Routes";
-import { ResponseFormat } from "@utils/FetchConfig";
+import { ResponseFormat, RoutesList } from "@utils/FetchConfig";
 
 const NEXT_PUBLIC_BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
@@ -8,7 +6,7 @@ if (!NEXT_PUBLIC_BASE_URL) {
     throw new Error("NEXT_PUBLIC_BASE_URL environment variable is not defined");
 }
 
-export type Routes = ExternalRoutes & StripeRoutes;
+export type Routes = RoutesList;
 
 export type Route = keyof Routes;
 

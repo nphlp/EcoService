@@ -1,11 +1,10 @@
 import { StripeFileUploadBody, StripeFileUploadResponse } from "./file/upload/route";
 import { CreateStripeProductProps, CreateStripeProductResponse } from "./products/create/route";
 import { StripeProductsResponse } from "./products/route";
+import { StripeSelectProductProps, StripeSelectProductResponse } from "./products/select/route";
 import { StripeWebhookResponse } from "./webhooks/route";
 
 export type Routes = {
-    // ========== Stripe routes ========== //
-
     // "/stripe/checkout": {
     //     method: "POST";
     //     params: SelectProductListProps;
@@ -24,14 +23,7 @@ export type Routes = {
     //     response: SelectProductListResponse;
     // };
 
-    // "/stripe/products/{id}": {
-    //     method: "GET" | "POST";
-    //     params: SelectProductProps;
-    //     response: SelectProductResponse;
-    // };
-
     "/stripe/file/upload": {
-        // OK
         method: "POST";
         params: undefined;
         body: StripeFileUploadBody;
@@ -39,25 +31,26 @@ export type Routes = {
     };
 
     "/stripe/products": {
-        // OK
         method: "GET";
         params: undefined;
         response: StripeProductsResponse;
     };
 
     "/stripe/products/create": {
-        // OK
         method: "POST";
         params: CreateStripeProductProps;
         response: CreateStripeProductResponse;
     };
 
+    "/stripe/products/select": {
+        method: "GET";
+        params: StripeSelectProductProps;
+        response: StripeSelectProductResponse;
+    };
+
     "/stripe/webhooks": {
-        // OK
         method: "POST";
         params: undefined;
         response: StripeWebhookResponse;
     };
-
-    // ========== Stripe routes ========== //
 };
