@@ -62,9 +62,12 @@ export const CreateStripeProductProcess = async (
                 },
             },
         });
+
         if (!categoryExists) {
             return { message: "Category does not exist", status: false };
         }
+
+        console.log("All good");
 
         // Check if product already exists in Stripe
         // const existingProductInStripe = await Fetch({ route: "/stripe/products/{name}", params: { name: product.name } });
