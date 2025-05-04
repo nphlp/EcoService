@@ -49,7 +49,7 @@ const BasketProductItem = (props: BasketProductProps) => {
                 </div>
                 <div className="flex flex-row items-baseline gap-2">
                     <div className="text-xxs text-gray-500">TTC</div>
-                    <div className="text-lg font-semibold">{totalPrice} €</div>
+                    <div className="text-lg font-semibold text-gray-800">{totalPrice} €</div>
                 </div>
             </div>
         </div>
