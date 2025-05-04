@@ -1,13 +1,12 @@
 "use server";
 
-import { CreateProduct } from "@actions/ProductAction";
 import { isVendorOrEmployeeOrAdmin } from "@lib/checkRole";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { Fetch } from "@utils/Fetch/Fetch";
 import { FetchV2 } from "@utils/FetchV2/FetchV2";
 import { strictObject, z, ZodError, ZodType } from "zod";
 
-export type AddProductToDatabaseAndStripeProps = {
+export type AddProductToStripeProcessProps = {
     name: string;
     description: string;
     price: string;
@@ -15,7 +14,7 @@ export type AddProductToDatabaseAndStripeProps = {
     image: File;
 };
 
-const addProductToDatabaseAndStripeSchema: ZodType<AddProductToDatabaseAndStripeProps> = strictObject({
+const addProductToStripeProcessSchema: ZodType<AddProductToStripeProcessProps> = strictObject({
     name: z.string(),
     description: z.string(),
     price: z.string(),
@@ -23,26 +22,26 @@ const addProductToDatabaseAndStripeSchema: ZodType<AddProductToDatabaseAndStripe
     image: z.instanceof(File),
 });
 
-export type AddProductToDatabaseAndStripeResponse = {
+export type AddProductToStripeProcessResponse = {
     status: boolean;
     message: string;
 };
 
-export const AddProductToDatabaseAndStripeProcess = async (
-    props: AddProductToDatabaseAndStripeProps,
-): Promise<AddProductToDatabaseAndStripeResponse> => {
+export const AddProductToStripeProcess = async (
+    props: AddProductToStripeProcessProps,
+): Promise<AddProductToStripeProcessResponse> => {
     try {
-        // Validate product type with zod
-        const { name, description, price, categoryId, image } = addProductToDatabaseAndStripeSchema.parse(props);
+        // Validate params
+        const { name, description, price, categoryId, image } = addProductToStripeProcessSchema.parse(props);
 
-        // Is user authorized to create a product ?
+        // Authorization
         const session = await isVendorOrEmployeeOrAdmin();
 
         if (!session) {
             return { message: "Unauthorized", status: false };
         }
 
-        // Check if product already exists in DB (this route does not exist yet)
+        // Product already exists ?
         const existingProductInDatabase = await FetchV2({
             route: "/product/unique",
             params: {
@@ -54,7 +53,7 @@ export const AddProductToDatabaseAndStripeProcess = async (
             return { message: "Product already exists", status: false };
         }
 
-        // Check if category exists in DB
+        // Category exists ?
         const categoryExists = await FetchV2({
             route: "/category/unique",
             params: {
@@ -68,9 +67,14 @@ export const AddProductToDatabaseAndStripeProcess = async (
             return { message: "Category does not exist", status: false };
         }
 
-        // Check if product already exists in Stripe
-        // const existingProductInStripe = await Fetch({ route: "/stripe/products/{name}", params: { name: product.name } });
+        // Product already exists in Stripe ?
+        const existingProductInStripe = await Fetch({ route: "/stripe/products/search", params: { name } });
 
+        if (existingProductInStripe.length > 0) {
+            return { message: "Product already exists in Stripe", status: false };
+        }
+
+        // Upload image to Stripe
         const imageUrlOnStripe = await Fetch({
             route: "/stripe/file/upload",
             method: "POST",
@@ -84,27 +88,9 @@ export const AddProductToDatabaseAndStripeProcess = async (
             return { message: "Failed to upload image to Stripe.", status: false };
         }
 
-        // Create product in database first
-        const createdProductInDatabase = await CreateProduct({
-            data: {
-                name,
-                description,
-                price: parseFloat(price),
-                categoryId,
-                vendorId: session.user.id,
-                image: imageUrlOnStripe,
-                stock: 0,
-            },
-        });
-
-        if (!createdProductInDatabase) {
-            return { message: "Failed to create product in database.", status: false };
-        }
-
         // Create product in Stripe
         const createProductInStripe = await Fetch({
             route: "/stripe/products/create",
-            method: "POST",
             params: {
                 name,
                 description,
@@ -112,25 +98,46 @@ export const AddProductToDatabaseAndStripeProcess = async (
                 currency: "eur",
                 categoryId,
                 categoryName: categoryExists.name,
-                productId: createdProductInDatabase.id,
                 vendorId: session.user.id,
                 imageUrl: imageUrlOnStripe,
             },
         });
 
         if (!createProductInStripe) {
-            // TODO: check this condition
-            return {
-                message:
-                    "Failed to create product in Stripe, but product was created in database successfully. Please contact support.",
-                status: false,
-            };
+            return { message: "Failed to create product in Stripe", status: false };
+        }
+
+        // Create price in Stripe
+        const createPriceInStripe = await Fetch({
+            route: "/stripe/prices/create",
+            params: {
+                productId: createProductInStripe.id,
+                amountInCents: parseFloat(price) * 100,
+                currency: "eur",
+            },
+        });
+
+        if (!createPriceInStripe) {
+            return { message: "Failed to create price in Stripe", status: false };
+        }
+
+        // Update Stripe product default price
+        const updateProductDefaultPriceInStripe = await Fetch({
+            route: "/stripe/products/update",
+            params: {
+                productId: createProductInStripe.id,
+                priceId: createPriceInStripe.id,
+            },
+        });
+
+        if (!updateProductDefaultPriceInStripe) {
+            return { message: "Failed to update product default price in Stripe", status: false };
         }
 
         return { message: "Product created successfully", status: true };
     } catch (error) {
         if (process.env.NODE_ENV === "development") {
-            const processName = "AddProductToDatabaseAndStripeProcess";
+            const processName = "AddProductToStripeProcess";
             const message = (error as Error).message;
             if (error instanceof ZodError) {
                 const zodMessage = processName + " -> Invalid Zod params -> " + error.message;

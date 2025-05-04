@@ -1,7 +1,11 @@
 import { StripeFileUploadBody, StripeFileUploadResponse } from "./file/upload/route";
+import { CreateStripePriceProps, CreateStripePriceResponse } from "./prices/create/route";
+import { StripeSelectPriceProps, StripeSelectPriceResponse } from "./prices/select/route";
 import { CreateStripeProductProps, CreateStripeProductResponse } from "./products/create/route";
 import { StripeProductsResponse } from "./products/route";
+import { StripeSearchProductProps, StripeSearchProductResponse } from "./products/search/route";
 import { StripeSelectProductProps, StripeSelectProductResponse } from "./products/select/route";
+import { UpdateStripeProductProps, UpdateStripeProductResponse } from "./products/update/route";
 import { StripeWebhookResponse } from "./webhooks/route";
 
 export type Routes = {
@@ -23,6 +27,8 @@ export type Routes = {
     //     response: SelectProductListResponse;
     // };
 
+    // ====== Files ====== //
+
     "/stripe/file/upload": {
         method: "POST";
         params: undefined;
@@ -30,23 +36,52 @@ export type Routes = {
         response: StripeFileUploadResponse;
     };
 
+    // ====== Products  ====== //
+
     "/stripe/products": {
-        method: "GET";
         params: undefined;
         response: StripeProductsResponse;
     };
 
+    "/stripe/products/search": {
+        params: StripeSearchProductProps;
+        response: StripeSearchProductResponse;
+    };
+
     "/stripe/products/create": {
-        method: "POST";
         params: CreateStripeProductProps;
         response: CreateStripeProductResponse;
     };
 
     "/stripe/products/select": {
-        method: "GET";
         params: StripeSelectProductProps;
         response: StripeSelectProductResponse;
     };
+
+    "/stripe/products/update": {
+        params: UpdateStripeProductProps;
+        response: UpdateStripeProductResponse;
+    };
+
+    // "/stripe/products/delete": {
+    //     method: "POST";
+    //     params: DeleteStripeProductProps;
+    //     response: DeleteStripeProductResponse;
+    // };
+
+    // ====== Prices  ====== //
+
+    "/stripe/prices/create": {
+        params: CreateStripePriceProps;
+        response: CreateStripePriceResponse;
+    };
+
+    "/stripe/prices/select": {
+        params: StripeSelectPriceProps;
+        response: StripeSelectPriceResponse;
+    };
+
+    // ====== Webhooks  ====== //
 
     "/stripe/webhooks": {
         method: "POST";

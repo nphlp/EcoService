@@ -1,8 +1,12 @@
+import { UpsertProduct } from "@actions/ProductAction";
 import { StripeInstance } from "@lib/stripe";
 import { StripeError } from "@stripe/stripe-js";
+import { Fetch } from "@utils/Fetch/Fetch";
+import { ResponseFormat } from "@utils/FetchConfig";
+import { revalidateTag } from "next/cache";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
-import { ResponseFormat } from "@utils/FetchConfig";
+import Stripe from "stripe";
 
 const STRIPE_WEBHOOK_SECRET = process.env.STRIPE_WEBHOOK_SECRET;
 
@@ -51,45 +55,35 @@ export async function POST(request: Request): Promise<NextResponse<ResponseForma
                 // });
                 // console.log("RSeller onboarding completed:", account.id);
                 // }
-                console.log("Account updated");
                 break;
 
             case "charge.dispute.created":
-                console.log("Charge dispute created");
                 break;
 
             case "checkout.session.completed":
-                console.log("Checkout completed");
                 break;
 
             case "file.created":
-                console.log("file.created");
                 break;
 
             case "payment_intent.payment_failed":
-                console.log("payment_intent.payment_failed");
                 break;
 
             case "payment_intent.succeeded":
-                console.log("payment_intent.succeeded");
                 break;
 
             case "payout.failed":
-                console.log("payout.failed");
                 break;
 
             case "payout.paid":
-                console.log("payout.paid");
                 break;
 
             case "product.created":
-                console.log("product.created");
-                // TODO: revalidate products cache
+                await productUpsert(event.data.object as Stripe.Product);
                 break;
 
             case "product.updated":
-                console.log("product.updated");
-                // TODO: revalidate products cache
+                await productUpsert(event.data.object as Stripe.Product);
                 break;
 
             // Add other event handlers as needed
@@ -97,7 +91,52 @@ export async function POST(request: Request): Promise<NextResponse<ResponseForma
 
         return NextResponse.json({ data: true }, { status: 200 });
     } catch (error) {
+        // TODO: add logging
+        // TODO: add replay when webhook actions fail
         console.error("Webhook error:", (error as StripeError).message);
         return NextResponse.json({ error: "Webhook handler failed" }, { status: 400 });
     }
 }
+
+const productUpsert = async (product: Stripe.Product) => {
+    const defaultPrice = product.default_price as string | undefined;
+
+    const productPrice = defaultPrice
+        ? await Fetch({
+              route: "/stripe/prices/select",
+              params: { id: defaultPrice },
+          })
+        : undefined;
+
+    const { id, name, description, images, metadata } = product;
+    const { vendorId, categoryId } = metadata;
+
+    const image = images[0];
+    const price = productPrice?.unit_amount ?? undefined;
+
+    await UpsertProduct({
+        where: { id: product.id },
+        create: {
+            id,
+            name,
+            description: description ?? "",
+            image,
+            price: price ?? 0,
+            stock: 0,
+            vendorId,
+            categoryId,
+        },
+        update: {
+            ...(name && { name }),
+            ...(description && { description }),
+            ...(image && { image }),
+            ...(price && { price }),
+            // ...(stock && { stock }),
+            ...(vendorId && { vendorId }),
+            ...(categoryId && { categoryId }),
+        },
+    });
+
+    // Revalidate the product cache
+    revalidateTag("product");
+};
