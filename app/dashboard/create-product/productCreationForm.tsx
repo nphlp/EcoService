@@ -1,6 +1,6 @@
 "use client";
 
-import { CreateStripeProductProcess } from "@/process/createStripeProduct";
+import { AddProductToDatabaseAndStripeProcess } from "@/process/addProductToDatabaseAndStripe";
 import Card from "@comps/server/card";
 import Button from "@comps/ui/button";
 import Feedback, { FeedbackMode } from "@comps/ui/feedback";
@@ -66,7 +66,7 @@ export default function ProductCreationForm(props: ProductCreationFormPros) {
                 return;
             }
 
-            const { status, message } = await CreateStripeProductProcess({
+            const { status, message } = await AddProductToDatabaseAndStripeProcess({
                 name,
                 description,
                 price,
@@ -89,6 +89,11 @@ export default function ProductCreationForm(props: ProductCreationFormPros) {
             setIsFeedbackOpen(true);
         } finally {
             setIsLoading(false);
+            setName("");
+            setDescription("");
+            setPrice("");
+            setCategoryId("");
+            setImage(null);
         }
     };
 

@@ -7,7 +7,7 @@ import { Fetch } from "@utils/Fetch/Fetch";
 import { FetchV2 } from "@utils/FetchV2/FetchV2";
 import { strictObject, z, ZodError, ZodType } from "zod";
 
-export type CreateStripeProductProps = {
+export type AddProductToDatabaseAndStripeProps = {
     name: string;
     description: string;
     price: string;
@@ -15,7 +15,7 @@ export type CreateStripeProductProps = {
     image: File;
 };
 
-const createStripeProductSchema: ZodType<CreateStripeProductProps> = strictObject({
+const addProductToDatabaseAndStripeSchema: ZodType<AddProductToDatabaseAndStripeProps> = strictObject({
     name: z.string(),
     description: z.string(),
     price: z.string(),
@@ -23,20 +23,21 @@ const createStripeProductSchema: ZodType<CreateStripeProductProps> = strictObjec
     image: z.instanceof(File),
 });
 
-export type CreateStripeProductResponse = {
+export type AddProductToDatabaseAndStripeResponse = {
     status: boolean;
     message: string;
 };
 
-export const CreateStripeProductProcess = async (
-    props: CreateStripeProductProps,
-): Promise<CreateStripeProductResponse> => {
+export const AddProductToDatabaseAndStripeProcess = async (
+    props: AddProductToDatabaseAndStripeProps,
+): Promise<AddProductToDatabaseAndStripeResponse> => {
     try {
         // Validate product type with zod
-        const { name, description, price, categoryId, image } = createStripeProductSchema.parse(props);
+        const { name, description, price, categoryId, image } = addProductToDatabaseAndStripeSchema.parse(props);
 
         // Is user authorized to create a product ?
         const session = await isVendorOrEmployeeOrAdmin();
+
         if (!session) {
             return { message: "Unauthorized", status: false };
         }
@@ -67,8 +68,6 @@ export const CreateStripeProductProcess = async (
             return { message: "Category does not exist", status: false };
         }
 
-        console.log("All good");
-
         // Check if product already exists in Stripe
         // const existingProductInStripe = await Fetch({ route: "/stripe/products/{name}", params: { name: product.name } });
 
@@ -97,6 +96,7 @@ export const CreateStripeProductProcess = async (
                 stock: 0,
             },
         });
+
         if (!createdProductInDatabase) {
             return { message: "Failed to create product in database.", status: false };
         }
@@ -129,13 +129,22 @@ export const CreateStripeProductProcess = async (
 
         return { message: "Product created successfully", status: true };
     } catch (error) {
-        console.error("CreateStripeProductProcess -> " + (error as Error).message);
         if (process.env.NODE_ENV === "development") {
-            if (error instanceof ZodError)
-                throw new Error("CreateStripeProductProcess -> Invalid Zod params -> " + error.message);
-            if (error instanceof PrismaClientKnownRequestError)
-                throw new Error("CreateStripeProductProcess -> Prisma error -> " + error.message);
-            // throw new Error("CreateStripeProductProcess -> " + (error as Error).message);
+            const processName = "AddProductToDatabaseAndStripeProcess";
+            const message = (error as Error).message;
+            if (error instanceof ZodError) {
+                const zodMessage = processName + " -> Invalid Zod params -> " + error.message;
+                console.error(zodMessage);
+                throw new Error(zodMessage);
+            } else if (error instanceof PrismaClientKnownRequestError) {
+                const prismaMessage = processName + " -> Prisma error -> " + error.message;
+                console.error(prismaMessage);
+                throw new Error(prismaMessage);
+            } else {
+                const errorMessage = processName + " -> " + message;
+                console.error(errorMessage);
+                throw new Error(errorMessage);
+            }
         }
         // TODO: add logging
         return { message: "Something went wrong...", status: false };

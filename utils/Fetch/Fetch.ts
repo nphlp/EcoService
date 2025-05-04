@@ -48,9 +48,9 @@ export const Fetch = async <R extends Route>(props: FetchProps<R>): Promise<Fetc
 
     const { data, error }: ResponseFormat<FetchResponse<R>> = await response.json();
 
-    if (!data || error) {
+    if (error) {
         throw new Error(error ?? "Something went wrong...");
     }
 
-    return data;
+    return data as FetchResponse<R>;
 };
