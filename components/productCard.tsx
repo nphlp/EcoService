@@ -9,7 +9,7 @@ type ProductCardProps = {
 
 export default function ProductCard(props: ProductCardProps) {
     const { product, ...others } = props;
-    const { id, name, description, image, price } = product;
+    const { name, description, image, price } = product;
 
     return (
         <Card className="h-full overflow-hidden p-0" {...others}>
@@ -22,7 +22,7 @@ export default function ProductCard(props: ProductCardProps) {
                     </div>
                     <div className="font-bold text-nowrap text-gray-500">{price} €</div>
                 </div>
-                <AddToCartButton productId={id} />
+                <AddToCartButton product={product} />
             </div>
         </Card>
     );

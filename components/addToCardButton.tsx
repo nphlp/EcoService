@@ -6,24 +6,36 @@ import { ProductModel } from "@services/types";
 import { useBasketStore } from "./basket/basketStore";
 
 type AddToCartButtonProps = {
-    productId: ProductModel["id"];
+    product: ProductModel;
 };
 
 export default function AddToCartButton(props: AddToCartButtonProps) {
-    const { productId } = props;
+    const { product } = props;
 
     const { basketProductList, addProductToBasket, removeProductFromBasket } = useBasketStore();
 
-    const isInBasket = basketProductList.some((currentId) => currentId === productId);
+    const isInBasket = basketProductList.some(({ id }) => id === product.id);
+
+    const handleClick = () => {
+        if (isInBasket) {
+            removeProductFromBasket(product.id);
+        } else {
+            addProductToBasket({
+                id: product.id,
+                name: product.name,
+                description: product.description,
+                price: product.price,
+                image: product.image,
+                quantity: 1,
+            });
+        }
+    };
 
     return (
         <Button
             type="button"
             label="add-to-basket"
-            onClick={(e) => {
-                e.preventDefault();
-                return isInBasket ? removeProductFromBasket(productId) : addProductToBasket(productId);
-            }}
+            onClick={handleClick}
             baseStyleOnly={["outline"]}
             className="group relative size-fit rounded-xl p-[10px] transition-all duration-300 hover:scale-105"
         >

@@ -13,13 +13,20 @@ export default function AddToCartButton(props: AddToCartButtonProps) {
     const { product, stock } = props;
     const { basketProductList, addProductToBasket, removeProductFromBasket } = useBasketStore();
 
-    const isInBasket = basketProductList.some((id) => id === product.id);
+    const isInBasket = basketProductList.some(({ id }) => id === product.id);
 
     const handleClick = () => {
         if (isInBasket) {
             removeProductFromBasket(product.id);
         } else {
-            addProductToBasket(product.id);
+            addProductToBasket({
+                id: product.id,
+                name: product.name,
+                description: product.description,
+                price: product.price,
+                image: product.image,
+                quantity: 1,
+            });
         }
     };
 

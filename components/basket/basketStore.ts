@@ -2,13 +2,23 @@ import { ProductModel } from "@services/types";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
+export type BasketProduct = {
+    id: ProductModel["id"];
+    name: ProductModel["name"];
+    description: ProductModel["description"];
+    price: ProductModel["price"];
+    image: ProductModel["image"];
+    quantity: number;
+};
+
 type Store = {
     // State
-    basketProductList: ProductModel["id"][];
+    basketProductList: BasketProduct[];
 
     // Actions
-    addProductToBasket: (product: ProductModel["id"]) => void;
-    removeProductFromBasket: (product: ProductModel["id"]) => void;
+    addProductToBasket: (product: BasketProduct) => void;
+    updateProductQuantity: (productId: BasketProduct["id"], quantity: number) => void;
+    removeProductFromBasket: (productId: BasketProduct["id"]) => void;
     clearBasket: () => void;
 };
 
@@ -22,12 +32,19 @@ export const useBasketStore = create<Store>()(
             basketProductList: [],
 
             // Actions
-            addProductToBasket: (product: ProductModel["id"]) =>
+            addProductToBasket: (product: BasketProduct) =>
                 set({ basketProductList: [...get().basketProductList, product] }),
 
-            removeProductFromBasket: (currentId: ProductModel["id"]) =>
+            updateProductQuantity: (productId: BasketProduct["id"], quantity: number) =>
                 set({
-                    basketProductList: get().basketProductList.filter((newId) => newId !== currentId),
+                    basketProductList: get().basketProductList.map((product) =>
+                        product.id === productId ? { ...product, quantity } : product,
+                    ),
+                }),
+
+            removeProductFromBasket: (currentId: BasketProduct["id"]) =>
+                set({
+                    basketProductList: get().basketProductList.filter((product) => product.id !== currentId),
                 }),
 
             clearBasket: () => set({ basketProductList: [] }),

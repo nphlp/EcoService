@@ -4,9 +4,9 @@ import ButtonClient from "@comps/client/button";
 import { useHeaderStore } from "@comps/header/headerStore";
 import ImageRatio from "@comps/server/imageRatio";
 import { combo } from "@lib/combo";
-import { useFetchV2 } from "@utils/FetchV2/FetchHookV2";
 import { motion } from "framer-motion";
-import { useBasketStore } from "./basketStore";
+import { BasketProduct, useBasketStore } from "./basketStore";
+import Link from "@comps/ui/link";
 
 export default function Basket() {
     const { basketOpen, setBasketOpen } = useHeaderStore();
@@ -44,18 +44,20 @@ export default function Basket() {
                         </div>
                     </div>
 
-                    {basketProductList.map((productId, index) => (
-                        <BasketItem key={index} productId={productId} />
+                    {basketProductList.map((product, index) => (
+                        <BasketItem key={index} product={product} />
                     ))}
 
                     <div className="space-y-3">
-                        <ButtonClient
+                        <Link
                             type="button"
                             label="paiement"
+                            href="/checkout"
+                            onClick={() => setBasketOpen(false)}
                             className="w-full scale-100 rounded-full py-2 font-semibold transition-transform duration-200 hover:scale-[1.02]"
                         >
                             Acheter maintenant !
-                        </ButtonClient>
+                        </Link>
                         <div className="flex justify-center">
                             <ButtonClient
                                 type="button"
@@ -75,29 +77,23 @@ export default function Basket() {
 }
 
 type BasketItemProps = {
-    productId: string;
+    product: BasketProduct;
 };
 
 const BasketItem = (props: BasketItemProps) => {
-    const { productId } = props;
-
-    const { data: product } = useFetchV2({
-        route: "/product/unique",
-        params: {
-            where: { id: productId },
-        },
-    });
+    const { product } = props;
 
     if (!product) return null;
 
-    const { name, price, image } = product;
+    const { name, price, image, quantity } = product;
 
     return (
         <div className="flex w-full flex-row gap-4">
             <ImageRatio className="w-1/3 rounded" src={image} alt="Product" />
             <div className="text-left">
-                <h4 className="text-lg font-bold">{name}</h4>
-                <p className="text-sm text-gray-500">{price}€</p>
+                <div className="text-lg font-bold">{name}</div>
+                <div className="text-sm text-gray-500">{quantity} pc(s)</div>
+                <div className="text-sm text-gray-500">{price}€</div>
             </div>
         </div>
     );
