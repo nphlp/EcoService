@@ -1,7 +1,7 @@
 "use server";
 
 import FruitService from "@services/class/FruitClass";
-import { CountFruitProps, CountFruitResponse, CreateFruitProps, CreateFruitResponse, DeleteFruitProps, DeleteFruitResponse, FindManyFruitProps, FindManyFruitResponse, FindUniqueFruitProps, FindUniqueFruitResponse, UpdateFruitProps, UpdateFruitResponse, UpsertFruitProps, UpsertFruitResponse } from "@services/types/FruitType";
+import { CountFruitProps, CountFruitResponse, CreateFruitProps, CreateFruitResponse, DeleteFruitProps, DeleteFruitResponse, FindFirstFruitProps, FindFirstFruitResponse, FindManyFruitProps, FindManyFruitResponse, FindUniqueFruitProps, FindUniqueFruitResponse, UpdateFruitProps, UpdateFruitResponse, UpsertFruitProps, UpsertFruitResponse } from "@services/types/FruitType";
 
 export const CreateFruit = async <T extends CreateFruitProps>(props: T): Promise<CreateFruitResponse<T>> => {
     try {
@@ -46,7 +46,22 @@ export const DeleteFruit = async <T extends DeleteFruitProps>(props: T): Promise
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const SelectFruit = async <T extends FindUniqueFruitProps>(
+export const SelectFirstFruit = async <T extends FindFirstFruitProps>(
+    props: T
+): Promise<FindFirstFruitResponse<T>> => {
+    try {
+        const { data, error } = await FruitService.findFirst(props);
+        if (error) throw new Error(error);
+        return data ?? null;
+    } catch (error) {
+        throw new Error("SelectFirstFruit -> " + (error as Error).message);
+    }
+};
+
+/**
+ * WARNING: do not use this for fetching data -> use API routes with caching instead
+ */
+export const SelectUniqueFruit = async <T extends FindUniqueFruitProps>(
     props: T
 ): Promise<FindUniqueFruitResponse<T>> => {
     try {
@@ -54,7 +69,7 @@ export const SelectFruit = async <T extends FindUniqueFruitProps>(
         if (error) throw new Error(error);
         return data ?? null;
     } catch (error) {
-        throw new Error("SelectFruit -> " + (error as Error).message);
+        throw new Error("SelectUniqueFruit -> " + (error as Error).message);
     }
 };
 

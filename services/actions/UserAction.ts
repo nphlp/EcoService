@@ -1,7 +1,7 @@
 "use server";
 
 import UserService from "@services/class/UserClass";
-import { CountUserProps, CountUserResponse, CreateUserProps, CreateUserResponse, DeleteUserProps, DeleteUserResponse, FindManyUserProps, FindManyUserResponse, FindUniqueUserProps, FindUniqueUserResponse, UpdateUserProps, UpdateUserResponse, UpsertUserProps, UpsertUserResponse } from "@services/types/UserType";
+import { CountUserProps, CountUserResponse, CreateUserProps, CreateUserResponse, DeleteUserProps, DeleteUserResponse, FindFirstUserProps, FindFirstUserResponse, FindManyUserProps, FindManyUserResponse, FindUniqueUserProps, FindUniqueUserResponse, UpdateUserProps, UpdateUserResponse, UpsertUserProps, UpsertUserResponse } from "@services/types/UserType";
 
 export const CreateUser = async <T extends CreateUserProps>(props: T): Promise<CreateUserResponse<T>> => {
     try {
@@ -46,7 +46,22 @@ export const DeleteUser = async <T extends DeleteUserProps>(props: T): Promise<D
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const SelectUser = async <T extends FindUniqueUserProps>(
+export const SelectFirstUser = async <T extends FindFirstUserProps>(
+    props: T
+): Promise<FindFirstUserResponse<T>> => {
+    try {
+        const { data, error } = await UserService.findFirst(props);
+        if (error) throw new Error(error);
+        return data ?? null;
+    } catch (error) {
+        throw new Error("SelectFirstUser -> " + (error as Error).message);
+    }
+};
+
+/**
+ * WARNING: do not use this for fetching data -> use API routes with caching instead
+ */
+export const SelectUniqueUser = async <T extends FindUniqueUserProps>(
     props: T
 ): Promise<FindUniqueUserResponse<T>> => {
     try {
@@ -54,7 +69,7 @@ export const SelectUser = async <T extends FindUniqueUserProps>(
         if (error) throw new Error(error);
         return data ?? null;
     } catch (error) {
-        throw new Error("SelectUser -> " + (error as Error).message);
+        throw new Error("SelectUniqueUser -> " + (error as Error).message);
     }
 };
 

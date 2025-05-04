@@ -1,7 +1,7 @@
 // ============== Types ============== //
 
 import { Prisma } from "@prisma/client";
-import { ProductCreateArgsSchema, ProductDeleteArgsSchema, ProductFindManyArgsSchema, ProductFindUniqueArgsSchema, ProductOrderByWithRelationInputSchema, ProductSchema, ProductUpdateArgsSchema, ProductUpsertArgsSchema, ProductWhereInputSchema, ProductWhereUniqueInputSchema,  } from "@prisma/zod";
+import { ProductCreateArgsSchema, ProductDeleteArgsSchema, ProductFindFirstArgsSchema, ProductFindManyArgsSchema, ProductFindUniqueArgsSchema, ProductOrderByWithRelationInputSchema, ProductSchema, ProductUpdateArgsSchema, ProductUpsertArgsSchema, ProductWhereInputSchema, ProductWhereUniqueInputSchema,  } from "@prisma/zod";
 import { z, ZodType } from "zod";
 
 // ============== Model Types ============== //
@@ -15,6 +15,7 @@ export type CreateProductProps = Prisma.ProductCreateArgs;
 export type UpsertProductProps = Prisma.ProductUpsertArgs;
 export type UpdateProductProps = Prisma.ProductUpdateArgs;
 export type DeleteProductProps = Prisma.ProductDeleteArgs;
+export type FindFirstProductProps = Prisma.ProductFindFirstArgs;
 export type FindUniqueProductProps = Prisma.ProductFindUniqueArgs;
 export type FindManyProductProps = Prisma.ProductFindManyArgs;
 export type CountProductProps = Prisma.ProductCountArgs;
@@ -25,7 +26,8 @@ export const createProductSchema: ZodType<CreateProductProps> = ProductCreateArg
 export const upsertProductSchema: ZodType<UpsertProductProps> = ProductUpsertArgsSchema;
 export const updateProductSchema: ZodType<UpdateProductProps> = ProductUpdateArgsSchema;
 export const deleteProductSchema: ZodType<DeleteProductProps> = ProductDeleteArgsSchema;
-export const selectProductSchema: ZodType<FindUniqueProductProps> = ProductFindUniqueArgsSchema;
+export const selectFirstProductSchema: ZodType<FindFirstProductProps> = ProductFindFirstArgsSchema;
+export const selectUniqueProductSchema: ZodType<FindUniqueProductProps> = ProductFindUniqueArgsSchema;
 export const selectManyProductSchema: ZodType<FindManyProductProps> = ProductFindManyArgsSchema;
 export const countProductSchema: ZodType<CountProductProps> =  z.object({
     where: z.lazy(() => ProductWhereInputSchema).optional(),
@@ -45,6 +47,7 @@ export type CreateProductResponse<T extends CreateProductProps> = Prisma.Product
 export type UpsertProductResponse<T extends UpsertProductProps> = Prisma.ProductGetPayload<T>;
 export type UpdateProductResponse<T extends UpdateProductProps> = Prisma.ProductGetPayload<T>;
 export type DeleteProductResponse<T extends DeleteProductProps> = Prisma.ProductGetPayload<T>;
+export type FindFirstProductResponse<T extends FindFirstProductProps> = Prisma.ProductGetPayload<T> | null;
 export type FindUniqueProductResponse<T extends FindUniqueProductProps> = Prisma.ProductGetPayload<T> | null;
 export type FindManyProductResponse<T extends FindManyProductProps> = Prisma.ProductGetPayload<T>[];
 export type CountProductResponse = ProductCount;

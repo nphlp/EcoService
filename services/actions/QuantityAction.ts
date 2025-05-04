@@ -1,7 +1,7 @@
 "use server";
 
 import QuantityService from "@services/class/QuantityClass";
-import { CountQuantityProps, CountQuantityResponse, CreateQuantityProps, CreateQuantityResponse, DeleteQuantityProps, DeleteQuantityResponse, FindManyQuantityProps, FindManyQuantityResponse, FindUniqueQuantityProps, FindUniqueQuantityResponse, UpdateQuantityProps, UpdateQuantityResponse, UpsertQuantityProps, UpsertQuantityResponse } from "@services/types/QuantityType";
+import { CountQuantityProps, CountQuantityResponse, CreateQuantityProps, CreateQuantityResponse, DeleteQuantityProps, DeleteQuantityResponse, FindFirstQuantityProps, FindFirstQuantityResponse, FindManyQuantityProps, FindManyQuantityResponse, FindUniqueQuantityProps, FindUniqueQuantityResponse, UpdateQuantityProps, UpdateQuantityResponse, UpsertQuantityProps, UpsertQuantityResponse } from "@services/types/QuantityType";
 
 export const CreateQuantity = async <T extends CreateQuantityProps>(props: T): Promise<CreateQuantityResponse<T>> => {
     try {
@@ -46,7 +46,22 @@ export const DeleteQuantity = async <T extends DeleteQuantityProps>(props: T): P
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const SelectQuantity = async <T extends FindUniqueQuantityProps>(
+export const SelectFirstQuantity = async <T extends FindFirstQuantityProps>(
+    props: T
+): Promise<FindFirstQuantityResponse<T>> => {
+    try {
+        const { data, error } = await QuantityService.findFirst(props);
+        if (error) throw new Error(error);
+        return data ?? null;
+    } catch (error) {
+        throw new Error("SelectFirstQuantity -> " + (error as Error).message);
+    }
+};
+
+/**
+ * WARNING: do not use this for fetching data -> use API routes with caching instead
+ */
+export const SelectUniqueQuantity = async <T extends FindUniqueQuantityProps>(
     props: T
 ): Promise<FindUniqueQuantityResponse<T>> => {
     try {
@@ -54,7 +69,7 @@ export const SelectQuantity = async <T extends FindUniqueQuantityProps>(
         if (error) throw new Error(error);
         return data ?? null;
     } catch (error) {
-        throw new Error("SelectQuantity -> " + (error as Error).message);
+        throw new Error("SelectUniqueQuantity -> " + (error as Error).message);
     }
 };
 

@@ -1,7 +1,7 @@
 "use server";
 
 import AccountService from "@services/class/AccountClass";
-import { CountAccountProps, CountAccountResponse, CreateAccountProps, CreateAccountResponse, DeleteAccountProps, DeleteAccountResponse, FindManyAccountProps, FindManyAccountResponse, FindUniqueAccountProps, FindUniqueAccountResponse, UpdateAccountProps, UpdateAccountResponse, UpsertAccountProps, UpsertAccountResponse } from "@services/types/AccountType";
+import { CountAccountProps, CountAccountResponse, CreateAccountProps, CreateAccountResponse, DeleteAccountProps, DeleteAccountResponse, FindFirstAccountProps, FindFirstAccountResponse, FindManyAccountProps, FindManyAccountResponse, FindUniqueAccountProps, FindUniqueAccountResponse, UpdateAccountProps, UpdateAccountResponse, UpsertAccountProps, UpsertAccountResponse } from "@services/types/AccountType";
 
 export const CreateAccount = async <T extends CreateAccountProps>(props: T): Promise<CreateAccountResponse<T>> => {
     try {
@@ -46,7 +46,22 @@ export const DeleteAccount = async <T extends DeleteAccountProps>(props: T): Pro
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const SelectAccount = async <T extends FindUniqueAccountProps>(
+export const SelectFirstAccount = async <T extends FindFirstAccountProps>(
+    props: T
+): Promise<FindFirstAccountResponse<T>> => {
+    try {
+        const { data, error } = await AccountService.findFirst(props);
+        if (error) throw new Error(error);
+        return data ?? null;
+    } catch (error) {
+        throw new Error("SelectFirstAccount -> " + (error as Error).message);
+    }
+};
+
+/**
+ * WARNING: do not use this for fetching data -> use API routes with caching instead
+ */
+export const SelectUniqueAccount = async <T extends FindUniqueAccountProps>(
     props: T
 ): Promise<FindUniqueAccountResponse<T>> => {
     try {
@@ -54,7 +69,7 @@ export const SelectAccount = async <T extends FindUniqueAccountProps>(
         if (error) throw new Error(error);
         return data ?? null;
     } catch (error) {
-        throw new Error("SelectAccount -> " + (error as Error).message);
+        throw new Error("SelectUniqueAccount -> " + (error as Error).message);
     }
 };
 

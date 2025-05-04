@@ -1,209 +1,110 @@
 import PrismaInstance from "@lib/prisma";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
-import { DiyCount, CountDiyProps, CountDiyResponse, CreateDiyProps, CreateDiyResponse, DeleteDiyProps, DeleteDiyResponse, FindManyDiyProps, FindManyDiyResponse, FindUniqueDiyProps, FindUniqueDiyResponse, UpdateDiyProps, UpdateDiyResponse, UpsertDiyProps, UpsertDiyResponse, countDiySchema, createDiySchema, deleteDiySchema, selectDiySchema, selectManyDiySchema, updateDiySchema, upsertDiySchema } from "@services/types/DiyType";
+import { DiyCount, CountDiyProps, CountDiyResponse, CreateDiyProps, CreateDiyResponse, DeleteDiyProps, DeleteDiyResponse, FindManyDiyProps, FindManyDiyResponse, FindUniqueDiyProps, FindUniqueDiyResponse, UpdateDiyProps, UpdateDiyResponse, UpsertDiyProps, UpsertDiyResponse, countDiySchema, createDiySchema, deleteDiySchema, selectFirstDiySchema, selectManyDiySchema, selectUniqueDiySchema, updateDiySchema, upsertDiySchema, FindFirstDiyProps, FindFirstDiyResponse } from "@services/types/DiyType";
 import { ResponseFormat } from "@utils/FetchConfig";
 import { ZodError } from "zod";
 
 export default class DiyService {
     static async create<T extends CreateDiyProps>(props: T): Promise<ResponseFormat<CreateDiyResponse<T>>> {
         try {
-            const { data, omit, select } = createDiySchema.parse(props);
-
-            const diy = await PrismaInstance.diy.create({
-                data,
-                
-                ...(omit && { omit }),
-                ...(select && { select }),
-            });
-
+            const parsedProps = createDiySchema.parse(props);
+            const diy = await PrismaInstance.diy.create(parsedProps);
             return { data: diy as CreateDiyResponse<T> };
         } catch (error) {
-            console.error("DiyService -> Create -> " + (error as Error).message);
-            if (process.env.NODE_ENV === "development") {
-                if (error instanceof ZodError)
-                    throw new Error("DiyService -> Create -> Invalid Zod params -> " + error.message);
-                if (error instanceof PrismaClientKnownRequestError)
-                    throw new Error("DiyService -> Create -> Prisma error -> " + error.message);
-                throw new Error("DiyService -> Create -> " + (error as Error).message);
-            }
-            // TODO: add logging
-            return { error: "Unable to create diy..." };
+            return DiyService.error("create", error);
         }
     }
 
     static async upsert<T extends UpsertDiyProps>(props: T): Promise<ResponseFormat<UpsertDiyResponse<T>>> {
         try {
-            const { create, update, where, omit, select } = upsertDiySchema.parse(props);
-
-            const diy = await PrismaInstance.diy.upsert({
-                create,
-                update,
-                where,
-                
-                ...(omit && { omit }),
-                ...(select && { select }),
-            });
-
+            const parsedProps = upsertDiySchema.parse(props);
+            const diy = await PrismaInstance.diy.upsert(parsedProps);
             return { data: diy as UpsertDiyResponse<T> };
         } catch (error) {
-            console.error("DiyService -> Upsert -> " + (error as Error).message);
-            if (process.env.NODE_ENV === "development") {
-                if (error instanceof ZodError)
-                    throw new Error("DiyService -> Upsert -> Invalid Zod params -> " + error.message);
-                if (error instanceof PrismaClientKnownRequestError)
-                    throw new Error("DiyService -> Upsert -> Prisma error -> " + error.message);
-                throw new Error("DiyService -> Upsert -> " + (error as Error).message);
-            }
-            // TODO: add logging
-            return { error: "Unable to upsert diy..." };
+            return DiyService.error("upsert", error);
         }
     }
 
     static async update<T extends UpdateDiyProps>(props: T): Promise<ResponseFormat<UpdateDiyResponse<T>>> {
         try {
-            const { data, where, omit, select } = updateDiySchema.parse(props);
-
-            const diy = await PrismaInstance.diy.update({
-                data,
-                where,
-                
-                ...(omit && { omit }),
-                ...(select && { select }),
-            });
-
+            const parsedProps = updateDiySchema.parse(props);
+            const diy = await PrismaInstance.diy.update(parsedProps);
             return { data: diy as UpdateDiyResponse<T> };
         } catch (error) {
-            console.error("DiyService -> Update -> " + (error as Error).message);
-            if (process.env.NODE_ENV === "development") {
-                if (error instanceof ZodError)
-                    throw new Error("DiyService -> Update -> Invalid Zod params -> " + error.message);
-                if (error instanceof PrismaClientKnownRequestError)
-                    throw new Error("DiyService -> Update -> Prisma error -> " + error.message);
-                throw new Error("DiyService -> Update -> " + (error as Error).message);
-            }
-            // TODO: add logging
-            return { error: "Unable to update diy..." };
+            return DiyService.error("update", error);
         }
     }
 
     static async delete<T extends DeleteDiyProps>(props: T): Promise<ResponseFormat<DeleteDiyResponse<T>>> {
         try {
-            const { where, omit, select } = deleteDiySchema.parse(props);
-
-            const diy = await PrismaInstance.diy.delete({
-                where,
-                
-                ...(omit && { omit }),
-                ...(select && { select }),
-            });
-
+            const parsedProps = deleteDiySchema.parse(props);
+            const diy = await PrismaInstance.diy.delete(parsedProps);
             return { data: diy as DeleteDiyResponse<T> };
         } catch (error) {
-            console.error("DiyService -> Delete -> " + (error as Error).message);
-            if (process.env.NODE_ENV === "development") {
-                if (error instanceof ZodError)
-                    throw new Error("DiyService -> Delete -> Invalid Zod params -> " + error.message);
-                if (error instanceof PrismaClientKnownRequestError)
-                    throw new Error("DiyService -> Delete -> Prisma error -> " + error.message);
-                throw new Error("DiyService -> Delete -> " + (error as Error).message);
-            }
-            // TODO: add logging
-            return { error: "Unable to delete diy..." };
+            return DiyService.error("delete", error);
+        }
+    }
+
+    static async findFirst<T extends FindFirstDiyProps>(props: T): Promise<ResponseFormat<FindFirstDiyResponse<T>>> {
+        try {
+            const parsedProps = selectFirstDiySchema.parse(props);
+            const diy = await PrismaInstance.diy.findFirst(parsedProps);
+            return { data: diy as FindFirstDiyResponse<T> };
+        } catch (error) {
+            return DiyService.error("findFirst", error);
         }
     }
 
     static async findUnique<T extends FindUniqueDiyProps>(props: T): Promise<ResponseFormat<FindUniqueDiyResponse<T>>> {
         try {
-            const { where, omit, select } = selectDiySchema.parse(props);
-
-            const diy = await PrismaInstance.diy.findUnique({
-                where,
-                
-                ...(omit && { omit }),
-                ...(select && { select }),
-            });
-
+            const parsedProps = selectUniqueDiySchema.parse(props);
+            const diy = await PrismaInstance.diy.findUnique(parsedProps);
             return { data: diy as FindUniqueDiyResponse<T> };
         } catch (error) {
-            console.error("DiyService -> FindUnique -> " + (error as Error).message);
-            if (process.env.NODE_ENV === "development") {
-                if (error instanceof ZodError)
-                    throw new Error("DiyService -> FindUnique -> Invalid Zod params -> " + error.message);
-                if (error instanceof PrismaClientKnownRequestError)
-                    throw new Error("DiyService -> FindUnique -> Prisma error -> " + error.message);
-                throw new Error("DiyService -> FindUnique -> " + (error as Error).message);
-            }
-            // TODO: add logging
-            return { error: "Unable to find diy..." };
+            return DiyService.error("findUnique", error);
         }
     }
 
     static async findMany<T extends FindManyDiyProps>(props: T): Promise<ResponseFormat<FindManyDiyResponse<T>>> {
         try {
-            const {
-                cursor,
-                distinct,
-                
-                omit,
-                orderBy,
-                select,
-                skip = 0,
-                take = 10,
-                where,
-            } = selectManyDiySchema.parse(props);
-
-            const diyList = await PrismaInstance.diy.findMany({
-                ...(cursor && { cursor }),
-                ...(distinct && { distinct }),
-                
-                ...(omit && { omit }),
-                ...(orderBy && { orderBy }),
-                ...(select && { select }),
-                ...(skip && { skip }),
-                ...(take && { take }),
-                ...(where && { where }),
-            });
-
+            const parsedProps = selectManyDiySchema.parse(props);
+            const { skip = 0, take = 10 } = parsedProps;
+            const diyList = await PrismaInstance.diy.findMany({ skip, take, ...parsedProps });
             return { data: diyList as FindManyDiyResponse<T> };
         } catch (error) {
-            console.error("DiyService -> FindMany -> " + (error as Error).message);
-            if (process.env.NODE_ENV === "development") {
-                if (error instanceof ZodError)
-                    throw new Error("DiyService -> FindMany -> Invalid Zod params -> " + error.message);
-                if (error instanceof PrismaClientKnownRequestError)
-                    throw new Error("DiyService -> FindMany -> Prisma error -> " + error.message);
-                throw new Error("DiyService -> FindMany -> " + (error as Error).message);
-            }
-            // TODO: add logging
-            return { error: "Unable to find diys..." };
+            return DiyService.error("findMany", error);
         }
     }
 
     static async count(props: CountDiyProps): Promise<ResponseFormat<CountDiyResponse>> {
         try {
-            const { cursor, orderBy, select, skip, take, where } = countDiySchema.parse(props);
-
-            const diyAmount: DiyCount = await PrismaInstance.diy.count({
-                ...(cursor && { cursor }),
-                ...(orderBy && { orderBy }),
-                ...(select && { select }),
-                ...(skip && { skip }),
-                ...(take && { take }),
-                ...(where && { where }),
-            });
-
+            const parsedProps = countDiySchema.parse(props);
+            const diyAmount: DiyCount = await PrismaInstance.diy.count(parsedProps);
             return { data: diyAmount };
         } catch (error) {
-            console.error("DiyService -> Count -> " + (error as Error).message);
-            if (process.env.NODE_ENV === "development") {
-                if (error instanceof ZodError)
-                    throw new Error("DiyService -> Count -> Invalid Zod params -> " + error.message);
-                if (error instanceof PrismaClientKnownRequestError)
-                    throw new Error("DiyService -> Count -> Prisma error -> " + error.message);
-                throw new Error("DiyService -> Count -> " + (error as Error).message);
-            }
-            // TODO: add logging
-            return { error: "Unable to count diys..." };
+            return DiyService.error("count", error);
         }
+    }
+
+    static async error(methodName: string, error: unknown): Promise<{error: string}> {
+        if (process.env.NODE_ENV === "development") {
+            const serviceName = this.constructor.name;
+            const message = (error as Error).message;
+            if (error instanceof ZodError){
+                const zodMessage = serviceName + " -> " + methodName + " -> Invalid Zod params -> " + error.message;
+                console.error(zodMessage);
+                throw new Error(zodMessage);
+            } else if (error instanceof PrismaClientKnownRequestError){
+                const prismaMessage = serviceName + " -> " + methodName + " -> Prisma error -> " + error.message;
+                console.error(prismaMessage);
+                throw new Error(prismaMessage);
+            } else {
+                const errorMessage = serviceName + " -> " + methodName + " -> " + message;
+                console.error(errorMessage);
+                throw new Error(errorMessage);
+            }
+        }
+        // TODO: add logging
+        return { error: "Something went wrong..." };
     }
 }

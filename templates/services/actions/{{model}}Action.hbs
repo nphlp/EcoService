@@ -1,7 +1,7 @@
 "use server";
 
 import {{modelName}}Service from "@services/class/{{modelName}}Class";
-import { Count{{modelName}}Props, Count{{modelName}}Response, Create{{modelName}}Props, Create{{modelName}}Response, Delete{{modelName}}Props, Delete{{modelName}}Response, FindMany{{modelName}}Props, FindMany{{modelName}}Response, FindUnique{{modelName}}Props, FindUnique{{modelName}}Response, Update{{modelName}}Props, Update{{modelName}}Response, Upsert{{modelName}}Props, Upsert{{modelName}}Response } from "@services/types/{{modelName}}Type";
+import { Count{{modelName}}Props, Count{{modelName}}Response, Create{{modelName}}Props, Create{{modelName}}Response, Delete{{modelName}}Props, Delete{{modelName}}Response, FindFirst{{modelName}}Props, FindFirst{{modelName}}Response, FindMany{{modelName}}Props, FindMany{{modelName}}Response, FindUnique{{modelName}}Props, FindUnique{{modelName}}Response, Update{{modelName}}Props, Update{{modelName}}Response, Upsert{{modelName}}Props, Upsert{{modelName}}Response } from "@services/types/{{modelName}}Type";
 
 export const Create{{modelName}} = async <T extends Create{{modelName}}Props>(props: T): Promise<Create{{modelName}}Response<T>> => {
     try {
@@ -46,7 +46,22 @@ export const Delete{{modelName}} = async <T extends Delete{{modelName}}Props>(pr
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const Select{{modelName}} = async <T extends FindUnique{{modelName}}Props>(
+export const SelectFirst{{modelName}} = async <T extends FindFirst{{modelName}}Props>(
+    props: T
+): Promise<FindFirst{{modelName}}Response<T>> => {
+    try {
+        const { data, error } = await {{modelName}}Service.findFirst(props);
+        if (error) throw new Error(error);
+        return data ?? null;
+    } catch (error) {
+        throw new Error("SelectFirst{{modelName}} -> " + (error as Error).message);
+    }
+};
+
+/**
+ * WARNING: do not use this for fetching data -> use API routes with caching instead
+ */
+export const SelectUnique{{modelName}} = async <T extends FindUnique{{modelName}}Props>(
     props: T
 ): Promise<FindUnique{{modelName}}Response<T>> => {
     try {
@@ -54,7 +69,7 @@ export const Select{{modelName}} = async <T extends FindUnique{{modelName}}Props
         if (error) throw new Error(error);
         return data ?? null;
     } catch (error) {
-        throw new Error("Select{{modelName}} -> " + (error as Error).message);
+        throw new Error("SelectUnique{{modelName}} -> " + (error as Error).message);
     }
 };
 

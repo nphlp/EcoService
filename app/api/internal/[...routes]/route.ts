@@ -41,6 +41,11 @@ const findRoute = (path: string[]): Route | null => {
             return ApiRoutes[`Select${ModelName}Unique`] ?? null;
         }
 
+        // Si la sous-route est "first", retourner le gestionnaire pour obtenir le premier élément
+        if (subRoute === "first") {
+            return ApiRoutes[`Select${ModelName}First`] ?? null;
+        }
+
         // Si la sous-route est "count", retourner le gestionnaire pour obtenir le nombre d'éléments
         if (subRoute === "count") {
             return ApiRoutes[`Select${ModelName}Count`] ?? null;

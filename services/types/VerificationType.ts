@@ -1,7 +1,7 @@
 // ============== Types ============== //
 
 import { Prisma } from "@prisma/client";
-import { VerificationCreateArgsSchema, VerificationDeleteArgsSchema, VerificationFindManyArgsSchema, VerificationFindUniqueArgsSchema, VerificationOrderByWithRelationInputSchema, VerificationSchema, VerificationUpdateArgsSchema, VerificationUpsertArgsSchema, VerificationWhereInputSchema, VerificationWhereUniqueInputSchema,  } from "@prisma/zod";
+import { VerificationCreateArgsSchema, VerificationDeleteArgsSchema, VerificationFindFirstArgsSchema, VerificationFindManyArgsSchema, VerificationFindUniqueArgsSchema, VerificationOrderByWithRelationInputSchema, VerificationSchema, VerificationUpdateArgsSchema, VerificationUpsertArgsSchema, VerificationWhereInputSchema, VerificationWhereUniqueInputSchema,  } from "@prisma/zod";
 import { z, ZodType } from "zod";
 
 // ============== Model Types ============== //
@@ -15,6 +15,7 @@ export type CreateVerificationProps = Prisma.VerificationCreateArgs;
 export type UpsertVerificationProps = Prisma.VerificationUpsertArgs;
 export type UpdateVerificationProps = Prisma.VerificationUpdateArgs;
 export type DeleteVerificationProps = Prisma.VerificationDeleteArgs;
+export type FindFirstVerificationProps = Prisma.VerificationFindFirstArgs;
 export type FindUniqueVerificationProps = Prisma.VerificationFindUniqueArgs;
 export type FindManyVerificationProps = Prisma.VerificationFindManyArgs;
 export type CountVerificationProps = Prisma.VerificationCountArgs;
@@ -25,7 +26,8 @@ export const createVerificationSchema: ZodType<CreateVerificationProps> = Verifi
 export const upsertVerificationSchema: ZodType<UpsertVerificationProps> = VerificationUpsertArgsSchema;
 export const updateVerificationSchema: ZodType<UpdateVerificationProps> = VerificationUpdateArgsSchema;
 export const deleteVerificationSchema: ZodType<DeleteVerificationProps> = VerificationDeleteArgsSchema;
-export const selectVerificationSchema: ZodType<FindUniqueVerificationProps> = VerificationFindUniqueArgsSchema;
+export const selectFirstVerificationSchema: ZodType<FindFirstVerificationProps> = VerificationFindFirstArgsSchema;
+export const selectUniqueVerificationSchema: ZodType<FindUniqueVerificationProps> = VerificationFindUniqueArgsSchema;
 export const selectManyVerificationSchema: ZodType<FindManyVerificationProps> = VerificationFindManyArgsSchema;
 export const countVerificationSchema: ZodType<CountVerificationProps> =  z.object({
     where: z.lazy(() => VerificationWhereInputSchema).optional(),
@@ -45,6 +47,7 @@ export type CreateVerificationResponse<T extends CreateVerificationProps> = Pris
 export type UpsertVerificationResponse<T extends UpsertVerificationProps> = Prisma.VerificationGetPayload<T>;
 export type UpdateVerificationResponse<T extends UpdateVerificationProps> = Prisma.VerificationGetPayload<T>;
 export type DeleteVerificationResponse<T extends DeleteVerificationProps> = Prisma.VerificationGetPayload<T>;
+export type FindFirstVerificationResponse<T extends FindFirstVerificationProps> = Prisma.VerificationGetPayload<T> | null;
 export type FindUniqueVerificationResponse<T extends FindUniqueVerificationProps> = Prisma.VerificationGetPayload<T> | null;
 export type FindManyVerificationResponse<T extends FindManyVerificationProps> = Prisma.VerificationGetPayload<T>[];
 export type CountVerificationResponse = VerificationCount;

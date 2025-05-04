@@ -1,7 +1,7 @@
 "use server";
 
 import AddressService from "@services/class/AddressClass";
-import { CountAddressProps, CountAddressResponse, CreateAddressProps, CreateAddressResponse, DeleteAddressProps, DeleteAddressResponse, FindManyAddressProps, FindManyAddressResponse, FindUniqueAddressProps, FindUniqueAddressResponse, UpdateAddressProps, UpdateAddressResponse, UpsertAddressProps, UpsertAddressResponse } from "@services/types/AddressType";
+import { CountAddressProps, CountAddressResponse, CreateAddressProps, CreateAddressResponse, DeleteAddressProps, DeleteAddressResponse, FindFirstAddressProps, FindFirstAddressResponse, FindManyAddressProps, FindManyAddressResponse, FindUniqueAddressProps, FindUniqueAddressResponse, UpdateAddressProps, UpdateAddressResponse, UpsertAddressProps, UpsertAddressResponse } from "@services/types/AddressType";
 
 export const CreateAddress = async <T extends CreateAddressProps>(props: T): Promise<CreateAddressResponse<T>> => {
     try {
@@ -46,7 +46,22 @@ export const DeleteAddress = async <T extends DeleteAddressProps>(props: T): Pro
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const SelectAddress = async <T extends FindUniqueAddressProps>(
+export const SelectFirstAddress = async <T extends FindFirstAddressProps>(
+    props: T
+): Promise<FindFirstAddressResponse<T>> => {
+    try {
+        const { data, error } = await AddressService.findFirst(props);
+        if (error) throw new Error(error);
+        return data ?? null;
+    } catch (error) {
+        throw new Error("SelectFirstAddress -> " + (error as Error).message);
+    }
+};
+
+/**
+ * WARNING: do not use this for fetching data -> use API routes with caching instead
+ */
+export const SelectUniqueAddress = async <T extends FindUniqueAddressProps>(
     props: T
 ): Promise<FindUniqueAddressResponse<T>> => {
     try {
@@ -54,7 +69,7 @@ export const SelectAddress = async <T extends FindUniqueAddressProps>(
         if (error) throw new Error(error);
         return data ?? null;
     } catch (error) {
-        throw new Error("SelectAddress -> " + (error as Error).message);
+        throw new Error("SelectUniqueAddress -> " + (error as Error).message);
     }
 };
 

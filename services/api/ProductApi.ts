@@ -1,5 +1,5 @@
 import ProductService from "@services/class/ProductClass";
-import { CountProductProps, CountProductResponse, FindManyProductProps, FindManyProductResponse, FindUniqueProductProps, FindUniqueProductResponse } from "@services/types/ProductType";
+import { CountProductProps, CountProductResponse, FindFirstProductProps, FindFirstProductResponse, FindManyProductProps, FindManyProductResponse, FindUniqueProductProps, FindUniqueProductResponse } from "@services/types/ProductType";
 import { parseAndDecodeParams, revalidate } from "@utils/FetchConfig";
 import { unstable_cache as cache } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
@@ -10,6 +10,10 @@ export type ProductRoutes<Input> = {
     "/product": {
         params: FindManyProductProps,
         response: FindManyProductResponse<Input extends FindManyProductProps ? Input : never>
+    },
+    "/product/first": {
+        params: FindFirstProductProps,
+        response: FindFirstProductResponse<Input extends FindFirstProductProps ? Input : never>
     },
     "/product/unique": {
         params: FindUniqueProductProps,
@@ -35,6 +39,24 @@ export const SelectProductList = async <T extends FindManyProductProps>(request:
         return NextResponse.json(response, { status: 200 });
     } catch (error) {
         return NextResponse.json({ error: "getProductListCached -> " + (error as Error).message }, { status: 500 });
+    }
+};
+
+// ==================== Find First ==================== //
+
+const productFirstCached = cache(
+    async <T extends FindFirstProductProps>(params: T) => ProductService.findFirst(params),
+    ["product/first"],
+    { revalidate, tags: ["product/first"] },
+);
+
+export const SelectProductFirst = async <T extends FindFirstProductProps>(request: NextRequest) => {
+    try {
+        const params: T = parseAndDecodeParams(request);
+        const response = await productFirstCached<T>(params);
+        return NextResponse.json(response, { status: 200 });
+    } catch (error) {
+        return NextResponse.json({ error: "getProductFirstCached -> " + (error as Error).message }, { status: 500 });
     }
 };
 

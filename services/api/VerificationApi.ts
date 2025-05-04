@@ -1,5 +1,5 @@
 import VerificationService from "@services/class/VerificationClass";
-import { CountVerificationProps, CountVerificationResponse, FindManyVerificationProps, FindManyVerificationResponse, FindUniqueVerificationProps, FindUniqueVerificationResponse } from "@services/types/VerificationType";
+import { CountVerificationProps, CountVerificationResponse, FindFirstVerificationProps, FindFirstVerificationResponse, FindManyVerificationProps, FindManyVerificationResponse, FindUniqueVerificationProps, FindUniqueVerificationResponse } from "@services/types/VerificationType";
 import { parseAndDecodeParams, revalidate } from "@utils/FetchConfig";
 import { unstable_cache as cache } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
@@ -10,6 +10,10 @@ export type VerificationRoutes<Input> = {
     "/verification": {
         params: FindManyVerificationProps,
         response: FindManyVerificationResponse<Input extends FindManyVerificationProps ? Input : never>
+    },
+    "/verification/first": {
+        params: FindFirstVerificationProps,
+        response: FindFirstVerificationResponse<Input extends FindFirstVerificationProps ? Input : never>
     },
     "/verification/unique": {
         params: FindUniqueVerificationProps,
@@ -35,6 +39,24 @@ export const SelectVerificationList = async <T extends FindManyVerificationProps
         return NextResponse.json(response, { status: 200 });
     } catch (error) {
         return NextResponse.json({ error: "getVerificationListCached -> " + (error as Error).message }, { status: 500 });
+    }
+};
+
+// ==================== Find First ==================== //
+
+const verificationFirstCached = cache(
+    async <T extends FindFirstVerificationProps>(params: T) => VerificationService.findFirst(params),
+    ["verification/first"],
+    { revalidate, tags: ["verification/first"] },
+);
+
+export const SelectVerificationFirst = async <T extends FindFirstVerificationProps>(request: NextRequest) => {
+    try {
+        const params: T = parseAndDecodeParams(request);
+        const response = await verificationFirstCached<T>(params);
+        return NextResponse.json(response, { status: 200 });
+    } catch (error) {
+        return NextResponse.json({ error: "getVerificationFirstCached -> " + (error as Error).message }, { status: 500 });
     }
 };
 

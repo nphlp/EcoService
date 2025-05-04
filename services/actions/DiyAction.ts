@@ -1,7 +1,7 @@
 "use server";
 
 import DiyService from "@services/class/DiyClass";
-import { CountDiyProps, CountDiyResponse, CreateDiyProps, CreateDiyResponse, DeleteDiyProps, DeleteDiyResponse, FindManyDiyProps, FindManyDiyResponse, FindUniqueDiyProps, FindUniqueDiyResponse, UpdateDiyProps, UpdateDiyResponse, UpsertDiyProps, UpsertDiyResponse } from "@services/types/DiyType";
+import { CountDiyProps, CountDiyResponse, CreateDiyProps, CreateDiyResponse, DeleteDiyProps, DeleteDiyResponse, FindFirstDiyProps, FindFirstDiyResponse, FindManyDiyProps, FindManyDiyResponse, FindUniqueDiyProps, FindUniqueDiyResponse, UpdateDiyProps, UpdateDiyResponse, UpsertDiyProps, UpsertDiyResponse } from "@services/types/DiyType";
 
 export const CreateDiy = async <T extends CreateDiyProps>(props: T): Promise<CreateDiyResponse<T>> => {
     try {
@@ -46,7 +46,22 @@ export const DeleteDiy = async <T extends DeleteDiyProps>(props: T): Promise<Del
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const SelectDiy = async <T extends FindUniqueDiyProps>(
+export const SelectFirstDiy = async <T extends FindFirstDiyProps>(
+    props: T
+): Promise<FindFirstDiyResponse<T>> => {
+    try {
+        const { data, error } = await DiyService.findFirst(props);
+        if (error) throw new Error(error);
+        return data ?? null;
+    } catch (error) {
+        throw new Error("SelectFirstDiy -> " + (error as Error).message);
+    }
+};
+
+/**
+ * WARNING: do not use this for fetching data -> use API routes with caching instead
+ */
+export const SelectUniqueDiy = async <T extends FindUniqueDiyProps>(
     props: T
 ): Promise<FindUniqueDiyResponse<T>> => {
     try {
@@ -54,7 +69,7 @@ export const SelectDiy = async <T extends FindUniqueDiyProps>(
         if (error) throw new Error(error);
         return data ?? null;
     } catch (error) {
-        throw new Error("SelectDiy -> " + (error as Error).message);
+        throw new Error("SelectUniqueDiy -> " + (error as Error).message);
     }
 };
 

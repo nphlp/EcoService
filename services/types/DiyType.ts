@@ -1,7 +1,7 @@
 // ============== Types ============== //
 
 import { Prisma } from "@prisma/client";
-import { DiyCreateArgsSchema, DiyDeleteArgsSchema, DiyFindManyArgsSchema, DiyFindUniqueArgsSchema, DiyOrderByWithRelationInputSchema, DiySchema, DiyUpdateArgsSchema, DiyUpsertArgsSchema, DiyWhereInputSchema, DiyWhereUniqueInputSchema,  } from "@prisma/zod";
+import { DiyCreateArgsSchema, DiyDeleteArgsSchema, DiyFindFirstArgsSchema, DiyFindManyArgsSchema, DiyFindUniqueArgsSchema, DiyOrderByWithRelationInputSchema, DiySchema, DiyUpdateArgsSchema, DiyUpsertArgsSchema, DiyWhereInputSchema, DiyWhereUniqueInputSchema,  } from "@prisma/zod";
 import { z, ZodType } from "zod";
 
 // ============== Model Types ============== //
@@ -15,6 +15,7 @@ export type CreateDiyProps = Prisma.DiyCreateArgs;
 export type UpsertDiyProps = Prisma.DiyUpsertArgs;
 export type UpdateDiyProps = Prisma.DiyUpdateArgs;
 export type DeleteDiyProps = Prisma.DiyDeleteArgs;
+export type FindFirstDiyProps = Prisma.DiyFindFirstArgs;
 export type FindUniqueDiyProps = Prisma.DiyFindUniqueArgs;
 export type FindManyDiyProps = Prisma.DiyFindManyArgs;
 export type CountDiyProps = Prisma.DiyCountArgs;
@@ -25,7 +26,8 @@ export const createDiySchema: ZodType<CreateDiyProps> = DiyCreateArgsSchema;
 export const upsertDiySchema: ZodType<UpsertDiyProps> = DiyUpsertArgsSchema;
 export const updateDiySchema: ZodType<UpdateDiyProps> = DiyUpdateArgsSchema;
 export const deleteDiySchema: ZodType<DeleteDiyProps> = DiyDeleteArgsSchema;
-export const selectDiySchema: ZodType<FindUniqueDiyProps> = DiyFindUniqueArgsSchema;
+export const selectFirstDiySchema: ZodType<FindFirstDiyProps> = DiyFindFirstArgsSchema;
+export const selectUniqueDiySchema: ZodType<FindUniqueDiyProps> = DiyFindUniqueArgsSchema;
 export const selectManyDiySchema: ZodType<FindManyDiyProps> = DiyFindManyArgsSchema;
 export const countDiySchema: ZodType<CountDiyProps> =  z.object({
     where: z.lazy(() => DiyWhereInputSchema).optional(),
@@ -45,6 +47,7 @@ export type CreateDiyResponse<T extends CreateDiyProps> = Prisma.DiyGetPayload<T
 export type UpsertDiyResponse<T extends UpsertDiyProps> = Prisma.DiyGetPayload<T>;
 export type UpdateDiyResponse<T extends UpdateDiyProps> = Prisma.DiyGetPayload<T>;
 export type DeleteDiyResponse<T extends DeleteDiyProps> = Prisma.DiyGetPayload<T>;
+export type FindFirstDiyResponse<T extends FindFirstDiyProps> = Prisma.DiyGetPayload<T> | null;
 export type FindUniqueDiyResponse<T extends FindUniqueDiyProps> = Prisma.DiyGetPayload<T> | null;
 export type FindManyDiyResponse<T extends FindManyDiyProps> = Prisma.DiyGetPayload<T>[];
 export type CountDiyResponse = DiyCount;

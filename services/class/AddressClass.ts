@@ -1,209 +1,110 @@
 import PrismaInstance from "@lib/prisma";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
-import { AddressCount, CountAddressProps, CountAddressResponse, CreateAddressProps, CreateAddressResponse, DeleteAddressProps, DeleteAddressResponse, FindManyAddressProps, FindManyAddressResponse, FindUniqueAddressProps, FindUniqueAddressResponse, UpdateAddressProps, UpdateAddressResponse, UpsertAddressProps, UpsertAddressResponse, countAddressSchema, createAddressSchema, deleteAddressSchema, selectAddressSchema, selectManyAddressSchema, updateAddressSchema, upsertAddressSchema } from "@services/types/AddressType";
+import { AddressCount, CountAddressProps, CountAddressResponse, CreateAddressProps, CreateAddressResponse, DeleteAddressProps, DeleteAddressResponse, FindManyAddressProps, FindManyAddressResponse, FindUniqueAddressProps, FindUniqueAddressResponse, UpdateAddressProps, UpdateAddressResponse, UpsertAddressProps, UpsertAddressResponse, countAddressSchema, createAddressSchema, deleteAddressSchema, selectFirstAddressSchema, selectManyAddressSchema, selectUniqueAddressSchema, updateAddressSchema, upsertAddressSchema, FindFirstAddressProps, FindFirstAddressResponse } from "@services/types/AddressType";
 import { ResponseFormat } from "@utils/FetchConfig";
 import { ZodError } from "zod";
 
 export default class AddressService {
     static async create<T extends CreateAddressProps>(props: T): Promise<ResponseFormat<CreateAddressResponse<T>>> {
         try {
-            const { data, omit, select } = createAddressSchema.parse(props);
-
-            const address = await PrismaInstance.address.create({
-                data,
-                
-                ...(omit && { omit }),
-                ...(select && { select }),
-            });
-
+            const parsedProps = createAddressSchema.parse(props);
+            const address = await PrismaInstance.address.create(parsedProps);
             return { data: address as CreateAddressResponse<T> };
         } catch (error) {
-            console.error("AddressService -> Create -> " + (error as Error).message);
-            if (process.env.NODE_ENV === "development") {
-                if (error instanceof ZodError)
-                    throw new Error("AddressService -> Create -> Invalid Zod params -> " + error.message);
-                if (error instanceof PrismaClientKnownRequestError)
-                    throw new Error("AddressService -> Create -> Prisma error -> " + error.message);
-                throw new Error("AddressService -> Create -> " + (error as Error).message);
-            }
-            // TODO: add logging
-            return { error: "Unable to create address..." };
+            return AddressService.error("create", error);
         }
     }
 
     static async upsert<T extends UpsertAddressProps>(props: T): Promise<ResponseFormat<UpsertAddressResponse<T>>> {
         try {
-            const { create, update, where, omit, select } = upsertAddressSchema.parse(props);
-
-            const address = await PrismaInstance.address.upsert({
-                create,
-                update,
-                where,
-                
-                ...(omit && { omit }),
-                ...(select && { select }),
-            });
-
+            const parsedProps = upsertAddressSchema.parse(props);
+            const address = await PrismaInstance.address.upsert(parsedProps);
             return { data: address as UpsertAddressResponse<T> };
         } catch (error) {
-            console.error("AddressService -> Upsert -> " + (error as Error).message);
-            if (process.env.NODE_ENV === "development") {
-                if (error instanceof ZodError)
-                    throw new Error("AddressService -> Upsert -> Invalid Zod params -> " + error.message);
-                if (error instanceof PrismaClientKnownRequestError)
-                    throw new Error("AddressService -> Upsert -> Prisma error -> " + error.message);
-                throw new Error("AddressService -> Upsert -> " + (error as Error).message);
-            }
-            // TODO: add logging
-            return { error: "Unable to upsert address..." };
+            return AddressService.error("upsert", error);
         }
     }
 
     static async update<T extends UpdateAddressProps>(props: T): Promise<ResponseFormat<UpdateAddressResponse<T>>> {
         try {
-            const { data, where, omit, select } = updateAddressSchema.parse(props);
-
-            const address = await PrismaInstance.address.update({
-                data,
-                where,
-                
-                ...(omit && { omit }),
-                ...(select && { select }),
-            });
-
+            const parsedProps = updateAddressSchema.parse(props);
+            const address = await PrismaInstance.address.update(parsedProps);
             return { data: address as UpdateAddressResponse<T> };
         } catch (error) {
-            console.error("AddressService -> Update -> " + (error as Error).message);
-            if (process.env.NODE_ENV === "development") {
-                if (error instanceof ZodError)
-                    throw new Error("AddressService -> Update -> Invalid Zod params -> " + error.message);
-                if (error instanceof PrismaClientKnownRequestError)
-                    throw new Error("AddressService -> Update -> Prisma error -> " + error.message);
-                throw new Error("AddressService -> Update -> " + (error as Error).message);
-            }
-            // TODO: add logging
-            return { error: "Unable to update address..." };
+            return AddressService.error("update", error);
         }
     }
 
     static async delete<T extends DeleteAddressProps>(props: T): Promise<ResponseFormat<DeleteAddressResponse<T>>> {
         try {
-            const { where, omit, select } = deleteAddressSchema.parse(props);
-
-            const address = await PrismaInstance.address.delete({
-                where,
-                
-                ...(omit && { omit }),
-                ...(select && { select }),
-            });
-
+            const parsedProps = deleteAddressSchema.parse(props);
+            const address = await PrismaInstance.address.delete(parsedProps);
             return { data: address as DeleteAddressResponse<T> };
         } catch (error) {
-            console.error("AddressService -> Delete -> " + (error as Error).message);
-            if (process.env.NODE_ENV === "development") {
-                if (error instanceof ZodError)
-                    throw new Error("AddressService -> Delete -> Invalid Zod params -> " + error.message);
-                if (error instanceof PrismaClientKnownRequestError)
-                    throw new Error("AddressService -> Delete -> Prisma error -> " + error.message);
-                throw new Error("AddressService -> Delete -> " + (error as Error).message);
-            }
-            // TODO: add logging
-            return { error: "Unable to delete address..." };
+            return AddressService.error("delete", error);
+        }
+    }
+
+    static async findFirst<T extends FindFirstAddressProps>(props: T): Promise<ResponseFormat<FindFirstAddressResponse<T>>> {
+        try {
+            const parsedProps = selectFirstAddressSchema.parse(props);
+            const address = await PrismaInstance.address.findFirst(parsedProps);
+            return { data: address as FindFirstAddressResponse<T> };
+        } catch (error) {
+            return AddressService.error("findFirst", error);
         }
     }
 
     static async findUnique<T extends FindUniqueAddressProps>(props: T): Promise<ResponseFormat<FindUniqueAddressResponse<T>>> {
         try {
-            const { where, omit, select } = selectAddressSchema.parse(props);
-
-            const address = await PrismaInstance.address.findUnique({
-                where,
-                
-                ...(omit && { omit }),
-                ...(select && { select }),
-            });
-
+            const parsedProps = selectUniqueAddressSchema.parse(props);
+            const address = await PrismaInstance.address.findUnique(parsedProps);
             return { data: address as FindUniqueAddressResponse<T> };
         } catch (error) {
-            console.error("AddressService -> FindUnique -> " + (error as Error).message);
-            if (process.env.NODE_ENV === "development") {
-                if (error instanceof ZodError)
-                    throw new Error("AddressService -> FindUnique -> Invalid Zod params -> " + error.message);
-                if (error instanceof PrismaClientKnownRequestError)
-                    throw new Error("AddressService -> FindUnique -> Prisma error -> " + error.message);
-                throw new Error("AddressService -> FindUnique -> " + (error as Error).message);
-            }
-            // TODO: add logging
-            return { error: "Unable to find address..." };
+            return AddressService.error("findUnique", error);
         }
     }
 
     static async findMany<T extends FindManyAddressProps>(props: T): Promise<ResponseFormat<FindManyAddressResponse<T>>> {
         try {
-            const {
-                cursor,
-                distinct,
-                
-                omit,
-                orderBy,
-                select,
-                skip = 0,
-                take = 10,
-                where,
-            } = selectManyAddressSchema.parse(props);
-
-            const addressList = await PrismaInstance.address.findMany({
-                ...(cursor && { cursor }),
-                ...(distinct && { distinct }),
-                
-                ...(omit && { omit }),
-                ...(orderBy && { orderBy }),
-                ...(select && { select }),
-                ...(skip && { skip }),
-                ...(take && { take }),
-                ...(where && { where }),
-            });
-
+            const parsedProps = selectManyAddressSchema.parse(props);
+            const { skip = 0, take = 10 } = parsedProps;
+            const addressList = await PrismaInstance.address.findMany({ skip, take, ...parsedProps });
             return { data: addressList as FindManyAddressResponse<T> };
         } catch (error) {
-            console.error("AddressService -> FindMany -> " + (error as Error).message);
-            if (process.env.NODE_ENV === "development") {
-                if (error instanceof ZodError)
-                    throw new Error("AddressService -> FindMany -> Invalid Zod params -> " + error.message);
-                if (error instanceof PrismaClientKnownRequestError)
-                    throw new Error("AddressService -> FindMany -> Prisma error -> " + error.message);
-                throw new Error("AddressService -> FindMany -> " + (error as Error).message);
-            }
-            // TODO: add logging
-            return { error: "Unable to find addresss..." };
+            return AddressService.error("findMany", error);
         }
     }
 
     static async count(props: CountAddressProps): Promise<ResponseFormat<CountAddressResponse>> {
         try {
-            const { cursor, orderBy, select, skip, take, where } = countAddressSchema.parse(props);
-
-            const addressAmount: AddressCount = await PrismaInstance.address.count({
-                ...(cursor && { cursor }),
-                ...(orderBy && { orderBy }),
-                ...(select && { select }),
-                ...(skip && { skip }),
-                ...(take && { take }),
-                ...(where && { where }),
-            });
-
+            const parsedProps = countAddressSchema.parse(props);
+            const addressAmount: AddressCount = await PrismaInstance.address.count(parsedProps);
             return { data: addressAmount };
         } catch (error) {
-            console.error("AddressService -> Count -> " + (error as Error).message);
-            if (process.env.NODE_ENV === "development") {
-                if (error instanceof ZodError)
-                    throw new Error("AddressService -> Count -> Invalid Zod params -> " + error.message);
-                if (error instanceof PrismaClientKnownRequestError)
-                    throw new Error("AddressService -> Count -> Prisma error -> " + error.message);
-                throw new Error("AddressService -> Count -> " + (error as Error).message);
-            }
-            // TODO: add logging
-            return { error: "Unable to count addresss..." };
+            return AddressService.error("count", error);
         }
+    }
+
+    static async error(methodName: string, error: unknown): Promise<{error: string}> {
+        if (process.env.NODE_ENV === "development") {
+            const serviceName = this.constructor.name;
+            const message = (error as Error).message;
+            if (error instanceof ZodError){
+                const zodMessage = serviceName + " -> " + methodName + " -> Invalid Zod params -> " + error.message;
+                console.error(zodMessage);
+                throw new Error(zodMessage);
+            } else if (error instanceof PrismaClientKnownRequestError){
+                const prismaMessage = serviceName + " -> " + methodName + " -> Prisma error -> " + error.message;
+                console.error(prismaMessage);
+                throw new Error(prismaMessage);
+            } else {
+                const errorMessage = serviceName + " -> " + methodName + " -> " + message;
+                console.error(errorMessage);
+                throw new Error(errorMessage);
+            }
+        }
+        // TODO: add logging
+        return { error: "Something went wrong..." };
     }
 }

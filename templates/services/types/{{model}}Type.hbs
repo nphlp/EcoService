@@ -1,7 +1,7 @@
 // ============== Types ============== //
 
 import { Prisma } from "@prisma/client";
-import { {{modelName}}CreateArgsSchema, {{modelName}}DeleteArgsSchema, {{modelName}}FindManyArgsSchema, {{modelName}}FindUniqueArgsSchema, {{modelName}}OrderByWithRelationInputSchema, {{modelName}}Schema, {{modelName}}UpdateArgsSchema, {{modelName}}UpsertArgsSchema, {{modelName}}WhereInputSchema, {{modelName}}WhereUniqueInputSchema, {{#if hasRelations}}{{modelName}}WithRelationsSchema{{/if}} } from "@prisma/zod";
+import { {{modelName}}CreateArgsSchema, {{modelName}}DeleteArgsSchema, {{modelName}}FindFirstArgsSchema, {{modelName}}FindManyArgsSchema, {{modelName}}FindUniqueArgsSchema, {{modelName}}OrderByWithRelationInputSchema, {{modelName}}Schema, {{modelName}}UpdateArgsSchema, {{modelName}}UpsertArgsSchema, {{modelName}}WhereInputSchema, {{modelName}}WhereUniqueInputSchema, {{#if hasRelations}}{{modelName}}WithRelationsSchema{{/if}} } from "@prisma/zod";
 {{#if hasRelations}}
 import {{modelName}}IncludeSchema from "@prisma/zod/inputTypeSchemas/{{modelName}}IncludeSchema";
 {{/if}}
@@ -22,6 +22,7 @@ export type Create{{modelName}}Props = Prisma.{{modelName}}CreateArgs;
 export type Upsert{{modelName}}Props = Prisma.{{modelName}}UpsertArgs;
 export type Update{{modelName}}Props = Prisma.{{modelName}}UpdateArgs;
 export type Delete{{modelName}}Props = Prisma.{{modelName}}DeleteArgs;
+export type FindFirst{{modelName}}Props = Prisma.{{modelName}}FindFirstArgs;
 export type FindUnique{{modelName}}Props = Prisma.{{modelName}}FindUniqueArgs;
 export type FindMany{{modelName}}Props = Prisma.{{modelName}}FindManyArgs;
 export type Count{{modelName}}Props = Prisma.{{modelName}}CountArgs;
@@ -32,7 +33,8 @@ export const create{{modelName}}Schema: ZodType<Create{{modelName}}Props> = {{mo
 export const upsert{{modelName}}Schema: ZodType<Upsert{{modelName}}Props> = {{modelName}}UpsertArgsSchema;
 export const update{{modelName}}Schema: ZodType<Update{{modelName}}Props> = {{modelName}}UpdateArgsSchema;
 export const delete{{modelName}}Schema: ZodType<Delete{{modelName}}Props> = {{modelName}}DeleteArgsSchema;
-export const select{{modelName}}Schema: ZodType<FindUnique{{modelName}}Props> = {{modelName}}FindUniqueArgsSchema;
+export const selectFirst{{modelName}}Schema: ZodType<FindFirst{{modelName}}Props> = {{modelName}}FindFirstArgsSchema;
+export const selectUnique{{modelName}}Schema: ZodType<FindUnique{{modelName}}Props> = {{modelName}}FindUniqueArgsSchema;
 export const selectMany{{modelName}}Schema: ZodType<FindMany{{modelName}}Props> = {{modelName}}FindManyArgsSchema;
 export const count{{modelName}}Schema: ZodType<Count{{modelName}}Props> =  z.object({
     where: z.lazy(() => {{modelName}}WhereInputSchema).optional(),
@@ -52,6 +54,7 @@ export type Create{{modelName}}Response<T extends Create{{modelName}}Props> = Pr
 export type Upsert{{modelName}}Response<T extends Upsert{{modelName}}Props> = Prisma.{{modelName}}GetPayload<T>;
 export type Update{{modelName}}Response<T extends Update{{modelName}}Props> = Prisma.{{modelName}}GetPayload<T>;
 export type Delete{{modelName}}Response<T extends Delete{{modelName}}Props> = Prisma.{{modelName}}GetPayload<T>;
+export type FindFirst{{modelName}}Response<T extends FindFirst{{modelName}}Props> = Prisma.{{modelName}}GetPayload<T> | null;
 export type FindUnique{{modelName}}Response<T extends FindUnique{{modelName}}Props> = Prisma.{{modelName}}GetPayload<T> | null;
 export type FindMany{{modelName}}Response<T extends FindMany{{modelName}}Props> = Prisma.{{modelName}}GetPayload<T>[];
 export type Count{{modelName}}Response = {{modelName}}Count;

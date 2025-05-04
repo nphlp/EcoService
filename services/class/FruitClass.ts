@@ -1,209 +1,110 @@
 import PrismaInstance from "@lib/prisma";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
-import { FruitCount, CountFruitProps, CountFruitResponse, CreateFruitProps, CreateFruitResponse, DeleteFruitProps, DeleteFruitResponse, FindManyFruitProps, FindManyFruitResponse, FindUniqueFruitProps, FindUniqueFruitResponse, UpdateFruitProps, UpdateFruitResponse, UpsertFruitProps, UpsertFruitResponse, countFruitSchema, createFruitSchema, deleteFruitSchema, selectFruitSchema, selectManyFruitSchema, updateFruitSchema, upsertFruitSchema } from "@services/types/FruitType";
+import { FruitCount, CountFruitProps, CountFruitResponse, CreateFruitProps, CreateFruitResponse, DeleteFruitProps, DeleteFruitResponse, FindManyFruitProps, FindManyFruitResponse, FindUniqueFruitProps, FindUniqueFruitResponse, UpdateFruitProps, UpdateFruitResponse, UpsertFruitProps, UpsertFruitResponse, countFruitSchema, createFruitSchema, deleteFruitSchema, selectFirstFruitSchema, selectManyFruitSchema, selectUniqueFruitSchema, updateFruitSchema, upsertFruitSchema, FindFirstFruitProps, FindFirstFruitResponse } from "@services/types/FruitType";
 import { ResponseFormat } from "@utils/FetchConfig";
 import { ZodError } from "zod";
 
 export default class FruitService {
     static async create<T extends CreateFruitProps>(props: T): Promise<ResponseFormat<CreateFruitResponse<T>>> {
         try {
-            const { data, omit, select } = createFruitSchema.parse(props);
-
-            const fruit = await PrismaInstance.fruit.create({
-                data,
-                
-                ...(omit && { omit }),
-                ...(select && { select }),
-            });
-
+            const parsedProps = createFruitSchema.parse(props);
+            const fruit = await PrismaInstance.fruit.create(parsedProps);
             return { data: fruit as CreateFruitResponse<T> };
         } catch (error) {
-            console.error("FruitService -> Create -> " + (error as Error).message);
-            if (process.env.NODE_ENV === "development") {
-                if (error instanceof ZodError)
-                    throw new Error("FruitService -> Create -> Invalid Zod params -> " + error.message);
-                if (error instanceof PrismaClientKnownRequestError)
-                    throw new Error("FruitService -> Create -> Prisma error -> " + error.message);
-                throw new Error("FruitService -> Create -> " + (error as Error).message);
-            }
-            // TODO: add logging
-            return { error: "Unable to create fruit..." };
+            return FruitService.error("create", error);
         }
     }
 
     static async upsert<T extends UpsertFruitProps>(props: T): Promise<ResponseFormat<UpsertFruitResponse<T>>> {
         try {
-            const { create, update, where, omit, select } = upsertFruitSchema.parse(props);
-
-            const fruit = await PrismaInstance.fruit.upsert({
-                create,
-                update,
-                where,
-                
-                ...(omit && { omit }),
-                ...(select && { select }),
-            });
-
+            const parsedProps = upsertFruitSchema.parse(props);
+            const fruit = await PrismaInstance.fruit.upsert(parsedProps);
             return { data: fruit as UpsertFruitResponse<T> };
         } catch (error) {
-            console.error("FruitService -> Upsert -> " + (error as Error).message);
-            if (process.env.NODE_ENV === "development") {
-                if (error instanceof ZodError)
-                    throw new Error("FruitService -> Upsert -> Invalid Zod params -> " + error.message);
-                if (error instanceof PrismaClientKnownRequestError)
-                    throw new Error("FruitService -> Upsert -> Prisma error -> " + error.message);
-                throw new Error("FruitService -> Upsert -> " + (error as Error).message);
-            }
-            // TODO: add logging
-            return { error: "Unable to upsert fruit..." };
+            return FruitService.error("upsert", error);
         }
     }
 
     static async update<T extends UpdateFruitProps>(props: T): Promise<ResponseFormat<UpdateFruitResponse<T>>> {
         try {
-            const { data, where, omit, select } = updateFruitSchema.parse(props);
-
-            const fruit = await PrismaInstance.fruit.update({
-                data,
-                where,
-                
-                ...(omit && { omit }),
-                ...(select && { select }),
-            });
-
+            const parsedProps = updateFruitSchema.parse(props);
+            const fruit = await PrismaInstance.fruit.update(parsedProps);
             return { data: fruit as UpdateFruitResponse<T> };
         } catch (error) {
-            console.error("FruitService -> Update -> " + (error as Error).message);
-            if (process.env.NODE_ENV === "development") {
-                if (error instanceof ZodError)
-                    throw new Error("FruitService -> Update -> Invalid Zod params -> " + error.message);
-                if (error instanceof PrismaClientKnownRequestError)
-                    throw new Error("FruitService -> Update -> Prisma error -> " + error.message);
-                throw new Error("FruitService -> Update -> " + (error as Error).message);
-            }
-            // TODO: add logging
-            return { error: "Unable to update fruit..." };
+            return FruitService.error("update", error);
         }
     }
 
     static async delete<T extends DeleteFruitProps>(props: T): Promise<ResponseFormat<DeleteFruitResponse<T>>> {
         try {
-            const { where, omit, select } = deleteFruitSchema.parse(props);
-
-            const fruit = await PrismaInstance.fruit.delete({
-                where,
-                
-                ...(omit && { omit }),
-                ...(select && { select }),
-            });
-
+            const parsedProps = deleteFruitSchema.parse(props);
+            const fruit = await PrismaInstance.fruit.delete(parsedProps);
             return { data: fruit as DeleteFruitResponse<T> };
         } catch (error) {
-            console.error("FruitService -> Delete -> " + (error as Error).message);
-            if (process.env.NODE_ENV === "development") {
-                if (error instanceof ZodError)
-                    throw new Error("FruitService -> Delete -> Invalid Zod params -> " + error.message);
-                if (error instanceof PrismaClientKnownRequestError)
-                    throw new Error("FruitService -> Delete -> Prisma error -> " + error.message);
-                throw new Error("FruitService -> Delete -> " + (error as Error).message);
-            }
-            // TODO: add logging
-            return { error: "Unable to delete fruit..." };
+            return FruitService.error("delete", error);
+        }
+    }
+
+    static async findFirst<T extends FindFirstFruitProps>(props: T): Promise<ResponseFormat<FindFirstFruitResponse<T>>> {
+        try {
+            const parsedProps = selectFirstFruitSchema.parse(props);
+            const fruit = await PrismaInstance.fruit.findFirst(parsedProps);
+            return { data: fruit as FindFirstFruitResponse<T> };
+        } catch (error) {
+            return FruitService.error("findFirst", error);
         }
     }
 
     static async findUnique<T extends FindUniqueFruitProps>(props: T): Promise<ResponseFormat<FindUniqueFruitResponse<T>>> {
         try {
-            const { where, omit, select } = selectFruitSchema.parse(props);
-
-            const fruit = await PrismaInstance.fruit.findUnique({
-                where,
-                
-                ...(omit && { omit }),
-                ...(select && { select }),
-            });
-
+            const parsedProps = selectUniqueFruitSchema.parse(props);
+            const fruit = await PrismaInstance.fruit.findUnique(parsedProps);
             return { data: fruit as FindUniqueFruitResponse<T> };
         } catch (error) {
-            console.error("FruitService -> FindUnique -> " + (error as Error).message);
-            if (process.env.NODE_ENV === "development") {
-                if (error instanceof ZodError)
-                    throw new Error("FruitService -> FindUnique -> Invalid Zod params -> " + error.message);
-                if (error instanceof PrismaClientKnownRequestError)
-                    throw new Error("FruitService -> FindUnique -> Prisma error -> " + error.message);
-                throw new Error("FruitService -> FindUnique -> " + (error as Error).message);
-            }
-            // TODO: add logging
-            return { error: "Unable to find fruit..." };
+            return FruitService.error("findUnique", error);
         }
     }
 
     static async findMany<T extends FindManyFruitProps>(props: T): Promise<ResponseFormat<FindManyFruitResponse<T>>> {
         try {
-            const {
-                cursor,
-                distinct,
-                
-                omit,
-                orderBy,
-                select,
-                skip = 0,
-                take = 10,
-                where,
-            } = selectManyFruitSchema.parse(props);
-
-            const fruitList = await PrismaInstance.fruit.findMany({
-                ...(cursor && { cursor }),
-                ...(distinct && { distinct }),
-                
-                ...(omit && { omit }),
-                ...(orderBy && { orderBy }),
-                ...(select && { select }),
-                ...(skip && { skip }),
-                ...(take && { take }),
-                ...(where && { where }),
-            });
-
+            const parsedProps = selectManyFruitSchema.parse(props);
+            const { skip = 0, take = 10 } = parsedProps;
+            const fruitList = await PrismaInstance.fruit.findMany({ skip, take, ...parsedProps });
             return { data: fruitList as FindManyFruitResponse<T> };
         } catch (error) {
-            console.error("FruitService -> FindMany -> " + (error as Error).message);
-            if (process.env.NODE_ENV === "development") {
-                if (error instanceof ZodError)
-                    throw new Error("FruitService -> FindMany -> Invalid Zod params -> " + error.message);
-                if (error instanceof PrismaClientKnownRequestError)
-                    throw new Error("FruitService -> FindMany -> Prisma error -> " + error.message);
-                throw new Error("FruitService -> FindMany -> " + (error as Error).message);
-            }
-            // TODO: add logging
-            return { error: "Unable to find fruits..." };
+            return FruitService.error("findMany", error);
         }
     }
 
     static async count(props: CountFruitProps): Promise<ResponseFormat<CountFruitResponse>> {
         try {
-            const { cursor, orderBy, select, skip, take, where } = countFruitSchema.parse(props);
-
-            const fruitAmount: FruitCount = await PrismaInstance.fruit.count({
-                ...(cursor && { cursor }),
-                ...(orderBy && { orderBy }),
-                ...(select && { select }),
-                ...(skip && { skip }),
-                ...(take && { take }),
-                ...(where && { where }),
-            });
-
+            const parsedProps = countFruitSchema.parse(props);
+            const fruitAmount: FruitCount = await PrismaInstance.fruit.count(parsedProps);
             return { data: fruitAmount };
         } catch (error) {
-            console.error("FruitService -> Count -> " + (error as Error).message);
-            if (process.env.NODE_ENV === "development") {
-                if (error instanceof ZodError)
-                    throw new Error("FruitService -> Count -> Invalid Zod params -> " + error.message);
-                if (error instanceof PrismaClientKnownRequestError)
-                    throw new Error("FruitService -> Count -> Prisma error -> " + error.message);
-                throw new Error("FruitService -> Count -> " + (error as Error).message);
-            }
-            // TODO: add logging
-            return { error: "Unable to count fruits..." };
+            return FruitService.error("count", error);
         }
+    }
+
+    static async error(methodName: string, error: unknown): Promise<{error: string}> {
+        if (process.env.NODE_ENV === "development") {
+            const serviceName = this.constructor.name;
+            const message = (error as Error).message;
+            if (error instanceof ZodError){
+                const zodMessage = serviceName + " -> " + methodName + " -> Invalid Zod params -> " + error.message;
+                console.error(zodMessage);
+                throw new Error(zodMessage);
+            } else if (error instanceof PrismaClientKnownRequestError){
+                const prismaMessage = serviceName + " -> " + methodName + " -> Prisma error -> " + error.message;
+                console.error(prismaMessage);
+                throw new Error(prismaMessage);
+            } else {
+                const errorMessage = serviceName + " -> " + methodName + " -> " + message;
+                console.error(errorMessage);
+                throw new Error(errorMessage);
+            }
+        }
+        // TODO: add logging
+        return { error: "Something went wrong..." };
     }
 }

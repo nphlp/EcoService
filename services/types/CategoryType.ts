@@ -1,7 +1,7 @@
 // ============== Types ============== //
 
 import { Prisma } from "@prisma/client";
-import { CategoryCreateArgsSchema, CategoryDeleteArgsSchema, CategoryFindManyArgsSchema, CategoryFindUniqueArgsSchema, CategoryOrderByWithRelationInputSchema, CategorySchema, CategoryUpdateArgsSchema, CategoryUpsertArgsSchema, CategoryWhereInputSchema, CategoryWhereUniqueInputSchema,  } from "@prisma/zod";
+import { CategoryCreateArgsSchema, CategoryDeleteArgsSchema, CategoryFindFirstArgsSchema, CategoryFindManyArgsSchema, CategoryFindUniqueArgsSchema, CategoryOrderByWithRelationInputSchema, CategorySchema, CategoryUpdateArgsSchema, CategoryUpsertArgsSchema, CategoryWhereInputSchema, CategoryWhereUniqueInputSchema,  } from "@prisma/zod";
 import { z, ZodType } from "zod";
 
 // ============== Model Types ============== //
@@ -15,6 +15,7 @@ export type CreateCategoryProps = Prisma.CategoryCreateArgs;
 export type UpsertCategoryProps = Prisma.CategoryUpsertArgs;
 export type UpdateCategoryProps = Prisma.CategoryUpdateArgs;
 export type DeleteCategoryProps = Prisma.CategoryDeleteArgs;
+export type FindFirstCategoryProps = Prisma.CategoryFindFirstArgs;
 export type FindUniqueCategoryProps = Prisma.CategoryFindUniqueArgs;
 export type FindManyCategoryProps = Prisma.CategoryFindManyArgs;
 export type CountCategoryProps = Prisma.CategoryCountArgs;
@@ -25,7 +26,8 @@ export const createCategorySchema: ZodType<CreateCategoryProps> = CategoryCreate
 export const upsertCategorySchema: ZodType<UpsertCategoryProps> = CategoryUpsertArgsSchema;
 export const updateCategorySchema: ZodType<UpdateCategoryProps> = CategoryUpdateArgsSchema;
 export const deleteCategorySchema: ZodType<DeleteCategoryProps> = CategoryDeleteArgsSchema;
-export const selectCategorySchema: ZodType<FindUniqueCategoryProps> = CategoryFindUniqueArgsSchema;
+export const selectFirstCategorySchema: ZodType<FindFirstCategoryProps> = CategoryFindFirstArgsSchema;
+export const selectUniqueCategorySchema: ZodType<FindUniqueCategoryProps> = CategoryFindUniqueArgsSchema;
 export const selectManyCategorySchema: ZodType<FindManyCategoryProps> = CategoryFindManyArgsSchema;
 export const countCategorySchema: ZodType<CountCategoryProps> =  z.object({
     where: z.lazy(() => CategoryWhereInputSchema).optional(),
@@ -45,6 +47,7 @@ export type CreateCategoryResponse<T extends CreateCategoryProps> = Prisma.Categ
 export type UpsertCategoryResponse<T extends UpsertCategoryProps> = Prisma.CategoryGetPayload<T>;
 export type UpdateCategoryResponse<T extends UpdateCategoryProps> = Prisma.CategoryGetPayload<T>;
 export type DeleteCategoryResponse<T extends DeleteCategoryProps> = Prisma.CategoryGetPayload<T>;
+export type FindFirstCategoryResponse<T extends FindFirstCategoryProps> = Prisma.CategoryGetPayload<T> | null;
 export type FindUniqueCategoryResponse<T extends FindUniqueCategoryProps> = Prisma.CategoryGetPayload<T> | null;
 export type FindManyCategoryResponse<T extends FindManyCategoryProps> = Prisma.CategoryGetPayload<T>[];
 export type CountCategoryResponse = CategoryCount;

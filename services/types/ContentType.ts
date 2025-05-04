@@ -1,7 +1,7 @@
 // ============== Types ============== //
 
 import { Prisma } from "@prisma/client";
-import { ContentCreateArgsSchema, ContentDeleteArgsSchema, ContentFindManyArgsSchema, ContentFindUniqueArgsSchema, ContentOrderByWithRelationInputSchema, ContentSchema, ContentUpdateArgsSchema, ContentUpsertArgsSchema, ContentWhereInputSchema, ContentWhereUniqueInputSchema,  } from "@prisma/zod";
+import { ContentCreateArgsSchema, ContentDeleteArgsSchema, ContentFindFirstArgsSchema, ContentFindManyArgsSchema, ContentFindUniqueArgsSchema, ContentOrderByWithRelationInputSchema, ContentSchema, ContentUpdateArgsSchema, ContentUpsertArgsSchema, ContentWhereInputSchema, ContentWhereUniqueInputSchema,  } from "@prisma/zod";
 import { z, ZodType } from "zod";
 
 // ============== Model Types ============== //
@@ -15,6 +15,7 @@ export type CreateContentProps = Prisma.ContentCreateArgs;
 export type UpsertContentProps = Prisma.ContentUpsertArgs;
 export type UpdateContentProps = Prisma.ContentUpdateArgs;
 export type DeleteContentProps = Prisma.ContentDeleteArgs;
+export type FindFirstContentProps = Prisma.ContentFindFirstArgs;
 export type FindUniqueContentProps = Prisma.ContentFindUniqueArgs;
 export type FindManyContentProps = Prisma.ContentFindManyArgs;
 export type CountContentProps = Prisma.ContentCountArgs;
@@ -25,7 +26,8 @@ export const createContentSchema: ZodType<CreateContentProps> = ContentCreateArg
 export const upsertContentSchema: ZodType<UpsertContentProps> = ContentUpsertArgsSchema;
 export const updateContentSchema: ZodType<UpdateContentProps> = ContentUpdateArgsSchema;
 export const deleteContentSchema: ZodType<DeleteContentProps> = ContentDeleteArgsSchema;
-export const selectContentSchema: ZodType<FindUniqueContentProps> = ContentFindUniqueArgsSchema;
+export const selectFirstContentSchema: ZodType<FindFirstContentProps> = ContentFindFirstArgsSchema;
+export const selectUniqueContentSchema: ZodType<FindUniqueContentProps> = ContentFindUniqueArgsSchema;
 export const selectManyContentSchema: ZodType<FindManyContentProps> = ContentFindManyArgsSchema;
 export const countContentSchema: ZodType<CountContentProps> =  z.object({
     where: z.lazy(() => ContentWhereInputSchema).optional(),
@@ -45,6 +47,7 @@ export type CreateContentResponse<T extends CreateContentProps> = Prisma.Content
 export type UpsertContentResponse<T extends UpsertContentProps> = Prisma.ContentGetPayload<T>;
 export type UpdateContentResponse<T extends UpdateContentProps> = Prisma.ContentGetPayload<T>;
 export type DeleteContentResponse<T extends DeleteContentProps> = Prisma.ContentGetPayload<T>;
+export type FindFirstContentResponse<T extends FindFirstContentProps> = Prisma.ContentGetPayload<T> | null;
 export type FindUniqueContentResponse<T extends FindUniqueContentProps> = Prisma.ContentGetPayload<T> | null;
 export type FindManyContentResponse<T extends FindManyContentProps> = Prisma.ContentGetPayload<T>[];
 export type CountContentResponse = ContentCount;

@@ -1,7 +1,7 @@
 "use server";
 
 import ContentService from "@services/class/ContentClass";
-import { CountContentProps, CountContentResponse, CreateContentProps, CreateContentResponse, DeleteContentProps, DeleteContentResponse, FindManyContentProps, FindManyContentResponse, FindUniqueContentProps, FindUniqueContentResponse, UpdateContentProps, UpdateContentResponse, UpsertContentProps, UpsertContentResponse } from "@services/types/ContentType";
+import { CountContentProps, CountContentResponse, CreateContentProps, CreateContentResponse, DeleteContentProps, DeleteContentResponse, FindFirstContentProps, FindFirstContentResponse, FindManyContentProps, FindManyContentResponse, FindUniqueContentProps, FindUniqueContentResponse, UpdateContentProps, UpdateContentResponse, UpsertContentProps, UpsertContentResponse } from "@services/types/ContentType";
 
 export const CreateContent = async <T extends CreateContentProps>(props: T): Promise<CreateContentResponse<T>> => {
     try {
@@ -46,7 +46,22 @@ export const DeleteContent = async <T extends DeleteContentProps>(props: T): Pro
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const SelectContent = async <T extends FindUniqueContentProps>(
+export const SelectFirstContent = async <T extends FindFirstContentProps>(
+    props: T
+): Promise<FindFirstContentResponse<T>> => {
+    try {
+        const { data, error } = await ContentService.findFirst(props);
+        if (error) throw new Error(error);
+        return data ?? null;
+    } catch (error) {
+        throw new Error("SelectFirstContent -> " + (error as Error).message);
+    }
+};
+
+/**
+ * WARNING: do not use this for fetching data -> use API routes with caching instead
+ */
+export const SelectUniqueContent = async <T extends FindUniqueContentProps>(
     props: T
 ): Promise<FindUniqueContentResponse<T>> => {
     try {
@@ -54,7 +69,7 @@ export const SelectContent = async <T extends FindUniqueContentProps>(
         if (error) throw new Error(error);
         return data ?? null;
     } catch (error) {
-        throw new Error("SelectContent -> " + (error as Error).message);
+        throw new Error("SelectUniqueContent -> " + (error as Error).message);
     }
 };
 

@@ -1,7 +1,7 @@
 // ============== Types ============== //
 
 import { Prisma } from "@prisma/client";
-import { OrderCreateArgsSchema, OrderDeleteArgsSchema, OrderFindManyArgsSchema, OrderFindUniqueArgsSchema, OrderOrderByWithRelationInputSchema, OrderSchema, OrderUpdateArgsSchema, OrderUpsertArgsSchema, OrderWhereInputSchema, OrderWhereUniqueInputSchema,  } from "@prisma/zod";
+import { OrderCreateArgsSchema, OrderDeleteArgsSchema, OrderFindFirstArgsSchema, OrderFindManyArgsSchema, OrderFindUniqueArgsSchema, OrderOrderByWithRelationInputSchema, OrderSchema, OrderUpdateArgsSchema, OrderUpsertArgsSchema, OrderWhereInputSchema, OrderWhereUniqueInputSchema,  } from "@prisma/zod";
 import { z, ZodType } from "zod";
 
 // ============== Model Types ============== //
@@ -15,6 +15,7 @@ export type CreateOrderProps = Prisma.OrderCreateArgs;
 export type UpsertOrderProps = Prisma.OrderUpsertArgs;
 export type UpdateOrderProps = Prisma.OrderUpdateArgs;
 export type DeleteOrderProps = Prisma.OrderDeleteArgs;
+export type FindFirstOrderProps = Prisma.OrderFindFirstArgs;
 export type FindUniqueOrderProps = Prisma.OrderFindUniqueArgs;
 export type FindManyOrderProps = Prisma.OrderFindManyArgs;
 export type CountOrderProps = Prisma.OrderCountArgs;
@@ -25,7 +26,8 @@ export const createOrderSchema: ZodType<CreateOrderProps> = OrderCreateArgsSchem
 export const upsertOrderSchema: ZodType<UpsertOrderProps> = OrderUpsertArgsSchema;
 export const updateOrderSchema: ZodType<UpdateOrderProps> = OrderUpdateArgsSchema;
 export const deleteOrderSchema: ZodType<DeleteOrderProps> = OrderDeleteArgsSchema;
-export const selectOrderSchema: ZodType<FindUniqueOrderProps> = OrderFindUniqueArgsSchema;
+export const selectFirstOrderSchema: ZodType<FindFirstOrderProps> = OrderFindFirstArgsSchema;
+export const selectUniqueOrderSchema: ZodType<FindUniqueOrderProps> = OrderFindUniqueArgsSchema;
 export const selectManyOrderSchema: ZodType<FindManyOrderProps> = OrderFindManyArgsSchema;
 export const countOrderSchema: ZodType<CountOrderProps> =  z.object({
     where: z.lazy(() => OrderWhereInputSchema).optional(),
@@ -45,6 +47,7 @@ export type CreateOrderResponse<T extends CreateOrderProps> = Prisma.OrderGetPay
 export type UpsertOrderResponse<T extends UpsertOrderProps> = Prisma.OrderGetPayload<T>;
 export type UpdateOrderResponse<T extends UpdateOrderProps> = Prisma.OrderGetPayload<T>;
 export type DeleteOrderResponse<T extends DeleteOrderProps> = Prisma.OrderGetPayload<T>;
+export type FindFirstOrderResponse<T extends FindFirstOrderProps> = Prisma.OrderGetPayload<T> | null;
 export type FindUniqueOrderResponse<T extends FindUniqueOrderProps> = Prisma.OrderGetPayload<T> | null;
 export type FindManyOrderResponse<T extends FindManyOrderProps> = Prisma.OrderGetPayload<T>[];
 export type CountOrderResponse = OrderCount;

@@ -1,209 +1,110 @@
 import PrismaInstance from "@lib/prisma";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
-import { ArticleCount, CountArticleProps, CountArticleResponse, CreateArticleProps, CreateArticleResponse, DeleteArticleProps, DeleteArticleResponse, FindManyArticleProps, FindManyArticleResponse, FindUniqueArticleProps, FindUniqueArticleResponse, UpdateArticleProps, UpdateArticleResponse, UpsertArticleProps, UpsertArticleResponse, countArticleSchema, createArticleSchema, deleteArticleSchema, selectArticleSchema, selectManyArticleSchema, updateArticleSchema, upsertArticleSchema } from "@services/types/ArticleType";
+import { ArticleCount, CountArticleProps, CountArticleResponse, CreateArticleProps, CreateArticleResponse, DeleteArticleProps, DeleteArticleResponse, FindManyArticleProps, FindManyArticleResponse, FindUniqueArticleProps, FindUniqueArticleResponse, UpdateArticleProps, UpdateArticleResponse, UpsertArticleProps, UpsertArticleResponse, countArticleSchema, createArticleSchema, deleteArticleSchema, selectFirstArticleSchema, selectManyArticleSchema, selectUniqueArticleSchema, updateArticleSchema, upsertArticleSchema, FindFirstArticleProps, FindFirstArticleResponse } from "@services/types/ArticleType";
 import { ResponseFormat } from "@utils/FetchConfig";
 import { ZodError } from "zod";
 
 export default class ArticleService {
     static async create<T extends CreateArticleProps>(props: T): Promise<ResponseFormat<CreateArticleResponse<T>>> {
         try {
-            const { data, omit, select } = createArticleSchema.parse(props);
-
-            const article = await PrismaInstance.article.create({
-                data,
-                
-                ...(omit && { omit }),
-                ...(select && { select }),
-            });
-
+            const parsedProps = createArticleSchema.parse(props);
+            const article = await PrismaInstance.article.create(parsedProps);
             return { data: article as CreateArticleResponse<T> };
         } catch (error) {
-            console.error("ArticleService -> Create -> " + (error as Error).message);
-            if (process.env.NODE_ENV === "development") {
-                if (error instanceof ZodError)
-                    throw new Error("ArticleService -> Create -> Invalid Zod params -> " + error.message);
-                if (error instanceof PrismaClientKnownRequestError)
-                    throw new Error("ArticleService -> Create -> Prisma error -> " + error.message);
-                throw new Error("ArticleService -> Create -> " + (error as Error).message);
-            }
-            // TODO: add logging
-            return { error: "Unable to create article..." };
+            return ArticleService.error("create", error);
         }
     }
 
     static async upsert<T extends UpsertArticleProps>(props: T): Promise<ResponseFormat<UpsertArticleResponse<T>>> {
         try {
-            const { create, update, where, omit, select } = upsertArticleSchema.parse(props);
-
-            const article = await PrismaInstance.article.upsert({
-                create,
-                update,
-                where,
-                
-                ...(omit && { omit }),
-                ...(select && { select }),
-            });
-
+            const parsedProps = upsertArticleSchema.parse(props);
+            const article = await PrismaInstance.article.upsert(parsedProps);
             return { data: article as UpsertArticleResponse<T> };
         } catch (error) {
-            console.error("ArticleService -> Upsert -> " + (error as Error).message);
-            if (process.env.NODE_ENV === "development") {
-                if (error instanceof ZodError)
-                    throw new Error("ArticleService -> Upsert -> Invalid Zod params -> " + error.message);
-                if (error instanceof PrismaClientKnownRequestError)
-                    throw new Error("ArticleService -> Upsert -> Prisma error -> " + error.message);
-                throw new Error("ArticleService -> Upsert -> " + (error as Error).message);
-            }
-            // TODO: add logging
-            return { error: "Unable to upsert article..." };
+            return ArticleService.error("upsert", error);
         }
     }
 
     static async update<T extends UpdateArticleProps>(props: T): Promise<ResponseFormat<UpdateArticleResponse<T>>> {
         try {
-            const { data, where, omit, select } = updateArticleSchema.parse(props);
-
-            const article = await PrismaInstance.article.update({
-                data,
-                where,
-                
-                ...(omit && { omit }),
-                ...(select && { select }),
-            });
-
+            const parsedProps = updateArticleSchema.parse(props);
+            const article = await PrismaInstance.article.update(parsedProps);
             return { data: article as UpdateArticleResponse<T> };
         } catch (error) {
-            console.error("ArticleService -> Update -> " + (error as Error).message);
-            if (process.env.NODE_ENV === "development") {
-                if (error instanceof ZodError)
-                    throw new Error("ArticleService -> Update -> Invalid Zod params -> " + error.message);
-                if (error instanceof PrismaClientKnownRequestError)
-                    throw new Error("ArticleService -> Update -> Prisma error -> " + error.message);
-                throw new Error("ArticleService -> Update -> " + (error as Error).message);
-            }
-            // TODO: add logging
-            return { error: "Unable to update article..." };
+            return ArticleService.error("update", error);
         }
     }
 
     static async delete<T extends DeleteArticleProps>(props: T): Promise<ResponseFormat<DeleteArticleResponse<T>>> {
         try {
-            const { where, omit, select } = deleteArticleSchema.parse(props);
-
-            const article = await PrismaInstance.article.delete({
-                where,
-                
-                ...(omit && { omit }),
-                ...(select && { select }),
-            });
-
+            const parsedProps = deleteArticleSchema.parse(props);
+            const article = await PrismaInstance.article.delete(parsedProps);
             return { data: article as DeleteArticleResponse<T> };
         } catch (error) {
-            console.error("ArticleService -> Delete -> " + (error as Error).message);
-            if (process.env.NODE_ENV === "development") {
-                if (error instanceof ZodError)
-                    throw new Error("ArticleService -> Delete -> Invalid Zod params -> " + error.message);
-                if (error instanceof PrismaClientKnownRequestError)
-                    throw new Error("ArticleService -> Delete -> Prisma error -> " + error.message);
-                throw new Error("ArticleService -> Delete -> " + (error as Error).message);
-            }
-            // TODO: add logging
-            return { error: "Unable to delete article..." };
+            return ArticleService.error("delete", error);
+        }
+    }
+
+    static async findFirst<T extends FindFirstArticleProps>(props: T): Promise<ResponseFormat<FindFirstArticleResponse<T>>> {
+        try {
+            const parsedProps = selectFirstArticleSchema.parse(props);
+            const article = await PrismaInstance.article.findFirst(parsedProps);
+            return { data: article as FindFirstArticleResponse<T> };
+        } catch (error) {
+            return ArticleService.error("findFirst", error);
         }
     }
 
     static async findUnique<T extends FindUniqueArticleProps>(props: T): Promise<ResponseFormat<FindUniqueArticleResponse<T>>> {
         try {
-            const { where, omit, select } = selectArticleSchema.parse(props);
-
-            const article = await PrismaInstance.article.findUnique({
-                where,
-                
-                ...(omit && { omit }),
-                ...(select && { select }),
-            });
-
+            const parsedProps = selectUniqueArticleSchema.parse(props);
+            const article = await PrismaInstance.article.findUnique(parsedProps);
             return { data: article as FindUniqueArticleResponse<T> };
         } catch (error) {
-            console.error("ArticleService -> FindUnique -> " + (error as Error).message);
-            if (process.env.NODE_ENV === "development") {
-                if (error instanceof ZodError)
-                    throw new Error("ArticleService -> FindUnique -> Invalid Zod params -> " + error.message);
-                if (error instanceof PrismaClientKnownRequestError)
-                    throw new Error("ArticleService -> FindUnique -> Prisma error -> " + error.message);
-                throw new Error("ArticleService -> FindUnique -> " + (error as Error).message);
-            }
-            // TODO: add logging
-            return { error: "Unable to find article..." };
+            return ArticleService.error("findUnique", error);
         }
     }
 
     static async findMany<T extends FindManyArticleProps>(props: T): Promise<ResponseFormat<FindManyArticleResponse<T>>> {
         try {
-            const {
-                cursor,
-                distinct,
-                
-                omit,
-                orderBy,
-                select,
-                skip = 0,
-                take = 10,
-                where,
-            } = selectManyArticleSchema.parse(props);
-
-            const articleList = await PrismaInstance.article.findMany({
-                ...(cursor && { cursor }),
-                ...(distinct && { distinct }),
-                
-                ...(omit && { omit }),
-                ...(orderBy && { orderBy }),
-                ...(select && { select }),
-                ...(skip && { skip }),
-                ...(take && { take }),
-                ...(where && { where }),
-            });
-
+            const parsedProps = selectManyArticleSchema.parse(props);
+            const { skip = 0, take = 10 } = parsedProps;
+            const articleList = await PrismaInstance.article.findMany({ skip, take, ...parsedProps });
             return { data: articleList as FindManyArticleResponse<T> };
         } catch (error) {
-            console.error("ArticleService -> FindMany -> " + (error as Error).message);
-            if (process.env.NODE_ENV === "development") {
-                if (error instanceof ZodError)
-                    throw new Error("ArticleService -> FindMany -> Invalid Zod params -> " + error.message);
-                if (error instanceof PrismaClientKnownRequestError)
-                    throw new Error("ArticleService -> FindMany -> Prisma error -> " + error.message);
-                throw new Error("ArticleService -> FindMany -> " + (error as Error).message);
-            }
-            // TODO: add logging
-            return { error: "Unable to find articles..." };
+            return ArticleService.error("findMany", error);
         }
     }
 
     static async count(props: CountArticleProps): Promise<ResponseFormat<CountArticleResponse>> {
         try {
-            const { cursor, orderBy, select, skip, take, where } = countArticleSchema.parse(props);
-
-            const articleAmount: ArticleCount = await PrismaInstance.article.count({
-                ...(cursor && { cursor }),
-                ...(orderBy && { orderBy }),
-                ...(select && { select }),
-                ...(skip && { skip }),
-                ...(take && { take }),
-                ...(where && { where }),
-            });
-
+            const parsedProps = countArticleSchema.parse(props);
+            const articleAmount: ArticleCount = await PrismaInstance.article.count(parsedProps);
             return { data: articleAmount };
         } catch (error) {
-            console.error("ArticleService -> Count -> " + (error as Error).message);
-            if (process.env.NODE_ENV === "development") {
-                if (error instanceof ZodError)
-                    throw new Error("ArticleService -> Count -> Invalid Zod params -> " + error.message);
-                if (error instanceof PrismaClientKnownRequestError)
-                    throw new Error("ArticleService -> Count -> Prisma error -> " + error.message);
-                throw new Error("ArticleService -> Count -> " + (error as Error).message);
-            }
-            // TODO: add logging
-            return { error: "Unable to count articles..." };
+            return ArticleService.error("count", error);
         }
+    }
+
+    static async error(methodName: string, error: unknown): Promise<{error: string}> {
+        if (process.env.NODE_ENV === "development") {
+            const serviceName = this.constructor.name;
+            const message = (error as Error).message;
+            if (error instanceof ZodError){
+                const zodMessage = serviceName + " -> " + methodName + " -> Invalid Zod params -> " + error.message;
+                console.error(zodMessage);
+                throw new Error(zodMessage);
+            } else if (error instanceof PrismaClientKnownRequestError){
+                const prismaMessage = serviceName + " -> " + methodName + " -> Prisma error -> " + error.message;
+                console.error(prismaMessage);
+                throw new Error(prismaMessage);
+            } else {
+                const errorMessage = serviceName + " -> " + methodName + " -> " + message;
+                console.error(errorMessage);
+                throw new Error(errorMessage);
+            }
+        }
+        // TODO: add logging
+        return { error: "Something went wrong..." };
     }
 }

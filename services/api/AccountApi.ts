@@ -1,5 +1,5 @@
 import AccountService from "@services/class/AccountClass";
-import { CountAccountProps, CountAccountResponse, FindManyAccountProps, FindManyAccountResponse, FindUniqueAccountProps, FindUniqueAccountResponse } from "@services/types/AccountType";
+import { CountAccountProps, CountAccountResponse, FindFirstAccountProps, FindFirstAccountResponse, FindManyAccountProps, FindManyAccountResponse, FindUniqueAccountProps, FindUniqueAccountResponse } from "@services/types/AccountType";
 import { parseAndDecodeParams, revalidate } from "@utils/FetchConfig";
 import { unstable_cache as cache } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
@@ -10,6 +10,10 @@ export type AccountRoutes<Input> = {
     "/account": {
         params: FindManyAccountProps,
         response: FindManyAccountResponse<Input extends FindManyAccountProps ? Input : never>
+    },
+    "/account/first": {
+        params: FindFirstAccountProps,
+        response: FindFirstAccountResponse<Input extends FindFirstAccountProps ? Input : never>
     },
     "/account/unique": {
         params: FindUniqueAccountProps,
@@ -35,6 +39,24 @@ export const SelectAccountList = async <T extends FindManyAccountProps>(request:
         return NextResponse.json(response, { status: 200 });
     } catch (error) {
         return NextResponse.json({ error: "getAccountListCached -> " + (error as Error).message }, { status: 500 });
+    }
+};
+
+// ==================== Find First ==================== //
+
+const accountFirstCached = cache(
+    async <T extends FindFirstAccountProps>(params: T) => AccountService.findFirst(params),
+    ["account/first"],
+    { revalidate, tags: ["account/first"] },
+);
+
+export const SelectAccountFirst = async <T extends FindFirstAccountProps>(request: NextRequest) => {
+    try {
+        const params: T = parseAndDecodeParams(request);
+        const response = await accountFirstCached<T>(params);
+        return NextResponse.json(response, { status: 200 });
+    } catch (error) {
+        return NextResponse.json({ error: "getAccountFirstCached -> " + (error as Error).message }, { status: 500 });
     }
 };
 

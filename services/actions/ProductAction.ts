@@ -1,7 +1,7 @@
 "use server";
 
 import ProductService from "@services/class/ProductClass";
-import { CountProductProps, CountProductResponse, CreateProductProps, CreateProductResponse, DeleteProductProps, DeleteProductResponse, FindManyProductProps, FindManyProductResponse, FindUniqueProductProps, FindUniqueProductResponse, UpdateProductProps, UpdateProductResponse, UpsertProductProps, UpsertProductResponse } from "@services/types/ProductType";
+import { CountProductProps, CountProductResponse, CreateProductProps, CreateProductResponse, DeleteProductProps, DeleteProductResponse, FindFirstProductProps, FindFirstProductResponse, FindManyProductProps, FindManyProductResponse, FindUniqueProductProps, FindUniqueProductResponse, UpdateProductProps, UpdateProductResponse, UpsertProductProps, UpsertProductResponse } from "@services/types/ProductType";
 
 export const CreateProduct = async <T extends CreateProductProps>(props: T): Promise<CreateProductResponse<T>> => {
     try {
@@ -46,7 +46,22 @@ export const DeleteProduct = async <T extends DeleteProductProps>(props: T): Pro
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const SelectProduct = async <T extends FindUniqueProductProps>(
+export const SelectFirstProduct = async <T extends FindFirstProductProps>(
+    props: T
+): Promise<FindFirstProductResponse<T>> => {
+    try {
+        const { data, error } = await ProductService.findFirst(props);
+        if (error) throw new Error(error);
+        return data ?? null;
+    } catch (error) {
+        throw new Error("SelectFirstProduct -> " + (error as Error).message);
+    }
+};
+
+/**
+ * WARNING: do not use this for fetching data -> use API routes with caching instead
+ */
+export const SelectUniqueProduct = async <T extends FindUniqueProductProps>(
     props: T
 ): Promise<FindUniqueProductResponse<T>> => {
     try {
@@ -54,7 +69,7 @@ export const SelectProduct = async <T extends FindUniqueProductProps>(
         if (error) throw new Error(error);
         return data ?? null;
     } catch (error) {
-        throw new Error("SelectProduct -> " + (error as Error).message);
+        throw new Error("SelectUniqueProduct -> " + (error as Error).message);
     }
 };
 

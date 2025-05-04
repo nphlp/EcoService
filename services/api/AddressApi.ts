@@ -1,5 +1,5 @@
 import AddressService from "@services/class/AddressClass";
-import { CountAddressProps, CountAddressResponse, FindManyAddressProps, FindManyAddressResponse, FindUniqueAddressProps, FindUniqueAddressResponse } from "@services/types/AddressType";
+import { CountAddressProps, CountAddressResponse, FindFirstAddressProps, FindFirstAddressResponse, FindManyAddressProps, FindManyAddressResponse, FindUniqueAddressProps, FindUniqueAddressResponse } from "@services/types/AddressType";
 import { parseAndDecodeParams, revalidate } from "@utils/FetchConfig";
 import { unstable_cache as cache } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
@@ -10,6 +10,10 @@ export type AddressRoutes<Input> = {
     "/address": {
         params: FindManyAddressProps,
         response: FindManyAddressResponse<Input extends FindManyAddressProps ? Input : never>
+    },
+    "/address/first": {
+        params: FindFirstAddressProps,
+        response: FindFirstAddressResponse<Input extends FindFirstAddressProps ? Input : never>
     },
     "/address/unique": {
         params: FindUniqueAddressProps,
@@ -35,6 +39,24 @@ export const SelectAddressList = async <T extends FindManyAddressProps>(request:
         return NextResponse.json(response, { status: 200 });
     } catch (error) {
         return NextResponse.json({ error: "getAddressListCached -> " + (error as Error).message }, { status: 500 });
+    }
+};
+
+// ==================== Find First ==================== //
+
+const addressFirstCached = cache(
+    async <T extends FindFirstAddressProps>(params: T) => AddressService.findFirst(params),
+    ["address/first"],
+    { revalidate, tags: ["address/first"] },
+);
+
+export const SelectAddressFirst = async <T extends FindFirstAddressProps>(request: NextRequest) => {
+    try {
+        const params: T = parseAndDecodeParams(request);
+        const response = await addressFirstCached<T>(params);
+        return NextResponse.json(response, { status: 200 });
+    } catch (error) {
+        return NextResponse.json({ error: "getAddressFirstCached -> " + (error as Error).message }, { status: 500 });
     }
 };
 

@@ -1,7 +1,7 @@
 "use server";
 
 import SessionService from "@services/class/SessionClass";
-import { CountSessionProps, CountSessionResponse, CreateSessionProps, CreateSessionResponse, DeleteSessionProps, DeleteSessionResponse, FindManySessionProps, FindManySessionResponse, FindUniqueSessionProps, FindUniqueSessionResponse, UpdateSessionProps, UpdateSessionResponse, UpsertSessionProps, UpsertSessionResponse } from "@services/types/SessionType";
+import { CountSessionProps, CountSessionResponse, CreateSessionProps, CreateSessionResponse, DeleteSessionProps, DeleteSessionResponse, FindFirstSessionProps, FindFirstSessionResponse, FindManySessionProps, FindManySessionResponse, FindUniqueSessionProps, FindUniqueSessionResponse, UpdateSessionProps, UpdateSessionResponse, UpsertSessionProps, UpsertSessionResponse } from "@services/types/SessionType";
 
 export const CreateSession = async <T extends CreateSessionProps>(props: T): Promise<CreateSessionResponse<T>> => {
     try {
@@ -46,7 +46,22 @@ export const DeleteSession = async <T extends DeleteSessionProps>(props: T): Pro
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const SelectSession = async <T extends FindUniqueSessionProps>(
+export const SelectFirstSession = async <T extends FindFirstSessionProps>(
+    props: T
+): Promise<FindFirstSessionResponse<T>> => {
+    try {
+        const { data, error } = await SessionService.findFirst(props);
+        if (error) throw new Error(error);
+        return data ?? null;
+    } catch (error) {
+        throw new Error("SelectFirstSession -> " + (error as Error).message);
+    }
+};
+
+/**
+ * WARNING: do not use this for fetching data -> use API routes with caching instead
+ */
+export const SelectUniqueSession = async <T extends FindUniqueSessionProps>(
     props: T
 ): Promise<FindUniqueSessionResponse<T>> => {
     try {
@@ -54,7 +69,7 @@ export const SelectSession = async <T extends FindUniqueSessionProps>(
         if (error) throw new Error(error);
         return data ?? null;
     } catch (error) {
-        throw new Error("SelectSession -> " + (error as Error).message);
+        throw new Error("SelectUniqueSession -> " + (error as Error).message);
     }
 };
 

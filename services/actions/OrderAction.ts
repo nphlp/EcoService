@@ -1,7 +1,7 @@
 "use server";
 
 import OrderService from "@services/class/OrderClass";
-import { CountOrderProps, CountOrderResponse, CreateOrderProps, CreateOrderResponse, DeleteOrderProps, DeleteOrderResponse, FindManyOrderProps, FindManyOrderResponse, FindUniqueOrderProps, FindUniqueOrderResponse, UpdateOrderProps, UpdateOrderResponse, UpsertOrderProps, UpsertOrderResponse } from "@services/types/OrderType";
+import { CountOrderProps, CountOrderResponse, CreateOrderProps, CreateOrderResponse, DeleteOrderProps, DeleteOrderResponse, FindFirstOrderProps, FindFirstOrderResponse, FindManyOrderProps, FindManyOrderResponse, FindUniqueOrderProps, FindUniqueOrderResponse, UpdateOrderProps, UpdateOrderResponse, UpsertOrderProps, UpsertOrderResponse } from "@services/types/OrderType";
 
 export const CreateOrder = async <T extends CreateOrderProps>(props: T): Promise<CreateOrderResponse<T>> => {
     try {
@@ -46,7 +46,22 @@ export const DeleteOrder = async <T extends DeleteOrderProps>(props: T): Promise
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const SelectOrder = async <T extends FindUniqueOrderProps>(
+export const SelectFirstOrder = async <T extends FindFirstOrderProps>(
+    props: T
+): Promise<FindFirstOrderResponse<T>> => {
+    try {
+        const { data, error } = await OrderService.findFirst(props);
+        if (error) throw new Error(error);
+        return data ?? null;
+    } catch (error) {
+        throw new Error("SelectFirstOrder -> " + (error as Error).message);
+    }
+};
+
+/**
+ * WARNING: do not use this for fetching data -> use API routes with caching instead
+ */
+export const SelectUniqueOrder = async <T extends FindUniqueOrderProps>(
     props: T
 ): Promise<FindUniqueOrderResponse<T>> => {
     try {
@@ -54,7 +69,7 @@ export const SelectOrder = async <T extends FindUniqueOrderProps>(
         if (error) throw new Error(error);
         return data ?? null;
     } catch (error) {
-        throw new Error("SelectOrder -> " + (error as Error).message);
+        throw new Error("SelectUniqueOrder -> " + (error as Error).message);
     }
 };
 

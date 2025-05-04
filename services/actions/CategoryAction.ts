@@ -1,7 +1,7 @@
 "use server";
 
 import CategoryService from "@services/class/CategoryClass";
-import { CountCategoryProps, CountCategoryResponse, CreateCategoryProps, CreateCategoryResponse, DeleteCategoryProps, DeleteCategoryResponse, FindManyCategoryProps, FindManyCategoryResponse, FindUniqueCategoryProps, FindUniqueCategoryResponse, UpdateCategoryProps, UpdateCategoryResponse, UpsertCategoryProps, UpsertCategoryResponse } from "@services/types/CategoryType";
+import { CountCategoryProps, CountCategoryResponse, CreateCategoryProps, CreateCategoryResponse, DeleteCategoryProps, DeleteCategoryResponse, FindFirstCategoryProps, FindFirstCategoryResponse, FindManyCategoryProps, FindManyCategoryResponse, FindUniqueCategoryProps, FindUniqueCategoryResponse, UpdateCategoryProps, UpdateCategoryResponse, UpsertCategoryProps, UpsertCategoryResponse } from "@services/types/CategoryType";
 
 export const CreateCategory = async <T extends CreateCategoryProps>(props: T): Promise<CreateCategoryResponse<T>> => {
     try {
@@ -46,7 +46,22 @@ export const DeleteCategory = async <T extends DeleteCategoryProps>(props: T): P
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const SelectCategory = async <T extends FindUniqueCategoryProps>(
+export const SelectFirstCategory = async <T extends FindFirstCategoryProps>(
+    props: T
+): Promise<FindFirstCategoryResponse<T>> => {
+    try {
+        const { data, error } = await CategoryService.findFirst(props);
+        if (error) throw new Error(error);
+        return data ?? null;
+    } catch (error) {
+        throw new Error("SelectFirstCategory -> " + (error as Error).message);
+    }
+};
+
+/**
+ * WARNING: do not use this for fetching data -> use API routes with caching instead
+ */
+export const SelectUniqueCategory = async <T extends FindUniqueCategoryProps>(
     props: T
 ): Promise<FindUniqueCategoryResponse<T>> => {
     try {
@@ -54,7 +69,7 @@ export const SelectCategory = async <T extends FindUniqueCategoryProps>(
         if (error) throw new Error(error);
         return data ?? null;
     } catch (error) {
-        throw new Error("SelectCategory -> " + (error as Error).message);
+        throw new Error("SelectUniqueCategory -> " + (error as Error).message);
     }
 };
 

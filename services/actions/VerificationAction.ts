@@ -1,7 +1,7 @@
 "use server";
 
 import VerificationService from "@services/class/VerificationClass";
-import { CountVerificationProps, CountVerificationResponse, CreateVerificationProps, CreateVerificationResponse, DeleteVerificationProps, DeleteVerificationResponse, FindManyVerificationProps, FindManyVerificationResponse, FindUniqueVerificationProps, FindUniqueVerificationResponse, UpdateVerificationProps, UpdateVerificationResponse, UpsertVerificationProps, UpsertVerificationResponse } from "@services/types/VerificationType";
+import { CountVerificationProps, CountVerificationResponse, CreateVerificationProps, CreateVerificationResponse, DeleteVerificationProps, DeleteVerificationResponse, FindFirstVerificationProps, FindFirstVerificationResponse, FindManyVerificationProps, FindManyVerificationResponse, FindUniqueVerificationProps, FindUniqueVerificationResponse, UpdateVerificationProps, UpdateVerificationResponse, UpsertVerificationProps, UpsertVerificationResponse } from "@services/types/VerificationType";
 
 export const CreateVerification = async <T extends CreateVerificationProps>(props: T): Promise<CreateVerificationResponse<T>> => {
     try {
@@ -46,7 +46,22 @@ export const DeleteVerification = async <T extends DeleteVerificationProps>(prop
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const SelectVerification = async <T extends FindUniqueVerificationProps>(
+export const SelectFirstVerification = async <T extends FindFirstVerificationProps>(
+    props: T
+): Promise<FindFirstVerificationResponse<T>> => {
+    try {
+        const { data, error } = await VerificationService.findFirst(props);
+        if (error) throw new Error(error);
+        return data ?? null;
+    } catch (error) {
+        throw new Error("SelectFirstVerification -> " + (error as Error).message);
+    }
+};
+
+/**
+ * WARNING: do not use this for fetching data -> use API routes with caching instead
+ */
+export const SelectUniqueVerification = async <T extends FindUniqueVerificationProps>(
     props: T
 ): Promise<FindUniqueVerificationResponse<T>> => {
     try {
@@ -54,7 +69,7 @@ export const SelectVerification = async <T extends FindUniqueVerificationProps>(
         if (error) throw new Error(error);
         return data ?? null;
     } catch (error) {
-        throw new Error("SelectVerification -> " + (error as Error).message);
+        throw new Error("SelectUniqueVerification -> " + (error as Error).message);
     }
 };
 

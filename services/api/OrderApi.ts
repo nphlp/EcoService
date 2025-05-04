@@ -1,5 +1,5 @@
 import OrderService from "@services/class/OrderClass";
-import { CountOrderProps, CountOrderResponse, FindManyOrderProps, FindManyOrderResponse, FindUniqueOrderProps, FindUniqueOrderResponse } from "@services/types/OrderType";
+import { CountOrderProps, CountOrderResponse, FindFirstOrderProps, FindFirstOrderResponse, FindManyOrderProps, FindManyOrderResponse, FindUniqueOrderProps, FindUniqueOrderResponse } from "@services/types/OrderType";
 import { parseAndDecodeParams, revalidate } from "@utils/FetchConfig";
 import { unstable_cache as cache } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
@@ -10,6 +10,10 @@ export type OrderRoutes<Input> = {
     "/order": {
         params: FindManyOrderProps,
         response: FindManyOrderResponse<Input extends FindManyOrderProps ? Input : never>
+    },
+    "/order/first": {
+        params: FindFirstOrderProps,
+        response: FindFirstOrderResponse<Input extends FindFirstOrderProps ? Input : never>
     },
     "/order/unique": {
         params: FindUniqueOrderProps,
@@ -35,6 +39,24 @@ export const SelectOrderList = async <T extends FindManyOrderProps>(request: Nex
         return NextResponse.json(response, { status: 200 });
     } catch (error) {
         return NextResponse.json({ error: "getOrderListCached -> " + (error as Error).message }, { status: 500 });
+    }
+};
+
+// ==================== Find First ==================== //
+
+const orderFirstCached = cache(
+    async <T extends FindFirstOrderProps>(params: T) => OrderService.findFirst(params),
+    ["order/first"],
+    { revalidate, tags: ["order/first"] },
+);
+
+export const SelectOrderFirst = async <T extends FindFirstOrderProps>(request: NextRequest) => {
+    try {
+        const params: T = parseAndDecodeParams(request);
+        const response = await orderFirstCached<T>(params);
+        return NextResponse.json(response, { status: 200 });
+    } catch (error) {
+        return NextResponse.json({ error: "getOrderFirstCached -> " + (error as Error).message }, { status: 500 });
     }
 };
 
