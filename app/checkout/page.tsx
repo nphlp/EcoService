@@ -1,18 +1,36 @@
+import Link from "@comps/ui/link";
+import { StripeInstance } from "@lib/stripe";
+import { redirect } from "next/navigation";
 import AddressForm from "./adressForm";
 import BasketProductList from "./basketProductList";
-import PaymentForm from "./paymentForm";
 import CheckoutButton from "./checkoutButton";
-import { StripeInstance } from "@lib/stripe";
+import PaymentForm from "./paymentForm";
+import { getBasket } from "@lib/getBasket";
 
 export default async function Page() {
-    const calculateOrderAmount = () => {
-        // TODO: make this dynamic
-        return 1400;
-    };
+    const basket = await getBasket();
+
+    if (!basket) redirect("/auth?redirect=checkout");
+
+    const totalPrice = basket.items.reduce((acc, product) => acc + product.price * product.quantity, 0) * 100;
+
+    if (basket.items.length === 0) {
+        return (
+            <div className="flex min-h-full flex-col items-center justify-center">
+                <div className="flex flex-col items-start space-y-6 px-5 py-18">
+                    <h2 className="text-3xl font-bold">Panier</h2>
+                    <p>Votre panier est vide pour le moment...</p>
+                    <div className="flex w-full justify-center">
+                        <Link label="Voir le catalogue" href="/catalog" />
+                    </div>
+                </div>
+            </div>
+        );
+    }
 
     // Create PaymentIntent as soon as the page loads
     const { client_secret: clientSecret } = await StripeInstance.paymentIntents.create({
-        amount: calculateOrderAmount(),
+        amount: totalPrice,
         currency: "eur",
         payment_method_types: ["card"],
     });

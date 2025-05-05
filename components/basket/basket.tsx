@@ -3,14 +3,14 @@
 import ButtonClient from "@comps/client/button";
 import { useHeaderStore } from "@comps/header/headerStore";
 import ImageRatio from "@comps/server/imageRatio";
+import Link from "@comps/ui/link";
 import { combo } from "@lib/combo";
 import { motion } from "framer-motion";
-import { BasketProduct, useBasketStore } from "./basketStore";
-import Link from "@comps/ui/link";
+import { BasketItem as BasketItemType, useBasketStore } from "./basketStore";
 
 export default function Basket() {
     const { basketOpen, setBasketOpen } = useHeaderStore();
-    const { basketProductList, clearBasket } = useBasketStore();
+    const { basket, clearBasket } = useBasketStore();
 
     return (
         <div
@@ -40,13 +40,11 @@ export default function Basket() {
                     <div>
                         <h3 className="text-eco w-full text-2xl font-bold">Mon Panier</h3>
                         <div className="text-xs text-gray-500">
-                            Vous avez {basketProductList.length} produits dans votre panier.
+                            Vous avez {basket?.items.length} produits dans votre panier.
                         </div>
                     </div>
 
-                    {basketProductList.map((product, index) => (
-                        <BasketItem key={index} product={product} />
-                    ))}
+                    {basket?.items.map((product, index) => <BasketItem key={index} product={product} />)}
 
                     <div className="space-y-3">
                         <Link
@@ -77,7 +75,7 @@ export default function Basket() {
 }
 
 type BasketItemProps = {
-    product: BasketProduct;
+    product: BasketItemType;
 };
 
 const BasketItem = (props: BasketItemProps) => {

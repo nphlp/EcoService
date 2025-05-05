@@ -1,9 +1,9 @@
-import { GetSession } from "@lib/auth";
+import { GetSession } from "@lib/authServer";
 import { Fetch } from "@utils/Fetch/Fetch";
 import { Metadata } from "next";
 import { unauthorized } from "next/navigation";
-import ProductDisplay from "./components/productDisplay";
 import { SideBarToggleTitle } from "../sideBar";
+import ProductDisplay from "./components/productDisplay";
 
 export const metadata: Metadata = {
     title: "Mes produits Stripe",

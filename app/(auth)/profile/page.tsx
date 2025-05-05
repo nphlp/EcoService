@@ -1,5 +1,5 @@
 import { AccordionGroup } from "@comps/ui/accordion";
-import { GetSession } from "@lib/auth";
+import { GetSession } from "@lib/authServer";
 import { unauthorized } from "next/navigation";
 import EditionAccordion from "./components/editionAccordion";
 import EmailConfirmModal from "./components/emailConfirmModal";

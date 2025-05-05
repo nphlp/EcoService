@@ -7,10 +7,13 @@ import InputPassword from "@comps/ui/inputPassword";
 import Link from "@comps/ui/link";
 import { signIn } from "@lib/authClient";
 import { isVendorOrEmployeeOrAdmin } from "@lib/checkRole";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { FormEvent, useState } from "react";
 
 export default function LoginClient() {
+    const searchParams = useSearchParams();
+    const redirect = searchParams.get("redirect") ? "/" + searchParams.get("redirect") : null;
+
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
     const [message, setMessage] = useState<string>("");
@@ -44,10 +47,10 @@ export default function LoginClient() {
             setMode("success");
             setIsFeedbackOpen(true);
             const isAuthorizedToDashboard = await isVendorOrEmployeeOrAdmin();
-            const redirectPath = isAuthorizedToDashboard ? "/dashboard" : "/profile";
+            const redirectAccordingRole = isAuthorizedToDashboard ? "/dashboard" : "/profile";
 
             setTimeout(() => {
-                router.push(redirectPath);
+                router.push(redirect ?? redirectAccordingRole);
             }, 1000);
         } else if (error) {
             setMessage("Failed to login, invalid credentials.");

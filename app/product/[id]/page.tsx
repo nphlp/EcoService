@@ -32,10 +32,6 @@ export default async function Page(props: PageProps) {
 
     const { name, image, price, description, stock, Vendor, Category } = product;
 
-    {
-        console.log(`product-${id}`);
-    }
-
     return (
         <div className="p-7">
             {/* Bouton retour */}

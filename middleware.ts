@@ -1,8 +1,6 @@
-import { GetSession } from "@lib/auth";
-import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 
-export async function middleware(request: NextRequest) {
+export async function middleware() {
     // const session = await GetSession();
 
     // if(!session) {

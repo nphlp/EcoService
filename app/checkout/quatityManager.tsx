@@ -1,27 +1,29 @@
 "use client";
 
-import { useBasketStore } from "@comps/basket/basketStore";
+import { BasketItem, useBasketStore } from "@comps/basket/basketStore";
 import Button from "@comps/ui/button";
 import { Minus, Plus } from "lucide-react";
-import { BasketProduct } from "@comps/basket/basketStore";
 
 type QuantityManagerProps = {
-    product: BasketProduct;
+    product: BasketItem;
 };
 
 export default function QuantityManager(props: QuantityManagerProps) {
     const { product } = props;
+    const { productId, quantity } = product;
 
-    const { updateProductQuantity } = useBasketStore();
+    const { updateProductQuantity, removeProductFromBasket } = useBasketStore();
 
     const handleMinus = () => {
-        if (product.quantity > 1) {
-            updateProductQuantity(product.id, product.quantity - 1);
+        if (quantity > 1) {
+            updateProductQuantity(productId, quantity - 1);
+        } else if (quantity === 1) {
+            removeProductFromBasket(productId);
         }
     };
 
     const handlePlus = () => {
-        updateProductQuantity(product.id, product.quantity + 1);
+        updateProductQuantity(productId, quantity + 1);
     };
 
     return (

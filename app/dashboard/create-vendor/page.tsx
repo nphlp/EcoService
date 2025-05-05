@@ -1,4 +1,4 @@
-import { GetSession } from "@lib/auth";
+import { GetSession } from "@lib/authServer";
 import PrismaInstance from "@lib/prisma";
 import { Metadata } from "next";
 import { unauthorized } from "next/navigation";

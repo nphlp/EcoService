@@ -1,7 +1,9 @@
-import AddToCartButton from "@comps/addToCardButton";
+"use client";
+
 import Card, { CardProps } from "@comps/server/card";
 import ImageRatio from "@comps/server/imageRatio";
 import { ProductModel } from "@services/types";
+import AddToCartButton from "./addToCartButton";
 
 type ProductCardProps = {
     product: ProductModel;

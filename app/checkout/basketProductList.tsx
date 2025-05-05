@@ -1,27 +1,23 @@
 "use client";
 
-import { BasketProduct, useBasketStore } from "@comps/basket/basketStore";
+import { BasketItem, useBasketStore } from "@comps/basket/basketStore";
 import ImageRatio from "@comps/server/imageRatio";
 import { combo } from "@lib/combo";
 import QuantityManager from "./quatityManager";
 
 export default function BasketProductList() {
-    const { basketProductList } = useBasketStore();
-
-    console.log(basketProductList);
+    const { basket } = useBasketStore();
 
     return (
         <div className="flex w-[600px] flex-col gap-4">
-            {basketProductList.map((product, index) => (
-                <BasketProductItem key={index} index={index} product={product} />
-            ))}
+            {basket?.items.map((product, index) => <BasketProductItem key={index} index={index} product={product} />)}
         </div>
     );
 }
 
 type BasketProductProps = {
     index: number;
-    product: BasketProduct;
+    product: BasketItem;
 };
 
 const BasketProductItem = (props: BasketProductProps) => {

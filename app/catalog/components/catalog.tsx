@@ -1,17 +1,18 @@
 "use client";
 
 import ProductCard from "@comps/productCard";
+import Link from "@comps/ui/link";
 import Loader from "@comps/ui/loader";
 import { combo } from "@lib/combo";
+import { ProductModel } from "@services/types";
 import { useFetchV2 } from "@utils/FetchV2/FetchHookV2";
+import { useRouter } from "next/navigation";
 import { useContext, useEffect } from "react";
 import { ProductAmountFetchParams, ProductListFetchParams } from "./fetchParams";
 import { CatalogContext } from "./provider";
 import { useCatalogParams } from "./useCatalogParams";
 import { useCatalogStore } from "./useCatalogStore";
-import Link from "@comps/ui/link";
-import { useRouter } from "next/navigation";
-import { ProductModel } from "@services/types";
+
 type CatalogClientProps = {
     className?: string;
 };
@@ -61,7 +62,7 @@ export default function CatalogClient(props: CatalogClientProps) {
     if (isLoadingProductList || isLoadingProductAmount) {
         return (
             <div className="flex w-full flex-1 items-center justify-center">
-                <Loader className="size-8 border-4" />
+                <Loader className="size-8" />
             </div>
         );
     }

@@ -4,11 +4,11 @@ import { useBasketStore } from "@comps/basket/basketStore";
 import Button from "@comps/ui/button";
 
 export default function CheckoutButton() {
-    const { basketProductList } = useBasketStore();
+    const { basket } = useBasketStore();
 
-    const totalPrice = basketProductList.reduce((acc, product) => acc + product.price * product.quantity, 0);
-    const units = totalPrice.toString().split(".")[0];
-    const cents = totalPrice.toString().split(".")[1];
+    const totalPrice = basket?.items.reduce((acc, product) => acc + product.price * product.quantity, 0);
+    const units = totalPrice?.toString().split(".")[0];
+    const cents = totalPrice?.toString().split(".")[1];
 
     return (
         <div className="flex w-full flex-row items-end justify-between gap-4">

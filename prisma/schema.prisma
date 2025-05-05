@@ -248,7 +248,7 @@ model Quantity {
     quantity Int
 
     productId String
-    product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+    Product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
 
     orderId String
     Order   Order  @relation(fields: [orderId], references: [id], onDelete: Cascade)
@@ -285,7 +285,7 @@ model Order {
 }
 
 enum OrderStatus {
-    /// Order in cart
+    /// Order in cart (default)
     PENDING
     /// Order paid
     ACCEPTED
@@ -304,7 +304,7 @@ enum OrderStatus {
 }
 
 enum PaymentStatus {
-    /// Payment pending
+    /// Payment pending (default)
     PENDING
     /// Payment accepted
     ACCEPTED

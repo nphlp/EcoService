@@ -1,4 +1,4 @@
-import { GetSession } from "@lib/auth";
+import { GetSession } from "@lib/authServer";
 import PrismaInstance from "@lib/prisma";
 import { StripeInstance } from "@lib/stripe";
 import { StripeError } from "@stripe/stripe-js";
