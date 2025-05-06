@@ -5,11 +5,11 @@ import { ProductModel } from "@services/types";
 import { CircleCheck, CirclePlus, CircleX, ShoppingCart } from "lucide-react";
 import { useBasketStore } from "./basket/basketStore";
 
-type AddToCartButtonProps = {
+type AddToCartIconProps = {
     product: ProductModel;
 };
 
-export default function AddToCartButton(props: AddToCartButtonProps) {
+export default function AddToCartIcon(props: AddToCartIconProps) {
     const { product } = props;
 
     const { isInBasket, addProductToBasket, removeProductFromBasket } = useBasketStore();

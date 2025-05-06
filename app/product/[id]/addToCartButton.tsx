@@ -1,8 +1,8 @@
 "use client";
 
+import { ProductType } from "@app/product/[id]/fetchParams";
 import { useBasketStore } from "@comps/basket/basketStore";
 import ButtonClient from "@comps/client/button";
-import { ProductType } from "./fetchParams";
 
 type AddToCartButtonProps = {
     product: ProductType;

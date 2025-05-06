@@ -3,7 +3,8 @@ import { CreateQuantity, DeleteQuantity, UpdateQuantity } from "@actions/Quantit
 import { getBasket } from "@lib/getBasket";
 import { OrderModel, ProductModel, QuantityModel, UserModel } from "@services/types";
 import { create } from "zustand";
-import { persist } from "zustand/middleware";
+import { createJSONStorage, persist } from "zustand/middleware";
+import { zustandCookieStorage } from "./zustandCookieStorage";
 
 export type BasketItem = {
     // Product
@@ -200,7 +201,11 @@ export const useBasketStore = create<Store>()(
                 if (basket) set({ basket });
             },
         }),
-        // Persist the basket in localStorage
-        { name: "basket-storage" },
+        // Persist the basket in cookies
+        {
+            name: "basket-cookie",
+            storage: createJSONStorage(() => zustandCookieStorage),
+            partialize: (state) => ({ basket: state.basket }),
+        },
     ),
 );

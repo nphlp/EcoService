@@ -4,7 +4,7 @@ import { BetterSessionListServer, BetterSessionServer, GetSessionList } from "@l
 import { Fetch } from "@utils/Fetch/Fetch";
 import { FetchParallelized } from "@utils/Fetch/FetchParallelized";
 import { LogOut } from "lucide-react";
-import LocationWrapper from "./locationWrapper";
+import LocationWrapper from "../../../../components/wrapper/locationWrapper";
 import SessionManager, { SessionAndLocation } from "./sessionManager";
 import { getBrowser, getOs, locationString } from "./utils";
 

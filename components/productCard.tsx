@@ -3,7 +3,7 @@
 import Card, { CardProps } from "@comps/server/card";
 import ImageRatio from "@comps/server/imageRatio";
 import { ProductModel } from "@services/types";
-import AddToCartButton from "./addToCartButton";
+import AddToCartIconWrapper from "./wrapper/addToCartIconWrapper";
 
 type ProductCardProps = {
     product: ProductModel;
@@ -24,7 +24,7 @@ export default function ProductCard(props: ProductCardProps) {
                     </div>
                     <div className="font-bold text-nowrap text-gray-500">{price} €</div>
                 </div>
-                <AddToCartButton product={product} />
+                <AddToCartIconWrapper product={product} />
             </div>
         </Card>
     );

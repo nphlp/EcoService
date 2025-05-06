@@ -2,8 +2,8 @@ import ImageRatio from "@comps/server/imageRatio";
 import { FetchV2 } from "@utils/FetchV2/FetchV2";
 import { ArrowLeft, Package2, ShieldCheck, Truck } from "lucide-react";
 import Link from "next/link";
-import AddToCartButton from "./addToCartButton";
 import { ProductFetchParams } from "./fetchParams";
+import AddToCartButtonWrapper from "@app/product/[id]/addToCartButtonWrapper";
 
 type PageProps = {
     params: Promise<{ id: string }>;
@@ -73,7 +73,7 @@ export default async function Page(props: PageProps) {
                             </div>
                         </div>
 
-                        <AddToCartButton product={product} stock={stock} />
+                        <AddToCartButtonWrapper product={product} stock={stock} />
                     </div>
 
                     {/* Vendeur */}
