@@ -1,20 +1,25 @@
 import Link from "@comps/ui/link";
-import { StripeInstance } from "@lib/stripe";
-import { redirect } from "next/navigation";
-import AddressForm from "./adressForm";
-import BasketProductList from "./basketProductList";
-import CheckoutButton from "./checkoutButton";
-import PaymentForm from "./paymentForm";
 import { getBasket } from "@lib/getBasket";
+import { getZustandCookie } from "@comps/basket/zustandServer";
+import { Basket, BasketSchema } from "@comps/basket/basketType";
+import { GetSession } from "@lib/authServer";
+import CheckoutForm from "./checkoutForm";
+import BasketProductList from "./basketProductList";
+import { totalPriceInCents } from "./totalPriceInCents";
 
 export default async function Page() {
-    const basket = await getBasket();
+    const session = await GetSession();
 
-    if (!basket) redirect("/auth?redirect=checkout");
+    const basketApi = await getBasket();
+    const basketCookie = await getZustandCookie<Basket>("basket-cookie", BasketSchema, "basket");
 
-    const totalPrice = basket.items.reduce((acc, product) => acc + product.price * product.quantity, 0) * 100;
+    const basket = basketApi || basketCookie;
 
-    if (basket.items.length === 0) {
+    console.log("basketApi", basketApi);
+    console.log("basketCookie", basketCookie);
+    console.log("basket", basket);
+
+    if (!basket?.items.length) {
         return (
             <div className="flex min-h-full flex-col items-center justify-center">
                 <div className="flex flex-col items-start space-y-6 px-5 py-18">
@@ -28,17 +33,6 @@ export default async function Page() {
         );
     }
 
-    // Create PaymentIntent as soon as the page loads
-    const { client_secret: clientSecret } = await StripeInstance.paymentIntents.create({
-        amount: totalPrice,
-        currency: "eur",
-        payment_method_types: ["card"],
-    });
-
-    if (!clientSecret) {
-        throw new Error("Something went wrong...");
-    }
-
     return (
         <div className="flex min-h-full flex-col items-center justify-center">
             <div className="flex flex-col items-start px-5 py-18">
@@ -48,19 +42,20 @@ export default async function Page() {
                         <hr className="w-full" />
                         <BasketProductList />
                     </div>
-                    <div className="w-full space-y-16 lg:mt-5">
-                        <div className="space-y-4">
-                            <div className="text-xl font-bold">Adresse de livraison</div>
+                    {session ? (
+                        <CheckoutForm totalPriceInCents={totalPriceInCents(basket)} />
+                    ) : (
+                        <div className="w-full space-y-6">
                             <hr className="w-full" />
-                            <AddressForm />
+                            <div className="flex flex-row items-center justify-between">
+                                <div className="text-2xl">
+                                    <span>Passer à </span>
+                                    <span className="font-bold">l&apos;encaissement ?</span>
+                                </div>
+                                <Link label="Se connecter" href="/auth?redirect=checkout" />
+                            </div>
                         </div>
-                        <div className="space-y-4">
-                            <div className="text-xl font-bold">Méthode de paiement</div>
-                            <hr className="w-full" />
-                            <PaymentForm clientSecret={clientSecret} />
-                        </div>
-                        <CheckoutButton />
-                    </div>
+                    )}
                 </div>
             </div>
         </div>

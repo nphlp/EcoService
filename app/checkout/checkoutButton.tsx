@@ -2,11 +2,14 @@
 
 import { useBasketStore } from "@comps/basket/basketStore";
 import Button from "@comps/ui/button";
+import { totalPriceInCents } from "./totalPriceInCents";
 
 export default function CheckoutButton() {
     const { basket } = useBasketStore();
 
-    const totalPrice = basket?.items.reduce((acc, product) => acc + product.price * product.quantity, 0);
+    if (!basket) return null;
+
+    const totalPrice = totalPriceInCents(basket) / 100;
     const units = totalPrice?.toString().split(".")[0];
     const cents = totalPrice?.toString().split(".")[1];
 

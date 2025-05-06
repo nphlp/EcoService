@@ -1,31 +1,10 @@
-import { CreateOrder, DeleteOrder } from "@actions/OrderAction";
+import { DeleteOrder } from "@actions/OrderAction";
 import { CreateQuantity, DeleteQuantity, UpdateQuantity } from "@actions/QuantityAction";
 import { getBasket } from "@lib/getBasket";
-import { OrderModel, ProductModel, QuantityModel, UserModel } from "@services/types";
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
+import { Basket, BasketItem } from "./basketType";
 import { zustandCookieStorage } from "./zustandCookieStorage";
-
-export type BasketItem = {
-    // Product
-    productId: ProductModel["id"];
-    name: ProductModel["name"];
-    description: ProductModel["description"];
-    price: ProductModel["price"];
-    image: ProductModel["image"];
-    // Quantity
-    quatityId: QuantityModel["id"];
-    quantity: number;
-};
-
-/**
- * Basket is a Quantity that represent a relation between a Product and an Order
- */
-export type Basket = {
-    userId: UserModel["id"];
-    orderId: OrderModel["id"];
-    items: BasketItem[];
-};
 
 type Store = {
     // State
@@ -37,11 +16,13 @@ type Store = {
     updateProductQuantity: (productId: BasketItem["productId"], quantity: number) => void;
     removeProductFromBasket: (productId: BasketItem["productId"]) => void;
     clearBasket: () => void;
-    syncBasket: () => void;
+    clearLocalBasket: () => void;
+    syncLocalBasket: () => void;
+    syncServerBasket: () => void;
 };
 
 /**
- * Basket store (synchronized with localStorage)
+ * Basket store (synchronized with cookies)
  */
 export const useBasketStore = create<Store>()(
     persist(
@@ -80,27 +61,20 @@ export const useBasketStore = create<Store>()(
                 const serverBasket = await getBasket();
 
                 if (serverBasket) {
-                    const { userId, orderId } = serverBasket;
+                    const { orderId } = serverBasket;
                     const { productId } = product;
 
-                    if (!orderId) {
-                        // Create order and the single quantity
-                        await CreateOrder({
-                            data: {
-                                User: { connect: { id: userId } },
-                                Quantity: { create: { productId, quantity: 1 } },
-                            },
-                        });
-                    } else {
-                        // Create all quantity
-                        await CreateQuantity({
-                            data: {
-                                Product: { connect: { id: productId } },
-                                Order: { connect: { id: orderId } },
-                                quantity: 1,
-                            },
-                        });
-                    }
+                    // Create quantity
+                    await CreateQuantity({
+                        data: {
+                            Product: { connect: { id: productId } },
+                            Order: { connect: { id: orderId } },
+                            quantity: 1,
+                        },
+                    });
+
+                    // Update Zustand store
+                    // get().syncLocalBasket();
                 }
             },
 
@@ -136,6 +110,9 @@ export const useBasketStore = create<Store>()(
                     if (quantity === 0 && serverBasket.items.length === 1) {
                         await DeleteOrder({ where: { id: serverBasket.orderId } });
                     }
+
+                    // Update Zustand store
+                    // get().syncLocalBasket();
                 }
             },
 
@@ -174,6 +151,9 @@ export const useBasketStore = create<Store>()(
                             },
                         });
                     }
+
+                    // Update Zustand store
+                    // get().syncLocalBasket();
                 }
             },
 
@@ -193,12 +173,46 @@ export const useBasketStore = create<Store>()(
                 }
             },
 
+            clearLocalBasket: () => {
+                set({ basket: null });
+            },
+
             /**
              * Refresh local basket with server data (if it exists)
              */
-            syncBasket: async () => {
+            syncLocalBasket: async () => {
                 const basket = await getBasket();
-                if (basket) set({ basket });
+                if (basket) set(() => ({ basket }));
+            },
+
+            /**
+             * Refresh server basket with local data
+             */
+            syncServerBasket: async () => {
+                const localBasket = get().basket;
+                if (!localBasket) return;
+
+                // Update server basket
+                const serverBasket = await getBasket();
+
+                console.log("Server Basket ->", serverBasket);
+
+                if (serverBasket) {
+                    serverBasket.items.map(async ({ quatityId }) => {
+                        await DeleteQuantity({ where: { id: quatityId } });
+                    });
+
+                    localBasket.items.map(async ({ productId, quantity }) => {
+                        console.log("Create Quantity ->", productId, quantity);
+                        await CreateQuantity({
+                            data: {
+                                quantity,
+                                Product: { connect: { id: productId } },
+                                Order: { connect: { id: serverBasket.orderId } },
+                            },
+                        });
+                    });
+                }
             },
         }),
         // Persist the basket in cookies

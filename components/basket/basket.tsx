@@ -6,11 +6,22 @@ import ImageRatio from "@comps/server/imageRatio";
 import Link from "@comps/ui/link";
 import { combo } from "@lib/combo";
 import { motion } from "framer-motion";
-import { BasketItem as BasketItemType, useBasketStore } from "./basketStore";
+import { useBasketStore } from "./basketStore";
+import { BasketItem as BasketItemType } from "./basketType";
+import { useSession } from "@lib/authClient";
+import { useEffect } from "react";
 
 export default function Basket() {
+    const { data: session } = useSession();
+
     const { basketOpen, setBasketOpen } = useHeaderStore();
-    const { basket, clearBasket } = useBasketStore();
+    const { basket, clearBasket, syncServerBasket } = useBasketStore();
+
+    useEffect(() => {
+        if (session) {
+            syncServerBasket();
+        }
+    }, [session, syncServerBasket]);
 
     return (
         <div

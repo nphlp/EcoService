@@ -1,5 +1,5 @@
 import { CreateOrder } from "@actions/OrderAction";
-import { Basket } from "@comps/basket/basketStore";
+import { Basket } from "@comps/basket/basketType";
 import { GetSession } from "@lib/authServer";
 import { ResponseFormat } from "@utils/FetchConfig";
 import { FetchV2 } from "@utils/FetchV2/FetchV2";
@@ -16,11 +16,13 @@ export async function GET(): Promise<NextResponse<ResponseFormat<BasketResponse>
             return NextResponse.json({ data: null }, { status: 200 });
         }
 
+        const userId = session.user.id;
+
         const order = await FetchV2({
             route: "/order/first",
             params: {
                 where: {
-                    userId: session?.user.id,
+                    userId,
                     orderStatus: "PENDING",
                     paymentStatus: "PENDING",
                 },
@@ -34,9 +36,11 @@ export async function GET(): Promise<NextResponse<ResponseFormat<BasketResponse>
             },
         });
 
+        console.log("Order ->", order);
+
         if (order) {
             const basket: Basket = {
-                userId: session?.user.id,
+                userId,
                 orderId: order.id,
                 items: order.Quantity.map(({ id, quantity, Product }) => ({
                     /// Product
@@ -56,12 +60,12 @@ export async function GET(): Promise<NextResponse<ResponseFormat<BasketResponse>
 
         const newOrder = await CreateOrder({
             data: {
-                userId: session?.user.id,
+                userId,
             },
         });
 
         const newBasket: Basket = {
-            userId: session?.user.id,
+            userId,
             orderId: newOrder.id,
             items: [],
         };
