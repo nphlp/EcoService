@@ -1,6 +1,6 @@
 import { DeleteOrder } from "@actions/OrderAction";
 import { CreateQuantity, DeleteQuantity, UpdateQuantity } from "@actions/QuantityAction";
-import { getBasket } from "@lib/getBasket";
+import { GetBasket } from "@process/GetBasket";
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 import { Basket, BasketItem } from "./basketType";
@@ -17,6 +17,11 @@ type Store = {
     removeProductFromBasket: (productId: BasketItem["productId"]) => void;
     clearBasket: () => void;
     clearLocalBasket: () => void;
+    compare: () => Promise<{
+        serverBasket: Basket | null;
+        localBasket: Basket | null;
+        isSame: boolean;
+    }>;
     syncLocalBasket: () => void;
     syncServerBasket: () => void;
 };
@@ -58,7 +63,7 @@ export const useBasketStore = create<Store>()(
                 }
 
                 // Apply to DB
-                const serverBasket = await getBasket();
+                const serverBasket = await GetBasket();
 
                 if (serverBasket) {
                     const { orderId } = serverBasket;
@@ -93,7 +98,7 @@ export const useBasketStore = create<Store>()(
                 });
 
                 // Apply to DB
-                const serverBasket = await getBasket();
+                const serverBasket = await GetBasket();
 
                 if (serverBasket) {
                     const quantityId = serverBasket.items.find(({ productId: id }) => id === productId)?.quatityId;
@@ -112,7 +117,7 @@ export const useBasketStore = create<Store>()(
                     }
 
                     // Update Zustand store
-                    // get().syncLocalBasket();
+                    get().syncLocalBasket();
                 }
             },
 
@@ -129,7 +134,7 @@ export const useBasketStore = create<Store>()(
                 });
 
                 // Apply to DB
-                const serverBasket = await getBasket();
+                const serverBasket = await GetBasket();
 
                 if (serverBasket) {
                     const quantityId = serverBasket.items.find(({ productId: id }) => id === productId)?.quatityId;
@@ -165,7 +170,7 @@ export const useBasketStore = create<Store>()(
                 set({ basket: null });
 
                 // Apply to DB
-                const serverBasket = await getBasket();
+                const serverBasket = await GetBasket();
 
                 if (serverBasket) {
                     // Delete order and linked quantities
@@ -177,11 +182,30 @@ export const useBasketStore = create<Store>()(
                 set({ basket: null });
             },
 
+            compare: async () => {
+                const basketApi = await GetBasket();
+                const basketCookie = get().basket;
+
+                // Compare only essential basket data: products and quantities
+                const prepareForComparison = (basket: Basket | null) => {
+                    if (!basket) return null;
+                    return basket.items
+                        .sort((a, b) => a.productId.localeCompare(b.productId))
+                        .map(({ productId, quantity }) => [productId, quantity]);
+                };
+
+                const isSame =
+                    JSON.stringify(prepareForComparison(basketApi)) ===
+                    JSON.stringify(prepareForComparison(basketCookie));
+
+                return { serverBasket: basketApi, localBasket: basketCookie, isSame };
+            },
+
             /**
              * Refresh local basket with server data (if it exists)
              */
             syncLocalBasket: async () => {
-                const basket = await getBasket();
+                const basket = await GetBasket();
                 if (basket) set(() => ({ basket }));
             },
 
@@ -193,7 +217,7 @@ export const useBasketStore = create<Store>()(
                 if (!localBasket) return;
 
                 // Update server basket
-                const serverBasket = await getBasket();
+                const serverBasket = await GetBasket();
 
                 console.log("Server Basket ->", serverBasket);
 

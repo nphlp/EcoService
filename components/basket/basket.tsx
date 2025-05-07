@@ -3,25 +3,31 @@
 import ButtonClient from "@comps/client/button";
 import { useHeaderStore } from "@comps/header/headerStore";
 import ImageRatio from "@comps/server/imageRatio";
+import Button from "@comps/ui/button";
 import Link from "@comps/ui/link";
+import Modal from "@comps/ui/modal";
+import { useSession } from "@lib/authClient";
 import { combo } from "@lib/combo";
 import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
 import { useBasketStore } from "./basketStore";
 import { BasketItem as BasketItemType } from "./basketType";
-import { useSession } from "@lib/authClient";
-import { useEffect } from "react";
 
 export default function Basket() {
     const { data: session } = useSession();
 
     const { basketOpen, setBasketOpen } = useHeaderStore();
-    const { basket, clearBasket, syncServerBasket } = useBasketStore();
+    const { basket, compare, clearBasket, syncServerBasket } = useBasketStore();
+
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     useEffect(() => {
         if (session) {
-            syncServerBasket();
+            Promise.resolve(compare()).then(({ serverBasket, localBasket, isSame }) => {
+                console.log("==== compare ====\n", serverBasket, localBasket, isSame);
+            });
         }
-    }, [session, syncServerBasket]);
+    }, [session, compare, syncServerBasket]);
 
     return (
         <div
@@ -30,6 +36,13 @@ export default function Basket() {
                 basketOpen ? "pointer-events-auto" : "pointer-events-none",
             )}
         >
+            <Modal setIsModalOpen={setIsModalOpen} isModalOpen={isModalOpen} className="w-1/2" withCross={false}>
+                <div>
+                    <h1>Title</h1>
+                    <p>Description</p>
+                </div>
+                <Button label="Close" onClick={() => setIsModalOpen(false)} />
+            </Modal>
             <motion.div
                 initial={{ opacity: 0 }}
                 animate={{

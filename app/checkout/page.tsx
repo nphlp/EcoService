@@ -1,23 +1,17 @@
-import Link from "@comps/ui/link";
-import { getBasket } from "@lib/getBasket";
-import { getZustandCookie } from "@comps/basket/zustandServer";
 import { Basket, BasketSchema } from "@comps/basket/basketType";
+import { getZustandCookie } from "@comps/basket/zustandServer";
+import Link from "@comps/ui/link";
 import { GetSession } from "@lib/authServer";
-import CheckoutForm from "./checkoutForm";
 import BasketProductList from "./basketProductList";
+import CheckoutForm from "./checkoutForm";
 import { totalPriceInCents } from "./totalPriceInCents";
 
 export default async function Page() {
     const session = await GetSession();
 
-    const basketApi = await getBasket();
-    const basketCookie = await getZustandCookie<Basket>("basket-cookie", BasketSchema, "basket");
+    const basket = await getZustandCookie<Basket>("basket-cookie", BasketSchema, "basket");
 
-    const basket = basketApi || basketCookie;
-
-    console.log("basketApi", basketApi);
-    console.log("basketCookie", basketCookie);
-    console.log("basket", basket);
+    console.log("basketCookie", basket);
 
     if (!basket?.items.length) {
         return (

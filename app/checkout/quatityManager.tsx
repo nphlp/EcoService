@@ -1,6 +1,7 @@
 "use client";
 
-import { BasketItem, useBasketStore } from "@comps/basket/basketStore";
+import { useBasketStore } from "@comps/basket/basketStore";
+import { BasketItem } from "@comps/basket/basketType";
 import Button from "@comps/ui/button";
 import { Minus, Plus } from "lucide-react";
 

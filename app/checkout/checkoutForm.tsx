@@ -2,6 +2,7 @@ import { StripeInstance } from "@lib/stripe";
 import AddressForm from "./adressForm";
 import CheckoutButton from "./checkoutButton";
 import PaymentForm from "./paymentForm";
+import { GetBasket } from "@process/GetBasket";
 
 type CheckoutFormProps = {
     totalPriceInCents: number;
@@ -9,6 +10,10 @@ type CheckoutFormProps = {
 
 export default async function CheckoutForm(props: CheckoutFormProps) {
     const { totalPriceInCents } = props;
+
+    const basket = await GetBasket();
+
+    console.log("basketApi", basket);
 
     // Create PaymentIntent as soon as the page loads
     const { client_secret: clientSecret } = await StripeInstance.paymentIntents.create({

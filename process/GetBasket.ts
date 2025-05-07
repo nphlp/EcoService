@@ -1,25 +1,26 @@
+"use server";
+
 import { CreateOrder } from "@actions/OrderAction";
 import { Basket } from "@comps/basket/basketType";
 import { GetSession } from "@lib/authServer";
-import { ResponseFormat } from "@utils/FetchConfig";
+import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { FetchV2 } from "@utils/FetchV2/FetchV2";
-import { NextResponse } from "next/server";
 import { ZodError } from "zod";
 
 export type BasketResponse = Basket | null;
 
-export async function GET(): Promise<NextResponse<ResponseFormat<BasketResponse>>> {
+export const GetBasket = async (): Promise<BasketResponse> => {
     try {
         const session = await GetSession();
 
         if (!session) {
-            return NextResponse.json({ data: null }, { status: 200 });
+            return null;
         }
 
         const userId = session.user.id;
 
-        const order = await FetchV2({
-            route: "/order/first",
+        const pendingOrderList = await FetchV2({
+            route: "/order",
             params: {
                 where: {
                     userId,
@@ -33,12 +34,16 @@ export async function GET(): Promise<NextResponse<ResponseFormat<BasketResponse>
                         },
                     },
                 },
+                orderBy: {
+                    updatedAt: "desc",
+                },
             },
         });
 
-        console.log("Order ->", order);
+        console.log("Order ->", pendingOrderList);
 
-        if (order) {
+        if (pendingOrderList.length > 0) {
+            const order = pendingOrderList[0];
             const basket: Basket = {
                 userId,
                 orderId: order.id,
@@ -55,7 +60,7 @@ export async function GET(): Promise<NextResponse<ResponseFormat<BasketResponse>
                 })),
             };
 
-            return NextResponse.json({ data: basket }, { status: 200 });
+            return basket;
         }
 
         const newOrder = await CreateOrder({
@@ -70,15 +75,26 @@ export async function GET(): Promise<NextResponse<ResponseFormat<BasketResponse>
             items: [],
         };
 
-        return NextResponse.json({ data: newBasket }, { status: 200 });
+        return newBasket;
     } catch (error) {
-        console.error("Basket -> " + (error as Error).message);
         if (process.env.NODE_ENV === "development") {
-            if (error instanceof ZodError)
-                return NextResponse.json({ error: "Basket -> Invalid Zod params -> " + error.message });
-            return NextResponse.json({ error: "Basket -> " + (error as Error).message });
+            const processName = "GetBasket";
+            const message = (error as Error).message;
+            if (error instanceof ZodError) {
+                const zodMessage = processName + " -> Invalid Zod params -> " + error.message;
+                console.error(zodMessage);
+                throw new Error(zodMessage);
+            } else if (error instanceof PrismaClientKnownRequestError) {
+                const prismaMessage = processName + " -> Prisma error -> " + error.message;
+                console.error(prismaMessage);
+                throw new Error(prismaMessage);
+            } else {
+                const errorMessage = processName + " -> " + message;
+                console.error(errorMessage);
+                throw new Error(errorMessage);
+            }
         }
         // TODO: add logging
-        return NextResponse.json({ error: "Something went wrong..." }, { status: 500 });
+        return null;
     }
-}
+};
