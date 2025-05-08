@@ -18,10 +18,9 @@ type Store = {
     clearBasket: () => void;
     clearLocalBasket: () => void;
     compare: () => Promise<{
-        serverBasket: Basket | null;
-        localBasket: Basket | null;
-        isSame: boolean;
-    }>;
+        serverBasket: Basket;
+        localBasket: Basket;
+    } | null>;
     syncLocalBasket: () => void;
     syncServerBasket: () => void;
 };
@@ -183,22 +182,65 @@ export const useBasketStore = create<Store>()(
             },
 
             compare: async () => {
-                const basketApi = await GetBasket();
-                const basketCookie = get().basket;
+                const serverBasket = await GetBasket();
+                const localBasket = get().basket;
 
-                // Compare only essential basket data: products and quantities
-                const prepareForComparison = (basket: Basket | null) => {
-                    if (!basket) return null;
-                    return basket.items
-                        .sort((a, b) => a.productId.localeCompare(b.productId))
-                        .map(({ productId, quantity }) => [productId, quantity]);
-                };
+                // Means no session or error during fetching
+                if (!serverBasket) {
+                    console.log("==> No server basket \n==> Do nothing");
+                    return null;
+                }
 
-                const isSame =
-                    JSON.stringify(prepareForComparison(basketApi)) ===
-                    JSON.stringify(prepareForComparison(basketCookie));
+                // Means no local basket
+                if (!localBasket) {
+                    console.log("==> No local basket \n==> Sync local basket");
+                    get().syncLocalBasket();
+                    return null;
+                }
 
-                return { serverBasket: basketApi, localBasket: basketCookie, isSame };
+                const serverQuantities = serverBasket.items.length;
+                const localQuantities = localBasket.items.length;
+
+                // Ask user to choose
+                if (serverQuantities > 0 && localQuantities > 0) {
+                    // Compare only essential basket data: products and quantities
+                    const prepareForComparison = (basket: Basket | null) => {
+                        if (!basket) return null;
+                        return basket.items
+                            .sort((a, b) => a.productId.localeCompare(b.productId))
+                            .map(({ productId, quantity }) => [productId, quantity]);
+                    };
+
+                    const areTheSame =
+                        JSON.stringify(prepareForComparison(serverBasket)) ===
+                        JSON.stringify(prepareForComparison(localBasket));
+
+                    if (areTheSame) {
+                        console.log("==> Server and local basket are the same \n==> Do nothing");
+                        return null;
+                    } else {
+                        console.log(
+                            "==> Server and local basket are different \n==> Let user choose between:\n",
+                            serverBasket,
+                            localBasket,
+                        );
+                        return { serverBasket, localBasket };
+                    }
+                }
+
+                // Sync local basket
+                if (serverQuantities > 0 && localQuantities === 0) {
+                    console.log("==> No local basket \n==> Sync local basket");
+                    get().syncLocalBasket();
+                }
+
+                // Sync server basket
+                if (serverQuantities === 0 && localQuantities > 0) {
+                    console.log("==> No server basket \n==> Sync server basket");
+                    get().syncServerBasket();
+                }
+
+                return null;
             },
 
             /**

@@ -1,10 +1,9 @@
 "use server";
 
-import { CreateOrder } from "@actions/OrderAction";
+import { CreateOrder, SelectOrderList } from "@actions/OrderAction";
 import { Basket } from "@comps/basket/basketType";
 import { GetSession } from "@lib/authServer";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
-import { FetchV2 } from "@utils/FetchV2/FetchV2";
 import { ZodError } from "zod";
 
 export type BasketResponse = Basket | null;
@@ -19,24 +18,21 @@ export const GetBasket = async (): Promise<BasketResponse> => {
 
         const userId = session.user.id;
 
-        const pendingOrderList = await FetchV2({
-            route: "/order",
-            params: {
-                where: {
-                    userId,
-                    orderStatus: "PENDING",
-                    paymentStatus: "PENDING",
-                },
-                include: {
-                    Quantity: {
-                        include: {
-                            Product: true,
-                        },
+        const pendingOrderList = await SelectOrderList({
+            where: {
+                userId,
+                orderStatus: "PENDING",
+                paymentStatus: "PENDING",
+            },
+            include: {
+                Quantity: {
+                    include: {
+                        Product: true,
                     },
                 },
-                orderBy: {
-                    updatedAt: "desc",
-                },
+            },
+            orderBy: {
+                updatedAt: "desc",
             },
         });
 
@@ -60,6 +56,8 @@ export const GetBasket = async (): Promise<BasketResponse> => {
                 })),
             };
 
+            console.log("=====> Existing Basket");
+
             return basket;
         }
 
@@ -74,6 +72,8 @@ export const GetBasket = async (): Promise<BasketResponse> => {
             orderId: newOrder.id,
             items: [],
         };
+
+        console.log("=====> New Basket");
 
         return newBasket;
     } catch (error) {
