@@ -1,10 +1,13 @@
 import PrismaInstance from "@lib/prisma";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
-import { QuantityCount, CountQuantityProps, CountQuantityResponse, CreateQuantityProps, CreateQuantityResponse, DeleteQuantityProps, DeleteQuantityResponse, FindManyQuantityProps, FindManyQuantityResponse, FindUniqueQuantityProps, FindUniqueQuantityResponse, UpdateQuantityProps, UpdateQuantityResponse, UpsertQuantityProps, UpsertQuantityResponse, countQuantitySchema, createQuantitySchema, deleteQuantitySchema, selectFirstQuantitySchema, selectManyQuantitySchema, selectUniqueQuantitySchema, updateQuantitySchema, upsertQuantitySchema, FindFirstQuantityProps, FindFirstQuantityResponse } from "@services/types/QuantityType";
+import { CountQuantityProps, CountQuantityResponse, CreateManyQuantityProps, CreateManyQuantityResponse, CreateQuantityProps, CreateQuantityResponse, DeleteManyQuantityProps, DeleteManyQuantityResponse, DeleteQuantityProps, DeleteQuantityResponse, FindFirstQuantityProps, FindFirstQuantityResponse, FindManyQuantityProps, FindManyQuantityResponse, FindUniqueQuantityProps, FindUniqueQuantityResponse, QuantityCount, UpdateManyQuantityProps, UpdateManyQuantityResponse, UpdateQuantityProps, UpdateQuantityResponse, UpsertQuantityProps, UpsertQuantityResponse, countQuantitySchema, createManyQuantitySchema, createQuantitySchema, deleteManyQuantitySchema, deleteQuantitySchema, selectFirstQuantitySchema, selectManyQuantitySchema, selectUniqueQuantitySchema, updateManyQuantitySchema, updateQuantitySchema, upsertQuantitySchema } from "@services/types/QuantityType";
 import { ResponseFormat } from "@utils/FetchConfig";
 import { ZodError } from "zod";
 
 export default class QuantityService {
+
+    // ========== Single mutations ========== //
+
     static async create<T extends CreateQuantityProps>(props: T): Promise<ResponseFormat<CreateQuantityResponse<T>>> {
         try {
             const parsedProps = createQuantitySchema.parse(props);
@@ -45,6 +48,40 @@ export default class QuantityService {
         }
     }
 
+    // ========== Multiple mutations ========== //
+
+    static async createMany(props: CreateManyQuantityProps): Promise<ResponseFormat<CreateManyQuantityResponse>> {
+        try {
+            const parsedProps = createManyQuantitySchema.parse(props);
+            const quantity = await PrismaInstance.quantity.createMany(parsedProps);
+            return { data: quantity };
+        } catch (error) {
+            return QuantityService.error("createMany", error);
+        }
+    }
+
+    static async updateMany(props: UpdateManyQuantityProps): Promise<ResponseFormat<UpdateManyQuantityResponse>> {
+        try {
+            const parsedProps = updateManyQuantitySchema.parse(props);
+            const quantity = await PrismaInstance.quantity.updateMany(parsedProps);
+            return { data: quantity };
+        } catch (error) {
+            return QuantityService.error("updateMany", error);
+        }
+    }
+
+    static async deleteMany(props: DeleteManyQuantityProps): Promise<ResponseFormat<DeleteManyQuantityResponse>> {
+        try {
+            const parsedProps = deleteManyQuantitySchema.parse(props);
+            const quantity = await PrismaInstance.quantity.deleteMany(parsedProps);
+            return { data: quantity };
+        } catch (error) {
+            return QuantityService.error("deleteMany", error);
+        }
+    }
+
+    // ========== Single queries ========== //
+
     static async findFirst<T extends FindFirstQuantityProps>(props: T): Promise<ResponseFormat<FindFirstQuantityResponse<T>>> {
         try {
             const parsedProps = selectFirstQuantitySchema.parse(props);
@@ -76,6 +113,8 @@ export default class QuantityService {
         }
     }
 
+    // ========== Aggregate queries ========== //
+
     static async count(props: CountQuantityProps): Promise<ResponseFormat<CountQuantityResponse>> {
         try {
             const parsedProps = countQuantitySchema.parse(props);
@@ -85,6 +124,8 @@ export default class QuantityService {
             return QuantityService.error("count", error);
         }
     }
+
+    // ========== Error handling ========== //
 
     static async error(methodName: string, error: unknown): Promise<{error: string}> {
         if (process.env.NODE_ENV === "development") {

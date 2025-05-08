@@ -1,7 +1,9 @@
 "use server";
 
 import QuantityService from "@services/class/QuantityClass";
-import { CountQuantityProps, CountQuantityResponse, CreateQuantityProps, CreateQuantityResponse, DeleteQuantityProps, DeleteQuantityResponse, FindFirstQuantityProps, FindFirstQuantityResponse, FindManyQuantityProps, FindManyQuantityResponse, FindUniqueQuantityProps, FindUniqueQuantityResponse, UpdateQuantityProps, UpdateQuantityResponse, UpsertQuantityProps, UpsertQuantityResponse } from "@services/types/QuantityType";
+import { CountQuantityProps, CountQuantityResponse, CreateManyQuantityProps, CreateManyQuantityResponse, CreateQuantityProps, CreateQuantityResponse, DeleteManyQuantityProps, DeleteManyQuantityResponse, DeleteQuantityProps, DeleteQuantityResponse, FindFirstQuantityProps, FindFirstQuantityResponse, FindManyQuantityProps, FindManyQuantityResponse, FindUniqueQuantityProps, FindUniqueQuantityResponse, UpdateManyQuantityProps, UpdateManyQuantityResponse, UpdateQuantityProps, UpdateQuantityResponse, UpsertQuantityProps, UpsertQuantityResponse } from "@services/types/QuantityType";
+
+// ========== Single mutations ========== //
 
 export const CreateQuantity = async <T extends CreateQuantityProps>(props: T): Promise<CreateQuantityResponse<T>> => {
     try {
@@ -42,6 +44,40 @@ export const DeleteQuantity = async <T extends DeleteQuantityProps>(props: T): P
         throw new Error("DeleteQuantity -> " + (error as Error).message);
     }
 };
+
+// ========== Multiple mutations ========== //
+
+export const CreateManyQuantity = async (props: CreateManyQuantityProps): Promise<CreateManyQuantityResponse> => {
+    try {
+        const { data, error } = await QuantityService.createMany(props);
+        if (!data || error) throw new Error(error);
+        return data;
+    } catch (error) {
+        throw new Error("CreateManyQuantity -> " + (error as Error).message);
+    }
+};
+
+export const UpdateManyQuantity = async (props: UpdateManyQuantityProps): Promise<UpdateManyQuantityResponse> => {
+    try {
+        const { data, error } = await QuantityService.updateMany(props);
+        if (!data || error) throw new Error(error);
+        return data;
+    } catch (error) {
+        throw new Error("UpdateManyQuantity -> " + (error as Error).message);
+    }
+};
+
+export const DeleteManyQuantity = async (props: DeleteManyQuantityProps): Promise<DeleteManyQuantityResponse> => {
+    try {
+        const { data, error } = await QuantityService.deleteMany(props);
+        if (!data || error) throw new Error(error);
+        return data;
+    } catch (error) {
+        throw new Error("DeleteManyQuantity -> " + (error as Error).message);
+    }
+};
+
+// ========== Single queries ========== //
 
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
@@ -87,6 +123,8 @@ export const SelectQuantityList = async <T extends FindManyQuantityProps>(
         throw new Error("SelectQuantityList -> " + (error as Error).message);
     }
 };
+
+// ========== Aggregate queries ========== //
 
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead

@@ -1,10 +1,13 @@
 import PrismaInstance from "@lib/prisma";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
-import { {{modelName}}Count, Count{{modelName}}Props, Count{{modelName}}Response, Create{{modelName}}Props, Create{{modelName}}Response, Delete{{modelName}}Props, Delete{{modelName}}Response, FindMany{{modelName}}Props, FindMany{{modelName}}Response, FindUnique{{modelName}}Props, FindUnique{{modelName}}Response, Update{{modelName}}Props, Update{{modelName}}Response, Upsert{{modelName}}Props, Upsert{{modelName}}Response, count{{modelName}}Schema, create{{modelName}}Schema, delete{{modelName}}Schema, selectFirst{{modelName}}Schema, selectMany{{modelName}}Schema, selectUnique{{modelName}}Schema, update{{modelName}}Schema, upsert{{modelName}}Schema, FindFirst{{modelName}}Props, FindFirst{{modelName}}Response } from "@services/types/{{modelName}}Type";
+import { {{modelName}}Count, Count{{modelName}}Props, Count{{modelName}}Response, CreateMany{{modelName}}Props, CreateMany{{modelName}}Response, Create{{modelName}}Props, Create{{modelName}}Response, DeleteMany{{modelName}}Props, DeleteMany{{modelName}}Response, Delete{{modelName}}Props, Delete{{modelName}}Response, FindFirst{{modelName}}Props, FindFirst{{modelName}}Response, FindMany{{modelName}}Props, FindMany{{modelName}}Response, FindUnique{{modelName}}Props, FindUnique{{modelName}}Response, UpdateMany{{modelName}}Props, UpdateMany{{modelName}}Response, Update{{modelName}}Props, Update{{modelName}}Response, Upsert{{modelName}}Props, Upsert{{modelName}}Response, count{{modelName}}Schema, createMany{{modelName}}Schema, create{{modelName}}Schema, deleteMany{{modelName}}Schema, delete{{modelName}}Schema, selectFirst{{modelName}}Schema, selectMany{{modelName}}Schema, selectUnique{{modelName}}Schema, updateMany{{modelName}}Schema, update{{modelName}}Schema, upsert{{modelName}}Schema } from "@services/types/{{modelName}}Type";
 import { ResponseFormat } from "@utils/FetchConfig";
 import { ZodError } from "zod";
 
 export default class {{modelName}}Service {
+
+    // ========== Single mutations ========== //
+
     static async create<T extends Create{{modelName}}Props>(props: T): Promise<ResponseFormat<Create{{modelName}}Response<T>>> {
         try {
             const parsedProps = create{{modelName}}Schema.parse(props);
@@ -45,6 +48,40 @@ export default class {{modelName}}Service {
         }
     }
 
+    // ========== Multiple mutations ========== //
+
+    static async createMany(props: CreateMany{{modelName}}Props): Promise<ResponseFormat<CreateMany{{modelName}}Response>> {
+        try {
+            const parsedProps = createMany{{modelName}}Schema.parse(props);
+            const result = await PrismaInstance.{{modelNameLower}}.createMany(parsedProps);
+            return { data: result };
+        } catch (error) {
+            return {{modelName}}Service.error("createMany", error);
+        }
+    }
+
+    static async updateMany(props: UpdateMany{{modelName}}Props): Promise<ResponseFormat<UpdateMany{{modelName}}Response>> {
+        try {
+            const parsedProps = updateMany{{modelName}}Schema.parse(props);
+            const result = await PrismaInstance.{{modelNameLower}}.updateMany(parsedProps);
+            return { data: result };
+        } catch (error) {
+            return {{modelName}}Service.error("updateMany", error);
+        }
+    }
+
+    static async deleteMany(props: DeleteMany{{modelName}}Props): Promise<ResponseFormat<DeleteMany{{modelName}}Response>> {
+        try {
+            const parsedProps = deleteMany{{modelName}}Schema.parse(props);
+            const result = await PrismaInstance.{{modelNameLower}}.deleteMany(parsedProps);
+            return { data: result };
+        } catch (error) {
+            return {{modelName}}Service.error("deleteMany", error);
+        }
+    }
+
+    // ========== Single queries ========== //
+
     static async findFirst<T extends FindFirst{{modelName}}Props>(props: T): Promise<ResponseFormat<FindFirst{{modelName}}Response<T>>> {
         try {
             const parsedProps = selectFirst{{modelName}}Schema.parse(props);
@@ -76,6 +113,8 @@ export default class {{modelName}}Service {
         }
     }
 
+    // ========== Aggregate queries ========== //
+
     static async count(props: Count{{modelName}}Props): Promise<ResponseFormat<Count{{modelName}}Response>> {
         try {
             const parsedProps = count{{modelName}}Schema.parse(props);
@@ -85,6 +124,8 @@ export default class {{modelName}}Service {
             return {{modelName}}Service.error("count", error);
         }
     }
+
+    // ========== Error handling ========== //
 
     static async error(methodName: string, error: unknown): Promise<{error: string}> {
         if (process.env.NODE_ENV === "development") {

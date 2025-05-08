@@ -12,7 +12,7 @@ export default function Unauthorized() {
                     <ButtonClient className="w-fit" type="link" href="/" label="Home">
                         Go to Home
                     </ButtonClient>
-                    <ButtonClient className="w-fit" type="link" href="/login" label="Login" variant="outline">
+                    <ButtonClient className="w-fit" type="link" href="/auth" label="Login" variant="outline">
                         Go to Login
                     </ButtonClient>
                 </div>

@@ -264,9 +264,13 @@ export const useBasketStore = create<Store>()(
                 console.log("Server Basket ->", serverBasket);
 
                 if (serverBasket) {
+                    // TODO: DELETE MANY
+
                     serverBasket.items.map(async ({ quatityId }) => {
                         await DeleteQuantity({ where: { id: quatityId } });
                     });
+
+                    // TODO: CREATE MANY
 
                     localBasket.items.map(async ({ productId, quantity }) => {
                         console.log("Create Quantity ->", productId, quantity);
