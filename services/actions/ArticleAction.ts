@@ -1,7 +1,9 @@
 "use server";
 
 import ArticleService from "@services/class/ArticleClass";
-import { CountArticleProps, CountArticleResponse, CreateArticleProps, CreateArticleResponse, DeleteArticleProps, DeleteArticleResponse, FindFirstArticleProps, FindFirstArticleResponse, FindManyArticleProps, FindManyArticleResponse, FindUniqueArticleProps, FindUniqueArticleResponse, UpdateArticleProps, UpdateArticleResponse, UpsertArticleProps, UpsertArticleResponse } from "@services/types/ArticleType";
+import { CountArticleProps, CountArticleResponse, CreateManyArticleProps, CreateManyArticleResponse, CreateArticleProps, CreateArticleResponse, DeleteManyArticleProps, DeleteManyArticleResponse, DeleteArticleProps, DeleteArticleResponse, FindFirstArticleProps, FindFirstArticleResponse, FindManyArticleProps, FindManyArticleResponse, FindUniqueArticleProps, FindUniqueArticleResponse, UpdateManyArticleProps, UpdateManyArticleResponse, UpdateArticleProps, UpdateArticleResponse, UpsertArticleProps, UpsertArticleResponse } from "@services/types/ArticleType";
+
+// ========== Single mutations ========== //
 
 export const CreateArticle = async <T extends CreateArticleProps>(props: T): Promise<CreateArticleResponse<T>> => {
     try {
@@ -42,6 +44,40 @@ export const DeleteArticle = async <T extends DeleteArticleProps>(props: T): Pro
         throw new Error("DeleteArticle -> " + (error as Error).message);
     }
 };
+
+// ========== Multiple mutations ========== //
+
+export const CreateManyArticle = async (props: CreateManyArticleProps): Promise<CreateManyArticleResponse> => {
+    try {
+        const { data, error } = await ArticleService.createMany(props);
+        if (!data || error) throw new Error(error);
+        return data;
+    } catch (error) {
+        throw new Error("CreateManyArticle -> " + (error as Error).message);
+    }
+};
+
+export const UpdateManyArticle = async (props: UpdateManyArticleProps): Promise<UpdateManyArticleResponse> => {
+    try {
+        const { data, error } = await ArticleService.updateMany(props);
+        if (!data || error) throw new Error(error);
+        return data;
+    } catch (error) {
+        throw new Error("UpdateManyArticle -> " + (error as Error).message);
+    }
+};
+
+export const DeleteManyArticle = async (props: DeleteManyArticleProps): Promise<DeleteManyArticleResponse> => {
+    try {
+        const { data, error } = await ArticleService.deleteMany(props);
+        if (!data || error) throw new Error(error);
+        return data;
+    } catch (error) {
+        throw new Error("DeleteManyArticle -> " + (error as Error).message);
+    }
+};
+
+// ========== Single queries ========== //
 
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
@@ -87,6 +123,8 @@ export const SelectArticleList = async <T extends FindManyArticleProps>(
         throw new Error("SelectArticleList -> " + (error as Error).message);
     }
 };
+
+// ========== Aggregate queries ========== //
 
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead

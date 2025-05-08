@@ -1,10 +1,13 @@
 import PrismaInstance from "@lib/prisma";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
-import { UserCount, CountUserProps, CountUserResponse, CreateUserProps, CreateUserResponse, DeleteUserProps, DeleteUserResponse, FindManyUserProps, FindManyUserResponse, FindUniqueUserProps, FindUniqueUserResponse, UpdateUserProps, UpdateUserResponse, UpsertUserProps, UpsertUserResponse, countUserSchema, createUserSchema, deleteUserSchema, selectFirstUserSchema, selectManyUserSchema, selectUniqueUserSchema, updateUserSchema, upsertUserSchema, FindFirstUserProps, FindFirstUserResponse } from "@services/types/UserType";
+import { UserCount, CountUserProps, CountUserResponse, CreateManyUserProps, CreateManyUserResponse, CreateUserProps, CreateUserResponse, DeleteManyUserProps, DeleteManyUserResponse, DeleteUserProps, DeleteUserResponse, FindFirstUserProps, FindFirstUserResponse, FindManyUserProps, FindManyUserResponse, FindUniqueUserProps, FindUniqueUserResponse, UpdateManyUserProps, UpdateManyUserResponse, UpdateUserProps, UpdateUserResponse, UpsertUserProps, UpsertUserResponse, countUserSchema, createManyUserSchema, createUserSchema, deleteManyUserSchema, deleteUserSchema, selectFirstUserSchema, selectManyUserSchema, selectUniqueUserSchema, updateManyUserSchema, updateUserSchema, upsertUserSchema } from "@services/types/UserType";
 import { ResponseFormat } from "@utils/FetchConfig";
 import { ZodError } from "zod";
 
 export default class UserService {
+
+    // ========== Single mutations ========== //
+
     static async create<T extends CreateUserProps>(props: T): Promise<ResponseFormat<CreateUserResponse<T>>> {
         try {
             const parsedProps = createUserSchema.parse(props);
@@ -45,6 +48,40 @@ export default class UserService {
         }
     }
 
+    // ========== Multiple mutations ========== //
+
+    static async createMany(props: CreateManyUserProps): Promise<ResponseFormat<CreateManyUserResponse>> {
+        try {
+            const parsedProps = createManyUserSchema.parse(props);
+            const result = await PrismaInstance.user.createMany(parsedProps);
+            return { data: result };
+        } catch (error) {
+            return UserService.error("createMany", error);
+        }
+    }
+
+    static async updateMany(props: UpdateManyUserProps): Promise<ResponseFormat<UpdateManyUserResponse>> {
+        try {
+            const parsedProps = updateManyUserSchema.parse(props);
+            const result = await PrismaInstance.user.updateMany(parsedProps);
+            return { data: result };
+        } catch (error) {
+            return UserService.error("updateMany", error);
+        }
+    }
+
+    static async deleteMany(props: DeleteManyUserProps): Promise<ResponseFormat<DeleteManyUserResponse>> {
+        try {
+            const parsedProps = deleteManyUserSchema.parse(props);
+            const result = await PrismaInstance.user.deleteMany(parsedProps);
+            return { data: result };
+        } catch (error) {
+            return UserService.error("deleteMany", error);
+        }
+    }
+
+    // ========== Single queries ========== //
+
     static async findFirst<T extends FindFirstUserProps>(props: T): Promise<ResponseFormat<FindFirstUserResponse<T>>> {
         try {
             const parsedProps = selectFirstUserSchema.parse(props);
@@ -76,6 +113,8 @@ export default class UserService {
         }
     }
 
+    // ========== Aggregate queries ========== //
+
     static async count(props: CountUserProps): Promise<ResponseFormat<CountUserResponse>> {
         try {
             const parsedProps = countUserSchema.parse(props);
@@ -85,6 +124,8 @@ export default class UserService {
             return UserService.error("count", error);
         }
     }
+
+    // ========== Error handling ========== //
 
     static async error(methodName: string, error: unknown): Promise<{error: string}> {
         if (process.env.NODE_ENV === "development") {

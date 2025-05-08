@@ -1,10 +1,13 @@
 import PrismaInstance from "@lib/prisma";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
-import { AddressCount, CountAddressProps, CountAddressResponse, CreateAddressProps, CreateAddressResponse, DeleteAddressProps, DeleteAddressResponse, FindManyAddressProps, FindManyAddressResponse, FindUniqueAddressProps, FindUniqueAddressResponse, UpdateAddressProps, UpdateAddressResponse, UpsertAddressProps, UpsertAddressResponse, countAddressSchema, createAddressSchema, deleteAddressSchema, selectFirstAddressSchema, selectManyAddressSchema, selectUniqueAddressSchema, updateAddressSchema, upsertAddressSchema, FindFirstAddressProps, FindFirstAddressResponse } from "@services/types/AddressType";
+import { AddressCount, CountAddressProps, CountAddressResponse, CreateManyAddressProps, CreateManyAddressResponse, CreateAddressProps, CreateAddressResponse, DeleteManyAddressProps, DeleteManyAddressResponse, DeleteAddressProps, DeleteAddressResponse, FindFirstAddressProps, FindFirstAddressResponse, FindManyAddressProps, FindManyAddressResponse, FindUniqueAddressProps, FindUniqueAddressResponse, UpdateManyAddressProps, UpdateManyAddressResponse, UpdateAddressProps, UpdateAddressResponse, UpsertAddressProps, UpsertAddressResponse, countAddressSchema, createManyAddressSchema, createAddressSchema, deleteManyAddressSchema, deleteAddressSchema, selectFirstAddressSchema, selectManyAddressSchema, selectUniqueAddressSchema, updateManyAddressSchema, updateAddressSchema, upsertAddressSchema } from "@services/types/AddressType";
 import { ResponseFormat } from "@utils/FetchConfig";
 import { ZodError } from "zod";
 
 export default class AddressService {
+
+    // ========== Single mutations ========== //
+
     static async create<T extends CreateAddressProps>(props: T): Promise<ResponseFormat<CreateAddressResponse<T>>> {
         try {
             const parsedProps = createAddressSchema.parse(props);
@@ -45,6 +48,40 @@ export default class AddressService {
         }
     }
 
+    // ========== Multiple mutations ========== //
+
+    static async createMany(props: CreateManyAddressProps): Promise<ResponseFormat<CreateManyAddressResponse>> {
+        try {
+            const parsedProps = createManyAddressSchema.parse(props);
+            const result = await PrismaInstance.address.createMany(parsedProps);
+            return { data: result };
+        } catch (error) {
+            return AddressService.error("createMany", error);
+        }
+    }
+
+    static async updateMany(props: UpdateManyAddressProps): Promise<ResponseFormat<UpdateManyAddressResponse>> {
+        try {
+            const parsedProps = updateManyAddressSchema.parse(props);
+            const result = await PrismaInstance.address.updateMany(parsedProps);
+            return { data: result };
+        } catch (error) {
+            return AddressService.error("updateMany", error);
+        }
+    }
+
+    static async deleteMany(props: DeleteManyAddressProps): Promise<ResponseFormat<DeleteManyAddressResponse>> {
+        try {
+            const parsedProps = deleteManyAddressSchema.parse(props);
+            const result = await PrismaInstance.address.deleteMany(parsedProps);
+            return { data: result };
+        } catch (error) {
+            return AddressService.error("deleteMany", error);
+        }
+    }
+
+    // ========== Single queries ========== //
+
     static async findFirst<T extends FindFirstAddressProps>(props: T): Promise<ResponseFormat<FindFirstAddressResponse<T>>> {
         try {
             const parsedProps = selectFirstAddressSchema.parse(props);
@@ -76,6 +113,8 @@ export default class AddressService {
         }
     }
 
+    // ========== Aggregate queries ========== //
+
     static async count(props: CountAddressProps): Promise<ResponseFormat<CountAddressResponse>> {
         try {
             const parsedProps = countAddressSchema.parse(props);
@@ -85,6 +124,8 @@ export default class AddressService {
             return AddressService.error("count", error);
         }
     }
+
+    // ========== Error handling ========== //
 
     static async error(methodName: string, error: unknown): Promise<{error: string}> {
         if (process.env.NODE_ENV === "development") {

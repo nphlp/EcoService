@@ -1,10 +1,13 @@
 import PrismaInstance from "@lib/prisma";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
-import { DiyCount, CountDiyProps, CountDiyResponse, CreateDiyProps, CreateDiyResponse, DeleteDiyProps, DeleteDiyResponse, FindManyDiyProps, FindManyDiyResponse, FindUniqueDiyProps, FindUniqueDiyResponse, UpdateDiyProps, UpdateDiyResponse, UpsertDiyProps, UpsertDiyResponse, countDiySchema, createDiySchema, deleteDiySchema, selectFirstDiySchema, selectManyDiySchema, selectUniqueDiySchema, updateDiySchema, upsertDiySchema, FindFirstDiyProps, FindFirstDiyResponse } from "@services/types/DiyType";
+import { DiyCount, CountDiyProps, CountDiyResponse, CreateManyDiyProps, CreateManyDiyResponse, CreateDiyProps, CreateDiyResponse, DeleteManyDiyProps, DeleteManyDiyResponse, DeleteDiyProps, DeleteDiyResponse, FindFirstDiyProps, FindFirstDiyResponse, FindManyDiyProps, FindManyDiyResponse, FindUniqueDiyProps, FindUniqueDiyResponse, UpdateManyDiyProps, UpdateManyDiyResponse, UpdateDiyProps, UpdateDiyResponse, UpsertDiyProps, UpsertDiyResponse, countDiySchema, createManyDiySchema, createDiySchema, deleteManyDiySchema, deleteDiySchema, selectFirstDiySchema, selectManyDiySchema, selectUniqueDiySchema, updateManyDiySchema, updateDiySchema, upsertDiySchema } from "@services/types/DiyType";
 import { ResponseFormat } from "@utils/FetchConfig";
 import { ZodError } from "zod";
 
 export default class DiyService {
+
+    // ========== Single mutations ========== //
+
     static async create<T extends CreateDiyProps>(props: T): Promise<ResponseFormat<CreateDiyResponse<T>>> {
         try {
             const parsedProps = createDiySchema.parse(props);
@@ -45,6 +48,40 @@ export default class DiyService {
         }
     }
 
+    // ========== Multiple mutations ========== //
+
+    static async createMany(props: CreateManyDiyProps): Promise<ResponseFormat<CreateManyDiyResponse>> {
+        try {
+            const parsedProps = createManyDiySchema.parse(props);
+            const result = await PrismaInstance.diy.createMany(parsedProps);
+            return { data: result };
+        } catch (error) {
+            return DiyService.error("createMany", error);
+        }
+    }
+
+    static async updateMany(props: UpdateManyDiyProps): Promise<ResponseFormat<UpdateManyDiyResponse>> {
+        try {
+            const parsedProps = updateManyDiySchema.parse(props);
+            const result = await PrismaInstance.diy.updateMany(parsedProps);
+            return { data: result };
+        } catch (error) {
+            return DiyService.error("updateMany", error);
+        }
+    }
+
+    static async deleteMany(props: DeleteManyDiyProps): Promise<ResponseFormat<DeleteManyDiyResponse>> {
+        try {
+            const parsedProps = deleteManyDiySchema.parse(props);
+            const result = await PrismaInstance.diy.deleteMany(parsedProps);
+            return { data: result };
+        } catch (error) {
+            return DiyService.error("deleteMany", error);
+        }
+    }
+
+    // ========== Single queries ========== //
+
     static async findFirst<T extends FindFirstDiyProps>(props: T): Promise<ResponseFormat<FindFirstDiyResponse<T>>> {
         try {
             const parsedProps = selectFirstDiySchema.parse(props);
@@ -76,6 +113,8 @@ export default class DiyService {
         }
     }
 
+    // ========== Aggregate queries ========== //
+
     static async count(props: CountDiyProps): Promise<ResponseFormat<CountDiyResponse>> {
         try {
             const parsedProps = countDiySchema.parse(props);
@@ -85,6 +124,8 @@ export default class DiyService {
             return DiyService.error("count", error);
         }
     }
+
+    // ========== Error handling ========== //
 
     static async error(methodName: string, error: unknown): Promise<{error: string}> {
         if (process.env.NODE_ENV === "development") {

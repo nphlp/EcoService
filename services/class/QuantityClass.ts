@@ -1,6 +1,6 @@
 import PrismaInstance from "@lib/prisma";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
-import { CountQuantityProps, CountQuantityResponse, CreateManyQuantityProps, CreateManyQuantityResponse, CreateQuantityProps, CreateQuantityResponse, DeleteManyQuantityProps, DeleteManyQuantityResponse, DeleteQuantityProps, DeleteQuantityResponse, FindFirstQuantityProps, FindFirstQuantityResponse, FindManyQuantityProps, FindManyQuantityResponse, FindUniqueQuantityProps, FindUniqueQuantityResponse, QuantityCount, UpdateManyQuantityProps, UpdateManyQuantityResponse, UpdateQuantityProps, UpdateQuantityResponse, UpsertQuantityProps, UpsertQuantityResponse, countQuantitySchema, createManyQuantitySchema, createQuantitySchema, deleteManyQuantitySchema, deleteQuantitySchema, selectFirstQuantitySchema, selectManyQuantitySchema, selectUniqueQuantitySchema, updateManyQuantitySchema, updateQuantitySchema, upsertQuantitySchema } from "@services/types/QuantityType";
+import { QuantityCount, CountQuantityProps, CountQuantityResponse, CreateManyQuantityProps, CreateManyQuantityResponse, CreateQuantityProps, CreateQuantityResponse, DeleteManyQuantityProps, DeleteManyQuantityResponse, DeleteQuantityProps, DeleteQuantityResponse, FindFirstQuantityProps, FindFirstQuantityResponse, FindManyQuantityProps, FindManyQuantityResponse, FindUniqueQuantityProps, FindUniqueQuantityResponse, UpdateManyQuantityProps, UpdateManyQuantityResponse, UpdateQuantityProps, UpdateQuantityResponse, UpsertQuantityProps, UpsertQuantityResponse, countQuantitySchema, createManyQuantitySchema, createQuantitySchema, deleteManyQuantitySchema, deleteQuantitySchema, selectFirstQuantitySchema, selectManyQuantitySchema, selectUniqueQuantitySchema, updateManyQuantitySchema, updateQuantitySchema, upsertQuantitySchema } from "@services/types/QuantityType";
 import { ResponseFormat } from "@utils/FetchConfig";
 import { ZodError } from "zod";
 
@@ -53,8 +53,8 @@ export default class QuantityService {
     static async createMany(props: CreateManyQuantityProps): Promise<ResponseFormat<CreateManyQuantityResponse>> {
         try {
             const parsedProps = createManyQuantitySchema.parse(props);
-            const quantity = await PrismaInstance.quantity.createMany(parsedProps);
-            return { data: quantity };
+            const result = await PrismaInstance.quantity.createMany(parsedProps);
+            return { data: result };
         } catch (error) {
             return QuantityService.error("createMany", error);
         }
@@ -63,8 +63,8 @@ export default class QuantityService {
     static async updateMany(props: UpdateManyQuantityProps): Promise<ResponseFormat<UpdateManyQuantityResponse>> {
         try {
             const parsedProps = updateManyQuantitySchema.parse(props);
-            const quantity = await PrismaInstance.quantity.updateMany(parsedProps);
-            return { data: quantity };
+            const result = await PrismaInstance.quantity.updateMany(parsedProps);
+            return { data: result };
         } catch (error) {
             return QuantityService.error("updateMany", error);
         }
@@ -73,8 +73,8 @@ export default class QuantityService {
     static async deleteMany(props: DeleteManyQuantityProps): Promise<ResponseFormat<DeleteManyQuantityResponse>> {
         try {
             const parsedProps = deleteManyQuantitySchema.parse(props);
-            const quantity = await PrismaInstance.quantity.deleteMany(parsedProps);
-            return { data: quantity };
+            const result = await PrismaInstance.quantity.deleteMany(parsedProps);
+            return { data: result };
         } catch (error) {
             return QuantityService.error("deleteMany", error);
         }

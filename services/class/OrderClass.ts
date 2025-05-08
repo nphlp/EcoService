@@ -1,10 +1,13 @@
 import PrismaInstance from "@lib/prisma";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
-import { OrderCount, CountOrderProps, CountOrderResponse, CreateOrderProps, CreateOrderResponse, DeleteOrderProps, DeleteOrderResponse, FindManyOrderProps, FindManyOrderResponse, FindUniqueOrderProps, FindUniqueOrderResponse, UpdateOrderProps, UpdateOrderResponse, UpsertOrderProps, UpsertOrderResponse, countOrderSchema, createOrderSchema, deleteOrderSchema, selectFirstOrderSchema, selectManyOrderSchema, selectUniqueOrderSchema, updateOrderSchema, upsertOrderSchema, FindFirstOrderProps, FindFirstOrderResponse } from "@services/types/OrderType";
+import { OrderCount, CountOrderProps, CountOrderResponse, CreateManyOrderProps, CreateManyOrderResponse, CreateOrderProps, CreateOrderResponse, DeleteManyOrderProps, DeleteManyOrderResponse, DeleteOrderProps, DeleteOrderResponse, FindFirstOrderProps, FindFirstOrderResponse, FindManyOrderProps, FindManyOrderResponse, FindUniqueOrderProps, FindUniqueOrderResponse, UpdateManyOrderProps, UpdateManyOrderResponse, UpdateOrderProps, UpdateOrderResponse, UpsertOrderProps, UpsertOrderResponse, countOrderSchema, createManyOrderSchema, createOrderSchema, deleteManyOrderSchema, deleteOrderSchema, selectFirstOrderSchema, selectManyOrderSchema, selectUniqueOrderSchema, updateManyOrderSchema, updateOrderSchema, upsertOrderSchema } from "@services/types/OrderType";
 import { ResponseFormat } from "@utils/FetchConfig";
 import { ZodError } from "zod";
 
 export default class OrderService {
+
+    // ========== Single mutations ========== //
+
     static async create<T extends CreateOrderProps>(props: T): Promise<ResponseFormat<CreateOrderResponse<T>>> {
         try {
             const parsedProps = createOrderSchema.parse(props);
@@ -45,6 +48,40 @@ export default class OrderService {
         }
     }
 
+    // ========== Multiple mutations ========== //
+
+    static async createMany(props: CreateManyOrderProps): Promise<ResponseFormat<CreateManyOrderResponse>> {
+        try {
+            const parsedProps = createManyOrderSchema.parse(props);
+            const result = await PrismaInstance.order.createMany(parsedProps);
+            return { data: result };
+        } catch (error) {
+            return OrderService.error("createMany", error);
+        }
+    }
+
+    static async updateMany(props: UpdateManyOrderProps): Promise<ResponseFormat<UpdateManyOrderResponse>> {
+        try {
+            const parsedProps = updateManyOrderSchema.parse(props);
+            const result = await PrismaInstance.order.updateMany(parsedProps);
+            return { data: result };
+        } catch (error) {
+            return OrderService.error("updateMany", error);
+        }
+    }
+
+    static async deleteMany(props: DeleteManyOrderProps): Promise<ResponseFormat<DeleteManyOrderResponse>> {
+        try {
+            const parsedProps = deleteManyOrderSchema.parse(props);
+            const result = await PrismaInstance.order.deleteMany(parsedProps);
+            return { data: result };
+        } catch (error) {
+            return OrderService.error("deleteMany", error);
+        }
+    }
+
+    // ========== Single queries ========== //
+
     static async findFirst<T extends FindFirstOrderProps>(props: T): Promise<ResponseFormat<FindFirstOrderResponse<T>>> {
         try {
             const parsedProps = selectFirstOrderSchema.parse(props);
@@ -76,6 +113,8 @@ export default class OrderService {
         }
     }
 
+    // ========== Aggregate queries ========== //
+
     static async count(props: CountOrderProps): Promise<ResponseFormat<CountOrderResponse>> {
         try {
             const parsedProps = countOrderSchema.parse(props);
@@ -85,6 +124,8 @@ export default class OrderService {
             return OrderService.error("count", error);
         }
     }
+
+    // ========== Error handling ========== //
 
     static async error(methodName: string, error: unknown): Promise<{error: string}> {
         if (process.env.NODE_ENV === "development") {

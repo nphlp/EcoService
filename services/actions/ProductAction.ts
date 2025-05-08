@@ -1,7 +1,9 @@
 "use server";
 
 import ProductService from "@services/class/ProductClass";
-import { CountProductProps, CountProductResponse, CreateProductProps, CreateProductResponse, DeleteProductProps, DeleteProductResponse, FindFirstProductProps, FindFirstProductResponse, FindManyProductProps, FindManyProductResponse, FindUniqueProductProps, FindUniqueProductResponse, UpdateProductProps, UpdateProductResponse, UpsertProductProps, UpsertProductResponse } from "@services/types/ProductType";
+import { CountProductProps, CountProductResponse, CreateManyProductProps, CreateManyProductResponse, CreateProductProps, CreateProductResponse, DeleteManyProductProps, DeleteManyProductResponse, DeleteProductProps, DeleteProductResponse, FindFirstProductProps, FindFirstProductResponse, FindManyProductProps, FindManyProductResponse, FindUniqueProductProps, FindUniqueProductResponse, UpdateManyProductProps, UpdateManyProductResponse, UpdateProductProps, UpdateProductResponse, UpsertProductProps, UpsertProductResponse } from "@services/types/ProductType";
+
+// ========== Single mutations ========== //
 
 export const CreateProduct = async <T extends CreateProductProps>(props: T): Promise<CreateProductResponse<T>> => {
     try {
@@ -42,6 +44,40 @@ export const DeleteProduct = async <T extends DeleteProductProps>(props: T): Pro
         throw new Error("DeleteProduct -> " + (error as Error).message);
     }
 };
+
+// ========== Multiple mutations ========== //
+
+export const CreateManyProduct = async (props: CreateManyProductProps): Promise<CreateManyProductResponse> => {
+    try {
+        const { data, error } = await ProductService.createMany(props);
+        if (!data || error) throw new Error(error);
+        return data;
+    } catch (error) {
+        throw new Error("CreateManyProduct -> " + (error as Error).message);
+    }
+};
+
+export const UpdateManyProduct = async (props: UpdateManyProductProps): Promise<UpdateManyProductResponse> => {
+    try {
+        const { data, error } = await ProductService.updateMany(props);
+        if (!data || error) throw new Error(error);
+        return data;
+    } catch (error) {
+        throw new Error("UpdateManyProduct -> " + (error as Error).message);
+    }
+};
+
+export const DeleteManyProduct = async (props: DeleteManyProductProps): Promise<DeleteManyProductResponse> => {
+    try {
+        const { data, error } = await ProductService.deleteMany(props);
+        if (!data || error) throw new Error(error);
+        return data;
+    } catch (error) {
+        throw new Error("DeleteManyProduct -> " + (error as Error).message);
+    }
+};
+
+// ========== Single queries ========== //
 
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
@@ -87,6 +123,8 @@ export const SelectProductList = async <T extends FindManyProductProps>(
         throw new Error("SelectProductList -> " + (error as Error).message);
     }
 };
+
+// ========== Aggregate queries ========== //
 
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead

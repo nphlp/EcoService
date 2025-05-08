@@ -1,7 +1,9 @@
 "use server";
 
 import FruitService from "@services/class/FruitClass";
-import { CountFruitProps, CountFruitResponse, CreateFruitProps, CreateFruitResponse, DeleteFruitProps, DeleteFruitResponse, FindFirstFruitProps, FindFirstFruitResponse, FindManyFruitProps, FindManyFruitResponse, FindUniqueFruitProps, FindUniqueFruitResponse, UpdateFruitProps, UpdateFruitResponse, UpsertFruitProps, UpsertFruitResponse } from "@services/types/FruitType";
+import { CountFruitProps, CountFruitResponse, CreateManyFruitProps, CreateManyFruitResponse, CreateFruitProps, CreateFruitResponse, DeleteManyFruitProps, DeleteManyFruitResponse, DeleteFruitProps, DeleteFruitResponse, FindFirstFruitProps, FindFirstFruitResponse, FindManyFruitProps, FindManyFruitResponse, FindUniqueFruitProps, FindUniqueFruitResponse, UpdateManyFruitProps, UpdateManyFruitResponse, UpdateFruitProps, UpdateFruitResponse, UpsertFruitProps, UpsertFruitResponse } from "@services/types/FruitType";
+
+// ========== Single mutations ========== //
 
 export const CreateFruit = async <T extends CreateFruitProps>(props: T): Promise<CreateFruitResponse<T>> => {
     try {
@@ -42,6 +44,40 @@ export const DeleteFruit = async <T extends DeleteFruitProps>(props: T): Promise
         throw new Error("DeleteFruit -> " + (error as Error).message);
     }
 };
+
+// ========== Multiple mutations ========== //
+
+export const CreateManyFruit = async (props: CreateManyFruitProps): Promise<CreateManyFruitResponse> => {
+    try {
+        const { data, error } = await FruitService.createMany(props);
+        if (!data || error) throw new Error(error);
+        return data;
+    } catch (error) {
+        throw new Error("CreateManyFruit -> " + (error as Error).message);
+    }
+};
+
+export const UpdateManyFruit = async (props: UpdateManyFruitProps): Promise<UpdateManyFruitResponse> => {
+    try {
+        const { data, error } = await FruitService.updateMany(props);
+        if (!data || error) throw new Error(error);
+        return data;
+    } catch (error) {
+        throw new Error("UpdateManyFruit -> " + (error as Error).message);
+    }
+};
+
+export const DeleteManyFruit = async (props: DeleteManyFruitProps): Promise<DeleteManyFruitResponse> => {
+    try {
+        const { data, error } = await FruitService.deleteMany(props);
+        if (!data || error) throw new Error(error);
+        return data;
+    } catch (error) {
+        throw new Error("DeleteManyFruit -> " + (error as Error).message);
+    }
+};
+
+// ========== Single queries ========== //
 
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
@@ -87,6 +123,8 @@ export const SelectFruitList = async <T extends FindManyFruitProps>(
         throw new Error("SelectFruitList -> " + (error as Error).message);
     }
 };
+
+// ========== Aggregate queries ========== //
 
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead

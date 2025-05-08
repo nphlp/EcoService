@@ -1,10 +1,13 @@
 import PrismaInstance from "@lib/prisma";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
-import { SessionCount, CountSessionProps, CountSessionResponse, CreateSessionProps, CreateSessionResponse, DeleteSessionProps, DeleteSessionResponse, FindManySessionProps, FindManySessionResponse, FindUniqueSessionProps, FindUniqueSessionResponse, UpdateSessionProps, UpdateSessionResponse, UpsertSessionProps, UpsertSessionResponse, countSessionSchema, createSessionSchema, deleteSessionSchema, selectFirstSessionSchema, selectManySessionSchema, selectUniqueSessionSchema, updateSessionSchema, upsertSessionSchema, FindFirstSessionProps, FindFirstSessionResponse } from "@services/types/SessionType";
+import { SessionCount, CountSessionProps, CountSessionResponse, CreateManySessionProps, CreateManySessionResponse, CreateSessionProps, CreateSessionResponse, DeleteManySessionProps, DeleteManySessionResponse, DeleteSessionProps, DeleteSessionResponse, FindFirstSessionProps, FindFirstSessionResponse, FindManySessionProps, FindManySessionResponse, FindUniqueSessionProps, FindUniqueSessionResponse, UpdateManySessionProps, UpdateManySessionResponse, UpdateSessionProps, UpdateSessionResponse, UpsertSessionProps, UpsertSessionResponse, countSessionSchema, createManySessionSchema, createSessionSchema, deleteManySessionSchema, deleteSessionSchema, selectFirstSessionSchema, selectManySessionSchema, selectUniqueSessionSchema, updateManySessionSchema, updateSessionSchema, upsertSessionSchema } from "@services/types/SessionType";
 import { ResponseFormat } from "@utils/FetchConfig";
 import { ZodError } from "zod";
 
 export default class SessionService {
+
+    // ========== Single mutations ========== //
+
     static async create<T extends CreateSessionProps>(props: T): Promise<ResponseFormat<CreateSessionResponse<T>>> {
         try {
             const parsedProps = createSessionSchema.parse(props);
@@ -45,6 +48,40 @@ export default class SessionService {
         }
     }
 
+    // ========== Multiple mutations ========== //
+
+    static async createMany(props: CreateManySessionProps): Promise<ResponseFormat<CreateManySessionResponse>> {
+        try {
+            const parsedProps = createManySessionSchema.parse(props);
+            const result = await PrismaInstance.session.createMany(parsedProps);
+            return { data: result };
+        } catch (error) {
+            return SessionService.error("createMany", error);
+        }
+    }
+
+    static async updateMany(props: UpdateManySessionProps): Promise<ResponseFormat<UpdateManySessionResponse>> {
+        try {
+            const parsedProps = updateManySessionSchema.parse(props);
+            const result = await PrismaInstance.session.updateMany(parsedProps);
+            return { data: result };
+        } catch (error) {
+            return SessionService.error("updateMany", error);
+        }
+    }
+
+    static async deleteMany(props: DeleteManySessionProps): Promise<ResponseFormat<DeleteManySessionResponse>> {
+        try {
+            const parsedProps = deleteManySessionSchema.parse(props);
+            const result = await PrismaInstance.session.deleteMany(parsedProps);
+            return { data: result };
+        } catch (error) {
+            return SessionService.error("deleteMany", error);
+        }
+    }
+
+    // ========== Single queries ========== //
+
     static async findFirst<T extends FindFirstSessionProps>(props: T): Promise<ResponseFormat<FindFirstSessionResponse<T>>> {
         try {
             const parsedProps = selectFirstSessionSchema.parse(props);
@@ -76,6 +113,8 @@ export default class SessionService {
         }
     }
 
+    // ========== Aggregate queries ========== //
+
     static async count(props: CountSessionProps): Promise<ResponseFormat<CountSessionResponse>> {
         try {
             const parsedProps = countSessionSchema.parse(props);
@@ -85,6 +124,8 @@ export default class SessionService {
             return SessionService.error("count", error);
         }
     }
+
+    // ========== Error handling ========== //
 
     static async error(methodName: string, error: unknown): Promise<{error: string}> {
         if (process.env.NODE_ENV === "development") {

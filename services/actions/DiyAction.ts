@@ -1,7 +1,9 @@
 "use server";
 
 import DiyService from "@services/class/DiyClass";
-import { CountDiyProps, CountDiyResponse, CreateDiyProps, CreateDiyResponse, DeleteDiyProps, DeleteDiyResponse, FindFirstDiyProps, FindFirstDiyResponse, FindManyDiyProps, FindManyDiyResponse, FindUniqueDiyProps, FindUniqueDiyResponse, UpdateDiyProps, UpdateDiyResponse, UpsertDiyProps, UpsertDiyResponse } from "@services/types/DiyType";
+import { CountDiyProps, CountDiyResponse, CreateManyDiyProps, CreateManyDiyResponse, CreateDiyProps, CreateDiyResponse, DeleteManyDiyProps, DeleteManyDiyResponse, DeleteDiyProps, DeleteDiyResponse, FindFirstDiyProps, FindFirstDiyResponse, FindManyDiyProps, FindManyDiyResponse, FindUniqueDiyProps, FindUniqueDiyResponse, UpdateManyDiyProps, UpdateManyDiyResponse, UpdateDiyProps, UpdateDiyResponse, UpsertDiyProps, UpsertDiyResponse } from "@services/types/DiyType";
+
+// ========== Single mutations ========== //
 
 export const CreateDiy = async <T extends CreateDiyProps>(props: T): Promise<CreateDiyResponse<T>> => {
     try {
@@ -42,6 +44,40 @@ export const DeleteDiy = async <T extends DeleteDiyProps>(props: T): Promise<Del
         throw new Error("DeleteDiy -> " + (error as Error).message);
     }
 };
+
+// ========== Multiple mutations ========== //
+
+export const CreateManyDiy = async (props: CreateManyDiyProps): Promise<CreateManyDiyResponse> => {
+    try {
+        const { data, error } = await DiyService.createMany(props);
+        if (!data || error) throw new Error(error);
+        return data;
+    } catch (error) {
+        throw new Error("CreateManyDiy -> " + (error as Error).message);
+    }
+};
+
+export const UpdateManyDiy = async (props: UpdateManyDiyProps): Promise<UpdateManyDiyResponse> => {
+    try {
+        const { data, error } = await DiyService.updateMany(props);
+        if (!data || error) throw new Error(error);
+        return data;
+    } catch (error) {
+        throw new Error("UpdateManyDiy -> " + (error as Error).message);
+    }
+};
+
+export const DeleteManyDiy = async (props: DeleteManyDiyProps): Promise<DeleteManyDiyResponse> => {
+    try {
+        const { data, error } = await DiyService.deleteMany(props);
+        if (!data || error) throw new Error(error);
+        return data;
+    } catch (error) {
+        throw new Error("DeleteManyDiy -> " + (error as Error).message);
+    }
+};
+
+// ========== Single queries ========== //
 
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
@@ -87,6 +123,8 @@ export const SelectDiyList = async <T extends FindManyDiyProps>(
         throw new Error("SelectDiyList -> " + (error as Error).message);
     }
 };
+
+// ========== Aggregate queries ========== //
 
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead

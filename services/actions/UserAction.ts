@@ -1,7 +1,9 @@
 "use server";
 
 import UserService from "@services/class/UserClass";
-import { CountUserProps, CountUserResponse, CreateUserProps, CreateUserResponse, DeleteUserProps, DeleteUserResponse, FindFirstUserProps, FindFirstUserResponse, FindManyUserProps, FindManyUserResponse, FindUniqueUserProps, FindUniqueUserResponse, UpdateUserProps, UpdateUserResponse, UpsertUserProps, UpsertUserResponse } from "@services/types/UserType";
+import { CountUserProps, CountUserResponse, CreateManyUserProps, CreateManyUserResponse, CreateUserProps, CreateUserResponse, DeleteManyUserProps, DeleteManyUserResponse, DeleteUserProps, DeleteUserResponse, FindFirstUserProps, FindFirstUserResponse, FindManyUserProps, FindManyUserResponse, FindUniqueUserProps, FindUniqueUserResponse, UpdateManyUserProps, UpdateManyUserResponse, UpdateUserProps, UpdateUserResponse, UpsertUserProps, UpsertUserResponse } from "@services/types/UserType";
+
+// ========== Single mutations ========== //
 
 export const CreateUser = async <T extends CreateUserProps>(props: T): Promise<CreateUserResponse<T>> => {
     try {
@@ -42,6 +44,40 @@ export const DeleteUser = async <T extends DeleteUserProps>(props: T): Promise<D
         throw new Error("DeleteUser -> " + (error as Error).message);
     }
 };
+
+// ========== Multiple mutations ========== //
+
+export const CreateManyUser = async (props: CreateManyUserProps): Promise<CreateManyUserResponse> => {
+    try {
+        const { data, error } = await UserService.createMany(props);
+        if (!data || error) throw new Error(error);
+        return data;
+    } catch (error) {
+        throw new Error("CreateManyUser -> " + (error as Error).message);
+    }
+};
+
+export const UpdateManyUser = async (props: UpdateManyUserProps): Promise<UpdateManyUserResponse> => {
+    try {
+        const { data, error } = await UserService.updateMany(props);
+        if (!data || error) throw new Error(error);
+        return data;
+    } catch (error) {
+        throw new Error("UpdateManyUser -> " + (error as Error).message);
+    }
+};
+
+export const DeleteManyUser = async (props: DeleteManyUserProps): Promise<DeleteManyUserResponse> => {
+    try {
+        const { data, error } = await UserService.deleteMany(props);
+        if (!data || error) throw new Error(error);
+        return data;
+    } catch (error) {
+        throw new Error("DeleteManyUser -> " + (error as Error).message);
+    }
+};
+
+// ========== Single queries ========== //
 
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
@@ -87,6 +123,8 @@ export const SelectUserList = async <T extends FindManyUserProps>(
         throw new Error("SelectUserList -> " + (error as Error).message);
     }
 };
+
+// ========== Aggregate queries ========== //
 
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead

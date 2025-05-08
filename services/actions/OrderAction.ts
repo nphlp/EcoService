@@ -1,7 +1,9 @@
 "use server";
 
 import OrderService from "@services/class/OrderClass";
-import { CountOrderProps, CountOrderResponse, CreateOrderProps, CreateOrderResponse, DeleteOrderProps, DeleteOrderResponse, FindFirstOrderProps, FindFirstOrderResponse, FindManyOrderProps, FindManyOrderResponse, FindUniqueOrderProps, FindUniqueOrderResponse, UpdateOrderProps, UpdateOrderResponse, UpsertOrderProps, UpsertOrderResponse } from "@services/types/OrderType";
+import { CountOrderProps, CountOrderResponse, CreateManyOrderProps, CreateManyOrderResponse, CreateOrderProps, CreateOrderResponse, DeleteManyOrderProps, DeleteManyOrderResponse, DeleteOrderProps, DeleteOrderResponse, FindFirstOrderProps, FindFirstOrderResponse, FindManyOrderProps, FindManyOrderResponse, FindUniqueOrderProps, FindUniqueOrderResponse, UpdateManyOrderProps, UpdateManyOrderResponse, UpdateOrderProps, UpdateOrderResponse, UpsertOrderProps, UpsertOrderResponse } from "@services/types/OrderType";
+
+// ========== Single mutations ========== //
 
 export const CreateOrder = async <T extends CreateOrderProps>(props: T): Promise<CreateOrderResponse<T>> => {
     try {
@@ -42,6 +44,40 @@ export const DeleteOrder = async <T extends DeleteOrderProps>(props: T): Promise
         throw new Error("DeleteOrder -> " + (error as Error).message);
     }
 };
+
+// ========== Multiple mutations ========== //
+
+export const CreateManyOrder = async (props: CreateManyOrderProps): Promise<CreateManyOrderResponse> => {
+    try {
+        const { data, error } = await OrderService.createMany(props);
+        if (!data || error) throw new Error(error);
+        return data;
+    } catch (error) {
+        throw new Error("CreateManyOrder -> " + (error as Error).message);
+    }
+};
+
+export const UpdateManyOrder = async (props: UpdateManyOrderProps): Promise<UpdateManyOrderResponse> => {
+    try {
+        const { data, error } = await OrderService.updateMany(props);
+        if (!data || error) throw new Error(error);
+        return data;
+    } catch (error) {
+        throw new Error("UpdateManyOrder -> " + (error as Error).message);
+    }
+};
+
+export const DeleteManyOrder = async (props: DeleteManyOrderProps): Promise<DeleteManyOrderResponse> => {
+    try {
+        const { data, error } = await OrderService.deleteMany(props);
+        if (!data || error) throw new Error(error);
+        return data;
+    } catch (error) {
+        throw new Error("DeleteManyOrder -> " + (error as Error).message);
+    }
+};
+
+// ========== Single queries ========== //
 
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
@@ -87,6 +123,8 @@ export const SelectOrderList = async <T extends FindManyOrderProps>(
         throw new Error("SelectOrderList -> " + (error as Error).message);
     }
 };
+
+// ========== Aggregate queries ========== //
 
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead

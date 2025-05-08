@@ -1,10 +1,13 @@
 import PrismaInstance from "@lib/prisma";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
-import { CategoryCount, CountCategoryProps, CountCategoryResponse, CreateCategoryProps, CreateCategoryResponse, DeleteCategoryProps, DeleteCategoryResponse, FindManyCategoryProps, FindManyCategoryResponse, FindUniqueCategoryProps, FindUniqueCategoryResponse, UpdateCategoryProps, UpdateCategoryResponse, UpsertCategoryProps, UpsertCategoryResponse, countCategorySchema, createCategorySchema, deleteCategorySchema, selectFirstCategorySchema, selectManyCategorySchema, selectUniqueCategorySchema, updateCategorySchema, upsertCategorySchema, FindFirstCategoryProps, FindFirstCategoryResponse } from "@services/types/CategoryType";
+import { CategoryCount, CountCategoryProps, CountCategoryResponse, CreateManyCategoryProps, CreateManyCategoryResponse, CreateCategoryProps, CreateCategoryResponse, DeleteManyCategoryProps, DeleteManyCategoryResponse, DeleteCategoryProps, DeleteCategoryResponse, FindFirstCategoryProps, FindFirstCategoryResponse, FindManyCategoryProps, FindManyCategoryResponse, FindUniqueCategoryProps, FindUniqueCategoryResponse, UpdateManyCategoryProps, UpdateManyCategoryResponse, UpdateCategoryProps, UpdateCategoryResponse, UpsertCategoryProps, UpsertCategoryResponse, countCategorySchema, createManyCategorySchema, createCategorySchema, deleteManyCategorySchema, deleteCategorySchema, selectFirstCategorySchema, selectManyCategorySchema, selectUniqueCategorySchema, updateManyCategorySchema, updateCategorySchema, upsertCategorySchema } from "@services/types/CategoryType";
 import { ResponseFormat } from "@utils/FetchConfig";
 import { ZodError } from "zod";
 
 export default class CategoryService {
+
+    // ========== Single mutations ========== //
+
     static async create<T extends CreateCategoryProps>(props: T): Promise<ResponseFormat<CreateCategoryResponse<T>>> {
         try {
             const parsedProps = createCategorySchema.parse(props);
@@ -45,6 +48,40 @@ export default class CategoryService {
         }
     }
 
+    // ========== Multiple mutations ========== //
+
+    static async createMany(props: CreateManyCategoryProps): Promise<ResponseFormat<CreateManyCategoryResponse>> {
+        try {
+            const parsedProps = createManyCategorySchema.parse(props);
+            const result = await PrismaInstance.category.createMany(parsedProps);
+            return { data: result };
+        } catch (error) {
+            return CategoryService.error("createMany", error);
+        }
+    }
+
+    static async updateMany(props: UpdateManyCategoryProps): Promise<ResponseFormat<UpdateManyCategoryResponse>> {
+        try {
+            const parsedProps = updateManyCategorySchema.parse(props);
+            const result = await PrismaInstance.category.updateMany(parsedProps);
+            return { data: result };
+        } catch (error) {
+            return CategoryService.error("updateMany", error);
+        }
+    }
+
+    static async deleteMany(props: DeleteManyCategoryProps): Promise<ResponseFormat<DeleteManyCategoryResponse>> {
+        try {
+            const parsedProps = deleteManyCategorySchema.parse(props);
+            const result = await PrismaInstance.category.deleteMany(parsedProps);
+            return { data: result };
+        } catch (error) {
+            return CategoryService.error("deleteMany", error);
+        }
+    }
+
+    // ========== Single queries ========== //
+
     static async findFirst<T extends FindFirstCategoryProps>(props: T): Promise<ResponseFormat<FindFirstCategoryResponse<T>>> {
         try {
             const parsedProps = selectFirstCategorySchema.parse(props);
@@ -76,6 +113,8 @@ export default class CategoryService {
         }
     }
 
+    // ========== Aggregate queries ========== //
+
     static async count(props: CountCategoryProps): Promise<ResponseFormat<CountCategoryResponse>> {
         try {
             const parsedProps = countCategorySchema.parse(props);
@@ -85,6 +124,8 @@ export default class CategoryService {
             return CategoryService.error("count", error);
         }
     }
+
+    // ========== Error handling ========== //
 
     static async error(methodName: string, error: unknown): Promise<{error: string}> {
         if (process.env.NODE_ENV === "development") {

@@ -1,10 +1,13 @@
 import PrismaInstance from "@lib/prisma";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
-import { FruitCount, CountFruitProps, CountFruitResponse, CreateFruitProps, CreateFruitResponse, DeleteFruitProps, DeleteFruitResponse, FindManyFruitProps, FindManyFruitResponse, FindUniqueFruitProps, FindUniqueFruitResponse, UpdateFruitProps, UpdateFruitResponse, UpsertFruitProps, UpsertFruitResponse, countFruitSchema, createFruitSchema, deleteFruitSchema, selectFirstFruitSchema, selectManyFruitSchema, selectUniqueFruitSchema, updateFruitSchema, upsertFruitSchema, FindFirstFruitProps, FindFirstFruitResponse } from "@services/types/FruitType";
+import { FruitCount, CountFruitProps, CountFruitResponse, CreateManyFruitProps, CreateManyFruitResponse, CreateFruitProps, CreateFruitResponse, DeleteManyFruitProps, DeleteManyFruitResponse, DeleteFruitProps, DeleteFruitResponse, FindFirstFruitProps, FindFirstFruitResponse, FindManyFruitProps, FindManyFruitResponse, FindUniqueFruitProps, FindUniqueFruitResponse, UpdateManyFruitProps, UpdateManyFruitResponse, UpdateFruitProps, UpdateFruitResponse, UpsertFruitProps, UpsertFruitResponse, countFruitSchema, createManyFruitSchema, createFruitSchema, deleteManyFruitSchema, deleteFruitSchema, selectFirstFruitSchema, selectManyFruitSchema, selectUniqueFruitSchema, updateManyFruitSchema, updateFruitSchema, upsertFruitSchema } from "@services/types/FruitType";
 import { ResponseFormat } from "@utils/FetchConfig";
 import { ZodError } from "zod";
 
 export default class FruitService {
+
+    // ========== Single mutations ========== //
+
     static async create<T extends CreateFruitProps>(props: T): Promise<ResponseFormat<CreateFruitResponse<T>>> {
         try {
             const parsedProps = createFruitSchema.parse(props);
@@ -45,6 +48,40 @@ export default class FruitService {
         }
     }
 
+    // ========== Multiple mutations ========== //
+
+    static async createMany(props: CreateManyFruitProps): Promise<ResponseFormat<CreateManyFruitResponse>> {
+        try {
+            const parsedProps = createManyFruitSchema.parse(props);
+            const result = await PrismaInstance.fruit.createMany(parsedProps);
+            return { data: result };
+        } catch (error) {
+            return FruitService.error("createMany", error);
+        }
+    }
+
+    static async updateMany(props: UpdateManyFruitProps): Promise<ResponseFormat<UpdateManyFruitResponse>> {
+        try {
+            const parsedProps = updateManyFruitSchema.parse(props);
+            const result = await PrismaInstance.fruit.updateMany(parsedProps);
+            return { data: result };
+        } catch (error) {
+            return FruitService.error("updateMany", error);
+        }
+    }
+
+    static async deleteMany(props: DeleteManyFruitProps): Promise<ResponseFormat<DeleteManyFruitResponse>> {
+        try {
+            const parsedProps = deleteManyFruitSchema.parse(props);
+            const result = await PrismaInstance.fruit.deleteMany(parsedProps);
+            return { data: result };
+        } catch (error) {
+            return FruitService.error("deleteMany", error);
+        }
+    }
+
+    // ========== Single queries ========== //
+
     static async findFirst<T extends FindFirstFruitProps>(props: T): Promise<ResponseFormat<FindFirstFruitResponse<T>>> {
         try {
             const parsedProps = selectFirstFruitSchema.parse(props);
@@ -76,6 +113,8 @@ export default class FruitService {
         }
     }
 
+    // ========== Aggregate queries ========== //
+
     static async count(props: CountFruitProps): Promise<ResponseFormat<CountFruitResponse>> {
         try {
             const parsedProps = countFruitSchema.parse(props);
@@ -85,6 +124,8 @@ export default class FruitService {
             return FruitService.error("count", error);
         }
     }
+
+    // ========== Error handling ========== //
 
     static async error(methodName: string, error: unknown): Promise<{error: string}> {
         if (process.env.NODE_ENV === "development") {

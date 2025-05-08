@@ -1,7 +1,7 @@
 // ============== Types ============== //
 
 import { Prisma } from "@prisma/client";
-import { QuantityCreateArgsSchema, QuantityCreateManyArgsSchema, QuantityDeleteArgsSchema, QuantityDeleteManyArgsSchema, QuantityFindFirstArgsSchema, QuantityFindManyArgsSchema, QuantityFindUniqueArgsSchema, QuantityOrderByWithRelationInputSchema, QuantitySchema, QuantityUpdateArgsSchema, QuantityUpdateManyArgsSchema, QuantityUpsertArgsSchema, QuantityWhereInputSchema, QuantityWhereUniqueInputSchema, } from "@prisma/zod";
+import { QuantityCreateArgsSchema, QuantityCreateManyArgsSchema, QuantityDeleteArgsSchema, QuantityDeleteManyArgsSchema, QuantityFindFirstArgsSchema, QuantityFindManyArgsSchema, QuantityFindUniqueArgsSchema, QuantityOrderByWithRelationInputSchema, QuantitySchema, QuantityUpdateArgsSchema, QuantityUpdateManyArgsSchema, QuantityUpsertArgsSchema, QuantityWhereInputSchema, QuantityWhereUniqueInputSchema,  } from "@prisma/zod";
 import { z, ZodType } from "zod";
 
 // ============== Model Types ============== //

@@ -1,10 +1,13 @@
 import PrismaInstance from "@lib/prisma";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
-import { ProductCount, CountProductProps, CountProductResponse, CreateProductProps, CreateProductResponse, DeleteProductProps, DeleteProductResponse, FindManyProductProps, FindManyProductResponse, FindUniqueProductProps, FindUniqueProductResponse, UpdateProductProps, UpdateProductResponse, UpsertProductProps, UpsertProductResponse, countProductSchema, createProductSchema, deleteProductSchema, selectFirstProductSchema, selectManyProductSchema, selectUniqueProductSchema, updateProductSchema, upsertProductSchema, FindFirstProductProps, FindFirstProductResponse } from "@services/types/ProductType";
+import { ProductCount, CountProductProps, CountProductResponse, CreateManyProductProps, CreateManyProductResponse, CreateProductProps, CreateProductResponse, DeleteManyProductProps, DeleteManyProductResponse, DeleteProductProps, DeleteProductResponse, FindFirstProductProps, FindFirstProductResponse, FindManyProductProps, FindManyProductResponse, FindUniqueProductProps, FindUniqueProductResponse, UpdateManyProductProps, UpdateManyProductResponse, UpdateProductProps, UpdateProductResponse, UpsertProductProps, UpsertProductResponse, countProductSchema, createManyProductSchema, createProductSchema, deleteManyProductSchema, deleteProductSchema, selectFirstProductSchema, selectManyProductSchema, selectUniqueProductSchema, updateManyProductSchema, updateProductSchema, upsertProductSchema } from "@services/types/ProductType";
 import { ResponseFormat } from "@utils/FetchConfig";
 import { ZodError } from "zod";
 
 export default class ProductService {
+
+    // ========== Single mutations ========== //
+
     static async create<T extends CreateProductProps>(props: T): Promise<ResponseFormat<CreateProductResponse<T>>> {
         try {
             const parsedProps = createProductSchema.parse(props);
@@ -45,6 +48,40 @@ export default class ProductService {
         }
     }
 
+    // ========== Multiple mutations ========== //
+
+    static async createMany(props: CreateManyProductProps): Promise<ResponseFormat<CreateManyProductResponse>> {
+        try {
+            const parsedProps = createManyProductSchema.parse(props);
+            const result = await PrismaInstance.product.createMany(parsedProps);
+            return { data: result };
+        } catch (error) {
+            return ProductService.error("createMany", error);
+        }
+    }
+
+    static async updateMany(props: UpdateManyProductProps): Promise<ResponseFormat<UpdateManyProductResponse>> {
+        try {
+            const parsedProps = updateManyProductSchema.parse(props);
+            const result = await PrismaInstance.product.updateMany(parsedProps);
+            return { data: result };
+        } catch (error) {
+            return ProductService.error("updateMany", error);
+        }
+    }
+
+    static async deleteMany(props: DeleteManyProductProps): Promise<ResponseFormat<DeleteManyProductResponse>> {
+        try {
+            const parsedProps = deleteManyProductSchema.parse(props);
+            const result = await PrismaInstance.product.deleteMany(parsedProps);
+            return { data: result };
+        } catch (error) {
+            return ProductService.error("deleteMany", error);
+        }
+    }
+
+    // ========== Single queries ========== //
+
     static async findFirst<T extends FindFirstProductProps>(props: T): Promise<ResponseFormat<FindFirstProductResponse<T>>> {
         try {
             const parsedProps = selectFirstProductSchema.parse(props);
@@ -76,6 +113,8 @@ export default class ProductService {
         }
     }
 
+    // ========== Aggregate queries ========== //
+
     static async count(props: CountProductProps): Promise<ResponseFormat<CountProductResponse>> {
         try {
             const parsedProps = countProductSchema.parse(props);
@@ -85,6 +124,8 @@ export default class ProductService {
             return ProductService.error("count", error);
         }
     }
+
+    // ========== Error handling ========== //
 
     static async error(methodName: string, error: unknown): Promise<{error: string}> {
         if (process.env.NODE_ENV === "development") {
