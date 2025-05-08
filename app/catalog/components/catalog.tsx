@@ -61,7 +61,7 @@ export default function CatalogClient(props: CatalogClientProps) {
 
     if (isLoadingProductList || isLoadingProductAmount) {
         return (
-            <div className="flex w-full flex-1 items-center justify-center">
+            <div className="flex size-full items-center justify-center">
                 <Loader className="size-8" />
             </div>
         );
@@ -76,7 +76,7 @@ export default function CatalogClient(props: CatalogClientProps) {
     }
 
     return (
-        <div className={combo("grid grid-cols-1 gap-5 overflow-y-auto sm:grid-cols-2 lg:grid-cols-4", className)}>
+        <div className={combo("grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4", className)}>
             {productListLocal.map((product, index) => (
                 <Link
                     key={index}

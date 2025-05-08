@@ -11,6 +11,8 @@ import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { useBasketStore } from "./basketStore";
 import { BasketItem as BasketItemType, Basket as BasketType } from "./basketType";
+import { updateCookieExpiration } from "./zustandCookieStorage";
+import QuantityManager from "@app/checkout/quatityManager";
 
 export default function Basket() {
     const { data: session } = useSession();
@@ -33,6 +35,8 @@ export default function Basket() {
                     setBasketChoices(data);
                 }
             });
+            // Update basket cookie expiration to match session expiration
+            updateCookieExpiration("basket-cookie", session.session.expiresAt);
         }
     }, [session, compare, syncServerBasket]);
 
@@ -144,14 +148,14 @@ const BasketItem = (props: BasketItemProps) => {
 
     if (!product) return null;
 
-    const { name, price, image, quantity } = product;
+    const { name, price, image } = product;
 
     return (
         <div className="flex w-full flex-row gap-4">
             <ImageRatio className="w-1/3 rounded" src={image} alt="Product" />
             <div className="text-left">
                 <div className="text-lg font-bold">{name}</div>
-                <div className="text-sm text-gray-500">{quantity} pc(s)</div>
+                <QuantityManager product={product} />
                 <div className="text-sm text-gray-500">{price}€</div>
             </div>
         </div>

@@ -1,5 +1,11 @@
 import { DeleteOrder } from "@actions/OrderAction";
-import { CreateQuantity, DeleteQuantity, UpdateQuantity } from "@actions/QuantityAction";
+import {
+    CreateManyQuantity,
+    CreateQuantity,
+    DeleteManyQuantity,
+    DeleteQuantity,
+    UpdateQuantity,
+} from "@actions/QuantityAction";
 import { GetBasket } from "@process/GetBasket";
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
@@ -264,23 +270,21 @@ export const useBasketStore = create<Store>()(
                 console.log("Server Basket ->", serverBasket);
 
                 if (serverBasket) {
-                    // TODO: DELETE MANY
-
-                    serverBasket.items.map(async ({ quatityId }) => {
-                        await DeleteQuantity({ where: { id: quatityId } });
+                    await DeleteManyQuantity({
+                        where: {
+                            id: {
+                                in: serverBasket.items.map(({ quatityId }) => quatityId),
+                            },
+                        },
                     });
 
-                    // TODO: CREATE MANY
-
-                    localBasket.items.map(async ({ productId, quantity }) => {
-                        console.log("Create Quantity ->", productId, quantity);
-                        await CreateQuantity({
-                            data: {
-                                quantity,
-                                Product: { connect: { id: productId } },
-                                Order: { connect: { id: serverBasket.orderId } },
-                            },
-                        });
+                    await CreateManyQuantity({
+                        data: localBasket.items.map(({ productId, quantity }) => ({
+                            quantity,
+                            productId,
+                            orderId: serverBasket.orderId,
+                        })),
+                        skipDuplicates: true,
                     });
                 }
             },

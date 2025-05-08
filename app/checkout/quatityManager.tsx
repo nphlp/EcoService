@@ -3,7 +3,7 @@
 import { useBasketStore } from "@comps/basket/basketStore";
 import { BasketItem } from "@comps/basket/basketType";
 import Button from "@comps/ui/button";
-import { Minus, Plus } from "lucide-react";
+import { Minus, Plus, Trash } from "lucide-react";
 
 type QuantityManagerProps = {
     product: BasketItem;
@@ -36,7 +36,7 @@ export default function QuantityManager(props: QuantityManagerProps) {
                 className="p-0.5"
                 onClick={handleMinus}
             >
-                <Minus className="size-3" />
+                {quantity > 1 ? <Minus className="size-3" /> : <Trash className="size-3" />}
             </Button>
             <div>{product.quantity} pc(s)</div>
             <Button

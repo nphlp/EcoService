@@ -52,3 +52,13 @@ export const zustandCookieStorage = {
         document.cookie = `${encodeURIComponent(name)}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/`;
     },
 };
+
+/**
+ * Update the expiration date of a cookie
+ * @param name - The name of the cookie
+ * @param expiration - The expiration date
+ */
+export const updateCookieExpiration = (name: string, expiration: Date) => {
+    const expires = expiration.toUTCString();
+    document.cookie = `${encodeURIComponent(name)}=; expires=${expires}; path=/`;
+};
