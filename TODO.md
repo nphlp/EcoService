@@ -4,7 +4,9 @@ Complete auth and user management
 
 ## Priority
 
-- [ ] Fusion basket ?
+- [] Snippet pour créer un composant React ?????
+- [] Créer un composant/modal indépendant pour la synchro du panier
+- [] Fusion basket ?
 
 - Add test with :
     - Vitest for API, Components, Hooks, Services

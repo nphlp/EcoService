@@ -1,12 +1,9 @@
-import { DeleteOrder } from "@actions/OrderAction";
-import {
-    CreateManyQuantity,
-    CreateQuantity,
-    DeleteManyQuantity,
-    DeleteQuantity,
-    UpdateQuantity,
-} from "@actions/QuantityAction";
-import { GetBasket } from "@process/GetBasket";
+import { AddProductToBasket } from "@process/basket/AddProductToBasket";
+import { ClearBasket } from "@process/basket/ClearBasket";
+import { GetBasket } from "@process/basket/GetBasket";
+import { RemoveProductFromBasket } from "@process/basket/RemoveProductFromBasket";
+import { SyncServerBasket } from "@process/basket/SyncServerBasket";
+import { UpdateProductQuantity } from "@process/basket/UpdateProductQuantity";
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 import { Basket, BasketItem } from "./basketType";
@@ -52,7 +49,6 @@ export const useBasketStore = create<Store>()(
                     // Initialize basket store
                     set({
                         basket: {
-                            userId: "",
                             orderId: "",
                             items: [{ ...product, quatityId: "", quantity: 1 }],
                         },
@@ -68,21 +64,7 @@ export const useBasketStore = create<Store>()(
                 }
 
                 // Apply to DB
-                const serverBasket = await GetBasket();
-
-                if (serverBasket) {
-                    const { orderId } = serverBasket;
-                    const { productId } = product;
-
-                    // Create quantity
-                    await CreateQuantity({
-                        data: {
-                            Product: { connect: { id: productId } },
-                            Order: { connect: { id: orderId } },
-                            quantity: 1,
-                        },
-                    });
-                }
+                await AddProductToBasket({ product });
             },
 
             updateProductQuantity: async (productId, quantity) => {
@@ -100,24 +82,7 @@ export const useBasketStore = create<Store>()(
                 });
 
                 // Apply to DB
-                const serverBasket = await GetBasket();
-
-                if (serverBasket) {
-                    const quantityId = serverBasket.items.find(({ productId: id }) => id === productId)?.quatityId;
-
-                    // Update quantity
-                    if (quantity > 0 && quantityId) {
-                        await UpdateQuantity({
-                            where: { id: quantityId },
-                            data: { quantity },
-                        });
-                    }
-
-                    // It was the last product ? Clear basket
-                    if (quantity === 0 && serverBasket.items.length === 1) {
-                        await DeleteOrder({ where: { id: serverBasket.orderId } });
-                    }
-                }
+                await UpdateProductQuantity({ productId, quantity });
             },
 
             removeProductFromBasket: async (productId) => {
@@ -133,29 +98,7 @@ export const useBasketStore = create<Store>()(
                 });
 
                 // Apply to DB
-                const serverBasket = await GetBasket();
-
-                if (serverBasket) {
-                    const quantityId = serverBasket.items.find(({ productId: id }) => id === productId)?.quatityId;
-
-                    // Delete quantity
-                    if (quantityId) {
-                        await DeleteQuantity({
-                            where: {
-                                id: quantityId,
-                            },
-                        });
-                    }
-
-                    // It was the last product ? Clear basket
-                    if (serverBasket.items.length === 1) {
-                        await DeleteOrder({
-                            where: {
-                                id: serverBasket.orderId,
-                            },
-                        });
-                    }
-                }
+                await RemoveProductFromBasket({ productId });
             },
 
             clearBasket: async () => {
@@ -166,12 +109,7 @@ export const useBasketStore = create<Store>()(
                 set({ basket: null });
 
                 // Apply to DB
-                const serverBasket = await GetBasket();
-
-                if (serverBasket) {
-                    // Delete order and linked quantities
-                    await DeleteOrder({ where: { id: serverBasket.orderId } });
-                }
+                await ClearBasket();
             },
 
             clearLocalBasket: () => {
@@ -252,27 +190,7 @@ export const useBasketStore = create<Store>()(
                 if (!localBasket) return;
 
                 // Update server basket
-                const serverBasket = await GetBasket();
-                // console.log("Server Basket ->", serverBasket);
-
-                if (serverBasket) {
-                    await DeleteManyQuantity({
-                        where: {
-                            id: {
-                                in: serverBasket.items.map(({ quatityId }) => quatityId),
-                            },
-                        },
-                    });
-
-                    await CreateManyQuantity({
-                        data: localBasket.items.map(({ productId, quantity }) => ({
-                            quantity,
-                            productId,
-                            orderId: serverBasket.orderId,
-                        })),
-                        skipDuplicates: true,
-                    });
-                }
+                await SyncServerBasket({ localBasket });
             },
         }),
         // Persist the basket in cookies

@@ -15,7 +15,7 @@ export const auth = betterAuth({
     database: prismaAdapter(PrismaInstance, {
         provider: "mysql",
     }),
-    trustedOrigins: [`${NEXT_PUBLIC_BASE_URL}/auth`],
+    trustedOrigins: [`${NEXT_PUBLIC_BASE_URL}`],
     emailAndPassword: {
         enabled: true,
     },

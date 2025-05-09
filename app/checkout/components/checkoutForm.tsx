@@ -1,23 +1,22 @@
 import { StripeInstance } from "@lib/stripe";
+import { GetBasket } from "@process/basket/GetBasket";
 import AddressForm from "./adressForm";
 import CheckoutButton from "./checkoutButton";
 import PaymentForm from "./paymentForm";
-import { GetBasket } from "@process/GetBasket";
+import { totalPriceInCents } from "./totalPriceInCents";
 
-type CheckoutFormProps = {
-    totalPriceInCents: number;
-};
+export default async function CheckoutForm() {
+    const serverBasket = await GetBasket();
 
-export default async function CheckoutForm(props: CheckoutFormProps) {
-    const { totalPriceInCents } = props;
+    if (!serverBasket) {
+        return null;
+    }
 
-    const basket = await GetBasket();
-
-    console.log("basketApi", basket);
+    const totalPrice = totalPriceInCents(serverBasket);
 
     // Create PaymentIntent as soon as the page loads
     const { client_secret: clientSecret } = await StripeInstance.paymentIntents.create({
-        amount: totalPriceInCents,
+        amount: totalPrice,
         currency: "eur",
         payment_method_types: ["card"],
     });
@@ -36,7 +35,8 @@ export default async function CheckoutForm(props: CheckoutFormProps) {
             <div className="space-y-4">
                 <div className="text-xl font-bold">Méthode de paiement</div>
                 <hr className="w-full" />
-                <PaymentForm clientSecret={clientSecret} />
+                {/* WARNING: A key is provided to ensure a complete component re-rendering to enforce security */}
+                <PaymentForm key={clientSecret} clientSecret={clientSecret} />
             </div>
             <CheckoutButton />
         </div>

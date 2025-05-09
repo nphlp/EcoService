@@ -1,9 +1,10 @@
 "use server";
 
+import { SelectUniqueCategory } from "@actions/CategoryAction";
+import { SelectUniqueProduct } from "@actions/ProductAction";
 import { isVendorOrEmployeeOrAdmin } from "@lib/checkRole";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { Fetch } from "@utils/Fetch/Fetch";
-import { FetchV2 } from "@utils/FetchV2/FetchV2";
 import { strictObject, z, ZodError, ZodType } from "zod";
 
 export type AddProductToStripeProcessProps = {
@@ -42,11 +43,8 @@ export const AddProductToStripeProcess = async (
         }
 
         // Product already exists ?
-        const existingProductInDatabase = await FetchV2({
-            route: "/product/unique",
-            params: {
-                where: { name },
-            },
+        const existingProductInDatabase = await SelectUniqueProduct({
+            where: { name },
         });
 
         if (existingProductInDatabase) {
@@ -54,12 +52,9 @@ export const AddProductToStripeProcess = async (
         }
 
         // Category exists ?
-        const categoryExists = await FetchV2({
-            route: "/category/unique",
-            params: {
-                where: {
-                    id: categoryId,
-                },
+        const categoryExists = await SelectUniqueCategory({
+            where: {
+                id: categoryId,
             },
         });
 

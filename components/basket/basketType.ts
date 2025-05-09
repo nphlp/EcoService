@@ -1,4 +1,4 @@
-import { OrderModel, ProductModel, QuantityModel, UserModel } from "@services/types";
+import { OrderModel, ProductModel, QuantityModel } from "@services/types";
 import { z, ZodSchema } from "zod";
 
 export type BasketItem = {
@@ -29,13 +29,11 @@ export const BasketItemSchema: ZodSchema<BasketItem> = z.object({
  * Basket is a Quantity that represent a relation between a Product and an Order
  */
 export type Basket = {
-    userId: UserModel["id"];
     orderId: OrderModel["id"];
     items: BasketItem[];
 };
 
 export const BasketSchema: ZodSchema<Basket> = z.object({
-    userId: z.coerce.string(),
     orderId: z.coerce.string(),
     items: z.array(BasketItemSchema),
 });

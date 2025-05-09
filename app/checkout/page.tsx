@@ -1,17 +1,17 @@
+import BasketProductList from "@app/checkout/components/basketProductList";
+import CheckoutForm from "@app/checkout/components/checkoutForm";
 import { Basket, BasketSchema } from "@comps/basket/basketType";
 import { getZustandCookie } from "@comps/basket/zustandServer";
 import Link from "@comps/ui/link";
 import { GetSession } from "@lib/authServer";
-import BasketProductList from "@app/checkout/components/basketProductList";
-import CheckoutForm from "@app/checkout/components/checkoutForm";
-import { totalPriceInCents } from "@app/checkout/components/totalPriceInCents";
+import { combo } from "@lib/combo";
 
 export default async function Page() {
     const session = await GetSession();
 
-    const basket = await getZustandCookie<Basket>("basket-cookie", BasketSchema, "basket");
+    const localBasket = await getZustandCookie<Basket>("basket-cookie", BasketSchema, "basket");
 
-    if (!basket?.items.length) {
+    if (!localBasket?.items.length) {
         return (
             <div className="flex min-h-full flex-col items-center justify-center">
                 <div className="flex flex-col items-start space-y-6 px-5 py-18">
@@ -28,14 +28,14 @@ export default async function Page() {
     return (
         <div className="flex min-h-full flex-col items-center justify-center">
             <div className="flex flex-col items-start px-5 py-18">
-                <div className="flex flex-col gap-6 lg:flex-row lg:gap-15">
+                <div className={combo("flex flex-col gap-6", session && "lg:flex-row lg:gap-15")}>
                     <div className="w-full space-y-6">
                         <h2 className="text-4xl font-bold">Votre panier</h2>
                         <hr className="w-full" />
                         <BasketProductList />
                     </div>
                     {session ? (
-                        <CheckoutForm totalPriceInCents={totalPriceInCents(basket)} />
+                        <CheckoutForm />
                     ) : (
                         <div className="w-full space-y-6">
                             <hr className="w-full" />

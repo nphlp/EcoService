@@ -46,7 +46,7 @@ export const zustandCookieStorage = {
     setItem: (name: string, value: string) => {
         const days = 30;
         const expires = new Date(Date.now() + days * 864e5).toUTCString();
-        document.cookie = `${encodeURIComponent(name)}=${encodeURIComponent(value)}; expires=${expires}; path=/`;
+        document.cookie = `${encodeURIComponent(name)}=${encodeURIComponent(value)}; expires=${expires}; path=/; Secure; SameSite=Strict`;
     },
     removeItem: (name: string) => {
         document.cookie = `${encodeURIComponent(name)}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/`;
@@ -60,5 +60,7 @@ export const zustandCookieStorage = {
  */
 export const updateCookieExpiration = (name: string, expiration: Date) => {
     const expires = expiration.toUTCString();
-    document.cookie = `${encodeURIComponent(name)}=; expires=${expires}; path=/`;
+    const value = zustandCookieStorage.getItem(name);
+    if (!value) return;
+    document.cookie = `${encodeURIComponent(name)}=${encodeURIComponent(value)}; expires=${expires}; path=/; Secure; SameSite=Strict`;
 };
