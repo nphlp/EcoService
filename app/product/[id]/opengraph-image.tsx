@@ -1,7 +1,7 @@
+import PrismaInstance from "@lib/prisma";
 import { ImageResponse } from "next/og";
-import { join } from "node:path";
 import { readFile } from "node:fs/promises";
-import { FetchV2 } from "@utils/FetchV2/FetchV2";
+import { join } from "node:path";
 
 // Image metadata
 export const alt = "Eco Service Icon";
@@ -17,9 +17,8 @@ export default async function Image(props: ImageProps) {
     const { params } = props;
     const { id } = await params;
 
-    const product = await FetchV2({
-        route: "/product/unique",
-        params: { where: { id } },
+    const product = await PrismaInstance.product.findUnique({
+        where: { id },
     });
 
     const logo = await readFile(join(process.cwd(), "public/icon-512x512.png"));
@@ -45,7 +44,7 @@ export default async function Image(props: ImageProps) {
                     height="512"
                     alt="Eco Service Icon"
                 />
-                <div>
+                <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
                     <h1>{product?.name}</h1>
                     <p>{product?.description}</p>
                 </div>

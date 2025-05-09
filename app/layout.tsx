@@ -6,7 +6,6 @@ import { Inter } from "next/font/google";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
 import { ReactNode } from "react";
 
-// TODO: understand why ?
 export const dynamic = "force-dynamic";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -20,6 +19,7 @@ if (!baseUrl) {
 export const metadata: Metadata = {
     title: "Eco Service",
     description: "Achetez des produits éco-responsables sur Eco Service.",
+    metadataBase: new URL(baseUrl),
     alternates: {
         canonical: `${baseUrl}/`,
     },
@@ -28,14 +28,6 @@ export const metadata: Metadata = {
         description: "Achetez des produits éco-responsables sur Eco Service.",
         url: `${baseUrl}/`,
         siteName: "Eco Service",
-        // images: [
-        //     {
-        //         url: `${baseUrl}/icon-512x512.png`,
-        //         width: 512,
-        //         height: 512,
-        //         alt: "Eco Service Icon",
-        //     },
-        // ],
         locale: "fr_FR",
         type: "website",
     },

@@ -1,7 +1,7 @@
+import PrismaInstance from "@lib/prisma";
 import { ImageResponse } from "next/og";
-import { join } from "node:path";
 import { readFile } from "node:fs/promises";
-import { FetchV2 } from "@utils/FetchV2/FetchV2";
+import { join } from "node:path";
 import { SearchParamsCached, SearchParamsType } from "./components/searchParams";
 
 // Image metadata
@@ -18,9 +18,8 @@ export default async function Image(props: ImageProps) {
     const { searchParams } = props;
     const { category } = await SearchParamsCached.parse(searchParams);
 
-    const categoryData = await FetchV2({
-        route: "/category/unique",
-        params: { where: { id: category } },
+    const categoryData = await PrismaInstance.category.findUnique({
+        where: { id: category },
     });
 
     const logo = await readFile(join(process.cwd(), "public/icon-512x512.png"));
@@ -46,7 +45,7 @@ export default async function Image(props: ImageProps) {
                     height="512"
                     alt="Eco Service Icon"
                 />
-                <div>
+                <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
                     <h1>{categoryData?.name}</h1>
                     <p>{categoryData?.description}</p>
                 </div>

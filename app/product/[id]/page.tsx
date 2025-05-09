@@ -1,16 +1,30 @@
+import AddToCartButtonWrapper from "@app/product/[id]/addToCartButtonWrapper";
 import ImageRatio from "@comps/server/imageRatio";
+import PrismaInstance from "@lib/prisma";
 import { FetchV2 } from "@utils/FetchV2/FetchV2";
 import { ArrowLeft, Package2, ShieldCheck, Truck } from "lucide-react";
+import { Metadata } from "next";
 import Link from "next/link";
 import { ProductFetchParams } from "./fetchParams";
-import AddToCartButtonWrapper from "@app/product/[id]/addToCartButtonWrapper";
-import { Metadata } from "next";
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
 if (!baseUrl) {
     throw new Error("NEXT_PUBLIC_BASE_URL environment variable is not defined");
 }
+
+export const dynamic = "auto";
+export const revalidate = 3600;
+
+export const generateStaticParams = async () => {
+    const products = await PrismaInstance.product.findMany({
+        select: { id: true },
+        take: 30,
+        // TODO: add a filter to get top 30 products
+    });
+
+    return products.map((product) => ({ id: product.id }));
+};
 
 type PageProps = {
     params: Promise<{ id: string }>;
@@ -22,28 +36,21 @@ export async function generateMetadata(props: PageProps): Promise<Metadata> {
 
     const product = await FetchV2({
         route: "/product/unique",
-        params: ProductFetchParams(id),
+        params: { where: { id } },
     });
 
     return {
         title: product ? `${product.name} - Eco Service` : "Produit - Eco Service",
         description: product ? product.description : "Achetez des produits éco-responsables sur Eco Service.",
+        metadataBase: new URL(product ? `${baseUrl}/product/${id}` : `${baseUrl}/product`),
         alternates: {
-            canonical: `${baseUrl}/product/${id}`,
+            canonical: product ? `${baseUrl}/product/${id}` : `${baseUrl}/product`,
         },
         openGraph: {
             title: product ? `${product.name} - Eco Service` : "Produit - Eco Service",
             description: product ? product.description : "Achetez des produits éco-responsables sur Eco Service.",
-            url: `${baseUrl}/product/${id}`,
+            url: product ? `${baseUrl}/product/${id}` : `${baseUrl}/product`,
             siteName: "Eco Service",
-            // images: [
-            //     {
-            //         url: `${baseUrl}/icon-512x512.png`,
-            //         width: 512,
-            //         height: 512,
-            //         alt: "Eco Service Icon",
-            //     },
-            // ],
             locale: "fr_FR",
             type: "website",
         },

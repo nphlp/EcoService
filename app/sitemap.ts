@@ -1,4 +1,4 @@
-import { FetchV2 } from "@utils/FetchV2/FetchV2";
+import PrismaInstance from "@lib/prisma";
 import type { MetadataRoute } from "next";
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
@@ -8,39 +8,28 @@ if (!baseUrl) {
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-    const productIdList = await FetchV2({
-        route: "/product",
-        params: {
-            select: { id: true, updatedAt: true },
-            limit: 100,
-            // TODO: Get only the top 100 products
-        },
+    const productIdList = await PrismaInstance.product.findMany({
+        select: { id: true, updatedAt: true },
+        take: 100,
+        // TODO: Get only the top 100 products
     });
 
-    const categoryIdList = await FetchV2({
-        route: "/category",
-        params: {
-            select: { id: true, updatedAt: true },
-            limit: 100,
-            // TODO: Get only the top 100 categories
-        },
+    const categoryIdList = await PrismaInstance.category.findMany({
+        select: { id: true, updatedAt: true },
+        take: 100,
+        // TODO: Get only the top 100 categories
     });
 
-    const articleIdList = await FetchV2({
-        route: "/article",
-        params: {
-            select: { id: true, updatedAt: true },
-            limit: 100,
-            // TODO: Get only the top 100 articles
-        },
+    const articleIdList = await PrismaInstance.article.findMany({
+        select: { id: true, updatedAt: true },
+        take: 100,
+        // TODO: Get only the top 100 articles
     });
 
-    const diyIdList = await FetchV2({
-        route: "/diy",
-        params: {
-            select: { id: true, updatedAt: true },
-            limit: 100,
-        },
+    const diyIdList = await PrismaInstance.diy.findMany({
+        select: { id: true, updatedAt: true },
+        take: 100,
+        // TODO: Get only the top 100 DIYs
     });
 
     return [

@@ -1,17 +1,20 @@
 import { FetchV2 } from "@utils/FetchV2/FetchV2";
+import { Metadata } from "next";
 import CatalogClient from "./components/catalog";
 import { CategoryListFetchParams, ProductAmountFetchParams, ProductListFetchParams } from "./components/fetchParams";
 import SelectorsClient from "./components/filters";
 import PaginationClient from "./components/pagination";
 import CatalogProvider from "./components/provider";
 import { SearchParamsCached, SearchParamsType } from "./components/searchParams";
-import { Metadata } from "next";
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
 if (!baseUrl) {
     throw new Error("NEXT_PUBLIC_BASE_URL environment variable is not defined");
 }
+
+export const dynamic = "auto";
+export const revalidate = 3600;
 
 type PageProps = {
     searchParams: Promise<SearchParamsType>;
@@ -32,6 +35,7 @@ export async function generateMetadata(props: PageProps): Promise<Metadata> {
         description: categoryData
             ? `Tous les produits de la catégorie ${categoryData.name} sur Eco Service.`
             : "Retrouvez l'intégralité de nos produits dans notre catalogue.",
+        metadataBase: new URL(categoryData ? `${baseUrl}/catalog?category=${categoryData.id}` : `${baseUrl}/catalog`),
         alternates: {
             canonical: categoryData ? `${baseUrl}/catalog?category=${categoryData.id}` : `${baseUrl}/catalog`,
         },
@@ -40,16 +44,8 @@ export async function generateMetadata(props: PageProps): Promise<Metadata> {
             description: categoryData
                 ? `Tous les produits de la catégorie ${categoryData.name} sur Eco Service.`
                 : "Retrouvez l'intégralité de nos produits dans notre catalogue.",
-            url: `${baseUrl}/catalog?category=${categoryData?.id}`,
+            url: categoryData ? `${baseUrl}/catalog?category=${categoryData?.id}` : `${baseUrl}/catalog`,
             siteName: "Eco Service",
-            // images: [
-            //     {
-            //         url: `${baseUrl}/icon-512x512.png`,
-            //         width: 512,
-            //         height: 512,
-            //         alt: "Eco Service Icon",
-            //     },
-            // ],
             locale: "fr_FR",
             type: "website",
         },

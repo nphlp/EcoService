@@ -6,11 +6,18 @@ import { combo } from "@lib/combo";
 import { FetchV2 } from "@utils/FetchV2/FetchV2";
 import { Metadata } from "next";
 
+const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+
+if (!baseUrl) {
+    throw new Error("NEXT_PUBLIC_BASE_URL environment variable is not defined");
+}
+
 export const metadata: Metadata = {
     title: "Eco Service",
     description: "Achetez des produits éco-responsables sur Eco Service.",
+    metadataBase: new URL(baseUrl),
     alternates: {
-        canonical: "/",
+        canonical: `${baseUrl}/`,
     },
 };
 
