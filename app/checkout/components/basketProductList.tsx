@@ -4,7 +4,7 @@ import { useBasketStore } from "@comps/basket/basketStore";
 import { BasketItem } from "@comps/basket/basketType";
 import ImageRatio from "@comps/server/imageRatio";
 import { combo } from "@lib/combo";
-import QuantityManager from "./quatityManager";
+import QuantityManager from "./quantityManager";
 
 export default function BasketProductList() {
     const { basket } = useBasketStore();

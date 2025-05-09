@@ -82,9 +82,6 @@ export const useBasketStore = create<Store>()(
                             quantity: 1,
                         },
                     });
-
-                    // Update Zustand store
-                    // get().syncLocalBasket();
                 }
             },
 
@@ -120,9 +117,6 @@ export const useBasketStore = create<Store>()(
                     if (quantity === 0 && serverBasket.items.length === 1) {
                         await DeleteOrder({ where: { id: serverBasket.orderId } });
                     }
-
-                    // Update Zustand store
-                    get().syncLocalBasket();
                 }
             },
 
@@ -161,9 +155,6 @@ export const useBasketStore = create<Store>()(
                             },
                         });
                     }
-
-                    // Update Zustand store
-                    // get().syncLocalBasket();
                 }
             },
 
@@ -193,13 +184,13 @@ export const useBasketStore = create<Store>()(
 
                 // Means no session or error during fetching
                 if (!serverBasket) {
-                    console.log("==> No server basket \n==> Do nothing");
+                    // console.log("==> No server basket \n==> Do nothing");
                     return null;
                 }
 
                 // Means no local basket
                 if (!localBasket) {
-                    console.log("==> No local basket \n==> Sync local basket");
+                    // console.log("==> No local basket \n==> Sync local basket");
                     get().syncLocalBasket();
                     return null;
                 }
@@ -222,27 +213,23 @@ export const useBasketStore = create<Store>()(
                         JSON.stringify(prepareForComparison(localBasket));
 
                     if (areTheSame) {
-                        console.log("==> Server and local basket are the same \n==> Do nothing");
+                        // console.log("==> Server and local basket are the same \n==> Do nothing");
                         return null;
                     } else {
-                        console.log(
-                            "==> Server and local basket are different \n==> Let user choose between:\n",
-                            serverBasket,
-                            localBasket,
-                        );
+                        // console.log("==> Server and local basket are different \n==> Let user choose between:\n", serverBasket, localBasket);
                         return { serverBasket, localBasket };
                     }
                 }
 
                 // Sync local basket
                 if (serverQuantities > 0 && localQuantities === 0) {
-                    console.log("==> No local basket \n==> Sync local basket");
+                    // console.log("==> No local basket \n==> Sync local basket");
                     get().syncLocalBasket();
                 }
 
                 // Sync server basket
                 if (serverQuantities === 0 && localQuantities > 0) {
-                    console.log("==> No server basket \n==> Sync server basket");
+                    // console.log("==> No server basket \n==> Sync server basket");
                     get().syncServerBasket();
                 }
 
@@ -266,8 +253,7 @@ export const useBasketStore = create<Store>()(
 
                 // Update server basket
                 const serverBasket = await GetBasket();
-
-                console.log("Server Basket ->", serverBasket);
+                // console.log("Server Basket ->", serverBasket);
 
                 if (serverBasket) {
                     await DeleteManyQuantity({

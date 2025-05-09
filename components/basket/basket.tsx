@@ -12,7 +12,7 @@ import { useEffect, useState } from "react";
 import { useBasketStore } from "./basketStore";
 import { BasketItem as BasketItemType, Basket as BasketType } from "./basketType";
 import { updateCookieExpiration } from "./zustandCookieStorage";
-import QuantityManager from "@app/checkout/quatityManager";
+import QuantityManager from "@app/checkout/components/quantityManager";
 
 export default function Basket() {
     const { data: session } = useSession();

@@ -36,8 +36,6 @@ export const GetBasket = async (): Promise<BasketResponse> => {
             },
         });
 
-        console.log("Order ->", pendingOrderList);
-
         if (pendingOrderList.length > 0) {
             const order = pendingOrderList[0];
             const basket: Basket = {
@@ -55,8 +53,7 @@ export const GetBasket = async (): Promise<BasketResponse> => {
                     quatityId: id,
                 })),
             };
-
-            console.log("=====> Existing Basket");
+            // console.log("=====> Existing Basket");
 
             return basket;
         }
@@ -72,8 +69,7 @@ export const GetBasket = async (): Promise<BasketResponse> => {
             orderId: newOrder.id,
             items: [],
         };
-
-        console.log("=====> New Basket");
+        // console.log("=====> New Basket");
 
         return newBasket;
     } catch (error) {

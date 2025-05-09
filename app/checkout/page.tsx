@@ -2,9 +2,9 @@ import { Basket, BasketSchema } from "@comps/basket/basketType";
 import { getZustandCookie } from "@comps/basket/zustandServer";
 import Link from "@comps/ui/link";
 import { GetSession } from "@lib/authServer";
-import BasketProductList from "./basketProductList";
-import CheckoutForm from "./checkoutForm";
-import { totalPriceInCents } from "./totalPriceInCents";
+import BasketProductList from "@app/checkout/components/basketProductList";
+import CheckoutForm from "@app/checkout/components/checkoutForm";
+import { totalPriceInCents } from "@app/checkout/components/totalPriceInCents";
 
 export default async function Page() {
     const session = await GetSession();
