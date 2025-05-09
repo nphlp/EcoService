@@ -11,9 +11,40 @@ export const dynamic = "force-dynamic";
 
 const inter = Inter({ subsets: ["latin"] });
 
+const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+
+if (!baseUrl) {
+    throw new Error("NEXT_PUBLIC_BASE_URL environment variable is not defined");
+}
+
 export const metadata: Metadata = {
     title: "Eco Service",
-    description: "A fully auth-ready application template for Next.js.",
+    description: "Achetez des produits éco-responsables sur Eco Service.",
+    alternates: {
+        canonical: `${baseUrl}/`,
+    },
+    openGraph: {
+        title: "Eco Service",
+        description: "Achetez des produits éco-responsables sur Eco Service.",
+        url: `${baseUrl}/`,
+        siteName: "Eco Service",
+        // images: [
+        //     {
+        //         url: `${baseUrl}/icon-512x512.png`,
+        //         width: 512,
+        //         height: 512,
+        //         alt: "Eco Service Icon",
+        //     },
+        // ],
+        locale: "fr_FR",
+        type: "website",
+    },
+    twitter: {
+        card: "summary_large_image",
+        title: "Eco Service",
+        description: "Achetez des produits éco-responsables sur Eco Service.",
+        images: [`${baseUrl}/icon-512x512.png`],
+    },
 };
 
 type LayoutProps = {
@@ -26,8 +57,8 @@ export default async function Layout(props: LayoutProps) {
     const lang = "fr";
 
     return (
-        <html lang={lang} className={combo("h-full overflow-hidden")}>
-            <body className={combo("flex flex-col", "h-full overflow-hidden", inter.className)}>
+        <html lang={lang} className={combo("h-full overflow-hidden", inter.className)}>
+            <body className={combo("flex flex-col", "h-full overflow-hidden")}>
                 <NuqsAdapter>
                     <Header />
                     <main className="flex-1 overflow-x-hidden overflow-y-auto">

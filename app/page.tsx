@@ -4,6 +4,15 @@ import ImageRatio from "@comps/server/imageRatio";
 import { ArticleOrDiyFetchParams, ProductFetchParams } from "@comps/sliderFetchParams";
 import { combo } from "@lib/combo";
 import { FetchV2 } from "@utils/FetchV2/FetchV2";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Eco Service",
+    description: "Achetez des produits éco-responsables sur Eco Service.",
+    alternates: {
+        canonical: "/",
+    },
+};
 
 export default async function Page() {
     const imageClass = "h-[100px] sm:h-[150px] md:h-[120px] lg:h-[160px] xl:h-[220px] rounded shadow-lg";
@@ -48,11 +57,13 @@ export default async function Page() {
                         src="/illustration/produit 2.jpg"
                         alt="produit"
                         className={combo("max-md:hidden", imageClass)}
+                        priority
                     />
                     <ImageRatio
                         src="/illustration/produit 3.jpg"
                         alt="produit"
                         className={combo("max-md:hidden", imageClass)}
+                        priority
                     />
                 </div>
             </section>
@@ -79,6 +90,7 @@ export default async function Page() {
                     src="/illustration/produit 5.jpg"
                     alt="produit"
                     className="rounded-lg shadow-md max-lg:w-full lg:h-80"
+                    priority
                 />
             </section>
             <ProductSlider productList={productList} title="Nos produits vedettes" />

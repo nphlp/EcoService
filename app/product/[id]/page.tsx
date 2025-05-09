@@ -4,10 +4,57 @@ import { ArrowLeft, Package2, ShieldCheck, Truck } from "lucide-react";
 import Link from "next/link";
 import { ProductFetchParams } from "./fetchParams";
 import AddToCartButtonWrapper from "@app/product/[id]/addToCartButtonWrapper";
+import { Metadata } from "next";
+
+const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+
+if (!baseUrl) {
+    throw new Error("NEXT_PUBLIC_BASE_URL environment variable is not defined");
+}
 
 type PageProps = {
     params: Promise<{ id: string }>;
 };
+
+export async function generateMetadata(props: PageProps): Promise<Metadata> {
+    const { params } = props;
+    const { id } = await params;
+
+    const product = await FetchV2({
+        route: "/product/unique",
+        params: ProductFetchParams(id),
+    });
+
+    return {
+        title: product ? `${product.name} - Eco Service` : "Produit - Eco Service",
+        description: product ? product.description : "Achetez des produits éco-responsables sur Eco Service.",
+        alternates: {
+            canonical: `${baseUrl}/product/${id}`,
+        },
+        openGraph: {
+            title: product ? `${product.name} - Eco Service` : "Produit - Eco Service",
+            description: product ? product.description : "Achetez des produits éco-responsables sur Eco Service.",
+            url: `${baseUrl}/product/${id}`,
+            siteName: "Eco Service",
+            // images: [
+            //     {
+            //         url: `${baseUrl}/icon-512x512.png`,
+            //         width: 512,
+            //         height: 512,
+            //         alt: "Eco Service Icon",
+            //     },
+            // ],
+            locale: "fr_FR",
+            type: "website",
+        },
+        twitter: {
+            card: "summary_large_image",
+            title: product ? `${product.name} - Eco Service` : "Produit - Eco Service",
+            description: product ? product.description : "Achetez des produits éco-responsables sur Eco Service.",
+            images: [`${baseUrl}/icon-512x512.png`],
+        },
+    };
+}
 
 export default async function Page(props: PageProps) {
     const { params } = props;

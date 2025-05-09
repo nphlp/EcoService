@@ -5,10 +5,64 @@ import SelectorsClient from "./components/filters";
 import PaginationClient from "./components/pagination";
 import CatalogProvider from "./components/provider";
 import { SearchParamsCached, SearchParamsType } from "./components/searchParams";
+import { Metadata } from "next";
+
+const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+
+if (!baseUrl) {
+    throw new Error("NEXT_PUBLIC_BASE_URL environment variable is not defined");
+}
 
 type PageProps = {
     searchParams: Promise<SearchParamsType>;
 };
+
+export async function generateMetadata(props: PageProps): Promise<Metadata> {
+    const { searchParams } = props;
+
+    const { category } = await SearchParamsCached.parse(searchParams);
+
+    const categoryData = await FetchV2({
+        route: "/category/unique",
+        params: { where: { id: category } },
+    });
+
+    return {
+        title: categoryData ? `${categoryData.name} - Catalogue - Eco Service` : "Catalogue - Eco Service",
+        description: categoryData
+            ? `Tous les produits de la catégorie ${categoryData.name} sur Eco Service.`
+            : "Retrouvez l'intégralité de nos produits dans notre catalogue.",
+        alternates: {
+            canonical: categoryData ? `${baseUrl}/catalog?category=${categoryData.id}` : `${baseUrl}/catalog`,
+        },
+        openGraph: {
+            title: categoryData ? `${categoryData.name} - Catalogue - Eco Service` : "Catalogue - Eco Service",
+            description: categoryData
+                ? `Tous les produits de la catégorie ${categoryData.name} sur Eco Service.`
+                : "Retrouvez l'intégralité de nos produits dans notre catalogue.",
+            url: `${baseUrl}/catalog?category=${categoryData?.id}`,
+            siteName: "Eco Service",
+            // images: [
+            //     {
+            //         url: `${baseUrl}/icon-512x512.png`,
+            //         width: 512,
+            //         height: 512,
+            //         alt: "Eco Service Icon",
+            //     },
+            // ],
+            locale: "fr_FR",
+            type: "website",
+        },
+        twitter: {
+            card: "summary_large_image",
+            title: categoryData ? `${categoryData.name} - Catalogue - Eco Service` : "Catalogue - Eco Service",
+            description: categoryData
+                ? `Tous les produits de la catégorie ${categoryData.name} sur Eco Service.`
+                : "Retrouvez l'intégralité de nos produits dans notre catalogue.",
+            images: [`${baseUrl}/icon-512x512.png`],
+        },
+    };
+}
 
 export default async function Page(props: PageProps) {
     const { searchParams } = props;
