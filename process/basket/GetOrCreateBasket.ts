@@ -1,14 +1,14 @@
 "use server";
 
 import { CreateOrder, SelectOrderList } from "@actions/OrderAction";
-import { Basket } from "@comps/basket/basketType";
+import { ServerBasket } from "@comps/basket/basketType";
 import { GetSession } from "@lib/authServer";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { ZodError } from "zod";
 
-export type BasketResponse = Basket | null;
+export type BasketResponse = ServerBasket | null;
 
-export const GetBasket = async (): Promise<BasketResponse> => {
+export const GetOrCreateBasket = async (): Promise<BasketResponse> => {
     try {
         const session = await GetSession();
 
@@ -38,7 +38,7 @@ export const GetBasket = async (): Promise<BasketResponse> => {
 
         if (pendingOrderList.length > 0) {
             const order = pendingOrderList[0];
-            const basket: Basket = {
+            const basket: ServerBasket = {
                 orderId: order.id,
                 items: order.Quantity.map(({ id, quantity, Product }) => ({
                     /// Product
@@ -58,7 +58,7 @@ export const GetBasket = async (): Promise<BasketResponse> => {
 
         const newOrder = await CreateOrder({ data: { userId } });
 
-        const newBasket: Basket = {
+        const newBasket: ServerBasket = {
             orderId: newOrder.id,
             items: [],
         };
@@ -66,7 +66,7 @@ export const GetBasket = async (): Promise<BasketResponse> => {
         return newBasket;
     } catch (error) {
         if (process.env.NODE_ENV === "development") {
-            const processName = "GetBasket";
+            const processName = "GetOrCreateBasket";
             const message = (error as Error).message;
             if (error instanceof ZodError) {
                 const zodMessage = processName + " -> Invalid Zod params -> " + error.message;

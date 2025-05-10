@@ -1,41 +1,50 @@
 "use server";
 
-import { CreateQuantity } from "@actions/QuantityAction";
-import { BasketItem } from "@comps/basket/basketType";
+import { SelectOrderList } from "@actions/OrderAction";
+import { GetSession } from "@lib/authServer";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
-import { revalidatePath } from "next/cache";
+import { OrderModel } from "@services/types";
 import { ZodError } from "zod";
-import { GetBasket } from "./GetBasket";
 
-type AddProductToBasketProps = {
-    product: Omit<BasketItem, "quatityId" | "quantity">;
-};
+export type FindBasketResponse = OrderModel["id"] | null;
 
-export const AddProductToBasket = async (props: AddProductToBasketProps) => {
+export const FindBasket = async (): Promise<FindBasketResponse> => {
     try {
-        const { product } = props;
+        const session = await GetSession();
 
-        const serverBasket = await GetBasket();
-
-        if (serverBasket) {
-            const { orderId } = serverBasket;
-            const { productId } = product;
-
-            // Create quantity
-            await CreateQuantity({
-                data: {
-                    Product: { connect: { id: productId } },
-                    Order: { connect: { id: orderId } },
-                    quantity: 1,
-                },
-            });
+        if (!session) {
+            return null;
         }
 
-        // Refresh checkout page
-        revalidatePath("/checkout", "page");
+        const userId = session.user.id;
+
+        const pendingOrderList = await SelectOrderList({
+            where: {
+                userId,
+                orderStatus: "PENDING",
+                paymentStatus: "PENDING",
+            },
+            include: {
+                Quantity: {
+                    include: {
+                        Product: true,
+                    },
+                },
+            },
+            orderBy: {
+                updatedAt: "desc",
+            },
+        });
+
+        if (pendingOrderList.length > 0) {
+            const order = pendingOrderList[0];
+            return order.id;
+        }
+
+        return null;
     } catch (error) {
         if (process.env.NODE_ENV === "development") {
-            const processName = "AddProductToBasket";
+            const processName = "FindBasket";
             const message = (error as Error).message;
             if (error instanceof ZodError) {
                 const zodMessage = processName + " -> Invalid Zod params -> " + error.message;

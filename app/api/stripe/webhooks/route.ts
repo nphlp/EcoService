@@ -1,3 +1,4 @@
+import { UpdateOrder } from "@actions/OrderAction";
 import { UpsertProduct } from "@actions/ProductAction";
 import { StripeInstance } from "@lib/stripe";
 import { StripeError } from "@stripe/stripe-js";
@@ -70,6 +71,7 @@ export async function POST(request: Request): Promise<NextResponse<ResponseForma
                 break;
 
             case "payment_intent.succeeded":
+                await updateOrderStatus(event.data.object as Stripe.PaymentIntent);
                 break;
 
             case "payout.failed":
@@ -97,6 +99,20 @@ export async function POST(request: Request): Promise<NextResponse<ResponseForma
         return NextResponse.json({ error: "Webhook handler failed" }, { status: 400 });
     }
 }
+
+const updateOrderStatus = async (paymentIntent: Stripe.PaymentIntent) => {
+    const { metadata } = paymentIntent;
+
+    const { orderId } = metadata;
+
+    await UpdateOrder({
+        where: { id: orderId },
+        data: {
+            orderStatus: "ACCEPTED",
+            paymentStatus: "ACCEPTED",
+        },
+    });
+};
 
 const productUpsert = async (product: Stripe.Product) => {
     const defaultPrice = product.default_price as string | undefined;

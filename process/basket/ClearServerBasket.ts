@@ -1,50 +1,35 @@
 "use server";
 
 import { DeleteOrder } from "@actions/OrderAction";
-import { DeleteQuantity } from "@actions/QuantityAction";
-import { BasketItem } from "@comps/basket/basketType";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
+import { OrderModel } from "@services/types";
 import { revalidatePath } from "next/cache";
-import { ZodError } from "zod";
-import { GetBasket } from "./GetBasket";
+import { z, ZodError, ZodSchema } from "zod";
+import { GetServerBasket } from "./GetServerBasket";
 
-type RemoveProductFromBasketProps = {
-    productId: BasketItem["productId"];
+type ClearServerBasketProps = {
+    orderId: OrderModel["id"];
 };
 
-export const RemoveProductFromBasket = async (props: RemoveProductFromBasketProps) => {
+const clearServerBasketSchema: ZodSchema<ClearServerBasketProps> = z.object({
+    orderId: z.string(),
+});
+
+export const ClearServerBasket = async (props: ClearServerBasketProps) => {
     try {
-        const { productId } = props;
+        const { orderId } = clearServerBasketSchema.parse(props);
 
-        const serverBasket = await GetBasket();
+        const serverBasket = await GetServerBasket({ orderId });
+        if (!serverBasket) return;
 
-        if (serverBasket) {
-            const quantityId = serverBasket.items.find(({ productId: id }) => id === productId)?.quatityId;
-
-            // Delete quantity
-            if (quantityId) {
-                await DeleteQuantity({
-                    where: {
-                        id: quantityId,
-                    },
-                });
-            }
-
-            // It was the last product ? Clear basket
-            if (serverBasket.items.length === 1) {
-                await DeleteOrder({
-                    where: {
-                        id: serverBasket.orderId,
-                    },
-                });
-            }
-        }
+        // Delete order and linked quantities
+        await DeleteOrder({ where: { id: serverBasket.orderId } });
 
         // Refresh checkout page
         revalidatePath("/checkout", "page");
     } catch (error) {
         if (process.env.NODE_ENV === "development") {
-            const processName = "RemoveProductFromBasket";
+            const processName = "ClearServerBasket";
             const message = (error as Error).message;
             if (error instanceof ZodError) {
                 const zodMessage = processName + " -> Invalid Zod params -> " + error.message;

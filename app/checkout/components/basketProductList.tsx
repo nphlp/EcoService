@@ -1,7 +1,7 @@
 "use client";
 
 import { useBasketStore } from "@comps/basket/basketStore";
-import { BasketItem } from "@comps/basket/basketType";
+import { LocalBasketItem } from "@comps/basket/basketType";
 import ImageRatio from "@comps/server/imageRatio";
 import { combo } from "@lib/combo";
 import QuantityManager from "./quantityManager";
@@ -18,7 +18,7 @@ export default function BasketProductList() {
 
 type BasketProductProps = {
     index: number;
-    product: BasketItem;
+    product: LocalBasketItem;
 };
 
 const BasketProductItem = (props: BasketProductProps) => {

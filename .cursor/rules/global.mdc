@@ -25,7 +25,7 @@ alwaysApply: false
 
 ## 3. Processus métiers synchrones (process/)
 
-- Les fichiers du dossier [`process/`](mdc:process) (ex : `GetBasket.ts`) orchestrent des suites d'actions et de vérifications synchrones, souvent pour des mutations complexes.
+- Les fichiers du dossier [`process/`](mdc:process) (ex : `GetOrCreateBasket.ts`) orchestrent des suites d'actions et de vérifications synchrones, souvent pour des mutations complexes.
 - Ces process utilisent des fetch **sans cache** pour garantir la fraîcheur des données.
 - À l'inverse, les endpoints API générés via [`FetchV2`](mdc:utils/FetchV2/FetchV2.ts) et [`Routes.ts`](mdc:app/api/internal/Routes.ts) sont **mis en cache** pour optimiser les performances.
 
@@ -65,7 +65,7 @@ alwaysApply: false
   - [`components/basket/basketType.ts`](mdc:components/basket/basketType.ts) (types)
   - [`components/basket/zustandCookieStorage.ts`](mdc:components/basket/zustandCookieStorage.ts) (persistance cookie)
   - [`components/basket/zustandServer.ts`](mdc:components/basket/zustandServer.ts) (lecture cookie côté serveur)
-  - [`process/GetBasket.ts`](mdc:process/GetBasket.ts) (processus de récupération et synchronisation du panier)
+  - [`process/GetOrCreateBasket.ts`](mdc:process/GetOrCreateBasket.ts) (processus de récupération et synchronisation du panier)
 - La synchronisation locale/serveur est automatique et optimisée (utilisation de `createMany`, `deleteMany` pour les quantités).
 - Les cookies sont utilisés pour la persistance côté client et serveur.
 

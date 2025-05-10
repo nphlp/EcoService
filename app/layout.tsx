@@ -1,4 +1,5 @@
 import "@/globals.css";
+import BasketSync from "@comps/basket/basketSync";
 import Header from "@comps/header/header";
 import { combo } from "@lib/combo";
 import type { Metadata } from "next";
@@ -53,6 +54,7 @@ export default async function Layout(props: LayoutProps) {
             <body className={combo("flex flex-col", "h-full overflow-hidden")}>
                 <NuqsAdapter>
                     <Header />
+                    <BasketSync />
                     <main className="flex-1 overflow-x-hidden overflow-y-auto">
                         <div className="h-full bg-white">{children}</div>
                         {/* <Footer className="bg-eco h-[300px]" /> */}

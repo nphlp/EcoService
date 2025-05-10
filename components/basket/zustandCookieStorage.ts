@@ -25,7 +25,7 @@
  *             // Actions
  *             addToBasket: () => {},
  *             removeFromBasket: () => {},
- *             clearBasket: () => {},
+ *             clearBothBasket: () => {},
  *         }),
  *         {
  *             // Cookie name

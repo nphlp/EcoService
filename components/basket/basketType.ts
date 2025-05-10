@@ -1,19 +1,43 @@
 import { OrderModel, ProductModel, QuantityModel } from "@services/types";
 import { z, ZodSchema } from "zod";
 
-export type BasketItem = {
-    // Product
+/** Basket product */
+export type BasketProduct = {
     productId: ProductModel["id"];
     name: ProductModel["name"];
     description: ProductModel["description"];
     price: ProductModel["price"];
     image: ProductModel["image"];
+};
+
+/** Server basket item */
+export type ServerBasketItem = BasketProduct & {
     // Quantity
-    quatityId: QuantityModel["id"];
+    quatityId: QuantityModel["id"]; // Required
     quantity: number;
 };
 
-export const BasketItemSchema: ZodSchema<BasketItem> = z.object({
+/** Local basket item */
+export type LocalBasketItem = BasketProduct & {
+    // Quantity
+    quatityId?: QuantityModel["id"]; // Optional
+    quantity: number;
+};
+
+/** Server basket */
+export type ServerBasket = {
+    orderId: OrderModel["id"]; // Required
+    items: ServerBasketItem[];
+};
+
+/** Local basket */
+export type LocalBasket = {
+    orderId?: OrderModel["id"]; // Optional
+    items: LocalBasketItem[];
+};
+
+/** Local basket item schema */
+export const localBasketItemSchema: ZodSchema<LocalBasketItem> = z.object({
     // Product
     productId: z.coerce.string(),
     name: z.coerce.string(),
@@ -21,19 +45,12 @@ export const BasketItemSchema: ZodSchema<BasketItem> = z.object({
     price: z.coerce.number(),
     image: z.coerce.string(),
     // Quantity
-    quatityId: z.coerce.string(),
+    quatityId: z.coerce.string().optional(),
     quantity: z.coerce.number(),
 });
 
-/**
- * Basket is a Quantity that represent a relation between a Product and an Order
- */
-export type Basket = {
-    orderId: OrderModel["id"];
-    items: BasketItem[];
-};
-
-export const BasketSchema: ZodSchema<Basket> = z.object({
-    orderId: z.coerce.string(),
-    items: z.array(BasketItemSchema),
+/** Local basket schema */
+export const localBasketSchema: ZodSchema<LocalBasket> = z.object({
+    orderId: z.coerce.string().optional(),
+    items: z.array(localBasketItemSchema),
 });

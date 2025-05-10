@@ -1,60 +1,53 @@
 "use server";
 
-import { CreateManyQuantity, DeleteManyQuantity } from "@actions/QuantityAction";
-import { LocalBasket, localBasketSchema } from "@comps/basket/basketType";
+import { UpdateOrder } from "@actions/OrderAction";
+import { LocalBasketItem, localBasketItemSchema } from "@comps/basket/basketType";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { OrderModel } from "@services/types";
 import { revalidatePath } from "next/cache";
 import { z, ZodError, ZodType } from "zod";
 import { GetServerBasket } from "./GetServerBasket";
 
-type SyncServerBasketProps = {
-    localBasket: LocalBasket;
+type AddProductToServerBasketProps = {
     orderId: OrderModel["id"];
+    item: LocalBasketItem;
 };
 
-const syncServerBasketSchema: ZodType<SyncServerBasketProps> = z.object({
-    localBasket: localBasketSchema,
+const addProductToServerBasketSchema: ZodType<AddProductToServerBasketProps> = z.object({
     orderId: z.string(),
+    item: localBasketItemSchema,
 });
 
-/**
- * Sync server basket with local basket
- * - Get server basket with orderId
- * - Delete all quantities with ids in server basket
- * - Create new quantities with ids in local basket
- * - Refresh checkout page
- */
-export const SyncServerBasket = async (props: SyncServerBasketProps) => {
+type AddProductToServerBasketResponse = OrderModel["id"] | null;
+
+export const AddProductToServerBasket = async (
+    props: AddProductToServerBasketProps,
+): Promise<AddProductToServerBasketResponse> => {
     try {
-        const { localBasket, orderId } = syncServerBasketSchema.parse(props);
+        const { orderId, item } = addProductToServerBasketSchema.parse(props);
 
         const serverBasket = await GetServerBasket({ orderId });
+        if (!serverBasket) return null;
 
-        if (serverBasket) {
-            await DeleteManyQuantity({
-                where: {
-                    id: {
-                        in: serverBasket.items.map(({ quatityId }) => quatityId),
+        // Create quantity
+        await UpdateOrder({
+            where: { id: orderId },
+            data: {
+                Quantity: {
+                    create: {
+                        quantity: item.quantity,
+                        productId: item.productId,
                     },
                 },
-            });
-
-            await CreateManyQuantity({
-                data: localBasket.items.map(({ productId, quantity }) => ({
-                    quantity,
-                    productId,
-                    orderId: serverBasket.orderId,
-                })),
-                skipDuplicates: true,
-            });
-        }
+            },
+        });
 
         // Refresh checkout page
         revalidatePath("/checkout", "page");
+        return orderId;
     } catch (error) {
         if (process.env.NODE_ENV === "development") {
-            const processName = "SyncServerBasket";
+            const processName = "AddProductToServerBasket";
             const message = (error as Error).message;
             if (error instanceof ZodError) {
                 const zodMessage = processName + " -> Invalid Zod params -> " + error.message;
