@@ -1,5 +1,5 @@
 import SessionService from "@services/class/SessionClass";
-import { CountSessionProps, CountSessionResponse, FindManySessionProps, FindManySessionResponse, FindUniqueSessionProps, FindUniqueSessionResponse } from "@services/types/SessionType";
+import { CountSessionProps, CountSessionResponse, FindFirstSessionProps, FindFirstSessionResponse, FindManySessionProps, FindManySessionResponse, FindUniqueSessionProps, FindUniqueSessionResponse } from "@services/types/SessionType";
 import { parseAndDecodeParams, revalidate } from "@utils/FetchConfig";
 import { unstable_cache as cache } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
@@ -10,6 +10,10 @@ export type SessionRoutes<Input> = {
     "/session": {
         params: FindManySessionProps,
         response: FindManySessionResponse<Input extends FindManySessionProps ? Input : never>
+    },
+    "/session/first": {
+        params: FindFirstSessionProps,
+        response: FindFirstSessionResponse<Input extends FindFirstSessionProps ? Input : never>
     },
     "/session/unique": {
         params: FindUniqueSessionProps,
@@ -35,6 +39,24 @@ export const SelectSessionList = async <T extends FindManySessionProps>(request:
         return NextResponse.json(response, { status: 200 });
     } catch (error) {
         return NextResponse.json({ error: "getSessionListCached -> " + (error as Error).message }, { status: 500 });
+    }
+};
+
+// ==================== Find First ==================== //
+
+const sessionFirstCached = cache(
+    async <T extends FindFirstSessionProps>(params: T) => SessionService.findFirst(params),
+    ["session/first"],
+    { revalidate, tags: ["session/first"] },
+);
+
+export const SelectSessionFirst = async <T extends FindFirstSessionProps>(request: NextRequest) => {
+    try {
+        const params: T = parseAndDecodeParams(request);
+        const response = await sessionFirstCached<T>(params);
+        return NextResponse.json(response, { status: 200 });
+    } catch (error) {
+        return NextResponse.json({ error: "getSessionFirstCached -> " + (error as Error).message }, { status: 500 });
     }
 };
 

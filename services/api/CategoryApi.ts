@@ -1,5 +1,5 @@
 import CategoryService from "@services/class/CategoryClass";
-import { CountCategoryProps, CountCategoryResponse, FindManyCategoryProps, FindManyCategoryResponse, FindUniqueCategoryProps, FindUniqueCategoryResponse } from "@services/types/CategoryType";
+import { CountCategoryProps, CountCategoryResponse, FindFirstCategoryProps, FindFirstCategoryResponse, FindManyCategoryProps, FindManyCategoryResponse, FindUniqueCategoryProps, FindUniqueCategoryResponse } from "@services/types/CategoryType";
 import { parseAndDecodeParams, revalidate } from "@utils/FetchConfig";
 import { unstable_cache as cache } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
@@ -10,6 +10,10 @@ export type CategoryRoutes<Input> = {
     "/category": {
         params: FindManyCategoryProps,
         response: FindManyCategoryResponse<Input extends FindManyCategoryProps ? Input : never>
+    },
+    "/category/first": {
+        params: FindFirstCategoryProps,
+        response: FindFirstCategoryResponse<Input extends FindFirstCategoryProps ? Input : never>
     },
     "/category/unique": {
         params: FindUniqueCategoryProps,
@@ -35,6 +39,24 @@ export const SelectCategoryList = async <T extends FindManyCategoryProps>(reques
         return NextResponse.json(response, { status: 200 });
     } catch (error) {
         return NextResponse.json({ error: "getCategoryListCached -> " + (error as Error).message }, { status: 500 });
+    }
+};
+
+// ==================== Find First ==================== //
+
+const categoryFirstCached = cache(
+    async <T extends FindFirstCategoryProps>(params: T) => CategoryService.findFirst(params),
+    ["category/first"],
+    { revalidate, tags: ["category/first"] },
+);
+
+export const SelectCategoryFirst = async <T extends FindFirstCategoryProps>(request: NextRequest) => {
+    try {
+        const params: T = parseAndDecodeParams(request);
+        const response = await categoryFirstCached<T>(params);
+        return NextResponse.json(response, { status: 200 });
+    } catch (error) {
+        return NextResponse.json({ error: "getCategoryFirstCached -> " + (error as Error).message }, { status: 500 });
     }
 };
 

@@ -2,7 +2,7 @@
 
 import Button from "@comps/ui/button";
 import Modal from "@comps/ui/modal";
-import { BetterSessionServer } from "@lib/auth";
+import { BetterSessionServer } from "@lib/authServer";
 import { useState } from "react";
 
 type EmailConfirmModalProps = {

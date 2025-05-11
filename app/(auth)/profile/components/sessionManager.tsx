@@ -6,7 +6,7 @@ import { Dispatch, SetStateAction } from "react";
 import { LocationResponse } from "@app/api/external/location/route";
 import Button from "@comps/ui/button";
 import Modal from "@comps/ui/modal";
-import { BetterSessionListServer } from "@lib/auth";
+import { BetterSessionListServer } from "@lib/authServer";
 import { revokeOtherSessions, revokeSession } from "@lib/authClient";
 import { createContext, Fragment, ReactNode, useContext, useState } from "react";
 import { getBrowser, getOs, locationString } from "./utils";

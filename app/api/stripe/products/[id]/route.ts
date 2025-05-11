@@ -1,4 +1,4 @@
-import { GetSession } from "@lib/auth";
+import { GetSession } from "@lib/authServer";
 import { StripeInstance } from "@lib/stripe";
 import { NextResponse } from "next/server";
 

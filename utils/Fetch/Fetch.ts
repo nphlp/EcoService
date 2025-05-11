@@ -1,6 +1,4 @@
-import { Routes as ExternalRoutes } from "@app/api/external/Routes";
-import { Routes as StripeRoutes } from "@app/api/stripe/Routes";
-import { ResponseFormat } from "@utils/FetchConfig";
+import { ResponseFormat, RoutesList } from "@utils/FetchConfig";
 
 const NEXT_PUBLIC_BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
@@ -8,11 +6,21 @@ if (!NEXT_PUBLIC_BASE_URL) {
     throw new Error("NEXT_PUBLIC_BASE_URL environment variable is not defined");
 }
 
-export type Routes = ExternalRoutes & StripeRoutes;
+// Dynamicly import headers (server only)
+const headers = async () => {
+    if (typeof window === "undefined") {
+        const nextHeaders = await import("next/headers");
+        const awaitedHeaders = await nextHeaders.headers();
+        return awaitedHeaders;
+    }
+    return undefined;
+};
+
+export type Routes = RoutesList;
 
 export type Route = keyof Routes;
 
-export type Params<R extends Route> = Routes[R]["params"];
+export type Params<R extends Route> = Routes[R] extends { params: object } ? Routes[R]["params"] : undefined;
 
 export type FetchProps<R extends Route> = {
     route: R;
@@ -42,15 +50,19 @@ export const Fetch = async <R extends Route>(props: FetchProps<R>): Promise<Fetc
 
     const response = await fetch(url, {
         method,
+        // Send headers if request is sent from server
+        headers: await headers(),
+        // Send cookies if request is sent from client
+        credentials: "include",
         ...(body && { body: formData }),
         signal: signal ?? AbortSignal.timeout(10000),
     });
 
     const { data, error }: ResponseFormat<FetchResponse<R>> = await response.json();
 
-    if (!data || error) {
+    if (error) {
         throw new Error(error ?? "Something went wrong...");
     }
 
-    return data;
+    return data as FetchResponse<R>;
 };

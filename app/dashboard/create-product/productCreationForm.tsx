@@ -1,13 +1,12 @@
 "use client";
 
-import { CreateStripeProductProcess } from "@/process/createStripeProduct";
+import { AddProductToStripeProcess } from "@/process/AddProductToStripeProcess";
 import Card from "@comps/server/card";
 import Button from "@comps/ui/button";
 import Feedback, { FeedbackMode } from "@comps/ui/feedback";
 import Input from "@comps/ui/input";
 import InputImage from "@comps/ui/inputImage";
 import Select from "@comps/ui/select";
-import { combo } from "@lib/combo";
 import { FindManyCategoryProps, FindManyCategoryResponse } from "@services/types";
 import { authorizedFileSize, authorizedFormats } from "@utils/ImageValidation";
 import { useState } from "react";
@@ -67,7 +66,7 @@ export default function ProductCreationForm(props: ProductCreationFormPros) {
                 return;
             }
 
-            const { status, message } = await CreateStripeProductProcess({
+            const { status, message } = await AddProductToStripeProcess({
                 name,
                 description,
                 price,
@@ -79,6 +78,13 @@ export default function ProductCreationForm(props: ProductCreationFormPros) {
                 setMode("success");
                 setMessage(message);
                 setIsFeedbackOpen(true);
+
+                // Reset the form
+                setName("");
+                setDescription("");
+                setPrice("");
+                setCategoryId("");
+                setImage(null);
             } else {
                 setMode("error");
                 setMessage(message);
@@ -94,12 +100,11 @@ export default function ProductCreationForm(props: ProductCreationFormPros) {
     };
 
     return (
-        <Card className="rounded-3xl border border-white/15 bg-white/5 p-8 text-white backdrop-blur-lg md:w-[600px]">
-            <form className="space-y-8">
+        <Card className="rounded-3xl p-8 backdrop-blur-lg md:w-[600px]">
+            <form className="space-y-4">
                 <Input
                     label="Nom du produit"
                     type="text"
-                    variant="dark"
                     onChange={(e) => setName(e.target.value)}
                     value={name}
                     autoFocus
@@ -108,24 +113,15 @@ export default function ProductCreationForm(props: ProductCreationFormPros) {
                 <Input
                     label="Description"
                     type="text"
-                    variant="dark"
                     onChange={(e) => setDescription(e.target.value)}
                     value={description}
                 />
 
-                <Input
-                    label="Prix"
-                    type="number"
-                    variant="dark"
-                    min="0"
-                    onChange={(e) => setPrice(e.target.value)}
-                    value={price}
-                />
+                <Input label="Prix" type="number" min="0" onChange={(e) => setPrice(e.target.value)} value={price} />
 
                 {/* TODO: why the select is smaller than the input ? */}
                 <Select
                     label="Catégorie"
-                    variant="dark"
                     placeholder="Sélectionnez une catégorie"
                     options={categoryList.map((category) => ({
                         label: category.name,
@@ -140,15 +136,7 @@ export default function ProductCreationForm(props: ProductCreationFormPros) {
                 <Feedback message={message} mode={mode} isFeedbackOpen={isFeedbackOpen} />
 
                 <div className="flex justify-center">
-                    <Button
-                        type="button"
-                        className={combo("bg-cyan-400 text-gray-800", "hover:bg-cyan-300", "focus:ring-white")}
-                        label="Créer le produit"
-                        loadingLabel="Enregistrement..."
-                        isLoading={isLoading}
-                        loaderColor="primary"
-                        onClick={handleSubmit}
-                    >
+                    <Button type="button" label="Créer le produit" isLoading={isLoading} onClick={handleSubmit}>
                         Créer le produit
                     </Button>
                 </div>

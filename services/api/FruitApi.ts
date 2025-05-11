@@ -1,5 +1,5 @@
 import FruitService from "@services/class/FruitClass";
-import { CountFruitProps, CountFruitResponse, FindManyFruitProps, FindManyFruitResponse, FindUniqueFruitProps, FindUniqueFruitResponse } from "@services/types/FruitType";
+import { CountFruitProps, CountFruitResponse, FindFirstFruitProps, FindFirstFruitResponse, FindManyFruitProps, FindManyFruitResponse, FindUniqueFruitProps, FindUniqueFruitResponse } from "@services/types/FruitType";
 import { parseAndDecodeParams, revalidate } from "@utils/FetchConfig";
 import { unstable_cache as cache } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
@@ -10,6 +10,10 @@ export type FruitRoutes<Input> = {
     "/fruit": {
         params: FindManyFruitProps,
         response: FindManyFruitResponse<Input extends FindManyFruitProps ? Input : never>
+    },
+    "/fruit/first": {
+        params: FindFirstFruitProps,
+        response: FindFirstFruitResponse<Input extends FindFirstFruitProps ? Input : never>
     },
     "/fruit/unique": {
         params: FindUniqueFruitProps,
@@ -35,6 +39,24 @@ export const SelectFruitList = async <T extends FindManyFruitProps>(request: Nex
         return NextResponse.json(response, { status: 200 });
     } catch (error) {
         return NextResponse.json({ error: "getFruitListCached -> " + (error as Error).message }, { status: 500 });
+    }
+};
+
+// ==================== Find First ==================== //
+
+const fruitFirstCached = cache(
+    async <T extends FindFirstFruitProps>(params: T) => FruitService.findFirst(params),
+    ["fruit/first"],
+    { revalidate, tags: ["fruit/first"] },
+);
+
+export const SelectFruitFirst = async <T extends FindFirstFruitProps>(request: NextRequest) => {
+    try {
+        const params: T = parseAndDecodeParams(request);
+        const response = await fruitFirstCached<T>(params);
+        return NextResponse.json(response, { status: 200 });
+    } catch (error) {
+        return NextResponse.json({ error: "getFruitFirstCached -> " + (error as Error).message }, { status: 500 });
     }
 };
 

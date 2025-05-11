@@ -1,209 +1,151 @@
 import PrismaInstance from "@lib/prisma";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
-import { CategoryCount, CountCategoryProps, CountCategoryResponse, CreateCategoryProps, CreateCategoryResponse, DeleteCategoryProps, DeleteCategoryResponse, FindManyCategoryProps, FindManyCategoryResponse, FindUniqueCategoryProps, FindUniqueCategoryResponse, UpdateCategoryProps, UpdateCategoryResponse, UpsertCategoryProps, UpsertCategoryResponse, countCategorySchema, createCategorySchema, deleteCategorySchema, selectCategorySchema, selectManyCategorySchema, updateCategorySchema, upsertCategorySchema } from "@services/types/CategoryType";
+import { CategoryCount, CountCategoryProps, CountCategoryResponse, CreateManyCategoryProps, CreateManyCategoryResponse, CreateCategoryProps, CreateCategoryResponse, DeleteManyCategoryProps, DeleteManyCategoryResponse, DeleteCategoryProps, DeleteCategoryResponse, FindFirstCategoryProps, FindFirstCategoryResponse, FindManyCategoryProps, FindManyCategoryResponse, FindUniqueCategoryProps, FindUniqueCategoryResponse, UpdateManyCategoryProps, UpdateManyCategoryResponse, UpdateCategoryProps, UpdateCategoryResponse, UpsertCategoryProps, UpsertCategoryResponse, countCategorySchema, createManyCategorySchema, createCategorySchema, deleteManyCategorySchema, deleteCategorySchema, selectFirstCategorySchema, selectManyCategorySchema, selectUniqueCategorySchema, updateManyCategorySchema, updateCategorySchema, upsertCategorySchema } from "@services/types/CategoryType";
 import { ResponseFormat } from "@utils/FetchConfig";
 import { ZodError } from "zod";
 
 export default class CategoryService {
+
+    // ========== Single mutations ========== //
+
     static async create<T extends CreateCategoryProps>(props: T): Promise<ResponseFormat<CreateCategoryResponse<T>>> {
         try {
-            const { data, omit, select } = createCategorySchema.parse(props);
-
-            const category = await PrismaInstance.category.create({
-                data,
-                
-                ...(omit && { omit }),
-                ...(select && { select }),
-            });
-
+            const parsedProps = createCategorySchema.parse(props);
+            const category = await PrismaInstance.category.create(parsedProps);
             return { data: category as CreateCategoryResponse<T> };
         } catch (error) {
-            console.error("CategoryService -> Create -> " + (error as Error).message);
-            if (process.env.NODE_ENV === "development") {
-                if (error instanceof ZodError)
-                    throw new Error("CategoryService -> Create -> Invalid Zod params -> " + error.message);
-                if (error instanceof PrismaClientKnownRequestError)
-                    throw new Error("CategoryService -> Create -> Prisma error -> " + error.message);
-                throw new Error("CategoryService -> Create -> " + (error as Error).message);
-            }
-            // TODO: add logging
-            return { error: "Unable to create category..." };
+            return CategoryService.error("create", error);
         }
     }
 
     static async upsert<T extends UpsertCategoryProps>(props: T): Promise<ResponseFormat<UpsertCategoryResponse<T>>> {
         try {
-            const { create, update, where, omit, select } = upsertCategorySchema.parse(props);
-
-            const category = await PrismaInstance.category.upsert({
-                create,
-                update,
-                where,
-                
-                ...(omit && { omit }),
-                ...(select && { select }),
-            });
-
+            const parsedProps = upsertCategorySchema.parse(props);
+            const category = await PrismaInstance.category.upsert(parsedProps);
             return { data: category as UpsertCategoryResponse<T> };
         } catch (error) {
-            console.error("CategoryService -> Upsert -> " + (error as Error).message);
-            if (process.env.NODE_ENV === "development") {
-                if (error instanceof ZodError)
-                    throw new Error("CategoryService -> Upsert -> Invalid Zod params -> " + error.message);
-                if (error instanceof PrismaClientKnownRequestError)
-                    throw new Error("CategoryService -> Upsert -> Prisma error -> " + error.message);
-                throw new Error("CategoryService -> Upsert -> " + (error as Error).message);
-            }
-            // TODO: add logging
-            return { error: "Unable to upsert category..." };
+            return CategoryService.error("upsert", error);
         }
     }
 
     static async update<T extends UpdateCategoryProps>(props: T): Promise<ResponseFormat<UpdateCategoryResponse<T>>> {
         try {
-            const { data, where, omit, select } = updateCategorySchema.parse(props);
-
-            const category = await PrismaInstance.category.update({
-                data,
-                where,
-                
-                ...(omit && { omit }),
-                ...(select && { select }),
-            });
-
+            const parsedProps = updateCategorySchema.parse(props);
+            const category = await PrismaInstance.category.update(parsedProps);
             return { data: category as UpdateCategoryResponse<T> };
         } catch (error) {
-            console.error("CategoryService -> Update -> " + (error as Error).message);
-            if (process.env.NODE_ENV === "development") {
-                if (error instanceof ZodError)
-                    throw new Error("CategoryService -> Update -> Invalid Zod params -> " + error.message);
-                if (error instanceof PrismaClientKnownRequestError)
-                    throw new Error("CategoryService -> Update -> Prisma error -> " + error.message);
-                throw new Error("CategoryService -> Update -> " + (error as Error).message);
-            }
-            // TODO: add logging
-            return { error: "Unable to update category..." };
+            return CategoryService.error("update", error);
         }
     }
 
     static async delete<T extends DeleteCategoryProps>(props: T): Promise<ResponseFormat<DeleteCategoryResponse<T>>> {
         try {
-            const { where, omit, select } = deleteCategorySchema.parse(props);
-
-            const category = await PrismaInstance.category.delete({
-                where,
-                
-                ...(omit && { omit }),
-                ...(select && { select }),
-            });
-
+            const parsedProps = deleteCategorySchema.parse(props);
+            const category = await PrismaInstance.category.delete(parsedProps);
             return { data: category as DeleteCategoryResponse<T> };
         } catch (error) {
-            console.error("CategoryService -> Delete -> " + (error as Error).message);
-            if (process.env.NODE_ENV === "development") {
-                if (error instanceof ZodError)
-                    throw new Error("CategoryService -> Delete -> Invalid Zod params -> " + error.message);
-                if (error instanceof PrismaClientKnownRequestError)
-                    throw new Error("CategoryService -> Delete -> Prisma error -> " + error.message);
-                throw new Error("CategoryService -> Delete -> " + (error as Error).message);
-            }
-            // TODO: add logging
-            return { error: "Unable to delete category..." };
+            return CategoryService.error("delete", error);
+        }
+    }
+
+    // ========== Multiple mutations ========== //
+
+    static async createMany(props: CreateManyCategoryProps): Promise<ResponseFormat<CreateManyCategoryResponse>> {
+        try {
+            const parsedProps = createManyCategorySchema.parse(props);
+            const result = await PrismaInstance.category.createMany(parsedProps);
+            return { data: result };
+        } catch (error) {
+            return CategoryService.error("createMany", error);
+        }
+    }
+
+    static async updateMany(props: UpdateManyCategoryProps): Promise<ResponseFormat<UpdateManyCategoryResponse>> {
+        try {
+            const parsedProps = updateManyCategorySchema.parse(props);
+            const result = await PrismaInstance.category.updateMany(parsedProps);
+            return { data: result };
+        } catch (error) {
+            return CategoryService.error("updateMany", error);
+        }
+    }
+
+    static async deleteMany(props: DeleteManyCategoryProps): Promise<ResponseFormat<DeleteManyCategoryResponse>> {
+        try {
+            const parsedProps = deleteManyCategorySchema.parse(props);
+            const result = await PrismaInstance.category.deleteMany(parsedProps);
+            return { data: result };
+        } catch (error) {
+            return CategoryService.error("deleteMany", error);
+        }
+    }
+
+    // ========== Single queries ========== //
+
+    static async findFirst<T extends FindFirstCategoryProps>(props: T): Promise<ResponseFormat<FindFirstCategoryResponse<T>>> {
+        try {
+            const parsedProps = selectFirstCategorySchema.parse(props);
+            const category = await PrismaInstance.category.findFirst(parsedProps);
+            return { data: category as FindFirstCategoryResponse<T> };
+        } catch (error) {
+            return CategoryService.error("findFirst", error);
         }
     }
 
     static async findUnique<T extends FindUniqueCategoryProps>(props: T): Promise<ResponseFormat<FindUniqueCategoryResponse<T>>> {
         try {
-            const { where, omit, select } = selectCategorySchema.parse(props);
-
-            const category = await PrismaInstance.category.findUnique({
-                where,
-                
-                ...(omit && { omit }),
-                ...(select && { select }),
-            });
-
+            const parsedProps = selectUniqueCategorySchema.parse(props);
+            const category = await PrismaInstance.category.findUnique(parsedProps);
             return { data: category as FindUniqueCategoryResponse<T> };
         } catch (error) {
-            console.error("CategoryService -> FindUnique -> " + (error as Error).message);
-            if (process.env.NODE_ENV === "development") {
-                if (error instanceof ZodError)
-                    throw new Error("CategoryService -> FindUnique -> Invalid Zod params -> " + error.message);
-                if (error instanceof PrismaClientKnownRequestError)
-                    throw new Error("CategoryService -> FindUnique -> Prisma error -> " + error.message);
-                throw new Error("CategoryService -> FindUnique -> " + (error as Error).message);
-            }
-            // TODO: add logging
-            return { error: "Unable to find category..." };
+            return CategoryService.error("findUnique", error);
         }
     }
 
     static async findMany<T extends FindManyCategoryProps>(props: T): Promise<ResponseFormat<FindManyCategoryResponse<T>>> {
         try {
-            const {
-                cursor,
-                distinct,
-                
-                omit,
-                orderBy,
-                select,
-                skip = 0,
-                take = 10,
-                where,
-            } = selectManyCategorySchema.parse(props);
-
-            const categoryList = await PrismaInstance.category.findMany({
-                ...(cursor && { cursor }),
-                ...(distinct && { distinct }),
-                
-                ...(omit && { omit }),
-                ...(orderBy && { orderBy }),
-                ...(select && { select }),
-                ...(skip && { skip }),
-                ...(take && { take }),
-                ...(where && { where }),
-            });
-
+            const parsedProps = selectManyCategorySchema.parse(props);
+            const { skip = 0, take = 10 } = parsedProps;
+            const categoryList = await PrismaInstance.category.findMany({ skip, take, ...parsedProps });
             return { data: categoryList as FindManyCategoryResponse<T> };
         } catch (error) {
-            console.error("CategoryService -> FindMany -> " + (error as Error).message);
-            if (process.env.NODE_ENV === "development") {
-                if (error instanceof ZodError)
-                    throw new Error("CategoryService -> FindMany -> Invalid Zod params -> " + error.message);
-                if (error instanceof PrismaClientKnownRequestError)
-                    throw new Error("CategoryService -> FindMany -> Prisma error -> " + error.message);
-                throw new Error("CategoryService -> FindMany -> " + (error as Error).message);
-            }
-            // TODO: add logging
-            return { error: "Unable to find categorys..." };
+            return CategoryService.error("findMany", error);
         }
     }
 
+    // ========== Aggregate queries ========== //
+
     static async count(props: CountCategoryProps): Promise<ResponseFormat<CountCategoryResponse>> {
         try {
-            const { cursor, orderBy, select, skip, take, where } = countCategorySchema.parse(props);
-
-            const categoryAmount: CategoryCount = await PrismaInstance.category.count({
-                ...(cursor && { cursor }),
-                ...(orderBy && { orderBy }),
-                ...(select && { select }),
-                ...(skip && { skip }),
-                ...(take && { take }),
-                ...(where && { where }),
-            });
-
+            const parsedProps = countCategorySchema.parse(props);
+            const categoryAmount: CategoryCount = await PrismaInstance.category.count(parsedProps);
             return { data: categoryAmount };
         } catch (error) {
-            console.error("CategoryService -> Count -> " + (error as Error).message);
-            if (process.env.NODE_ENV === "development") {
-                if (error instanceof ZodError)
-                    throw new Error("CategoryService -> Count -> Invalid Zod params -> " + error.message);
-                if (error instanceof PrismaClientKnownRequestError)
-                    throw new Error("CategoryService -> Count -> Prisma error -> " + error.message);
-                throw new Error("CategoryService -> Count -> " + (error as Error).message);
-            }
-            // TODO: add logging
-            return { error: "Unable to count categorys..." };
+            return CategoryService.error("count", error);
         }
+    }
+
+    // ========== Error handling ========== //
+
+    static async error(methodName: string, error: unknown): Promise<{error: string}> {
+        if (process.env.NODE_ENV === "development") {
+            const serviceName = this.constructor.name;
+            const message = (error as Error).message;
+            if (error instanceof ZodError){
+                const zodMessage = serviceName + " -> " + methodName + " -> Invalid Zod params -> " + error.message;
+                console.error(zodMessage);
+                throw new Error(zodMessage);
+            } else if (error instanceof PrismaClientKnownRequestError){
+                const prismaMessage = serviceName + " -> " + methodName + " -> Prisma error -> " + error.message;
+                console.error(prismaMessage);
+                throw new Error(prismaMessage);
+            } else {
+                const errorMessage = serviceName + " -> " + methodName + " -> " + message;
+                console.error(errorMessage);
+                throw new Error(errorMessage);
+            }
+        }
+        // TODO: add logging
+        return { error: "Something went wrong..." };
     }
 }

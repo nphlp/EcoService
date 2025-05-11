@@ -1,7 +1,9 @@
 "use server";
 
 import CategoryService from "@services/class/CategoryClass";
-import { CountCategoryProps, CountCategoryResponse, CreateCategoryProps, CreateCategoryResponse, DeleteCategoryProps, DeleteCategoryResponse, FindManyCategoryProps, FindManyCategoryResponse, FindUniqueCategoryProps, FindUniqueCategoryResponse, UpdateCategoryProps, UpdateCategoryResponse, UpsertCategoryProps, UpsertCategoryResponse } from "@services/types/CategoryType";
+import { CountCategoryProps, CountCategoryResponse, CreateManyCategoryProps, CreateManyCategoryResponse, CreateCategoryProps, CreateCategoryResponse, DeleteManyCategoryProps, DeleteManyCategoryResponse, DeleteCategoryProps, DeleteCategoryResponse, FindFirstCategoryProps, FindFirstCategoryResponse, FindManyCategoryProps, FindManyCategoryResponse, FindUniqueCategoryProps, FindUniqueCategoryResponse, UpdateManyCategoryProps, UpdateManyCategoryResponse, UpdateCategoryProps, UpdateCategoryResponse, UpsertCategoryProps, UpsertCategoryResponse } from "@services/types/CategoryType";
+
+// ========== Single mutations ========== //
 
 export const CreateCategory = async <T extends CreateCategoryProps>(props: T): Promise<CreateCategoryResponse<T>> => {
     try {
@@ -43,10 +45,59 @@ export const DeleteCategory = async <T extends DeleteCategoryProps>(props: T): P
     }
 };
 
+// ========== Multiple mutations ========== //
+
+export const CreateManyCategory = async (props: CreateManyCategoryProps): Promise<CreateManyCategoryResponse> => {
+    try {
+        const { data, error } = await CategoryService.createMany(props);
+        if (!data || error) throw new Error(error);
+        return data;
+    } catch (error) {
+        throw new Error("CreateManyCategory -> " + (error as Error).message);
+    }
+};
+
+export const UpdateManyCategory = async (props: UpdateManyCategoryProps): Promise<UpdateManyCategoryResponse> => {
+    try {
+        const { data, error } = await CategoryService.updateMany(props);
+        if (!data || error) throw new Error(error);
+        return data;
+    } catch (error) {
+        throw new Error("UpdateManyCategory -> " + (error as Error).message);
+    }
+};
+
+export const DeleteManyCategory = async (props: DeleteManyCategoryProps): Promise<DeleteManyCategoryResponse> => {
+    try {
+        const { data, error } = await CategoryService.deleteMany(props);
+        if (!data || error) throw new Error(error);
+        return data;
+    } catch (error) {
+        throw new Error("DeleteManyCategory -> " + (error as Error).message);
+    }
+};
+
+// ========== Single queries ========== //
+
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const SelectCategory = async <T extends FindUniqueCategoryProps>(
+export const SelectFirstCategory = async <T extends FindFirstCategoryProps>(
+    props: T
+): Promise<FindFirstCategoryResponse<T>> => {
+    try {
+        const { data, error } = await CategoryService.findFirst(props);
+        if (error) throw new Error(error);
+        return data ?? null;
+    } catch (error) {
+        throw new Error("SelectFirstCategory -> " + (error as Error).message);
+    }
+};
+
+/**
+ * WARNING: do not use this for fetching data -> use API routes with caching instead
+ */
+export const SelectUniqueCategory = async <T extends FindUniqueCategoryProps>(
     props: T
 ): Promise<FindUniqueCategoryResponse<T>> => {
     try {
@@ -54,7 +105,7 @@ export const SelectCategory = async <T extends FindUniqueCategoryProps>(
         if (error) throw new Error(error);
         return data ?? null;
     } catch (error) {
-        throw new Error("SelectCategory -> " + (error as Error).message);
+        throw new Error("SelectUniqueCategory -> " + (error as Error).message);
     }
 };
 
@@ -72,6 +123,8 @@ export const SelectCategoryList = async <T extends FindManyCategoryProps>(
         throw new Error("SelectCategoryList -> " + (error as Error).message);
     }
 };
+
+// ========== Aggregate queries ========== //
 
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead

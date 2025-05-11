@@ -1,6 +1,6 @@
 "use server";
 
-import { BetterSessionServer, GetSession } from "./auth";
+import { BetterSessionServer, GetSession } from "./authServer";
 
 // ========== Complex checks ========= //
 

@@ -1,5 +1,5 @@
 import ArticleService from "@services/class/ArticleClass";
-import { CountArticleProps, CountArticleResponse, FindManyArticleProps, FindManyArticleResponse, FindUniqueArticleProps, FindUniqueArticleResponse } from "@services/types/ArticleType";
+import { CountArticleProps, CountArticleResponse, FindFirstArticleProps, FindFirstArticleResponse, FindManyArticleProps, FindManyArticleResponse, FindUniqueArticleProps, FindUniqueArticleResponse } from "@services/types/ArticleType";
 import { parseAndDecodeParams, revalidate } from "@utils/FetchConfig";
 import { unstable_cache as cache } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
@@ -10,6 +10,10 @@ export type ArticleRoutes<Input> = {
     "/article": {
         params: FindManyArticleProps,
         response: FindManyArticleResponse<Input extends FindManyArticleProps ? Input : never>
+    },
+    "/article/first": {
+        params: FindFirstArticleProps,
+        response: FindFirstArticleResponse<Input extends FindFirstArticleProps ? Input : never>
     },
     "/article/unique": {
         params: FindUniqueArticleProps,
@@ -35,6 +39,24 @@ export const SelectArticleList = async <T extends FindManyArticleProps>(request:
         return NextResponse.json(response, { status: 200 });
     } catch (error) {
         return NextResponse.json({ error: "getArticleListCached -> " + (error as Error).message }, { status: 500 });
+    }
+};
+
+// ==================== Find First ==================== //
+
+const articleFirstCached = cache(
+    async <T extends FindFirstArticleProps>(params: T) => ArticleService.findFirst(params),
+    ["article/first"],
+    { revalidate, tags: ["article/first"] },
+);
+
+export const SelectArticleFirst = async <T extends FindFirstArticleProps>(request: NextRequest) => {
+    try {
+        const params: T = parseAndDecodeParams(request);
+        const response = await articleFirstCached<T>(params);
+        return NextResponse.json(response, { status: 200 });
+    } catch (error) {
+        return NextResponse.json({ error: "getArticleFirstCached -> " + (error as Error).message }, { status: 500 });
     }
 };
 

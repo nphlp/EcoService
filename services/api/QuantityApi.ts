@@ -1,5 +1,5 @@
 import QuantityService from "@services/class/QuantityClass";
-import { CountQuantityProps, CountQuantityResponse, FindManyQuantityProps, FindManyQuantityResponse, FindUniqueQuantityProps, FindUniqueQuantityResponse } from "@services/types/QuantityType";
+import { CountQuantityProps, CountQuantityResponse, FindFirstQuantityProps, FindFirstQuantityResponse, FindManyQuantityProps, FindManyQuantityResponse, FindUniqueQuantityProps, FindUniqueQuantityResponse } from "@services/types/QuantityType";
 import { parseAndDecodeParams, revalidate } from "@utils/FetchConfig";
 import { unstable_cache as cache } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
@@ -10,6 +10,10 @@ export type QuantityRoutes<Input> = {
     "/quantity": {
         params: FindManyQuantityProps,
         response: FindManyQuantityResponse<Input extends FindManyQuantityProps ? Input : never>
+    },
+    "/quantity/first": {
+        params: FindFirstQuantityProps,
+        response: FindFirstQuantityResponse<Input extends FindFirstQuantityProps ? Input : never>
     },
     "/quantity/unique": {
         params: FindUniqueQuantityProps,
@@ -35,6 +39,24 @@ export const SelectQuantityList = async <T extends FindManyQuantityProps>(reques
         return NextResponse.json(response, { status: 200 });
     } catch (error) {
         return NextResponse.json({ error: "getQuantityListCached -> " + (error as Error).message }, { status: 500 });
+    }
+};
+
+// ==================== Find First ==================== //
+
+const quantityFirstCached = cache(
+    async <T extends FindFirstQuantityProps>(params: T) => QuantityService.findFirst(params),
+    ["quantity/first"],
+    { revalidate, tags: ["quantity/first"] },
+);
+
+export const SelectQuantityFirst = async <T extends FindFirstQuantityProps>(request: NextRequest) => {
+    try {
+        const params: T = parseAndDecodeParams(request);
+        const response = await quantityFirstCached<T>(params);
+        return NextResponse.json(response, { status: 200 });
+    } catch (error) {
+        return NextResponse.json({ error: "getQuantityFirstCached -> " + (error as Error).message }, { status: 500 });
     }
 };
 

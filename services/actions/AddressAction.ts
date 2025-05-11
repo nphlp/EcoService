@@ -1,7 +1,9 @@
 "use server";
 
 import AddressService from "@services/class/AddressClass";
-import { CountAddressProps, CountAddressResponse, CreateAddressProps, CreateAddressResponse, DeleteAddressProps, DeleteAddressResponse, FindManyAddressProps, FindManyAddressResponse, FindUniqueAddressProps, FindUniqueAddressResponse, UpdateAddressProps, UpdateAddressResponse, UpsertAddressProps, UpsertAddressResponse } from "@services/types/AddressType";
+import { CountAddressProps, CountAddressResponse, CreateManyAddressProps, CreateManyAddressResponse, CreateAddressProps, CreateAddressResponse, DeleteManyAddressProps, DeleteManyAddressResponse, DeleteAddressProps, DeleteAddressResponse, FindFirstAddressProps, FindFirstAddressResponse, FindManyAddressProps, FindManyAddressResponse, FindUniqueAddressProps, FindUniqueAddressResponse, UpdateManyAddressProps, UpdateManyAddressResponse, UpdateAddressProps, UpdateAddressResponse, UpsertAddressProps, UpsertAddressResponse } from "@services/types/AddressType";
+
+// ========== Single mutations ========== //
 
 export const CreateAddress = async <T extends CreateAddressProps>(props: T): Promise<CreateAddressResponse<T>> => {
     try {
@@ -43,10 +45,59 @@ export const DeleteAddress = async <T extends DeleteAddressProps>(props: T): Pro
     }
 };
 
+// ========== Multiple mutations ========== //
+
+export const CreateManyAddress = async (props: CreateManyAddressProps): Promise<CreateManyAddressResponse> => {
+    try {
+        const { data, error } = await AddressService.createMany(props);
+        if (!data || error) throw new Error(error);
+        return data;
+    } catch (error) {
+        throw new Error("CreateManyAddress -> " + (error as Error).message);
+    }
+};
+
+export const UpdateManyAddress = async (props: UpdateManyAddressProps): Promise<UpdateManyAddressResponse> => {
+    try {
+        const { data, error } = await AddressService.updateMany(props);
+        if (!data || error) throw new Error(error);
+        return data;
+    } catch (error) {
+        throw new Error("UpdateManyAddress -> " + (error as Error).message);
+    }
+};
+
+export const DeleteManyAddress = async (props: DeleteManyAddressProps): Promise<DeleteManyAddressResponse> => {
+    try {
+        const { data, error } = await AddressService.deleteMany(props);
+        if (!data || error) throw new Error(error);
+        return data;
+    } catch (error) {
+        throw new Error("DeleteManyAddress -> " + (error as Error).message);
+    }
+};
+
+// ========== Single queries ========== //
+
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const SelectAddress = async <T extends FindUniqueAddressProps>(
+export const SelectFirstAddress = async <T extends FindFirstAddressProps>(
+    props: T
+): Promise<FindFirstAddressResponse<T>> => {
+    try {
+        const { data, error } = await AddressService.findFirst(props);
+        if (error) throw new Error(error);
+        return data ?? null;
+    } catch (error) {
+        throw new Error("SelectFirstAddress -> " + (error as Error).message);
+    }
+};
+
+/**
+ * WARNING: do not use this for fetching data -> use API routes with caching instead
+ */
+export const SelectUniqueAddress = async <T extends FindUniqueAddressProps>(
     props: T
 ): Promise<FindUniqueAddressResponse<T>> => {
     try {
@@ -54,7 +105,7 @@ export const SelectAddress = async <T extends FindUniqueAddressProps>(
         if (error) throw new Error(error);
         return data ?? null;
     } catch (error) {
-        throw new Error("SelectAddress -> " + (error as Error).message);
+        throw new Error("SelectUniqueAddress -> " + (error as Error).message);
     }
 };
 
@@ -72,6 +123,8 @@ export const SelectAddressList = async <T extends FindManyAddressProps>(
         throw new Error("SelectAddressList -> " + (error as Error).message);
     }
 };
+
+// ========== Aggregate queries ========== //
 
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead

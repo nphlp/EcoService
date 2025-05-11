@@ -1,17 +1,18 @@
 "use client";
 
 import ProductCard from "@comps/productCard";
+import Link from "@comps/ui/link";
 import Loader from "@comps/ui/loader";
 import { combo } from "@lib/combo";
+import { ProductModel } from "@services/types";
 import { useFetchV2 } from "@utils/FetchV2/FetchHookV2";
+import { useRouter } from "next/navigation";
 import { useContext, useEffect } from "react";
 import { ProductAmountFetchParams, ProductListFetchParams } from "./fetchParams";
 import { CatalogContext } from "./provider";
 import { useCatalogParams } from "./useCatalogParams";
 import { useCatalogStore } from "./useCatalogStore";
-import Link from "@comps/ui/link";
-import { useRouter } from "next/navigation";
-import { ProductModel } from "@services/types";
+
 type CatalogClientProps = {
     className?: string;
 };
@@ -60,8 +61,8 @@ export default function CatalogClient(props: CatalogClientProps) {
 
     if (isLoadingProductList || isLoadingProductAmount) {
         return (
-            <div className="flex w-full flex-1 items-center justify-center">
-                <Loader className="size-8 border-4" />
+            <div className="flex size-full items-center justify-center">
+                <Loader className="size-8" />
             </div>
         );
     }
@@ -75,7 +76,7 @@ export default function CatalogClient(props: CatalogClientProps) {
     }
 
     return (
-        <div className={combo("grid grid-cols-1 gap-5 overflow-y-auto sm:grid-cols-2 lg:grid-cols-4", className)}>
+        <div className={combo("grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4", className)}>
             {productListLocal.map((product, index) => (
                 <Link
                     key={index}

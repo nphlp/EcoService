@@ -1,13 +1,67 @@
+import AddToCartButtonWrapper from "@app/product/[id]/addToCartButtonWrapper";
 import ImageRatio from "@comps/server/imageRatio";
+import PrismaInstance from "@lib/prisma";
 import { FetchV2 } from "@utils/FetchV2/FetchV2";
 import { ArrowLeft, Package2, ShieldCheck, Truck } from "lucide-react";
+import { Metadata } from "next";
 import Link from "next/link";
-import AddToCartButton from "./addToCartButton";
 import { ProductFetchParams } from "./fetchParams";
+
+const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+
+if (!baseUrl) {
+    throw new Error("NEXT_PUBLIC_BASE_URL environment variable is not defined");
+}
+
+export const dynamic = "auto";
+export const revalidate = 3600;
+
+export const generateStaticParams = async () => {
+    const products = await PrismaInstance.product.findMany({
+        select: { id: true },
+        take: 30,
+        // TODO: add a filter to get top 30 products
+    });
+
+    return products.map((product) => ({ id: product.id }));
+};
 
 type PageProps = {
     params: Promise<{ id: string }>;
 };
+
+export async function generateMetadata(props: PageProps): Promise<Metadata> {
+    const { params } = props;
+    const { id } = await params;
+
+    const product = await FetchV2({
+        route: "/product/unique",
+        params: { where: { id } },
+    });
+
+    return {
+        title: product ? `${product.name} - Eco Service` : "Produit - Eco Service",
+        description: product ? product.description : "Achetez des produits éco-responsables sur Eco Service.",
+        metadataBase: new URL(product ? `${baseUrl}/product/${id}` : `${baseUrl}/product`),
+        alternates: {
+            canonical: product ? `${baseUrl}/product/${id}` : `${baseUrl}/product`,
+        },
+        openGraph: {
+            title: product ? `${product.name} - Eco Service` : "Produit - Eco Service",
+            description: product ? product.description : "Achetez des produits éco-responsables sur Eco Service.",
+            url: product ? `${baseUrl}/product/${id}` : `${baseUrl}/product`,
+            siteName: "Eco Service",
+            locale: "fr_FR",
+            type: "website",
+        },
+        twitter: {
+            card: "summary_large_image",
+            title: product ? `${product.name} - Eco Service` : "Produit - Eco Service",
+            description: product ? product.description : "Achetez des produits éco-responsables sur Eco Service.",
+            images: [`${baseUrl}/icon-512x512.png`],
+        },
+    };
+}
 
 export default async function Page(props: PageProps) {
     const { params } = props;
@@ -31,10 +85,6 @@ export default async function Page(props: PageProps) {
     }
 
     const { name, image, price, description, stock, Vendor, Category } = product;
-
-    {
-        console.log(`product-${id}`);
-    }
 
     return (
         <div className="p-7">
@@ -77,7 +127,7 @@ export default async function Page(props: PageProps) {
                             </div>
                         </div>
 
-                        <AddToCartButton product={product} stock={stock} />
+                        <AddToCartButtonWrapper product={product} stock={stock} />
                     </div>
 
                     {/* Vendeur */}
