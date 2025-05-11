@@ -2,6 +2,9 @@ import ImageRatio from "@comps/server/imageRatio";
 import { FetchV2 } from "@utils/FetchV2/FetchV2";
 import Link from "next/link";
 
+export const dynamic = "auto";
+export const revalidate = 3600;
+
 export default async function Page() {
     const diyList = await FetchV2({
         route: "/diy",

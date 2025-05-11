@@ -12,6 +12,9 @@ if (!baseUrl) {
     throw new Error("NEXT_PUBLIC_BASE_URL environment variable is not defined");
 }
 
+export const dynamic = "auto";
+export const revalidate = 3600;
+
 export const metadata: Metadata = {
     title: "Eco Service",
     description: "Achetez des produits éco-responsables sur Eco Service.",
