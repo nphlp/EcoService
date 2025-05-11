@@ -1,33 +1,42 @@
 "use client";
 
 import Button from "@comps/ui/button";
-import { CircleCheck, CirclePlus, CircleX, ShoppingCart } from "lucide-react";
 import { ProductModel } from "@services/types";
+import { CircleCheck, CirclePlus, CircleX, ShoppingCart } from "lucide-react";
 import { useBasketStore } from "./basket/basketStore";
 
-type AddToCartButtonProps = {
-    productId: ProductModel["id"];
+type AddToCartIconProps = {
+    product: ProductModel;
 };
 
-export default function AddToCartButton(props: AddToCartButtonProps) {
-    const { productId } = props;
+export default function AddToCartIcon(props: AddToCartIconProps) {
+    const { product } = props;
 
-    const { basketProductList, addProductToBasket, removeProductFromBasket } = useBasketStore();
+    const { isInBasket, addProductToBasket, removeProductFromBasket } = useBasketStore();
 
-    const isInBasket = basketProductList.some((currentId) => currentId === productId);
+    const handleClick = async () => {
+        if (isInBasket(product.id)) {
+            removeProductFromBasket(product.id);
+        } else {
+            addProductToBasket({
+                productId: product.id,
+                name: product.name,
+                description: product.description,
+                price: product.price,
+                image: product.image,
+            });
+        }
+    };
 
     return (
         <Button
             type="button"
             label="add-to-basket"
-            onClick={(e) => {
-                e.preventDefault();
-                return isInBasket ? removeProductFromBasket(productId) : addProductToBasket(productId);
-            }}
+            onClick={handleClick}
             baseStyleOnly={["outline"]}
             className="group relative size-fit rounded-xl p-[10px] transition-all duration-300 hover:scale-105"
         >
-            {isInBasket ? (
+            {isInBasket(product.id) ? (
                 <>
                     <CircleCheck className="group-hover:hidden" />
                     <CircleX className="hidden group-hover:block" />

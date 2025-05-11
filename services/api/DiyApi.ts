@@ -1,5 +1,5 @@
 import DiyService from "@services/class/DiyClass";
-import { CountDiyProps, CountDiyResponse, FindManyDiyProps, FindManyDiyResponse, FindUniqueDiyProps, FindUniqueDiyResponse } from "@services/types/DiyType";
+import { CountDiyProps, CountDiyResponse, FindFirstDiyProps, FindFirstDiyResponse, FindManyDiyProps, FindManyDiyResponse, FindUniqueDiyProps, FindUniqueDiyResponse } from "@services/types/DiyType";
 import { parseAndDecodeParams, revalidate } from "@utils/FetchConfig";
 import { unstable_cache as cache } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
@@ -10,6 +10,10 @@ export type DiyRoutes<Input> = {
     "/diy": {
         params: FindManyDiyProps,
         response: FindManyDiyResponse<Input extends FindManyDiyProps ? Input : never>
+    },
+    "/diy/first": {
+        params: FindFirstDiyProps,
+        response: FindFirstDiyResponse<Input extends FindFirstDiyProps ? Input : never>
     },
     "/diy/unique": {
         params: FindUniqueDiyProps,
@@ -35,6 +39,24 @@ export const SelectDiyList = async <T extends FindManyDiyProps>(request: NextReq
         return NextResponse.json(response, { status: 200 });
     } catch (error) {
         return NextResponse.json({ error: "getDiyListCached -> " + (error as Error).message }, { status: 500 });
+    }
+};
+
+// ==================== Find First ==================== //
+
+const diyFirstCached = cache(
+    async <T extends FindFirstDiyProps>(params: T) => DiyService.findFirst(params),
+    ["diy/first"],
+    { revalidate, tags: ["diy/first"] },
+);
+
+export const SelectDiyFirst = async <T extends FindFirstDiyProps>(request: NextRequest) => {
+    try {
+        const params: T = parseAndDecodeParams(request);
+        const response = await diyFirstCached<T>(params);
+        return NextResponse.json(response, { status: 200 });
+    } catch (error) {
+        return NextResponse.json({ error: "getDiyFirstCached -> " + (error as Error).message }, { status: 500 });
     }
 };
 

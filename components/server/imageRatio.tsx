@@ -10,10 +10,11 @@ type ImageRatioProps = {
     /** Define width or height */
     className?: string;
     loading?: "eager" | "lazy";
+    priority?: boolean;
 };
 
 export default function ImageRatio(props: ImageRatioProps) {
-    const { src, alt, className, loading = "eager" } = props;
+    const { src, alt, className, loading = "eager", priority = false } = props;
 
     if (!src) {
         return (
@@ -33,6 +34,7 @@ export default function ImageRatio(props: ImageRatioProps) {
                 fill
                 loading={loading}
                 onMouseDown={(e) => e.preventDefault()}
+                priority={priority ? true : false}
             />
         </div>
     );

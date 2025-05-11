@@ -1,5 +1,3 @@
-"use client";
-
 import ProductCard from "@comps/productCard";
 import Slider, { LinkInfoType } from "@comps/ui/slider";
 import { ProductListType } from "./sliderFetchParams";
@@ -9,7 +7,7 @@ type ProductSliderProps = {
     title: string;
 };
 
-export default function ProductSlider(props: ProductSliderProps) {
+export default async function ProductSlider(props: ProductSliderProps) {
     const { productList, title } = props;
 
     if (!productList.length) {

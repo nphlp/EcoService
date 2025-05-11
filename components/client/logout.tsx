@@ -1,5 +1,6 @@
 "use client";
 
+import { useBasketStore } from "@comps/basket/basketStore";
 import Button, { ButtonProps } from "@comps/ui/button";
 import Loader from "@comps/ui/loader";
 import { ButtonBaseKeys } from "@comps/ui/themes/buttonTheme";
@@ -22,6 +23,7 @@ export default function Logout(props: LogoutProps) {
 
     const router = useRouter();
     const [isLoading, setIsLoading] = useState(false);
+    const { clearLocalBasket } = useBasketStore();
 
     const handleClick = async () => {
         setIsLoading(true);
@@ -29,6 +31,9 @@ export default function Logout(props: LogoutProps) {
         onClick?.();
 
         const { data } = await signOut();
+
+        // Delete basket cookie
+        clearLocalBasket();
 
         if (data) {
             router.push("/");

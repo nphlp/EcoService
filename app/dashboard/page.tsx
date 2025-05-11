@@ -1,51 +1,62 @@
 import Card from "@comps/server/card";
-import { SideBarButton } from "./sideBar";
+import { Metadata } from "next";
+import { SideBarToggleTitle } from "./sideBar";
+import { unauthorized } from "next/navigation";
+import { isVendorOrEmployeeOrAdmin } from "@lib/checkRole";
+
+export const metadata: Metadata = {
+    title: "Dashboard",
+};
 
 export default async function Page() {
+    const session = await isVendorOrEmployeeOrAdmin();
+    if (!session) {
+        unauthorized();
+    }
+
     return (
         <>
-            <div className="flex flex-row items-center justify-start gap-4">
-                <SideBarButton />
-                <h1 className="text-3xl font-bold">Dashboard</h1>
-            </div>
-            <div className="space-y-4">
-                <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
-                    <Card>
-                        <FakeContent />
-                    </Card>
-                    <Card>
-                        <FakeContent />
-                    </Card>
-                    <Card>
-                        <FakeContent />
-                    </Card>
-                    <Card>
-                        <FakeContent />
-                    </Card>
-                </div>
-                <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
-                    <Card className="col-span-2">
-                        <FakeContent />
-                    </Card>
-                    <Card className="col-span-2 md:col-span-1">
-                        <FakeContent />
-                    </Card>
-                </div>
-                <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
-                    <Card className="col-span-2 md:col-span-1">
-                        <FakeContent />
-                    </Card>
-                    <Card className="col-span-2">
-                        <FakeContent />
-                    </Card>
-                </div>
+            <SideBarToggleTitle title={metadata.title as string} />
+            <div className="p-5">
                 <div className="space-y-4">
-                    <Card>
-                        <FakeContent />
-                    </Card>
-                    <Card>
-                        <FakeContent />
-                    </Card>
+                    <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
+                        <Card>
+                            <FakeContent />
+                        </Card>
+                        <Card>
+                            <FakeContent />
+                        </Card>
+                        <Card>
+                            <FakeContent />
+                        </Card>
+                        <Card>
+                            <FakeContent />
+                        </Card>
+                    </div>
+                    <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
+                        <Card className="col-span-2">
+                            <FakeContent />
+                        </Card>
+                        <Card className="col-span-2 md:col-span-1">
+                            <FakeContent />
+                        </Card>
+                    </div>
+                    <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
+                        <Card className="col-span-2 md:col-span-1">
+                            <FakeContent />
+                        </Card>
+                        <Card className="col-span-2">
+                            <FakeContent />
+                        </Card>
+                    </div>
+                    <div className="space-y-4">
+                        <Card>
+                            <FakeContent />
+                        </Card>
+                        <Card>
+                            <FakeContent />
+                        </Card>
+                    </div>
                 </div>
             </div>
         </>

@@ -1,4 +1,4 @@
-import TabClient from "@comps/client/tabs";
+import TabClient from "@app/(auth)/auth/components/tabs";
 import LoginClient from "./components/login";
 import RegisterClient from "./components/register";
 

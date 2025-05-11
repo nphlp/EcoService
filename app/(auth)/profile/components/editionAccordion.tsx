@@ -6,7 +6,7 @@ import Button from "@comps/ui/button";
 import Input from "@comps/ui/input";
 import InputImage from "@comps/ui/inputImage";
 import InputPassword from "@comps/ui/inputPassword";
-import { BetterSessionServer } from "@lib/auth";
+import { BetterSessionServer } from "@lib/authServer";
 import { changeEmail, changePassword, updateUser } from "@lib/authClient";
 import { fileToBase64 } from "@utils/base64";
 import { Dispatch, SetStateAction, useState } from "react";

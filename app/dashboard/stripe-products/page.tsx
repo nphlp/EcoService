@@ -1,12 +1,12 @@
-import ProductDisplay from "./components/productDisplay";
-import { GetSession } from "@lib/auth";
+import { GetSession } from "@lib/authServer";
 import { Fetch } from "@utils/Fetch/Fetch";
 import { Metadata } from "next";
 import { unauthorized } from "next/navigation";
+import { SideBarToggleTitle } from "../sideBar";
+import ProductDisplay from "./components/productDisplay";
 
 export const metadata: Metadata = {
-    title: "EcoService - Produits",
-    description: "Découvrez nos produits et services écologiques",
+    title: "Mes produits Stripe",
 };
 
 export default async function Page() {
@@ -20,6 +20,7 @@ export default async function Page() {
 
     return (
         <main className="w-full">
+            <SideBarToggleTitle title={metadata.title as string} />
             <ProductDisplay stripeProductList={stripeProductList} />
         </main>
     );

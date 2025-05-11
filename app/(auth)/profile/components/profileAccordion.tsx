@@ -1,6 +1,6 @@
 import { Accordion, AccordionButton, AccordionContent } from "@comps/ui/accordion";
 import ImageProfile from "@comps/ui/imageProfile";
-import { BetterSessionServer } from "@lib/auth";
+import { BetterSessionServer } from "@lib/authServer";
 import { CircleCheck, CircleX } from "lucide-react";
 
 type ProfileAccordionProps = {

@@ -49,20 +49,29 @@ const SideBar = (props: { width?: number; className?: string; children: ReactNod
     );
 };
 
+type SideBarToggleTitleProps = {
+    title: string;
+    className?: string;
+};
+
 // Button
-const SideBarButton = () => {
+const SideBarToggleTitle = (props: SideBarToggleTitleProps) => {
+    const { title, className } = props;
     const { isOpen, setIsOpen } = useContext(SideBarContext);
     return (
-        <Button
-            label="Ouvrir"
-            variant="outline"
-            className="p-1.5"
-            baseStyleWithout={["padding", "font"]}
-            onClick={() => setIsOpen(!isOpen)}
-        >
-            {isOpen ? <PanelLeftClose /> : <PanelLeftOpen />}
-        </Button>
+        <div className={combo("flex flex-row items-center gap-4 pt-5 pl-5", className)}>
+            <Button
+                label="Ouvrir"
+                variant="outline"
+                className="p-1.5"
+                baseStyleWithout={["padding", "font"]}
+                onClick={() => setIsOpen(!isOpen)}
+            >
+                {isOpen ? <PanelLeftClose /> : <PanelLeftOpen />}
+            </Button>
+            <div className="text-2xl font-bold">{title}</div>
+        </div>
     );
 };
 
-export { SideBar, SideBarProvider, SideBarButton };
+export { SideBar, SideBarToggleTitle, SideBarProvider };

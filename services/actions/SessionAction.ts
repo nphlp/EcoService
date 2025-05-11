@@ -1,7 +1,9 @@
 "use server";
 
 import SessionService from "@services/class/SessionClass";
-import { CountSessionProps, CountSessionResponse, CreateSessionProps, CreateSessionResponse, DeleteSessionProps, DeleteSessionResponse, FindManySessionProps, FindManySessionResponse, FindUniqueSessionProps, FindUniqueSessionResponse, UpdateSessionProps, UpdateSessionResponse, UpsertSessionProps, UpsertSessionResponse } from "@services/types/SessionType";
+import { CountSessionProps, CountSessionResponse, CreateManySessionProps, CreateManySessionResponse, CreateSessionProps, CreateSessionResponse, DeleteManySessionProps, DeleteManySessionResponse, DeleteSessionProps, DeleteSessionResponse, FindFirstSessionProps, FindFirstSessionResponse, FindManySessionProps, FindManySessionResponse, FindUniqueSessionProps, FindUniqueSessionResponse, UpdateManySessionProps, UpdateManySessionResponse, UpdateSessionProps, UpdateSessionResponse, UpsertSessionProps, UpsertSessionResponse } from "@services/types/SessionType";
+
+// ========== Single mutations ========== //
 
 export const CreateSession = async <T extends CreateSessionProps>(props: T): Promise<CreateSessionResponse<T>> => {
     try {
@@ -43,10 +45,59 @@ export const DeleteSession = async <T extends DeleteSessionProps>(props: T): Pro
     }
 };
 
+// ========== Multiple mutations ========== //
+
+export const CreateManySession = async (props: CreateManySessionProps): Promise<CreateManySessionResponse> => {
+    try {
+        const { data, error } = await SessionService.createMany(props);
+        if (!data || error) throw new Error(error);
+        return data;
+    } catch (error) {
+        throw new Error("CreateManySession -> " + (error as Error).message);
+    }
+};
+
+export const UpdateManySession = async (props: UpdateManySessionProps): Promise<UpdateManySessionResponse> => {
+    try {
+        const { data, error } = await SessionService.updateMany(props);
+        if (!data || error) throw new Error(error);
+        return data;
+    } catch (error) {
+        throw new Error("UpdateManySession -> " + (error as Error).message);
+    }
+};
+
+export const DeleteManySession = async (props: DeleteManySessionProps): Promise<DeleteManySessionResponse> => {
+    try {
+        const { data, error } = await SessionService.deleteMany(props);
+        if (!data || error) throw new Error(error);
+        return data;
+    } catch (error) {
+        throw new Error("DeleteManySession -> " + (error as Error).message);
+    }
+};
+
+// ========== Single queries ========== //
+
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const SelectSession = async <T extends FindUniqueSessionProps>(
+export const SelectFirstSession = async <T extends FindFirstSessionProps>(
+    props: T
+): Promise<FindFirstSessionResponse<T>> => {
+    try {
+        const { data, error } = await SessionService.findFirst(props);
+        if (error) throw new Error(error);
+        return data ?? null;
+    } catch (error) {
+        throw new Error("SelectFirstSession -> " + (error as Error).message);
+    }
+};
+
+/**
+ * WARNING: do not use this for fetching data -> use API routes with caching instead
+ */
+export const SelectUniqueSession = async <T extends FindUniqueSessionProps>(
     props: T
 ): Promise<FindUniqueSessionResponse<T>> => {
     try {
@@ -54,7 +105,7 @@ export const SelectSession = async <T extends FindUniqueSessionProps>(
         if (error) throw new Error(error);
         return data ?? null;
     } catch (error) {
-        throw new Error("SelectSession -> " + (error as Error).message);
+        throw new Error("SelectUniqueSession -> " + (error as Error).message);
     }
 };
 
@@ -72,6 +123,8 @@ export const SelectSessionList = async <T extends FindManySessionProps>(
         throw new Error("SelectSessionList -> " + (error as Error).message);
     }
 };
+
+// ========== Aggregate queries ========== //
 
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
