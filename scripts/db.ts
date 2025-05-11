@@ -159,30 +159,39 @@ async function executeMultipleFiles(files: string[], passwordArg?: string): Prom
 
 async function main() {
     try {
-        const sqlFile = process.argv[2];
-        const passwordArg = process.argv[3];
+        // Filtrer les arguments pour séparer le flag --prod
+        const args = process.argv.slice(2);
+        const isProd = args.includes("--prod");
+        const filteredArgs = args.filter((arg) => arg !== "--prod");
+
+        const sqlFile = filteredArgs[0];
+        const passwordArg = filteredArgs[1];
+
         if (!sqlFile) {
             console.log("❌ Veuillez spécifier un fichier SQL");
-            return; // Ne pas quitter avec un code d'erreur
+            return;
         }
 
+        // Déterminer le fichier SQL à utiliser en fonction du mode
+        const sqlFileName = isProd ? sqlFile.replace(".sql", "-prod.sql") : sqlFile;
+
         if (sqlFile === "reload") {
-            const success = await executeMultipleFiles(["reset.sql", "setup.sql"], passwordArg);
+            const files = isProd ? ["reset-prod.sql", "setup-prod.sql"] : ["reset.sql", "setup.sql"];
+            const success = await executeMultipleFiles(files, passwordArg);
             if (success) {
                 console.log("✅ Base de données rechargée");
             }
-            return; // Toujours quitter avec succès
+            return;
         }
 
         const password = passwordArg || (await question("🔑 Mot de passe MySQL : "));
-        const success = await executeSqlFile(password, sqlFile);
+        const success = await executeSqlFile(password, sqlFileName);
 
         if (success) {
-            console.log(`✅ ${sqlFile}`);
+            console.log(`✅ ${sqlFileName}`);
         }
-        // Ne pas quitter avec un code d'erreur
     } catch (error) {
-        console.log("❌ Erreur :", error); // Utiliser console.log au lieu de console.error
+        console.log("❌ Erreur :", error);
     } finally {
         rl.close();
     }
