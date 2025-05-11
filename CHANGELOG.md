@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/nansphilip/EcoService/compare/v1.0.2...v1.1.0) (2025-05-11)
+
+### Features
+
+- add checkout, cache, zustand basket ([b01e141](https://github.com/nansphilip/EcoService/commit/b01e1415dd3ed3bce9643097d6cc1c0229cdbc9d))
+- add production docker config ([9661fcd](https://github.com/nansphilip/EcoService/commit/9661fcdd0f1c62ebf3883d7f46e47c78b68d7730))
+
 ## [1.0.2](https://github.com/nansphilip/EcoService/compare/v1.0.1...v1.0.2) (2025-04-29)
 
 ### Bug Fixes
