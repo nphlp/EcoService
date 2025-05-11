@@ -121,7 +121,7 @@ const CentralNav = () => {
 
 const RightNav = () => {
     const { setSearchOpen, setCategorieOpen, searchOpen, basketOpen, setBasketOpen } = useHeaderStore();
-    const { basketProductList } = useBasketStore();
+    const { basket } = useBasketStore();
     const { data: session } = useSession();
 
     const role = session?.user.role;
@@ -211,7 +211,7 @@ const RightNav = () => {
                 }}
             >
                 <div className="absolute translate-x-[40%] translate-y-[-35%] scale-[0.7] rounded-full bg-black px-[7px] font-bold text-white">
-                    {basketProductList.length}
+                    {basket?.items.length ?? 0}
                 </div>
                 <ShoppingCart />
             </Button>

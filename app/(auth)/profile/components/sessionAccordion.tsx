@@ -1,10 +1,10 @@
 import Logout from "@comps/client/logout";
 import { Accordion, AccordionButton, AccordionContent } from "@comps/ui/accordion";
-import { BetterSessionListServer, BetterSessionServer, GetSessionList } from "@lib/auth";
+import { BetterSessionListServer, BetterSessionServer, GetSessionList } from "@lib/authServer";
 import { Fetch } from "@utils/Fetch/Fetch";
 import { FetchParallelized } from "@utils/Fetch/FetchParallelized";
 import { LogOut } from "lucide-react";
-import LocationWrapper from "./locationWrapper";
+import LocationWrapper from "../../../../components/wrapper/locationWrapper";
 import SessionManager, { SessionAndLocation } from "./sessionManager";
 import { getBrowser, getOs, locationString } from "./utils";
 

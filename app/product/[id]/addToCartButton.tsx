@@ -1,8 +1,8 @@
 "use client";
 
+import { ProductType } from "@app/product/[id]/fetchParams";
 import { useBasketStore } from "@comps/basket/basketStore";
 import ButtonClient from "@comps/client/button";
-import { ProductType } from "./fetchParams";
 
 type AddToCartButtonProps = {
     product: ProductType;
@@ -11,15 +11,20 @@ type AddToCartButtonProps = {
 
 export default function AddToCartButton(props: AddToCartButtonProps) {
     const { product, stock } = props;
-    const { basketProductList, addProductToBasket, removeProductFromBasket } = useBasketStore();
 
-    const isInBasket = basketProductList.some((id) => id === product.id);
+    const { isInBasket, addProductToBasket, removeProductFromBasket } = useBasketStore();
 
-    const handleClick = () => {
-        if (isInBasket) {
+    const handleClick = async () => {
+        if (isInBasket(product.id)) {
             removeProductFromBasket(product.id);
         } else {
-            addProductToBasket(product.id);
+            addProductToBasket({
+                productId: product.id,
+                name: product.name,
+                description: product.description,
+                price: product.price,
+                image: product.image,
+            });
         }
     };
 
@@ -28,10 +33,10 @@ export default function AddToCartButton(props: AddToCartButtonProps) {
             type="button"
             disabled={stock === 0}
             className="w-full"
-            label={stock === 0 ? "Indisponible" : isInBasket ? "Retirer du panier" : "Ajouter au panier"}
+            label={stock === 0 ? "Indisponible" : isInBasket(product.id) ? "Retirer du panier" : "Ajouter au panier"}
             onClick={handleClick}
         >
-            {stock === 0 ? "Indisponible" : isInBasket ? "Retirer du panier" : "Ajouter au panier"}
+            {stock === 0 ? "Indisponible" : isInBasket(product.id) ? "Retirer du panier" : "Ajouter au panier"}
         </ButtonClient>
     );
 }

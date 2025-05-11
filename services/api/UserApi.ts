@@ -1,5 +1,5 @@
 import UserService from "@services/class/UserClass";
-import { CountUserProps, CountUserResponse, FindManyUserProps, FindManyUserResponse, FindUniqueUserProps, FindUniqueUserResponse } from "@services/types/UserType";
+import { CountUserProps, CountUserResponse, FindFirstUserProps, FindFirstUserResponse, FindManyUserProps, FindManyUserResponse, FindUniqueUserProps, FindUniqueUserResponse } from "@services/types/UserType";
 import { parseAndDecodeParams, revalidate } from "@utils/FetchConfig";
 import { unstable_cache as cache } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
@@ -10,6 +10,10 @@ export type UserRoutes<Input> = {
     "/user": {
         params: FindManyUserProps,
         response: FindManyUserResponse<Input extends FindManyUserProps ? Input : never>
+    },
+    "/user/first": {
+        params: FindFirstUserProps,
+        response: FindFirstUserResponse<Input extends FindFirstUserProps ? Input : never>
     },
     "/user/unique": {
         params: FindUniqueUserProps,
@@ -35,6 +39,24 @@ export const SelectUserList = async <T extends FindManyUserProps>(request: NextR
         return NextResponse.json(response, { status: 200 });
     } catch (error) {
         return NextResponse.json({ error: "getUserListCached -> " + (error as Error).message }, { status: 500 });
+    }
+};
+
+// ==================== Find First ==================== //
+
+const userFirstCached = cache(
+    async <T extends FindFirstUserProps>(params: T) => UserService.findFirst(params),
+    ["user/first"],
+    { revalidate, tags: ["user/first"] },
+);
+
+export const SelectUserFirst = async <T extends FindFirstUserProps>(request: NextRequest) => {
+    try {
+        const params: T = parseAndDecodeParams(request);
+        const response = await userFirstCached<T>(params);
+        return NextResponse.json(response, { status: 200 });
+    } catch (error) {
+        return NextResponse.json({ error: "getUserFirstCached -> " + (error as Error).message }, { status: 500 });
     }
 };
 

@@ -3,7 +3,7 @@ import { ResponseFormat } from "@utils/FetchConfig";
 import { authorizedFileSize, authorizedFormats } from "@utils/ImageValidation";
 import { StringToSlug } from "@utils/StringToSlug";
 import { NextRequest, NextResponse } from "next/server";
-import { ZodError } from "zod";
+import { StripeError } from "../../Error";
 
 export type StripeFileUploadBody = {
     file: File;
@@ -81,14 +81,8 @@ export async function POST(request: NextRequest): Promise<NextResponse<ResponseF
         }
 
         return NextResponse.json({ data: fileLink.url }, { status: 200 });
-    } catch (error) {
-        console.error("StripeFileUpload -> " + (error as Error).message);
-        if (process.env.NODE_ENV === "development") {
-            if (error instanceof ZodError)
-                return NextResponse.json({ error: "StripeFileUpload -> Invalid Zod params -> " + error.message });
-            return NextResponse.json({ error: "StripeFileUpload -> " + (error as Error).message });
-        }
-        // TODO: add logging
-        return NextResponse.json({ error: "Something went wrong..." }, { status: 500 });
+    } catch (e) {
+        const error = StripeError("/file/upload", e);
+        return NextResponse.json({ error }, { status: 500 });
     }
 }

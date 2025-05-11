@@ -1,209 +1,151 @@
 import PrismaInstance from "@lib/prisma";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
-import { {{modelName}}Count, Count{{modelName}}Props, Count{{modelName}}Response, Create{{modelName}}Props, Create{{modelName}}Response, Delete{{modelName}}Props, Delete{{modelName}}Response, FindMany{{modelName}}Props, FindMany{{modelName}}Response, FindUnique{{modelName}}Props, FindUnique{{modelName}}Response, Update{{modelName}}Props, Update{{modelName}}Response, Upsert{{modelName}}Props, Upsert{{modelName}}Response, count{{modelName}}Schema, create{{modelName}}Schema, delete{{modelName}}Schema, select{{modelName}}Schema, selectMany{{modelName}}Schema, update{{modelName}}Schema, upsert{{modelName}}Schema } from "@services/types/{{modelName}}Type";
+import { {{modelName}}Count, Count{{modelName}}Props, Count{{modelName}}Response, CreateMany{{modelName}}Props, CreateMany{{modelName}}Response, Create{{modelName}}Props, Create{{modelName}}Response, DeleteMany{{modelName}}Props, DeleteMany{{modelName}}Response, Delete{{modelName}}Props, Delete{{modelName}}Response, FindFirst{{modelName}}Props, FindFirst{{modelName}}Response, FindMany{{modelName}}Props, FindMany{{modelName}}Response, FindUnique{{modelName}}Props, FindUnique{{modelName}}Response, UpdateMany{{modelName}}Props, UpdateMany{{modelName}}Response, Update{{modelName}}Props, Update{{modelName}}Response, Upsert{{modelName}}Props, Upsert{{modelName}}Response, count{{modelName}}Schema, createMany{{modelName}}Schema, create{{modelName}}Schema, deleteMany{{modelName}}Schema, delete{{modelName}}Schema, selectFirst{{modelName}}Schema, selectMany{{modelName}}Schema, selectUnique{{modelName}}Schema, updateMany{{modelName}}Schema, update{{modelName}}Schema, upsert{{modelName}}Schema } from "@services/types/{{modelName}}Type";
 import { ResponseFormat } from "@utils/FetchConfig";
 import { ZodError } from "zod";
 
 export default class {{modelName}}Service {
+
+    // ========== Single mutations ========== //
+
     static async create<T extends Create{{modelName}}Props>(props: T): Promise<ResponseFormat<Create{{modelName}}Response<T>>> {
         try {
-            const { data{{#if hasRelations}}, include{{/if}}, omit, select } = create{{modelName}}Schema.parse(props);
-
-            const {{modelNameLower}} = await PrismaInstance.{{modelNameLower}}.create({
-                data,
-                {{#if hasRelations}}...(include && { include }),{{/if}}
-                ...(omit && { omit }),
-                ...(select && { select }),
-            });
-
+            const parsedProps = create{{modelName}}Schema.parse(props);
+            const {{modelNameLower}} = await PrismaInstance.{{modelNameLower}}.create(parsedProps);
             return { data: {{modelNameLower}} as Create{{modelName}}Response<T> };
         } catch (error) {
-            console.error("{{modelName}}Service -> Create -> " + (error as Error).message);
-            if (process.env.NODE_ENV === "development") {
-                if (error instanceof ZodError)
-                    throw new Error("{{modelName}}Service -> Create -> Invalid Zod params -> " + error.message);
-                if (error instanceof PrismaClientKnownRequestError)
-                    throw new Error("{{modelName}}Service -> Create -> Prisma error -> " + error.message);
-                throw new Error("{{modelName}}Service -> Create -> " + (error as Error).message);
-            }
-            // TODO: add logging
-            return { error: "Unable to create {{modelNameLower}}..." };
+            return {{modelName}}Service.error("create", error);
         }
     }
 
     static async upsert<T extends Upsert{{modelName}}Props>(props: T): Promise<ResponseFormat<Upsert{{modelName}}Response<T>>> {
         try {
-            const { create, update, where{{#if hasRelations}}, include{{/if}}, omit, select } = upsert{{modelName}}Schema.parse(props);
-
-            const {{modelNameLower}} = await PrismaInstance.{{modelNameLower}}.upsert({
-                create,
-                update,
-                where,
-                {{#if hasRelations}}...(include && { include }),{{/if}}
-                ...(omit && { omit }),
-                ...(select && { select }),
-            });
-
+            const parsedProps = upsert{{modelName}}Schema.parse(props);
+            const {{modelNameLower}} = await PrismaInstance.{{modelNameLower}}.upsert(parsedProps);
             return { data: {{modelNameLower}} as Upsert{{modelName}}Response<T> };
         } catch (error) {
-            console.error("{{modelName}}Service -> Upsert -> " + (error as Error).message);
-            if (process.env.NODE_ENV === "development") {
-                if (error instanceof ZodError)
-                    throw new Error("{{modelName}}Service -> Upsert -> Invalid Zod params -> " + error.message);
-                if (error instanceof PrismaClientKnownRequestError)
-                    throw new Error("{{modelName}}Service -> Upsert -> Prisma error -> " + error.message);
-                throw new Error("{{modelName}}Service -> Upsert -> " + (error as Error).message);
-            }
-            // TODO: add logging
-            return { error: "Unable to upsert {{modelNameLower}}..." };
+            return {{modelName}}Service.error("upsert", error);
         }
     }
 
     static async update<T extends Update{{modelName}}Props>(props: T): Promise<ResponseFormat<Update{{modelName}}Response<T>>> {
         try {
-            const { data, where{{#if hasRelations}}, include{{/if}}, omit, select } = update{{modelName}}Schema.parse(props);
-
-            const {{modelNameLower}} = await PrismaInstance.{{modelNameLower}}.update({
-                data,
-                where,
-                {{#if hasRelations}}...(include && { include }),{{/if}}
-                ...(omit && { omit }),
-                ...(select && { select }),
-            });
-
+            const parsedProps = update{{modelName}}Schema.parse(props);
+            const {{modelNameLower}} = await PrismaInstance.{{modelNameLower}}.update(parsedProps);
             return { data: {{modelNameLower}} as Update{{modelName}}Response<T> };
         } catch (error) {
-            console.error("{{modelName}}Service -> Update -> " + (error as Error).message);
-            if (process.env.NODE_ENV === "development") {
-                if (error instanceof ZodError)
-                    throw new Error("{{modelName}}Service -> Update -> Invalid Zod params -> " + error.message);
-                if (error instanceof PrismaClientKnownRequestError)
-                    throw new Error("{{modelName}}Service -> Update -> Prisma error -> " + error.message);
-                throw new Error("{{modelName}}Service -> Update -> " + (error as Error).message);
-            }
-            // TODO: add logging
-            return { error: "Unable to update {{modelNameLower}}..." };
+            return {{modelName}}Service.error("update", error);
         }
     }
 
     static async delete<T extends Delete{{modelName}}Props>(props: T): Promise<ResponseFormat<Delete{{modelName}}Response<T>>> {
         try {
-            const { where{{#if hasRelations}}, include{{/if}}, omit, select } = delete{{modelName}}Schema.parse(props);
-
-            const {{modelNameLower}} = await PrismaInstance.{{modelNameLower}}.delete({
-                where,
-                {{#if hasRelations}}...(include && { include }),{{/if}}
-                ...(omit && { omit }),
-                ...(select && { select }),
-            });
-
+            const parsedProps = delete{{modelName}}Schema.parse(props);
+            const {{modelNameLower}} = await PrismaInstance.{{modelNameLower}}.delete(parsedProps);
             return { data: {{modelNameLower}} as Delete{{modelName}}Response<T> };
         } catch (error) {
-            console.error("{{modelName}}Service -> Delete -> " + (error as Error).message);
-            if (process.env.NODE_ENV === "development") {
-                if (error instanceof ZodError)
-                    throw new Error("{{modelName}}Service -> Delete -> Invalid Zod params -> " + error.message);
-                if (error instanceof PrismaClientKnownRequestError)
-                    throw new Error("{{modelName}}Service -> Delete -> Prisma error -> " + error.message);
-                throw new Error("{{modelName}}Service -> Delete -> " + (error as Error).message);
-            }
-            // TODO: add logging
-            return { error: "Unable to delete {{modelNameLower}}..." };
+            return {{modelName}}Service.error("delete", error);
+        }
+    }
+
+    // ========== Multiple mutations ========== //
+
+    static async createMany(props: CreateMany{{modelName}}Props): Promise<ResponseFormat<CreateMany{{modelName}}Response>> {
+        try {
+            const parsedProps = createMany{{modelName}}Schema.parse(props);
+            const result = await PrismaInstance.{{modelNameLower}}.createMany(parsedProps);
+            return { data: result };
+        } catch (error) {
+            return {{modelName}}Service.error("createMany", error);
+        }
+    }
+
+    static async updateMany(props: UpdateMany{{modelName}}Props): Promise<ResponseFormat<UpdateMany{{modelName}}Response>> {
+        try {
+            const parsedProps = updateMany{{modelName}}Schema.parse(props);
+            const result = await PrismaInstance.{{modelNameLower}}.updateMany(parsedProps);
+            return { data: result };
+        } catch (error) {
+            return {{modelName}}Service.error("updateMany", error);
+        }
+    }
+
+    static async deleteMany(props: DeleteMany{{modelName}}Props): Promise<ResponseFormat<DeleteMany{{modelName}}Response>> {
+        try {
+            const parsedProps = deleteMany{{modelName}}Schema.parse(props);
+            const result = await PrismaInstance.{{modelNameLower}}.deleteMany(parsedProps);
+            return { data: result };
+        } catch (error) {
+            return {{modelName}}Service.error("deleteMany", error);
+        }
+    }
+
+    // ========== Single queries ========== //
+
+    static async findFirst<T extends FindFirst{{modelName}}Props>(props: T): Promise<ResponseFormat<FindFirst{{modelName}}Response<T>>> {
+        try {
+            const parsedProps = selectFirst{{modelName}}Schema.parse(props);
+            const {{modelNameLower}} = await PrismaInstance.{{modelNameLower}}.findFirst(parsedProps);
+            return { data: {{modelNameLower}} as FindFirst{{modelName}}Response<T> };
+        } catch (error) {
+            return {{modelName}}Service.error("findFirst", error);
         }
     }
 
     static async findUnique<T extends FindUnique{{modelName}}Props>(props: T): Promise<ResponseFormat<FindUnique{{modelName}}Response<T>>> {
         try {
-            const { where{{#if hasRelations}}, include{{/if}}, omit, select } = select{{modelName}}Schema.parse(props);
-
-            const {{modelNameLower}} = await PrismaInstance.{{modelNameLower}}.findUnique({
-                where,
-                {{#if hasRelations}}...(include && { include }),{{/if}}
-                ...(omit && { omit }),
-                ...(select && { select }),
-            });
-
+            const parsedProps = selectUnique{{modelName}}Schema.parse(props);
+            const {{modelNameLower}} = await PrismaInstance.{{modelNameLower}}.findUnique(parsedProps);
             return { data: {{modelNameLower}} as FindUnique{{modelName}}Response<T> };
         } catch (error) {
-            console.error("{{modelName}}Service -> FindUnique -> " + (error as Error).message);
-            if (process.env.NODE_ENV === "development") {
-                if (error instanceof ZodError)
-                    throw new Error("{{modelName}}Service -> FindUnique -> Invalid Zod params -> " + error.message);
-                if (error instanceof PrismaClientKnownRequestError)
-                    throw new Error("{{modelName}}Service -> FindUnique -> Prisma error -> " + error.message);
-                throw new Error("{{modelName}}Service -> FindUnique -> " + (error as Error).message);
-            }
-            // TODO: add logging
-            return { error: "Unable to find {{modelNameLower}}..." };
+            return {{modelName}}Service.error("findUnique", error);
         }
     }
 
     static async findMany<T extends FindMany{{modelName}}Props>(props: T): Promise<ResponseFormat<FindMany{{modelName}}Response<T>>> {
         try {
-            const {
-                cursor,
-                distinct,
-                {{#if hasRelations}}include,{{/if}}
-                omit,
-                orderBy,
-                select,
-                skip = 0,
-                take = 10,
-                where,
-            } = selectMany{{modelName}}Schema.parse(props);
-
-            const {{modelNameLower}}List = await PrismaInstance.{{modelNameLower}}.findMany({
-                ...(cursor && { cursor }),
-                ...(distinct && { distinct }),
-                {{#if hasRelations}}...(include && { include }),{{/if}}
-                ...(omit && { omit }),
-                ...(orderBy && { orderBy }),
-                ...(select && { select }),
-                ...(skip && { skip }),
-                ...(take && { take }),
-                ...(where && { where }),
-            });
-
+            const parsedProps = selectMany{{modelName}}Schema.parse(props);
+            const { skip = 0, take = 10 } = parsedProps;
+            const {{modelNameLower}}List = await PrismaInstance.{{modelNameLower}}.findMany({ skip, take, ...parsedProps });
             return { data: {{modelNameLower}}List as FindMany{{modelName}}Response<T> };
         } catch (error) {
-            console.error("{{modelName}}Service -> FindMany -> " + (error as Error).message);
-            if (process.env.NODE_ENV === "development") {
-                if (error instanceof ZodError)
-                    throw new Error("{{modelName}}Service -> FindMany -> Invalid Zod params -> " + error.message);
-                if (error instanceof PrismaClientKnownRequestError)
-                    throw new Error("{{modelName}}Service -> FindMany -> Prisma error -> " + error.message);
-                throw new Error("{{modelName}}Service -> FindMany -> " + (error as Error).message);
-            }
-            // TODO: add logging
-            return { error: "Unable to find {{modelNameLower}}s..." };
+            return {{modelName}}Service.error("findMany", error);
         }
     }
 
+    // ========== Aggregate queries ========== //
+
     static async count(props: Count{{modelName}}Props): Promise<ResponseFormat<Count{{modelName}}Response>> {
         try {
-            const { cursor, orderBy, select, skip, take, where } = count{{modelName}}Schema.parse(props);
-
-            const {{modelNameLower}}Amount: {{modelName}}Count = await PrismaInstance.{{modelNameLower}}.count({
-                ...(cursor && { cursor }),
-                ...(orderBy && { orderBy }),
-                ...(select && { select }),
-                ...(skip && { skip }),
-                ...(take && { take }),
-                ...(where && { where }),
-            });
-
+            const parsedProps = count{{modelName}}Schema.parse(props);
+            const {{modelNameLower}}Amount: {{modelName}}Count = await PrismaInstance.{{modelNameLower}}.count(parsedProps);
             return { data: {{modelNameLower}}Amount };
         } catch (error) {
-            console.error("{{modelName}}Service -> Count -> " + (error as Error).message);
-            if (process.env.NODE_ENV === "development") {
-                if (error instanceof ZodError)
-                    throw new Error("{{modelName}}Service -> Count -> Invalid Zod params -> " + error.message);
-                if (error instanceof PrismaClientKnownRequestError)
-                    throw new Error("{{modelName}}Service -> Count -> Prisma error -> " + error.message);
-                throw new Error("{{modelName}}Service -> Count -> " + (error as Error).message);
-            }
-            // TODO: add logging
-            return { error: "Unable to count {{modelNameLower}}s..." };
+            return {{modelName}}Service.error("count", error);
         }
+    }
+
+    // ========== Error handling ========== //
+
+    static async error(methodName: string, error: unknown): Promise<{error: string}> {
+        if (process.env.NODE_ENV === "development") {
+            const serviceName = this.constructor.name;
+            const message = (error as Error).message;
+            if (error instanceof ZodError){
+                const zodMessage = serviceName + " -> " + methodName + " -> Invalid Zod params -> " + error.message;
+                console.error(zodMessage);
+                throw new Error(zodMessage);
+            } else if (error instanceof PrismaClientKnownRequestError){
+                const prismaMessage = serviceName + " -> " + methodName + " -> Prisma error -> " + error.message;
+                console.error(prismaMessage);
+                throw new Error(prismaMessage);
+            } else {
+                const errorMessage = serviceName + " -> " + methodName + " -> " + message;
+                console.error(errorMessage);
+                throw new Error(errorMessage);
+            }
+        }
+        // TODO: add logging
+        return { error: "Something went wrong..." };
     }
 }

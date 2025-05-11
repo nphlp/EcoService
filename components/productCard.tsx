@@ -1,7 +1,9 @@
-import AddToCartButton from "@comps/addToCardButton";
+"use client";
+
 import Card, { CardProps } from "@comps/server/card";
 import ImageRatio from "@comps/server/imageRatio";
 import { ProductModel } from "@services/types";
+import AddToCartIconWrapper from "./wrapper/addToCartIconWrapper";
 
 type ProductCardProps = {
     product: ProductModel;
@@ -9,7 +11,7 @@ type ProductCardProps = {
 
 export default function ProductCard(props: ProductCardProps) {
     const { product, ...others } = props;
-    const { id, name, description, image, price } = product;
+    const { name, description, image, price } = product;
 
     return (
         <Card className="h-full overflow-hidden p-0" {...others}>
@@ -22,7 +24,7 @@ export default function ProductCard(props: ProductCardProps) {
                     </div>
                     <div className="font-bold text-nowrap text-gray-500">{price} €</div>
                 </div>
-                <AddToCartButton productId={id} />
+                <AddToCartIconWrapper product={product} />
             </div>
         </Card>
     );

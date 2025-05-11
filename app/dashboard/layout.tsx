@@ -1,4 +1,4 @@
-import { GetSession } from "@lib/auth";
+import { GetSession } from "@lib/authServer";
 import { unauthorized } from "next/navigation";
 import { ReactNode } from "react";
 import LinkList from "./linkList";

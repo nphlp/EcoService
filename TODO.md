@@ -4,6 +4,11 @@ Complete auth and user management
 
 ## Priority
 
+- [] Snippet pour créer un composant React ?????
+- [] Créer un composant/modal indépendant pour la synchro du panier
+- [] Fusion basket ?
+- [] Renommer les fonctions de l'API avec "API"
+
 - Add test with :
     - Vitest for API, Components, Hooks, Services
     - Playwright for e2e (login, register...)

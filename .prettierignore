@@ -1,5 +1,7 @@
 templates/
 services/
+prisma/client/
+prisma/zod/
 .next/
 .node_modules/
 .github/

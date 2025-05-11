@@ -7,10 +7,13 @@ import Input from "@comps/ui/input";
 import InputPassword from "@comps/ui/inputPassword";
 import Link from "@comps/ui/link";
 import { signUp } from "@lib/authClient";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { FormEvent, useState } from "react";
 
 export default function RegisterClient() {
+    const searchParams = useSearchParams();
+    const redirect = searchParams.get("redirect") ? "/" + searchParams.get("redirect") : null;
+
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
     const [message, setMessage] = useState<string>("");
@@ -59,7 +62,7 @@ export default function RegisterClient() {
 
                     // Redirect to profile page
                     setTimeout(() => {
-                        router.push("/profile");
+                        router.push(redirect ?? "/profile");
                     }, 2000);
                 } else {
                     throw new Error("Something went wrong.");

@@ -1,7 +1,9 @@
 "use server";
 
 import AccountService from "@services/class/AccountClass";
-import { CountAccountProps, CountAccountResponse, CreateAccountProps, CreateAccountResponse, DeleteAccountProps, DeleteAccountResponse, FindManyAccountProps, FindManyAccountResponse, FindUniqueAccountProps, FindUniqueAccountResponse, UpdateAccountProps, UpdateAccountResponse, UpsertAccountProps, UpsertAccountResponse } from "@services/types/AccountType";
+import { CountAccountProps, CountAccountResponse, CreateManyAccountProps, CreateManyAccountResponse, CreateAccountProps, CreateAccountResponse, DeleteManyAccountProps, DeleteManyAccountResponse, DeleteAccountProps, DeleteAccountResponse, FindFirstAccountProps, FindFirstAccountResponse, FindManyAccountProps, FindManyAccountResponse, FindUniqueAccountProps, FindUniqueAccountResponse, UpdateManyAccountProps, UpdateManyAccountResponse, UpdateAccountProps, UpdateAccountResponse, UpsertAccountProps, UpsertAccountResponse } from "@services/types/AccountType";
+
+// ========== Single mutations ========== //
 
 export const CreateAccount = async <T extends CreateAccountProps>(props: T): Promise<CreateAccountResponse<T>> => {
     try {
@@ -43,10 +45,59 @@ export const DeleteAccount = async <T extends DeleteAccountProps>(props: T): Pro
     }
 };
 
+// ========== Multiple mutations ========== //
+
+export const CreateManyAccount = async (props: CreateManyAccountProps): Promise<CreateManyAccountResponse> => {
+    try {
+        const { data, error } = await AccountService.createMany(props);
+        if (!data || error) throw new Error(error);
+        return data;
+    } catch (error) {
+        throw new Error("CreateManyAccount -> " + (error as Error).message);
+    }
+};
+
+export const UpdateManyAccount = async (props: UpdateManyAccountProps): Promise<UpdateManyAccountResponse> => {
+    try {
+        const { data, error } = await AccountService.updateMany(props);
+        if (!data || error) throw new Error(error);
+        return data;
+    } catch (error) {
+        throw new Error("UpdateManyAccount -> " + (error as Error).message);
+    }
+};
+
+export const DeleteManyAccount = async (props: DeleteManyAccountProps): Promise<DeleteManyAccountResponse> => {
+    try {
+        const { data, error } = await AccountService.deleteMany(props);
+        if (!data || error) throw new Error(error);
+        return data;
+    } catch (error) {
+        throw new Error("DeleteManyAccount -> " + (error as Error).message);
+    }
+};
+
+// ========== Single queries ========== //
+
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const SelectAccount = async <T extends FindUniqueAccountProps>(
+export const SelectFirstAccount = async <T extends FindFirstAccountProps>(
+    props: T
+): Promise<FindFirstAccountResponse<T>> => {
+    try {
+        const { data, error } = await AccountService.findFirst(props);
+        if (error) throw new Error(error);
+        return data ?? null;
+    } catch (error) {
+        throw new Error("SelectFirstAccount -> " + (error as Error).message);
+    }
+};
+
+/**
+ * WARNING: do not use this for fetching data -> use API routes with caching instead
+ */
+export const SelectUniqueAccount = async <T extends FindUniqueAccountProps>(
     props: T
 ): Promise<FindUniqueAccountResponse<T>> => {
     try {
@@ -54,7 +105,7 @@ export const SelectAccount = async <T extends FindUniqueAccountProps>(
         if (error) throw new Error(error);
         return data ?? null;
     } catch (error) {
-        throw new Error("SelectAccount -> " + (error as Error).message);
+        throw new Error("SelectUniqueAccount -> " + (error as Error).message);
     }
 };
 
@@ -72,6 +123,8 @@ export const SelectAccountList = async <T extends FindManyAccountProps>(
         throw new Error("SelectAccountList -> " + (error as Error).message);
     }
 };
+
+// ========== Aggregate queries ========== //
 
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead

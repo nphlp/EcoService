@@ -1,5 +1,5 @@
 import ContentService from "@services/class/ContentClass";
-import { CountContentProps, CountContentResponse, FindManyContentProps, FindManyContentResponse, FindUniqueContentProps, FindUniqueContentResponse } from "@services/types/ContentType";
+import { CountContentProps, CountContentResponse, FindFirstContentProps, FindFirstContentResponse, FindManyContentProps, FindManyContentResponse, FindUniqueContentProps, FindUniqueContentResponse } from "@services/types/ContentType";
 import { parseAndDecodeParams, revalidate } from "@utils/FetchConfig";
 import { unstable_cache as cache } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
@@ -10,6 +10,10 @@ export type ContentRoutes<Input> = {
     "/content": {
         params: FindManyContentProps,
         response: FindManyContentResponse<Input extends FindManyContentProps ? Input : never>
+    },
+    "/content/first": {
+        params: FindFirstContentProps,
+        response: FindFirstContentResponse<Input extends FindFirstContentProps ? Input : never>
     },
     "/content/unique": {
         params: FindUniqueContentProps,
@@ -35,6 +39,24 @@ export const SelectContentList = async <T extends FindManyContentProps>(request:
         return NextResponse.json(response, { status: 200 });
     } catch (error) {
         return NextResponse.json({ error: "getContentListCached -> " + (error as Error).message }, { status: 500 });
+    }
+};
+
+// ==================== Find First ==================== //
+
+const contentFirstCached = cache(
+    async <T extends FindFirstContentProps>(params: T) => ContentService.findFirst(params),
+    ["content/first"],
+    { revalidate, tags: ["content/first"] },
+);
+
+export const SelectContentFirst = async <T extends FindFirstContentProps>(request: NextRequest) => {
+    try {
+        const params: T = parseAndDecodeParams(request);
+        const response = await contentFirstCached<T>(params);
+        return NextResponse.json(response, { status: 200 });
+    } catch (error) {
+        return NextResponse.json({ error: "getContentFirstCached -> " + (error as Error).message }, { status: 500 });
     }
 };
 

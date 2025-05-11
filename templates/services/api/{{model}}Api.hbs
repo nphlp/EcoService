@@ -1,5 +1,5 @@
 import {{modelName}}Service from "@services/class/{{modelName}}Class";
-import { Count{{modelName}}Props, Count{{modelName}}Response, FindMany{{modelName}}Props, FindMany{{modelName}}Response, FindUnique{{modelName}}Props, FindUnique{{modelName}}Response } from "@services/types/{{modelName}}Type";
+import { Count{{modelName}}Props, Count{{modelName}}Response, FindFirst{{modelName}}Props, FindFirst{{modelName}}Response, FindMany{{modelName}}Props, FindMany{{modelName}}Response, FindUnique{{modelName}}Props, FindUnique{{modelName}}Response } from "@services/types/{{modelName}}Type";
 import { parseAndDecodeParams, revalidate } from "@utils/FetchConfig";
 import { unstable_cache as cache } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
@@ -10,6 +10,10 @@ export type {{modelName}}Routes<Input> = {
     "/{{modelNameLower}}": {
         params: FindMany{{modelName}}Props,
         response: FindMany{{modelName}}Response<Input extends FindMany{{modelName}}Props ? Input : never>
+    },
+    "/{{modelNameLower}}/first": {
+        params: FindFirst{{modelName}}Props,
+        response: FindFirst{{modelName}}Response<Input extends FindFirst{{modelName}}Props ? Input : never>
     },
     "/{{modelNameLower}}/unique": {
         params: FindUnique{{modelName}}Props,
@@ -35,6 +39,24 @@ export const Select{{modelName}}List = async <T extends FindMany{{modelName}}Pro
         return NextResponse.json(response, { status: 200 });
     } catch (error) {
         return NextResponse.json({ error: "get{{modelName}}ListCached -> " + (error as Error).message }, { status: 500 });
+    }
+};
+
+// ==================== Find First ==================== //
+
+const {{modelNameLower}}FirstCached = cache(
+    async <T extends FindFirst{{modelName}}Props>(params: T) => {{modelName}}Service.findFirst(params),
+    ["{{modelNameLower}}/first"],
+    { revalidate, tags: ["{{modelNameLower}}/first"] },
+);
+
+export const Select{{modelName}}First = async <T extends FindFirst{{modelName}}Props>(request: NextRequest) => {
+    try {
+        const params: T = parseAndDecodeParams(request);
+        const response = await {{modelNameLower}}FirstCached<T>(params);
+        return NextResponse.json(response, { status: 200 });
+    } catch (error) {
+        return NextResponse.json({ error: "get{{modelName}}FirstCached -> " + (error as Error).message }, { status: 500 });
     }
 };
 

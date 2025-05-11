@@ -3,11 +3,81 @@ import ImageRatio from "@comps/server/imageRatio";
 import { ArticleOrDiyFetchParams } from "@comps/sliderFetchParams";
 import Link from "@comps/ui/link";
 import { combo } from "@lib/combo";
+import PrismaInstance from "@lib/prisma";
 import { FetchV2 } from "@utils/FetchV2/FetchV2";
+import { Metadata } from "next";
+
+const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+
+if (!baseUrl) {
+    throw new Error("NEXT_PUBLIC_BASE_URL environment variable is not defined");
+}
+
+export const dynamic = "auto";
+export const revalidate = 3600;
+
+export const generateStaticParams = async () => {
+    const articles = await PrismaInstance.article.findMany({
+        select: { id: true },
+        take: 30,
+        // TODO: add a filter to get top 30 articles
+    });
+
+    return articles.map((article) => ({ id: article.id }));
+};
 
 type PageProps = {
     params: Promise<{ id: string }>;
 };
+
+export async function generateMetadata(props: PageProps): Promise<Metadata> {
+    const { params } = props;
+    const { id } = await params;
+
+    const article = await FetchV2({
+        route: "/article/unique",
+        params: {
+            where: { id },
+            select: {
+                title: true,
+                Author: {
+                    select: {
+                        name: true,
+                    },
+                },
+            },
+        },
+    });
+
+    return {
+        title: article ? `${article.title} - Eco Service` : "Produit - Eco Service",
+        description: article
+            ? `Un article de ${article.Author?.name} sur Eco Service.`
+            : "Achetez des produits éco-responsables sur Eco Service.",
+        metadataBase: new URL(article ? `${baseUrl}/article/${id}` : `${baseUrl}/article`),
+        alternates: {
+            canonical: article ? `${baseUrl}/article/${id}` : `${baseUrl}/article`,
+        },
+        openGraph: {
+            title: article ? `${article.title} - Eco Service` : "Produit - Eco Service",
+            description: article
+                ? `Un article de ${article.Author?.name} sur Eco Service.`
+                : "Achetez des produits éco-responsables sur Eco Service.",
+            url: article ? `${baseUrl}/article/${id}` : `${baseUrl}/article`,
+            siteName: "Eco Service",
+            locale: "fr_FR",
+            type: "website",
+        },
+        twitter: {
+            card: "summary_large_image",
+            title: article ? `${article.title} - Eco Service` : "Produit - Eco Service",
+            description: article
+                ? `Un article de ${article.Author?.name} sur Eco Service.`
+                : "Achetez des produits éco-responsables sur Eco Service.",
+            images: [`${baseUrl}/icon-512x512.png`],
+        },
+    };
+}
 
 export default async function Page(props: PageProps) {
     const { params } = props;

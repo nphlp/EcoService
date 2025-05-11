@@ -18,7 +18,6 @@ type TabClientProps = {
 const PADDING = "16px";
 const GAP = "8px";
 
-// TODO: add description
 export default function TabClient(props: TabClientProps) {
     const { cardList } = props;
 
@@ -27,8 +26,6 @@ export default function TabClient(props: TabClientProps) {
     const heightRef = useRef<HTMLDivElement>(null);
     const resizeObserverRef = useRef<ResizeObserver | null>(null);
 
-    // Active tab
-    // const [activeTab, setActiveTab] = useState(0);
     // Tab as url search params
     const tabList = cardList.map(({ searchParams }) => searchParams);
     const [tab, setTab] = useQueryState("tab", parseAsStringEnum(tabList).withDefault(tabList[0]));

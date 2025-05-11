@@ -1,9 +1,8 @@
-import { SelectUser } from "@actions/UserAction";
+import { SelectUniqueUser } from "@actions/UserAction";
 import PrismaInstance from "@lib/prisma";
 import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { customSession } from "better-auth/plugins";
-import { headers } from "next/headers";
 import { SendEmail } from "./plunk";
 
 const NEXT_PUBLIC_BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
@@ -16,7 +15,7 @@ export const auth = betterAuth({
     database: prismaAdapter(PrismaInstance, {
         provider: "mysql",
     }),
-    trustedOrigins: [`${NEXT_PUBLIC_BASE_URL}/auth`],
+    trustedOrigins: [`${NEXT_PUBLIC_BASE_URL}`],
     emailAndPassword: {
         enabled: true,
     },
@@ -56,7 +55,7 @@ export const auth = betterAuth({
     },
     plugins: [
         customSession(async ({ session, user }) => {
-            const userData = await SelectUser({ where: { id: user.id } });
+            const userData = await SelectUniqueUser({ where: { id: user.id } });
             if (!userData) {
                 throw new Error("User not found");
             }
@@ -80,33 +79,3 @@ export const auth = betterAuth({
         },
     },
 });
-
-/**
- * Get the session from server side
- */
-export const GetSession = async () => {
-    const session = await auth.api.getSession({
-        headers: await headers(),
-    });
-    return session;
-};
-
-/**
- * Type for the session data
- */
-export type BetterSessionServer = Awaited<ReturnType<typeof GetSession>>;
-
-/**
- * Get the session list from server side
- */
-export const GetSessionList = async () => {
-    const sessionList = await auth.api.listSessions({
-        headers: await headers(),
-    });
-    return sessionList;
-};
-
-/**
- * Type for the session list
- */
-export type BetterSessionListServer = Awaited<ReturnType<typeof GetSessionList>>;

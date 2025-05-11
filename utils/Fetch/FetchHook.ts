@@ -31,13 +31,13 @@ export type FetchHookProps<Key extends keyof Routes> = Omit<FetchProps<Key>, "cl
 export const useFetch = <Key extends keyof Routes>(props: FetchHookProps<Key>) => {
     const { route, params, fetchOnFirstRender = false } = props;
 
-    const stringifiedParams = JSON.stringify(params);
+    const stringifiedParams = params ? JSON.stringify(params) : undefined;
 
     // Memoize the props to avoid re-rendering the component when the params change
     const memoizedProps = useMemo(
         () => ({
             route,
-            params: JSON.parse(stringifiedParams),
+            params: stringifiedParams ? JSON.parse(stringifiedParams) : undefined,
         }),
         [route, stringifiedParams],
     );
