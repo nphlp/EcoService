@@ -2,7 +2,6 @@
     "name": "eco-service",
     "version": "0.1.0",
     "private": true,
-    "type": "module",
     "scripts": {
         "dev": "tsx scripts/help.ts tip && next dev --turbopack",
         "build": "next build",

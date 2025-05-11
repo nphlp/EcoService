@@ -51,7 +51,7 @@ export const GetServerBasket = async (props: GetServerBasketProps): Promise<GetS
             orderId: order.id,
             paymentStatus: order.paymentStatus,
             orderStatus: order.orderStatus,
-            items: order.Quantity.map(({ id, quantity, Product }) => ({
+            items: order.Quantity.map(({ id: quantityId, quantity, Product }) => ({
                 /// Product
                 productId: Product.id,
                 name: Product.name,
@@ -60,7 +60,7 @@ export const GetServerBasket = async (props: GetServerBasketProps): Promise<GetS
                 image: Product.image,
                 /// Quantity
                 quantity,
-                quatityId: id,
+                quantityId,
             })),
         };
 

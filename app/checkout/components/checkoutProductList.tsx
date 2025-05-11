@@ -6,22 +6,22 @@ import ImageRatio from "@comps/server/imageRatio";
 import { combo } from "@lib/combo";
 import QuantityManager from "./quantityManager";
 
-export default function BasketProductList() {
+export default function CheckoutProductList() {
     const { basket } = useBasketStore();
 
     return (
         <div className="flex w-[600px] flex-col gap-4">
-            {basket?.items.map((product, index) => <BasketProductItem key={index} index={index} product={product} />)}
+            {basket?.items.map((product, index) => <CheckoutProductItem key={index} index={index} product={product} />)}
         </div>
     );
 }
 
-type BasketProductProps = {
+type CheckoutProductProps = {
     index: number;
     product: LocalBasketItem;
 };
 
-const BasketProductItem = (props: BasketProductProps) => {
+const CheckoutProductItem = (props: CheckoutProductProps) => {
     const { index, product } = props;
 
     const totalPrice = Number((product.price * product.quantity).toFixed(2));
@@ -42,11 +42,11 @@ const BasketProductItem = (props: BasketProductProps) => {
                 <div className="flex flex-row items-center gap-4">
                     <QuantityManager product={product} />
                     <div className="text-sm text-gray-500">x</div>
-                    <div>{product.price} €</div>
+                    <div>{product.price.toFixed(2)} €</div>
                 </div>
                 <div className="flex flex-row items-baseline gap-2">
                     <div className="text-xxs text-gray-500">TTC</div>
-                    <div className="text-lg font-semibold text-gray-800">{totalPrice} €</div>
+                    <div className="text-lg font-semibold text-gray-800">{totalPrice.toFixed(2)} €</div>
                 </div>
             </div>
         </div>

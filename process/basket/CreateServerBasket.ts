@@ -9,18 +9,18 @@ import { revalidatePath } from "next/cache";
 import { z, ZodError, ZodType } from "zod";
 
 export type CreateServerBasketProps = {
-    item: LocalBasketItem;
+    items: LocalBasketItem[];
 };
 
 const createServerBasketSchema: ZodType<CreateServerBasketProps> = z.object({
-    item: localBasketItemSchema,
+    items: z.array(localBasketItemSchema),
 });
 
 export type CreateServerBasketResponse = OrderModel["id"] | null;
 
 export const CreateServerBasket = async (props: CreateServerBasketProps): Promise<CreateServerBasketResponse> => {
     try {
-        const { item } = createServerBasketSchema.parse(props);
+        const { items } = createServerBasketSchema.parse(props);
 
         const session = await GetSession();
         if (!session) return null;
@@ -29,9 +29,12 @@ export const CreateServerBasket = async (props: CreateServerBasketProps): Promis
             data: {
                 userId: session.user.id,
                 Quantity: {
-                    create: {
-                        productId: item.productId,
-                        quantity: item.quantity,
+                    createMany: {
+                        data: items.map((item) => ({
+                            productId: item.productId,
+                            quantity: item.quantity,
+                        })),
+                        skipDuplicates: true,
                     },
                 },
             },

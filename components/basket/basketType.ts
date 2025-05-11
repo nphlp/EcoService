@@ -13,14 +13,14 @@ export type BasketProduct = {
 /** Server basket item */
 export type ServerBasketItem = BasketProduct & {
     // Quantity
-    quatityId: QuantityModel["id"]; // Required
+    quantityId: QuantityModel["id"]; // Required
     quantity: number;
 };
 
 /** Local basket item */
 export type LocalBasketItem = BasketProduct & {
     // Quantity
-    quatityId?: QuantityModel["id"]; // Optional
+    quantityId?: QuantityModel["id"]; // Optional
     quantity: number;
 };
 
@@ -45,7 +45,7 @@ export const localBasketItemSchema: ZodSchema<LocalBasketItem> = z.object({
     price: z.coerce.number(),
     image: z.coerce.string(),
     // Quantity
-    quatityId: z.coerce.string().optional(),
+    quantityId: z.coerce.string().optional(),
     quantity: z.coerce.number(),
 });
 

@@ -35,7 +35,7 @@ export const SyncServerBasket = async (props: SyncServerBasketProps) => {
             await DeleteManyQuantity({
                 where: {
                     id: {
-                        in: serverBasket.items.map(({ quatityId }) => quatityId),
+                        in: serverBasket.items.map(({ quantityId }) => quantityId),
                     },
                 },
             });

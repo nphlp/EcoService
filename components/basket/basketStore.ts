@@ -1,8 +1,9 @@
 import { AddProductToServerBasket } from "@process/basket/AddProductToServerBasket";
 import { ClearServerBasket } from "@process/basket/ClearServerBasket";
 import { CreateServerBasket } from "@process/basket/CreateServerBasket";
-import { FindBasket } from "@process/basket/FindBasket";
+import { FindPendingServerBasket } from "@process/basket/FindPendingServerBasket";
 import { GetServerBasket } from "@process/basket/GetServerBasket";
+import { RemoveProductFromServerBasket } from "@process/basket/RemoveProductFromServerBasket";
 import { SyncServerBasket } from "@process/basket/SyncServerBasket";
 import { UpdateProductOnServerBasket } from "@process/basket/UpdateProductOnServerBasket";
 import { OrderModel } from "@services/types";
@@ -10,7 +11,6 @@ import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 import { BasketProduct, LocalBasket, LocalBasketItem, ServerBasket } from "./basketType";
 import { zustandCookieStorage } from "./zustandCookieStorage";
-import { RemoveProductFromServerBasket } from "@process/basket/RemoveProductFromServerBasket";
 
 type Store = {
     // State
@@ -60,8 +60,6 @@ export const useBasketStore = create<Store>()(
             addProductToBasket: async (product) => {
                 const localBasket = get().basket;
 
-                console.log("==> Add product to basket", product, "\n", localBasket);
-
                 // Create local basket, add quantity
                 if (!localBasket) {
                     set({ basket: { items: [{ ...product, quantity: 1 }] } });
@@ -76,12 +74,10 @@ export const useBasketStore = create<Store>()(
                     });
                 }
 
-                console.log("==> Local basket, after local add\n", get().basket);
-
                 // Create server basket, add quantity, then overwrite local basket
                 if (!localBasket?.orderId) {
                     const orderId = await CreateServerBasket({
-                        item: { ...product, quantity: 1 },
+                        items: [{ ...product, quantity: 1 }],
                     });
                     if (orderId) get().syncLocalBasket(orderId);
                 }
@@ -93,8 +89,6 @@ export const useBasketStore = create<Store>()(
                     });
                     if (orderId) get().syncLocalBasket(orderId);
                 }
-
-                console.log("==> Local basket, after server add\n", get().basket);
             },
 
             /**
@@ -106,8 +100,6 @@ export const useBasketStore = create<Store>()(
              */
             updateProductInBasket: async (productId, quantity) => {
                 const localBasket = get().basket;
-
-                console.log("==> Update product in basket:", productId, quantity, "\n", localBasket);
 
                 // No local basket
                 // -> Impossible case, do nothing
@@ -123,17 +115,16 @@ export const useBasketStore = create<Store>()(
                     },
                 });
 
-                console.log("==> Local basket, after server update\n", get().basket);
-
-                // TODO: find a basket ?
-                // -> Happens if user logs in after using a local basket
+                // May not happen, because `compareAndSyncBasket` add the orderId
                 if (!localBasket.orderId) return;
 
                 // Update server basket, then overwrite local basket
-                const orderId = await UpdateProductOnServerBasket({ productId, quantity });
+                const orderId = await UpdateProductOnServerBasket({
+                    orderId: localBasket.orderId,
+                    productId,
+                    quantity,
+                });
                 if (orderId) get().syncLocalBasket(orderId);
-
-                console.log("==> Local basket, after server update\n", get().basket);
             },
 
             /**
@@ -145,8 +136,6 @@ export const useBasketStore = create<Store>()(
              */
             removeProductFromBasket: async (productId) => {
                 const localBasket = get().basket;
-
-                console.log("==> Remove product from basket", productId, "\n", localBasket);
 
                 // No local basket
                 // -> Impossible case, do nothing
@@ -160,17 +149,12 @@ export const useBasketStore = create<Store>()(
                     },
                 });
 
-                console.log("==> Local basket after local remove\n", get().basket);
-
-                // TODO: find a basket ?
-                // -> Happens if user logs in after using a local basket
+                // May not happen, because `compareAndSyncBasket` add the orderId
                 if (!localBasket.orderId) return;
 
                 // Find or create server basket, update local basket orderId
-                const orderId = await RemoveProductFromServerBasket({ productId });
+                const orderId = await RemoveProductFromServerBasket({ orderId: localBasket.orderId, productId });
                 if (orderId) get().syncLocalBasket(orderId);
-
-                console.log("==> Local basket after server remove\n", get().basket);
             },
 
             /**
@@ -184,12 +168,8 @@ export const useBasketStore = create<Store>()(
                 // Clear local basket
                 if (localBasket) set({ basket: null });
 
-                console.log("==> Local basket cleared\n");
-
                 // Clear server basket
                 if (localBasket?.orderId) await ClearServerBasket({ orderId: localBasket.orderId });
-
-                console.log("==> Server basket cleared\n");
             },
 
             /**
@@ -198,64 +178,83 @@ export const useBasketStore = create<Store>()(
             clearLocalBasket: () => {
                 const localBasket = get().basket;
                 if (localBasket) set({ basket: null });
-
-                console.log("==> Local basket cleared");
             },
 
             compareAndSyncBasket: async () => {
                 // Get local basket
                 const localBasket = get().basket;
 
-                // No local basket, no local orderId
-                // -> Try to find a server basket, and sync it
-                if (!localBasket?.orderId) {
-                    const orderId = await FindBasket();
+                // Local basket orderId exists
+                // -> If order isn't pending anymore, clear local basket
+                if (localBasket?.orderId) {
+                    const serverBasket = await GetServerBasket({ orderId: localBasket.orderId });
+                    if (
+                        serverBasket &&
+                        serverBasket.paymentStatus !== "PENDING" &&
+                        serverBasket.orderStatus !== "PENDING"
+                    ) {
+                        get().clearLocalBasket();
+                        return null;
+                    }
+                }
+
+                // Try to find a server basket (required for next steps)
+                const foundOrderId = await FindPendingServerBasket();
+
+                // No local basket, but server basket found
+                if (!localBasket && foundOrderId) {
+                    get().syncLocalBasket(foundOrderId);
+                    return null;
+                }
+
+                // Create server basket and sync local basket
+                if (localBasket && !foundOrderId) {
+                    const orderId = await CreateServerBasket({
+                        items: localBasket.items.map((product) => ({
+                            ...product,
+                            quantity: product.quantity,
+                        })),
+                    });
                     if (orderId) get().syncLocalBasket(orderId);
                     return null;
                 }
 
-                // Local orderId exist
-                // -> Get server basket
-                const serverBasket = await GetServerBasket({ orderId: localBasket.orderId });
+                // Local basket exists, server basket orderId found
+                if (localBasket && foundOrderId) {
+                    // Local basket orderId exist, or server basket orderId found
+                    const usedOrderId = localBasket.orderId ?? foundOrderId;
 
-                // Local basket with orderId exists, but server basket not found
-                // -> Impossible case, do nothing
-                if (!serverBasket) return null;
+                    // Get server basket
+                    const serverBasket = await GetServerBasket({ orderId: usedOrderId });
 
-                // Local basket and corresponding server basket exists
-                // -> If order has been paid and accepted, clear local basket
-                if (
-                    localBasket.orderId === serverBasket.orderId &&
-                    serverBasket.paymentStatus === "ACCEPTED" &&
-                    serverBasket.orderStatus === "ACCEPTED"
-                ) {
-                    get().clearLocalBasket();
-                    return null;
-                }
+                    // Server basket exists, but not found
+                    // -> Impossible case, do nothing
+                    if (!serverBasket) return null;
 
-                const serverQuantities = serverBasket.items.length;
-                const localQuantities = localBasket.items.length;
+                    const serverQuantities = serverBasket.items.length;
+                    const localQuantities = localBasket.items.length;
 
-                // Server basket contains products, local basket is empty
-                // -> Sync local basket
-                if (serverQuantities > 0 && localQuantities === 0) {
-                    get().syncLocalBasket(serverBasket.orderId);
-                }
+                    // Server basket contains products, local basket is empty
+                    // -> Sync local basket
+                    if (serverQuantities > 0 && localQuantities === 0) {
+                        get().syncLocalBasket(serverBasket.orderId);
+                    }
 
-                // Local basket contains products, server basket is empty
-                // -> Sync server basket
-                else if (serverQuantities === 0 && localQuantities > 0) {
-                    get().syncServerBasket(serverBasket.orderId);
-                }
+                    // Local basket contains products, server basket is empty
+                    // -> Sync server basket
+                    else if (serverQuantities === 0 && localQuantities > 0) {
+                        get().syncServerBasket(serverBasket.orderId);
+                    }
 
-                // Server and local baskets contain products
-                else if (serverQuantities > 0 && localQuantities > 0) {
-                    const areTheSame = areBasketsTheSame(serverBasket, localBasket);
-                    if (!areTheSame) return { serverBasket, localBasket };
+                    // Server and local baskets contain products
+                    else if (serverQuantities > 0 && localQuantities > 0) {
+                        const sameBaskets = areBasketsTheSame(serverBasket, localBasket);
+                        // Ask user to choose which basket to keep
+                        if (!sameBaskets) return { serverBasket, localBasket };
+                    }
                 }
 
                 // Both baskets are empty
-                // -> Impossible case, do nothing
                 return null;
             },
 
@@ -265,12 +264,10 @@ export const useBasketStore = create<Store>()(
              * - Overwrite the local basket
              */
             syncLocalBasket: async (orderId) => {
-                const newBasket = await GetServerBasket({ orderId });
-                if (!newBasket) return;
+                const serverBasket = await GetServerBasket({ orderId });
+                if (!serverBasket) return;
 
-                set(() => ({ basket: newBasket }));
-
-                console.log("==> Local basket synced\n", get().basket);
+                set(() => ({ basket: serverBasket }));
             },
 
             /**
@@ -285,8 +282,6 @@ export const useBasketStore = create<Store>()(
 
                 // Update server basket
                 await SyncServerBasket({ localBasket, orderId });
-
-                console.log("==> Server basket synced\n", get().basket);
             },
         }),
         // Persist the basket in cookies
@@ -307,13 +302,11 @@ export const useBasketStore = create<Store>()(
  * @param localBasket - Local basket
  * @returns True if the baskets are the same, false otherwise
  */
-const areBasketsTheSame = (serverBasket: ServerBasket, localBasket: LocalBasket) => {
-    const prepareForComparison = (basket: ServerBasket | LocalBasket | null) => {
-        if (!basket) return null;
-        return basket.items
+const areBasketsTheSame = (serverBasket: ServerBasket, localBasket: LocalBasket): boolean => {
+    const prepareForComparison = (basket: ServerBasket | LocalBasket) =>
+        basket.items
             .sort((a, b) => a.productId.localeCompare(b.productId))
             .map(({ productId, quantity }) => [productId, quantity]);
-    };
 
     const areTheSame =
         JSON.stringify(prepareForComparison(serverBasket)) === JSON.stringify(prepareForComparison(localBasket));

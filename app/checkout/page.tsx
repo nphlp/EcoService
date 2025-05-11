@@ -1,4 +1,4 @@
-import BasketProductList from "@app/checkout/components/basketProductList";
+import CheckoutProductList from "@app/checkout/components/checkoutProductList";
 import CheckoutGenerator from "@app/checkout/components/checkoutGenerator";
 import { LocalBasket, localBasketSchema } from "@comps/basket/basketType";
 import { getZustandCookie } from "@comps/basket/zustandServer";
@@ -31,7 +31,7 @@ export default async function Page() {
                     <div className="w-full space-y-6">
                         <h2 className="text-4xl font-bold">Votre panier</h2>
                         <hr className="w-full" />
-                        <BasketProductList />
+                        <CheckoutProductList />
                     </div>
                     {session ? (
                         <CheckoutGenerator />

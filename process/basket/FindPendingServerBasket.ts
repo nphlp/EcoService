@@ -1,26 +1,21 @@
 "use server";
 
-import { CreateOrder, SelectOrderList } from "@actions/OrderAction";
-import { ServerBasket } from "@comps/basket/basketType";
+import { SelectOrderList } from "@actions/OrderAction";
 import { GetSession } from "@lib/authServer";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
+import { OrderModel } from "@services/types";
 import { ZodError } from "zod";
 
-export type BasketResponse = ServerBasket | null;
+export type FindPendingServerBasketResponse = OrderModel["id"] | null;
 
-export const GetOrCreateBasket = async (): Promise<BasketResponse> => {
+export const FindPendingServerBasket = async (): Promise<FindPendingServerBasketResponse> => {
     try {
         const session = await GetSession();
+        if (!session) return null;
 
-        if (!session) {
-            return null;
-        }
-
-        const userId = session.user.id;
-
-        const pendingOrderList = await SelectOrderList({
+        const orderList = await SelectOrderList({
             where: {
-                userId,
+                userId: session.user.id,
                 orderStatus: "PENDING",
                 paymentStatus: "PENDING",
             },
@@ -36,37 +31,12 @@ export const GetOrCreateBasket = async (): Promise<BasketResponse> => {
             },
         });
 
-        if (pendingOrderList.length > 0) {
-            const order = pendingOrderList[0];
-            const basket: ServerBasket = {
-                orderId: order.id,
-                items: order.Quantity.map(({ id, quantity, Product }) => ({
-                    /// Product
-                    productId: Product.id,
-                    name: Product.name,
-                    description: Product.description,
-                    price: Product.price,
-                    image: Product.image,
-                    /// Quantity
-                    quantity,
-                    quatityId: id,
-                })),
-            };
+        if (!orderList.length) return null;
 
-            return basket;
-        }
-
-        const newOrder = await CreateOrder({ data: { userId } });
-
-        const newBasket: ServerBasket = {
-            orderId: newOrder.id,
-            items: [],
-        };
-
-        return newBasket;
+        return orderList[0].id;
     } catch (error) {
         if (process.env.NODE_ENV === "development") {
-            const processName = "GetOrCreateBasket";
+            const processName = "FindPendingServerBasket";
             const message = (error as Error).message;
             if (error instanceof ZodError) {
                 const zodMessage = processName + " -> Invalid Zod params -> " + error.message;

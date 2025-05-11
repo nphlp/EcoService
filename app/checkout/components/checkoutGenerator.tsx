@@ -1,14 +1,15 @@
 import { StripeInstance } from "@lib/stripe";
-import { GetOrCreateBasket } from "@process/basket/GetOrCreateBasket";
+import { FindPendingServerBasket } from "@process/basket/FindPendingServerBasket";
+import { GetServerBasket } from "@process/basket/GetServerBasket";
 import CheckoutProvider from "./checkoutForm";
 import { totalPriceInCents } from "./totalPriceInCents";
 
 export default async function CheckoutGenerator() {
-    const serverBasket = await GetOrCreateBasket();
+    const orderId = await FindPendingServerBasket();
+    if (!orderId) return null;
 
-    if (!serverBasket) {
-        return null;
-    }
+    const serverBasket = await GetServerBasket({ orderId });
+    if (!serverBasket) return null;
 
     const totalPrice = totalPriceInCents(serverBasket);
 

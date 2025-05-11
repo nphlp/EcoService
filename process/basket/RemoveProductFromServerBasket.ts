@@ -7,14 +7,16 @@ import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { OrderModel } from "@services/types";
 import { revalidatePath } from "next/cache";
 import { z, ZodError, ZodSchema } from "zod";
-import { GetOrCreateBasket } from "./GetOrCreateBasket";
+import { GetServerBasket } from "./GetServerBasket";
 
 type RemoveProductFromServerBasketProps = {
     productId: LocalBasketItem["productId"];
+    orderId: OrderModel["id"];
 };
 
 const removeProductFromServerBasketSchema: ZodSchema<RemoveProductFromServerBasketProps> = z.object({
     productId: z.string(),
+    orderId: z.string(),
 });
 
 type RemoveProductFromServerBasketResponse = OrderModel["id"] | null;
@@ -23,14 +25,14 @@ export const RemoveProductFromServerBasket = async (
     props: RemoveProductFromServerBasketProps,
 ): Promise<RemoveProductFromServerBasketResponse> => {
     try {
-        const { productId } = removeProductFromServerBasketSchema.parse(props);
+        const { productId, orderId } = removeProductFromServerBasketSchema.parse(props);
 
-        const serverBasket = await GetOrCreateBasket();
+        const serverBasket = await GetServerBasket({ orderId });
         if (!serverBasket) return null;
 
-        const { orderId, items } = serverBasket;
+        const { items } = serverBasket;
 
-        const quantityId = items.find(({ productId: id }) => id === productId)?.quatityId;
+        const quantityId = items.find(({ productId: id }) => id === productId)?.quantityId;
         if (!quantityId) return null;
 
         // Delete quantity

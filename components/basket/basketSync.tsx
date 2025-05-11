@@ -22,13 +22,10 @@ export default function BasketSync() {
     // Compare and update basket if needed
     useEffect(() => {
         if (session) {
-            console.log("==> Compare and sync basket");
-
             Promise.resolve(compareAndSyncBasket()).then((data) => {
                 if (data !== null) {
                     setIsModalOpen(true);
                     setBasketChoices(data);
-                    console.log("==> Basket choices\n", data);
                 }
             });
             // Update basket cookie expiration to match session expiration
@@ -38,7 +35,7 @@ export default function BasketSync() {
 
     return (
         <Modal setIsModalOpen={setIsModalOpen} isModalOpen={isModalOpen} withCross={false} className="rounded-3xl py-8">
-            <div className="size-full space-y-6">
+            <div className="size-full space-y-6 text-center">
                 <div className="text-4xl font-bold">Mon panier</div>
                 <div className="text-sm text-gray-700">
                     <span>Le panier de votre </span>
@@ -50,17 +47,21 @@ export default function BasketSync() {
                 {basketChoices ? (
                     <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                         <BasketChoice
-                            basket={basketChoices.serverBasket}
+                            aboveTitle="Continuer avec le"
+                            title="Panier actuel"
+                            basket={basketChoices.localBasket}
                             onClick={() => {
-                                syncLocalBasket(basketChoices.serverBasket.orderId);
+                                syncServerBasket(basketChoices.serverBasket.orderId);
                                 setBasketChoices(null);
                                 setIsModalOpen(false);
                             }}
                         />
                         <BasketChoice
-                            basket={basketChoices.localBasket}
+                            aboveTitle="Récupérer le"
+                            title="Panier en ligne"
+                            basket={basketChoices.serverBasket}
                             onClick={() => {
-                                syncServerBasket(basketChoices.serverBasket.orderId);
+                                syncLocalBasket(basketChoices.serverBasket.orderId);
                                 setBasketChoices(null);
                                 setIsModalOpen(false);
                             }}
@@ -73,13 +74,15 @@ export default function BasketSync() {
 }
 
 type BasketChoiceProps = {
+    aboveTitle: string;
+    title: string;
     basket?: LocalBasket;
     className?: string;
     onClick: () => void;
 };
 
 const BasketChoice = (props: BasketChoiceProps) => {
-    const { basket, className, onClick } = props;
+    const { aboveTitle, title, basket, className, onClick } = props;
 
     if (!basket) return null;
 
@@ -98,8 +101,8 @@ const BasketChoice = (props: BasketChoiceProps) => {
             )}
         >
             <div>
-                <div className="text-xs text-gray-500">Continer avec</div>
-                <div className="text-xl font-bold">Panier en ligne</div>
+                <div className="text-xs text-gray-500">{aboveTitle}</div>
+                <div className="text-xl font-bold">{title}</div>
             </div>
             <div>{basket?.items.length} produits</div>
             <div>

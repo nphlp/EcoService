@@ -93,7 +93,7 @@ const BasketItem = (props: BasketItemProps) => {
             <div className="text-left">
                 <div className="text-lg font-bold">{name}</div>
                 <QuantityManager product={product} />
-                <div className="text-sm text-gray-500">{price}€</div>
+                <div className="text-sm text-gray-500">{price.toFixed(2)} €</div>
             </div>
         </div>
     );

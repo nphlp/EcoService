@@ -6,16 +6,18 @@ import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { OrderModel } from "@services/types";
 import { revalidatePath } from "next/cache";
 import { z, ZodError, ZodSchema } from "zod";
-import { GetOrCreateBasket } from "./GetOrCreateBasket";
+import { GetServerBasket } from "./GetServerBasket";
 
 type UpdateProductOnServerBasketProps = {
     productId: LocalBasketItem["productId"];
     quantity: LocalBasketItem["quantity"];
+    orderId: OrderModel["id"];
 };
 
 const updateProductOnServerBasketSchema: ZodSchema<UpdateProductOnServerBasketProps> = z.object({
     productId: z.string(),
     quantity: z.number(),
+    orderId: z.string(),
 });
 
 type UpdateProductOnServerBasketResponse = OrderModel["id"] | null;
@@ -24,14 +26,14 @@ export const UpdateProductOnServerBasket = async (
     props: UpdateProductOnServerBasketProps,
 ): Promise<UpdateProductOnServerBasketResponse> => {
     try {
-        const { productId, quantity } = updateProductOnServerBasketSchema.parse(props);
+        const { productId, quantity, orderId } = updateProductOnServerBasketSchema.parse(props);
 
-        const serverBasket = await GetOrCreateBasket();
+        const serverBasket = await GetServerBasket({ orderId });
         if (!serverBasket) return null;
 
-        const { orderId, items } = serverBasket;
+        const { items } = serverBasket;
 
-        const quantityId = items.find(({ productId: id }) => id === productId)?.quatityId;
+        const quantityId = items.find(({ productId: id }) => id === productId)?.quantityId;
         if (!quantityId) return null;
 
         // Update quantity

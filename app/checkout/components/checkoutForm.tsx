@@ -103,7 +103,7 @@ const CheckoutButton = (props: CheckoutButtonProps) => {
 
     if (!basket) return null;
 
-    const totalPrice = totalPriceInCents(basket) / 100;
+    const totalPrice = (totalPriceInCents(basket) / 100).toFixed(2);
     const units = totalPrice?.toString().split(".")[0];
     const cents = totalPrice?.toString().split(".")[1];
 
