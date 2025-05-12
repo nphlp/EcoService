@@ -4,16 +4,16 @@ import { FetchV2 } from "@utils/FetchV2/FetchV2";
 import { unstable_ViewTransition as ViewTransition } from "react";
 
 type PageProps = {
-    params: Promise<{ id: string }>;
+    params: Promise<{ slug: string }>;
 };
 
 export default async function Page(props: PageProps) {
     const { params } = props;
-    const { id } = await params;
+    const { slug } = await params;
 
     const product = await FetchV2({
         route: "/product/unique",
-        params: { where: { id } },
+        params: { where: { slug } },
     });
 
     if (!product) {
@@ -22,7 +22,7 @@ export default async function Page(props: PageProps) {
 
     return (
         <div className="flex h-full flex-col items-center justify-center gap-4">
-            <ViewTransition name={`product-${id}`}>
+            <ViewTransition name={`product-${slug}`}>
                 <ImageRatio src={product.image} alt={product.name} className="w-1/2 rounded-xl" />
             </ViewTransition>
             <Link label="Retour" href="/examples/ViewTransitionImage" />

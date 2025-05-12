@@ -1,6 +1,6 @@
 "use client";
 
-import { ProductType } from "@app/product/[id]/fetchParams";
+import { ProductType } from "@app/product/[slug]/fetchParams";
 import dynamic from "next/dynamic";
 
 // Prevent undefined window error due to Leaflet import

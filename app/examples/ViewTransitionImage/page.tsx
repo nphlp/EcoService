@@ -18,16 +18,16 @@ export default async function Page() {
                 <p className="text-sm text-gray-500">An example of a view transition image</p>
             </div>
             <div className="flex w-full flex-row items-center justify-between gap-4">
-                {productList.map(({ id, name, image }, index) => (
+                {productList.map(({ slug, name, image }, index) => (
                     <Link
                         key={index}
                         label={name}
                         variant="none"
                         baseStyle={false}
                         className="w-full"
-                        href={`/examples/ViewTransitionImage/product/${id}`}
+                        href={`/examples/ViewTransitionImage/product/${slug}`}
                     >
-                        <ViewTransition name={`product-${id}`}>
+                        <ViewTransition name={`product-${slug}`}>
                             <ImageRatio src={image} alt={name} className="rounded-xl" />
                         </ViewTransition>
                     </Link>

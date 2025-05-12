@@ -27,7 +27,7 @@ export async function generateMetadata(props: PageProps): Promise<Metadata> {
 
     const categoryData = await FetchV2({
         route: "/category/unique",
-        params: { where: { id: category } },
+        params: { where: { slug: category } },
     });
 
     return {
@@ -35,16 +35,16 @@ export async function generateMetadata(props: PageProps): Promise<Metadata> {
         description: categoryData
             ? `Tous les produits de la catégorie ${categoryData.name} sur Eco Service.`
             : "Retrouvez l'intégralité de nos produits dans notre catalogue.",
-        metadataBase: new URL(categoryData ? `${baseUrl}/catalog?category=${categoryData.id}` : `${baseUrl}/catalog`),
+        metadataBase: new URL(categoryData ? `${baseUrl}/catalog?category=${categoryData.slug}` : `${baseUrl}/catalog`),
         alternates: {
-            canonical: categoryData ? `${baseUrl}/catalog?category=${categoryData.id}` : `${baseUrl}/catalog`,
+            canonical: categoryData ? `${baseUrl}/catalog?category=${categoryData.slug}` : `${baseUrl}/catalog`,
         },
         openGraph: {
             title: categoryData ? `${categoryData.name} - Catalogue - Eco Service` : "Catalogue - Eco Service",
             description: categoryData
                 ? `Tous les produits de la catégorie ${categoryData.name} sur Eco Service.`
                 : "Retrouvez l'intégralité de nos produits dans notre catalogue.",
-            url: categoryData ? `${baseUrl}/catalog?category=${categoryData?.id}` : `${baseUrl}/catalog`,
+            url: categoryData ? `${baseUrl}/catalog?category=${categoryData?.slug}` : `${baseUrl}/catalog`,
             siteName: "Eco Service",
             locale: "fr_FR",
             type: "website",

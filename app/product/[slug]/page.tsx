@@ -1,4 +1,4 @@
-import AddToCartButtonWrapper from "@app/product/[id]/addToCartButtonWrapper";
+import AddToCartButtonWrapper from "@app/product/[slug]/addToCartButtonWrapper";
 import ImageRatio from "@comps/server/imageRatio";
 import PrismaInstance from "@lib/prisma";
 import { FetchV2 } from "@utils/FetchV2/FetchV2";
@@ -18,38 +18,38 @@ export const revalidate = 3600;
 
 export const generateStaticParams = async () => {
     const products = await PrismaInstance.product.findMany({
-        select: { id: true },
+        select: { slug: true },
         take: 30,
         // TODO: add a filter to get top 30 products
     });
 
-    return products.map((product) => ({ id: product.id }));
+    return products.map((product) => ({ slug: product.slug }));
 };
 
 type PageProps = {
-    params: Promise<{ id: string }>;
+    params: Promise<{ slug: string }>;
 };
 
 export async function generateMetadata(props: PageProps): Promise<Metadata> {
     const { params } = props;
-    const { id } = await params;
+    const { slug } = await params;
 
     const product = await FetchV2({
         route: "/product/unique",
-        params: { where: { id } },
+        params: { where: { slug } },
     });
 
     return {
         title: product ? `${product.name} - Eco Service` : "Produit - Eco Service",
         description: product ? product.description : "Achetez des produits éco-responsables sur Eco Service.",
-        metadataBase: new URL(product ? `${baseUrl}/product/${id}` : `${baseUrl}/product`),
+        metadataBase: new URL(product ? `${baseUrl}/product/${slug}` : `${baseUrl}/product`),
         alternates: {
-            canonical: product ? `${baseUrl}/product/${id}` : `${baseUrl}/product`,
+            canonical: product ? `${baseUrl}/product/${slug}` : `${baseUrl}/product`,
         },
         openGraph: {
             title: product ? `${product.name} - Eco Service` : "Produit - Eco Service",
             description: product ? product.description : "Achetez des produits éco-responsables sur Eco Service.",
-            url: product ? `${baseUrl}/product/${id}` : `${baseUrl}/product`,
+            url: product ? `${baseUrl}/product/${slug}` : `${baseUrl}/product`,
             siteName: "Eco Service",
             locale: "fr_FR",
             type: "website",
@@ -65,11 +65,11 @@ export async function generateMetadata(props: PageProps): Promise<Metadata> {
 
 export default async function Page(props: PageProps) {
     const { params } = props;
-    const { id } = await params;
+    const { slug } = await params;
 
     const product = await FetchV2({
         route: "/product/unique",
-        params: ProductFetchParams(id),
+        params: ProductFetchParams(slug),
     });
 
     if (!product) {

@@ -3,12 +3,13 @@ import { FindUniqueProductResponse } from "@services/types";
 
 // Product fetch params
 
-export const ProductFetchParams = (id: string) =>
+export const ProductFetchParams = (slug: string) =>
     ({
-        where: { id },
+        where: { slug },
         select: {
             id: true,
             name: true,
+            slug: true,
             description: true,
             image: true,
             price: true,

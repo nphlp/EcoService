@@ -1,5 +1,6 @@
 import PrismaInstance from "@lib/prisma";
 import { Prisma } from "@prisma/client";
+import { StringToSlug } from "@utils/StringToSlug";
 
 export const insertDIYs = async () => {
     try {
@@ -14,6 +15,7 @@ export const insertDIYs = async () => {
 export const diyData: Prisma.DiyCreateInput[] = [
     {
         title: "Fabriquer son propre savon naturel",
+        slug: StringToSlug("Fabriquer son propre savon naturel"),
         Author: {
             connect: {
                 email: "admin@example.com",
@@ -43,6 +45,7 @@ export const diyData: Prisma.DiyCreateInput[] = [
     },
     {
         title: "Créer un potager vertical avec des palettes",
+        slug: StringToSlug("Créer un potager vertical avec des palettes"),
         Author: {
             connect: {
                 email: "vendor@example.com",
@@ -72,6 +75,7 @@ export const diyData: Prisma.DiyCreateInput[] = [
     },
     {
         title: "Fabriquer une lessive écologique maison",
+        slug: StringToSlug("Fabriquer une lessive écologique maison"),
         Author: {
             connect: {
                 email: "user@example.com",
@@ -101,6 +105,7 @@ export const diyData: Prisma.DiyCreateInput[] = [
     },
     {
         title: "Créer un composteur d'appartement",
+        slug: StringToSlug("Créer un composteur d'appartement"),
         Author: {
             connect: {
                 email: "employee@example.com",
@@ -130,6 +135,7 @@ export const diyData: Prisma.DiyCreateInput[] = [
     },
     {
         title: "Fabriquer un tawashi (éponge zéro déchet)",
+        slug: StringToSlug("Fabriquer un tawashi (éponge zéro déchet)"),
         Author: {
             connect: {
                 email: "admin@example.com",
