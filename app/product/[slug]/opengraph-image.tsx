@@ -9,16 +9,16 @@ export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
 type ImageProps = {
-    params: Promise<{ id: string }>;
+    params: Promise<{ slug: string }>;
 };
 
 // Image generation
 export default async function Image(props: ImageProps) {
     const { params } = props;
-    const { id } = await params;
+    const { slug } = await params;
 
     const product = await PrismaInstance.product.findUnique({
-        where: { id },
+        where: { slug },
     });
 
     const logo = await readFile(join(process.cwd(), "public/icon-512x512.png"));

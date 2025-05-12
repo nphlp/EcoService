@@ -10,8 +10,8 @@ export default async function Page() {
         route: "/diy",
         params: {
             select: {
-                id: true,
                 title: true,
+                slug: true,
                 createdAt: true,
                 Content: {
                     select: {
@@ -43,7 +43,7 @@ export default async function Page() {
                 {diyList.map((diy, index) => (
                     <Link
                         key={index}
-                        href={`/diy/${diy.id}`}
+                        href={`/diy/${diy.slug}`}
                         className="group flex flex-col overflow-hidden rounded-xl border border-gray-300 bg-white shadow-md transition-shadow duration-300 hover:shadow-lg"
                     >
                         {/* Image */}

@@ -16,7 +16,7 @@ export default async function ProductSlider(props: ProductSliderProps) {
 
     const linkList: LinkInfoType[] = productList.map((product) => ({
         label: product.name,
-        href: `/product/${product.id}`,
+        href: `/product/${product.slug}`,
     }));
 
     return (

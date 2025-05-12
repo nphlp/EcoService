@@ -11,7 +11,7 @@ type ProductAmountFetchParams = {
 
 export const ProductAmountFetchParams = ({ category, search }: ProductAmountFetchParams): CountProductProps => ({
     where: {
-        ...(category && { categoryId: category }),
+        ...(category && { Category: { slug: category } }),
         ...(search && { name: { contains: search } }),
     },
 });
@@ -37,7 +37,7 @@ export const ProductListFetchParams = ({
     ...(page > 1 && { skip: (page - 1) * take }),
     take,
     where: {
-        ...(category && { categoryId: category }),
+        ...(category && { Category: { slug: category } }),
         ...(search && { name: { contains: search } }),
     },
 });

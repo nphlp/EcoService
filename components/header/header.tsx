@@ -6,7 +6,7 @@ import MobileHeader from "@comps/header/mobile/mobileHeader";
 import { CategoryModel } from "@services/types";
 
 export type SearchKeywords = {
-    id: string;
+    slug: string;
     type: "product" | "category";
     keyword: string;
 } & (
@@ -46,8 +46,8 @@ export default async function Header(props: HeaderProps) {
     // Generate keyword list for search
     const keywords: SearchKeywords[] = [];
     keywords.push(
-        ...productList.map(({ id, name, image, price }) => ({
-            id,
+        ...productList.map(({ slug, name, image, price }) => ({
+            slug,
             type: "product" as const,
             keyword: name,
             image,
@@ -55,8 +55,8 @@ export default async function Header(props: HeaderProps) {
         })),
     );
     keywords.push(
-        ...categorieList.map(({ id, name }) => ({
-            id,
+        ...categorieList.map(({ slug, name }) => ({
+            slug,
             type: "category" as const,
             keyword: name,
         })),

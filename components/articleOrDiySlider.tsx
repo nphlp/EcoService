@@ -20,7 +20,7 @@ export const ArticleOrDiySlider = (props: SliderClientProps) => {
 
     const linkList: LinkInfoType[] = articleOrDiy.map((articleOrDiy) => ({
         label: articleOrDiy.title,
-        href: `${link}/${articleOrDiy.id}`,
+        href: `${link}/${articleOrDiy.slug}`,
     }));
 
     return (

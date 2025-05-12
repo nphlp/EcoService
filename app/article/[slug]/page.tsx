@@ -1,6 +1,6 @@
-import ProductSlider from "@comps/productSlider";
+import { ArticleOrDiySlider } from "@comps/articleOrDiySlider";
 import ImageRatio from "@comps/server/imageRatio";
-import { ProductFetchParams } from "@comps/sliderFetchParams";
+import { ArticleOrDiyFetchParams } from "@comps/sliderFetchParams";
 import Link from "@comps/ui/link";
 import { combo } from "@lib/combo";
 import PrismaInstance from "@lib/prisma";
@@ -17,27 +17,27 @@ export const dynamic = "auto";
 export const revalidate = 3600;
 
 export const generateStaticParams = async () => {
-    const diys = await PrismaInstance.diy.findMany({
-        select: { id: true },
+    const articles = await PrismaInstance.article.findMany({
+        select: { slug: true },
         take: 30,
-        // TODO: add a filter to get top 30 diys
+        // TODO: add a filter to get top 30 articles
     });
 
-    return diys.map((diy) => ({ id: diy.id }));
+    return articles.map((article) => ({ slug: article.slug }));
 };
 
 type PageProps = {
-    params: Promise<{ id: string }>;
+    params: Promise<{ slug: string }>;
 };
 
 export async function generateMetadata(props: PageProps): Promise<Metadata> {
     const { params } = props;
-    const { id } = await params;
+    const { slug } = await params;
 
-    const diy = await FetchV2({
-        route: "/diy/unique",
+    const article = await FetchV2({
+        route: "/article/unique",
         params: {
-            where: { id },
+            where: { slug },
             select: {
                 title: true,
                 Author: {
@@ -50,29 +50,29 @@ export async function generateMetadata(props: PageProps): Promise<Metadata> {
     });
 
     return {
-        title: diy ? `${diy.title} - Eco Service` : "Produit - Eco Service",
-        description: diy
-            ? `Un diy de ${diy.Author?.name} sur Eco Service.`
+        title: article ? `${article.title} - Eco Service` : "Produit - Eco Service",
+        description: article
+            ? `Un article de ${article.Author?.name} sur Eco Service.`
             : "Achetez des produits éco-responsables sur Eco Service.",
-        metadataBase: new URL(diy ? `${baseUrl}/diy/${id}` : `${baseUrl}/diy`),
+        metadataBase: new URL(article ? `${baseUrl}/article/${slug}` : `${baseUrl}/article`),
         alternates: {
-            canonical: diy ? `${baseUrl}/diy/${id}` : `${baseUrl}/diy`,
+            canonical: article ? `${baseUrl}/article/${slug}` : `${baseUrl}/article`,
         },
         openGraph: {
-            title: diy ? `${diy.title} - Eco Service` : "Produit - Eco Service",
-            description: diy
-                ? `Un diy de ${diy.Author?.name} sur Eco Service.`
+            title: article ? `${article.title} - Eco Service` : "Produit - Eco Service",
+            description: article
+                ? `Un article de ${article.Author?.name} sur Eco Service.`
                 : "Achetez des produits éco-responsables sur Eco Service.",
-            url: diy ? `${baseUrl}/diy/${id}` : `${baseUrl}/diy`,
+            url: article ? `${baseUrl}/article/${slug}` : `${baseUrl}/article`,
             siteName: "Eco Service",
             locale: "fr_FR",
             type: "website",
         },
         twitter: {
             card: "summary_large_image",
-            title: diy ? `${diy.title} - Eco Service` : "Produit - Eco Service",
-            description: diy
-                ? `Un diy de ${diy.Author?.name} sur Eco Service.`
+            title: article ? `${article.title} - Eco Service` : "Produit - Eco Service",
+            description: article
+                ? `Un article de ${article.Author?.name} sur Eco Service.`
                 : "Achetez des produits éco-responsables sur Eco Service.",
             images: [`${baseUrl}/icon-512x512.png`],
         },
@@ -81,12 +81,12 @@ export async function generateMetadata(props: PageProps): Promise<Metadata> {
 
 export default async function Page(props: PageProps) {
     const { params } = props;
-    const { id } = await params;
+    const { slug } = await params;
 
-    const diy = await FetchV2({
-        route: "/diy/unique",
+    const article = await FetchV2({
+        route: "/article/unique",
         params: {
-            where: { id },
+            where: { slug },
             select: {
                 title: true,
                 createdAt: true,
@@ -105,23 +105,24 @@ export default async function Page(props: PageProps) {
         },
     });
 
-    const productList = await FetchV2({
-        route: "/product",
-        params: ProductFetchParams,
+    const otherArticleList = await FetchV2({
+        route: "/article",
+        params: ArticleOrDiyFetchParams,
     });
 
-    if (!diy || !productList) {
-        return <div className="container mx-auto px-4 py-10">Something went wrong...</div>;
+    if (!article || !otherArticleList) {
+        return <div className="container mx-auto px-4 py-10">Article non trouvé</div>;
     }
 
     return (
         <div className="container mx-auto px-4 py-10">
+            {/* En-tête de l'article */}
             <div className="mb-10 text-center">
-                <h1 className="mb-4 text-3xl font-bold md:text-4xl">{diy.title}</h1>
-                {diy.Author && (
+                <h1 className="mb-4 text-3xl font-bold md:text-4xl">{article.title}</h1>
+                {article.Author && (
                     <p className="text-gray-600">
-                        Par {diy.Author.name} •{" "}
-                        {new Date(diy.createdAt).toLocaleDateString("fr-FR", {
+                        Par {article.Author.name} •{" "}
+                        {new Date(article.createdAt).toLocaleDateString("fr-FR", {
                             year: "numeric",
                             month: "long",
                             day: "numeric",
@@ -131,7 +132,7 @@ export default async function Page(props: PageProps) {
             </div>
 
             <div className="mx-auto max-w-[900px] space-y-16">
-                {diy.Content?.map((content, index) => (
+                {article.Content.map((content, index) => (
                     <div
                         key={index}
                         className={combo(
@@ -143,18 +144,18 @@ export default async function Page(props: PageProps) {
 
                         <ImageRatio
                             src={`/illustration/${content.image}`}
-                            alt={`Illustration pour ${diy.title}`}
+                            alt={`Illustration pour ${article.title}`}
                             className="w-2/3 rounded-lg shadow-md md:w-1/3"
                         />
                     </div>
                 ))}
             </div>
 
-            <ProductSlider productList={productList} title="Produits recommandés" />
+            <ArticleOrDiySlider articleOrDiy={otherArticleList} link="/article" title="À lire aussi" />
 
             <div className="mt-16 flex justify-center">
-                <Link href="/diy" label="Retour aux DIY" variant="outline">
-                    Retour aux DIY
+                <Link href="/article" label="Retour aux articles" variant="outline">
+                    Retour aux articles
                 </Link>
             </div>
         </div>

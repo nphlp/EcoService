@@ -7,7 +7,7 @@ import { combo } from "@lib/combo";
 import { ProductModel } from "@services/types";
 import { useFetchV2 } from "@utils/FetchV2/FetchHookV2";
 import { useRouter } from "next/navigation";
-import { useContext, useEffect } from "react";
+import { MouseEvent, useContext, useEffect } from "react";
 import { ProductAmountFetchParams, ProductListFetchParams } from "./fetchParams";
 import { CatalogContext } from "./provider";
 import { useCatalogParams } from "./useCatalogParams";
@@ -36,9 +36,9 @@ export default function CatalogClient(props: CatalogClientProps) {
         params: ProductListFetchParams({ priceOrder, page, take, category, search }),
     });
 
-    const handleClick = (e: React.MouseEvent<HTMLAnchorElement>, productId: ProductModel["id"]) => {
+    const handleClick = (e: MouseEvent<HTMLAnchorElement>, slug: ProductModel["slug"]) => {
         e.preventDefault();
-        const linkElement = document.getElementById(`product-${productId}`);
+        const linkElement = document.getElementById(`product-${slug}`);
         if (linkElement) {
             const current = e.target as HTMLElement;
             // Find all buttons in the link element
@@ -46,7 +46,7 @@ export default function CatalogClient(props: CatalogClientProps) {
             // Check if the current element is a button or a child of a button
             const isButtonOrChild = buttons.some((button) => button.contains(current));
             // If the current element is not a button or a child of a button, push the link
-            if (!isButtonOrChild) router.push(`/product/${productId}`);
+            if (!isButtonOrChild) router.push(`/product/${slug}`);
         }
     };
 
@@ -80,12 +80,12 @@ export default function CatalogClient(props: CatalogClientProps) {
             {productListLocal.map((product, index) => (
                 <Link
                     key={index}
-                    id={`product-${product.id}`}
+                    id={`product-${product.slug}`}
                     label={product.name}
-                    href={`/product/${product.id}`}
+                    href={`/product/${product.slug}`}
                     variant="none"
                     baseStyle={false}
-                    onClick={(e) => handleClick(e, product.id)}
+                    onClick={(e) => handleClick(e, product.slug)}
                 >
                     <ProductCard product={product} />
                 </Link>

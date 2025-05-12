@@ -19,7 +19,7 @@ export default async function Image(props: ImageProps) {
     const { category } = await SearchParamsCached.parse(searchParams);
 
     const categoryData = await PrismaInstance.category.findUnique({
-        where: { id: category },
+        where: { slug: category },
     });
 
     const logo = await readFile(join(process.cwd(), "public/icon-512x512.png"));

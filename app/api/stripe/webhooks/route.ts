@@ -4,6 +4,7 @@ import { StripeInstance } from "@lib/stripe";
 import { StripeError } from "@stripe/stripe-js";
 import { Fetch } from "@utils/Fetch/Fetch";
 import { ResponseFormat } from "@utils/FetchConfig";
+import { StringToSlug } from "@utils/StringToSlug";
 import { revalidateTag } from "next/cache";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
@@ -135,6 +136,7 @@ const productUpsert = async (product: Stripe.Product) => {
         create: {
             id,
             name,
+            slug: StringToSlug(name),
             description: description ?? "",
             image,
             price: price ?? 0,

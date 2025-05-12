@@ -1,5 +1,6 @@
 import PrismaInstance from "@lib/prisma";
 import { Prisma } from "@prisma/client";
+import { StringToSlug } from "@utils/StringToSlug";
 
 export const insertArticles = async () => {
     try {
@@ -14,6 +15,7 @@ export const insertArticles = async () => {
 export const articleData: Prisma.ArticleCreateInput[] = [
     {
         title: "Vivre écologiquement au quotidien",
+        slug: StringToSlug("Vivre écologiquement au quotidien"),
         Author: {
             connect: {
                 email: "admin@example.com",
@@ -43,6 +45,7 @@ export const articleData: Prisma.ArticleCreateInput[] = [
     },
     {
         title: "Les alternatives aux produits ménagers chimiques",
+        slug: StringToSlug("Les alternatives aux produits ménagers chimiques"),
         Author: {
             connect: {
                 email: "vendor@example.com",
@@ -72,6 +75,7 @@ export const articleData: Prisma.ArticleCreateInput[] = [
     },
     {
         title: "Jardinage écologique et permaculture",
+        slug: StringToSlug("Jardinage écologique et permaculture"),
         Author: {
             connect: {
                 email: "user@example.com",
@@ -101,6 +105,7 @@ export const articleData: Prisma.ArticleCreateInput[] = [
     },
     {
         title: "Réduire son empreinte carbone au quotidien",
+        slug: StringToSlug("Réduire son empreinte carbone au quotidien"),
         Author: {
             connect: {
                 email: "employee@example.com",
@@ -130,6 +135,7 @@ export const articleData: Prisma.ArticleCreateInput[] = [
     },
     {
         title: "Hygiène personnelle zéro déchet",
+        slug: StringToSlug("Hygiène personnelle zéro déchet"),
         Author: {
             connect: {
                 email: "admin@example.com",

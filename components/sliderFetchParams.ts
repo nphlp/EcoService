@@ -6,8 +6,8 @@ import { FindManyProductProps, FindManyProductResponse } from "@services/types/P
 
 export const ArticleOrDiyFetchParams = {
     select: {
-        id: true,
         title: true,
+        slug: true,
         createdAt: true,
         Content: {
             select: {
