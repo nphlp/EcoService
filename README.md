@@ -1,6 +1,10 @@
 # Eco Service
 
-Eco Service is a fully auth-ready application.
+Eco Service is an e-commerce application made with Next.js, Zustand, Prisma, Stripe, Plunk...
+
+This project is deploy on a VPS with Coolify after some Github Workflows: [learn more](https://github.com/nansphilip/EcoService/tree/main/.github/ci-cd-workflows.md).
+
+Visit the demo: [Eco Service](https://eco-service.nansp.dev)
 
 ## Coding chart
 

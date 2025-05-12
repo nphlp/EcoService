@@ -37,7 +37,7 @@ export default function SelectorsClient(props: SelectorsClientProps) {
             >
                 <option value="">Toutes</option>
                 {categoryList.map((category, index) => (
-                    <option key={index} value={category.id}>
+                    <option key={index} value={category.slug}>
                         {category.name}
                     </option>
                 ))}

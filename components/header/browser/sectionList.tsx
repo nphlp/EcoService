@@ -32,15 +32,15 @@ export default function SectionList(props: SubProps) {
 
     const { setCategory, setSearch } = useCatalogParams();
 
-    const handleCategory = (e: MouseEvent<HTMLAnchorElement, globalThis.MouseEvent>, id: string) => {
+    const handleCategory = (e: MouseEvent<HTMLAnchorElement, globalThis.MouseEvent>, slug: string) => {
         e.preventDefault();
 
         if (path === "/catalog") {
-            setCategory(id);
+            setCategory(slug);
             return;
         }
 
-        router.push(urlSerializer("/catalog", { category: id }));
+        router.push(urlSerializer("/catalog", { category: slug }));
     };
 
     const handleSearch = () => {
@@ -57,9 +57,9 @@ export default function SectionList(props: SubProps) {
         router.push(urlSerializer("/catalog", { search: searchValue }));
     };
 
-    const handleCategorySearch = (id: string) => {
+    const handleCategorySearch = (slug: string) => {
         if (path === "/catalog") {
-            setCategory(id);
+            setCategory(slug);
             setSearchOpen(false);
             setTimeout(() => setSearchValue(""), 300);
             return;
@@ -68,14 +68,14 @@ export default function SectionList(props: SubProps) {
         // Close search panel and await panel closing animation to finish
         setSearchOpen(false);
         setTimeout(() => setSearchValue(""), 300);
-        router.push(urlSerializer("/catalog", { category: id }));
+        router.push(urlSerializer("/catalog", { category: slug }));
     };
 
-    const handleProductSearch = (id: string) => {
+    const handleProductSearch = (slug: string) => {
         // Close search panel and await panel closing animation to finish
         setSearchOpen(false);
         setTimeout(() => setSearchValue(""), 300);
-        router.push(`/product/${id}`);
+        router.push(`/product/${slug}`);
     };
 
     // Focus on search input when search panel is open
@@ -149,13 +149,13 @@ export default function SectionList(props: SubProps) {
                     >
                         Toutes les catégories
                     </ButtonClient>
-                    {categorieList.map(({ id, name }, index) => (
+                    {categorieList.map(({ slug, name }, index) => (
                         <ButtonClient
                             key={index}
                             type="link"
                             label={name}
-                            href={urlSerializer("/catalog", { category: id })}
-                            onClick={(e) => handleCategory(e, id)}
+                            href={urlSerializer("/catalog", { category: slug })}
+                            onClick={(e) => handleCategory(e, slug)}
                             className="rounded-full hover:border-gray-400 hover:bg-gray-200"
                             padding="lg"
                             variant="outline"
@@ -235,7 +235,7 @@ export default function SectionList(props: SubProps) {
                     )}
                 >
                     <div ref={contentRef} className="space-y-2 p-3">
-                        {keywordsFiltered.map(({ id, type, keyword, image, price }, index) => (
+                        {keywordsFiltered.map(({ slug, type, keyword, image, price }, index) => (
                             <Fragment key={index}>
                                 {index !== 0 && <hr className="mx-4" />}
                                 {type === "product" && (
@@ -244,8 +244,8 @@ export default function SectionList(props: SubProps) {
                                         label={keyword}
                                         variant="ghost"
                                         className="w-full px-1 hover:bg-gray-100"
-                                        href={`/product/${id}`}
-                                        onClick={() => handleProductSearch(id)}
+                                        href={`/product/${slug}`}
+                                        onClick={() => handleProductSearch(slug)}
                                     >
                                         <div className="flex w-full flex-row items-center gap-4">
                                             <ImageRatio className="w-1/6 rounded" src={image} alt="Product" />
@@ -262,8 +262,8 @@ export default function SectionList(props: SubProps) {
                                         label={keyword}
                                         variant="ghost"
                                         className="w-full"
-                                        href={urlSerializer("/catalog", { category: id })}
-                                        onClick={() => handleCategorySearch(id)}
+                                        href={urlSerializer("/catalog", { category: slug })}
+                                        onClick={() => handleCategorySearch(slug)}
                                     >
                                         <span className="text-xxs rounded bg-gray-100 px-2 py-0.5 font-bold text-gray-500">
                                             CATEGORY
