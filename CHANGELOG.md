@@ -1,3 +1,9 @@
+# [1.2.0](https://github.com/nansphilip/EcoService/compare/v1.1.0...v1.2.0) (2025-05-12)
+
+### Features
+
+- add slug ([04c5e64](https://github.com/nansphilip/EcoService/commit/04c5e646a281095465b2271a8f144b22e6a0646c))
+
 # [1.1.0](https://github.com/nansphilip/EcoService/compare/v1.0.2...v1.1.0) (2025-05-11)
 
 ### Features
