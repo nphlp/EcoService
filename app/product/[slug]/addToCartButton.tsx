@@ -1,6 +1,6 @@
 "use client";
 
-import { ProductType } from "@app/product/[id]/fetchParams";
+import { ProductType } from "@app/product/[slug]/fetchParams";
 import { useBasketStore } from "@comps/basket/basketStore";
 import ButtonClient from "@comps/client/button";
 

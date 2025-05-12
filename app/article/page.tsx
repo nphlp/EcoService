@@ -10,8 +10,8 @@ export default async function Page() {
         route: "/article",
         params: {
             select: {
-                id: true,
                 title: true,
+                slug: true,
                 createdAt: true,
                 Content: {
                     select: {
@@ -43,7 +43,7 @@ export default async function Page() {
                 {articleList.map((article, index) => (
                     <Link
                         key={index}
-                        href={`/article/${article.id}`}
+                        href={`/article/${article.slug}`}
                         className="group flex flex-col overflow-hidden rounded-xl border border-gray-300 bg-white shadow-md transition-shadow duration-300 hover:shadow-lg"
                     >
                         {/* Image */}

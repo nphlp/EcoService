@@ -148,7 +148,8 @@ model Address {
 /// Article model
 model Article {
     id    String @id @default(nanoid())
-    title String
+    title String @unique
+    slug  String @unique
 
     Content Content[]
 
@@ -166,7 +167,8 @@ model Article {
 /// Diy model
 model Diy {
     id    String @id @default(nanoid())
-    title String
+    title String @unique
+    slug  String @unique
 
     Content Content[]
 
@@ -205,6 +207,7 @@ model Content {
 model Category {
     id          String  @id @default(nanoid())
     name        String  @unique
+    slug        String  @unique
     description String?
 
     Products Product[] @relation("CategoryToProduct")
@@ -220,6 +223,7 @@ model Category {
 model Product {
     id          String @id @default(nanoid())
     name        String @unique
+    slug        String @unique
     description String
     image       String
     price       Float
