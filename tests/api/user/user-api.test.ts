@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 
 describe("API /user", () => {
     it("retourne la liste des utilisateurs", async () => {
+        // Fetch users
         const users = await FetchV2({
             route: "/user",
             params: {
@@ -12,6 +13,7 @@ describe("API /user", () => {
             },
         });
 
+        // Check users
         expect(users).toBeDefined();
         expect(Array.isArray(users)).toBe(true);
         expect(users[0]).toHaveProperty("email");

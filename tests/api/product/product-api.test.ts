@@ -18,6 +18,7 @@ const apiResponse = {
 
 describe("API /product", () => {
     it("retourne la liste des produits", async () => {
+        // Fetch products
         const produits = await FetchV2({
             route: "/product",
             params: {
@@ -32,6 +33,7 @@ describe("API /product", () => {
             },
         });
 
+        // Check products
         expect(produits).toBeDefined();
         expect(Array.isArray(produits)).toBe(true);
         expect(produits[0]).toHaveProperty("name");
