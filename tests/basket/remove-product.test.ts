@@ -1,8 +1,8 @@
 import { useBasketStore } from "@comps/basket/basketStore";
-import * as updateApi from "@process/basket/UpdateProductOnServerBasket";
+import * as removeApi from "@process/basket/RemoveProductFromServerBasket";
 import { beforeEach, describe, expect, it, Mock, vi } from "vitest";
 
-describe("updateProductInBasket", () => {
+describe("removeProductInBasket", () => {
     // Initial state(s)
     beforeEach(() => {
         useBasketStore.setState({
@@ -36,22 +36,23 @@ describe("updateProductInBasket", () => {
         expect(basket?.items[0].quantity).toBe(1);
     });
 
-    it("[LOGGED IN] Update product in basket", async () => {
+    it("[LOGGED IN] Remove product from basket", async () => {
         // Mock the action responses
-        vi.spyOn(updateApi, "UpdateProductOnServerBasket").mockResolvedValue("order-123");
+        vi.spyOn(removeApi, "RemoveProductFromServerBasket").mockResolvedValue("order-123");
 
-        // Update the product in the basket
-        useBasketStore.getState().updateProductInBasket("product-123", 2);
+        // Remove the product from the basket
+        useBasketStore.getState().removeProductFromBasket("product-123");
 
         // Get the basket
-        const basket = useBasketStore.getState().basket;
+        const basketAfterRemove = useBasketStore.getState().basket;
 
         // Check the basket
-        expect(basket).toBeDefined();
-        expect(basket?.orderId).toBe("order-123");
-        expect(basket?.items[0].productId).toBe("product-123");
-        expect(basket?.items[0].quantity).toBe(2);
-        expect(updateApi.UpdateProductOnServerBasket).toHaveBeenCalled();
-        await expect((updateApi.UpdateProductOnServerBasket as Mock).mock.results[0].value).resolves.toBe("order-123");
+        expect(basketAfterRemove).toBeDefined();
+        expect(basketAfterRemove?.orderId).toBe("order-123");
+        expect(basketAfterRemove?.items.length).toBe(0);
+        expect(removeApi.RemoveProductFromServerBasket).toHaveBeenCalled();
+        await expect((removeApi.RemoveProductFromServerBasket as Mock).mock.results[0].value).resolves.toBe(
+            "order-123",
+        );
     });
 });

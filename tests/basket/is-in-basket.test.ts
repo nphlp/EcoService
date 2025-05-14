@@ -1,13 +1,11 @@
 import { useBasketStore } from "@comps/basket/basketStore";
-import * as updateApi from "@process/basket/UpdateProductOnServerBasket";
-import { beforeEach, describe, expect, it, Mock, vi } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 
-describe("updateProductInBasket", () => {
+describe("isInBasket", () => {
     // Initial state(s)
     beforeEach(() => {
         useBasketStore.setState({
             basket: {
-                orderId: "order-123",
                 items: [
                     {
                         productId: "product-123",
@@ -31,27 +29,36 @@ describe("updateProductInBasket", () => {
 
         // Check the basket
         expect(basket).toBeDefined();
-        expect(basket?.orderId).toBe("order-123");
+        expect(basket?.orderId).toBeUndefined();
+        expect(basket?.items.length).toBe(1);
         expect(basket?.items[0].productId).toBe("product-123");
         expect(basket?.items[0].quantity).toBe(1);
     });
 
-    it("[LOGGED IN] Update product in basket", async () => {
-        // Mock the action responses
-        vi.spyOn(updateApi, "UpdateProductOnServerBasket").mockResolvedValue("order-123");
-
-        // Update the product in the basket
-        useBasketStore.getState().updateProductInBasket("product-123", 2);
+    it("No basket", async () => {
+        // Define the basket
+        useBasketStore.setState({ basket: null });
 
         // Get the basket
-        const basket = useBasketStore.getState().basket;
+        const isInBasket = useBasketStore.getState().isInBasket("product-123");
 
         // Check the basket
-        expect(basket).toBeDefined();
-        expect(basket?.orderId).toBe("order-123");
-        expect(basket?.items[0].productId).toBe("product-123");
-        expect(basket?.items[0].quantity).toBe(2);
-        expect(updateApi.UpdateProductOnServerBasket).toHaveBeenCalled();
-        await expect((updateApi.UpdateProductOnServerBasket as Mock).mock.results[0].value).resolves.toBe("order-123");
+        expect(isInBasket).toBe(false);
+    });
+
+    it("Is in basket", async () => {
+        // Get the basket
+        const isInBasket = useBasketStore.getState().isInBasket("product-123");
+
+        // Check the basket
+        expect(isInBasket).toBe(true);
+    });
+
+    it("Is not in basket", async () => {
+        // Get the basket
+        const isInBasket = useBasketStore.getState().isInBasket("product-456");
+
+        // Check the basket
+        expect(isInBasket).toBe(false);
     });
 });

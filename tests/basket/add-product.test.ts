@@ -1,91 +1,96 @@
 import { useBasketStore } from "@comps/basket/basketStore";
-import { LocalBasketItem, ServerBasket } from "@comps/basket/basketType";
-import * as createApi from "@process/basket/CreateServerBasket";
 import * as addApi from "@process/basket/AddProductToServerBasket";
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import * as createApi from "@process/basket/CreateServerBasket";
+import { beforeEach, describe, expect, it, Mock, vi } from "vitest";
 
 describe("addProductToBasket", () => {
-    // Reset states and mocks before each test
+    // Initial state(s)
     beforeEach(() => {
         useBasketStore.setState({ basket: null });
         vi.resetAllMocks();
     });
 
-    it("User (logged in): initialize basket and add product", async () => {
+    // Check the initial state
+    it("State(s) before test", async () => {
+        // Get the basket
+        const basket = useBasketStore.getState().basket;
+
+        // Check the basket
+        expect(basket).toBeNull();
+    });
+
+    it("[LOGGED IN] Add product (and initialize basket)", async () => {
         // Mock the action responses
         vi.spyOn(createApi, "CreateServerBasket").mockResolvedValue("order-123");
 
-        // Product to add
-        const produit1: LocalBasketItem = {
+        // Define the basket
+        useBasketStore.setState({ basket: null });
+
+        // Add product to new basket
+        useBasketStore.getState().addProductToBasket({
             productId: "product-123",
             name: "Produit test",
             description: "Description du produit",
             price: 10,
             image: "image.jpg",
-            quantity: 1,
-        };
-        const produit2: LocalBasketItem = {
-            productId: "product-456",
-            name: "Produit test 2",
-            description: "Description du produit 2",
-            price: 20,
-            image: "image2.jpg",
-            quantity: 1,
-        };
-
-        // Add the product to the basket
-        useBasketStore.getState().addProductToBasket(produit1);
-        useBasketStore.getState().addProductToBasket(produit2);
+        });
 
         // Get the basket
-        const panier = useBasketStore.getState().basket;
+        const basket = useBasketStore.getState().basket;
 
         // Check the basket
-        expect(panier).toBeDefined();
-        expect(panier?.items[0].productId).toBe("product-123");
-        expect(panier?.items[1].productId).toBe("product-456");
+        expect(basket).toBeDefined();
+        expect(basket?.orderId).toBeUndefined();
+        expect(basket?.items.length).toBe(1);
+        expect(basket?.items[0].productId).toBe("product-123");
+        expect(basket?.items[0].quantity).toBe(1);
         expect(createApi.CreateServerBasket).toHaveBeenCalled();
+        await expect((createApi.CreateServerBasket as Mock).mock.results[0].value).resolves.toBe("order-123");
     });
 
-    it("User (logged in): add product to existing basket", async () => {
+    it("[LOGGED IN] Add product (to an existing basket)", async () => {
         // Mock the action responses
         vi.spyOn(addApi, "AddProductToServerBasket").mockResolvedValue("order-123");
 
-        // Product to add
-        const basket: ServerBasket = {
-            orderId: "order-123",
-            items: [
-                {
-                    productId: "product-123",
-                    name: "Produit test",
-                    description: "Description du produit",
-                    price: 10,
-                    image: "image.jpg",
-                    quantityId: "quantity-123",
-                    quantity: 1,
-                },
-            ],
-        };
-        const produit: LocalBasketItem = {
+        // Define the basket
+        useBasketStore.setState({
+            basket: {
+                orderId: "order-123",
+                items: [
+                    {
+                        productId: "product-123",
+                        name: "Produit test",
+                        description: "Description du produit",
+                        price: 10,
+                        image: "image.jpg",
+                        quantityId: "quantity-123",
+                        quantity: 1,
+                    },
+                ],
+            },
+        });
+
+        // Add product to existing basket
+        useBasketStore.getState().addProductToBasket({
             productId: "product-456",
             name: "Produit test 2",
             description: "Description du produit 2",
             price: 20,
             image: "image2.jpg",
-            quantity: 1,
-        };
-
-        // Add the product to the basket
-        useBasketStore.setState({ basket });
-        useBasketStore.getState().addProductToBasket(produit);
+        });
 
         // Get the basket
-        const panier = useBasketStore.getState().basket;
+        const basket = useBasketStore.getState().basket;
 
         // Check the basket
-        expect(panier).toBeDefined();
-        expect(panier?.items[0].productId).toBe("product-123");
-        expect(panier?.items[1].productId).toBe("product-456");
+        expect(basket).toBeDefined();
+        expect(basket?.orderId).toBe("order-123");
+        expect(basket?.items.length).toBe(2);
+        expect(basket?.items[0].productId).toBe("product-123");
+        expect(basket?.items[0].quantity).toBe(1);
+        expect(basket?.items[1].productId).toBe("product-456");
+        expect(basket?.items[1].quantity).toBe(1);
         expect(addApi.AddProductToServerBasket).toHaveBeenCalled();
+        await expect((addApi.AddProductToServerBasket as Mock).mock.results[0].value).resolves.toBe("order-123");
     });
 });
