@@ -1,4 +1,4 @@
-import { LocalBasket, LocalBasketItem, ServerBasket, ServerBasketItem } from "@comps/basket/basketType";
+import { LocalBasket, LocalBasketItem, ServerBasketItem } from "@comps/basket/basketType";
 import { Order } from "@prisma/client";
 import { GetServerBasketResponse } from "@process/basket/GetServerBasket";
 
@@ -51,20 +51,21 @@ const acceptedStatus: OrderStatus = { paymentStatus: "ACCEPTED", orderStatus: "A
 // ===== SERVER BASKET ===== //
 
 /** Server basket */
-export const serverBasket: ServerBasket = { orderId: "order-123", items: [serverItem1, serverItem2] };
-
-/** Empty server basket */
-export const emptyServerBasket: ServerBasket = { orderId: "order-123", items: [] };
-
-/** Server basket */
-export const serverBasketStatusPending: GetServerBasketResponse = {
+export const serverBasket: GetServerBasketResponse = {
     orderId: "order-123",
     items: [serverItem1, serverItem2],
     ...pendingStatus,
 };
 
+/** Server basket */
+export const serverBasketLessItems: GetServerBasketResponse = {
+    orderId: "order-123",
+    items: [serverItem1],
+    ...pendingStatus,
+};
+
 /** Empty server basket */
-export const emptyServerBasketStatusPending: GetServerBasketResponse = {
+export const emptyServerBasket: GetServerBasketResponse = {
     orderId: "order-123",
     items: [],
     ...pendingStatus,
@@ -77,23 +78,7 @@ export const serverBasketStatusAccepted: GetServerBasketResponse = {
     ...acceptedStatus,
 };
 
-/** Empty server basket */
-export const emptyServerBasketStatusAccepted: GetServerBasketResponse = {
-    orderId: "order-123",
-    items: [],
-    ...acceptedStatus,
-};
-
 // ===== LOCAL BASKET ===== //
-
-/** Local basket null */
-export const localBasketNull: LocalBasket | null = null;
-
-/** Local basket without orderId */
-export const localBasketWithoutOrderId: LocalBasket | null = { items: [localItem1, localItem2] };
-
-/** Empty local basket without orderId */
-export const emptyLocalBasketWithoutOrderId: LocalBasket | null = { items: [] };
 
 /** Local basket with orderId */
 export const localBasketOrderId: LocalBasket | null = { orderId: "order-123", items: [localItem1, localItem2] };
