@@ -171,13 +171,13 @@ GRANT ALL PRIVILEGES ON *.* TO 'eco-service-user'@'%';
 - Install Command
 
 ```bash
-pnpm install && pnpm prisma:generate && pnpm prisma:deploy && pnpm fixtures:reload # do not add reload in prod
+pnpm install && pnpm prisma:generate && pnpm prisma:deploy
 ```
 
 - Build Command
 
 ```bash
-pnpm run build
+pnpm run build && pnpm install --prod
 ```
 
 - Start Command

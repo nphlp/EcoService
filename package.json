@@ -14,7 +14,7 @@
         "format:fix": "pnpm exec prettier . --write --ignore-path .prettierignore",
         "format:file": "prettier --write --ignore-path .prettierignore",
         "type": "tsc --noEmit",
-        "prepare": "husky",
+        "prepare": "husky || true",
         "test:watch": "vitest",
         "test:run": "vitest run",
         "auto": "pnpm install && pnpm db:reload root && pnpm prisma:generate && pnpm prisma:migrate && pnpm fixtures:reload && pnpm run dev",
@@ -32,7 +32,8 @@
         "help": "tsx scripts/help.ts help",
         "generate:list": "tsx scripts/generator.ts list",
         "generate:clear": "tsx scripts/generator.ts clear",
-        "generate:all": "tsx scripts/generator.ts all"
+        "generate:all": "tsx scripts/generator.ts all",
+        "clear": "rm -rf next-env.d.ts prisma/zod prisma/client node_modules .next .husky/_"
     },
     "dependencies": {
         "@prisma/client": "^6.6.0",
