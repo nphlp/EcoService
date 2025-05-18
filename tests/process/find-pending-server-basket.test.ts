@@ -17,6 +17,7 @@ describe("FindPendingServerBasket", () => {
             userId: "user-1",
             productIds: ["product-1"],
             orderId: "order-1",
+            amountOfProductsToAddInOrder: 1,
         });
 
         expect(user).toBeDefined();

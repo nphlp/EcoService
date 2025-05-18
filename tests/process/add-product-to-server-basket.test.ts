@@ -14,6 +14,7 @@ describe("AddProductToServerBasket", () => {
             userId: "user-2",
             productIds: ["product-2", "product-3"],
             orderId: "order-2",
+            amountOfProductsToAddInOrder: 1,
         });
 
         expect(user).toBeDefined();
