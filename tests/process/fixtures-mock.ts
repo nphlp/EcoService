@@ -40,7 +40,11 @@ export const createUserProductAndOrder = async (props: CreateProps): Promise<Cre
         })),
     });
 
-    const products = await PrismaInstance.product.findMany({ where: { id: { in: productIds } } });
+    const products = await PrismaInstance.product.findMany({
+        where: { id: { in: productIds } },
+    });
+
+    const orderedProducts = products.sort((a, b) => productIds.indexOf(a.id) - productIds.indexOf(b.id));
 
     const order = await PrismaInstance.order.create({
         data: {
@@ -50,7 +54,7 @@ export const createUserProductAndOrder = async (props: CreateProps): Promise<Cre
             userId: userId,
             Quantity: {
                 createMany: {
-                    data: products.slice(0, amountOfProductsToAddInOrder).map((product) => ({
+                    data: orderedProducts.slice(0, amountOfProductsToAddInOrder).map((product) => ({
                         productId: product.id,
                         quantity: 1,
                     })),
