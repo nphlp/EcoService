@@ -15,18 +15,21 @@ const clearServerBasketSchema: ZodSchema<ClearServerBasketProps> = z.object({
     orderId: z.string(),
 });
 
-export const ClearServerBasket = async (props: ClearServerBasketProps) => {
+type ClearServerBasketResponse = OrderModel["id"] | null;
+
+export const ClearServerBasket = async (props: ClearServerBasketProps): Promise<ClearServerBasketResponse> => {
     try {
         const { orderId } = clearServerBasketSchema.parse(props);
 
         const serverBasket = await GetServerBasket({ orderId });
-        if (!serverBasket) return;
+        if (!serverBasket) return null;
 
         // Delete order and linked quantities
         await DeleteOrder({ where: { id: serverBasket.orderId } });
 
         // Refresh checkout page
         revalidatePath("/checkout", "page");
+        return orderId;
     } catch (error) {
         if (process.env.NODE_ENV === "development") {
             const processName = "ClearServerBasket";

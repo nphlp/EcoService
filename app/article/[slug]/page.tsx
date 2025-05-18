@@ -7,12 +7,6 @@ import PrismaInstance from "@lib/prisma";
 import { FetchV2 } from "@utils/FetchV2/FetchV2";
 import { Metadata } from "next";
 
-const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
-
-if (!baseUrl) {
-    throw new Error("NEXT_PUBLIC_BASE_URL environment variable is not defined");
-}
-
 export const dynamic = "auto";
 export const revalidate = 3600;
 
@@ -31,6 +25,9 @@ type PageProps = {
 };
 
 export async function generateMetadata(props: PageProps): Promise<Metadata> {
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+    if (!baseUrl) throw new Error("NEXT_PUBLIC_BASE_URL environment variable is not defined");
+
     const { params } = props;
     const { slug } = await params;
 
@@ -38,43 +35,21 @@ export async function generateMetadata(props: PageProps): Promise<Metadata> {
         route: "/article/unique",
         params: {
             where: { slug },
-            select: {
-                title: true,
-                Author: {
-                    select: {
-                        name: true,
-                    },
-                },
-            },
         },
     });
 
+    if (!article) {
+        return {
+            title: "Article non trouvé - Eco Service",
+        };
+    }
+
     return {
-        title: article ? `${article.title} - Eco Service` : "Produit - Eco Service",
-        description: article
-            ? `Un article de ${article.Author?.name} sur Eco Service.`
-            : "Achetez des produits éco-responsables sur Eco Service.",
-        metadataBase: new URL(article ? `${baseUrl}/article/${slug}` : `${baseUrl}/article`),
+        title: `${article.title} - Eco Service`,
+        description: "Achetez des produits éco-responsables sur Eco Service.",
+        metadataBase: new URL(`${baseUrl}/article`),
         alternates: {
-            canonical: article ? `${baseUrl}/article/${slug}` : `${baseUrl}/article`,
-        },
-        openGraph: {
-            title: article ? `${article.title} - Eco Service` : "Produit - Eco Service",
-            description: article
-                ? `Un article de ${article.Author?.name} sur Eco Service.`
-                : "Achetez des produits éco-responsables sur Eco Service.",
-            url: article ? `${baseUrl}/article/${slug}` : `${baseUrl}/article`,
-            siteName: "Eco Service",
-            locale: "fr_FR",
-            type: "website",
-        },
-        twitter: {
-            card: "summary_large_image",
-            title: article ? `${article.title} - Eco Service` : "Produit - Eco Service",
-            description: article
-                ? `Un article de ${article.Author?.name} sur Eco Service.`
-                : "Achetez des produits éco-responsables sur Eco Service.",
-            images: [`${baseUrl}/icon-512x512.png`],
+            canonical: `${baseUrl}/article/${slug}`,
         },
     };
 }

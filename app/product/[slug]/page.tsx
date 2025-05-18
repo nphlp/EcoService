@@ -7,12 +7,6 @@ import { Metadata } from "next";
 import Link from "next/link";
 import { ProductFetchParams } from "./fetchParams";
 
-const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
-
-if (!baseUrl) {
-    throw new Error("NEXT_PUBLIC_BASE_URL environment variable is not defined");
-}
-
 export const dynamic = "auto";
 export const revalidate = 3600;
 
@@ -31,6 +25,9 @@ type PageProps = {
 };
 
 export async function generateMetadata(props: PageProps): Promise<Metadata> {
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+    if (!baseUrl) throw new Error("NEXT_PUBLIC_BASE_URL environment variable is not defined");
+
     const { params } = props;
     const { slug } = await params;
 
@@ -39,26 +36,18 @@ export async function generateMetadata(props: PageProps): Promise<Metadata> {
         params: { where: { slug } },
     });
 
+    if (!product) {
+        return {
+            title: "Produit non trouvé - Eco Service",
+        };
+    }
+
     return {
-        title: product ? `${product.name} - Eco Service` : "Produit - Eco Service",
-        description: product ? product.description : "Achetez des produits éco-responsables sur Eco Service.",
-        metadataBase: new URL(product ? `${baseUrl}/product/${slug}` : `${baseUrl}/product`),
+        title: `${product.name} - Eco Service`,
+        description: "Achetez des produits éco-responsables sur Eco Service.",
+        metadataBase: new URL(`${baseUrl}/product`),
         alternates: {
-            canonical: product ? `${baseUrl}/product/${slug}` : `${baseUrl}/product`,
-        },
-        openGraph: {
-            title: product ? `${product.name} - Eco Service` : "Produit - Eco Service",
-            description: product ? product.description : "Achetez des produits éco-responsables sur Eco Service.",
-            url: product ? `${baseUrl}/product/${slug}` : `${baseUrl}/product`,
-            siteName: "Eco Service",
-            locale: "fr_FR",
-            type: "website",
-        },
-        twitter: {
-            card: "summary_large_image",
-            title: product ? `${product.name} - Eco Service` : "Produit - Eco Service",
-            description: product ? product.description : "Achetez des produits éco-responsables sur Eco Service.",
-            images: [`${baseUrl}/icon-512x512.png`],
+            canonical: `${baseUrl}/product/${slug}`,
         },
     };
 }
