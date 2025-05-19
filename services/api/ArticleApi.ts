@@ -1,7 +1,7 @@
 import ArticleService from "@services/class/ArticleClass";
 import { CountArticleProps, CountArticleResponse, FindFirstArticleProps, FindFirstArticleResponse, FindManyArticleProps, FindManyArticleResponse, FindUniqueArticleProps, FindUniqueArticleResponse } from "@services/types/ArticleType";
-import { parseAndDecodeParams, revalidate } from "@utils/FetchConfig";
-import { unstable_cache as cache } from "next/cache";
+import { cacheLifeApi, parseAndDecodeParams } from "@utils/FetchConfig";
+import { unstable_cacheLife as cacheLife, unstable_cacheTag as cacheTag } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 
 // ============== API Routes Types ============== //
@@ -27,10 +27,12 @@ export type ArticleRoutes<Input> = {
 
 // ==================== Find Many ==================== //
 
-const articleListCached = cache(async <T extends FindManyArticleProps>(params: T) => ArticleService.findMany(params), ["article"], {
-    revalidate,
-    tags: ["article"],
-});
+const articleListCached = async <T extends FindManyArticleProps>(params: T) => {
+    "use cache";
+    cacheLife(cacheLifeApi);
+    cacheTag("/api/article");
+    return ArticleService.findMany<T>(params);
+};
 
 export const SelectArticleList = async <T extends FindManyArticleProps>(request: NextRequest) => {
     try {
@@ -44,11 +46,12 @@ export const SelectArticleList = async <T extends FindManyArticleProps>(request:
 
 // ==================== Find First ==================== //
 
-const articleFirstCached = cache(
-    async <T extends FindFirstArticleProps>(params: T) => ArticleService.findFirst(params),
-    ["article/first"],
-    { revalidate, tags: ["article/first"] },
-);
+const articleFirstCached = async <T extends FindFirstArticleProps>(params: T) => {
+    "use cache";
+    cacheLife(cacheLifeApi);
+    cacheTag("/api/article/first");
+    return ArticleService.findFirst<T>(params);
+};
 
 export const SelectArticleFirst = async <T extends FindFirstArticleProps>(request: NextRequest) => {
     try {
@@ -62,11 +65,12 @@ export const SelectArticleFirst = async <T extends FindFirstArticleProps>(reques
 
 // ==================== Find Unique ==================== //
 
-const articleUniqueCached = cache(
-    async <T extends FindUniqueArticleProps>(params: T) => ArticleService.findUnique(params),
-    ["article/unique"],
-    { revalidate, tags: ["article/unique"] },
-);
+const articleUniqueCached = async <T extends FindUniqueArticleProps>(params: T) => {
+    "use cache";
+    cacheLife(cacheLifeApi);
+    cacheTag("/api/article/unique");
+    return ArticleService.findUnique<T>(params);
+};
 
 export const SelectArticleUnique = async <T extends FindUniqueArticleProps>(request: NextRequest) => {
     try {
@@ -80,10 +84,12 @@ export const SelectArticleUnique = async <T extends FindUniqueArticleProps>(requ
 
 // ==================== Count ==================== //
 
-const articleCountCached = cache(async (params: CountArticleProps) => ArticleService.count(params), ["article/count"], {
-    revalidate,
-    tags: ["article/count"],
-});
+const articleCountCached = async (params: CountArticleProps) => {
+    "use cache";
+    cacheLife(cacheLifeApi);
+    cacheTag("/api/article/count");
+    return ArticleService.count(params);
+};
 
 export const SelectArticleCount = async (request: NextRequest) => {
     try {

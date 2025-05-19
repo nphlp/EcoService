@@ -1,7 +1,7 @@
 import ContentService from "@services/class/ContentClass";
 import { CountContentProps, CountContentResponse, FindFirstContentProps, FindFirstContentResponse, FindManyContentProps, FindManyContentResponse, FindUniqueContentProps, FindUniqueContentResponse } from "@services/types/ContentType";
-import { parseAndDecodeParams, revalidate } from "@utils/FetchConfig";
-import { unstable_cache as cache } from "next/cache";
+import { cacheLifeApi, parseAndDecodeParams } from "@utils/FetchConfig";
+import { unstable_cacheLife as cacheLife, unstable_cacheTag as cacheTag } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 
 // ============== API Routes Types ============== //
@@ -27,10 +27,12 @@ export type ContentRoutes<Input> = {
 
 // ==================== Find Many ==================== //
 
-const contentListCached = cache(async <T extends FindManyContentProps>(params: T) => ContentService.findMany(params), ["content"], {
-    revalidate,
-    tags: ["content"],
-});
+const contentListCached = async <T extends FindManyContentProps>(params: T) => {
+    "use cache";
+    cacheLife(cacheLifeApi);
+    cacheTag("/api/content");
+    return ContentService.findMany<T>(params);
+};
 
 export const SelectContentList = async <T extends FindManyContentProps>(request: NextRequest) => {
     try {
@@ -44,11 +46,12 @@ export const SelectContentList = async <T extends FindManyContentProps>(request:
 
 // ==================== Find First ==================== //
 
-const contentFirstCached = cache(
-    async <T extends FindFirstContentProps>(params: T) => ContentService.findFirst(params),
-    ["content/first"],
-    { revalidate, tags: ["content/first"] },
-);
+const contentFirstCached = async <T extends FindFirstContentProps>(params: T) => {
+    "use cache";
+    cacheLife(cacheLifeApi);
+    cacheTag("/api/content/first");
+    return ContentService.findFirst<T>(params);
+};
 
 export const SelectContentFirst = async <T extends FindFirstContentProps>(request: NextRequest) => {
     try {
@@ -62,11 +65,12 @@ export const SelectContentFirst = async <T extends FindFirstContentProps>(reques
 
 // ==================== Find Unique ==================== //
 
-const contentUniqueCached = cache(
-    async <T extends FindUniqueContentProps>(params: T) => ContentService.findUnique(params),
-    ["content/unique"],
-    { revalidate, tags: ["content/unique"] },
-);
+const contentUniqueCached = async <T extends FindUniqueContentProps>(params: T) => {
+    "use cache";
+    cacheLife(cacheLifeApi);
+    cacheTag("/api/content/unique");
+    return ContentService.findUnique<T>(params);
+};
 
 export const SelectContentUnique = async <T extends FindUniqueContentProps>(request: NextRequest) => {
     try {
@@ -80,10 +84,12 @@ export const SelectContentUnique = async <T extends FindUniqueContentProps>(requ
 
 // ==================== Count ==================== //
 
-const contentCountCached = cache(async (params: CountContentProps) => ContentService.count(params), ["content/count"], {
-    revalidate,
-    tags: ["content/count"],
-});
+const contentCountCached = async (params: CountContentProps) => {
+    "use cache";
+    cacheLife(cacheLifeApi);
+    cacheTag("/api/content/count");
+    return ContentService.count(params);
+};
 
 export const SelectContentCount = async (request: NextRequest) => {
     try {

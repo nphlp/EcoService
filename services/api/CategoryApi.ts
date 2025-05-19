@@ -1,7 +1,7 @@
 import CategoryService from "@services/class/CategoryClass";
 import { CountCategoryProps, CountCategoryResponse, FindFirstCategoryProps, FindFirstCategoryResponse, FindManyCategoryProps, FindManyCategoryResponse, FindUniqueCategoryProps, FindUniqueCategoryResponse } from "@services/types/CategoryType";
-import { parseAndDecodeParams, revalidate } from "@utils/FetchConfig";
-import { unstable_cache as cache } from "next/cache";
+import { cacheLifeApi, parseAndDecodeParams } from "@utils/FetchConfig";
+import { unstable_cacheLife as cacheLife, unstable_cacheTag as cacheTag } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 
 // ============== API Routes Types ============== //
@@ -27,10 +27,12 @@ export type CategoryRoutes<Input> = {
 
 // ==================== Find Many ==================== //
 
-const categoryListCached = cache(async <T extends FindManyCategoryProps>(params: T) => CategoryService.findMany(params), ["category"], {
-    revalidate,
-    tags: ["category"],
-});
+const categoryListCached = async <T extends FindManyCategoryProps>(params: T) => {
+    "use cache";
+    cacheLife(cacheLifeApi);
+    cacheTag("/api/category");
+    return CategoryService.findMany<T>(params);
+};
 
 export const SelectCategoryList = async <T extends FindManyCategoryProps>(request: NextRequest) => {
     try {
@@ -44,11 +46,12 @@ export const SelectCategoryList = async <T extends FindManyCategoryProps>(reques
 
 // ==================== Find First ==================== //
 
-const categoryFirstCached = cache(
-    async <T extends FindFirstCategoryProps>(params: T) => CategoryService.findFirst(params),
-    ["category/first"],
-    { revalidate, tags: ["category/first"] },
-);
+const categoryFirstCached = async <T extends FindFirstCategoryProps>(params: T) => {
+    "use cache";
+    cacheLife(cacheLifeApi);
+    cacheTag("/api/category/first");
+    return CategoryService.findFirst<T>(params);
+};
 
 export const SelectCategoryFirst = async <T extends FindFirstCategoryProps>(request: NextRequest) => {
     try {
@@ -62,11 +65,12 @@ export const SelectCategoryFirst = async <T extends FindFirstCategoryProps>(requ
 
 // ==================== Find Unique ==================== //
 
-const categoryUniqueCached = cache(
-    async <T extends FindUniqueCategoryProps>(params: T) => CategoryService.findUnique(params),
-    ["category/unique"],
-    { revalidate, tags: ["category/unique"] },
-);
+const categoryUniqueCached = async <T extends FindUniqueCategoryProps>(params: T) => {
+    "use cache";
+    cacheLife(cacheLifeApi);
+    cacheTag("/api/category/unique");
+    return CategoryService.findUnique<T>(params);
+};
 
 export const SelectCategoryUnique = async <T extends FindUniqueCategoryProps>(request: NextRequest) => {
     try {
@@ -80,10 +84,12 @@ export const SelectCategoryUnique = async <T extends FindUniqueCategoryProps>(re
 
 // ==================== Count ==================== //
 
-const categoryCountCached = cache(async (params: CountCategoryProps) => CategoryService.count(params), ["category/count"], {
-    revalidate,
-    tags: ["category/count"],
-});
+const categoryCountCached = async (params: CountCategoryProps) => {
+    "use cache";
+    cacheLife(cacheLifeApi);
+    cacheTag("/api/category/count");
+    return CategoryService.count(params);
+};
 
 export const SelectCategoryCount = async (request: NextRequest) => {
     try {

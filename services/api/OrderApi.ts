@@ -1,7 +1,7 @@
 import OrderService from "@services/class/OrderClass";
 import { CountOrderProps, CountOrderResponse, FindFirstOrderProps, FindFirstOrderResponse, FindManyOrderProps, FindManyOrderResponse, FindUniqueOrderProps, FindUniqueOrderResponse } from "@services/types/OrderType";
-import { parseAndDecodeParams, revalidate } from "@utils/FetchConfig";
-import { unstable_cache as cache } from "next/cache";
+import { cacheLifeApi, parseAndDecodeParams } from "@utils/FetchConfig";
+import { unstable_cacheLife as cacheLife, unstable_cacheTag as cacheTag } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 
 // ============== API Routes Types ============== //
@@ -27,10 +27,12 @@ export type OrderRoutes<Input> = {
 
 // ==================== Find Many ==================== //
 
-const orderListCached = cache(async <T extends FindManyOrderProps>(params: T) => OrderService.findMany(params), ["order"], {
-    revalidate,
-    tags: ["order"],
-});
+const orderListCached = async <T extends FindManyOrderProps>(params: T) => {
+    "use cache";
+    cacheLife(cacheLifeApi);
+    cacheTag("/api/order");
+    return OrderService.findMany<T>(params);
+};
 
 export const SelectOrderList = async <T extends FindManyOrderProps>(request: NextRequest) => {
     try {
@@ -44,11 +46,12 @@ export const SelectOrderList = async <T extends FindManyOrderProps>(request: Nex
 
 // ==================== Find First ==================== //
 
-const orderFirstCached = cache(
-    async <T extends FindFirstOrderProps>(params: T) => OrderService.findFirst(params),
-    ["order/first"],
-    { revalidate, tags: ["order/first"] },
-);
+const orderFirstCached = async <T extends FindFirstOrderProps>(params: T) => {
+    "use cache";
+    cacheLife(cacheLifeApi);
+    cacheTag("/api/order/first");
+    return OrderService.findFirst<T>(params);
+};
 
 export const SelectOrderFirst = async <T extends FindFirstOrderProps>(request: NextRequest) => {
     try {
@@ -62,11 +65,12 @@ export const SelectOrderFirst = async <T extends FindFirstOrderProps>(request: N
 
 // ==================== Find Unique ==================== //
 
-const orderUniqueCached = cache(
-    async <T extends FindUniqueOrderProps>(params: T) => OrderService.findUnique(params),
-    ["order/unique"],
-    { revalidate, tags: ["order/unique"] },
-);
+const orderUniqueCached = async <T extends FindUniqueOrderProps>(params: T) => {
+    "use cache";
+    cacheLife(cacheLifeApi);
+    cacheTag("/api/order/unique");
+    return OrderService.findUnique<T>(params);
+};
 
 export const SelectOrderUnique = async <T extends FindUniqueOrderProps>(request: NextRequest) => {
     try {
@@ -80,10 +84,12 @@ export const SelectOrderUnique = async <T extends FindUniqueOrderProps>(request:
 
 // ==================== Count ==================== //
 
-const orderCountCached = cache(async (params: CountOrderProps) => OrderService.count(params), ["order/count"], {
-    revalidate,
-    tags: ["order/count"],
-});
+const orderCountCached = async (params: CountOrderProps) => {
+    "use cache";
+    cacheLife(cacheLifeApi);
+    cacheTag("/api/order/count");
+    return OrderService.count(params);
+};
 
 export const SelectOrderCount = async (request: NextRequest) => {
     try {

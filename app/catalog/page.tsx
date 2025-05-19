@@ -7,9 +7,6 @@ import PaginationClient from "./components/pagination";
 import CatalogProvider from "./components/provider";
 import { SearchParamsCached, SearchParamsType } from "./components/searchParams";
 
-export const dynamic = "auto";
-export const revalidate = 3600;
-
 type PageProps = {
     searchParams: Promise<SearchParamsType>;
 };

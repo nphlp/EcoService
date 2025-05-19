@@ -1,5 +1,5 @@
-import { parseAndDecodeParams, ResponseFormat } from "@utils/FetchConfig";
-import { unstable_cache as cache } from "next/cache";
+import { cacheLifeApi, parseAndDecodeParams, ResponseFormat } from "@utils/FetchConfig";
+import { unstable_cacheLife as cacheLife, unstable_cacheTag as cacheTag } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 import { strictObject, z, ZodError, ZodType } from "zod";
 
@@ -61,16 +61,17 @@ export async function GET(request: NextRequest): Promise<NextResponse<ResponseFo
     }
 }
 
-const getLocationCached = cache(
-    async (ipAddress: string) => {
-        const url = `https://ipapi.co/${ipAddress}/json/`;
+const getLocationCached = async (ipAddress: string) => {
+    "use cache";
 
-        const response = await fetch(url, { method: "GET" });
+    cacheLife(cacheLifeApi);
+    cacheTag("location");
 
-        const data: LocationResponse = await response.json();
+    const url = `https://ipapi.co/${ipAddress}/json/`;
 
-        return data;
-    },
-    ["location"],
-    { revalidate: 3600, tags: ["location"] },
-);
+    const response = await fetch(url, { method: "GET" });
+
+    const data: LocationResponse = await response.json();
+
+    return data;
+};

@@ -1,7 +1,7 @@
 import AccountService from "@services/class/AccountClass";
 import { CountAccountProps, CountAccountResponse, FindFirstAccountProps, FindFirstAccountResponse, FindManyAccountProps, FindManyAccountResponse, FindUniqueAccountProps, FindUniqueAccountResponse } from "@services/types/AccountType";
-import { parseAndDecodeParams, revalidate } from "@utils/FetchConfig";
-import { unstable_cache as cache } from "next/cache";
+import { cacheLifeApi, parseAndDecodeParams } from "@utils/FetchConfig";
+import { unstable_cacheLife as cacheLife, unstable_cacheTag as cacheTag } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 
 // ============== API Routes Types ============== //
@@ -27,10 +27,12 @@ export type AccountRoutes<Input> = {
 
 // ==================== Find Many ==================== //
 
-const accountListCached = cache(async <T extends FindManyAccountProps>(params: T) => AccountService.findMany(params), ["account"], {
-    revalidate,
-    tags: ["account"],
-});
+const accountListCached = async <T extends FindManyAccountProps>(params: T) => {
+    "use cache";
+    cacheLife(cacheLifeApi);
+    cacheTag("/api/account");
+    return AccountService.findMany<T>(params);
+};
 
 export const SelectAccountList = async <T extends FindManyAccountProps>(request: NextRequest) => {
     try {
@@ -44,11 +46,12 @@ export const SelectAccountList = async <T extends FindManyAccountProps>(request:
 
 // ==================== Find First ==================== //
 
-const accountFirstCached = cache(
-    async <T extends FindFirstAccountProps>(params: T) => AccountService.findFirst(params),
-    ["account/first"],
-    { revalidate, tags: ["account/first"] },
-);
+const accountFirstCached = async <T extends FindFirstAccountProps>(params: T) => {
+    "use cache";
+    cacheLife(cacheLifeApi);
+    cacheTag("/api/account/first");
+    return AccountService.findFirst<T>(params);
+};
 
 export const SelectAccountFirst = async <T extends FindFirstAccountProps>(request: NextRequest) => {
     try {
@@ -62,11 +65,12 @@ export const SelectAccountFirst = async <T extends FindFirstAccountProps>(reques
 
 // ==================== Find Unique ==================== //
 
-const accountUniqueCached = cache(
-    async <T extends FindUniqueAccountProps>(params: T) => AccountService.findUnique(params),
-    ["account/unique"],
-    { revalidate, tags: ["account/unique"] },
-);
+const accountUniqueCached = async <T extends FindUniqueAccountProps>(params: T) => {
+    "use cache";
+    cacheLife(cacheLifeApi);
+    cacheTag("/api/account/unique");
+    return AccountService.findUnique<T>(params);
+};
 
 export const SelectAccountUnique = async <T extends FindUniqueAccountProps>(request: NextRequest) => {
     try {
@@ -80,10 +84,12 @@ export const SelectAccountUnique = async <T extends FindUniqueAccountProps>(requ
 
 // ==================== Count ==================== //
 
-const accountCountCached = cache(async (params: CountAccountProps) => AccountService.count(params), ["account/count"], {
-    revalidate,
-    tags: ["account/count"],
-});
+const accountCountCached = async (params: CountAccountProps) => {
+    "use cache";
+    cacheLife(cacheLifeApi);
+    cacheTag("/api/account/count");
+    return AccountService.count(params);
+};
 
 export const SelectAccountCount = async (request: NextRequest) => {
     try {

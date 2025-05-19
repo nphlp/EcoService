@@ -1,7 +1,7 @@
 import DiyService from "@services/class/DiyClass";
 import { CountDiyProps, CountDiyResponse, FindFirstDiyProps, FindFirstDiyResponse, FindManyDiyProps, FindManyDiyResponse, FindUniqueDiyProps, FindUniqueDiyResponse } from "@services/types/DiyType";
-import { parseAndDecodeParams, revalidate } from "@utils/FetchConfig";
-import { unstable_cache as cache } from "next/cache";
+import { cacheLifeApi, parseAndDecodeParams } from "@utils/FetchConfig";
+import { unstable_cacheLife as cacheLife, unstable_cacheTag as cacheTag } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 
 // ============== API Routes Types ============== //
@@ -27,10 +27,12 @@ export type DiyRoutes<Input> = {
 
 // ==================== Find Many ==================== //
 
-const diyListCached = cache(async <T extends FindManyDiyProps>(params: T) => DiyService.findMany(params), ["diy"], {
-    revalidate,
-    tags: ["diy"],
-});
+const diyListCached = async <T extends FindManyDiyProps>(params: T) => {
+    "use cache";
+    cacheLife(cacheLifeApi);
+    cacheTag("/api/diy");
+    return DiyService.findMany<T>(params);
+};
 
 export const SelectDiyList = async <T extends FindManyDiyProps>(request: NextRequest) => {
     try {
@@ -44,11 +46,12 @@ export const SelectDiyList = async <T extends FindManyDiyProps>(request: NextReq
 
 // ==================== Find First ==================== //
 
-const diyFirstCached = cache(
-    async <T extends FindFirstDiyProps>(params: T) => DiyService.findFirst(params),
-    ["diy/first"],
-    { revalidate, tags: ["diy/first"] },
-);
+const diyFirstCached = async <T extends FindFirstDiyProps>(params: T) => {
+    "use cache";
+    cacheLife(cacheLifeApi);
+    cacheTag("/api/diy/first");
+    return DiyService.findFirst<T>(params);
+};
 
 export const SelectDiyFirst = async <T extends FindFirstDiyProps>(request: NextRequest) => {
     try {
@@ -62,11 +65,12 @@ export const SelectDiyFirst = async <T extends FindFirstDiyProps>(request: NextR
 
 // ==================== Find Unique ==================== //
 
-const diyUniqueCached = cache(
-    async <T extends FindUniqueDiyProps>(params: T) => DiyService.findUnique(params),
-    ["diy/unique"],
-    { revalidate, tags: ["diy/unique"] },
-);
+const diyUniqueCached = async <T extends FindUniqueDiyProps>(params: T) => {
+    "use cache";
+    cacheLife(cacheLifeApi);
+    cacheTag("/api/diy/unique");
+    return DiyService.findUnique<T>(params);
+};
 
 export const SelectDiyUnique = async <T extends FindUniqueDiyProps>(request: NextRequest) => {
     try {
@@ -80,10 +84,12 @@ export const SelectDiyUnique = async <T extends FindUniqueDiyProps>(request: Nex
 
 // ==================== Count ==================== //
 
-const diyCountCached = cache(async (params: CountDiyProps) => DiyService.count(params), ["diy/count"], {
-    revalidate,
-    tags: ["diy/count"],
-});
+const diyCountCached = async (params: CountDiyProps) => {
+    "use cache";
+    cacheLife(cacheLifeApi);
+    cacheTag("/api/diy/count");
+    return DiyService.count(params);
+};
 
 export const SelectDiyCount = async (request: NextRequest) => {
     try {

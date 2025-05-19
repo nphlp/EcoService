@@ -1,10 +1,10 @@
+"use cache";
+
 import ImageRatio from "@comps/server/imageRatio";
 import { FetchV2 } from "@utils/FetchV2/FetchV2";
 import { Metadata } from "next";
+import { unstable_cacheLife as cacheLife, unstable_cacheTag as cacheTag } from "next/cache";
 import Link from "next/link";
-
-export const dynamic = "auto";
-export const revalidate = 3600;
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 if (!baseUrl) throw new Error("NEXT_PUBLIC_BASE_URL environment variable is not defined");
@@ -12,12 +12,16 @@ if (!baseUrl) throw new Error("NEXT_PUBLIC_BASE_URL environment variable is not 
 export const metadata: Metadata = {
     title: "Nos tutoriels DIY",
     description: "Découvrez nos tutoriels DIY et nos conseils pour améliorer votre maison.",
+    // metadataBase: new URL(`${baseUrl}/diy`),
     alternates: {
         canonical: `${baseUrl}/diy`,
     },
 };
 
 export default async function Page() {
+    cacheLife("hours");
+    cacheTag("diys");
+
     const diyList = await FetchV2({
         route: "/diy",
         params: {

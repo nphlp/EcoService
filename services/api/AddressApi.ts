@@ -1,7 +1,7 @@
 import AddressService from "@services/class/AddressClass";
 import { CountAddressProps, CountAddressResponse, FindFirstAddressProps, FindFirstAddressResponse, FindManyAddressProps, FindManyAddressResponse, FindUniqueAddressProps, FindUniqueAddressResponse } from "@services/types/AddressType";
-import { parseAndDecodeParams, revalidate } from "@utils/FetchConfig";
-import { unstable_cache as cache } from "next/cache";
+import { cacheLifeApi, parseAndDecodeParams } from "@utils/FetchConfig";
+import { unstable_cacheLife as cacheLife, unstable_cacheTag as cacheTag } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 
 // ============== API Routes Types ============== //
@@ -27,10 +27,12 @@ export type AddressRoutes<Input> = {
 
 // ==================== Find Many ==================== //
 
-const addressListCached = cache(async <T extends FindManyAddressProps>(params: T) => AddressService.findMany(params), ["address"], {
-    revalidate,
-    tags: ["address"],
-});
+const addressListCached = async <T extends FindManyAddressProps>(params: T) => {
+    "use cache";
+    cacheLife(cacheLifeApi);
+    cacheTag("/api/address");
+    return AddressService.findMany<T>(params);
+};
 
 export const SelectAddressList = async <T extends FindManyAddressProps>(request: NextRequest) => {
     try {
@@ -44,11 +46,12 @@ export const SelectAddressList = async <T extends FindManyAddressProps>(request:
 
 // ==================== Find First ==================== //
 
-const addressFirstCached = cache(
-    async <T extends FindFirstAddressProps>(params: T) => AddressService.findFirst(params),
-    ["address/first"],
-    { revalidate, tags: ["address/first"] },
-);
+const addressFirstCached = async <T extends FindFirstAddressProps>(params: T) => {
+    "use cache";
+    cacheLife(cacheLifeApi);
+    cacheTag("/api/address/first");
+    return AddressService.findFirst<T>(params);
+};
 
 export const SelectAddressFirst = async <T extends FindFirstAddressProps>(request: NextRequest) => {
     try {
@@ -62,11 +65,12 @@ export const SelectAddressFirst = async <T extends FindFirstAddressProps>(reques
 
 // ==================== Find Unique ==================== //
 
-const addressUniqueCached = cache(
-    async <T extends FindUniqueAddressProps>(params: T) => AddressService.findUnique(params),
-    ["address/unique"],
-    { revalidate, tags: ["address/unique"] },
-);
+const addressUniqueCached = async <T extends FindUniqueAddressProps>(params: T) => {
+    "use cache";
+    cacheLife(cacheLifeApi);
+    cacheTag("/api/address/unique");
+    return AddressService.findUnique<T>(params);
+};
 
 export const SelectAddressUnique = async <T extends FindUniqueAddressProps>(request: NextRequest) => {
     try {
@@ -80,10 +84,12 @@ export const SelectAddressUnique = async <T extends FindUniqueAddressProps>(requ
 
 // ==================== Count ==================== //
 
-const addressCountCached = cache(async (params: CountAddressProps) => AddressService.count(params), ["address/count"], {
-    revalidate,
-    tags: ["address/count"],
-});
+const addressCountCached = async (params: CountAddressProps) => {
+    "use cache";
+    cacheLife(cacheLifeApi);
+    cacheTag("/api/address/count");
+    return AddressService.count(params);
+};
 
 export const SelectAddressCount = async (request: NextRequest) => {
     try {

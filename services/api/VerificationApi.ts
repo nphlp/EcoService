@@ -1,7 +1,7 @@
 import VerificationService from "@services/class/VerificationClass";
 import { CountVerificationProps, CountVerificationResponse, FindFirstVerificationProps, FindFirstVerificationResponse, FindManyVerificationProps, FindManyVerificationResponse, FindUniqueVerificationProps, FindUniqueVerificationResponse } from "@services/types/VerificationType";
-import { parseAndDecodeParams, revalidate } from "@utils/FetchConfig";
-import { unstable_cache as cache } from "next/cache";
+import { cacheLifeApi, parseAndDecodeParams } from "@utils/FetchConfig";
+import { unstable_cacheLife as cacheLife, unstable_cacheTag as cacheTag } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 
 // ============== API Routes Types ============== //
@@ -27,10 +27,12 @@ export type VerificationRoutes<Input> = {
 
 // ==================== Find Many ==================== //
 
-const verificationListCached = cache(async <T extends FindManyVerificationProps>(params: T) => VerificationService.findMany(params), ["verification"], {
-    revalidate,
-    tags: ["verification"],
-});
+const verificationListCached = async <T extends FindManyVerificationProps>(params: T) => {
+    "use cache";
+    cacheLife(cacheLifeApi);
+    cacheTag("/api/verification");
+    return VerificationService.findMany<T>(params);
+};
 
 export const SelectVerificationList = async <T extends FindManyVerificationProps>(request: NextRequest) => {
     try {
@@ -44,11 +46,12 @@ export const SelectVerificationList = async <T extends FindManyVerificationProps
 
 // ==================== Find First ==================== //
 
-const verificationFirstCached = cache(
-    async <T extends FindFirstVerificationProps>(params: T) => VerificationService.findFirst(params),
-    ["verification/first"],
-    { revalidate, tags: ["verification/first"] },
-);
+const verificationFirstCached = async <T extends FindFirstVerificationProps>(params: T) => {
+    "use cache";
+    cacheLife(cacheLifeApi);
+    cacheTag("/api/verification/first");
+    return VerificationService.findFirst<T>(params);
+};
 
 export const SelectVerificationFirst = async <T extends FindFirstVerificationProps>(request: NextRequest) => {
     try {
@@ -62,11 +65,12 @@ export const SelectVerificationFirst = async <T extends FindFirstVerificationPro
 
 // ==================== Find Unique ==================== //
 
-const verificationUniqueCached = cache(
-    async <T extends FindUniqueVerificationProps>(params: T) => VerificationService.findUnique(params),
-    ["verification/unique"],
-    { revalidate, tags: ["verification/unique"] },
-);
+const verificationUniqueCached = async <T extends FindUniqueVerificationProps>(params: T) => {
+    "use cache";
+    cacheLife(cacheLifeApi);
+    cacheTag("/api/verification/unique");
+    return VerificationService.findUnique<T>(params);
+};
 
 export const SelectVerificationUnique = async <T extends FindUniqueVerificationProps>(request: NextRequest) => {
     try {
@@ -80,10 +84,12 @@ export const SelectVerificationUnique = async <T extends FindUniqueVerificationP
 
 // ==================== Count ==================== //
 
-const verificationCountCached = cache(async (params: CountVerificationProps) => VerificationService.count(params), ["verification/count"], {
-    revalidate,
-    tags: ["verification/count"],
-});
+const verificationCountCached = async (params: CountVerificationProps) => {
+    "use cache";
+    cacheLife(cacheLifeApi);
+    cacheTag("/api/verification/count");
+    return VerificationService.count(params);
+};
 
 export const SelectVerificationCount = async (request: NextRequest) => {
     try {

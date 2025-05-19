@@ -1,7 +1,7 @@
 import {{modelName}}Service from "@services/class/{{modelName}}Class";
 import { Count{{modelName}}Props, Count{{modelName}}Response, FindFirst{{modelName}}Props, FindFirst{{modelName}}Response, FindMany{{modelName}}Props, FindMany{{modelName}}Response, FindUnique{{modelName}}Props, FindUnique{{modelName}}Response } from "@services/types/{{modelName}}Type";
-import { parseAndDecodeParams, revalidate } from "@utils/FetchConfig";
-import { unstable_cache as cache } from "next/cache";
+import { cacheLifeApi, parseAndDecodeParams } from "@utils/FetchConfig";
+import { unstable_cacheLife as cacheLife, unstable_cacheTag as cacheTag } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 
 // ============== API Routes Types ============== //
@@ -27,10 +27,12 @@ export type {{modelName}}Routes<Input> = {
 
 // ==================== Find Many ==================== //
 
-const {{modelNameLower}}ListCached = cache(async <T extends FindMany{{modelName}}Props>(params: T) => {{modelName}}Service.findMany(params), ["{{modelNameLower}}"], {
-    revalidate,
-    tags: ["{{modelNameLower}}"],
-});
+const {{modelNameLower}}ListCached = async <T extends FindMany{{modelName}}Props>(params: T) => {
+    "use cache";
+    cacheLife(cacheLifeApi);
+    cacheTag("/api/{{modelNameLower}}");
+    return {{modelName}}Service.findMany<T>(params);
+};
 
 export const Select{{modelName}}List = async <T extends FindMany{{modelName}}Props>(request: NextRequest) => {
     try {
@@ -44,11 +46,12 @@ export const Select{{modelName}}List = async <T extends FindMany{{modelName}}Pro
 
 // ==================== Find First ==================== //
 
-const {{modelNameLower}}FirstCached = cache(
-    async <T extends FindFirst{{modelName}}Props>(params: T) => {{modelName}}Service.findFirst(params),
-    ["{{modelNameLower}}/first"],
-    { revalidate, tags: ["{{modelNameLower}}/first"] },
-);
+const {{modelNameLower}}FirstCached = async <T extends FindFirst{{modelName}}Props>(params: T) => {
+    "use cache";
+    cacheLife(cacheLifeApi);
+    cacheTag("/api/{{modelNameLower}}/first");
+    return {{modelName}}Service.findFirst<T>(params);
+};
 
 export const Select{{modelName}}First = async <T extends FindFirst{{modelName}}Props>(request: NextRequest) => {
     try {
@@ -62,11 +65,12 @@ export const Select{{modelName}}First = async <T extends FindFirst{{modelName}}P
 
 // ==================== Find Unique ==================== //
 
-const {{modelNameLower}}UniqueCached = cache(
-    async <T extends FindUnique{{modelName}}Props>(params: T) => {{modelName}}Service.findUnique(params),
-    ["{{modelNameLower}}/unique"],
-    { revalidate, tags: ["{{modelNameLower}}/unique"] },
-);
+const {{modelNameLower}}UniqueCached = async <T extends FindUnique{{modelName}}Props>(params: T) => {
+    "use cache";
+    cacheLife(cacheLifeApi);
+    cacheTag("/api/{{modelNameLower}}/unique");
+    return {{modelName}}Service.findUnique<T>(params);
+};
 
 export const Select{{modelName}}Unique = async <T extends FindUnique{{modelName}}Props>(request: NextRequest) => {
     try {
@@ -80,10 +84,12 @@ export const Select{{modelName}}Unique = async <T extends FindUnique{{modelName}
 
 // ==================== Count ==================== //
 
-const {{modelNameLower}}CountCached = cache(async (params: Count{{modelName}}Props) => {{modelName}}Service.count(params), ["{{modelNameLower}}/count"], {
-    revalidate,
-    tags: ["{{modelNameLower}}/count"],
-});
+const {{modelNameLower}}CountCached = async (params: Count{{modelName}}Props) => {
+    "use cache";
+    cacheLife(cacheLifeApi);
+    cacheTag("/api/{{modelNameLower}}/count");
+    return {{modelName}}Service.count(params);
+};
 
 export const Select{{modelName}}Count = async (request: NextRequest) => {
     try {

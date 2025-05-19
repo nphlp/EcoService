@@ -1,7 +1,7 @@
 import QuantityService from "@services/class/QuantityClass";
 import { CountQuantityProps, CountQuantityResponse, FindFirstQuantityProps, FindFirstQuantityResponse, FindManyQuantityProps, FindManyQuantityResponse, FindUniqueQuantityProps, FindUniqueQuantityResponse } from "@services/types/QuantityType";
-import { parseAndDecodeParams, revalidate } from "@utils/FetchConfig";
-import { unstable_cache as cache } from "next/cache";
+import { cacheLifeApi, parseAndDecodeParams } from "@utils/FetchConfig";
+import { unstable_cacheLife as cacheLife, unstable_cacheTag as cacheTag } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 
 // ============== API Routes Types ============== //
@@ -27,10 +27,12 @@ export type QuantityRoutes<Input> = {
 
 // ==================== Find Many ==================== //
 
-const quantityListCached = cache(async <T extends FindManyQuantityProps>(params: T) => QuantityService.findMany(params), ["quantity"], {
-    revalidate,
-    tags: ["quantity"],
-});
+const quantityListCached = async <T extends FindManyQuantityProps>(params: T) => {
+    "use cache";
+    cacheLife(cacheLifeApi);
+    cacheTag("/api/quantity");
+    return QuantityService.findMany<T>(params);
+};
 
 export const SelectQuantityList = async <T extends FindManyQuantityProps>(request: NextRequest) => {
     try {
@@ -44,11 +46,12 @@ export const SelectQuantityList = async <T extends FindManyQuantityProps>(reques
 
 // ==================== Find First ==================== //
 
-const quantityFirstCached = cache(
-    async <T extends FindFirstQuantityProps>(params: T) => QuantityService.findFirst(params),
-    ["quantity/first"],
-    { revalidate, tags: ["quantity/first"] },
-);
+const quantityFirstCached = async <T extends FindFirstQuantityProps>(params: T) => {
+    "use cache";
+    cacheLife(cacheLifeApi);
+    cacheTag("/api/quantity/first");
+    return QuantityService.findFirst<T>(params);
+};
 
 export const SelectQuantityFirst = async <T extends FindFirstQuantityProps>(request: NextRequest) => {
     try {
@@ -62,11 +65,12 @@ export const SelectQuantityFirst = async <T extends FindFirstQuantityProps>(requ
 
 // ==================== Find Unique ==================== //
 
-const quantityUniqueCached = cache(
-    async <T extends FindUniqueQuantityProps>(params: T) => QuantityService.findUnique(params),
-    ["quantity/unique"],
-    { revalidate, tags: ["quantity/unique"] },
-);
+const quantityUniqueCached = async <T extends FindUniqueQuantityProps>(params: T) => {
+    "use cache";
+    cacheLife(cacheLifeApi);
+    cacheTag("/api/quantity/unique");
+    return QuantityService.findUnique<T>(params);
+};
 
 export const SelectQuantityUnique = async <T extends FindUniqueQuantityProps>(request: NextRequest) => {
     try {
@@ -80,10 +84,12 @@ export const SelectQuantityUnique = async <T extends FindUniqueQuantityProps>(re
 
 // ==================== Count ==================== //
 
-const quantityCountCached = cache(async (params: CountQuantityProps) => QuantityService.count(params), ["quantity/count"], {
-    revalidate,
-    tags: ["quantity/count"],
-});
+const quantityCountCached = async (params: CountQuantityProps) => {
+    "use cache";
+    cacheLife(cacheLifeApi);
+    cacheTag("/api/quantity/count");
+    return QuantityService.count(params);
+};
 
 export const SelectQuantityCount = async (request: NextRequest) => {
     try {

@@ -1,7 +1,7 @@
 import FruitService from "@services/class/FruitClass";
 import { CountFruitProps, CountFruitResponse, FindFirstFruitProps, FindFirstFruitResponse, FindManyFruitProps, FindManyFruitResponse, FindUniqueFruitProps, FindUniqueFruitResponse } from "@services/types/FruitType";
-import { parseAndDecodeParams, revalidate } from "@utils/FetchConfig";
-import { unstable_cache as cache } from "next/cache";
+import { cacheLifeApi, parseAndDecodeParams } from "@utils/FetchConfig";
+import { unstable_cacheLife as cacheLife, unstable_cacheTag as cacheTag } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 
 // ============== API Routes Types ============== //
@@ -27,10 +27,12 @@ export type FruitRoutes<Input> = {
 
 // ==================== Find Many ==================== //
 
-const fruitListCached = cache(async <T extends FindManyFruitProps>(params: T) => FruitService.findMany(params), ["fruit"], {
-    revalidate,
-    tags: ["fruit"],
-});
+const fruitListCached = async <T extends FindManyFruitProps>(params: T) => {
+    "use cache";
+    cacheLife(cacheLifeApi);
+    cacheTag("/api/fruit");
+    return FruitService.findMany<T>(params);
+};
 
 export const SelectFruitList = async <T extends FindManyFruitProps>(request: NextRequest) => {
     try {
@@ -44,11 +46,12 @@ export const SelectFruitList = async <T extends FindManyFruitProps>(request: Nex
 
 // ==================== Find First ==================== //
 
-const fruitFirstCached = cache(
-    async <T extends FindFirstFruitProps>(params: T) => FruitService.findFirst(params),
-    ["fruit/first"],
-    { revalidate, tags: ["fruit/first"] },
-);
+const fruitFirstCached = async <T extends FindFirstFruitProps>(params: T) => {
+    "use cache";
+    cacheLife(cacheLifeApi);
+    cacheTag("/api/fruit/first");
+    return FruitService.findFirst<T>(params);
+};
 
 export const SelectFruitFirst = async <T extends FindFirstFruitProps>(request: NextRequest) => {
     try {
@@ -62,11 +65,12 @@ export const SelectFruitFirst = async <T extends FindFirstFruitProps>(request: N
 
 // ==================== Find Unique ==================== //
 
-const fruitUniqueCached = cache(
-    async <T extends FindUniqueFruitProps>(params: T) => FruitService.findUnique(params),
-    ["fruit/unique"],
-    { revalidate, tags: ["fruit/unique"] },
-);
+const fruitUniqueCached = async <T extends FindUniqueFruitProps>(params: T) => {
+    "use cache";
+    cacheLife(cacheLifeApi);
+    cacheTag("/api/fruit/unique");
+    return FruitService.findUnique<T>(params);
+};
 
 export const SelectFruitUnique = async <T extends FindUniqueFruitProps>(request: NextRequest) => {
     try {
@@ -80,10 +84,12 @@ export const SelectFruitUnique = async <T extends FindUniqueFruitProps>(request:
 
 // ==================== Count ==================== //
 
-const fruitCountCached = cache(async (params: CountFruitProps) => FruitService.count(params), ["fruit/count"], {
-    revalidate,
-    tags: ["fruit/count"],
-});
+const fruitCountCached = async (params: CountFruitProps) => {
+    "use cache";
+    cacheLife(cacheLifeApi);
+    cacheTag("/api/fruit/count");
+    return FruitService.count(params);
+};
 
 export const SelectFruitCount = async (request: NextRequest) => {
     try {

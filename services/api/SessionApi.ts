@@ -1,7 +1,7 @@
 import SessionService from "@services/class/SessionClass";
 import { CountSessionProps, CountSessionResponse, FindFirstSessionProps, FindFirstSessionResponse, FindManySessionProps, FindManySessionResponse, FindUniqueSessionProps, FindUniqueSessionResponse } from "@services/types/SessionType";
-import { parseAndDecodeParams, revalidate } from "@utils/FetchConfig";
-import { unstable_cache as cache } from "next/cache";
+import { cacheLifeApi, parseAndDecodeParams } from "@utils/FetchConfig";
+import { unstable_cacheLife as cacheLife, unstable_cacheTag as cacheTag } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 
 // ============== API Routes Types ============== //
@@ -27,10 +27,12 @@ export type SessionRoutes<Input> = {
 
 // ==================== Find Many ==================== //
 
-const sessionListCached = cache(async <T extends FindManySessionProps>(params: T) => SessionService.findMany(params), ["session"], {
-    revalidate,
-    tags: ["session"],
-});
+const sessionListCached = async <T extends FindManySessionProps>(params: T) => {
+    "use cache";
+    cacheLife(cacheLifeApi);
+    cacheTag("/api/session");
+    return SessionService.findMany<T>(params);
+};
 
 export const SelectSessionList = async <T extends FindManySessionProps>(request: NextRequest) => {
     try {
@@ -44,11 +46,12 @@ export const SelectSessionList = async <T extends FindManySessionProps>(request:
 
 // ==================== Find First ==================== //
 
-const sessionFirstCached = cache(
-    async <T extends FindFirstSessionProps>(params: T) => SessionService.findFirst(params),
-    ["session/first"],
-    { revalidate, tags: ["session/first"] },
-);
+const sessionFirstCached = async <T extends FindFirstSessionProps>(params: T) => {
+    "use cache";
+    cacheLife(cacheLifeApi);
+    cacheTag("/api/session/first");
+    return SessionService.findFirst<T>(params);
+};
 
 export const SelectSessionFirst = async <T extends FindFirstSessionProps>(request: NextRequest) => {
     try {
@@ -62,11 +65,12 @@ export const SelectSessionFirst = async <T extends FindFirstSessionProps>(reques
 
 // ==================== Find Unique ==================== //
 
-const sessionUniqueCached = cache(
-    async <T extends FindUniqueSessionProps>(params: T) => SessionService.findUnique(params),
-    ["session/unique"],
-    { revalidate, tags: ["session/unique"] },
-);
+const sessionUniqueCached = async <T extends FindUniqueSessionProps>(params: T) => {
+    "use cache";
+    cacheLife(cacheLifeApi);
+    cacheTag("/api/session/unique");
+    return SessionService.findUnique<T>(params);
+};
 
 export const SelectSessionUnique = async <T extends FindUniqueSessionProps>(request: NextRequest) => {
     try {
@@ -80,10 +84,12 @@ export const SelectSessionUnique = async <T extends FindUniqueSessionProps>(requ
 
 // ==================== Count ==================== //
 
-const sessionCountCached = cache(async (params: CountSessionProps) => SessionService.count(params), ["session/count"], {
-    revalidate,
-    tags: ["session/count"],
-});
+const sessionCountCached = async (params: CountSessionProps) => {
+    "use cache";
+    cacheLife(cacheLifeApi);
+    cacheTag("/api/session/count");
+    return SessionService.count(params);
+};
 
 export const SelectSessionCount = async (request: NextRequest) => {
     try {

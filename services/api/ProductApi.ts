@@ -1,7 +1,7 @@
 import ProductService from "@services/class/ProductClass";
 import { CountProductProps, CountProductResponse, FindFirstProductProps, FindFirstProductResponse, FindManyProductProps, FindManyProductResponse, FindUniqueProductProps, FindUniqueProductResponse } from "@services/types/ProductType";
-import { parseAndDecodeParams, revalidate } from "@utils/FetchConfig";
-import { unstable_cache as cache } from "next/cache";
+import { cacheLifeApi, parseAndDecodeParams } from "@utils/FetchConfig";
+import { unstable_cacheLife as cacheLife, unstable_cacheTag as cacheTag } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 
 // ============== API Routes Types ============== //
@@ -27,10 +27,12 @@ export type ProductRoutes<Input> = {
 
 // ==================== Find Many ==================== //
 
-const productListCached = cache(async <T extends FindManyProductProps>(params: T) => ProductService.findMany(params), ["product"], {
-    revalidate,
-    tags: ["product"],
-});
+const productListCached = async <T extends FindManyProductProps>(params: T) => {
+    "use cache";
+    cacheLife(cacheLifeApi);
+    cacheTag("/api/product");
+    return ProductService.findMany<T>(params);
+};
 
 export const SelectProductList = async <T extends FindManyProductProps>(request: NextRequest) => {
     try {
@@ -44,11 +46,12 @@ export const SelectProductList = async <T extends FindManyProductProps>(request:
 
 // ==================== Find First ==================== //
 
-const productFirstCached = cache(
-    async <T extends FindFirstProductProps>(params: T) => ProductService.findFirst(params),
-    ["product/first"],
-    { revalidate, tags: ["product/first"] },
-);
+const productFirstCached = async <T extends FindFirstProductProps>(params: T) => {
+    "use cache";
+    cacheLife(cacheLifeApi);
+    cacheTag("/api/product/first");
+    return ProductService.findFirst<T>(params);
+};
 
 export const SelectProductFirst = async <T extends FindFirstProductProps>(request: NextRequest) => {
     try {
@@ -62,11 +65,12 @@ export const SelectProductFirst = async <T extends FindFirstProductProps>(reques
 
 // ==================== Find Unique ==================== //
 
-const productUniqueCached = cache(
-    async <T extends FindUniqueProductProps>(params: T) => ProductService.findUnique(params),
-    ["product/unique"],
-    { revalidate, tags: ["product/unique"] },
-);
+const productUniqueCached = async <T extends FindUniqueProductProps>(params: T) => {
+    "use cache";
+    cacheLife(cacheLifeApi);
+    cacheTag("/api/product/unique");
+    return ProductService.findUnique<T>(params);
+};
 
 export const SelectProductUnique = async <T extends FindUniqueProductProps>(request: NextRequest) => {
     try {
@@ -80,10 +84,12 @@ export const SelectProductUnique = async <T extends FindUniqueProductProps>(requ
 
 // ==================== Count ==================== //
 
-const productCountCached = cache(async (params: CountProductProps) => ProductService.count(params), ["product/count"], {
-    revalidate,
-    tags: ["product/count"],
-});
+const productCountCached = async (params: CountProductProps) => {
+    "use cache";
+    cacheLife(cacheLifeApi);
+    cacheTag("/api/product/count");
+    return ProductService.count(params);
+};
 
 export const SelectProductCount = async (request: NextRequest) => {
     try {

@@ -1,7 +1,7 @@
 import UserService from "@services/class/UserClass";
 import { CountUserProps, CountUserResponse, FindFirstUserProps, FindFirstUserResponse, FindManyUserProps, FindManyUserResponse, FindUniqueUserProps, FindUniqueUserResponse } from "@services/types/UserType";
-import { parseAndDecodeParams, revalidate } from "@utils/FetchConfig";
-import { unstable_cache as cache } from "next/cache";
+import { cacheLifeApi, parseAndDecodeParams } from "@utils/FetchConfig";
+import { unstable_cacheLife as cacheLife, unstable_cacheTag as cacheTag } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 
 // ============== API Routes Types ============== //
@@ -27,10 +27,12 @@ export type UserRoutes<Input> = {
 
 // ==================== Find Many ==================== //
 
-const userListCached = cache(async <T extends FindManyUserProps>(params: T) => UserService.findMany(params), ["user"], {
-    revalidate,
-    tags: ["user"],
-});
+const userListCached = async <T extends FindManyUserProps>(params: T) => {
+    "use cache";
+    cacheLife(cacheLifeApi);
+    cacheTag("/api/user");
+    return UserService.findMany<T>(params);
+};
 
 export const SelectUserList = async <T extends FindManyUserProps>(request: NextRequest) => {
     try {
@@ -44,11 +46,12 @@ export const SelectUserList = async <T extends FindManyUserProps>(request: NextR
 
 // ==================== Find First ==================== //
 
-const userFirstCached = cache(
-    async <T extends FindFirstUserProps>(params: T) => UserService.findFirst(params),
-    ["user/first"],
-    { revalidate, tags: ["user/first"] },
-);
+const userFirstCached = async <T extends FindFirstUserProps>(params: T) => {
+    "use cache";
+    cacheLife(cacheLifeApi);
+    cacheTag("/api/user/first");
+    return UserService.findFirst<T>(params);
+};
 
 export const SelectUserFirst = async <T extends FindFirstUserProps>(request: NextRequest) => {
     try {
@@ -62,11 +65,12 @@ export const SelectUserFirst = async <T extends FindFirstUserProps>(request: Nex
 
 // ==================== Find Unique ==================== //
 
-const userUniqueCached = cache(
-    async <T extends FindUniqueUserProps>(params: T) => UserService.findUnique(params),
-    ["user/unique"],
-    { revalidate, tags: ["user/unique"] },
-);
+const userUniqueCached = async <T extends FindUniqueUserProps>(params: T) => {
+    "use cache";
+    cacheLife(cacheLifeApi);
+    cacheTag("/api/user/unique");
+    return UserService.findUnique<T>(params);
+};
 
 export const SelectUserUnique = async <T extends FindUniqueUserProps>(request: NextRequest) => {
     try {
@@ -80,10 +84,12 @@ export const SelectUserUnique = async <T extends FindUniqueUserProps>(request: N
 
 // ==================== Count ==================== //
 
-const userCountCached = cache(async (params: CountUserProps) => UserService.count(params), ["user/count"], {
-    revalidate,
-    tags: ["user/count"],
-});
+const userCountCached = async (params: CountUserProps) => {
+    "use cache";
+    cacheLife(cacheLifeApi);
+    cacheTag("/api/user/count");
+    return UserService.count(params);
+};
 
 export const SelectUserCount = async (request: NextRequest) => {
     try {
