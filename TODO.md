@@ -32,7 +32,6 @@ Complete auth and user management
 ## Vrac
 
 - Theme and dark mode
-- METADATA !!!!!!!!!
 - Cursor rules
 - Header disapearing issue ??
 - Add a logging system

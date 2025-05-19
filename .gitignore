@@ -48,3 +48,6 @@ prisma/zod
 
 # Test
 run/
+
+# Husky hooks
+.husky/_

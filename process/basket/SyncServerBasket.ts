@@ -18,6 +18,8 @@ const syncServerBasketSchema: ZodType<SyncServerBasketProps> = z.object({
     orderId: z.string(),
 });
 
+type SyncServerBasketResponse = OrderModel["id"] | null;
+
 /**
  * Sync server basket with local basket
  * - Get server basket with orderId
@@ -25,7 +27,7 @@ const syncServerBasketSchema: ZodType<SyncServerBasketProps> = z.object({
  * - Create new quantities with ids in local basket
  * - Refresh checkout page
  */
-export const SyncServerBasket = async (props: SyncServerBasketProps) => {
+export const SyncServerBasket = async (props: SyncServerBasketProps): Promise<SyncServerBasketResponse> => {
     try {
         const { localBasket, orderId } = syncServerBasketSchema.parse(props);
 
@@ -52,6 +54,7 @@ export const SyncServerBasket = async (props: SyncServerBasketProps) => {
 
         // Refresh checkout page
         revalidatePath("/checkout", "page");
+        return orderId;
     } catch (error) {
         if (process.env.NODE_ENV === "development") {
             const processName = "SyncServerBasket";

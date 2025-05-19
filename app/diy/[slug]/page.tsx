@@ -7,12 +7,6 @@ import PrismaInstance from "@lib/prisma";
 import { FetchV2 } from "@utils/FetchV2/FetchV2";
 import { Metadata } from "next";
 
-const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
-
-if (!baseUrl) {
-    throw new Error("NEXT_PUBLIC_BASE_URL environment variable is not defined");
-}
-
 export const dynamic = "auto";
 export const revalidate = 3600;
 
@@ -31,6 +25,9 @@ type PageProps = {
 };
 
 export async function generateMetadata(props: PageProps): Promise<Metadata> {
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+    if (!baseUrl) throw new Error("NEXT_PUBLIC_BASE_URL environment variable is not defined");
+
     const { params } = props;
     const { slug } = await params;
 
@@ -49,32 +46,18 @@ export async function generateMetadata(props: PageProps): Promise<Metadata> {
         },
     });
 
+    if (!diy) {
+        return {
+            title: "Tutoriel DIY non trouvé - Eco Service",
+        };
+    }
+
     return {
-        title: diy ? `${diy.title} - Eco Service` : "Produit - Eco Service",
-        description: diy
-            ? `Un diy de ${diy.Author?.name} sur Eco Service.`
-            : "Achetez des produits éco-responsables sur Eco Service.",
-        metadataBase: new URL(diy ? `${baseUrl}/diy/${slug}` : `${baseUrl}/diy`),
+        title: `${diy.title} - Eco Service`,
+        description: "Achetez des produits éco-responsables sur Eco Service.",
+        metadataBase: new URL(`${baseUrl}/diy`),
         alternates: {
-            canonical: diy ? `${baseUrl}/diy/${slug}` : `${baseUrl}/diy`,
-        },
-        openGraph: {
-            title: diy ? `${diy.title} - Eco Service` : "Produit - Eco Service",
-            description: diy
-                ? `Un diy de ${diy.Author?.name} sur Eco Service.`
-                : "Achetez des produits éco-responsables sur Eco Service.",
-            url: diy ? `${baseUrl}/diy/${slug}` : `${baseUrl}/diy`,
-            siteName: "Eco Service",
-            locale: "fr_FR",
-            type: "website",
-        },
-        twitter: {
-            card: "summary_large_image",
-            title: diy ? `${diy.title} - Eco Service` : "Produit - Eco Service",
-            description: diy
-                ? `Un diy de ${diy.Author?.name} sur Eco Service.`
-                : "Achetez des produits éco-responsables sur Eco Service.",
-            images: [`${baseUrl}/icon-512x512.png`],
+            canonical: `${baseUrl}/diy/${slug}`,
         },
     };
 }

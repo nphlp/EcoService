@@ -7,7 +7,7 @@ type ProductSliderProps = {
     title: string;
 };
 
-export default async function ProductSlider(props: ProductSliderProps) {
+export default function ProductSlider(props: ProductSliderProps) {
     const { productList, title } = props;
 
     if (!productList.length) {

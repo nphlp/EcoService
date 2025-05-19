@@ -2,13 +2,14 @@
 
 Development, quality checks, preview deployment, version creation and automated production deployment...
 
----
+## Development process
 
-## 1. Development
-- On a development branch (feature/xxx, fix/xxx, etc.)
+- Development on branches like: `feature/xxx`, `fix/xxx`, etc...-
+- Tests on `test` branch
+- Production on `main` branch
 
-## 2. Pull Request to `test` or `main`
-- **Trigger**: PR to `test` or `main`
+## Pull Request to `test` or to `main`
+- **Trigger**: PR to `test` or to `main`
 - **Goal**: ensure quality before merging
 - **Pipelines**:
   - Commit message check (conventional commits)
@@ -22,19 +23,11 @@ Development, quality checks, preview deployment, version creation and automated 
   - Functional tests (coming soon)
   - End-to-end tests (coming soon)
 
-## 3. Merge to `test`
-- **Trigger**: merge to `test`
-- **Result**: VPS (Coolify) automatically deploys a **preview** (preview.domain.com) of the app from the `test` branch.
+## Manual deployment
 
-## 4. Merge to `main`
-- **Trigger**: merge to `main`
-- **Pipelines**:
-  - Tag and release: creates a tag, a GitHub release, a changelog, and an automatic commit with `[skip ci]` (to avoid redeploying a preview on test)
-- **Result**: VPS (Coolify) builds and deploys the new version from `main` to **production**
+- Manual preview deployment from `test`
+  1. Use a **deploy key** to trigger a `preview` deployment from `test` branch on test URL: [preview.eco-service.nansp.dev](https://preview.eco-service.nansp.dev)
 
----
-
-## Summary
-- PR to `test` or `main`: quality checks
-- Merge to `test`: preview deployment
-- Merge to `main`: automatic release + production deployment
+- Manual production deployement from `main`
+  1. Creates a tag, a GitHub release, a changelog, and an automatic commit
+  2. Use a **deploy key** to trigger a `production` deployment from `main` branch on prod URL: [eco-service.nansp.dev](https://eco-service.nansp.dev)

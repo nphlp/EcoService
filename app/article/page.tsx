@@ -1,9 +1,22 @@
 import ImageRatio from "@comps/server/imageRatio";
 import { FetchV2 } from "@utils/FetchV2/FetchV2";
+import { Metadata } from "next";
 import Link from "next/link";
 
 export const dynamic = "auto";
 export const revalidate = 3600;
+
+const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+if (!baseUrl) throw new Error("NEXT_PUBLIC_BASE_URL environment variable is not defined");
+
+export const metadata: Metadata = {
+    title: "Nos articles",
+    description: "Découvrez nos articles et nos conseils pour améliorer votre maison.",
+    metadataBase: new URL(`${baseUrl}/article`),
+    alternates: {
+        canonical: `${baseUrl}/article`,
+    },
+};
 
 export default async function Page() {
     const articleList = await FetchV2({
