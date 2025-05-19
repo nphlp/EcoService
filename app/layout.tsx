@@ -12,31 +12,14 @@ export const dynamic = "force-dynamic";
 const inter = Inter({ subsets: ["latin"] });
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
-
-if (!baseUrl) {
-    throw new Error("NEXT_PUBLIC_BASE_URL environment variable is not defined");
-}
+if (!baseUrl) throw new Error("NEXT_PUBLIC_BASE_URL environment variable is not defined");
 
 export const metadata: Metadata = {
     title: "Eco Service",
     description: "Achetez des produits éco-responsables sur Eco Service.",
     metadataBase: new URL(baseUrl),
     alternates: {
-        canonical: `${baseUrl}/`,
-    },
-    openGraph: {
-        title: "Eco Service",
-        description: "Achetez des produits éco-responsables sur Eco Service.",
-        url: `${baseUrl}/`,
-        siteName: "Eco Service",
-        locale: "fr_FR",
-        type: "website",
-    },
-    twitter: {
-        card: "summary_large_image",
-        title: "Eco Service",
-        description: "Achetez des produits éco-responsables sur Eco Service.",
-        images: [`${baseUrl}/icon-512x512.png`],
+        canonical: `${baseUrl}`,
     },
 };
 

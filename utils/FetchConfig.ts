@@ -1,6 +1,6 @@
-import { NextRequest } from "next/server";
 import { Routes as ExternalRoutes } from "@api/external/Routes";
 import { Routes as StripeRoutes } from "@api/stripe/Routes";
+import { NextRequest } from "next/server";
 
 /**
  * Routes list
@@ -12,7 +12,7 @@ export type RoutesList = ExternalRoutes & StripeRoutes;
  * 5 seconds in development
  * 300 seconds in production
  */
-export const revalidate = process.env.NODE_ENV === "development" ? 5 : 300;
+export const revalidate = process.env.NODE_ENV === "development" ? 5 : 3600;
 
 /**
  * Parse and decode params from the request

@@ -3,6 +3,6 @@ services/
 prisma/client/
 prisma/zod/
 .next/
-.node_modules/
+node_modules/
 .github/
 pnpm-lock.yaml
