@@ -1,3 +1,9 @@
+# [1.3.0](https://github.com/nansphilip/EcoService/compare/v1.2.0...v1.3.0) (2025-05-19)
+
+### Features
+
+- add basket tests ([0f20b18](https://github.com/nansphilip/EcoService/commit/0f20b187d02f03889b16b766ca4d739f2ef28bb9))
+
 # [1.2.0](https://github.com/nansphilip/EcoService/compare/v1.1.0...v1.2.0) (2025-05-12)
 
 ### Features
