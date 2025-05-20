@@ -1,6 +1,6 @@
 import PrismaInstance from "@lib/prisma";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
-import { ProductCount, CountProductProps, CountProductResponse, CreateManyProductProps, CreateManyProductResponse, CreateProductProps, CreateProductResponse, DeleteManyProductProps, DeleteManyProductResponse, DeleteProductProps, DeleteProductResponse, FindFirstProductProps, FindFirstProductResponse, FindManyProductProps, FindManyProductResponse, FindUniqueProductProps, FindUniqueProductResponse, UpdateManyProductProps, UpdateManyProductResponse, UpdateProductProps, UpdateProductResponse, UpsertProductProps, UpsertProductResponse, countProductSchema, createManyProductSchema, createProductSchema, deleteManyProductSchema, deleteProductSchema, selectFirstProductSchema, selectManyProductSchema, selectUniqueProductSchema, updateManyProductSchema, updateProductSchema, upsertProductSchema } from "@services/types/ProductType";
+import { ProductCount, ProductCountProps, ProductCountResponse, ProductCountSchema, ProductCreateManyProps, ProductCreateManyResponse, ProductCreateManySchema, ProductCreateProps, ProductCreateResponse, ProductCreateSchema, ProductDeleteManyProps, ProductDeleteManyResponse, ProductDeleteManySchema, ProductDeleteProps, ProductDeleteResponse, ProductDeleteSchema, ProductFindFirstProps, ProductFindFirstResponse, ProductFindFirstSchema, ProductFindManyProps, ProductFindManyResponse, ProductFindManySchema, ProductFindUniqueProps, ProductFindUniqueResponse, ProductFindUniqueSchema, ProductUpdateManyProps, ProductUpdateManyResponse, ProductUpdateManySchema, ProductUpdateProps, ProductUpdateResponse, ProductUpdateSchema, ProductUpsertProps, ProductUpsertResponse, ProductUpsertSchema } from "@services/types/ProductType";
 import { ResponseFormat } from "@utils/FetchConfig";
 import { ZodError } from "zod";
 
@@ -8,41 +8,41 @@ export default class ProductService {
 
     // ========== Single mutations ========== //
 
-    static async create<T extends CreateProductProps>(props: T): Promise<ResponseFormat<CreateProductResponse<T>>> {
+    static async create<T extends ProductCreateProps>(props: T): Promise<ResponseFormat<ProductCreateResponse<T>>> {
         try {
-            const parsedProps = createProductSchema.parse(props);
+            const parsedProps = ProductCreateSchema.parse(props);
             const product = await PrismaInstance.product.create(parsedProps);
-            return { data: product as CreateProductResponse<T> };
+            return { data: product as ProductCreateResponse<T> };
         } catch (error) {
             return ProductService.error("create", error);
         }
     }
 
-    static async upsert<T extends UpsertProductProps>(props: T): Promise<ResponseFormat<UpsertProductResponse<T>>> {
+    static async upsert<T extends ProductUpsertProps>(props: T): Promise<ResponseFormat<ProductUpsertResponse<T>>> {
         try {
-            const parsedProps = upsertProductSchema.parse(props);
+            const parsedProps = ProductUpsertSchema.parse(props);
             const product = await PrismaInstance.product.upsert(parsedProps);
-            return { data: product as UpsertProductResponse<T> };
+            return { data: product as ProductUpsertResponse<T> };
         } catch (error) {
             return ProductService.error("upsert", error);
         }
     }
 
-    static async update<T extends UpdateProductProps>(props: T): Promise<ResponseFormat<UpdateProductResponse<T>>> {
+    static async update<T extends ProductUpdateProps>(props: T): Promise<ResponseFormat<ProductUpdateResponse<T>>> {
         try {
-            const parsedProps = updateProductSchema.parse(props);
+            const parsedProps = ProductUpdateSchema.parse(props);
             const product = await PrismaInstance.product.update(parsedProps);
-            return { data: product as UpdateProductResponse<T> };
+            return { data: product as ProductUpdateResponse<T> };
         } catch (error) {
             return ProductService.error("update", error);
         }
     }
 
-    static async delete<T extends DeleteProductProps>(props: T): Promise<ResponseFormat<DeleteProductResponse<T>>> {
+    static async delete<T extends ProductDeleteProps>(props: T): Promise<ResponseFormat<ProductDeleteResponse<T>>> {
         try {
-            const parsedProps = deleteProductSchema.parse(props);
+            const parsedProps = ProductDeleteSchema.parse(props);
             const product = await PrismaInstance.product.delete(parsedProps);
-            return { data: product as DeleteProductResponse<T> };
+            return { data: product as ProductDeleteResponse<T> };
         } catch (error) {
             return ProductService.error("delete", error);
         }
@@ -50,9 +50,9 @@ export default class ProductService {
 
     // ========== Multiple mutations ========== //
 
-    static async createMany(props: CreateManyProductProps): Promise<ResponseFormat<CreateManyProductResponse>> {
+    static async createMany(props: ProductCreateManyProps): Promise<ResponseFormat<ProductCreateManyResponse>> {
         try {
-            const parsedProps = createManyProductSchema.parse(props);
+            const parsedProps = ProductCreateManySchema.parse(props);
             const result = await PrismaInstance.product.createMany(parsedProps);
             return { data: result };
         } catch (error) {
@@ -60,9 +60,9 @@ export default class ProductService {
         }
     }
 
-    static async updateMany(props: UpdateManyProductProps): Promise<ResponseFormat<UpdateManyProductResponse>> {
+    static async updateMany(props: ProductUpdateManyProps): Promise<ResponseFormat<ProductUpdateManyResponse>> {
         try {
-            const parsedProps = updateManyProductSchema.parse(props);
+            const parsedProps = ProductUpdateManySchema.parse(props);
             const result = await PrismaInstance.product.updateMany(parsedProps);
             return { data: result };
         } catch (error) {
@@ -70,9 +70,9 @@ export default class ProductService {
         }
     }
 
-    static async deleteMany(props: DeleteManyProductProps): Promise<ResponseFormat<DeleteManyProductResponse>> {
+    static async deleteMany(props: ProductDeleteManyProps): Promise<ResponseFormat<ProductDeleteManyResponse>> {
         try {
-            const parsedProps = deleteManyProductSchema.parse(props);
+            const parsedProps = ProductDeleteManySchema.parse(props);
             const result = await PrismaInstance.product.deleteMany(parsedProps);
             return { data: result };
         } catch (error) {
@@ -82,32 +82,32 @@ export default class ProductService {
 
     // ========== Single queries ========== //
 
-    static async findFirst<T extends FindFirstProductProps>(props: T): Promise<ResponseFormat<FindFirstProductResponse<T>>> {
+    static async findFirst<T extends ProductFindFirstProps>(props: T): Promise<ResponseFormat<ProductFindFirstResponse<T>>> {
         try {
-            const parsedProps = selectFirstProductSchema.parse(props);
+            const parsedProps = ProductFindFirstSchema.parse(props);
             const product = await PrismaInstance.product.findFirst(parsedProps);
-            return { data: product as FindFirstProductResponse<T> };
+            return { data: product as ProductFindFirstResponse<T> };
         } catch (error) {
             return ProductService.error("findFirst", error);
         }
     }
 
-    static async findUnique<T extends FindUniqueProductProps>(props: T): Promise<ResponseFormat<FindUniqueProductResponse<T>>> {
+    static async findUnique<T extends ProductFindUniqueProps>(props: T): Promise<ResponseFormat<ProductFindUniqueResponse<T>>> {
         try {
-            const parsedProps = selectUniqueProductSchema.parse(props);
+            const parsedProps = ProductFindUniqueSchema.parse(props);
             const product = await PrismaInstance.product.findUnique(parsedProps);
-            return { data: product as FindUniqueProductResponse<T> };
+            return { data: product as ProductFindUniqueResponse<T> };
         } catch (error) {
             return ProductService.error("findUnique", error);
         }
     }
 
-    static async findMany<T extends FindManyProductProps>(props: T): Promise<ResponseFormat<FindManyProductResponse<T>>> {
+    static async findMany<T extends ProductFindManyProps>(props: T): Promise<ResponseFormat<ProductFindManyResponse<T>>> {
         try {
-            const parsedProps = selectManyProductSchema.parse(props);
+            const parsedProps = ProductFindManySchema.parse(props);
             const { skip = 0, take = 10 } = parsedProps;
             const productList = await PrismaInstance.product.findMany({ skip, take, ...parsedProps });
-            return { data: productList as FindManyProductResponse<T> };
+            return { data: productList as ProductFindManyResponse<T> };
         } catch (error) {
             return ProductService.error("findMany", error);
         }
@@ -115,9 +115,9 @@ export default class ProductService {
 
     // ========== Aggregate queries ========== //
 
-    static async count(props: CountProductProps): Promise<ResponseFormat<CountProductResponse>> {
+    static async count(props: ProductCountProps): Promise<ResponseFormat<ProductCountResponse>> {
         try {
-            const parsedProps = countProductSchema.parse(props);
+            const parsedProps = ProductCountSchema.parse(props);
             const productAmount: ProductCount = await PrismaInstance.product.count(parsedProps);
             return { data: productAmount };
         } catch (error) {

@@ -1,6 +1,6 @@
 import PrismaInstance from "@lib/prisma";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
-import { CategoryCount, CountCategoryProps, CountCategoryResponse, CreateManyCategoryProps, CreateManyCategoryResponse, CreateCategoryProps, CreateCategoryResponse, DeleteManyCategoryProps, DeleteManyCategoryResponse, DeleteCategoryProps, DeleteCategoryResponse, FindFirstCategoryProps, FindFirstCategoryResponse, FindManyCategoryProps, FindManyCategoryResponse, FindUniqueCategoryProps, FindUniqueCategoryResponse, UpdateManyCategoryProps, UpdateManyCategoryResponse, UpdateCategoryProps, UpdateCategoryResponse, UpsertCategoryProps, UpsertCategoryResponse, countCategorySchema, createManyCategorySchema, createCategorySchema, deleteManyCategorySchema, deleteCategorySchema, selectFirstCategorySchema, selectManyCategorySchema, selectUniqueCategorySchema, updateManyCategorySchema, updateCategorySchema, upsertCategorySchema } from "@services/types/CategoryType";
+import { CategoryCount, CategoryCountProps, CategoryCountResponse, CategoryCountSchema, CategoryCreateManyProps, CategoryCreateManyResponse, CategoryCreateManySchema, CategoryCreateProps, CategoryCreateResponse, CategoryCreateSchema, CategoryDeleteManyProps, CategoryDeleteManyResponse, CategoryDeleteManySchema, CategoryDeleteProps, CategoryDeleteResponse, CategoryDeleteSchema, CategoryFindFirstProps, CategoryFindFirstResponse, CategoryFindFirstSchema, CategoryFindManyProps, CategoryFindManyResponse, CategoryFindManySchema, CategoryFindUniqueProps, CategoryFindUniqueResponse, CategoryFindUniqueSchema, CategoryUpdateManyProps, CategoryUpdateManyResponse, CategoryUpdateManySchema, CategoryUpdateProps, CategoryUpdateResponse, CategoryUpdateSchema, CategoryUpsertProps, CategoryUpsertResponse, CategoryUpsertSchema } from "@services/types/CategoryType";
 import { ResponseFormat } from "@utils/FetchConfig";
 import { ZodError } from "zod";
 
@@ -8,41 +8,41 @@ export default class CategoryService {
 
     // ========== Single mutations ========== //
 
-    static async create<T extends CreateCategoryProps>(props: T): Promise<ResponseFormat<CreateCategoryResponse<T>>> {
+    static async create<T extends CategoryCreateProps>(props: T): Promise<ResponseFormat<CategoryCreateResponse<T>>> {
         try {
-            const parsedProps = createCategorySchema.parse(props);
+            const parsedProps = CategoryCreateSchema.parse(props);
             const category = await PrismaInstance.category.create(parsedProps);
-            return { data: category as CreateCategoryResponse<T> };
+            return { data: category as CategoryCreateResponse<T> };
         } catch (error) {
             return CategoryService.error("create", error);
         }
     }
 
-    static async upsert<T extends UpsertCategoryProps>(props: T): Promise<ResponseFormat<UpsertCategoryResponse<T>>> {
+    static async upsert<T extends CategoryUpsertProps>(props: T): Promise<ResponseFormat<CategoryUpsertResponse<T>>> {
         try {
-            const parsedProps = upsertCategorySchema.parse(props);
+            const parsedProps = CategoryUpsertSchema.parse(props);
             const category = await PrismaInstance.category.upsert(parsedProps);
-            return { data: category as UpsertCategoryResponse<T> };
+            return { data: category as CategoryUpsertResponse<T> };
         } catch (error) {
             return CategoryService.error("upsert", error);
         }
     }
 
-    static async update<T extends UpdateCategoryProps>(props: T): Promise<ResponseFormat<UpdateCategoryResponse<T>>> {
+    static async update<T extends CategoryUpdateProps>(props: T): Promise<ResponseFormat<CategoryUpdateResponse<T>>> {
         try {
-            const parsedProps = updateCategorySchema.parse(props);
+            const parsedProps = CategoryUpdateSchema.parse(props);
             const category = await PrismaInstance.category.update(parsedProps);
-            return { data: category as UpdateCategoryResponse<T> };
+            return { data: category as CategoryUpdateResponse<T> };
         } catch (error) {
             return CategoryService.error("update", error);
         }
     }
 
-    static async delete<T extends DeleteCategoryProps>(props: T): Promise<ResponseFormat<DeleteCategoryResponse<T>>> {
+    static async delete<T extends CategoryDeleteProps>(props: T): Promise<ResponseFormat<CategoryDeleteResponse<T>>> {
         try {
-            const parsedProps = deleteCategorySchema.parse(props);
+            const parsedProps = CategoryDeleteSchema.parse(props);
             const category = await PrismaInstance.category.delete(parsedProps);
-            return { data: category as DeleteCategoryResponse<T> };
+            return { data: category as CategoryDeleteResponse<T> };
         } catch (error) {
             return CategoryService.error("delete", error);
         }
@@ -50,9 +50,9 @@ export default class CategoryService {
 
     // ========== Multiple mutations ========== //
 
-    static async createMany(props: CreateManyCategoryProps): Promise<ResponseFormat<CreateManyCategoryResponse>> {
+    static async createMany(props: CategoryCreateManyProps): Promise<ResponseFormat<CategoryCreateManyResponse>> {
         try {
-            const parsedProps = createManyCategorySchema.parse(props);
+            const parsedProps = CategoryCreateManySchema.parse(props);
             const result = await PrismaInstance.category.createMany(parsedProps);
             return { data: result };
         } catch (error) {
@@ -60,9 +60,9 @@ export default class CategoryService {
         }
     }
 
-    static async updateMany(props: UpdateManyCategoryProps): Promise<ResponseFormat<UpdateManyCategoryResponse>> {
+    static async updateMany(props: CategoryUpdateManyProps): Promise<ResponseFormat<CategoryUpdateManyResponse>> {
         try {
-            const parsedProps = updateManyCategorySchema.parse(props);
+            const parsedProps = CategoryUpdateManySchema.parse(props);
             const result = await PrismaInstance.category.updateMany(parsedProps);
             return { data: result };
         } catch (error) {
@@ -70,9 +70,9 @@ export default class CategoryService {
         }
     }
 
-    static async deleteMany(props: DeleteManyCategoryProps): Promise<ResponseFormat<DeleteManyCategoryResponse>> {
+    static async deleteMany(props: CategoryDeleteManyProps): Promise<ResponseFormat<CategoryDeleteManyResponse>> {
         try {
-            const parsedProps = deleteManyCategorySchema.parse(props);
+            const parsedProps = CategoryDeleteManySchema.parse(props);
             const result = await PrismaInstance.category.deleteMany(parsedProps);
             return { data: result };
         } catch (error) {
@@ -82,32 +82,32 @@ export default class CategoryService {
 
     // ========== Single queries ========== //
 
-    static async findFirst<T extends FindFirstCategoryProps>(props: T): Promise<ResponseFormat<FindFirstCategoryResponse<T>>> {
+    static async findFirst<T extends CategoryFindFirstProps>(props: T): Promise<ResponseFormat<CategoryFindFirstResponse<T>>> {
         try {
-            const parsedProps = selectFirstCategorySchema.parse(props);
+            const parsedProps = CategoryFindFirstSchema.parse(props);
             const category = await PrismaInstance.category.findFirst(parsedProps);
-            return { data: category as FindFirstCategoryResponse<T> };
+            return { data: category as CategoryFindFirstResponse<T> };
         } catch (error) {
             return CategoryService.error("findFirst", error);
         }
     }
 
-    static async findUnique<T extends FindUniqueCategoryProps>(props: T): Promise<ResponseFormat<FindUniqueCategoryResponse<T>>> {
+    static async findUnique<T extends CategoryFindUniqueProps>(props: T): Promise<ResponseFormat<CategoryFindUniqueResponse<T>>> {
         try {
-            const parsedProps = selectUniqueCategorySchema.parse(props);
+            const parsedProps = CategoryFindUniqueSchema.parse(props);
             const category = await PrismaInstance.category.findUnique(parsedProps);
-            return { data: category as FindUniqueCategoryResponse<T> };
+            return { data: category as CategoryFindUniqueResponse<T> };
         } catch (error) {
             return CategoryService.error("findUnique", error);
         }
     }
 
-    static async findMany<T extends FindManyCategoryProps>(props: T): Promise<ResponseFormat<FindManyCategoryResponse<T>>> {
+    static async findMany<T extends CategoryFindManyProps>(props: T): Promise<ResponseFormat<CategoryFindManyResponse<T>>> {
         try {
-            const parsedProps = selectManyCategorySchema.parse(props);
+            const parsedProps = CategoryFindManySchema.parse(props);
             const { skip = 0, take = 10 } = parsedProps;
             const categoryList = await PrismaInstance.category.findMany({ skip, take, ...parsedProps });
-            return { data: categoryList as FindManyCategoryResponse<T> };
+            return { data: categoryList as CategoryFindManyResponse<T> };
         } catch (error) {
             return CategoryService.error("findMany", error);
         }
@@ -115,9 +115,9 @@ export default class CategoryService {
 
     // ========== Aggregate queries ========== //
 
-    static async count(props: CountCategoryProps): Promise<ResponseFormat<CountCategoryResponse>> {
+    static async count(props: CategoryCountProps): Promise<ResponseFormat<CategoryCountResponse>> {
         try {
-            const parsedProps = countCategorySchema.parse(props);
+            const parsedProps = CategoryCountSchema.parse(props);
             const categoryAmount: CategoryCount = await PrismaInstance.category.count(parsedProps);
             return { data: categoryAmount };
         } catch (error) {
