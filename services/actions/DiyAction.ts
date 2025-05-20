@@ -1,79 +1,79 @@
 "use server";
 
 import DiyService from "@services/class/DiyClass";
-import { CountDiyProps, CountDiyResponse, CreateManyDiyProps, CreateManyDiyResponse, CreateDiyProps, CreateDiyResponse, DeleteManyDiyProps, DeleteManyDiyResponse, DeleteDiyProps, DeleteDiyResponse, FindFirstDiyProps, FindFirstDiyResponse, FindManyDiyProps, FindManyDiyResponse, FindUniqueDiyProps, FindUniqueDiyResponse, UpdateManyDiyProps, UpdateManyDiyResponse, UpdateDiyProps, UpdateDiyResponse, UpsertDiyProps, UpsertDiyResponse } from "@services/types/DiyType";
+import { DiyCountProps, DiyCountResponse, DiyCreateManyProps, DiyCreateManyResponse, DiyCreateProps, DiyCreateResponse, DiyDeleteManyProps, DiyDeleteManyResponse, DiyDeleteProps, DiyDeleteResponse, DiyFindFirstProps, DiyFindFirstResponse, DiyFindManyProps, DiyFindManyResponse, DiyFindUniqueProps, DiyFindUniqueResponse, DiyUpdateManyProps, DiyUpdateManyResponse, DiyUpdateProps, DiyUpdateResponse, DiyUpsertProps, DiyUpsertResponse } from "@services/types/DiyType";
 
 // ========== Single mutations ========== //
 
-export const CreateDiy = async <T extends CreateDiyProps>(props: T): Promise<CreateDiyResponse<T>> => {
+export const DiyCreate = async <T extends DiyCreateProps>(props: T): Promise<DiyCreateResponse<T>> => {
     try {
         const { data, error } = await DiyService.create(props);
         if (!data || error) throw new Error(error);
         return data;
     } catch (error) {
-        throw new Error("CreateDiy -> " + (error as Error).message);
+        throw new Error("DiyCreate -> " + (error as Error).message);
     }
 };
 
-export const UpsertDiy = async <T extends UpsertDiyProps>(props: T): Promise<UpsertDiyResponse<T>> => {
+export const DiyUpsert = async <T extends DiyUpsertProps>(props: T): Promise<DiyUpsertResponse<T>> => {
     try {
         const { data, error } = await DiyService.upsert(props);
         if (!data || error) throw new Error(error);
         return data;
     } catch (error) {
-        throw new Error("UpsertDiy -> " + (error as Error).message);
+        throw new Error("DiyUpsert -> " + (error as Error).message);
     }
 };
 
-export const UpdateDiy = async <T extends UpdateDiyProps>(props: T): Promise<UpdateDiyResponse<T>> => {
+export const DiyUpdate = async <T extends DiyUpdateProps>(props: T): Promise<DiyUpdateResponse<T>> => {
     try {
         const { data, error } = await DiyService.update(props);
         if (!data || error) throw new Error(error);
         return data;
     } catch (error) {
-        throw new Error("UpdateDiy -> " + (error as Error).message);
+        throw new Error("DiyUpdate -> " + (error as Error).message);
     }
 };
 
-export const DeleteDiy = async <T extends DeleteDiyProps>(props: T): Promise<DeleteDiyResponse<T>> => {
+export const DiyDelete = async <T extends DiyDeleteProps>(props: T): Promise<DiyDeleteResponse<T>> => {
     try {
         const { data, error } = await DiyService.delete(props);
         if (!data || error) throw new Error(error);
         return data;
     } catch (error) {
-        throw new Error("DeleteDiy -> " + (error as Error).message);
+        throw new Error("DiyDelete -> " + (error as Error).message);
     }
 };
 
 // ========== Multiple mutations ========== //
 
-export const CreateManyDiy = async (props: CreateManyDiyProps): Promise<CreateManyDiyResponse> => {
+export const DiyCreateMany = async (props: DiyCreateManyProps): Promise<DiyCreateManyResponse> => {
     try {
         const { data, error } = await DiyService.createMany(props);
         if (!data || error) throw new Error(error);
         return data;
     } catch (error) {
-        throw new Error("CreateManyDiy -> " + (error as Error).message);
+        throw new Error("DiyCreateMany -> " + (error as Error).message);
     }
 };
 
-export const UpdateManyDiy = async (props: UpdateManyDiyProps): Promise<UpdateManyDiyResponse> => {
+export const DiyUpdateMany = async (props: DiyUpdateManyProps): Promise<DiyUpdateManyResponse> => {
     try {
         const { data, error } = await DiyService.updateMany(props);
         if (!data || error) throw new Error(error);
         return data;
     } catch (error) {
-        throw new Error("UpdateManyDiy -> " + (error as Error).message);
+        throw new Error("DiyUpdateMany -> " + (error as Error).message);
     }
 };
 
-export const DeleteManyDiy = async (props: DeleteManyDiyProps): Promise<DeleteManyDiyResponse> => {
+export const DiyDeleteMany = async (props: DiyDeleteManyProps): Promise<DiyDeleteManyResponse> => {
     try {
         const { data, error } = await DiyService.deleteMany(props);
         if (!data || error) throw new Error(error);
         return data;
     } catch (error) {
-        throw new Error("DeleteManyDiy -> " + (error as Error).message);
+        throw new Error("DiyDeleteMany -> " + (error as Error).message);
     }
 };
 
@@ -82,45 +82,45 @@ export const DeleteManyDiy = async (props: DeleteManyDiyProps): Promise<DeleteMa
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const SelectFirstDiy = async <T extends FindFirstDiyProps>(
+export const DiyFindFirst = async <T extends DiyFindFirstProps>(
     props: T
-): Promise<FindFirstDiyResponse<T>> => {
+): Promise<DiyFindFirstResponse<T>> => {
     try {
         const { data, error } = await DiyService.findFirst(props);
         if (error) throw new Error(error);
         return data ?? null;
     } catch (error) {
-        throw new Error("SelectFirstDiy -> " + (error as Error).message);
+        throw new Error("DiyFindFirst -> " + (error as Error).message);
     }
 };
 
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const SelectUniqueDiy = async <T extends FindUniqueDiyProps>(
+export const DiyFindUnique = async <T extends DiyFindUniqueProps>(
     props: T
-): Promise<FindUniqueDiyResponse<T>> => {
+): Promise<DiyFindUniqueResponse<T>> => {
     try {
         const { data, error } = await DiyService.findUnique(props);
         if (error) throw new Error(error);
         return data ?? null;
     } catch (error) {
-        throw new Error("SelectUniqueDiy -> " + (error as Error).message);
+        throw new Error("DiyFindUnique -> " + (error as Error).message);
     }
 };
 
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const SelectDiyList = async <T extends FindManyDiyProps>(
+export const DiyFindMany = async <T extends DiyFindManyProps>(
     props: T
-): Promise<FindManyDiyResponse<T>> => {
+): Promise<DiyFindManyResponse<T>> => {
     try {
         const { data, error } = await DiyService.findMany(props);
         if (!data || error) throw new Error(error);
         return data;
     } catch (error) {
-        throw new Error("SelectDiyList -> " + (error as Error).message);
+        throw new Error("DiyFindMany -> " + (error as Error).message);
     }
 };
 
@@ -129,12 +129,12 @@ export const SelectDiyList = async <T extends FindManyDiyProps>(
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const SelectDiyAmount = async (props: CountDiyProps): Promise<CountDiyResponse> => {
+export const DiyCount = async (props: DiyCountProps): Promise<DiyCountResponse> => {
     try {
         const { data, error } = await DiyService.count(props);
         if (!data || error) throw new Error(error);
         return data;
     } catch (error) {
-        throw new Error("SelectDiyAmount -> " + (error as Error).message);
+        throw new Error("DiyCount -> " + (error as Error).message);
     }
 };

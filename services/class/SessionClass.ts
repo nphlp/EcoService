@@ -1,6 +1,6 @@
 import PrismaInstance from "@lib/prisma";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
-import { SessionCount, CountSessionProps, CountSessionResponse, CreateManySessionProps, CreateManySessionResponse, CreateSessionProps, CreateSessionResponse, DeleteManySessionProps, DeleteManySessionResponse, DeleteSessionProps, DeleteSessionResponse, FindFirstSessionProps, FindFirstSessionResponse, FindManySessionProps, FindManySessionResponse, FindUniqueSessionProps, FindUniqueSessionResponse, UpdateManySessionProps, UpdateManySessionResponse, UpdateSessionProps, UpdateSessionResponse, UpsertSessionProps, UpsertSessionResponse, countSessionSchema, createManySessionSchema, createSessionSchema, deleteManySessionSchema, deleteSessionSchema, selectFirstSessionSchema, selectManySessionSchema, selectUniqueSessionSchema, updateManySessionSchema, updateSessionSchema, upsertSessionSchema } from "@services/types/SessionType";
+import { SessionCount, SessionCountProps, SessionCountResponse, SessionCountSchema, SessionCreateManyProps, SessionCreateManyResponse, SessionCreateManySchema, SessionCreateProps, SessionCreateResponse, SessionCreateSchema, SessionDeleteManyProps, SessionDeleteManyResponse, SessionDeleteManySchema, SessionDeleteProps, SessionDeleteResponse, SessionDeleteSchema, SessionFindFirstProps, SessionFindFirstResponse, SessionFindFirstSchema, SessionFindManyProps, SessionFindManyResponse, SessionFindManySchema, SessionFindUniqueProps, SessionFindUniqueResponse, SessionFindUniqueSchema, SessionUpdateManyProps, SessionUpdateManyResponse, SessionUpdateManySchema, SessionUpdateProps, SessionUpdateResponse, SessionUpdateSchema, SessionUpsertProps, SessionUpsertResponse, SessionUpsertSchema } from "@services/types/SessionType";
 import { ResponseFormat } from "@utils/FetchConfig";
 import { ZodError } from "zod";
 
@@ -8,41 +8,41 @@ export default class SessionService {
 
     // ========== Single mutations ========== //
 
-    static async create<T extends CreateSessionProps>(props: T): Promise<ResponseFormat<CreateSessionResponse<T>>> {
+    static async create<T extends SessionCreateProps>(props: T): Promise<ResponseFormat<SessionCreateResponse<T>>> {
         try {
-            const parsedProps = createSessionSchema.parse(props);
+            const parsedProps = SessionCreateSchema.parse(props);
             const session = await PrismaInstance.session.create(parsedProps);
-            return { data: session as CreateSessionResponse<T> };
+            return { data: session as SessionCreateResponse<T> };
         } catch (error) {
             return SessionService.error("create", error);
         }
     }
 
-    static async upsert<T extends UpsertSessionProps>(props: T): Promise<ResponseFormat<UpsertSessionResponse<T>>> {
+    static async upsert<T extends SessionUpsertProps>(props: T): Promise<ResponseFormat<SessionUpsertResponse<T>>> {
         try {
-            const parsedProps = upsertSessionSchema.parse(props);
+            const parsedProps = SessionUpsertSchema.parse(props);
             const session = await PrismaInstance.session.upsert(parsedProps);
-            return { data: session as UpsertSessionResponse<T> };
+            return { data: session as SessionUpsertResponse<T> };
         } catch (error) {
             return SessionService.error("upsert", error);
         }
     }
 
-    static async update<T extends UpdateSessionProps>(props: T): Promise<ResponseFormat<UpdateSessionResponse<T>>> {
+    static async update<T extends SessionUpdateProps>(props: T): Promise<ResponseFormat<SessionUpdateResponse<T>>> {
         try {
-            const parsedProps = updateSessionSchema.parse(props);
+            const parsedProps = SessionUpdateSchema.parse(props);
             const session = await PrismaInstance.session.update(parsedProps);
-            return { data: session as UpdateSessionResponse<T> };
+            return { data: session as SessionUpdateResponse<T> };
         } catch (error) {
             return SessionService.error("update", error);
         }
     }
 
-    static async delete<T extends DeleteSessionProps>(props: T): Promise<ResponseFormat<DeleteSessionResponse<T>>> {
+    static async delete<T extends SessionDeleteProps>(props: T): Promise<ResponseFormat<SessionDeleteResponse<T>>> {
         try {
-            const parsedProps = deleteSessionSchema.parse(props);
+            const parsedProps = SessionDeleteSchema.parse(props);
             const session = await PrismaInstance.session.delete(parsedProps);
-            return { data: session as DeleteSessionResponse<T> };
+            return { data: session as SessionDeleteResponse<T> };
         } catch (error) {
             return SessionService.error("delete", error);
         }
@@ -50,9 +50,9 @@ export default class SessionService {
 
     // ========== Multiple mutations ========== //
 
-    static async createMany(props: CreateManySessionProps): Promise<ResponseFormat<CreateManySessionResponse>> {
+    static async createMany(props: SessionCreateManyProps): Promise<ResponseFormat<SessionCreateManyResponse>> {
         try {
-            const parsedProps = createManySessionSchema.parse(props);
+            const parsedProps = SessionCreateManySchema.parse(props);
             const result = await PrismaInstance.session.createMany(parsedProps);
             return { data: result };
         } catch (error) {
@@ -60,9 +60,9 @@ export default class SessionService {
         }
     }
 
-    static async updateMany(props: UpdateManySessionProps): Promise<ResponseFormat<UpdateManySessionResponse>> {
+    static async updateMany(props: SessionUpdateManyProps): Promise<ResponseFormat<SessionUpdateManyResponse>> {
         try {
-            const parsedProps = updateManySessionSchema.parse(props);
+            const parsedProps = SessionUpdateManySchema.parse(props);
             const result = await PrismaInstance.session.updateMany(parsedProps);
             return { data: result };
         } catch (error) {
@@ -70,9 +70,9 @@ export default class SessionService {
         }
     }
 
-    static async deleteMany(props: DeleteManySessionProps): Promise<ResponseFormat<DeleteManySessionResponse>> {
+    static async deleteMany(props: SessionDeleteManyProps): Promise<ResponseFormat<SessionDeleteManyResponse>> {
         try {
-            const parsedProps = deleteManySessionSchema.parse(props);
+            const parsedProps = SessionDeleteManySchema.parse(props);
             const result = await PrismaInstance.session.deleteMany(parsedProps);
             return { data: result };
         } catch (error) {
@@ -82,32 +82,32 @@ export default class SessionService {
 
     // ========== Single queries ========== //
 
-    static async findFirst<T extends FindFirstSessionProps>(props: T): Promise<ResponseFormat<FindFirstSessionResponse<T>>> {
+    static async findFirst<T extends SessionFindFirstProps>(props: T): Promise<ResponseFormat<SessionFindFirstResponse<T>>> {
         try {
-            const parsedProps = selectFirstSessionSchema.parse(props);
+            const parsedProps = SessionFindFirstSchema.parse(props);
             const session = await PrismaInstance.session.findFirst(parsedProps);
-            return { data: session as FindFirstSessionResponse<T> };
+            return { data: session as SessionFindFirstResponse<T> };
         } catch (error) {
             return SessionService.error("findFirst", error);
         }
     }
 
-    static async findUnique<T extends FindUniqueSessionProps>(props: T): Promise<ResponseFormat<FindUniqueSessionResponse<T>>> {
+    static async findUnique<T extends SessionFindUniqueProps>(props: T): Promise<ResponseFormat<SessionFindUniqueResponse<T>>> {
         try {
-            const parsedProps = selectUniqueSessionSchema.parse(props);
+            const parsedProps = SessionFindUniqueSchema.parse(props);
             const session = await PrismaInstance.session.findUnique(parsedProps);
-            return { data: session as FindUniqueSessionResponse<T> };
+            return { data: session as SessionFindUniqueResponse<T> };
         } catch (error) {
             return SessionService.error("findUnique", error);
         }
     }
 
-    static async findMany<T extends FindManySessionProps>(props: T): Promise<ResponseFormat<FindManySessionResponse<T>>> {
+    static async findMany<T extends SessionFindManyProps>(props: T): Promise<ResponseFormat<SessionFindManyResponse<T>>> {
         try {
-            const parsedProps = selectManySessionSchema.parse(props);
+            const parsedProps = SessionFindManySchema.parse(props);
             const { skip = 0, take = 10 } = parsedProps;
             const sessionList = await PrismaInstance.session.findMany({ skip, take, ...parsedProps });
-            return { data: sessionList as FindManySessionResponse<T> };
+            return { data: sessionList as SessionFindManyResponse<T> };
         } catch (error) {
             return SessionService.error("findMany", error);
         }
@@ -115,9 +115,9 @@ export default class SessionService {
 
     // ========== Aggregate queries ========== //
 
-    static async count(props: CountSessionProps): Promise<ResponseFormat<CountSessionResponse>> {
+    static async count(props: SessionCountProps): Promise<ResponseFormat<SessionCountResponse>> {
         try {
-            const parsedProps = countSessionSchema.parse(props);
+            const parsedProps = SessionCountSchema.parse(props);
             const sessionAmount: SessionCount = await PrismaInstance.session.count(parsedProps);
             return { data: sessionAmount };
         } catch (error) {

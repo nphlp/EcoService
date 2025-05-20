@@ -1,6 +1,6 @@
 "use server";
 
-import { CreateOrder } from "@actions/OrderAction";
+import { OrderCreate } from "@actions/OrderAction";
 import { LocalBasketItem, localBasketItemSchema } from "@comps/basket/basketType";
 import { GetSession } from "@lib/authServer";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
@@ -25,7 +25,7 @@ export const CreateServerBasket = async (props: CreateServerBasketProps): Promis
         const session = await GetSession();
         if (!session) return null;
 
-        const order = await CreateOrder({
+        const order = await OrderCreate({
             data: {
                 userId: session.user.id,
                 Quantity: {

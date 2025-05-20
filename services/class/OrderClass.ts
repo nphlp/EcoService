@@ -1,6 +1,6 @@
 import PrismaInstance from "@lib/prisma";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
-import { OrderCount, CountOrderProps, CountOrderResponse, CreateManyOrderProps, CreateManyOrderResponse, CreateOrderProps, CreateOrderResponse, DeleteManyOrderProps, DeleteManyOrderResponse, DeleteOrderProps, DeleteOrderResponse, FindFirstOrderProps, FindFirstOrderResponse, FindManyOrderProps, FindManyOrderResponse, FindUniqueOrderProps, FindUniqueOrderResponse, UpdateManyOrderProps, UpdateManyOrderResponse, UpdateOrderProps, UpdateOrderResponse, UpsertOrderProps, UpsertOrderResponse, countOrderSchema, createManyOrderSchema, createOrderSchema, deleteManyOrderSchema, deleteOrderSchema, selectFirstOrderSchema, selectManyOrderSchema, selectUniqueOrderSchema, updateManyOrderSchema, updateOrderSchema, upsertOrderSchema } from "@services/types/OrderType";
+import { OrderCount, OrderCountProps, OrderCountResponse, OrderCountSchema, OrderCreateManyProps, OrderCreateManyResponse, OrderCreateManySchema, OrderCreateProps, OrderCreateResponse, OrderCreateSchema, OrderDeleteManyProps, OrderDeleteManyResponse, OrderDeleteManySchema, OrderDeleteProps, OrderDeleteResponse, OrderDeleteSchema, OrderFindFirstProps, OrderFindFirstResponse, OrderFindFirstSchema, OrderFindManyProps, OrderFindManyResponse, OrderFindManySchema, OrderFindUniqueProps, OrderFindUniqueResponse, OrderFindUniqueSchema, OrderUpdateManyProps, OrderUpdateManyResponse, OrderUpdateManySchema, OrderUpdateProps, OrderUpdateResponse, OrderUpdateSchema, OrderUpsertProps, OrderUpsertResponse, OrderUpsertSchema } from "@services/types/OrderType";
 import { ResponseFormat } from "@utils/FetchConfig";
 import { ZodError } from "zod";
 
@@ -8,41 +8,41 @@ export default class OrderService {
 
     // ========== Single mutations ========== //
 
-    static async create<T extends CreateOrderProps>(props: T): Promise<ResponseFormat<CreateOrderResponse<T>>> {
+    static async create<T extends OrderCreateProps>(props: T): Promise<ResponseFormat<OrderCreateResponse<T>>> {
         try {
-            const parsedProps = createOrderSchema.parse(props);
+            const parsedProps = OrderCreateSchema.parse(props);
             const order = await PrismaInstance.order.create(parsedProps);
-            return { data: order as CreateOrderResponse<T> };
+            return { data: order as OrderCreateResponse<T> };
         } catch (error) {
             return OrderService.error("create", error);
         }
     }
 
-    static async upsert<T extends UpsertOrderProps>(props: T): Promise<ResponseFormat<UpsertOrderResponse<T>>> {
+    static async upsert<T extends OrderUpsertProps>(props: T): Promise<ResponseFormat<OrderUpsertResponse<T>>> {
         try {
-            const parsedProps = upsertOrderSchema.parse(props);
+            const parsedProps = OrderUpsertSchema.parse(props);
             const order = await PrismaInstance.order.upsert(parsedProps);
-            return { data: order as UpsertOrderResponse<T> };
+            return { data: order as OrderUpsertResponse<T> };
         } catch (error) {
             return OrderService.error("upsert", error);
         }
     }
 
-    static async update<T extends UpdateOrderProps>(props: T): Promise<ResponseFormat<UpdateOrderResponse<T>>> {
+    static async update<T extends OrderUpdateProps>(props: T): Promise<ResponseFormat<OrderUpdateResponse<T>>> {
         try {
-            const parsedProps = updateOrderSchema.parse(props);
+            const parsedProps = OrderUpdateSchema.parse(props);
             const order = await PrismaInstance.order.update(parsedProps);
-            return { data: order as UpdateOrderResponse<T> };
+            return { data: order as OrderUpdateResponse<T> };
         } catch (error) {
             return OrderService.error("update", error);
         }
     }
 
-    static async delete<T extends DeleteOrderProps>(props: T): Promise<ResponseFormat<DeleteOrderResponse<T>>> {
+    static async delete<T extends OrderDeleteProps>(props: T): Promise<ResponseFormat<OrderDeleteResponse<T>>> {
         try {
-            const parsedProps = deleteOrderSchema.parse(props);
+            const parsedProps = OrderDeleteSchema.parse(props);
             const order = await PrismaInstance.order.delete(parsedProps);
-            return { data: order as DeleteOrderResponse<T> };
+            return { data: order as OrderDeleteResponse<T> };
         } catch (error) {
             return OrderService.error("delete", error);
         }
@@ -50,9 +50,9 @@ export default class OrderService {
 
     // ========== Multiple mutations ========== //
 
-    static async createMany(props: CreateManyOrderProps): Promise<ResponseFormat<CreateManyOrderResponse>> {
+    static async createMany(props: OrderCreateManyProps): Promise<ResponseFormat<OrderCreateManyResponse>> {
         try {
-            const parsedProps = createManyOrderSchema.parse(props);
+            const parsedProps = OrderCreateManySchema.parse(props);
             const result = await PrismaInstance.order.createMany(parsedProps);
             return { data: result };
         } catch (error) {
@@ -60,9 +60,9 @@ export default class OrderService {
         }
     }
 
-    static async updateMany(props: UpdateManyOrderProps): Promise<ResponseFormat<UpdateManyOrderResponse>> {
+    static async updateMany(props: OrderUpdateManyProps): Promise<ResponseFormat<OrderUpdateManyResponse>> {
         try {
-            const parsedProps = updateManyOrderSchema.parse(props);
+            const parsedProps = OrderUpdateManySchema.parse(props);
             const result = await PrismaInstance.order.updateMany(parsedProps);
             return { data: result };
         } catch (error) {
@@ -70,9 +70,9 @@ export default class OrderService {
         }
     }
 
-    static async deleteMany(props: DeleteManyOrderProps): Promise<ResponseFormat<DeleteManyOrderResponse>> {
+    static async deleteMany(props: OrderDeleteManyProps): Promise<ResponseFormat<OrderDeleteManyResponse>> {
         try {
-            const parsedProps = deleteManyOrderSchema.parse(props);
+            const parsedProps = OrderDeleteManySchema.parse(props);
             const result = await PrismaInstance.order.deleteMany(parsedProps);
             return { data: result };
         } catch (error) {
@@ -82,32 +82,32 @@ export default class OrderService {
 
     // ========== Single queries ========== //
 
-    static async findFirst<T extends FindFirstOrderProps>(props: T): Promise<ResponseFormat<FindFirstOrderResponse<T>>> {
+    static async findFirst<T extends OrderFindFirstProps>(props: T): Promise<ResponseFormat<OrderFindFirstResponse<T>>> {
         try {
-            const parsedProps = selectFirstOrderSchema.parse(props);
+            const parsedProps = OrderFindFirstSchema.parse(props);
             const order = await PrismaInstance.order.findFirst(parsedProps);
-            return { data: order as FindFirstOrderResponse<T> };
+            return { data: order as OrderFindFirstResponse<T> };
         } catch (error) {
             return OrderService.error("findFirst", error);
         }
     }
 
-    static async findUnique<T extends FindUniqueOrderProps>(props: T): Promise<ResponseFormat<FindUniqueOrderResponse<T>>> {
+    static async findUnique<T extends OrderFindUniqueProps>(props: T): Promise<ResponseFormat<OrderFindUniqueResponse<T>>> {
         try {
-            const parsedProps = selectUniqueOrderSchema.parse(props);
+            const parsedProps = OrderFindUniqueSchema.parse(props);
             const order = await PrismaInstance.order.findUnique(parsedProps);
-            return { data: order as FindUniqueOrderResponse<T> };
+            return { data: order as OrderFindUniqueResponse<T> };
         } catch (error) {
             return OrderService.error("findUnique", error);
         }
     }
 
-    static async findMany<T extends FindManyOrderProps>(props: T): Promise<ResponseFormat<FindManyOrderResponse<T>>> {
+    static async findMany<T extends OrderFindManyProps>(props: T): Promise<ResponseFormat<OrderFindManyResponse<T>>> {
         try {
-            const parsedProps = selectManyOrderSchema.parse(props);
+            const parsedProps = OrderFindManySchema.parse(props);
             const { skip = 0, take = 10 } = parsedProps;
             const orderList = await PrismaInstance.order.findMany({ skip, take, ...parsedProps });
-            return { data: orderList as FindManyOrderResponse<T> };
+            return { data: orderList as OrderFindManyResponse<T> };
         } catch (error) {
             return OrderService.error("findMany", error);
         }
@@ -115,9 +115,9 @@ export default class OrderService {
 
     // ========== Aggregate queries ========== //
 
-    static async count(props: CountOrderProps): Promise<ResponseFormat<CountOrderResponse>> {
+    static async count(props: OrderCountProps): Promise<ResponseFormat<OrderCountResponse>> {
         try {
-            const parsedProps = countOrderSchema.parse(props);
+            const parsedProps = OrderCountSchema.parse(props);
             const orderAmount: OrderCount = await PrismaInstance.order.count(parsedProps);
             return { data: orderAmount };
         } catch (error) {

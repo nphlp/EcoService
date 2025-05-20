@@ -1,96 +1,102 @@
 import DiyService from "@services/class/DiyClass";
-import { CountDiyProps, CountDiyResponse, FindFirstDiyProps, FindFirstDiyResponse, FindManyDiyProps, FindManyDiyResponse, FindUniqueDiyProps, FindUniqueDiyResponse } from "@services/types/DiyType";
-import { parseAndDecodeParams, revalidate } from "@utils/FetchConfig";
-import { unstable_cache as cache } from "next/cache";
+import { DiyCountProps, DiyCountResponse, DiyFindFirstProps, DiyFindFirstResponse, DiyFindManyProps, DiyFindManyResponse, DiyFindUniqueProps, DiyFindUniqueResponse } from "@services/types/DiyType";
+import { cacheLifeApi, parseAndDecodeParams } from "@utils/FetchConfig";
+import { unstable_cacheLife as cacheLife, unstable_cacheTag as cacheTag } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 
 // ============== API Routes Types ============== //
 
 export type DiyRoutes<Input> = {
     "/diy": {
-        params: FindManyDiyProps,
-        response: FindManyDiyResponse<Input extends FindManyDiyProps ? Input : never>
+        params: DiyFindManyProps,
+        response: DiyFindManyResponse<Input extends DiyFindManyProps ? Input : never>
     },
     "/diy/first": {
-        params: FindFirstDiyProps,
-        response: FindFirstDiyResponse<Input extends FindFirstDiyProps ? Input : never>
+        params: DiyFindFirstProps,
+        response: DiyFindFirstResponse<Input extends DiyFindFirstProps ? Input : never>
     },
     "/diy/unique": {
-        params: FindUniqueDiyProps,
-        response: FindUniqueDiyResponse<Input extends FindUniqueDiyProps ? Input : never>
+        params: DiyFindUniqueProps,
+        response: DiyFindUniqueResponse<Input extends DiyFindUniqueProps ? Input : never>
     },
     "/diy/count": {
-        params: CountDiyProps,
-        response: CountDiyResponse
+        params: DiyCountProps,
+        response: DiyCountResponse
     }
 }
 
 // ==================== Find Many ==================== //
 
-const diyListCached = cache(async <T extends FindManyDiyProps>(params: T) => DiyService.findMany(params), ["diy"], {
-    revalidate,
-    tags: ["diy"],
-});
+const diyFindManyCached = async <T extends DiyFindManyProps>(params: T) => {
+    "use cache";
+    cacheLife(cacheLifeApi);
+    cacheTag("/api/diy");
+    return DiyService.findMany<T>(params);
+};
 
-export const SelectDiyList = async <T extends FindManyDiyProps>(request: NextRequest) => {
+export const DiyFindManyApi = async <T extends DiyFindManyProps>(request: NextRequest) => {
     try {
         const params: T = parseAndDecodeParams(request);
-        const response = await diyListCached<T>(params);
+        const response = await diyFindManyCached<T>(params);
         return NextResponse.json(response, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ error: "getDiyListCached -> " + (error as Error).message }, { status: 500 });
+        return NextResponse.json({ error: "DiyFindManyApi -> " + (error as Error).message }, { status: 500 });
     }
 };
 
 // ==================== Find First ==================== //
 
-const diyFirstCached = cache(
-    async <T extends FindFirstDiyProps>(params: T) => DiyService.findFirst(params),
-    ["diy/first"],
-    { revalidate, tags: ["diy/first"] },
-);
+const diyFindFirstCached = async <T extends DiyFindFirstProps>(params: T) => {
+    "use cache";
+    cacheLife(cacheLifeApi);
+    cacheTag("/api/diy/first");
+    return DiyService.findFirst<T>(params);
+};
 
-export const SelectDiyFirst = async <T extends FindFirstDiyProps>(request: NextRequest) => {
+export const DiyFindFirstApi = async <T extends DiyFindFirstProps>(request: NextRequest) => {
     try {
         const params: T = parseAndDecodeParams(request);
-        const response = await diyFirstCached<T>(params);
+        const response = await diyFindFirstCached<T>(params);
         return NextResponse.json(response, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ error: "getDiyFirstCached -> " + (error as Error).message }, { status: 500 });
+        return NextResponse.json({ error: "DiyFindFirstApi -> " + (error as Error).message }, { status: 500 });
     }
 };
 
 // ==================== Find Unique ==================== //
 
-const diyUniqueCached = cache(
-    async <T extends FindUniqueDiyProps>(params: T) => DiyService.findUnique(params),
-    ["diy/unique"],
-    { revalidate, tags: ["diy/unique"] },
-);
+const diyFindUniqueCached = async <T extends DiyFindUniqueProps>(params: T) => {
+    "use cache";
+    cacheLife(cacheLifeApi);
+    cacheTag("/api/diy/unique");
+    return DiyService.findUnique<T>(params);
+};
 
-export const SelectDiyUnique = async <T extends FindUniqueDiyProps>(request: NextRequest) => {
+export const DiyFindUniqueApi = async <T extends DiyFindUniqueProps>(request: NextRequest) => {
     try {
         const params: T = parseAndDecodeParams(request);
-        const response = await diyUniqueCached<T>(params);
+        const response = await diyFindUniqueCached<T>(params);
         return NextResponse.json(response, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ error: "getDiyUniqueCached -> " + (error as Error).message }, { status: 500 });
+        return NextResponse.json({ error: "DiyFindUniqueApi -> " + (error as Error).message }, { status: 500 });
     }
 };
 
 // ==================== Count ==================== //
 
-const diyCountCached = cache(async (params: CountDiyProps) => DiyService.count(params), ["diy/count"], {
-    revalidate,
-    tags: ["diy/count"],
-});
+const diyCountCached = async (params: DiyCountProps) => {
+    "use cache";
+    cacheLife(cacheLifeApi);
+    cacheTag("/api/diy/count");
+    return DiyService.count(params);
+};
 
-export const SelectDiyCount = async (request: NextRequest) => {
+export const DiyCountApi = async (request: NextRequest) => {
     try {
-        const params: CountDiyProps = parseAndDecodeParams(request);
+        const params: DiyCountProps = parseAndDecodeParams(request);
         const response = await diyCountCached(params);
         return NextResponse.json(response, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ error: "getDiyCountCached -> " + (error as Error).message }, { status: 500 });
+        return NextResponse.json({ error: "DiyCountApi -> " + (error as Error).message }, { status: 500 });
     }
 };

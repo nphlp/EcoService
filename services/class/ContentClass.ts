@@ -1,6 +1,6 @@
 import PrismaInstance from "@lib/prisma";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
-import { ContentCount, CountContentProps, CountContentResponse, CreateManyContentProps, CreateManyContentResponse, CreateContentProps, CreateContentResponse, DeleteManyContentProps, DeleteManyContentResponse, DeleteContentProps, DeleteContentResponse, FindFirstContentProps, FindFirstContentResponse, FindManyContentProps, FindManyContentResponse, FindUniqueContentProps, FindUniqueContentResponse, UpdateManyContentProps, UpdateManyContentResponse, UpdateContentProps, UpdateContentResponse, UpsertContentProps, UpsertContentResponse, countContentSchema, createManyContentSchema, createContentSchema, deleteManyContentSchema, deleteContentSchema, selectFirstContentSchema, selectManyContentSchema, selectUniqueContentSchema, updateManyContentSchema, updateContentSchema, upsertContentSchema } from "@services/types/ContentType";
+import { ContentCount, ContentCountProps, ContentCountResponse, ContentCountSchema, ContentCreateManyProps, ContentCreateManyResponse, ContentCreateManySchema, ContentCreateProps, ContentCreateResponse, ContentCreateSchema, ContentDeleteManyProps, ContentDeleteManyResponse, ContentDeleteManySchema, ContentDeleteProps, ContentDeleteResponse, ContentDeleteSchema, ContentFindFirstProps, ContentFindFirstResponse, ContentFindFirstSchema, ContentFindManyProps, ContentFindManyResponse, ContentFindManySchema, ContentFindUniqueProps, ContentFindUniqueResponse, ContentFindUniqueSchema, ContentUpdateManyProps, ContentUpdateManyResponse, ContentUpdateManySchema, ContentUpdateProps, ContentUpdateResponse, ContentUpdateSchema, ContentUpsertProps, ContentUpsertResponse, ContentUpsertSchema } from "@services/types/ContentType";
 import { ResponseFormat } from "@utils/FetchConfig";
 import { ZodError } from "zod";
 
@@ -8,41 +8,41 @@ export default class ContentService {
 
     // ========== Single mutations ========== //
 
-    static async create<T extends CreateContentProps>(props: T): Promise<ResponseFormat<CreateContentResponse<T>>> {
+    static async create<T extends ContentCreateProps>(props: T): Promise<ResponseFormat<ContentCreateResponse<T>>> {
         try {
-            const parsedProps = createContentSchema.parse(props);
+            const parsedProps = ContentCreateSchema.parse(props);
             const content = await PrismaInstance.content.create(parsedProps);
-            return { data: content as CreateContentResponse<T> };
+            return { data: content as ContentCreateResponse<T> };
         } catch (error) {
             return ContentService.error("create", error);
         }
     }
 
-    static async upsert<T extends UpsertContentProps>(props: T): Promise<ResponseFormat<UpsertContentResponse<T>>> {
+    static async upsert<T extends ContentUpsertProps>(props: T): Promise<ResponseFormat<ContentUpsertResponse<T>>> {
         try {
-            const parsedProps = upsertContentSchema.parse(props);
+            const parsedProps = ContentUpsertSchema.parse(props);
             const content = await PrismaInstance.content.upsert(parsedProps);
-            return { data: content as UpsertContentResponse<T> };
+            return { data: content as ContentUpsertResponse<T> };
         } catch (error) {
             return ContentService.error("upsert", error);
         }
     }
 
-    static async update<T extends UpdateContentProps>(props: T): Promise<ResponseFormat<UpdateContentResponse<T>>> {
+    static async update<T extends ContentUpdateProps>(props: T): Promise<ResponseFormat<ContentUpdateResponse<T>>> {
         try {
-            const parsedProps = updateContentSchema.parse(props);
+            const parsedProps = ContentUpdateSchema.parse(props);
             const content = await PrismaInstance.content.update(parsedProps);
-            return { data: content as UpdateContentResponse<T> };
+            return { data: content as ContentUpdateResponse<T> };
         } catch (error) {
             return ContentService.error("update", error);
         }
     }
 
-    static async delete<T extends DeleteContentProps>(props: T): Promise<ResponseFormat<DeleteContentResponse<T>>> {
+    static async delete<T extends ContentDeleteProps>(props: T): Promise<ResponseFormat<ContentDeleteResponse<T>>> {
         try {
-            const parsedProps = deleteContentSchema.parse(props);
+            const parsedProps = ContentDeleteSchema.parse(props);
             const content = await PrismaInstance.content.delete(parsedProps);
-            return { data: content as DeleteContentResponse<T> };
+            return { data: content as ContentDeleteResponse<T> };
         } catch (error) {
             return ContentService.error("delete", error);
         }
@@ -50,9 +50,9 @@ export default class ContentService {
 
     // ========== Multiple mutations ========== //
 
-    static async createMany(props: CreateManyContentProps): Promise<ResponseFormat<CreateManyContentResponse>> {
+    static async createMany(props: ContentCreateManyProps): Promise<ResponseFormat<ContentCreateManyResponse>> {
         try {
-            const parsedProps = createManyContentSchema.parse(props);
+            const parsedProps = ContentCreateManySchema.parse(props);
             const result = await PrismaInstance.content.createMany(parsedProps);
             return { data: result };
         } catch (error) {
@@ -60,9 +60,9 @@ export default class ContentService {
         }
     }
 
-    static async updateMany(props: UpdateManyContentProps): Promise<ResponseFormat<UpdateManyContentResponse>> {
+    static async updateMany(props: ContentUpdateManyProps): Promise<ResponseFormat<ContentUpdateManyResponse>> {
         try {
-            const parsedProps = updateManyContentSchema.parse(props);
+            const parsedProps = ContentUpdateManySchema.parse(props);
             const result = await PrismaInstance.content.updateMany(parsedProps);
             return { data: result };
         } catch (error) {
@@ -70,9 +70,9 @@ export default class ContentService {
         }
     }
 
-    static async deleteMany(props: DeleteManyContentProps): Promise<ResponseFormat<DeleteManyContentResponse>> {
+    static async deleteMany(props: ContentDeleteManyProps): Promise<ResponseFormat<ContentDeleteManyResponse>> {
         try {
-            const parsedProps = deleteManyContentSchema.parse(props);
+            const parsedProps = ContentDeleteManySchema.parse(props);
             const result = await PrismaInstance.content.deleteMany(parsedProps);
             return { data: result };
         } catch (error) {
@@ -82,32 +82,32 @@ export default class ContentService {
 
     // ========== Single queries ========== //
 
-    static async findFirst<T extends FindFirstContentProps>(props: T): Promise<ResponseFormat<FindFirstContentResponse<T>>> {
+    static async findFirst<T extends ContentFindFirstProps>(props: T): Promise<ResponseFormat<ContentFindFirstResponse<T>>> {
         try {
-            const parsedProps = selectFirstContentSchema.parse(props);
+            const parsedProps = ContentFindFirstSchema.parse(props);
             const content = await PrismaInstance.content.findFirst(parsedProps);
-            return { data: content as FindFirstContentResponse<T> };
+            return { data: content as ContentFindFirstResponse<T> };
         } catch (error) {
             return ContentService.error("findFirst", error);
         }
     }
 
-    static async findUnique<T extends FindUniqueContentProps>(props: T): Promise<ResponseFormat<FindUniqueContentResponse<T>>> {
+    static async findUnique<T extends ContentFindUniqueProps>(props: T): Promise<ResponseFormat<ContentFindUniqueResponse<T>>> {
         try {
-            const parsedProps = selectUniqueContentSchema.parse(props);
+            const parsedProps = ContentFindUniqueSchema.parse(props);
             const content = await PrismaInstance.content.findUnique(parsedProps);
-            return { data: content as FindUniqueContentResponse<T> };
+            return { data: content as ContentFindUniqueResponse<T> };
         } catch (error) {
             return ContentService.error("findUnique", error);
         }
     }
 
-    static async findMany<T extends FindManyContentProps>(props: T): Promise<ResponseFormat<FindManyContentResponse<T>>> {
+    static async findMany<T extends ContentFindManyProps>(props: T): Promise<ResponseFormat<ContentFindManyResponse<T>>> {
         try {
-            const parsedProps = selectManyContentSchema.parse(props);
+            const parsedProps = ContentFindManySchema.parse(props);
             const { skip = 0, take = 10 } = parsedProps;
             const contentList = await PrismaInstance.content.findMany({ skip, take, ...parsedProps });
-            return { data: contentList as FindManyContentResponse<T> };
+            return { data: contentList as ContentFindManyResponse<T> };
         } catch (error) {
             return ContentService.error("findMany", error);
         }
@@ -115,9 +115,9 @@ export default class ContentService {
 
     // ========== Aggregate queries ========== //
 
-    static async count(props: CountContentProps): Promise<ResponseFormat<CountContentResponse>> {
+    static async count(props: ContentCountProps): Promise<ResponseFormat<ContentCountResponse>> {
         try {
-            const parsedProps = countContentSchema.parse(props);
+            const parsedProps = ContentCountSchema.parse(props);
             const contentAmount: ContentCount = await PrismaInstance.content.count(parsedProps);
             return { data: contentAmount };
         } catch (error) {

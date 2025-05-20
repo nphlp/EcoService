@@ -22,7 +22,7 @@ export default function CatalogClient(props: CatalogClientProps) {
 
     const router = useRouter();
 
-    const { productList: productListLocal } = useContext(CatalogContext);
+    const { productList: productListLocal, productAmount: productAmountLocal } = useContext(CatalogContext);
     const { setDataStore } = useCatalogStore();
     const { priceOrder, page, take, category, search } = useCatalogParams();
 
@@ -51,13 +51,30 @@ export default function CatalogClient(props: CatalogClientProps) {
     };
 
     useEffect(() => {
+        // console.log(
+        //     "===== UseEffect =====",
+        //     "\nnewProductList: ",
+        //     newProductList,
+        //     "\nnewProductAmount: ",
+        //     newProductAmount,
+        // );
         if (newProductList && newProductAmount) {
             setDataStore({
-                productList: newProductList,
-                productAmount: newProductAmount,
+                productList: newProductList, // New data
+                productAmount: newProductAmount, // New data
+            });
+        } else if (newProductList && !newProductAmount) {
+            setDataStore({
+                productList: newProductList, // New data
+                productAmount: productAmountLocal, // Current data
+            });
+        } else if (!newProductList && newProductAmount) {
+            setDataStore({
+                productAmount: newProductAmount, // New data
+                productList: productListLocal, // Current data
             });
         }
-    }, [newProductAmount, newProductList, setDataStore]);
+    }, [newProductAmount, newProductList, setDataStore, productListLocal, productAmountLocal]);
 
     if (isLoadingProductList || isLoadingProductAmount) {
         return (

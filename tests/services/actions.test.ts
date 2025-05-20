@@ -1,11 +1,11 @@
-import { SelectProductList } from "@actions/ProductAction";
-import { SelectUserList } from "@actions/UserAction";
+import { ProductFindMany } from "@actions/ProductAction";
+import { UserFindMany } from "@actions/UserAction";
 import { describe, expect, it } from "vitest";
 
 describe("Actions tests", () => {
     it("User actions", async () => {
         // Fetch users
-        const users = await SelectUserList({
+        const users = await UserFindMany({
             include: {
                 Account: true,
                 Address: true,
@@ -23,7 +23,7 @@ describe("Actions tests", () => {
 
     it("Product actions", async () => {
         // Fetch products
-        const products = await SelectProductList({
+        const products = await ProductFindMany({
             include: {
                 Category: true,
             },

@@ -37,7 +37,9 @@ export const useFetchV2 = <Input, R extends Route<Input>, P extends Params<Input
         const fetchData = async () => {
             setIsLoading(true);
 
-            console.log("FETCH TRIGGERED");
+            if (process.env.NODE_ENV === "development") {
+                console.log("FETCH TRIGGERED: ", memoizedProps);
+            }
 
             try {
                 const { route, params } = memoizedProps;

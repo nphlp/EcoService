@@ -1,6 +1,6 @@
 import PrismaInstance from "@lib/prisma";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
-import { VerificationCount, CountVerificationProps, CountVerificationResponse, CreateManyVerificationProps, CreateManyVerificationResponse, CreateVerificationProps, CreateVerificationResponse, DeleteManyVerificationProps, DeleteManyVerificationResponse, DeleteVerificationProps, DeleteVerificationResponse, FindFirstVerificationProps, FindFirstVerificationResponse, FindManyVerificationProps, FindManyVerificationResponse, FindUniqueVerificationProps, FindUniqueVerificationResponse, UpdateManyVerificationProps, UpdateManyVerificationResponse, UpdateVerificationProps, UpdateVerificationResponse, UpsertVerificationProps, UpsertVerificationResponse, countVerificationSchema, createManyVerificationSchema, createVerificationSchema, deleteManyVerificationSchema, deleteVerificationSchema, selectFirstVerificationSchema, selectManyVerificationSchema, selectUniqueVerificationSchema, updateManyVerificationSchema, updateVerificationSchema, upsertVerificationSchema } from "@services/types/VerificationType";
+import { VerificationCount, VerificationCountProps, VerificationCountResponse, VerificationCountSchema, VerificationCreateManyProps, VerificationCreateManyResponse, VerificationCreateManySchema, VerificationCreateProps, VerificationCreateResponse, VerificationCreateSchema, VerificationDeleteManyProps, VerificationDeleteManyResponse, VerificationDeleteManySchema, VerificationDeleteProps, VerificationDeleteResponse, VerificationDeleteSchema, VerificationFindFirstProps, VerificationFindFirstResponse, VerificationFindFirstSchema, VerificationFindManyProps, VerificationFindManyResponse, VerificationFindManySchema, VerificationFindUniqueProps, VerificationFindUniqueResponse, VerificationFindUniqueSchema, VerificationUpdateManyProps, VerificationUpdateManyResponse, VerificationUpdateManySchema, VerificationUpdateProps, VerificationUpdateResponse, VerificationUpdateSchema, VerificationUpsertProps, VerificationUpsertResponse, VerificationUpsertSchema } from "@services/types/VerificationType";
 import { ResponseFormat } from "@utils/FetchConfig";
 import { ZodError } from "zod";
 
@@ -8,41 +8,41 @@ export default class VerificationService {
 
     // ========== Single mutations ========== //
 
-    static async create<T extends CreateVerificationProps>(props: T): Promise<ResponseFormat<CreateVerificationResponse<T>>> {
+    static async create<T extends VerificationCreateProps>(props: T): Promise<ResponseFormat<VerificationCreateResponse<T>>> {
         try {
-            const parsedProps = createVerificationSchema.parse(props);
+            const parsedProps = VerificationCreateSchema.parse(props);
             const verification = await PrismaInstance.verification.create(parsedProps);
-            return { data: verification as CreateVerificationResponse<T> };
+            return { data: verification as VerificationCreateResponse<T> };
         } catch (error) {
             return VerificationService.error("create", error);
         }
     }
 
-    static async upsert<T extends UpsertVerificationProps>(props: T): Promise<ResponseFormat<UpsertVerificationResponse<T>>> {
+    static async upsert<T extends VerificationUpsertProps>(props: T): Promise<ResponseFormat<VerificationUpsertResponse<T>>> {
         try {
-            const parsedProps = upsertVerificationSchema.parse(props);
+            const parsedProps = VerificationUpsertSchema.parse(props);
             const verification = await PrismaInstance.verification.upsert(parsedProps);
-            return { data: verification as UpsertVerificationResponse<T> };
+            return { data: verification as VerificationUpsertResponse<T> };
         } catch (error) {
             return VerificationService.error("upsert", error);
         }
     }
 
-    static async update<T extends UpdateVerificationProps>(props: T): Promise<ResponseFormat<UpdateVerificationResponse<T>>> {
+    static async update<T extends VerificationUpdateProps>(props: T): Promise<ResponseFormat<VerificationUpdateResponse<T>>> {
         try {
-            const parsedProps = updateVerificationSchema.parse(props);
+            const parsedProps = VerificationUpdateSchema.parse(props);
             const verification = await PrismaInstance.verification.update(parsedProps);
-            return { data: verification as UpdateVerificationResponse<T> };
+            return { data: verification as VerificationUpdateResponse<T> };
         } catch (error) {
             return VerificationService.error("update", error);
         }
     }
 
-    static async delete<T extends DeleteVerificationProps>(props: T): Promise<ResponseFormat<DeleteVerificationResponse<T>>> {
+    static async delete<T extends VerificationDeleteProps>(props: T): Promise<ResponseFormat<VerificationDeleteResponse<T>>> {
         try {
-            const parsedProps = deleteVerificationSchema.parse(props);
+            const parsedProps = VerificationDeleteSchema.parse(props);
             const verification = await PrismaInstance.verification.delete(parsedProps);
-            return { data: verification as DeleteVerificationResponse<T> };
+            return { data: verification as VerificationDeleteResponse<T> };
         } catch (error) {
             return VerificationService.error("delete", error);
         }
@@ -50,9 +50,9 @@ export default class VerificationService {
 
     // ========== Multiple mutations ========== //
 
-    static async createMany(props: CreateManyVerificationProps): Promise<ResponseFormat<CreateManyVerificationResponse>> {
+    static async createMany(props: VerificationCreateManyProps): Promise<ResponseFormat<VerificationCreateManyResponse>> {
         try {
-            const parsedProps = createManyVerificationSchema.parse(props);
+            const parsedProps = VerificationCreateManySchema.parse(props);
             const result = await PrismaInstance.verification.createMany(parsedProps);
             return { data: result };
         } catch (error) {
@@ -60,9 +60,9 @@ export default class VerificationService {
         }
     }
 
-    static async updateMany(props: UpdateManyVerificationProps): Promise<ResponseFormat<UpdateManyVerificationResponse>> {
+    static async updateMany(props: VerificationUpdateManyProps): Promise<ResponseFormat<VerificationUpdateManyResponse>> {
         try {
-            const parsedProps = updateManyVerificationSchema.parse(props);
+            const parsedProps = VerificationUpdateManySchema.parse(props);
             const result = await PrismaInstance.verification.updateMany(parsedProps);
             return { data: result };
         } catch (error) {
@@ -70,9 +70,9 @@ export default class VerificationService {
         }
     }
 
-    static async deleteMany(props: DeleteManyVerificationProps): Promise<ResponseFormat<DeleteManyVerificationResponse>> {
+    static async deleteMany(props: VerificationDeleteManyProps): Promise<ResponseFormat<VerificationDeleteManyResponse>> {
         try {
-            const parsedProps = deleteManyVerificationSchema.parse(props);
+            const parsedProps = VerificationDeleteManySchema.parse(props);
             const result = await PrismaInstance.verification.deleteMany(parsedProps);
             return { data: result };
         } catch (error) {
@@ -82,32 +82,32 @@ export default class VerificationService {
 
     // ========== Single queries ========== //
 
-    static async findFirst<T extends FindFirstVerificationProps>(props: T): Promise<ResponseFormat<FindFirstVerificationResponse<T>>> {
+    static async findFirst<T extends VerificationFindFirstProps>(props: T): Promise<ResponseFormat<VerificationFindFirstResponse<T>>> {
         try {
-            const parsedProps = selectFirstVerificationSchema.parse(props);
+            const parsedProps = VerificationFindFirstSchema.parse(props);
             const verification = await PrismaInstance.verification.findFirst(parsedProps);
-            return { data: verification as FindFirstVerificationResponse<T> };
+            return { data: verification as VerificationFindFirstResponse<T> };
         } catch (error) {
             return VerificationService.error("findFirst", error);
         }
     }
 
-    static async findUnique<T extends FindUniqueVerificationProps>(props: T): Promise<ResponseFormat<FindUniqueVerificationResponse<T>>> {
+    static async findUnique<T extends VerificationFindUniqueProps>(props: T): Promise<ResponseFormat<VerificationFindUniqueResponse<T>>> {
         try {
-            const parsedProps = selectUniqueVerificationSchema.parse(props);
+            const parsedProps = VerificationFindUniqueSchema.parse(props);
             const verification = await PrismaInstance.verification.findUnique(parsedProps);
-            return { data: verification as FindUniqueVerificationResponse<T> };
+            return { data: verification as VerificationFindUniqueResponse<T> };
         } catch (error) {
             return VerificationService.error("findUnique", error);
         }
     }
 
-    static async findMany<T extends FindManyVerificationProps>(props: T): Promise<ResponseFormat<FindManyVerificationResponse<T>>> {
+    static async findMany<T extends VerificationFindManyProps>(props: T): Promise<ResponseFormat<VerificationFindManyResponse<T>>> {
         try {
-            const parsedProps = selectManyVerificationSchema.parse(props);
+            const parsedProps = VerificationFindManySchema.parse(props);
             const { skip = 0, take = 10 } = parsedProps;
             const verificationList = await PrismaInstance.verification.findMany({ skip, take, ...parsedProps });
-            return { data: verificationList as FindManyVerificationResponse<T> };
+            return { data: verificationList as VerificationFindManyResponse<T> };
         } catch (error) {
             return VerificationService.error("findMany", error);
         }
@@ -115,9 +115,9 @@ export default class VerificationService {
 
     // ========== Aggregate queries ========== //
 
-    static async count(props: CountVerificationProps): Promise<ResponseFormat<CountVerificationResponse>> {
+    static async count(props: VerificationCountProps): Promise<ResponseFormat<VerificationCountResponse>> {
         try {
-            const parsedProps = countVerificationSchema.parse(props);
+            const parsedProps = VerificationCountSchema.parse(props);
             const verificationAmount: VerificationCount = await PrismaInstance.verification.count(parsedProps);
             return { data: verificationAmount };
         } catch (error) {

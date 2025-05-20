@@ -1,6 +1,6 @@
 import PrismaInstance from "@lib/prisma";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
-import { QuantityCount, CountQuantityProps, CountQuantityResponse, CreateManyQuantityProps, CreateManyQuantityResponse, CreateQuantityProps, CreateQuantityResponse, DeleteManyQuantityProps, DeleteManyQuantityResponse, DeleteQuantityProps, DeleteQuantityResponse, FindFirstQuantityProps, FindFirstQuantityResponse, FindManyQuantityProps, FindManyQuantityResponse, FindUniqueQuantityProps, FindUniqueQuantityResponse, UpdateManyQuantityProps, UpdateManyQuantityResponse, UpdateQuantityProps, UpdateQuantityResponse, UpsertQuantityProps, UpsertQuantityResponse, countQuantitySchema, createManyQuantitySchema, createQuantitySchema, deleteManyQuantitySchema, deleteQuantitySchema, selectFirstQuantitySchema, selectManyQuantitySchema, selectUniqueQuantitySchema, updateManyQuantitySchema, updateQuantitySchema, upsertQuantitySchema } from "@services/types/QuantityType";
+import { QuantityCount, QuantityCountProps, QuantityCountResponse, QuantityCountSchema, QuantityCreateManyProps, QuantityCreateManyResponse, QuantityCreateManySchema, QuantityCreateProps, QuantityCreateResponse, QuantityCreateSchema, QuantityDeleteManyProps, QuantityDeleteManyResponse, QuantityDeleteManySchema, QuantityDeleteProps, QuantityDeleteResponse, QuantityDeleteSchema, QuantityFindFirstProps, QuantityFindFirstResponse, QuantityFindFirstSchema, QuantityFindManyProps, QuantityFindManyResponse, QuantityFindManySchema, QuantityFindUniqueProps, QuantityFindUniqueResponse, QuantityFindUniqueSchema, QuantityUpdateManyProps, QuantityUpdateManyResponse, QuantityUpdateManySchema, QuantityUpdateProps, QuantityUpdateResponse, QuantityUpdateSchema, QuantityUpsertProps, QuantityUpsertResponse, QuantityUpsertSchema } from "@services/types/QuantityType";
 import { ResponseFormat } from "@utils/FetchConfig";
 import { ZodError } from "zod";
 
@@ -8,41 +8,41 @@ export default class QuantityService {
 
     // ========== Single mutations ========== //
 
-    static async create<T extends CreateQuantityProps>(props: T): Promise<ResponseFormat<CreateQuantityResponse<T>>> {
+    static async create<T extends QuantityCreateProps>(props: T): Promise<ResponseFormat<QuantityCreateResponse<T>>> {
         try {
-            const parsedProps = createQuantitySchema.parse(props);
+            const parsedProps = QuantityCreateSchema.parse(props);
             const quantity = await PrismaInstance.quantity.create(parsedProps);
-            return { data: quantity as CreateQuantityResponse<T> };
+            return { data: quantity as QuantityCreateResponse<T> };
         } catch (error) {
             return QuantityService.error("create", error);
         }
     }
 
-    static async upsert<T extends UpsertQuantityProps>(props: T): Promise<ResponseFormat<UpsertQuantityResponse<T>>> {
+    static async upsert<T extends QuantityUpsertProps>(props: T): Promise<ResponseFormat<QuantityUpsertResponse<T>>> {
         try {
-            const parsedProps = upsertQuantitySchema.parse(props);
+            const parsedProps = QuantityUpsertSchema.parse(props);
             const quantity = await PrismaInstance.quantity.upsert(parsedProps);
-            return { data: quantity as UpsertQuantityResponse<T> };
+            return { data: quantity as QuantityUpsertResponse<T> };
         } catch (error) {
             return QuantityService.error("upsert", error);
         }
     }
 
-    static async update<T extends UpdateQuantityProps>(props: T): Promise<ResponseFormat<UpdateQuantityResponse<T>>> {
+    static async update<T extends QuantityUpdateProps>(props: T): Promise<ResponseFormat<QuantityUpdateResponse<T>>> {
         try {
-            const parsedProps = updateQuantitySchema.parse(props);
+            const parsedProps = QuantityUpdateSchema.parse(props);
             const quantity = await PrismaInstance.quantity.update(parsedProps);
-            return { data: quantity as UpdateQuantityResponse<T> };
+            return { data: quantity as QuantityUpdateResponse<T> };
         } catch (error) {
             return QuantityService.error("update", error);
         }
     }
 
-    static async delete<T extends DeleteQuantityProps>(props: T): Promise<ResponseFormat<DeleteQuantityResponse<T>>> {
+    static async delete<T extends QuantityDeleteProps>(props: T): Promise<ResponseFormat<QuantityDeleteResponse<T>>> {
         try {
-            const parsedProps = deleteQuantitySchema.parse(props);
+            const parsedProps = QuantityDeleteSchema.parse(props);
             const quantity = await PrismaInstance.quantity.delete(parsedProps);
-            return { data: quantity as DeleteQuantityResponse<T> };
+            return { data: quantity as QuantityDeleteResponse<T> };
         } catch (error) {
             return QuantityService.error("delete", error);
         }
@@ -50,9 +50,9 @@ export default class QuantityService {
 
     // ========== Multiple mutations ========== //
 
-    static async createMany(props: CreateManyQuantityProps): Promise<ResponseFormat<CreateManyQuantityResponse>> {
+    static async createMany(props: QuantityCreateManyProps): Promise<ResponseFormat<QuantityCreateManyResponse>> {
         try {
-            const parsedProps = createManyQuantitySchema.parse(props);
+            const parsedProps = QuantityCreateManySchema.parse(props);
             const result = await PrismaInstance.quantity.createMany(parsedProps);
             return { data: result };
         } catch (error) {
@@ -60,9 +60,9 @@ export default class QuantityService {
         }
     }
 
-    static async updateMany(props: UpdateManyQuantityProps): Promise<ResponseFormat<UpdateManyQuantityResponse>> {
+    static async updateMany(props: QuantityUpdateManyProps): Promise<ResponseFormat<QuantityUpdateManyResponse>> {
         try {
-            const parsedProps = updateManyQuantitySchema.parse(props);
+            const parsedProps = QuantityUpdateManySchema.parse(props);
             const result = await PrismaInstance.quantity.updateMany(parsedProps);
             return { data: result };
         } catch (error) {
@@ -70,9 +70,9 @@ export default class QuantityService {
         }
     }
 
-    static async deleteMany(props: DeleteManyQuantityProps): Promise<ResponseFormat<DeleteManyQuantityResponse>> {
+    static async deleteMany(props: QuantityDeleteManyProps): Promise<ResponseFormat<QuantityDeleteManyResponse>> {
         try {
-            const parsedProps = deleteManyQuantitySchema.parse(props);
+            const parsedProps = QuantityDeleteManySchema.parse(props);
             const result = await PrismaInstance.quantity.deleteMany(parsedProps);
             return { data: result };
         } catch (error) {
@@ -82,32 +82,32 @@ export default class QuantityService {
 
     // ========== Single queries ========== //
 
-    static async findFirst<T extends FindFirstQuantityProps>(props: T): Promise<ResponseFormat<FindFirstQuantityResponse<T>>> {
+    static async findFirst<T extends QuantityFindFirstProps>(props: T): Promise<ResponseFormat<QuantityFindFirstResponse<T>>> {
         try {
-            const parsedProps = selectFirstQuantitySchema.parse(props);
+            const parsedProps = QuantityFindFirstSchema.parse(props);
             const quantity = await PrismaInstance.quantity.findFirst(parsedProps);
-            return { data: quantity as FindFirstQuantityResponse<T> };
+            return { data: quantity as QuantityFindFirstResponse<T> };
         } catch (error) {
             return QuantityService.error("findFirst", error);
         }
     }
 
-    static async findUnique<T extends FindUniqueQuantityProps>(props: T): Promise<ResponseFormat<FindUniqueQuantityResponse<T>>> {
+    static async findUnique<T extends QuantityFindUniqueProps>(props: T): Promise<ResponseFormat<QuantityFindUniqueResponse<T>>> {
         try {
-            const parsedProps = selectUniqueQuantitySchema.parse(props);
+            const parsedProps = QuantityFindUniqueSchema.parse(props);
             const quantity = await PrismaInstance.quantity.findUnique(parsedProps);
-            return { data: quantity as FindUniqueQuantityResponse<T> };
+            return { data: quantity as QuantityFindUniqueResponse<T> };
         } catch (error) {
             return QuantityService.error("findUnique", error);
         }
     }
 
-    static async findMany<T extends FindManyQuantityProps>(props: T): Promise<ResponseFormat<FindManyQuantityResponse<T>>> {
+    static async findMany<T extends QuantityFindManyProps>(props: T): Promise<ResponseFormat<QuantityFindManyResponse<T>>> {
         try {
-            const parsedProps = selectManyQuantitySchema.parse(props);
+            const parsedProps = QuantityFindManySchema.parse(props);
             const { skip = 0, take = 10 } = parsedProps;
             const quantityList = await PrismaInstance.quantity.findMany({ skip, take, ...parsedProps });
-            return { data: quantityList as FindManyQuantityResponse<T> };
+            return { data: quantityList as QuantityFindManyResponse<T> };
         } catch (error) {
             return QuantityService.error("findMany", error);
         }
@@ -115,9 +115,9 @@ export default class QuantityService {
 
     // ========== Aggregate queries ========== //
 
-    static async count(props: CountQuantityProps): Promise<ResponseFormat<CountQuantityResponse>> {
+    static async count(props: QuantityCountProps): Promise<ResponseFormat<QuantityCountResponse>> {
         try {
-            const parsedProps = countQuantitySchema.parse(props);
+            const parsedProps = QuantityCountSchema.parse(props);
             const quantityAmount: QuantityCount = await PrismaInstance.quantity.count(parsedProps);
             return { data: quantityAmount };
         } catch (error) {

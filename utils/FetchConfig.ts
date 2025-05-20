@@ -12,7 +12,18 @@ export type RoutesList = ExternalRoutes & StripeRoutes;
  * 5 seconds in development
  * 300 seconds in production
  */
-export const revalidate = process.env.NODE_ENV === "development" ? 5 : 3600;
+export const cacheLifeApi =
+    process.env.NODE_ENV === "development"
+        ? {
+              stale: 5, // 5 seconds
+              revalidate: 10, // 10 seconds
+              expire: 20, // 20 seconds
+          }
+        : {
+              stale: 60 * 5, // 5 minutes
+              revalidate: 60 * 60, // 1 hour
+              expire: 60 * 60 * 2, // 2 hours
+          };
 
 /**
  * Parse and decode params from the request

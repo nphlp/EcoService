@@ -12,44 +12,44 @@ export type DiyCount = number;
 // ============== Props Types ============== //
 
 // Single mutations
-export type CreateDiyProps = Prisma.DiyCreateArgs;
-export type UpsertDiyProps = Prisma.DiyUpsertArgs;
-export type UpdateDiyProps = Prisma.DiyUpdateArgs;
-export type DeleteDiyProps = Prisma.DiyDeleteArgs;
+export type DiyCreateProps = Prisma.DiyCreateArgs;
+export type DiyUpsertProps = Prisma.DiyUpsertArgs;
+export type DiyUpdateProps = Prisma.DiyUpdateArgs;
+export type DiyDeleteProps = Prisma.DiyDeleteArgs;
 
 // Multiple mutations
-export type CreateManyDiyProps = Prisma.DiyCreateManyArgs;
-export type UpdateManyDiyProps = Prisma.DiyUpdateManyArgs;
-export type DeleteManyDiyProps = Prisma.DiyDeleteManyArgs;
+export type DiyCreateManyProps = Prisma.DiyCreateManyArgs;
+export type DiyUpdateManyProps = Prisma.DiyUpdateManyArgs;
+export type DiyDeleteManyProps = Prisma.DiyDeleteManyArgs;
 
 // Single queries
-export type FindFirstDiyProps = Prisma.DiyFindFirstArgs;
-export type FindUniqueDiyProps = Prisma.DiyFindUniqueArgs;
-export type FindManyDiyProps = Prisma.DiyFindManyArgs;
+export type DiyFindFirstProps = Prisma.DiyFindFirstArgs;
+export type DiyFindUniqueProps = Prisma.DiyFindUniqueArgs;
+export type DiyFindManyProps = Prisma.DiyFindManyArgs;
 
 // Multiple queries
-export type CountDiyProps = Prisma.DiyCountArgs;
+export type DiyCountProps = Prisma.DiyCountArgs;
 
 // ============== Schema Types ============== //
 
 // Single mutations
-export const createDiySchema: ZodType<CreateDiyProps> = DiyCreateArgsSchema;
-export const upsertDiySchema: ZodType<UpsertDiyProps> = DiyUpsertArgsSchema;
-export const updateDiySchema: ZodType<UpdateDiyProps> = DiyUpdateArgsSchema;
-export const deleteDiySchema: ZodType<DeleteDiyProps> = DiyDeleteArgsSchema;
+export const DiyCreateSchema: ZodType<DiyCreateProps> = DiyCreateArgsSchema;
+export const DiyUpsertSchema: ZodType<DiyUpsertProps> = DiyUpsertArgsSchema;
+export const DiyUpdateSchema: ZodType<DiyUpdateProps> = DiyUpdateArgsSchema;
+export const DiyDeleteSchema: ZodType<DiyDeleteProps> = DiyDeleteArgsSchema;
 
 // Multiple mutations
-export const createManyDiySchema: ZodType<CreateManyDiyProps> = DiyCreateManyArgsSchema;
-export const updateManyDiySchema: ZodType<UpdateManyDiyProps> = DiyUpdateManyArgsSchema;
-export const deleteManyDiySchema: ZodType<DeleteManyDiyProps> = DiyDeleteManyArgsSchema;
+export const DiyCreateManySchema: ZodType<DiyCreateManyProps> = DiyCreateManyArgsSchema;
+export const DiyUpdateManySchema: ZodType<DiyUpdateManyProps> = DiyUpdateManyArgsSchema;
+export const DiyDeleteManySchema: ZodType<DiyDeleteManyProps> = DiyDeleteManyArgsSchema;
 
 // Single queries
-export const selectFirstDiySchema: ZodType<FindFirstDiyProps> = DiyFindFirstArgsSchema;
-export const selectUniqueDiySchema: ZodType<FindUniqueDiyProps> = DiyFindUniqueArgsSchema;
-export const selectManyDiySchema: ZodType<FindManyDiyProps> = DiyFindManyArgsSchema;
+export const DiyFindFirstSchema: ZodType<DiyFindFirstProps> = DiyFindFirstArgsSchema;
+export const DiyFindUniqueSchema: ZodType<DiyFindUniqueProps> = DiyFindUniqueArgsSchema;
+export const DiyFindManySchema: ZodType<DiyFindManyProps> = DiyFindManyArgsSchema;
 
 // Aggregate queries
-export const countDiySchema: ZodType<CountDiyProps> =  z.object({
+export const DiyCountSchema: ZodType<DiyCountProps> =  z.object({
     where: z.lazy(() => DiyWhereInputSchema).optional(),
     orderBy: z.union([
         z.lazy(() => DiyOrderByWithRelationInputSchema),
@@ -64,20 +64,20 @@ export const countDiySchema: ZodType<CountDiyProps> =  z.object({
 // ============== Response Types ============== //
 
 // Single mutations
-export type CreateDiyResponse<T extends CreateDiyProps> = Prisma.DiyGetPayload<T>;
-export type UpsertDiyResponse<T extends UpsertDiyProps> = Prisma.DiyGetPayload<T>;
-export type UpdateDiyResponse<T extends UpdateDiyProps> = Prisma.DiyGetPayload<T>;
-export type DeleteDiyResponse<T extends DeleteDiyProps> = Prisma.DiyGetPayload<T>;
+export type DiyCreateResponse<T extends DiyCreateProps> = Prisma.DiyGetPayload<T>;
+export type DiyUpsertResponse<T extends DiyUpsertProps> = Prisma.DiyGetPayload<T>;
+export type DiyUpdateResponse<T extends DiyUpdateProps> = Prisma.DiyGetPayload<T>;
+export type DiyDeleteResponse<T extends DiyDeleteProps> = Prisma.DiyGetPayload<T>;
 
 // Multiple mutations
-export type CreateManyDiyResponse = { count: number };
-export type UpdateManyDiyResponse = { count: number };
-export type DeleteManyDiyResponse = { count: number };
+export type DiyCreateManyResponse = { count: number };
+export type DiyUpdateManyResponse = { count: number };
+export type DiyDeleteManyResponse = { count: number };
 
 // Single queries
-export type FindFirstDiyResponse<T extends FindFirstDiyProps> = Prisma.DiyGetPayload<T> | null;
-export type FindUniqueDiyResponse<T extends FindUniqueDiyProps> = Prisma.DiyGetPayload<T> | null;
-export type FindManyDiyResponse<T extends FindManyDiyProps> = Prisma.DiyGetPayload<T>[];
+export type DiyFindFirstResponse<T extends DiyFindFirstProps> = Prisma.DiyGetPayload<T> | null;
+export type DiyFindUniqueResponse<T extends DiyFindUniqueProps> = Prisma.DiyGetPayload<T> | null;
+export type DiyFindManyResponse<T extends DiyFindManyProps> = Prisma.DiyGetPayload<T>[];
 
 // Aggregate queries
-export type CountDiyResponse = DiyCount;
+export type DiyCountResponse = DiyCount;

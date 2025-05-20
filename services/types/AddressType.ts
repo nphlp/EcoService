@@ -12,44 +12,44 @@ export type AddressCount = number;
 // ============== Props Types ============== //
 
 // Single mutations
-export type CreateAddressProps = Prisma.AddressCreateArgs;
-export type UpsertAddressProps = Prisma.AddressUpsertArgs;
-export type UpdateAddressProps = Prisma.AddressUpdateArgs;
-export type DeleteAddressProps = Prisma.AddressDeleteArgs;
+export type AddressCreateProps = Prisma.AddressCreateArgs;
+export type AddressUpsertProps = Prisma.AddressUpsertArgs;
+export type AddressUpdateProps = Prisma.AddressUpdateArgs;
+export type AddressDeleteProps = Prisma.AddressDeleteArgs;
 
 // Multiple mutations
-export type CreateManyAddressProps = Prisma.AddressCreateManyArgs;
-export type UpdateManyAddressProps = Prisma.AddressUpdateManyArgs;
-export type DeleteManyAddressProps = Prisma.AddressDeleteManyArgs;
+export type AddressCreateManyProps = Prisma.AddressCreateManyArgs;
+export type AddressUpdateManyProps = Prisma.AddressUpdateManyArgs;
+export type AddressDeleteManyProps = Prisma.AddressDeleteManyArgs;
 
 // Single queries
-export type FindFirstAddressProps = Prisma.AddressFindFirstArgs;
-export type FindUniqueAddressProps = Prisma.AddressFindUniqueArgs;
-export type FindManyAddressProps = Prisma.AddressFindManyArgs;
+export type AddressFindFirstProps = Prisma.AddressFindFirstArgs;
+export type AddressFindUniqueProps = Prisma.AddressFindUniqueArgs;
+export type AddressFindManyProps = Prisma.AddressFindManyArgs;
 
 // Multiple queries
-export type CountAddressProps = Prisma.AddressCountArgs;
+export type AddressCountProps = Prisma.AddressCountArgs;
 
 // ============== Schema Types ============== //
 
 // Single mutations
-export const createAddressSchema: ZodType<CreateAddressProps> = AddressCreateArgsSchema;
-export const upsertAddressSchema: ZodType<UpsertAddressProps> = AddressUpsertArgsSchema;
-export const updateAddressSchema: ZodType<UpdateAddressProps> = AddressUpdateArgsSchema;
-export const deleteAddressSchema: ZodType<DeleteAddressProps> = AddressDeleteArgsSchema;
+export const AddressCreateSchema: ZodType<AddressCreateProps> = AddressCreateArgsSchema;
+export const AddressUpsertSchema: ZodType<AddressUpsertProps> = AddressUpsertArgsSchema;
+export const AddressUpdateSchema: ZodType<AddressUpdateProps> = AddressUpdateArgsSchema;
+export const AddressDeleteSchema: ZodType<AddressDeleteProps> = AddressDeleteArgsSchema;
 
 // Multiple mutations
-export const createManyAddressSchema: ZodType<CreateManyAddressProps> = AddressCreateManyArgsSchema;
-export const updateManyAddressSchema: ZodType<UpdateManyAddressProps> = AddressUpdateManyArgsSchema;
-export const deleteManyAddressSchema: ZodType<DeleteManyAddressProps> = AddressDeleteManyArgsSchema;
+export const AddressCreateManySchema: ZodType<AddressCreateManyProps> = AddressCreateManyArgsSchema;
+export const AddressUpdateManySchema: ZodType<AddressUpdateManyProps> = AddressUpdateManyArgsSchema;
+export const AddressDeleteManySchema: ZodType<AddressDeleteManyProps> = AddressDeleteManyArgsSchema;
 
 // Single queries
-export const selectFirstAddressSchema: ZodType<FindFirstAddressProps> = AddressFindFirstArgsSchema;
-export const selectUniqueAddressSchema: ZodType<FindUniqueAddressProps> = AddressFindUniqueArgsSchema;
-export const selectManyAddressSchema: ZodType<FindManyAddressProps> = AddressFindManyArgsSchema;
+export const AddressFindFirstSchema: ZodType<AddressFindFirstProps> = AddressFindFirstArgsSchema;
+export const AddressFindUniqueSchema: ZodType<AddressFindUniqueProps> = AddressFindUniqueArgsSchema;
+export const AddressFindManySchema: ZodType<AddressFindManyProps> = AddressFindManyArgsSchema;
 
 // Aggregate queries
-export const countAddressSchema: ZodType<CountAddressProps> =  z.object({
+export const AddressCountSchema: ZodType<AddressCountProps> =  z.object({
     where: z.lazy(() => AddressWhereInputSchema).optional(),
     orderBy: z.union([
         z.lazy(() => AddressOrderByWithRelationInputSchema),
@@ -64,20 +64,20 @@ export const countAddressSchema: ZodType<CountAddressProps> =  z.object({
 // ============== Response Types ============== //
 
 // Single mutations
-export type CreateAddressResponse<T extends CreateAddressProps> = Prisma.AddressGetPayload<T>;
-export type UpsertAddressResponse<T extends UpsertAddressProps> = Prisma.AddressGetPayload<T>;
-export type UpdateAddressResponse<T extends UpdateAddressProps> = Prisma.AddressGetPayload<T>;
-export type DeleteAddressResponse<T extends DeleteAddressProps> = Prisma.AddressGetPayload<T>;
+export type AddressCreateResponse<T extends AddressCreateProps> = Prisma.AddressGetPayload<T>;
+export type AddressUpsertResponse<T extends AddressUpsertProps> = Prisma.AddressGetPayload<T>;
+export type AddressUpdateResponse<T extends AddressUpdateProps> = Prisma.AddressGetPayload<T>;
+export type AddressDeleteResponse<T extends AddressDeleteProps> = Prisma.AddressGetPayload<T>;
 
 // Multiple mutations
-export type CreateManyAddressResponse = { count: number };
-export type UpdateManyAddressResponse = { count: number };
-export type DeleteManyAddressResponse = { count: number };
+export type AddressCreateManyResponse = { count: number };
+export type AddressUpdateManyResponse = { count: number };
+export type AddressDeleteManyResponse = { count: number };
 
 // Single queries
-export type FindFirstAddressResponse<T extends FindFirstAddressProps> = Prisma.AddressGetPayload<T> | null;
-export type FindUniqueAddressResponse<T extends FindUniqueAddressProps> = Prisma.AddressGetPayload<T> | null;
-export type FindManyAddressResponse<T extends FindManyAddressProps> = Prisma.AddressGetPayload<T>[];
+export type AddressFindFirstResponse<T extends AddressFindFirstProps> = Prisma.AddressGetPayload<T> | null;
+export type AddressFindUniqueResponse<T extends AddressFindUniqueProps> = Prisma.AddressGetPayload<T> | null;
+export type AddressFindManyResponse<T extends AddressFindManyProps> = Prisma.AddressGetPayload<T>[];
 
 // Aggregate queries
-export type CountAddressResponse = AddressCount;
+export type AddressCountResponse = AddressCount;

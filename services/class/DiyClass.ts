@@ -1,6 +1,6 @@
 import PrismaInstance from "@lib/prisma";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
-import { DiyCount, CountDiyProps, CountDiyResponse, CreateManyDiyProps, CreateManyDiyResponse, CreateDiyProps, CreateDiyResponse, DeleteManyDiyProps, DeleteManyDiyResponse, DeleteDiyProps, DeleteDiyResponse, FindFirstDiyProps, FindFirstDiyResponse, FindManyDiyProps, FindManyDiyResponse, FindUniqueDiyProps, FindUniqueDiyResponse, UpdateManyDiyProps, UpdateManyDiyResponse, UpdateDiyProps, UpdateDiyResponse, UpsertDiyProps, UpsertDiyResponse, countDiySchema, createManyDiySchema, createDiySchema, deleteManyDiySchema, deleteDiySchema, selectFirstDiySchema, selectManyDiySchema, selectUniqueDiySchema, updateManyDiySchema, updateDiySchema, upsertDiySchema } from "@services/types/DiyType";
+import { DiyCount, DiyCountProps, DiyCountResponse, DiyCountSchema, DiyCreateManyProps, DiyCreateManyResponse, DiyCreateManySchema, DiyCreateProps, DiyCreateResponse, DiyCreateSchema, DiyDeleteManyProps, DiyDeleteManyResponse, DiyDeleteManySchema, DiyDeleteProps, DiyDeleteResponse, DiyDeleteSchema, DiyFindFirstProps, DiyFindFirstResponse, DiyFindFirstSchema, DiyFindManyProps, DiyFindManyResponse, DiyFindManySchema, DiyFindUniqueProps, DiyFindUniqueResponse, DiyFindUniqueSchema, DiyUpdateManyProps, DiyUpdateManyResponse, DiyUpdateManySchema, DiyUpdateProps, DiyUpdateResponse, DiyUpdateSchema, DiyUpsertProps, DiyUpsertResponse, DiyUpsertSchema } from "@services/types/DiyType";
 import { ResponseFormat } from "@utils/FetchConfig";
 import { ZodError } from "zod";
 
@@ -8,41 +8,41 @@ export default class DiyService {
 
     // ========== Single mutations ========== //
 
-    static async create<T extends CreateDiyProps>(props: T): Promise<ResponseFormat<CreateDiyResponse<T>>> {
+    static async create<T extends DiyCreateProps>(props: T): Promise<ResponseFormat<DiyCreateResponse<T>>> {
         try {
-            const parsedProps = createDiySchema.parse(props);
+            const parsedProps = DiyCreateSchema.parse(props);
             const diy = await PrismaInstance.diy.create(parsedProps);
-            return { data: diy as CreateDiyResponse<T> };
+            return { data: diy as DiyCreateResponse<T> };
         } catch (error) {
             return DiyService.error("create", error);
         }
     }
 
-    static async upsert<T extends UpsertDiyProps>(props: T): Promise<ResponseFormat<UpsertDiyResponse<T>>> {
+    static async upsert<T extends DiyUpsertProps>(props: T): Promise<ResponseFormat<DiyUpsertResponse<T>>> {
         try {
-            const parsedProps = upsertDiySchema.parse(props);
+            const parsedProps = DiyUpsertSchema.parse(props);
             const diy = await PrismaInstance.diy.upsert(parsedProps);
-            return { data: diy as UpsertDiyResponse<T> };
+            return { data: diy as DiyUpsertResponse<T> };
         } catch (error) {
             return DiyService.error("upsert", error);
         }
     }
 
-    static async update<T extends UpdateDiyProps>(props: T): Promise<ResponseFormat<UpdateDiyResponse<T>>> {
+    static async update<T extends DiyUpdateProps>(props: T): Promise<ResponseFormat<DiyUpdateResponse<T>>> {
         try {
-            const parsedProps = updateDiySchema.parse(props);
+            const parsedProps = DiyUpdateSchema.parse(props);
             const diy = await PrismaInstance.diy.update(parsedProps);
-            return { data: diy as UpdateDiyResponse<T> };
+            return { data: diy as DiyUpdateResponse<T> };
         } catch (error) {
             return DiyService.error("update", error);
         }
     }
 
-    static async delete<T extends DeleteDiyProps>(props: T): Promise<ResponseFormat<DeleteDiyResponse<T>>> {
+    static async delete<T extends DiyDeleteProps>(props: T): Promise<ResponseFormat<DiyDeleteResponse<T>>> {
         try {
-            const parsedProps = deleteDiySchema.parse(props);
+            const parsedProps = DiyDeleteSchema.parse(props);
             const diy = await PrismaInstance.diy.delete(parsedProps);
-            return { data: diy as DeleteDiyResponse<T> };
+            return { data: diy as DiyDeleteResponse<T> };
         } catch (error) {
             return DiyService.error("delete", error);
         }
@@ -50,9 +50,9 @@ export default class DiyService {
 
     // ========== Multiple mutations ========== //
 
-    static async createMany(props: CreateManyDiyProps): Promise<ResponseFormat<CreateManyDiyResponse>> {
+    static async createMany(props: DiyCreateManyProps): Promise<ResponseFormat<DiyCreateManyResponse>> {
         try {
-            const parsedProps = createManyDiySchema.parse(props);
+            const parsedProps = DiyCreateManySchema.parse(props);
             const result = await PrismaInstance.diy.createMany(parsedProps);
             return { data: result };
         } catch (error) {
@@ -60,9 +60,9 @@ export default class DiyService {
         }
     }
 
-    static async updateMany(props: UpdateManyDiyProps): Promise<ResponseFormat<UpdateManyDiyResponse>> {
+    static async updateMany(props: DiyUpdateManyProps): Promise<ResponseFormat<DiyUpdateManyResponse>> {
         try {
-            const parsedProps = updateManyDiySchema.parse(props);
+            const parsedProps = DiyUpdateManySchema.parse(props);
             const result = await PrismaInstance.diy.updateMany(parsedProps);
             return { data: result };
         } catch (error) {
@@ -70,9 +70,9 @@ export default class DiyService {
         }
     }
 
-    static async deleteMany(props: DeleteManyDiyProps): Promise<ResponseFormat<DeleteManyDiyResponse>> {
+    static async deleteMany(props: DiyDeleteManyProps): Promise<ResponseFormat<DiyDeleteManyResponse>> {
         try {
-            const parsedProps = deleteManyDiySchema.parse(props);
+            const parsedProps = DiyDeleteManySchema.parse(props);
             const result = await PrismaInstance.diy.deleteMany(parsedProps);
             return { data: result };
         } catch (error) {
@@ -82,32 +82,32 @@ export default class DiyService {
 
     // ========== Single queries ========== //
 
-    static async findFirst<T extends FindFirstDiyProps>(props: T): Promise<ResponseFormat<FindFirstDiyResponse<T>>> {
+    static async findFirst<T extends DiyFindFirstProps>(props: T): Promise<ResponseFormat<DiyFindFirstResponse<T>>> {
         try {
-            const parsedProps = selectFirstDiySchema.parse(props);
+            const parsedProps = DiyFindFirstSchema.parse(props);
             const diy = await PrismaInstance.diy.findFirst(parsedProps);
-            return { data: diy as FindFirstDiyResponse<T> };
+            return { data: diy as DiyFindFirstResponse<T> };
         } catch (error) {
             return DiyService.error("findFirst", error);
         }
     }
 
-    static async findUnique<T extends FindUniqueDiyProps>(props: T): Promise<ResponseFormat<FindUniqueDiyResponse<T>>> {
+    static async findUnique<T extends DiyFindUniqueProps>(props: T): Promise<ResponseFormat<DiyFindUniqueResponse<T>>> {
         try {
-            const parsedProps = selectUniqueDiySchema.parse(props);
+            const parsedProps = DiyFindUniqueSchema.parse(props);
             const diy = await PrismaInstance.diy.findUnique(parsedProps);
-            return { data: diy as FindUniqueDiyResponse<T> };
+            return { data: diy as DiyFindUniqueResponse<T> };
         } catch (error) {
             return DiyService.error("findUnique", error);
         }
     }
 
-    static async findMany<T extends FindManyDiyProps>(props: T): Promise<ResponseFormat<FindManyDiyResponse<T>>> {
+    static async findMany<T extends DiyFindManyProps>(props: T): Promise<ResponseFormat<DiyFindManyResponse<T>>> {
         try {
-            const parsedProps = selectManyDiySchema.parse(props);
+            const parsedProps = DiyFindManySchema.parse(props);
             const { skip = 0, take = 10 } = parsedProps;
             const diyList = await PrismaInstance.diy.findMany({ skip, take, ...parsedProps });
-            return { data: diyList as FindManyDiyResponse<T> };
+            return { data: diyList as DiyFindManyResponse<T> };
         } catch (error) {
             return DiyService.error("findMany", error);
         }
@@ -115,9 +115,9 @@ export default class DiyService {
 
     // ========== Aggregate queries ========== //
 
-    static async count(props: CountDiyProps): Promise<ResponseFormat<CountDiyResponse>> {
+    static async count(props: DiyCountProps): Promise<ResponseFormat<DiyCountResponse>> {
         try {
-            const parsedProps = countDiySchema.parse(props);
+            const parsedProps = DiyCountSchema.parse(props);
             const diyAmount: DiyCount = await PrismaInstance.diy.count(parsedProps);
             return { data: diyAmount };
         } catch (error) {

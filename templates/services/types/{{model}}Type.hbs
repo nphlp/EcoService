@@ -19,44 +19,44 @@ export type {{modelName}}Count = number;
 // ============== Props Types ============== //
 
 // Single mutations
-export type Create{{modelName}}Props = Prisma.{{modelName}}CreateArgs;
-export type Upsert{{modelName}}Props = Prisma.{{modelName}}UpsertArgs;
-export type Update{{modelName}}Props = Prisma.{{modelName}}UpdateArgs;
-export type Delete{{modelName}}Props = Prisma.{{modelName}}DeleteArgs;
+export type {{modelName}}CreateProps = Prisma.{{modelName}}CreateArgs;
+export type {{modelName}}UpsertProps = Prisma.{{modelName}}UpsertArgs;
+export type {{modelName}}UpdateProps = Prisma.{{modelName}}UpdateArgs;
+export type {{modelName}}DeleteProps = Prisma.{{modelName}}DeleteArgs;
 
 // Multiple mutations
-export type CreateMany{{modelName}}Props = Prisma.{{modelName}}CreateManyArgs;
-export type UpdateMany{{modelName}}Props = Prisma.{{modelName}}UpdateManyArgs;
-export type DeleteMany{{modelName}}Props = Prisma.{{modelName}}DeleteManyArgs;
+export type {{modelName}}CreateManyProps = Prisma.{{modelName}}CreateManyArgs;
+export type {{modelName}}UpdateManyProps = Prisma.{{modelName}}UpdateManyArgs;
+export type {{modelName}}DeleteManyProps = Prisma.{{modelName}}DeleteManyArgs;
 
 // Single queries
-export type FindFirst{{modelName}}Props = Prisma.{{modelName}}FindFirstArgs;
-export type FindUnique{{modelName}}Props = Prisma.{{modelName}}FindUniqueArgs;
-export type FindMany{{modelName}}Props = Prisma.{{modelName}}FindManyArgs;
+export type {{modelName}}FindFirstProps = Prisma.{{modelName}}FindFirstArgs;
+export type {{modelName}}FindUniqueProps = Prisma.{{modelName}}FindUniqueArgs;
+export type {{modelName}}FindManyProps = Prisma.{{modelName}}FindManyArgs;
 
 // Multiple queries
-export type Count{{modelName}}Props = Prisma.{{modelName}}CountArgs;
+export type {{modelName}}CountProps = Prisma.{{modelName}}CountArgs;
 
 // ============== Schema Types ============== //
 
 // Single mutations
-export const create{{modelName}}Schema: ZodType<Create{{modelName}}Props> = {{modelName}}CreateArgsSchema;
-export const upsert{{modelName}}Schema: ZodType<Upsert{{modelName}}Props> = {{modelName}}UpsertArgsSchema;
-export const update{{modelName}}Schema: ZodType<Update{{modelName}}Props> = {{modelName}}UpdateArgsSchema;
-export const delete{{modelName}}Schema: ZodType<Delete{{modelName}}Props> = {{modelName}}DeleteArgsSchema;
+export const {{modelName}}CreateSchema: ZodType<{{modelName}}CreateProps> = {{modelName}}CreateArgsSchema;
+export const {{modelName}}UpsertSchema: ZodType<{{modelName}}UpsertProps> = {{modelName}}UpsertArgsSchema;
+export const {{modelName}}UpdateSchema: ZodType<{{modelName}}UpdateProps> = {{modelName}}UpdateArgsSchema;
+export const {{modelName}}DeleteSchema: ZodType<{{modelName}}DeleteProps> = {{modelName}}DeleteArgsSchema;
 
 // Multiple mutations
-export const createMany{{modelName}}Schema: ZodType<CreateMany{{modelName}}Props> = {{modelName}}CreateManyArgsSchema;
-export const updateMany{{modelName}}Schema: ZodType<UpdateMany{{modelName}}Props> = {{modelName}}UpdateManyArgsSchema;
-export const deleteMany{{modelName}}Schema: ZodType<DeleteMany{{modelName}}Props> = {{modelName}}DeleteManyArgsSchema;
+export const {{modelName}}CreateManySchema: ZodType<{{modelName}}CreateManyProps> = {{modelName}}CreateManyArgsSchema;
+export const {{modelName}}UpdateManySchema: ZodType<{{modelName}}UpdateManyProps> = {{modelName}}UpdateManyArgsSchema;
+export const {{modelName}}DeleteManySchema: ZodType<{{modelName}}DeleteManyProps> = {{modelName}}DeleteManyArgsSchema;
 
 // Single queries
-export const selectFirst{{modelName}}Schema: ZodType<FindFirst{{modelName}}Props> = {{modelName}}FindFirstArgsSchema;
-export const selectUnique{{modelName}}Schema: ZodType<FindUnique{{modelName}}Props> = {{modelName}}FindUniqueArgsSchema;
-export const selectMany{{modelName}}Schema: ZodType<FindMany{{modelName}}Props> = {{modelName}}FindManyArgsSchema;
+export const {{modelName}}FindFirstSchema: ZodType<{{modelName}}FindFirstProps> = {{modelName}}FindFirstArgsSchema;
+export const {{modelName}}FindUniqueSchema: ZodType<{{modelName}}FindUniqueProps> = {{modelName}}FindUniqueArgsSchema;
+export const {{modelName}}FindManySchema: ZodType<{{modelName}}FindManyProps> = {{modelName}}FindManyArgsSchema;
 
 // Aggregate queries
-export const count{{modelName}}Schema: ZodType<Count{{modelName}}Props> =  z.object({
+export const {{modelName}}CountSchema: ZodType<{{modelName}}CountProps> =  z.object({
     where: z.lazy(() => {{modelName}}WhereInputSchema).optional(),
     orderBy: z.union([
         z.lazy(() => {{modelName}}OrderByWithRelationInputSchema),
@@ -71,20 +71,20 @@ export const count{{modelName}}Schema: ZodType<Count{{modelName}}Props> =  z.obj
 // ============== Response Types ============== //
 
 // Single mutations
-export type Create{{modelName}}Response<T extends Create{{modelName}}Props> = Prisma.{{modelName}}GetPayload<T>;
-export type Upsert{{modelName}}Response<T extends Upsert{{modelName}}Props> = Prisma.{{modelName}}GetPayload<T>;
-export type Update{{modelName}}Response<T extends Update{{modelName}}Props> = Prisma.{{modelName}}GetPayload<T>;
-export type Delete{{modelName}}Response<T extends Delete{{modelName}}Props> = Prisma.{{modelName}}GetPayload<T>;
+export type {{modelName}}CreateResponse<T extends {{modelName}}CreateProps> = Prisma.{{modelName}}GetPayload<T>;
+export type {{modelName}}UpsertResponse<T extends {{modelName}}UpsertProps> = Prisma.{{modelName}}GetPayload<T>;
+export type {{modelName}}UpdateResponse<T extends {{modelName}}UpdateProps> = Prisma.{{modelName}}GetPayload<T>;
+export type {{modelName}}DeleteResponse<T extends {{modelName}}DeleteProps> = Prisma.{{modelName}}GetPayload<T>;
 
 // Multiple mutations
-export type CreateMany{{modelName}}Response = { count: number };
-export type UpdateMany{{modelName}}Response = { count: number };
-export type DeleteMany{{modelName}}Response = { count: number };
+export type {{modelName}}CreateManyResponse = { count: number };
+export type {{modelName}}UpdateManyResponse = { count: number };
+export type {{modelName}}DeleteManyResponse = { count: number };
 
 // Single queries
-export type FindFirst{{modelName}}Response<T extends FindFirst{{modelName}}Props> = Prisma.{{modelName}}GetPayload<T> | null;
-export type FindUnique{{modelName}}Response<T extends FindUnique{{modelName}}Props> = Prisma.{{modelName}}GetPayload<T> | null;
-export type FindMany{{modelName}}Response<T extends FindMany{{modelName}}Props> = Prisma.{{modelName}}GetPayload<T>[];
+export type {{modelName}}FindFirstResponse<T extends {{modelName}}FindFirstProps> = Prisma.{{modelName}}GetPayload<T> | null;
+export type {{modelName}}FindUniqueResponse<T extends {{modelName}}FindUniqueProps> = Prisma.{{modelName}}GetPayload<T> | null;
+export type {{modelName}}FindManyResponse<T extends {{modelName}}FindManyProps> = Prisma.{{modelName}}GetPayload<T>[];
 
 // Aggregate queries
-export type Count{{modelName}}Response = {{modelName}}Count;
+export type {{modelName}}CountResponse = {{modelName}}Count;
