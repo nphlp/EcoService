@@ -1,66 +1,66 @@
 /**
- * Point d'entrée API pour toutes les routes dynamiques
+ * API entry point for all dynamic routes
  *
- * Ce fichier utilise un système de routage dynamique pour gérer toutes les requêtes API.
- * Il analyse le chemin de la requête et redirige vers le gestionnaire approprié.
+ * This file uses a dynamic routing system to handle all API requests.
+ * It parses the request path and redirects to the appropriate handler.
  *
- * Inspiré par l'approche de BetterAuth, ce système permet de centraliser la logique
- * de routage et de simplifier l'architecture des API.
+ * Inspired by the BetterAuth approach, this system centralizes routing logic
+ * and simplifies the API architecture.
  */
 import * as routes from "@services/api";
 import { NextRequest, NextResponse } from "next/server";
 
-// Type pour les gestionnaires de route
+// Type for route handlers
 type Route = (request: NextRequest) => Promise<NextResponse>;
 
 /**
- * Fonction pour obtenir le gestionnaire de route approprié en fonction du chemin
+ * Function to get the appropriate route handler based on the path
  */
 const findRoute = (path: string[]): Route | null => {
     // Api Route List
     const ApiRoutes: Record<string, Route> = routes;
 
-    // Si le chemin est vide, retourner null
+    // If the path is empty, return null
     if (path.length === 0) {
         return null;
     }
 
-    // Si le chemin a un seul segment, retourner le gestionnaire principal (liste)
+    // If the path has a single segment, return the main handler (list)
     const ModelName = path[0].charAt(0).toUpperCase() + path[0].slice(1);
 
     if (path.length === 1) {
-        return ApiRoutes[`Select${ModelName}List`] ?? null;
+        return ApiRoutes[`${ModelName}FindManyApi`] ?? null;
     }
 
-    // Si le chemin a deux segments, vérifier les sous-routes
+    // If the path has two segments, check sub-routes
     if (path.length === 2) {
         const subRoute = path[1];
 
-        // Si la sous-route est "unique", retourner le gestionnaire pour obtenir un élément unique
+        // If the sub-route is "unique", return the handler to get a unique item
         if (subRoute === "unique") {
-            return ApiRoutes[`Select${ModelName}Unique`] ?? null;
+            return ApiRoutes[`${ModelName}FindUniqueApi`] ?? null;
         }
 
-        // Si la sous-route est "first", retourner le gestionnaire pour obtenir le premier élément
+        // If the sub-route is "first", return the handler to get the first item
         if (subRoute === "first") {
-            return ApiRoutes[`Select${ModelName}First`] ?? null;
+            return ApiRoutes[`${ModelName}FindFirstApi`] ?? null;
         }
 
-        // Si la sous-route est "count", retourner le gestionnaire pour obtenir le nombre d'éléments
+        // If the sub-route is "count", return the handler to get the count of items
         if (subRoute === "count") {
-            return ApiRoutes[`Select${ModelName}Count`] ?? null;
+            return ApiRoutes[`${ModelName}CountApi`] ?? null;
         }
     }
 
-    // Si le chemin est plus long ou la sous-route n'est pas reconnue, retourner null
+    // If the path is longer or the sub-route is not recognized, return null
     return null;
 };
 
-// Type pour les paramètres de la requête
+// Type for request parameters
 type ParamsProps = { params: Promise<{ routes: string[] }> };
 
 /**
- * Gestionnaire GET pour toutes les routes
+ * GET handler for all routes
  */
 export async function GET(request: NextRequest, props: ParamsProps): Promise<NextResponse> {
     const { params } = props;
