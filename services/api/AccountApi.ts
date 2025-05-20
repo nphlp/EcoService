@@ -1,5 +1,5 @@
 import AccountService from "@services/class/AccountClass";
-import { CountAccountProps, CountAccountResponse, FindFirstAccountProps, FindFirstAccountResponse, FindManyAccountProps, FindManyAccountResponse, FindUniqueAccountProps, FindUniqueAccountResponse } from "@services/types/AccountType";
+import { AccountCountProps, AccountCountResponse, AccountFindFirstProps, AccountFindFirstResponse, AccountFindManyProps, AccountFindManyResponse, AccountFindUniqueProps, AccountFindUniqueResponse } from "@services/types/AccountType";
 import { cacheLifeApi, parseAndDecodeParams } from "@utils/FetchConfig";
 import { unstable_cacheLife as cacheLife, unstable_cacheTag as cacheTag } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
@@ -8,95 +8,95 @@ import { NextRequest, NextResponse } from "next/server";
 
 export type AccountRoutes<Input> = {
     "/account": {
-        params: FindManyAccountProps,
-        response: FindManyAccountResponse<Input extends FindManyAccountProps ? Input : never>
+        params: AccountFindManyProps,
+        response: AccountFindManyResponse<Input extends AccountFindManyProps ? Input : never>
     },
     "/account/first": {
-        params: FindFirstAccountProps,
-        response: FindFirstAccountResponse<Input extends FindFirstAccountProps ? Input : never>
+        params: AccountFindFirstProps,
+        response: AccountFindFirstResponse<Input extends AccountFindFirstProps ? Input : never>
     },
     "/account/unique": {
-        params: FindUniqueAccountProps,
-        response: FindUniqueAccountResponse<Input extends FindUniqueAccountProps ? Input : never>
+        params: AccountFindUniqueProps,
+        response: AccountFindUniqueResponse<Input extends AccountFindUniqueProps ? Input : never>
     },
     "/account/count": {
-        params: CountAccountProps,
-        response: CountAccountResponse
+        params: AccountCountProps,
+        response: AccountCountResponse
     }
 }
 
 // ==================== Find Many ==================== //
 
-const accountListCached = async <T extends FindManyAccountProps>(params: T) => {
+const accountFindManyCached = async <T extends AccountFindManyProps>(params: T) => {
     "use cache";
     cacheLife(cacheLifeApi);
     cacheTag("/api/account");
     return AccountService.findMany<T>(params);
 };
 
-export const SelectAccountList = async <T extends FindManyAccountProps>(request: NextRequest) => {
+export const AccountFindManyApi = async <T extends AccountFindManyProps>(request: NextRequest) => {
     try {
         const params: T = parseAndDecodeParams(request);
-        const response = await accountListCached<T>(params);
+        const response = await accountFindManyCached<T>(params);
         return NextResponse.json(response, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ error: "getAccountListCached -> " + (error as Error).message }, { status: 500 });
+        return NextResponse.json({ error: "AccountFindManyApi -> " + (error as Error).message }, { status: 500 });
     }
 };
 
 // ==================== Find First ==================== //
 
-const accountFirstCached = async <T extends FindFirstAccountProps>(params: T) => {
+const accountFindFirstCached = async <T extends AccountFindFirstProps>(params: T) => {
     "use cache";
     cacheLife(cacheLifeApi);
     cacheTag("/api/account/first");
     return AccountService.findFirst<T>(params);
 };
 
-export const SelectAccountFirst = async <T extends FindFirstAccountProps>(request: NextRequest) => {
+export const AccountFindFirstApi = async <T extends AccountFindFirstProps>(request: NextRequest) => {
     try {
         const params: T = parseAndDecodeParams(request);
-        const response = await accountFirstCached<T>(params);
+        const response = await accountFindFirstCached<T>(params);
         return NextResponse.json(response, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ error: "getAccountFirstCached -> " + (error as Error).message }, { status: 500 });
+        return NextResponse.json({ error: "AccountFindFirstApi -> " + (error as Error).message }, { status: 500 });
     }
 };
 
 // ==================== Find Unique ==================== //
 
-const accountUniqueCached = async <T extends FindUniqueAccountProps>(params: T) => {
+const accountFindUniqueCached = async <T extends AccountFindUniqueProps>(params: T) => {
     "use cache";
     cacheLife(cacheLifeApi);
     cacheTag("/api/account/unique");
     return AccountService.findUnique<T>(params);
 };
 
-export const SelectAccountUnique = async <T extends FindUniqueAccountProps>(request: NextRequest) => {
+export const AccountFindUniqueApi = async <T extends AccountFindUniqueProps>(request: NextRequest) => {
     try {
         const params: T = parseAndDecodeParams(request);
-        const response = await accountUniqueCached<T>(params);
+        const response = await accountFindUniqueCached<T>(params);
         return NextResponse.json(response, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ error: "getAccountUniqueCached -> " + (error as Error).message }, { status: 500 });
+        return NextResponse.json({ error: "AccountFindUniqueApi -> " + (error as Error).message }, { status: 500 });
     }
 };
 
 // ==================== Count ==================== //
 
-const accountCountCached = async (params: CountAccountProps) => {
+const accountCountCached = async (params: AccountCountProps) => {
     "use cache";
     cacheLife(cacheLifeApi);
     cacheTag("/api/account/count");
     return AccountService.count(params);
 };
 
-export const SelectAccountCount = async (request: NextRequest) => {
+export const AccountCountApi = async (request: NextRequest) => {
     try {
-        const params: CountAccountProps = parseAndDecodeParams(request);
+        const params: AccountCountProps = parseAndDecodeParams(request);
         const response = await accountCountCached(params);
         return NextResponse.json(response, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ error: "getAccountCountCached -> " + (error as Error).message }, { status: 500 });
+        return NextResponse.json({ error: "AccountCountApi -> " + (error as Error).message }, { status: 500 });
     }
 };

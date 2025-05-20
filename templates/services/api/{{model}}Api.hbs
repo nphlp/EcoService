@@ -1,5 +1,5 @@
 import {{modelName}}Service from "@services/class/{{modelName}}Class";
-import { Count{{modelName}}Props, Count{{modelName}}Response, FindFirst{{modelName}}Props, FindFirst{{modelName}}Response, FindMany{{modelName}}Props, FindMany{{modelName}}Response, FindUnique{{modelName}}Props, FindUnique{{modelName}}Response } from "@services/types/{{modelName}}Type";
+import { {{modelName}}CountProps, {{modelName}}CountResponse, {{modelName}}FindFirstProps, {{modelName}}FindFirstResponse, {{modelName}}FindManyProps, {{modelName}}FindManyResponse, {{modelName}}FindUniqueProps, {{modelName}}FindUniqueResponse } from "@services/types/{{modelName}}Type";
 import { cacheLifeApi, parseAndDecodeParams } from "@utils/FetchConfig";
 import { unstable_cacheLife as cacheLife, unstable_cacheTag as cacheTag } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
@@ -8,95 +8,95 @@ import { NextRequest, NextResponse } from "next/server";
 
 export type {{modelName}}Routes<Input> = {
     "/{{modelNameLower}}": {
-        params: FindMany{{modelName}}Props,
-        response: FindMany{{modelName}}Response<Input extends FindMany{{modelName}}Props ? Input : never>
+        params: {{modelName}}FindManyProps,
+        response: {{modelName}}FindManyResponse<Input extends {{modelName}}FindManyProps ? Input : never>
     },
     "/{{modelNameLower}}/first": {
-        params: FindFirst{{modelName}}Props,
-        response: FindFirst{{modelName}}Response<Input extends FindFirst{{modelName}}Props ? Input : never>
+        params: {{modelName}}FindFirstProps,
+        response: {{modelName}}FindFirstResponse<Input extends {{modelName}}FindFirstProps ? Input : never>
     },
     "/{{modelNameLower}}/unique": {
-        params: FindUnique{{modelName}}Props,
-        response: FindUnique{{modelName}}Response<Input extends FindUnique{{modelName}}Props ? Input : never>
+        params: {{modelName}}FindUniqueProps,
+        response: {{modelName}}FindUniqueResponse<Input extends {{modelName}}FindUniqueProps ? Input : never>
     },
     "/{{modelNameLower}}/count": {
-        params: Count{{modelName}}Props,
-        response: Count{{modelName}}Response
+        params: {{modelName}}CountProps,
+        response: {{modelName}}CountResponse
     }
 }
 
 // ==================== Find Many ==================== //
 
-const {{modelNameLower}}ListCached = async <T extends FindMany{{modelName}}Props>(params: T) => {
+const {{modelNameLower}}FindManyCached = async <T extends {{modelName}}FindManyProps>(params: T) => {
     "use cache";
     cacheLife(cacheLifeApi);
     cacheTag("/api/{{modelNameLower}}");
     return {{modelName}}Service.findMany<T>(params);
 };
 
-export const Select{{modelName}}List = async <T extends FindMany{{modelName}}Props>(request: NextRequest) => {
+export const {{modelName}}FindManyApi = async <T extends {{modelName}}FindManyProps>(request: NextRequest) => {
     try {
         const params: T = parseAndDecodeParams(request);
-        const response = await {{modelNameLower}}ListCached<T>(params);
+        const response = await {{modelNameLower}}FindManyCached<T>(params);
         return NextResponse.json(response, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ error: "get{{modelName}}ListCached -> " + (error as Error).message }, { status: 500 });
+        return NextResponse.json({ error: "{{modelName}}FindManyApi -> " + (error as Error).message }, { status: 500 });
     }
 };
 
 // ==================== Find First ==================== //
 
-const {{modelNameLower}}FirstCached = async <T extends FindFirst{{modelName}}Props>(params: T) => {
+const {{modelNameLower}}FindFirstCached = async <T extends {{modelName}}FindFirstProps>(params: T) => {
     "use cache";
     cacheLife(cacheLifeApi);
     cacheTag("/api/{{modelNameLower}}/first");
     return {{modelName}}Service.findFirst<T>(params);
 };
 
-export const Select{{modelName}}First = async <T extends FindFirst{{modelName}}Props>(request: NextRequest) => {
+export const {{modelName}}FindFirstApi = async <T extends {{modelName}}FindFirstProps>(request: NextRequest) => {
     try {
         const params: T = parseAndDecodeParams(request);
-        const response = await {{modelNameLower}}FirstCached<T>(params);
+        const response = await {{modelNameLower}}FindFirstCached<T>(params);
         return NextResponse.json(response, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ error: "get{{modelName}}FirstCached -> " + (error as Error).message }, { status: 500 });
+        return NextResponse.json({ error: "{{modelName}}FindFirstApi -> " + (error as Error).message }, { status: 500 });
     }
 };
 
 // ==================== Find Unique ==================== //
 
-const {{modelNameLower}}UniqueCached = async <T extends FindUnique{{modelName}}Props>(params: T) => {
+const {{modelNameLower}}FindUniqueCached = async <T extends {{modelName}}FindUniqueProps>(params: T) => {
     "use cache";
     cacheLife(cacheLifeApi);
     cacheTag("/api/{{modelNameLower}}/unique");
     return {{modelName}}Service.findUnique<T>(params);
 };
 
-export const Select{{modelName}}Unique = async <T extends FindUnique{{modelName}}Props>(request: NextRequest) => {
+export const {{modelName}}FindUniqueApi = async <T extends {{modelName}}FindUniqueProps>(request: NextRequest) => {
     try {
         const params: T = parseAndDecodeParams(request);
-        const response = await {{modelNameLower}}UniqueCached<T>(params);
+        const response = await {{modelNameLower}}FindUniqueCached<T>(params);
         return NextResponse.json(response, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ error: "get{{modelName}}UniqueCached -> " + (error as Error).message }, { status: 500 });
+        return NextResponse.json({ error: "{{modelName}}FindUniqueApi -> " + (error as Error).message }, { status: 500 });
     }
 };
 
 // ==================== Count ==================== //
 
-const {{modelNameLower}}CountCached = async (params: Count{{modelName}}Props) => {
+const {{modelNameLower}}CountCached = async (params: {{modelName}}CountProps) => {
     "use cache";
     cacheLife(cacheLifeApi);
     cacheTag("/api/{{modelNameLower}}/count");
     return {{modelName}}Service.count(params);
 };
 
-export const Select{{modelName}}Count = async (request: NextRequest) => {
+export const {{modelName}}CountApi = async (request: NextRequest) => {
     try {
-        const params: Count{{modelName}}Props = parseAndDecodeParams(request);
+        const params: {{modelName}}CountProps = parseAndDecodeParams(request);
         const response = await {{modelNameLower}}CountCached(params);
         return NextResponse.json(response, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ error: "get{{modelName}}CountCached -> " + (error as Error).message }, { status: 500 });
+        return NextResponse.json({ error: "{{modelName}}CountApi -> " + (error as Error).message }, { status: 500 });
     }
 };

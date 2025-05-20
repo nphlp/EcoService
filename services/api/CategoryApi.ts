@@ -1,5 +1,5 @@
 import CategoryService from "@services/class/CategoryClass";
-import { CountCategoryProps, CountCategoryResponse, FindFirstCategoryProps, FindFirstCategoryResponse, FindManyCategoryProps, FindManyCategoryResponse, FindUniqueCategoryProps, FindUniqueCategoryResponse } from "@services/types/CategoryType";
+import { CategoryCountProps, CategoryCountResponse, CategoryFindFirstProps, CategoryFindFirstResponse, CategoryFindManyProps, CategoryFindManyResponse, CategoryFindUniqueProps, CategoryFindUniqueResponse } from "@services/types/CategoryType";
 import { cacheLifeApi, parseAndDecodeParams } from "@utils/FetchConfig";
 import { unstable_cacheLife as cacheLife, unstable_cacheTag as cacheTag } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
@@ -8,95 +8,95 @@ import { NextRequest, NextResponse } from "next/server";
 
 export type CategoryRoutes<Input> = {
     "/category": {
-        params: FindManyCategoryProps,
-        response: FindManyCategoryResponse<Input extends FindManyCategoryProps ? Input : never>
+        params: CategoryFindManyProps,
+        response: CategoryFindManyResponse<Input extends CategoryFindManyProps ? Input : never>
     },
     "/category/first": {
-        params: FindFirstCategoryProps,
-        response: FindFirstCategoryResponse<Input extends FindFirstCategoryProps ? Input : never>
+        params: CategoryFindFirstProps,
+        response: CategoryFindFirstResponse<Input extends CategoryFindFirstProps ? Input : never>
     },
     "/category/unique": {
-        params: FindUniqueCategoryProps,
-        response: FindUniqueCategoryResponse<Input extends FindUniqueCategoryProps ? Input : never>
+        params: CategoryFindUniqueProps,
+        response: CategoryFindUniqueResponse<Input extends CategoryFindUniqueProps ? Input : never>
     },
     "/category/count": {
-        params: CountCategoryProps,
-        response: CountCategoryResponse
+        params: CategoryCountProps,
+        response: CategoryCountResponse
     }
 }
 
 // ==================== Find Many ==================== //
 
-const categoryListCached = async <T extends FindManyCategoryProps>(params: T) => {
+const categoryFindManyCached = async <T extends CategoryFindManyProps>(params: T) => {
     "use cache";
     cacheLife(cacheLifeApi);
     cacheTag("/api/category");
     return CategoryService.findMany<T>(params);
 };
 
-export const SelectCategoryList = async <T extends FindManyCategoryProps>(request: NextRequest) => {
+export const CategoryFindManyApi = async <T extends CategoryFindManyProps>(request: NextRequest) => {
     try {
         const params: T = parseAndDecodeParams(request);
-        const response = await categoryListCached<T>(params);
+        const response = await categoryFindManyCached<T>(params);
         return NextResponse.json(response, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ error: "getCategoryListCached -> " + (error as Error).message }, { status: 500 });
+        return NextResponse.json({ error: "CategoryFindManyApi -> " + (error as Error).message }, { status: 500 });
     }
 };
 
 // ==================== Find First ==================== //
 
-const categoryFirstCached = async <T extends FindFirstCategoryProps>(params: T) => {
+const categoryFindFirstCached = async <T extends CategoryFindFirstProps>(params: T) => {
     "use cache";
     cacheLife(cacheLifeApi);
     cacheTag("/api/category/first");
     return CategoryService.findFirst<T>(params);
 };
 
-export const SelectCategoryFirst = async <T extends FindFirstCategoryProps>(request: NextRequest) => {
+export const CategoryFindFirstApi = async <T extends CategoryFindFirstProps>(request: NextRequest) => {
     try {
         const params: T = parseAndDecodeParams(request);
-        const response = await categoryFirstCached<T>(params);
+        const response = await categoryFindFirstCached<T>(params);
         return NextResponse.json(response, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ error: "getCategoryFirstCached -> " + (error as Error).message }, { status: 500 });
+        return NextResponse.json({ error: "CategoryFindFirstApi -> " + (error as Error).message }, { status: 500 });
     }
 };
 
 // ==================== Find Unique ==================== //
 
-const categoryUniqueCached = async <T extends FindUniqueCategoryProps>(params: T) => {
+const categoryFindUniqueCached = async <T extends CategoryFindUniqueProps>(params: T) => {
     "use cache";
     cacheLife(cacheLifeApi);
     cacheTag("/api/category/unique");
     return CategoryService.findUnique<T>(params);
 };
 
-export const SelectCategoryUnique = async <T extends FindUniqueCategoryProps>(request: NextRequest) => {
+export const CategoryFindUniqueApi = async <T extends CategoryFindUniqueProps>(request: NextRequest) => {
     try {
         const params: T = parseAndDecodeParams(request);
-        const response = await categoryUniqueCached<T>(params);
+        const response = await categoryFindUniqueCached<T>(params);
         return NextResponse.json(response, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ error: "getCategoryUniqueCached -> " + (error as Error).message }, { status: 500 });
+        return NextResponse.json({ error: "CategoryFindUniqueApi -> " + (error as Error).message }, { status: 500 });
     }
 };
 
 // ==================== Count ==================== //
 
-const categoryCountCached = async (params: CountCategoryProps) => {
+const categoryCountCached = async (params: CategoryCountProps) => {
     "use cache";
     cacheLife(cacheLifeApi);
     cacheTag("/api/category/count");
     return CategoryService.count(params);
 };
 
-export const SelectCategoryCount = async (request: NextRequest) => {
+export const CategoryCountApi = async (request: NextRequest) => {
     try {
-        const params: CountCategoryProps = parseAndDecodeParams(request);
+        const params: CategoryCountProps = parseAndDecodeParams(request);
         const response = await categoryCountCached(params);
         return NextResponse.json(response, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ error: "getCategoryCountCached -> " + (error as Error).message }, { status: 500 });
+        return NextResponse.json({ error: "CategoryCountApi -> " + (error as Error).message }, { status: 500 });
     }
 };

@@ -1,5 +1,5 @@
 import ProductService from "@services/class/ProductClass";
-import { CountProductProps, CountProductResponse, FindFirstProductProps, FindFirstProductResponse, FindManyProductProps, FindManyProductResponse, FindUniqueProductProps, FindUniqueProductResponse } from "@services/types/ProductType";
+import { ProductCountProps, ProductCountResponse, ProductFindFirstProps, ProductFindFirstResponse, ProductFindManyProps, ProductFindManyResponse, ProductFindUniqueProps, ProductFindUniqueResponse } from "@services/types/ProductType";
 import { cacheLifeApi, parseAndDecodeParams } from "@utils/FetchConfig";
 import { unstable_cacheLife as cacheLife, unstable_cacheTag as cacheTag } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
@@ -8,95 +8,95 @@ import { NextRequest, NextResponse } from "next/server";
 
 export type ProductRoutes<Input> = {
     "/product": {
-        params: FindManyProductProps,
-        response: FindManyProductResponse<Input extends FindManyProductProps ? Input : never>
+        params: ProductFindManyProps,
+        response: ProductFindManyResponse<Input extends ProductFindManyProps ? Input : never>
     },
     "/product/first": {
-        params: FindFirstProductProps,
-        response: FindFirstProductResponse<Input extends FindFirstProductProps ? Input : never>
+        params: ProductFindFirstProps,
+        response: ProductFindFirstResponse<Input extends ProductFindFirstProps ? Input : never>
     },
     "/product/unique": {
-        params: FindUniqueProductProps,
-        response: FindUniqueProductResponse<Input extends FindUniqueProductProps ? Input : never>
+        params: ProductFindUniqueProps,
+        response: ProductFindUniqueResponse<Input extends ProductFindUniqueProps ? Input : never>
     },
     "/product/count": {
-        params: CountProductProps,
-        response: CountProductResponse
+        params: ProductCountProps,
+        response: ProductCountResponse
     }
 }
 
 // ==================== Find Many ==================== //
 
-const productListCached = async <T extends FindManyProductProps>(params: T) => {
+const productFindManyCached = async <T extends ProductFindManyProps>(params: T) => {
     "use cache";
     cacheLife(cacheLifeApi);
     cacheTag("/api/product");
     return ProductService.findMany<T>(params);
 };
 
-export const SelectProductList = async <T extends FindManyProductProps>(request: NextRequest) => {
+export const ProductFindManyApi = async <T extends ProductFindManyProps>(request: NextRequest) => {
     try {
         const params: T = parseAndDecodeParams(request);
-        const response = await productListCached<T>(params);
+        const response = await productFindManyCached<T>(params);
         return NextResponse.json(response, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ error: "getProductListCached -> " + (error as Error).message }, { status: 500 });
+        return NextResponse.json({ error: "ProductFindManyApi -> " + (error as Error).message }, { status: 500 });
     }
 };
 
 // ==================== Find First ==================== //
 
-const productFirstCached = async <T extends FindFirstProductProps>(params: T) => {
+const productFindFirstCached = async <T extends ProductFindFirstProps>(params: T) => {
     "use cache";
     cacheLife(cacheLifeApi);
     cacheTag("/api/product/first");
     return ProductService.findFirst<T>(params);
 };
 
-export const SelectProductFirst = async <T extends FindFirstProductProps>(request: NextRequest) => {
+export const ProductFindFirstApi = async <T extends ProductFindFirstProps>(request: NextRequest) => {
     try {
         const params: T = parseAndDecodeParams(request);
-        const response = await productFirstCached<T>(params);
+        const response = await productFindFirstCached<T>(params);
         return NextResponse.json(response, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ error: "getProductFirstCached -> " + (error as Error).message }, { status: 500 });
+        return NextResponse.json({ error: "ProductFindFirstApi -> " + (error as Error).message }, { status: 500 });
     }
 };
 
 // ==================== Find Unique ==================== //
 
-const productUniqueCached = async <T extends FindUniqueProductProps>(params: T) => {
+const productFindUniqueCached = async <T extends ProductFindUniqueProps>(params: T) => {
     "use cache";
     cacheLife(cacheLifeApi);
     cacheTag("/api/product/unique");
     return ProductService.findUnique<T>(params);
 };
 
-export const SelectProductUnique = async <T extends FindUniqueProductProps>(request: NextRequest) => {
+export const ProductFindUniqueApi = async <T extends ProductFindUniqueProps>(request: NextRequest) => {
     try {
         const params: T = parseAndDecodeParams(request);
-        const response = await productUniqueCached<T>(params);
+        const response = await productFindUniqueCached<T>(params);
         return NextResponse.json(response, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ error: "getProductUniqueCached -> " + (error as Error).message }, { status: 500 });
+        return NextResponse.json({ error: "ProductFindUniqueApi -> " + (error as Error).message }, { status: 500 });
     }
 };
 
 // ==================== Count ==================== //
 
-const productCountCached = async (params: CountProductProps) => {
+const productCountCached = async (params: ProductCountProps) => {
     "use cache";
     cacheLife(cacheLifeApi);
     cacheTag("/api/product/count");
     return ProductService.count(params);
 };
 
-export const SelectProductCount = async (request: NextRequest) => {
+export const ProductCountApi = async (request: NextRequest) => {
     try {
-        const params: CountProductProps = parseAndDecodeParams(request);
+        const params: ProductCountProps = parseAndDecodeParams(request);
         const response = await productCountCached(params);
         return NextResponse.json(response, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ error: "getProductCountCached -> " + (error as Error).message }, { status: 500 });
+        return NextResponse.json({ error: "ProductCountApi -> " + (error as Error).message }, { status: 500 });
     }
 };

@@ -1,5 +1,5 @@
 import ContentService from "@services/class/ContentClass";
-import { CountContentProps, CountContentResponse, FindFirstContentProps, FindFirstContentResponse, FindManyContentProps, FindManyContentResponse, FindUniqueContentProps, FindUniqueContentResponse } from "@services/types/ContentType";
+import { ContentCountProps, ContentCountResponse, ContentFindFirstProps, ContentFindFirstResponse, ContentFindManyProps, ContentFindManyResponse, ContentFindUniqueProps, ContentFindUniqueResponse } from "@services/types/ContentType";
 import { cacheLifeApi, parseAndDecodeParams } from "@utils/FetchConfig";
 import { unstable_cacheLife as cacheLife, unstable_cacheTag as cacheTag } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
@@ -8,95 +8,95 @@ import { NextRequest, NextResponse } from "next/server";
 
 export type ContentRoutes<Input> = {
     "/content": {
-        params: FindManyContentProps,
-        response: FindManyContentResponse<Input extends FindManyContentProps ? Input : never>
+        params: ContentFindManyProps,
+        response: ContentFindManyResponse<Input extends ContentFindManyProps ? Input : never>
     },
     "/content/first": {
-        params: FindFirstContentProps,
-        response: FindFirstContentResponse<Input extends FindFirstContentProps ? Input : never>
+        params: ContentFindFirstProps,
+        response: ContentFindFirstResponse<Input extends ContentFindFirstProps ? Input : never>
     },
     "/content/unique": {
-        params: FindUniqueContentProps,
-        response: FindUniqueContentResponse<Input extends FindUniqueContentProps ? Input : never>
+        params: ContentFindUniqueProps,
+        response: ContentFindUniqueResponse<Input extends ContentFindUniqueProps ? Input : never>
     },
     "/content/count": {
-        params: CountContentProps,
-        response: CountContentResponse
+        params: ContentCountProps,
+        response: ContentCountResponse
     }
 }
 
 // ==================== Find Many ==================== //
 
-const contentListCached = async <T extends FindManyContentProps>(params: T) => {
+const contentFindManyCached = async <T extends ContentFindManyProps>(params: T) => {
     "use cache";
     cacheLife(cacheLifeApi);
     cacheTag("/api/content");
     return ContentService.findMany<T>(params);
 };
 
-export const SelectContentList = async <T extends FindManyContentProps>(request: NextRequest) => {
+export const ContentFindManyApi = async <T extends ContentFindManyProps>(request: NextRequest) => {
     try {
         const params: T = parseAndDecodeParams(request);
-        const response = await contentListCached<T>(params);
+        const response = await contentFindManyCached<T>(params);
         return NextResponse.json(response, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ error: "getContentListCached -> " + (error as Error).message }, { status: 500 });
+        return NextResponse.json({ error: "ContentFindManyApi -> " + (error as Error).message }, { status: 500 });
     }
 };
 
 // ==================== Find First ==================== //
 
-const contentFirstCached = async <T extends FindFirstContentProps>(params: T) => {
+const contentFindFirstCached = async <T extends ContentFindFirstProps>(params: T) => {
     "use cache";
     cacheLife(cacheLifeApi);
     cacheTag("/api/content/first");
     return ContentService.findFirst<T>(params);
 };
 
-export const SelectContentFirst = async <T extends FindFirstContentProps>(request: NextRequest) => {
+export const ContentFindFirstApi = async <T extends ContentFindFirstProps>(request: NextRequest) => {
     try {
         const params: T = parseAndDecodeParams(request);
-        const response = await contentFirstCached<T>(params);
+        const response = await contentFindFirstCached<T>(params);
         return NextResponse.json(response, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ error: "getContentFirstCached -> " + (error as Error).message }, { status: 500 });
+        return NextResponse.json({ error: "ContentFindFirstApi -> " + (error as Error).message }, { status: 500 });
     }
 };
 
 // ==================== Find Unique ==================== //
 
-const contentUniqueCached = async <T extends FindUniqueContentProps>(params: T) => {
+const contentFindUniqueCached = async <T extends ContentFindUniqueProps>(params: T) => {
     "use cache";
     cacheLife(cacheLifeApi);
     cacheTag("/api/content/unique");
     return ContentService.findUnique<T>(params);
 };
 
-export const SelectContentUnique = async <T extends FindUniqueContentProps>(request: NextRequest) => {
+export const ContentFindUniqueApi = async <T extends ContentFindUniqueProps>(request: NextRequest) => {
     try {
         const params: T = parseAndDecodeParams(request);
-        const response = await contentUniqueCached<T>(params);
+        const response = await contentFindUniqueCached<T>(params);
         return NextResponse.json(response, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ error: "getContentUniqueCached -> " + (error as Error).message }, { status: 500 });
+        return NextResponse.json({ error: "ContentFindUniqueApi -> " + (error as Error).message }, { status: 500 });
     }
 };
 
 // ==================== Count ==================== //
 
-const contentCountCached = async (params: CountContentProps) => {
+const contentCountCached = async (params: ContentCountProps) => {
     "use cache";
     cacheLife(cacheLifeApi);
     cacheTag("/api/content/count");
     return ContentService.count(params);
 };
 
-export const SelectContentCount = async (request: NextRequest) => {
+export const ContentCountApi = async (request: NextRequest) => {
     try {
-        const params: CountContentProps = parseAndDecodeParams(request);
+        const params: ContentCountProps = parseAndDecodeParams(request);
         const response = await contentCountCached(params);
         return NextResponse.json(response, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ error: "getContentCountCached -> " + (error as Error).message }, { status: 500 });
+        return NextResponse.json({ error: "ContentCountApi -> " + (error as Error).message }, { status: 500 });
     }
 };

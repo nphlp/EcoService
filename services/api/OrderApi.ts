@@ -1,5 +1,5 @@
 import OrderService from "@services/class/OrderClass";
-import { CountOrderProps, CountOrderResponse, FindFirstOrderProps, FindFirstOrderResponse, FindManyOrderProps, FindManyOrderResponse, FindUniqueOrderProps, FindUniqueOrderResponse } from "@services/types/OrderType";
+import { OrderCountProps, OrderCountResponse, OrderFindFirstProps, OrderFindFirstResponse, OrderFindManyProps, OrderFindManyResponse, OrderFindUniqueProps, OrderFindUniqueResponse } from "@services/types/OrderType";
 import { cacheLifeApi, parseAndDecodeParams } from "@utils/FetchConfig";
 import { unstable_cacheLife as cacheLife, unstable_cacheTag as cacheTag } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
@@ -8,95 +8,95 @@ import { NextRequest, NextResponse } from "next/server";
 
 export type OrderRoutes<Input> = {
     "/order": {
-        params: FindManyOrderProps,
-        response: FindManyOrderResponse<Input extends FindManyOrderProps ? Input : never>
+        params: OrderFindManyProps,
+        response: OrderFindManyResponse<Input extends OrderFindManyProps ? Input : never>
     },
     "/order/first": {
-        params: FindFirstOrderProps,
-        response: FindFirstOrderResponse<Input extends FindFirstOrderProps ? Input : never>
+        params: OrderFindFirstProps,
+        response: OrderFindFirstResponse<Input extends OrderFindFirstProps ? Input : never>
     },
     "/order/unique": {
-        params: FindUniqueOrderProps,
-        response: FindUniqueOrderResponse<Input extends FindUniqueOrderProps ? Input : never>
+        params: OrderFindUniqueProps,
+        response: OrderFindUniqueResponse<Input extends OrderFindUniqueProps ? Input : never>
     },
     "/order/count": {
-        params: CountOrderProps,
-        response: CountOrderResponse
+        params: OrderCountProps,
+        response: OrderCountResponse
     }
 }
 
 // ==================== Find Many ==================== //
 
-const orderListCached = async <T extends FindManyOrderProps>(params: T) => {
+const orderFindManyCached = async <T extends OrderFindManyProps>(params: T) => {
     "use cache";
     cacheLife(cacheLifeApi);
     cacheTag("/api/order");
     return OrderService.findMany<T>(params);
 };
 
-export const SelectOrderList = async <T extends FindManyOrderProps>(request: NextRequest) => {
+export const OrderFindManyApi = async <T extends OrderFindManyProps>(request: NextRequest) => {
     try {
         const params: T = parseAndDecodeParams(request);
-        const response = await orderListCached<T>(params);
+        const response = await orderFindManyCached<T>(params);
         return NextResponse.json(response, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ error: "getOrderListCached -> " + (error as Error).message }, { status: 500 });
+        return NextResponse.json({ error: "OrderFindManyApi -> " + (error as Error).message }, { status: 500 });
     }
 };
 
 // ==================== Find First ==================== //
 
-const orderFirstCached = async <T extends FindFirstOrderProps>(params: T) => {
+const orderFindFirstCached = async <T extends OrderFindFirstProps>(params: T) => {
     "use cache";
     cacheLife(cacheLifeApi);
     cacheTag("/api/order/first");
     return OrderService.findFirst<T>(params);
 };
 
-export const SelectOrderFirst = async <T extends FindFirstOrderProps>(request: NextRequest) => {
+export const OrderFindFirstApi = async <T extends OrderFindFirstProps>(request: NextRequest) => {
     try {
         const params: T = parseAndDecodeParams(request);
-        const response = await orderFirstCached<T>(params);
+        const response = await orderFindFirstCached<T>(params);
         return NextResponse.json(response, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ error: "getOrderFirstCached -> " + (error as Error).message }, { status: 500 });
+        return NextResponse.json({ error: "OrderFindFirstApi -> " + (error as Error).message }, { status: 500 });
     }
 };
 
 // ==================== Find Unique ==================== //
 
-const orderUniqueCached = async <T extends FindUniqueOrderProps>(params: T) => {
+const orderFindUniqueCached = async <T extends OrderFindUniqueProps>(params: T) => {
     "use cache";
     cacheLife(cacheLifeApi);
     cacheTag("/api/order/unique");
     return OrderService.findUnique<T>(params);
 };
 
-export const SelectOrderUnique = async <T extends FindUniqueOrderProps>(request: NextRequest) => {
+export const OrderFindUniqueApi = async <T extends OrderFindUniqueProps>(request: NextRequest) => {
     try {
         const params: T = parseAndDecodeParams(request);
-        const response = await orderUniqueCached<T>(params);
+        const response = await orderFindUniqueCached<T>(params);
         return NextResponse.json(response, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ error: "getOrderUniqueCached -> " + (error as Error).message }, { status: 500 });
+        return NextResponse.json({ error: "OrderFindUniqueApi -> " + (error as Error).message }, { status: 500 });
     }
 };
 
 // ==================== Count ==================== //
 
-const orderCountCached = async (params: CountOrderProps) => {
+const orderCountCached = async (params: OrderCountProps) => {
     "use cache";
     cacheLife(cacheLifeApi);
     cacheTag("/api/order/count");
     return OrderService.count(params);
 };
 
-export const SelectOrderCount = async (request: NextRequest) => {
+export const OrderCountApi = async (request: NextRequest) => {
     try {
-        const params: CountOrderProps = parseAndDecodeParams(request);
+        const params: OrderCountProps = parseAndDecodeParams(request);
         const response = await orderCountCached(params);
         return NextResponse.json(response, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ error: "getOrderCountCached -> " + (error as Error).message }, { status: 500 });
+        return NextResponse.json({ error: "OrderCountApi -> " + (error as Error).message }, { status: 500 });
     }
 };
