@@ -1,79 +1,79 @@
 "use server";
 
 import ProductService from "@services/class/ProductClass";
-import { CountProductProps, CountProductResponse, CreateManyProductProps, CreateManyProductResponse, CreateProductProps, CreateProductResponse, DeleteManyProductProps, DeleteManyProductResponse, DeleteProductProps, DeleteProductResponse, FindFirstProductProps, FindFirstProductResponse, FindManyProductProps, FindManyProductResponse, FindUniqueProductProps, FindUniqueProductResponse, UpdateManyProductProps, UpdateManyProductResponse, UpdateProductProps, UpdateProductResponse, UpsertProductProps, UpsertProductResponse } from "@services/types/ProductType";
+import { ProductCountProps, ProductCountResponse, ProductCreateManyProps, ProductCreateManyResponse, ProductCreateProps, ProductCreateResponse, ProductDeleteManyProps, ProductDeleteManyResponse, ProductDeleteProps, ProductDeleteResponse, ProductFindFirstProps, ProductFindFirstResponse, ProductFindManyProps, ProductFindManyResponse, ProductFindUniqueProps, ProductFindUniqueResponse, ProductUpdateManyProps, ProductUpdateManyResponse, ProductUpdateProps, ProductUpdateResponse, ProductUpsertProps, ProductUpsertResponse } from "@services/types/ProductType";
 
 // ========== Single mutations ========== //
 
-export const CreateProduct = async <T extends CreateProductProps>(props: T): Promise<CreateProductResponse<T>> => {
+export const ProductCreate = async <T extends ProductCreateProps>(props: T): Promise<ProductCreateResponse<T>> => {
     try {
         const { data, error } = await ProductService.create(props);
         if (!data || error) throw new Error(error);
         return data;
     } catch (error) {
-        throw new Error("CreateProduct -> " + (error as Error).message);
+        throw new Error("ProductCreate -> " + (error as Error).message);
     }
 };
 
-export const UpsertProduct = async <T extends UpsertProductProps>(props: T): Promise<UpsertProductResponse<T>> => {
+export const ProductUpsert = async <T extends ProductUpsertProps>(props: T): Promise<ProductUpsertResponse<T>> => {
     try {
         const { data, error } = await ProductService.upsert(props);
         if (!data || error) throw new Error(error);
         return data;
     } catch (error) {
-        throw new Error("UpsertProduct -> " + (error as Error).message);
+        throw new Error("ProductUpsert -> " + (error as Error).message);
     }
 };
 
-export const UpdateProduct = async <T extends UpdateProductProps>(props: T): Promise<UpdateProductResponse<T>> => {
+export const ProductUpdate = async <T extends ProductUpdateProps>(props: T): Promise<ProductUpdateResponse<T>> => {
     try {
         const { data, error } = await ProductService.update(props);
         if (!data || error) throw new Error(error);
         return data;
     } catch (error) {
-        throw new Error("UpdateProduct -> " + (error as Error).message);
+        throw new Error("ProductUpdate -> " + (error as Error).message);
     }
 };
 
-export const DeleteProduct = async <T extends DeleteProductProps>(props: T): Promise<DeleteProductResponse<T>> => {
+export const ProductDelete = async <T extends ProductDeleteProps>(props: T): Promise<ProductDeleteResponse<T>> => {
     try {
         const { data, error } = await ProductService.delete(props);
         if (!data || error) throw new Error(error);
         return data;
     } catch (error) {
-        throw new Error("DeleteProduct -> " + (error as Error).message);
+        throw new Error("ProductDelete -> " + (error as Error).message);
     }
 };
 
 // ========== Multiple mutations ========== //
 
-export const CreateManyProduct = async (props: CreateManyProductProps): Promise<CreateManyProductResponse> => {
+export const ProductCreateMany = async (props: ProductCreateManyProps): Promise<ProductCreateManyResponse> => {
     try {
         const { data, error } = await ProductService.createMany(props);
         if (!data || error) throw new Error(error);
         return data;
     } catch (error) {
-        throw new Error("CreateManyProduct -> " + (error as Error).message);
+        throw new Error("ProductCreateMany -> " + (error as Error).message);
     }
 };
 
-export const UpdateManyProduct = async (props: UpdateManyProductProps): Promise<UpdateManyProductResponse> => {
+export const ProductUpdateMany = async (props: ProductUpdateManyProps): Promise<ProductUpdateManyResponse> => {
     try {
         const { data, error } = await ProductService.updateMany(props);
         if (!data || error) throw new Error(error);
         return data;
     } catch (error) {
-        throw new Error("UpdateManyProduct -> " + (error as Error).message);
+        throw new Error("ProductUpdateMany -> " + (error as Error).message);
     }
 };
 
-export const DeleteManyProduct = async (props: DeleteManyProductProps): Promise<DeleteManyProductResponse> => {
+export const ProductDeleteMany = async (props: ProductDeleteManyProps): Promise<ProductDeleteManyResponse> => {
     try {
         const { data, error } = await ProductService.deleteMany(props);
         if (!data || error) throw new Error(error);
         return data;
     } catch (error) {
-        throw new Error("DeleteManyProduct -> " + (error as Error).message);
+        throw new Error("ProductDeleteMany -> " + (error as Error).message);
     }
 };
 
@@ -82,45 +82,45 @@ export const DeleteManyProduct = async (props: DeleteManyProductProps): Promise<
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const SelectFirstProduct = async <T extends FindFirstProductProps>(
+export const ProductFindFirst = async <T extends ProductFindFirstProps>(
     props: T
-): Promise<FindFirstProductResponse<T>> => {
+): Promise<ProductFindFirstResponse<T>> => {
     try {
         const { data, error } = await ProductService.findFirst(props);
         if (error) throw new Error(error);
         return data ?? null;
     } catch (error) {
-        throw new Error("SelectFirstProduct -> " + (error as Error).message);
+        throw new Error("ProductFindFirst -> " + (error as Error).message);
     }
 };
 
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const SelectUniqueProduct = async <T extends FindUniqueProductProps>(
+export const ProductFindUnique = async <T extends ProductFindUniqueProps>(
     props: T
-): Promise<FindUniqueProductResponse<T>> => {
+): Promise<ProductFindUniqueResponse<T>> => {
     try {
         const { data, error } = await ProductService.findUnique(props);
         if (error) throw new Error(error);
         return data ?? null;
     } catch (error) {
-        throw new Error("SelectUniqueProduct -> " + (error as Error).message);
+        throw new Error("ProductFindUnique -> " + (error as Error).message);
     }
 };
 
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const SelectProductList = async <T extends FindManyProductProps>(
+export const ProductFindMany = async <T extends ProductFindManyProps>(
     props: T
-): Promise<FindManyProductResponse<T>> => {
+): Promise<ProductFindManyResponse<T>> => {
     try {
         const { data, error } = await ProductService.findMany(props);
         if (!data || error) throw new Error(error);
         return data;
     } catch (error) {
-        throw new Error("SelectProductList -> " + (error as Error).message);
+        throw new Error("ProductFindMany -> " + (error as Error).message);
     }
 };
 
@@ -129,12 +129,12 @@ export const SelectProductList = async <T extends FindManyProductProps>(
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const SelectProductAmount = async (props: CountProductProps): Promise<CountProductResponse> => {
+export const ProductCount = async (props: ProductCountProps): Promise<ProductCountResponse> => {
     try {
         const { data, error } = await ProductService.count(props);
         if (!data || error) throw new Error(error);
         return data;
     } catch (error) {
-        throw new Error("SelectProductAmount -> " + (error as Error).message);
+        throw new Error("ProductCount -> " + (error as Error).message);
     }
 };

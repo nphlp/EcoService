@@ -1,79 +1,79 @@
 "use server";
 
 import QuantityService from "@services/class/QuantityClass";
-import { CountQuantityProps, CountQuantityResponse, CreateManyQuantityProps, CreateManyQuantityResponse, CreateQuantityProps, CreateQuantityResponse, DeleteManyQuantityProps, DeleteManyQuantityResponse, DeleteQuantityProps, DeleteQuantityResponse, FindFirstQuantityProps, FindFirstQuantityResponse, FindManyQuantityProps, FindManyQuantityResponse, FindUniqueQuantityProps, FindUniqueQuantityResponse, UpdateManyQuantityProps, UpdateManyQuantityResponse, UpdateQuantityProps, UpdateQuantityResponse, UpsertQuantityProps, UpsertQuantityResponse } from "@services/types/QuantityType";
+import { QuantityCountProps, QuantityCountResponse, QuantityCreateManyProps, QuantityCreateManyResponse, QuantityCreateProps, QuantityCreateResponse, QuantityDeleteManyProps, QuantityDeleteManyResponse, QuantityDeleteProps, QuantityDeleteResponse, QuantityFindFirstProps, QuantityFindFirstResponse, QuantityFindManyProps, QuantityFindManyResponse, QuantityFindUniqueProps, QuantityFindUniqueResponse, QuantityUpdateManyProps, QuantityUpdateManyResponse, QuantityUpdateProps, QuantityUpdateResponse, QuantityUpsertProps, QuantityUpsertResponse } from "@services/types/QuantityType";
 
 // ========== Single mutations ========== //
 
-export const CreateQuantity = async <T extends CreateQuantityProps>(props: T): Promise<CreateQuantityResponse<T>> => {
+export const QuantityCreate = async <T extends QuantityCreateProps>(props: T): Promise<QuantityCreateResponse<T>> => {
     try {
         const { data, error } = await QuantityService.create(props);
         if (!data || error) throw new Error(error);
         return data;
     } catch (error) {
-        throw new Error("CreateQuantity -> " + (error as Error).message);
+        throw new Error("QuantityCreate -> " + (error as Error).message);
     }
 };
 
-export const UpsertQuantity = async <T extends UpsertQuantityProps>(props: T): Promise<UpsertQuantityResponse<T>> => {
+export const QuantityUpsert = async <T extends QuantityUpsertProps>(props: T): Promise<QuantityUpsertResponse<T>> => {
     try {
         const { data, error } = await QuantityService.upsert(props);
         if (!data || error) throw new Error(error);
         return data;
     } catch (error) {
-        throw new Error("UpsertQuantity -> " + (error as Error).message);
+        throw new Error("QuantityUpsert -> " + (error as Error).message);
     }
 };
 
-export const UpdateQuantity = async <T extends UpdateQuantityProps>(props: T): Promise<UpdateQuantityResponse<T>> => {
+export const QuantityUpdate = async <T extends QuantityUpdateProps>(props: T): Promise<QuantityUpdateResponse<T>> => {
     try {
         const { data, error } = await QuantityService.update(props);
         if (!data || error) throw new Error(error);
         return data;
     } catch (error) {
-        throw new Error("UpdateQuantity -> " + (error as Error).message);
+        throw new Error("QuantityUpdate -> " + (error as Error).message);
     }
 };
 
-export const DeleteQuantity = async <T extends DeleteQuantityProps>(props: T): Promise<DeleteQuantityResponse<T>> => {
+export const QuantityDelete = async <T extends QuantityDeleteProps>(props: T): Promise<QuantityDeleteResponse<T>> => {
     try {
         const { data, error } = await QuantityService.delete(props);
         if (!data || error) throw new Error(error);
         return data;
     } catch (error) {
-        throw new Error("DeleteQuantity -> " + (error as Error).message);
+        throw new Error("QuantityDelete -> " + (error as Error).message);
     }
 };
 
 // ========== Multiple mutations ========== //
 
-export const CreateManyQuantity = async (props: CreateManyQuantityProps): Promise<CreateManyQuantityResponse> => {
+export const QuantityCreateMany = async (props: QuantityCreateManyProps): Promise<QuantityCreateManyResponse> => {
     try {
         const { data, error } = await QuantityService.createMany(props);
         if (!data || error) throw new Error(error);
         return data;
     } catch (error) {
-        throw new Error("CreateManyQuantity -> " + (error as Error).message);
+        throw new Error("QuantityCreateMany -> " + (error as Error).message);
     }
 };
 
-export const UpdateManyQuantity = async (props: UpdateManyQuantityProps): Promise<UpdateManyQuantityResponse> => {
+export const QuantityUpdateMany = async (props: QuantityUpdateManyProps): Promise<QuantityUpdateManyResponse> => {
     try {
         const { data, error } = await QuantityService.updateMany(props);
         if (!data || error) throw new Error(error);
         return data;
     } catch (error) {
-        throw new Error("UpdateManyQuantity -> " + (error as Error).message);
+        throw new Error("QuantityUpdateMany -> " + (error as Error).message);
     }
 };
 
-export const DeleteManyQuantity = async (props: DeleteManyQuantityProps): Promise<DeleteManyQuantityResponse> => {
+export const QuantityDeleteMany = async (props: QuantityDeleteManyProps): Promise<QuantityDeleteManyResponse> => {
     try {
         const { data, error } = await QuantityService.deleteMany(props);
         if (!data || error) throw new Error(error);
         return data;
     } catch (error) {
-        throw new Error("DeleteManyQuantity -> " + (error as Error).message);
+        throw new Error("QuantityDeleteMany -> " + (error as Error).message);
     }
 };
 
@@ -82,45 +82,45 @@ export const DeleteManyQuantity = async (props: DeleteManyQuantityProps): Promis
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const SelectFirstQuantity = async <T extends FindFirstQuantityProps>(
+export const QuantityFindFirst = async <T extends QuantityFindFirstProps>(
     props: T
-): Promise<FindFirstQuantityResponse<T>> => {
+): Promise<QuantityFindFirstResponse<T>> => {
     try {
         const { data, error } = await QuantityService.findFirst(props);
         if (error) throw new Error(error);
         return data ?? null;
     } catch (error) {
-        throw new Error("SelectFirstQuantity -> " + (error as Error).message);
+        throw new Error("QuantityFindFirst -> " + (error as Error).message);
     }
 };
 
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const SelectUniqueQuantity = async <T extends FindUniqueQuantityProps>(
+export const QuantityFindUnique = async <T extends QuantityFindUniqueProps>(
     props: T
-): Promise<FindUniqueQuantityResponse<T>> => {
+): Promise<QuantityFindUniqueResponse<T>> => {
     try {
         const { data, error } = await QuantityService.findUnique(props);
         if (error) throw new Error(error);
         return data ?? null;
     } catch (error) {
-        throw new Error("SelectUniqueQuantity -> " + (error as Error).message);
+        throw new Error("QuantityFindUnique -> " + (error as Error).message);
     }
 };
 
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const SelectQuantityList = async <T extends FindManyQuantityProps>(
+export const QuantityFindMany = async <T extends QuantityFindManyProps>(
     props: T
-): Promise<FindManyQuantityResponse<T>> => {
+): Promise<QuantityFindManyResponse<T>> => {
     try {
         const { data, error } = await QuantityService.findMany(props);
         if (!data || error) throw new Error(error);
         return data;
     } catch (error) {
-        throw new Error("SelectQuantityList -> " + (error as Error).message);
+        throw new Error("QuantityFindMany -> " + (error as Error).message);
     }
 };
 
@@ -129,12 +129,12 @@ export const SelectQuantityList = async <T extends FindManyQuantityProps>(
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const SelectQuantityAmount = async (props: CountQuantityProps): Promise<CountQuantityResponse> => {
+export const QuantityCount = async (props: QuantityCountProps): Promise<QuantityCountResponse> => {
     try {
         const { data, error } = await QuantityService.count(props);
         if (!data || error) throw new Error(error);
         return data;
     } catch (error) {
-        throw new Error("SelectQuantityAmount -> " + (error as Error).message);
+        throw new Error("QuantityCount -> " + (error as Error).message);
     }
 };
