@@ -1,3 +1,9 @@
+# [1.4.0](https://github.com/nansphilip/EcoService/compare/v1.3.0...v1.4.0) (2025-05-20)
+
+### Features
+
+- upgrade cache, rename services, fix catalog, fix basket ([6d8a017](https://github.com/nansphilip/EcoService/commit/6d8a0177e52b24d32f457939997dbb586fac10d2))
+
 # [1.3.0](https://github.com/nansphilip/EcoService/compare/v1.2.0...v1.3.0) (2025-05-19)
 
 ### Features
