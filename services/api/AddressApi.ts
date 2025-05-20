@@ -1,96 +1,102 @@
 import AddressService from "@services/class/AddressClass";
-import { CountAddressProps, CountAddressResponse, FindFirstAddressProps, FindFirstAddressResponse, FindManyAddressProps, FindManyAddressResponse, FindUniqueAddressProps, FindUniqueAddressResponse } from "@services/types/AddressType";
-import { parseAndDecodeParams, revalidate } from "@utils/FetchConfig";
-import { unstable_cache as cache } from "next/cache";
+import { AddressCountProps, AddressCountResponse, AddressFindFirstProps, AddressFindFirstResponse, AddressFindManyProps, AddressFindManyResponse, AddressFindUniqueProps, AddressFindUniqueResponse } from "@services/types/AddressType";
+import { cacheLifeApi, parseAndDecodeParams } from "@utils/FetchConfig";
+import { unstable_cacheLife as cacheLife, unstable_cacheTag as cacheTag } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 
 // ============== API Routes Types ============== //
 
 export type AddressRoutes<Input> = {
     "/address": {
-        params: FindManyAddressProps,
-        response: FindManyAddressResponse<Input extends FindManyAddressProps ? Input : never>
+        params: AddressFindManyProps,
+        response: AddressFindManyResponse<Input extends AddressFindManyProps ? Input : never>
     },
     "/address/first": {
-        params: FindFirstAddressProps,
-        response: FindFirstAddressResponse<Input extends FindFirstAddressProps ? Input : never>
+        params: AddressFindFirstProps,
+        response: AddressFindFirstResponse<Input extends AddressFindFirstProps ? Input : never>
     },
     "/address/unique": {
-        params: FindUniqueAddressProps,
-        response: FindUniqueAddressResponse<Input extends FindUniqueAddressProps ? Input : never>
+        params: AddressFindUniqueProps,
+        response: AddressFindUniqueResponse<Input extends AddressFindUniqueProps ? Input : never>
     },
     "/address/count": {
-        params: CountAddressProps,
-        response: CountAddressResponse
+        params: AddressCountProps,
+        response: AddressCountResponse
     }
 }
 
 // ==================== Find Many ==================== //
 
-const addressListCached = cache(async <T extends FindManyAddressProps>(params: T) => AddressService.findMany(params), ["address"], {
-    revalidate,
-    tags: ["address"],
-});
+const addressFindManyCached = async <T extends AddressFindManyProps>(params: T) => {
+    "use cache";
+    cacheLife(cacheLifeApi);
+    cacheTag("/api/address");
+    return AddressService.findMany<T>(params);
+};
 
-export const SelectAddressList = async <T extends FindManyAddressProps>(request: NextRequest) => {
+export const AddressFindManyApi = async <T extends AddressFindManyProps>(request: NextRequest) => {
     try {
         const params: T = parseAndDecodeParams(request);
-        const response = await addressListCached<T>(params);
+        const response = await addressFindManyCached<T>(params);
         return NextResponse.json(response, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ error: "getAddressListCached -> " + (error as Error).message }, { status: 500 });
+        return NextResponse.json({ error: "AddressFindManyApi -> " + (error as Error).message }, { status: 500 });
     }
 };
 
 // ==================== Find First ==================== //
 
-const addressFirstCached = cache(
-    async <T extends FindFirstAddressProps>(params: T) => AddressService.findFirst(params),
-    ["address/first"],
-    { revalidate, tags: ["address/first"] },
-);
+const addressFindFirstCached = async <T extends AddressFindFirstProps>(params: T) => {
+    "use cache";
+    cacheLife(cacheLifeApi);
+    cacheTag("/api/address/first");
+    return AddressService.findFirst<T>(params);
+};
 
-export const SelectAddressFirst = async <T extends FindFirstAddressProps>(request: NextRequest) => {
+export const AddressFindFirstApi = async <T extends AddressFindFirstProps>(request: NextRequest) => {
     try {
         const params: T = parseAndDecodeParams(request);
-        const response = await addressFirstCached<T>(params);
+        const response = await addressFindFirstCached<T>(params);
         return NextResponse.json(response, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ error: "getAddressFirstCached -> " + (error as Error).message }, { status: 500 });
+        return NextResponse.json({ error: "AddressFindFirstApi -> " + (error as Error).message }, { status: 500 });
     }
 };
 
 // ==================== Find Unique ==================== //
 
-const addressUniqueCached = cache(
-    async <T extends FindUniqueAddressProps>(params: T) => AddressService.findUnique(params),
-    ["address/unique"],
-    { revalidate, tags: ["address/unique"] },
-);
+const addressFindUniqueCached = async <T extends AddressFindUniqueProps>(params: T) => {
+    "use cache";
+    cacheLife(cacheLifeApi);
+    cacheTag("/api/address/unique");
+    return AddressService.findUnique<T>(params);
+};
 
-export const SelectAddressUnique = async <T extends FindUniqueAddressProps>(request: NextRequest) => {
+export const AddressFindUniqueApi = async <T extends AddressFindUniqueProps>(request: NextRequest) => {
     try {
         const params: T = parseAndDecodeParams(request);
-        const response = await addressUniqueCached<T>(params);
+        const response = await addressFindUniqueCached<T>(params);
         return NextResponse.json(response, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ error: "getAddressUniqueCached -> " + (error as Error).message }, { status: 500 });
+        return NextResponse.json({ error: "AddressFindUniqueApi -> " + (error as Error).message }, { status: 500 });
     }
 };
 
 // ==================== Count ==================== //
 
-const addressCountCached = cache(async (params: CountAddressProps) => AddressService.count(params), ["address/count"], {
-    revalidate,
-    tags: ["address/count"],
-});
+const addressCountCached = async (params: AddressCountProps) => {
+    "use cache";
+    cacheLife(cacheLifeApi);
+    cacheTag("/api/address/count");
+    return AddressService.count(params);
+};
 
-export const SelectAddressCount = async (request: NextRequest) => {
+export const AddressCountApi = async (request: NextRequest) => {
     try {
-        const params: CountAddressProps = parseAndDecodeParams(request);
+        const params: AddressCountProps = parseAndDecodeParams(request);
         const response = await addressCountCached(params);
         return NextResponse.json(response, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ error: "getAddressCountCached -> " + (error as Error).message }, { status: 500 });
+        return NextResponse.json({ error: "AddressCountApi -> " + (error as Error).message }, { status: 500 });
     }
 };

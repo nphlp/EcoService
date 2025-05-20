@@ -14,6 +14,7 @@ const nextConfig: NextConfig = {
     experimental: {
         viewTransition: true, // enable view transition API
         authInterrupts: true, // enable unauthorized()
+        useCache: true, // enable useCache, cacheLife and cacheTag
     },
 };
 

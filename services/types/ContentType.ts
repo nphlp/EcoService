@@ -12,44 +12,44 @@ export type ContentCount = number;
 // ============== Props Types ============== //
 
 // Single mutations
-export type CreateContentProps = Prisma.ContentCreateArgs;
-export type UpsertContentProps = Prisma.ContentUpsertArgs;
-export type UpdateContentProps = Prisma.ContentUpdateArgs;
-export type DeleteContentProps = Prisma.ContentDeleteArgs;
+export type ContentCreateProps = Prisma.ContentCreateArgs;
+export type ContentUpsertProps = Prisma.ContentUpsertArgs;
+export type ContentUpdateProps = Prisma.ContentUpdateArgs;
+export type ContentDeleteProps = Prisma.ContentDeleteArgs;
 
 // Multiple mutations
-export type CreateManyContentProps = Prisma.ContentCreateManyArgs;
-export type UpdateManyContentProps = Prisma.ContentUpdateManyArgs;
-export type DeleteManyContentProps = Prisma.ContentDeleteManyArgs;
+export type ContentCreateManyProps = Prisma.ContentCreateManyArgs;
+export type ContentUpdateManyProps = Prisma.ContentUpdateManyArgs;
+export type ContentDeleteManyProps = Prisma.ContentDeleteManyArgs;
 
 // Single queries
-export type FindFirstContentProps = Prisma.ContentFindFirstArgs;
-export type FindUniqueContentProps = Prisma.ContentFindUniqueArgs;
-export type FindManyContentProps = Prisma.ContentFindManyArgs;
+export type ContentFindFirstProps = Prisma.ContentFindFirstArgs;
+export type ContentFindUniqueProps = Prisma.ContentFindUniqueArgs;
+export type ContentFindManyProps = Prisma.ContentFindManyArgs;
 
 // Multiple queries
-export type CountContentProps = Prisma.ContentCountArgs;
+export type ContentCountProps = Prisma.ContentCountArgs;
 
 // ============== Schema Types ============== //
 
 // Single mutations
-export const createContentSchema: ZodType<CreateContentProps> = ContentCreateArgsSchema;
-export const upsertContentSchema: ZodType<UpsertContentProps> = ContentUpsertArgsSchema;
-export const updateContentSchema: ZodType<UpdateContentProps> = ContentUpdateArgsSchema;
-export const deleteContentSchema: ZodType<DeleteContentProps> = ContentDeleteArgsSchema;
+export const ContentCreateSchema: ZodType<ContentCreateProps> = ContentCreateArgsSchema;
+export const ContentUpsertSchema: ZodType<ContentUpsertProps> = ContentUpsertArgsSchema;
+export const ContentUpdateSchema: ZodType<ContentUpdateProps> = ContentUpdateArgsSchema;
+export const ContentDeleteSchema: ZodType<ContentDeleteProps> = ContentDeleteArgsSchema;
 
 // Multiple mutations
-export const createManyContentSchema: ZodType<CreateManyContentProps> = ContentCreateManyArgsSchema;
-export const updateManyContentSchema: ZodType<UpdateManyContentProps> = ContentUpdateManyArgsSchema;
-export const deleteManyContentSchema: ZodType<DeleteManyContentProps> = ContentDeleteManyArgsSchema;
+export const ContentCreateManySchema: ZodType<ContentCreateManyProps> = ContentCreateManyArgsSchema;
+export const ContentUpdateManySchema: ZodType<ContentUpdateManyProps> = ContentUpdateManyArgsSchema;
+export const ContentDeleteManySchema: ZodType<ContentDeleteManyProps> = ContentDeleteManyArgsSchema;
 
 // Single queries
-export const selectFirstContentSchema: ZodType<FindFirstContentProps> = ContentFindFirstArgsSchema;
-export const selectUniqueContentSchema: ZodType<FindUniqueContentProps> = ContentFindUniqueArgsSchema;
-export const selectManyContentSchema: ZodType<FindManyContentProps> = ContentFindManyArgsSchema;
+export const ContentFindFirstSchema: ZodType<ContentFindFirstProps> = ContentFindFirstArgsSchema;
+export const ContentFindUniqueSchema: ZodType<ContentFindUniqueProps> = ContentFindUniqueArgsSchema;
+export const ContentFindManySchema: ZodType<ContentFindManyProps> = ContentFindManyArgsSchema;
 
 // Aggregate queries
-export const countContentSchema: ZodType<CountContentProps> =  z.object({
+export const ContentCountSchema: ZodType<ContentCountProps> =  z.object({
     where: z.lazy(() => ContentWhereInputSchema).optional(),
     orderBy: z.union([
         z.lazy(() => ContentOrderByWithRelationInputSchema),
@@ -64,20 +64,20 @@ export const countContentSchema: ZodType<CountContentProps> =  z.object({
 // ============== Response Types ============== //
 
 // Single mutations
-export type CreateContentResponse<T extends CreateContentProps> = Prisma.ContentGetPayload<T>;
-export type UpsertContentResponse<T extends UpsertContentProps> = Prisma.ContentGetPayload<T>;
-export type UpdateContentResponse<T extends UpdateContentProps> = Prisma.ContentGetPayload<T>;
-export type DeleteContentResponse<T extends DeleteContentProps> = Prisma.ContentGetPayload<T>;
+export type ContentCreateResponse<T extends ContentCreateProps> = Prisma.ContentGetPayload<T>;
+export type ContentUpsertResponse<T extends ContentUpsertProps> = Prisma.ContentGetPayload<T>;
+export type ContentUpdateResponse<T extends ContentUpdateProps> = Prisma.ContentGetPayload<T>;
+export type ContentDeleteResponse<T extends ContentDeleteProps> = Prisma.ContentGetPayload<T>;
 
 // Multiple mutations
-export type CreateManyContentResponse = { count: number };
-export type UpdateManyContentResponse = { count: number };
-export type DeleteManyContentResponse = { count: number };
+export type ContentCreateManyResponse = { count: number };
+export type ContentUpdateManyResponse = { count: number };
+export type ContentDeleteManyResponse = { count: number };
 
 // Single queries
-export type FindFirstContentResponse<T extends FindFirstContentProps> = Prisma.ContentGetPayload<T> | null;
-export type FindUniqueContentResponse<T extends FindUniqueContentProps> = Prisma.ContentGetPayload<T> | null;
-export type FindManyContentResponse<T extends FindManyContentProps> = Prisma.ContentGetPayload<T>[];
+export type ContentFindFirstResponse<T extends ContentFindFirstProps> = Prisma.ContentGetPayload<T> | null;
+export type ContentFindUniqueResponse<T extends ContentFindUniqueProps> = Prisma.ContentGetPayload<T> | null;
+export type ContentFindManyResponse<T extends ContentFindManyProps> = Prisma.ContentGetPayload<T>[];
 
 // Aggregate queries
-export type CountContentResponse = ContentCount;
+export type ContentCountResponse = ContentCount;

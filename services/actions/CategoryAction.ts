@@ -1,79 +1,79 @@
 "use server";
 
 import CategoryService from "@services/class/CategoryClass";
-import { CountCategoryProps, CountCategoryResponse, CreateManyCategoryProps, CreateManyCategoryResponse, CreateCategoryProps, CreateCategoryResponse, DeleteManyCategoryProps, DeleteManyCategoryResponse, DeleteCategoryProps, DeleteCategoryResponse, FindFirstCategoryProps, FindFirstCategoryResponse, FindManyCategoryProps, FindManyCategoryResponse, FindUniqueCategoryProps, FindUniqueCategoryResponse, UpdateManyCategoryProps, UpdateManyCategoryResponse, UpdateCategoryProps, UpdateCategoryResponse, UpsertCategoryProps, UpsertCategoryResponse } from "@services/types/CategoryType";
+import { CategoryCountProps, CategoryCountResponse, CategoryCreateManyProps, CategoryCreateManyResponse, CategoryCreateProps, CategoryCreateResponse, CategoryDeleteManyProps, CategoryDeleteManyResponse, CategoryDeleteProps, CategoryDeleteResponse, CategoryFindFirstProps, CategoryFindFirstResponse, CategoryFindManyProps, CategoryFindManyResponse, CategoryFindUniqueProps, CategoryFindUniqueResponse, CategoryUpdateManyProps, CategoryUpdateManyResponse, CategoryUpdateProps, CategoryUpdateResponse, CategoryUpsertProps, CategoryUpsertResponse } from "@services/types/CategoryType";
 
 // ========== Single mutations ========== //
 
-export const CreateCategory = async <T extends CreateCategoryProps>(props: T): Promise<CreateCategoryResponse<T>> => {
+export const CategoryCreate = async <T extends CategoryCreateProps>(props: T): Promise<CategoryCreateResponse<T>> => {
     try {
         const { data, error } = await CategoryService.create(props);
         if (!data || error) throw new Error(error);
         return data;
     } catch (error) {
-        throw new Error("CreateCategory -> " + (error as Error).message);
+        throw new Error("CategoryCreate -> " + (error as Error).message);
     }
 };
 
-export const UpsertCategory = async <T extends UpsertCategoryProps>(props: T): Promise<UpsertCategoryResponse<T>> => {
+export const CategoryUpsert = async <T extends CategoryUpsertProps>(props: T): Promise<CategoryUpsertResponse<T>> => {
     try {
         const { data, error } = await CategoryService.upsert(props);
         if (!data || error) throw new Error(error);
         return data;
     } catch (error) {
-        throw new Error("UpsertCategory -> " + (error as Error).message);
+        throw new Error("CategoryUpsert -> " + (error as Error).message);
     }
 };
 
-export const UpdateCategory = async <T extends UpdateCategoryProps>(props: T): Promise<UpdateCategoryResponse<T>> => {
+export const CategoryUpdate = async <T extends CategoryUpdateProps>(props: T): Promise<CategoryUpdateResponse<T>> => {
     try {
         const { data, error } = await CategoryService.update(props);
         if (!data || error) throw new Error(error);
         return data;
     } catch (error) {
-        throw new Error("UpdateCategory -> " + (error as Error).message);
+        throw new Error("CategoryUpdate -> " + (error as Error).message);
     }
 };
 
-export const DeleteCategory = async <T extends DeleteCategoryProps>(props: T): Promise<DeleteCategoryResponse<T>> => {
+export const CategoryDelete = async <T extends CategoryDeleteProps>(props: T): Promise<CategoryDeleteResponse<T>> => {
     try {
         const { data, error } = await CategoryService.delete(props);
         if (!data || error) throw new Error(error);
         return data;
     } catch (error) {
-        throw new Error("DeleteCategory -> " + (error as Error).message);
+        throw new Error("CategoryDelete -> " + (error as Error).message);
     }
 };
 
 // ========== Multiple mutations ========== //
 
-export const CreateManyCategory = async (props: CreateManyCategoryProps): Promise<CreateManyCategoryResponse> => {
+export const CategoryCreateMany = async (props: CategoryCreateManyProps): Promise<CategoryCreateManyResponse> => {
     try {
         const { data, error } = await CategoryService.createMany(props);
         if (!data || error) throw new Error(error);
         return data;
     } catch (error) {
-        throw new Error("CreateManyCategory -> " + (error as Error).message);
+        throw new Error("CategoryCreateMany -> " + (error as Error).message);
     }
 };
 
-export const UpdateManyCategory = async (props: UpdateManyCategoryProps): Promise<UpdateManyCategoryResponse> => {
+export const CategoryUpdateMany = async (props: CategoryUpdateManyProps): Promise<CategoryUpdateManyResponse> => {
     try {
         const { data, error } = await CategoryService.updateMany(props);
         if (!data || error) throw new Error(error);
         return data;
     } catch (error) {
-        throw new Error("UpdateManyCategory -> " + (error as Error).message);
+        throw new Error("CategoryUpdateMany -> " + (error as Error).message);
     }
 };
 
-export const DeleteManyCategory = async (props: DeleteManyCategoryProps): Promise<DeleteManyCategoryResponse> => {
+export const CategoryDeleteMany = async (props: CategoryDeleteManyProps): Promise<CategoryDeleteManyResponse> => {
     try {
         const { data, error } = await CategoryService.deleteMany(props);
         if (!data || error) throw new Error(error);
         return data;
     } catch (error) {
-        throw new Error("DeleteManyCategory -> " + (error as Error).message);
+        throw new Error("CategoryDeleteMany -> " + (error as Error).message);
     }
 };
 
@@ -82,45 +82,45 @@ export const DeleteManyCategory = async (props: DeleteManyCategoryProps): Promis
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const SelectFirstCategory = async <T extends FindFirstCategoryProps>(
+export const CategoryFindFirst = async <T extends CategoryFindFirstProps>(
     props: T
-): Promise<FindFirstCategoryResponse<T>> => {
+): Promise<CategoryFindFirstResponse<T>> => {
     try {
         const { data, error } = await CategoryService.findFirst(props);
         if (error) throw new Error(error);
         return data ?? null;
     } catch (error) {
-        throw new Error("SelectFirstCategory -> " + (error as Error).message);
+        throw new Error("CategoryFindFirst -> " + (error as Error).message);
     }
 };
 
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const SelectUniqueCategory = async <T extends FindUniqueCategoryProps>(
+export const CategoryFindUnique = async <T extends CategoryFindUniqueProps>(
     props: T
-): Promise<FindUniqueCategoryResponse<T>> => {
+): Promise<CategoryFindUniqueResponse<T>> => {
     try {
         const { data, error } = await CategoryService.findUnique(props);
         if (error) throw new Error(error);
         return data ?? null;
     } catch (error) {
-        throw new Error("SelectUniqueCategory -> " + (error as Error).message);
+        throw new Error("CategoryFindUnique -> " + (error as Error).message);
     }
 };
 
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const SelectCategoryList = async <T extends FindManyCategoryProps>(
+export const CategoryFindMany = async <T extends CategoryFindManyProps>(
     props: T
-): Promise<FindManyCategoryResponse<T>> => {
+): Promise<CategoryFindManyResponse<T>> => {
     try {
         const { data, error } = await CategoryService.findMany(props);
         if (!data || error) throw new Error(error);
         return data;
     } catch (error) {
-        throw new Error("SelectCategoryList -> " + (error as Error).message);
+        throw new Error("CategoryFindMany -> " + (error as Error).message);
     }
 };
 
@@ -129,12 +129,12 @@ export const SelectCategoryList = async <T extends FindManyCategoryProps>(
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const SelectCategoryAmount = async (props: CountCategoryProps): Promise<CountCategoryResponse> => {
+export const CategoryCount = async (props: CategoryCountProps): Promise<CategoryCountResponse> => {
     try {
         const { data, error } = await CategoryService.count(props);
         if (!data || error) throw new Error(error);
         return data;
     } catch (error) {
-        throw new Error("SelectCategoryAmount -> " + (error as Error).message);
+        throw new Error("CategoryCount -> " + (error as Error).message);
     }
 };

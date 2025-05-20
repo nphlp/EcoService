@@ -1,3 +1,3 @@
 {{#each models}}
-export * from './{{this.name}}Api';
+export { {{this.name}}CountApi, {{this.name}}FindFirstApi, {{this.name}}FindManyApi, {{this.name}}FindUniqueApi } from './{{this.name}}Api';
 {{/each}}

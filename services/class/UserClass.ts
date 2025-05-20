@@ -1,6 +1,6 @@
 import PrismaInstance from "@lib/prisma";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
-import { UserCount, CountUserProps, CountUserResponse, CreateManyUserProps, CreateManyUserResponse, CreateUserProps, CreateUserResponse, DeleteManyUserProps, DeleteManyUserResponse, DeleteUserProps, DeleteUserResponse, FindFirstUserProps, FindFirstUserResponse, FindManyUserProps, FindManyUserResponse, FindUniqueUserProps, FindUniqueUserResponse, UpdateManyUserProps, UpdateManyUserResponse, UpdateUserProps, UpdateUserResponse, UpsertUserProps, UpsertUserResponse, countUserSchema, createManyUserSchema, createUserSchema, deleteManyUserSchema, deleteUserSchema, selectFirstUserSchema, selectManyUserSchema, selectUniqueUserSchema, updateManyUserSchema, updateUserSchema, upsertUserSchema } from "@services/types/UserType";
+import { UserCount, UserCountProps, UserCountResponse, UserCountSchema, UserCreateManyProps, UserCreateManyResponse, UserCreateManySchema, UserCreateProps, UserCreateResponse, UserCreateSchema, UserDeleteManyProps, UserDeleteManyResponse, UserDeleteManySchema, UserDeleteProps, UserDeleteResponse, UserDeleteSchema, UserFindFirstProps, UserFindFirstResponse, UserFindFirstSchema, UserFindManyProps, UserFindManyResponse, UserFindManySchema, UserFindUniqueProps, UserFindUniqueResponse, UserFindUniqueSchema, UserUpdateManyProps, UserUpdateManyResponse, UserUpdateManySchema, UserUpdateProps, UserUpdateResponse, UserUpdateSchema, UserUpsertProps, UserUpsertResponse, UserUpsertSchema } from "@services/types/UserType";
 import { ResponseFormat } from "@utils/FetchConfig";
 import { ZodError } from "zod";
 
@@ -8,41 +8,41 @@ export default class UserService {
 
     // ========== Single mutations ========== //
 
-    static async create<T extends CreateUserProps>(props: T): Promise<ResponseFormat<CreateUserResponse<T>>> {
+    static async create<T extends UserCreateProps>(props: T): Promise<ResponseFormat<UserCreateResponse<T>>> {
         try {
-            const parsedProps = createUserSchema.parse(props);
+            const parsedProps = UserCreateSchema.parse(props);
             const user = await PrismaInstance.user.create(parsedProps);
-            return { data: user as CreateUserResponse<T> };
+            return { data: user as UserCreateResponse<T> };
         } catch (error) {
             return UserService.error("create", error);
         }
     }
 
-    static async upsert<T extends UpsertUserProps>(props: T): Promise<ResponseFormat<UpsertUserResponse<T>>> {
+    static async upsert<T extends UserUpsertProps>(props: T): Promise<ResponseFormat<UserUpsertResponse<T>>> {
         try {
-            const parsedProps = upsertUserSchema.parse(props);
+            const parsedProps = UserUpsertSchema.parse(props);
             const user = await PrismaInstance.user.upsert(parsedProps);
-            return { data: user as UpsertUserResponse<T> };
+            return { data: user as UserUpsertResponse<T> };
         } catch (error) {
             return UserService.error("upsert", error);
         }
     }
 
-    static async update<T extends UpdateUserProps>(props: T): Promise<ResponseFormat<UpdateUserResponse<T>>> {
+    static async update<T extends UserUpdateProps>(props: T): Promise<ResponseFormat<UserUpdateResponse<T>>> {
         try {
-            const parsedProps = updateUserSchema.parse(props);
+            const parsedProps = UserUpdateSchema.parse(props);
             const user = await PrismaInstance.user.update(parsedProps);
-            return { data: user as UpdateUserResponse<T> };
+            return { data: user as UserUpdateResponse<T> };
         } catch (error) {
             return UserService.error("update", error);
         }
     }
 
-    static async delete<T extends DeleteUserProps>(props: T): Promise<ResponseFormat<DeleteUserResponse<T>>> {
+    static async delete<T extends UserDeleteProps>(props: T): Promise<ResponseFormat<UserDeleteResponse<T>>> {
         try {
-            const parsedProps = deleteUserSchema.parse(props);
+            const parsedProps = UserDeleteSchema.parse(props);
             const user = await PrismaInstance.user.delete(parsedProps);
-            return { data: user as DeleteUserResponse<T> };
+            return { data: user as UserDeleteResponse<T> };
         } catch (error) {
             return UserService.error("delete", error);
         }
@@ -50,9 +50,9 @@ export default class UserService {
 
     // ========== Multiple mutations ========== //
 
-    static async createMany(props: CreateManyUserProps): Promise<ResponseFormat<CreateManyUserResponse>> {
+    static async createMany(props: UserCreateManyProps): Promise<ResponseFormat<UserCreateManyResponse>> {
         try {
-            const parsedProps = createManyUserSchema.parse(props);
+            const parsedProps = UserCreateManySchema.parse(props);
             const result = await PrismaInstance.user.createMany(parsedProps);
             return { data: result };
         } catch (error) {
@@ -60,9 +60,9 @@ export default class UserService {
         }
     }
 
-    static async updateMany(props: UpdateManyUserProps): Promise<ResponseFormat<UpdateManyUserResponse>> {
+    static async updateMany(props: UserUpdateManyProps): Promise<ResponseFormat<UserUpdateManyResponse>> {
         try {
-            const parsedProps = updateManyUserSchema.parse(props);
+            const parsedProps = UserUpdateManySchema.parse(props);
             const result = await PrismaInstance.user.updateMany(parsedProps);
             return { data: result };
         } catch (error) {
@@ -70,9 +70,9 @@ export default class UserService {
         }
     }
 
-    static async deleteMany(props: DeleteManyUserProps): Promise<ResponseFormat<DeleteManyUserResponse>> {
+    static async deleteMany(props: UserDeleteManyProps): Promise<ResponseFormat<UserDeleteManyResponse>> {
         try {
-            const parsedProps = deleteManyUserSchema.parse(props);
+            const parsedProps = UserDeleteManySchema.parse(props);
             const result = await PrismaInstance.user.deleteMany(parsedProps);
             return { data: result };
         } catch (error) {
@@ -82,32 +82,32 @@ export default class UserService {
 
     // ========== Single queries ========== //
 
-    static async findFirst<T extends FindFirstUserProps>(props: T): Promise<ResponseFormat<FindFirstUserResponse<T>>> {
+    static async findFirst<T extends UserFindFirstProps>(props: T): Promise<ResponseFormat<UserFindFirstResponse<T>>> {
         try {
-            const parsedProps = selectFirstUserSchema.parse(props);
+            const parsedProps = UserFindFirstSchema.parse(props);
             const user = await PrismaInstance.user.findFirst(parsedProps);
-            return { data: user as FindFirstUserResponse<T> };
+            return { data: user as UserFindFirstResponse<T> };
         } catch (error) {
             return UserService.error("findFirst", error);
         }
     }
 
-    static async findUnique<T extends FindUniqueUserProps>(props: T): Promise<ResponseFormat<FindUniqueUserResponse<T>>> {
+    static async findUnique<T extends UserFindUniqueProps>(props: T): Promise<ResponseFormat<UserFindUniqueResponse<T>>> {
         try {
-            const parsedProps = selectUniqueUserSchema.parse(props);
+            const parsedProps = UserFindUniqueSchema.parse(props);
             const user = await PrismaInstance.user.findUnique(parsedProps);
-            return { data: user as FindUniqueUserResponse<T> };
+            return { data: user as UserFindUniqueResponse<T> };
         } catch (error) {
             return UserService.error("findUnique", error);
         }
     }
 
-    static async findMany<T extends FindManyUserProps>(props: T): Promise<ResponseFormat<FindManyUserResponse<T>>> {
+    static async findMany<T extends UserFindManyProps>(props: T): Promise<ResponseFormat<UserFindManyResponse<T>>> {
         try {
-            const parsedProps = selectManyUserSchema.parse(props);
+            const parsedProps = UserFindManySchema.parse(props);
             const { skip = 0, take = 10 } = parsedProps;
             const userList = await PrismaInstance.user.findMany({ skip, take, ...parsedProps });
-            return { data: userList as FindManyUserResponse<T> };
+            return { data: userList as UserFindManyResponse<T> };
         } catch (error) {
             return UserService.error("findMany", error);
         }
@@ -115,9 +115,9 @@ export default class UserService {
 
     // ========== Aggregate queries ========== //
 
-    static async count(props: CountUserProps): Promise<ResponseFormat<CountUserResponse>> {
+    static async count(props: UserCountProps): Promise<ResponseFormat<UserCountResponse>> {
         try {
-            const parsedProps = countUserSchema.parse(props);
+            const parsedProps = UserCountSchema.parse(props);
             const userAmount: UserCount = await PrismaInstance.user.count(parsedProps);
             return { data: userAmount };
         } catch (error) {

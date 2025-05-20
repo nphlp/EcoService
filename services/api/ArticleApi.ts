@@ -1,96 +1,102 @@
 import ArticleService from "@services/class/ArticleClass";
-import { CountArticleProps, CountArticleResponse, FindFirstArticleProps, FindFirstArticleResponse, FindManyArticleProps, FindManyArticleResponse, FindUniqueArticleProps, FindUniqueArticleResponse } from "@services/types/ArticleType";
-import { parseAndDecodeParams, revalidate } from "@utils/FetchConfig";
-import { unstable_cache as cache } from "next/cache";
+import { ArticleCountProps, ArticleCountResponse, ArticleFindFirstProps, ArticleFindFirstResponse, ArticleFindManyProps, ArticleFindManyResponse, ArticleFindUniqueProps, ArticleFindUniqueResponse } from "@services/types/ArticleType";
+import { cacheLifeApi, parseAndDecodeParams } from "@utils/FetchConfig";
+import { unstable_cacheLife as cacheLife, unstable_cacheTag as cacheTag } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 
 // ============== API Routes Types ============== //
 
 export type ArticleRoutes<Input> = {
     "/article": {
-        params: FindManyArticleProps,
-        response: FindManyArticleResponse<Input extends FindManyArticleProps ? Input : never>
+        params: ArticleFindManyProps,
+        response: ArticleFindManyResponse<Input extends ArticleFindManyProps ? Input : never>
     },
     "/article/first": {
-        params: FindFirstArticleProps,
-        response: FindFirstArticleResponse<Input extends FindFirstArticleProps ? Input : never>
+        params: ArticleFindFirstProps,
+        response: ArticleFindFirstResponse<Input extends ArticleFindFirstProps ? Input : never>
     },
     "/article/unique": {
-        params: FindUniqueArticleProps,
-        response: FindUniqueArticleResponse<Input extends FindUniqueArticleProps ? Input : never>
+        params: ArticleFindUniqueProps,
+        response: ArticleFindUniqueResponse<Input extends ArticleFindUniqueProps ? Input : never>
     },
     "/article/count": {
-        params: CountArticleProps,
-        response: CountArticleResponse
+        params: ArticleCountProps,
+        response: ArticleCountResponse
     }
 }
 
 // ==================== Find Many ==================== //
 
-const articleListCached = cache(async <T extends FindManyArticleProps>(params: T) => ArticleService.findMany(params), ["article"], {
-    revalidate,
-    tags: ["article"],
-});
+const articleFindManyCached = async <T extends ArticleFindManyProps>(params: T) => {
+    "use cache";
+    cacheLife(cacheLifeApi);
+    cacheTag("/api/article");
+    return ArticleService.findMany<T>(params);
+};
 
-export const SelectArticleList = async <T extends FindManyArticleProps>(request: NextRequest) => {
+export const ArticleFindManyApi = async <T extends ArticleFindManyProps>(request: NextRequest) => {
     try {
         const params: T = parseAndDecodeParams(request);
-        const response = await articleListCached<T>(params);
+        const response = await articleFindManyCached<T>(params);
         return NextResponse.json(response, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ error: "getArticleListCached -> " + (error as Error).message }, { status: 500 });
+        return NextResponse.json({ error: "ArticleFindManyApi -> " + (error as Error).message }, { status: 500 });
     }
 };
 
 // ==================== Find First ==================== //
 
-const articleFirstCached = cache(
-    async <T extends FindFirstArticleProps>(params: T) => ArticleService.findFirst(params),
-    ["article/first"],
-    { revalidate, tags: ["article/first"] },
-);
+const articleFindFirstCached = async <T extends ArticleFindFirstProps>(params: T) => {
+    "use cache";
+    cacheLife(cacheLifeApi);
+    cacheTag("/api/article/first");
+    return ArticleService.findFirst<T>(params);
+};
 
-export const SelectArticleFirst = async <T extends FindFirstArticleProps>(request: NextRequest) => {
+export const ArticleFindFirstApi = async <T extends ArticleFindFirstProps>(request: NextRequest) => {
     try {
         const params: T = parseAndDecodeParams(request);
-        const response = await articleFirstCached<T>(params);
+        const response = await articleFindFirstCached<T>(params);
         return NextResponse.json(response, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ error: "getArticleFirstCached -> " + (error as Error).message }, { status: 500 });
+        return NextResponse.json({ error: "ArticleFindFirstApi -> " + (error as Error).message }, { status: 500 });
     }
 };
 
 // ==================== Find Unique ==================== //
 
-const articleUniqueCached = cache(
-    async <T extends FindUniqueArticleProps>(params: T) => ArticleService.findUnique(params),
-    ["article/unique"],
-    { revalidate, tags: ["article/unique"] },
-);
+const articleFindUniqueCached = async <T extends ArticleFindUniqueProps>(params: T) => {
+    "use cache";
+    cacheLife(cacheLifeApi);
+    cacheTag("/api/article/unique");
+    return ArticleService.findUnique<T>(params);
+};
 
-export const SelectArticleUnique = async <T extends FindUniqueArticleProps>(request: NextRequest) => {
+export const ArticleFindUniqueApi = async <T extends ArticleFindUniqueProps>(request: NextRequest) => {
     try {
         const params: T = parseAndDecodeParams(request);
-        const response = await articleUniqueCached<T>(params);
+        const response = await articleFindUniqueCached<T>(params);
         return NextResponse.json(response, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ error: "getArticleUniqueCached -> " + (error as Error).message }, { status: 500 });
+        return NextResponse.json({ error: "ArticleFindUniqueApi -> " + (error as Error).message }, { status: 500 });
     }
 };
 
 // ==================== Count ==================== //
 
-const articleCountCached = cache(async (params: CountArticleProps) => ArticleService.count(params), ["article/count"], {
-    revalidate,
-    tags: ["article/count"],
-});
+const articleCountCached = async (params: ArticleCountProps) => {
+    "use cache";
+    cacheLife(cacheLifeApi);
+    cacheTag("/api/article/count");
+    return ArticleService.count(params);
+};
 
-export const SelectArticleCount = async (request: NextRequest) => {
+export const ArticleCountApi = async (request: NextRequest) => {
     try {
-        const params: CountArticleProps = parseAndDecodeParams(request);
+        const params: ArticleCountProps = parseAndDecodeParams(request);
         const response = await articleCountCached(params);
         return NextResponse.json(response, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ error: "getArticleCountCached -> " + (error as Error).message }, { status: 500 });
+        return NextResponse.json({ error: "ArticleCountApi -> " + (error as Error).message }, { status: 500 });
     }
 };

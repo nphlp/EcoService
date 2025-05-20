@@ -1,4 +1,4 @@
-import { SelectUniqueUser } from "@actions/UserAction";
+import { UserFindUnique } from "@actions/UserAction";
 import PrismaInstance from "@lib/prisma";
 import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
@@ -55,7 +55,7 @@ export const auth = betterAuth({
     },
     plugins: [
         customSession(async ({ session, user }) => {
-            const userData = await SelectUniqueUser({ where: { id: user.id } });
+            const userData = await UserFindUnique({ where: { id: user.id } });
             if (!userData) {
                 throw new Error("User not found");
             }

@@ -12,44 +12,44 @@ export type VerificationCount = number;
 // ============== Props Types ============== //
 
 // Single mutations
-export type CreateVerificationProps = Prisma.VerificationCreateArgs;
-export type UpsertVerificationProps = Prisma.VerificationUpsertArgs;
-export type UpdateVerificationProps = Prisma.VerificationUpdateArgs;
-export type DeleteVerificationProps = Prisma.VerificationDeleteArgs;
+export type VerificationCreateProps = Prisma.VerificationCreateArgs;
+export type VerificationUpsertProps = Prisma.VerificationUpsertArgs;
+export type VerificationUpdateProps = Prisma.VerificationUpdateArgs;
+export type VerificationDeleteProps = Prisma.VerificationDeleteArgs;
 
 // Multiple mutations
-export type CreateManyVerificationProps = Prisma.VerificationCreateManyArgs;
-export type UpdateManyVerificationProps = Prisma.VerificationUpdateManyArgs;
-export type DeleteManyVerificationProps = Prisma.VerificationDeleteManyArgs;
+export type VerificationCreateManyProps = Prisma.VerificationCreateManyArgs;
+export type VerificationUpdateManyProps = Prisma.VerificationUpdateManyArgs;
+export type VerificationDeleteManyProps = Prisma.VerificationDeleteManyArgs;
 
 // Single queries
-export type FindFirstVerificationProps = Prisma.VerificationFindFirstArgs;
-export type FindUniqueVerificationProps = Prisma.VerificationFindUniqueArgs;
-export type FindManyVerificationProps = Prisma.VerificationFindManyArgs;
+export type VerificationFindFirstProps = Prisma.VerificationFindFirstArgs;
+export type VerificationFindUniqueProps = Prisma.VerificationFindUniqueArgs;
+export type VerificationFindManyProps = Prisma.VerificationFindManyArgs;
 
 // Multiple queries
-export type CountVerificationProps = Prisma.VerificationCountArgs;
+export type VerificationCountProps = Prisma.VerificationCountArgs;
 
 // ============== Schema Types ============== //
 
 // Single mutations
-export const createVerificationSchema: ZodType<CreateVerificationProps> = VerificationCreateArgsSchema;
-export const upsertVerificationSchema: ZodType<UpsertVerificationProps> = VerificationUpsertArgsSchema;
-export const updateVerificationSchema: ZodType<UpdateVerificationProps> = VerificationUpdateArgsSchema;
-export const deleteVerificationSchema: ZodType<DeleteVerificationProps> = VerificationDeleteArgsSchema;
+export const VerificationCreateSchema: ZodType<VerificationCreateProps> = VerificationCreateArgsSchema;
+export const VerificationUpsertSchema: ZodType<VerificationUpsertProps> = VerificationUpsertArgsSchema;
+export const VerificationUpdateSchema: ZodType<VerificationUpdateProps> = VerificationUpdateArgsSchema;
+export const VerificationDeleteSchema: ZodType<VerificationDeleteProps> = VerificationDeleteArgsSchema;
 
 // Multiple mutations
-export const createManyVerificationSchema: ZodType<CreateManyVerificationProps> = VerificationCreateManyArgsSchema;
-export const updateManyVerificationSchema: ZodType<UpdateManyVerificationProps> = VerificationUpdateManyArgsSchema;
-export const deleteManyVerificationSchema: ZodType<DeleteManyVerificationProps> = VerificationDeleteManyArgsSchema;
+export const VerificationCreateManySchema: ZodType<VerificationCreateManyProps> = VerificationCreateManyArgsSchema;
+export const VerificationUpdateManySchema: ZodType<VerificationUpdateManyProps> = VerificationUpdateManyArgsSchema;
+export const VerificationDeleteManySchema: ZodType<VerificationDeleteManyProps> = VerificationDeleteManyArgsSchema;
 
 // Single queries
-export const selectFirstVerificationSchema: ZodType<FindFirstVerificationProps> = VerificationFindFirstArgsSchema;
-export const selectUniqueVerificationSchema: ZodType<FindUniqueVerificationProps> = VerificationFindUniqueArgsSchema;
-export const selectManyVerificationSchema: ZodType<FindManyVerificationProps> = VerificationFindManyArgsSchema;
+export const VerificationFindFirstSchema: ZodType<VerificationFindFirstProps> = VerificationFindFirstArgsSchema;
+export const VerificationFindUniqueSchema: ZodType<VerificationFindUniqueProps> = VerificationFindUniqueArgsSchema;
+export const VerificationFindManySchema: ZodType<VerificationFindManyProps> = VerificationFindManyArgsSchema;
 
 // Aggregate queries
-export const countVerificationSchema: ZodType<CountVerificationProps> =  z.object({
+export const VerificationCountSchema: ZodType<VerificationCountProps> =  z.object({
     where: z.lazy(() => VerificationWhereInputSchema).optional(),
     orderBy: z.union([
         z.lazy(() => VerificationOrderByWithRelationInputSchema),
@@ -64,20 +64,20 @@ export const countVerificationSchema: ZodType<CountVerificationProps> =  z.objec
 // ============== Response Types ============== //
 
 // Single mutations
-export type CreateVerificationResponse<T extends CreateVerificationProps> = Prisma.VerificationGetPayload<T>;
-export type UpsertVerificationResponse<T extends UpsertVerificationProps> = Prisma.VerificationGetPayload<T>;
-export type UpdateVerificationResponse<T extends UpdateVerificationProps> = Prisma.VerificationGetPayload<T>;
-export type DeleteVerificationResponse<T extends DeleteVerificationProps> = Prisma.VerificationGetPayload<T>;
+export type VerificationCreateResponse<T extends VerificationCreateProps> = Prisma.VerificationGetPayload<T>;
+export type VerificationUpsertResponse<T extends VerificationUpsertProps> = Prisma.VerificationGetPayload<T>;
+export type VerificationUpdateResponse<T extends VerificationUpdateProps> = Prisma.VerificationGetPayload<T>;
+export type VerificationDeleteResponse<T extends VerificationDeleteProps> = Prisma.VerificationGetPayload<T>;
 
 // Multiple mutations
-export type CreateManyVerificationResponse = { count: number };
-export type UpdateManyVerificationResponse = { count: number };
-export type DeleteManyVerificationResponse = { count: number };
+export type VerificationCreateManyResponse = { count: number };
+export type VerificationUpdateManyResponse = { count: number };
+export type VerificationDeleteManyResponse = { count: number };
 
 // Single queries
-export type FindFirstVerificationResponse<T extends FindFirstVerificationProps> = Prisma.VerificationGetPayload<T> | null;
-export type FindUniqueVerificationResponse<T extends FindUniqueVerificationProps> = Prisma.VerificationGetPayload<T> | null;
-export type FindManyVerificationResponse<T extends FindManyVerificationProps> = Prisma.VerificationGetPayload<T>[];
+export type VerificationFindFirstResponse<T extends VerificationFindFirstProps> = Prisma.VerificationGetPayload<T> | null;
+export type VerificationFindUniqueResponse<T extends VerificationFindUniqueProps> = Prisma.VerificationGetPayload<T> | null;
+export type VerificationFindManyResponse<T extends VerificationFindManyProps> = Prisma.VerificationGetPayload<T>[];
 
 // Aggregate queries
-export type CountVerificationResponse = VerificationCount;
+export type VerificationCountResponse = VerificationCount;

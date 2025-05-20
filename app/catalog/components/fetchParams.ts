@@ -1,5 +1,5 @@
-import { FindManyCategoryProps } from "@services/types";
-import { CountProductProps, FindManyProductProps } from "@services/types/ProductType";
+import { CategoryFindManyProps } from "@services/types/CategoryType";
+import { ProductCountProps, ProductFindManyProps } from "@services/types/ProductType";
 import { SearchParamsType } from "./searchParams";
 
 // Product amount fetch params
@@ -9,7 +9,7 @@ type ProductAmountFetchParams = {
     search: string;
 };
 
-export const ProductAmountFetchParams = ({ category, search }: ProductAmountFetchParams): CountProductProps => ({
+export const ProductAmountFetchParams = ({ category, search }: ProductAmountFetchParams): ProductCountProps => ({
     where: {
         ...(category && { Category: { slug: category } }),
         ...(search && { name: { contains: search } }),
@@ -32,7 +32,7 @@ export const ProductListFetchParams = ({
     take,
     category,
     search,
-}: ProductListFetchParams): FindManyProductProps => ({
+}: ProductListFetchParams): ProductFindManyProps => ({
     ...(priceOrder !== "not" && { orderBy: { price: priceOrder } }),
     ...(page > 1 && { skip: (page - 1) * take }),
     take,
@@ -44,4 +44,4 @@ export const ProductListFetchParams = ({
 
 // Category list fetch params
 
-export const CategoryListFetchParams: FindManyCategoryProps = { orderBy: { name: "asc" as const } };
+export const CategoryListFetchParams: CategoryFindManyProps = { orderBy: { name: "asc" as const } };

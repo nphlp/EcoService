@@ -1,96 +1,102 @@
 import UserService from "@services/class/UserClass";
-import { CountUserProps, CountUserResponse, FindFirstUserProps, FindFirstUserResponse, FindManyUserProps, FindManyUserResponse, FindUniqueUserProps, FindUniqueUserResponse } from "@services/types/UserType";
-import { parseAndDecodeParams, revalidate } from "@utils/FetchConfig";
-import { unstable_cache as cache } from "next/cache";
+import { UserCountProps, UserCountResponse, UserFindFirstProps, UserFindFirstResponse, UserFindManyProps, UserFindManyResponse, UserFindUniqueProps, UserFindUniqueResponse } from "@services/types/UserType";
+import { cacheLifeApi, parseAndDecodeParams } from "@utils/FetchConfig";
+import { unstable_cacheLife as cacheLife, unstable_cacheTag as cacheTag } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 
 // ============== API Routes Types ============== //
 
 export type UserRoutes<Input> = {
     "/user": {
-        params: FindManyUserProps,
-        response: FindManyUserResponse<Input extends FindManyUserProps ? Input : never>
+        params: UserFindManyProps,
+        response: UserFindManyResponse<Input extends UserFindManyProps ? Input : never>
     },
     "/user/first": {
-        params: FindFirstUserProps,
-        response: FindFirstUserResponse<Input extends FindFirstUserProps ? Input : never>
+        params: UserFindFirstProps,
+        response: UserFindFirstResponse<Input extends UserFindFirstProps ? Input : never>
     },
     "/user/unique": {
-        params: FindUniqueUserProps,
-        response: FindUniqueUserResponse<Input extends FindUniqueUserProps ? Input : never>
+        params: UserFindUniqueProps,
+        response: UserFindUniqueResponse<Input extends UserFindUniqueProps ? Input : never>
     },
     "/user/count": {
-        params: CountUserProps,
-        response: CountUserResponse
+        params: UserCountProps,
+        response: UserCountResponse
     }
 }
 
 // ==================== Find Many ==================== //
 
-const userListCached = cache(async <T extends FindManyUserProps>(params: T) => UserService.findMany(params), ["user"], {
-    revalidate,
-    tags: ["user"],
-});
+const userFindManyCached = async <T extends UserFindManyProps>(params: T) => {
+    "use cache";
+    cacheLife(cacheLifeApi);
+    cacheTag("/api/user");
+    return UserService.findMany<T>(params);
+};
 
-export const SelectUserList = async <T extends FindManyUserProps>(request: NextRequest) => {
+export const UserFindManyApi = async <T extends UserFindManyProps>(request: NextRequest) => {
     try {
         const params: T = parseAndDecodeParams(request);
-        const response = await userListCached<T>(params);
+        const response = await userFindManyCached<T>(params);
         return NextResponse.json(response, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ error: "getUserListCached -> " + (error as Error).message }, { status: 500 });
+        return NextResponse.json({ error: "UserFindManyApi -> " + (error as Error).message }, { status: 500 });
     }
 };
 
 // ==================== Find First ==================== //
 
-const userFirstCached = cache(
-    async <T extends FindFirstUserProps>(params: T) => UserService.findFirst(params),
-    ["user/first"],
-    { revalidate, tags: ["user/first"] },
-);
+const userFindFirstCached = async <T extends UserFindFirstProps>(params: T) => {
+    "use cache";
+    cacheLife(cacheLifeApi);
+    cacheTag("/api/user/first");
+    return UserService.findFirst<T>(params);
+};
 
-export const SelectUserFirst = async <T extends FindFirstUserProps>(request: NextRequest) => {
+export const UserFindFirstApi = async <T extends UserFindFirstProps>(request: NextRequest) => {
     try {
         const params: T = parseAndDecodeParams(request);
-        const response = await userFirstCached<T>(params);
+        const response = await userFindFirstCached<T>(params);
         return NextResponse.json(response, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ error: "getUserFirstCached -> " + (error as Error).message }, { status: 500 });
+        return NextResponse.json({ error: "UserFindFirstApi -> " + (error as Error).message }, { status: 500 });
     }
 };
 
 // ==================== Find Unique ==================== //
 
-const userUniqueCached = cache(
-    async <T extends FindUniqueUserProps>(params: T) => UserService.findUnique(params),
-    ["user/unique"],
-    { revalidate, tags: ["user/unique"] },
-);
+const userFindUniqueCached = async <T extends UserFindUniqueProps>(params: T) => {
+    "use cache";
+    cacheLife(cacheLifeApi);
+    cacheTag("/api/user/unique");
+    return UserService.findUnique<T>(params);
+};
 
-export const SelectUserUnique = async <T extends FindUniqueUserProps>(request: NextRequest) => {
+export const UserFindUniqueApi = async <T extends UserFindUniqueProps>(request: NextRequest) => {
     try {
         const params: T = parseAndDecodeParams(request);
-        const response = await userUniqueCached<T>(params);
+        const response = await userFindUniqueCached<T>(params);
         return NextResponse.json(response, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ error: "getUserUniqueCached -> " + (error as Error).message }, { status: 500 });
+        return NextResponse.json({ error: "UserFindUniqueApi -> " + (error as Error).message }, { status: 500 });
     }
 };
 
 // ==================== Count ==================== //
 
-const userCountCached = cache(async (params: CountUserProps) => UserService.count(params), ["user/count"], {
-    revalidate,
-    tags: ["user/count"],
-});
+const userCountCached = async (params: UserCountProps) => {
+    "use cache";
+    cacheLife(cacheLifeApi);
+    cacheTag("/api/user/count");
+    return UserService.count(params);
+};
 
-export const SelectUserCount = async (request: NextRequest) => {
+export const UserCountApi = async (request: NextRequest) => {
     try {
-        const params: CountUserProps = parseAndDecodeParams(request);
+        const params: UserCountProps = parseAndDecodeParams(request);
         const response = await userCountCached(params);
         return NextResponse.json(response, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ error: "getUserCountCached -> " + (error as Error).message }, { status: 500 });
+        return NextResponse.json({ error: "UserCountApi -> " + (error as Error).message }, { status: 500 });
     }
 };

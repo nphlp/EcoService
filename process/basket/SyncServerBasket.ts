@@ -1,6 +1,6 @@
 "use server";
 
-import { CreateManyQuantity, DeleteManyQuantity } from "@actions/QuantityAction";
+import { QuantityCreateMany, QuantityDeleteMany } from "@actions/QuantityAction";
 import { LocalBasket, localBasketSchema } from "@comps/basket/basketType";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { OrderModel } from "@services/types";
@@ -34,7 +34,7 @@ export const SyncServerBasket = async (props: SyncServerBasketProps): Promise<Sy
         const serverBasket = await GetServerBasket({ orderId });
 
         if (serverBasket) {
-            await DeleteManyQuantity({
+            await QuantityDeleteMany({
                 where: {
                     id: {
                         in: serverBasket.items.map(({ quantityId }) => quantityId),
@@ -42,7 +42,7 @@ export const SyncServerBasket = async (props: SyncServerBasketProps): Promise<Sy
                 },
             });
 
-            await CreateManyQuantity({
+            await QuantityCreateMany({
                 data: localBasket.items.map(({ productId, quantity }) => ({
                     quantity,
                     productId,

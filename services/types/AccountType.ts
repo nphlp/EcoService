@@ -12,44 +12,44 @@ export type AccountCount = number;
 // ============== Props Types ============== //
 
 // Single mutations
-export type CreateAccountProps = Prisma.AccountCreateArgs;
-export type UpsertAccountProps = Prisma.AccountUpsertArgs;
-export type UpdateAccountProps = Prisma.AccountUpdateArgs;
-export type DeleteAccountProps = Prisma.AccountDeleteArgs;
+export type AccountCreateProps = Prisma.AccountCreateArgs;
+export type AccountUpsertProps = Prisma.AccountUpsertArgs;
+export type AccountUpdateProps = Prisma.AccountUpdateArgs;
+export type AccountDeleteProps = Prisma.AccountDeleteArgs;
 
 // Multiple mutations
-export type CreateManyAccountProps = Prisma.AccountCreateManyArgs;
-export type UpdateManyAccountProps = Prisma.AccountUpdateManyArgs;
-export type DeleteManyAccountProps = Prisma.AccountDeleteManyArgs;
+export type AccountCreateManyProps = Prisma.AccountCreateManyArgs;
+export type AccountUpdateManyProps = Prisma.AccountUpdateManyArgs;
+export type AccountDeleteManyProps = Prisma.AccountDeleteManyArgs;
 
 // Single queries
-export type FindFirstAccountProps = Prisma.AccountFindFirstArgs;
-export type FindUniqueAccountProps = Prisma.AccountFindUniqueArgs;
-export type FindManyAccountProps = Prisma.AccountFindManyArgs;
+export type AccountFindFirstProps = Prisma.AccountFindFirstArgs;
+export type AccountFindUniqueProps = Prisma.AccountFindUniqueArgs;
+export type AccountFindManyProps = Prisma.AccountFindManyArgs;
 
 // Multiple queries
-export type CountAccountProps = Prisma.AccountCountArgs;
+export type AccountCountProps = Prisma.AccountCountArgs;
 
 // ============== Schema Types ============== //
 
 // Single mutations
-export const createAccountSchema: ZodType<CreateAccountProps> = AccountCreateArgsSchema;
-export const upsertAccountSchema: ZodType<UpsertAccountProps> = AccountUpsertArgsSchema;
-export const updateAccountSchema: ZodType<UpdateAccountProps> = AccountUpdateArgsSchema;
-export const deleteAccountSchema: ZodType<DeleteAccountProps> = AccountDeleteArgsSchema;
+export const AccountCreateSchema: ZodType<AccountCreateProps> = AccountCreateArgsSchema;
+export const AccountUpsertSchema: ZodType<AccountUpsertProps> = AccountUpsertArgsSchema;
+export const AccountUpdateSchema: ZodType<AccountUpdateProps> = AccountUpdateArgsSchema;
+export const AccountDeleteSchema: ZodType<AccountDeleteProps> = AccountDeleteArgsSchema;
 
 // Multiple mutations
-export const createManyAccountSchema: ZodType<CreateManyAccountProps> = AccountCreateManyArgsSchema;
-export const updateManyAccountSchema: ZodType<UpdateManyAccountProps> = AccountUpdateManyArgsSchema;
-export const deleteManyAccountSchema: ZodType<DeleteManyAccountProps> = AccountDeleteManyArgsSchema;
+export const AccountCreateManySchema: ZodType<AccountCreateManyProps> = AccountCreateManyArgsSchema;
+export const AccountUpdateManySchema: ZodType<AccountUpdateManyProps> = AccountUpdateManyArgsSchema;
+export const AccountDeleteManySchema: ZodType<AccountDeleteManyProps> = AccountDeleteManyArgsSchema;
 
 // Single queries
-export const selectFirstAccountSchema: ZodType<FindFirstAccountProps> = AccountFindFirstArgsSchema;
-export const selectUniqueAccountSchema: ZodType<FindUniqueAccountProps> = AccountFindUniqueArgsSchema;
-export const selectManyAccountSchema: ZodType<FindManyAccountProps> = AccountFindManyArgsSchema;
+export const AccountFindFirstSchema: ZodType<AccountFindFirstProps> = AccountFindFirstArgsSchema;
+export const AccountFindUniqueSchema: ZodType<AccountFindUniqueProps> = AccountFindUniqueArgsSchema;
+export const AccountFindManySchema: ZodType<AccountFindManyProps> = AccountFindManyArgsSchema;
 
 // Aggregate queries
-export const countAccountSchema: ZodType<CountAccountProps> =  z.object({
+export const AccountCountSchema: ZodType<AccountCountProps> =  z.object({
     where: z.lazy(() => AccountWhereInputSchema).optional(),
     orderBy: z.union([
         z.lazy(() => AccountOrderByWithRelationInputSchema),
@@ -64,20 +64,20 @@ export const countAccountSchema: ZodType<CountAccountProps> =  z.object({
 // ============== Response Types ============== //
 
 // Single mutations
-export type CreateAccountResponse<T extends CreateAccountProps> = Prisma.AccountGetPayload<T>;
-export type UpsertAccountResponse<T extends UpsertAccountProps> = Prisma.AccountGetPayload<T>;
-export type UpdateAccountResponse<T extends UpdateAccountProps> = Prisma.AccountGetPayload<T>;
-export type DeleteAccountResponse<T extends DeleteAccountProps> = Prisma.AccountGetPayload<T>;
+export type AccountCreateResponse<T extends AccountCreateProps> = Prisma.AccountGetPayload<T>;
+export type AccountUpsertResponse<T extends AccountUpsertProps> = Prisma.AccountGetPayload<T>;
+export type AccountUpdateResponse<T extends AccountUpdateProps> = Prisma.AccountGetPayload<T>;
+export type AccountDeleteResponse<T extends AccountDeleteProps> = Prisma.AccountGetPayload<T>;
 
 // Multiple mutations
-export type CreateManyAccountResponse = { count: number };
-export type UpdateManyAccountResponse = { count: number };
-export type DeleteManyAccountResponse = { count: number };
+export type AccountCreateManyResponse = { count: number };
+export type AccountUpdateManyResponse = { count: number };
+export type AccountDeleteManyResponse = { count: number };
 
 // Single queries
-export type FindFirstAccountResponse<T extends FindFirstAccountProps> = Prisma.AccountGetPayload<T> | null;
-export type FindUniqueAccountResponse<T extends FindUniqueAccountProps> = Prisma.AccountGetPayload<T> | null;
-export type FindManyAccountResponse<T extends FindManyAccountProps> = Prisma.AccountGetPayload<T>[];
+export type AccountFindFirstResponse<T extends AccountFindFirstProps> = Prisma.AccountGetPayload<T> | null;
+export type AccountFindUniqueResponse<T extends AccountFindUniqueProps> = Prisma.AccountGetPayload<T> | null;
+export type AccountFindManyResponse<T extends AccountFindManyProps> = Prisma.AccountGetPayload<T>[];
 
 // Aggregate queries
-export type CountAccountResponse = AccountCount;
+export type AccountCountResponse = AccountCount;

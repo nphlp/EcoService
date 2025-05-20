@@ -1,79 +1,79 @@
 "use server";
 
 import ContentService from "@services/class/ContentClass";
-import { CountContentProps, CountContentResponse, CreateManyContentProps, CreateManyContentResponse, CreateContentProps, CreateContentResponse, DeleteManyContentProps, DeleteManyContentResponse, DeleteContentProps, DeleteContentResponse, FindFirstContentProps, FindFirstContentResponse, FindManyContentProps, FindManyContentResponse, FindUniqueContentProps, FindUniqueContentResponse, UpdateManyContentProps, UpdateManyContentResponse, UpdateContentProps, UpdateContentResponse, UpsertContentProps, UpsertContentResponse } from "@services/types/ContentType";
+import { ContentCountProps, ContentCountResponse, ContentCreateManyProps, ContentCreateManyResponse, ContentCreateProps, ContentCreateResponse, ContentDeleteManyProps, ContentDeleteManyResponse, ContentDeleteProps, ContentDeleteResponse, ContentFindFirstProps, ContentFindFirstResponse, ContentFindManyProps, ContentFindManyResponse, ContentFindUniqueProps, ContentFindUniqueResponse, ContentUpdateManyProps, ContentUpdateManyResponse, ContentUpdateProps, ContentUpdateResponse, ContentUpsertProps, ContentUpsertResponse } from "@services/types/ContentType";
 
 // ========== Single mutations ========== //
 
-export const CreateContent = async <T extends CreateContentProps>(props: T): Promise<CreateContentResponse<T>> => {
+export const ContentCreate = async <T extends ContentCreateProps>(props: T): Promise<ContentCreateResponse<T>> => {
     try {
         const { data, error } = await ContentService.create(props);
         if (!data || error) throw new Error(error);
         return data;
     } catch (error) {
-        throw new Error("CreateContent -> " + (error as Error).message);
+        throw new Error("ContentCreate -> " + (error as Error).message);
     }
 };
 
-export const UpsertContent = async <T extends UpsertContentProps>(props: T): Promise<UpsertContentResponse<T>> => {
+export const ContentUpsert = async <T extends ContentUpsertProps>(props: T): Promise<ContentUpsertResponse<T>> => {
     try {
         const { data, error } = await ContentService.upsert(props);
         if (!data || error) throw new Error(error);
         return data;
     } catch (error) {
-        throw new Error("UpsertContent -> " + (error as Error).message);
+        throw new Error("ContentUpsert -> " + (error as Error).message);
     }
 };
 
-export const UpdateContent = async <T extends UpdateContentProps>(props: T): Promise<UpdateContentResponse<T>> => {
+export const ContentUpdate = async <T extends ContentUpdateProps>(props: T): Promise<ContentUpdateResponse<T>> => {
     try {
         const { data, error } = await ContentService.update(props);
         if (!data || error) throw new Error(error);
         return data;
     } catch (error) {
-        throw new Error("UpdateContent -> " + (error as Error).message);
+        throw new Error("ContentUpdate -> " + (error as Error).message);
     }
 };
 
-export const DeleteContent = async <T extends DeleteContentProps>(props: T): Promise<DeleteContentResponse<T>> => {
+export const ContentDelete = async <T extends ContentDeleteProps>(props: T): Promise<ContentDeleteResponse<T>> => {
     try {
         const { data, error } = await ContentService.delete(props);
         if (!data || error) throw new Error(error);
         return data;
     } catch (error) {
-        throw new Error("DeleteContent -> " + (error as Error).message);
+        throw new Error("ContentDelete -> " + (error as Error).message);
     }
 };
 
 // ========== Multiple mutations ========== //
 
-export const CreateManyContent = async (props: CreateManyContentProps): Promise<CreateManyContentResponse> => {
+export const ContentCreateMany = async (props: ContentCreateManyProps): Promise<ContentCreateManyResponse> => {
     try {
         const { data, error } = await ContentService.createMany(props);
         if (!data || error) throw new Error(error);
         return data;
     } catch (error) {
-        throw new Error("CreateManyContent -> " + (error as Error).message);
+        throw new Error("ContentCreateMany -> " + (error as Error).message);
     }
 };
 
-export const UpdateManyContent = async (props: UpdateManyContentProps): Promise<UpdateManyContentResponse> => {
+export const ContentUpdateMany = async (props: ContentUpdateManyProps): Promise<ContentUpdateManyResponse> => {
     try {
         const { data, error } = await ContentService.updateMany(props);
         if (!data || error) throw new Error(error);
         return data;
     } catch (error) {
-        throw new Error("UpdateManyContent -> " + (error as Error).message);
+        throw new Error("ContentUpdateMany -> " + (error as Error).message);
     }
 };
 
-export const DeleteManyContent = async (props: DeleteManyContentProps): Promise<DeleteManyContentResponse> => {
+export const ContentDeleteMany = async (props: ContentDeleteManyProps): Promise<ContentDeleteManyResponse> => {
     try {
         const { data, error } = await ContentService.deleteMany(props);
         if (!data || error) throw new Error(error);
         return data;
     } catch (error) {
-        throw new Error("DeleteManyContent -> " + (error as Error).message);
+        throw new Error("ContentDeleteMany -> " + (error as Error).message);
     }
 };
 
@@ -82,45 +82,45 @@ export const DeleteManyContent = async (props: DeleteManyContentProps): Promise<
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const SelectFirstContent = async <T extends FindFirstContentProps>(
+export const ContentFindFirst = async <T extends ContentFindFirstProps>(
     props: T
-): Promise<FindFirstContentResponse<T>> => {
+): Promise<ContentFindFirstResponse<T>> => {
     try {
         const { data, error } = await ContentService.findFirst(props);
         if (error) throw new Error(error);
         return data ?? null;
     } catch (error) {
-        throw new Error("SelectFirstContent -> " + (error as Error).message);
+        throw new Error("ContentFindFirst -> " + (error as Error).message);
     }
 };
 
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const SelectUniqueContent = async <T extends FindUniqueContentProps>(
+export const ContentFindUnique = async <T extends ContentFindUniqueProps>(
     props: T
-): Promise<FindUniqueContentResponse<T>> => {
+): Promise<ContentFindUniqueResponse<T>> => {
     try {
         const { data, error } = await ContentService.findUnique(props);
         if (error) throw new Error(error);
         return data ?? null;
     } catch (error) {
-        throw new Error("SelectUniqueContent -> " + (error as Error).message);
+        throw new Error("ContentFindUnique -> " + (error as Error).message);
     }
 };
 
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const SelectContentList = async <T extends FindManyContentProps>(
+export const ContentFindMany = async <T extends ContentFindManyProps>(
     props: T
-): Promise<FindManyContentResponse<T>> => {
+): Promise<ContentFindManyResponse<T>> => {
     try {
         const { data, error } = await ContentService.findMany(props);
         if (!data || error) throw new Error(error);
         return data;
     } catch (error) {
-        throw new Error("SelectContentList -> " + (error as Error).message);
+        throw new Error("ContentFindMany -> " + (error as Error).message);
     }
 };
 
@@ -129,12 +129,12 @@ export const SelectContentList = async <T extends FindManyContentProps>(
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const SelectContentAmount = async (props: CountContentProps): Promise<CountContentResponse> => {
+export const ContentCount = async (props: ContentCountProps): Promise<ContentCountResponse> => {
     try {
         const { data, error } = await ContentService.count(props);
         if (!data || error) throw new Error(error);
         return data;
     } catch (error) {
-        throw new Error("SelectContentAmount -> " + (error as Error).message);
+        throw new Error("ContentCount -> " + (error as Error).message);
     }
 };

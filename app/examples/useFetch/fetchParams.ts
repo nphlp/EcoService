@@ -1,4 +1,4 @@
-import { FindManyDiyProps, FindManyDiyResponse } from "@services/types";
+import { DiyFindManyProps, DiyFindManyResponse } from "@services/types/DiyType";
 
 // Diy fetch params
 
@@ -17,6 +17,6 @@ export const DiyFetchParams = ({ author }: { author: boolean }) =>
             createdAt: "desc" as const,
         },
         take: 2,
-    }) satisfies FindManyDiyProps;
+    }) satisfies DiyFindManyProps;
 
-export type DiyListType = FindManyDiyResponse<ReturnType<typeof DiyFetchParams>>;
+export type DiyListType = DiyFindManyResponse<ReturnType<typeof DiyFetchParams>>;

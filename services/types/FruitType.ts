@@ -12,44 +12,44 @@ export type FruitCount = number;
 // ============== Props Types ============== //
 
 // Single mutations
-export type CreateFruitProps = Prisma.FruitCreateArgs;
-export type UpsertFruitProps = Prisma.FruitUpsertArgs;
-export type UpdateFruitProps = Prisma.FruitUpdateArgs;
-export type DeleteFruitProps = Prisma.FruitDeleteArgs;
+export type FruitCreateProps = Prisma.FruitCreateArgs;
+export type FruitUpsertProps = Prisma.FruitUpsertArgs;
+export type FruitUpdateProps = Prisma.FruitUpdateArgs;
+export type FruitDeleteProps = Prisma.FruitDeleteArgs;
 
 // Multiple mutations
-export type CreateManyFruitProps = Prisma.FruitCreateManyArgs;
-export type UpdateManyFruitProps = Prisma.FruitUpdateManyArgs;
-export type DeleteManyFruitProps = Prisma.FruitDeleteManyArgs;
+export type FruitCreateManyProps = Prisma.FruitCreateManyArgs;
+export type FruitUpdateManyProps = Prisma.FruitUpdateManyArgs;
+export type FruitDeleteManyProps = Prisma.FruitDeleteManyArgs;
 
 // Single queries
-export type FindFirstFruitProps = Prisma.FruitFindFirstArgs;
-export type FindUniqueFruitProps = Prisma.FruitFindUniqueArgs;
-export type FindManyFruitProps = Prisma.FruitFindManyArgs;
+export type FruitFindFirstProps = Prisma.FruitFindFirstArgs;
+export type FruitFindUniqueProps = Prisma.FruitFindUniqueArgs;
+export type FruitFindManyProps = Prisma.FruitFindManyArgs;
 
 // Multiple queries
-export type CountFruitProps = Prisma.FruitCountArgs;
+export type FruitCountProps = Prisma.FruitCountArgs;
 
 // ============== Schema Types ============== //
 
 // Single mutations
-export const createFruitSchema: ZodType<CreateFruitProps> = FruitCreateArgsSchema;
-export const upsertFruitSchema: ZodType<UpsertFruitProps> = FruitUpsertArgsSchema;
-export const updateFruitSchema: ZodType<UpdateFruitProps> = FruitUpdateArgsSchema;
-export const deleteFruitSchema: ZodType<DeleteFruitProps> = FruitDeleteArgsSchema;
+export const FruitCreateSchema: ZodType<FruitCreateProps> = FruitCreateArgsSchema;
+export const FruitUpsertSchema: ZodType<FruitUpsertProps> = FruitUpsertArgsSchema;
+export const FruitUpdateSchema: ZodType<FruitUpdateProps> = FruitUpdateArgsSchema;
+export const FruitDeleteSchema: ZodType<FruitDeleteProps> = FruitDeleteArgsSchema;
 
 // Multiple mutations
-export const createManyFruitSchema: ZodType<CreateManyFruitProps> = FruitCreateManyArgsSchema;
-export const updateManyFruitSchema: ZodType<UpdateManyFruitProps> = FruitUpdateManyArgsSchema;
-export const deleteManyFruitSchema: ZodType<DeleteManyFruitProps> = FruitDeleteManyArgsSchema;
+export const FruitCreateManySchema: ZodType<FruitCreateManyProps> = FruitCreateManyArgsSchema;
+export const FruitUpdateManySchema: ZodType<FruitUpdateManyProps> = FruitUpdateManyArgsSchema;
+export const FruitDeleteManySchema: ZodType<FruitDeleteManyProps> = FruitDeleteManyArgsSchema;
 
 // Single queries
-export const selectFirstFruitSchema: ZodType<FindFirstFruitProps> = FruitFindFirstArgsSchema;
-export const selectUniqueFruitSchema: ZodType<FindUniqueFruitProps> = FruitFindUniqueArgsSchema;
-export const selectManyFruitSchema: ZodType<FindManyFruitProps> = FruitFindManyArgsSchema;
+export const FruitFindFirstSchema: ZodType<FruitFindFirstProps> = FruitFindFirstArgsSchema;
+export const FruitFindUniqueSchema: ZodType<FruitFindUniqueProps> = FruitFindUniqueArgsSchema;
+export const FruitFindManySchema: ZodType<FruitFindManyProps> = FruitFindManyArgsSchema;
 
 // Aggregate queries
-export const countFruitSchema: ZodType<CountFruitProps> =  z.object({
+export const FruitCountSchema: ZodType<FruitCountProps> =  z.object({
     where: z.lazy(() => FruitWhereInputSchema).optional(),
     orderBy: z.union([
         z.lazy(() => FruitOrderByWithRelationInputSchema),
@@ -64,20 +64,20 @@ export const countFruitSchema: ZodType<CountFruitProps> =  z.object({
 // ============== Response Types ============== //
 
 // Single mutations
-export type CreateFruitResponse<T extends CreateFruitProps> = Prisma.FruitGetPayload<T>;
-export type UpsertFruitResponse<T extends UpsertFruitProps> = Prisma.FruitGetPayload<T>;
-export type UpdateFruitResponse<T extends UpdateFruitProps> = Prisma.FruitGetPayload<T>;
-export type DeleteFruitResponse<T extends DeleteFruitProps> = Prisma.FruitGetPayload<T>;
+export type FruitCreateResponse<T extends FruitCreateProps> = Prisma.FruitGetPayload<T>;
+export type FruitUpsertResponse<T extends FruitUpsertProps> = Prisma.FruitGetPayload<T>;
+export type FruitUpdateResponse<T extends FruitUpdateProps> = Prisma.FruitGetPayload<T>;
+export type FruitDeleteResponse<T extends FruitDeleteProps> = Prisma.FruitGetPayload<T>;
 
 // Multiple mutations
-export type CreateManyFruitResponse = { count: number };
-export type UpdateManyFruitResponse = { count: number };
-export type DeleteManyFruitResponse = { count: number };
+export type FruitCreateManyResponse = { count: number };
+export type FruitUpdateManyResponse = { count: number };
+export type FruitDeleteManyResponse = { count: number };
 
 // Single queries
-export type FindFirstFruitResponse<T extends FindFirstFruitProps> = Prisma.FruitGetPayload<T> | null;
-export type FindUniqueFruitResponse<T extends FindUniqueFruitProps> = Prisma.FruitGetPayload<T> | null;
-export type FindManyFruitResponse<T extends FindManyFruitProps> = Prisma.FruitGetPayload<T>[];
+export type FruitFindFirstResponse<T extends FruitFindFirstProps> = Prisma.FruitGetPayload<T> | null;
+export type FruitFindUniqueResponse<T extends FruitFindUniqueProps> = Prisma.FruitGetPayload<T> | null;
+export type FruitFindManyResponse<T extends FruitFindManyProps> = Prisma.FruitGetPayload<T>[];
 
 // Aggregate queries
-export type CountFruitResponse = FruitCount;
+export type FruitCountResponse = FruitCount;
