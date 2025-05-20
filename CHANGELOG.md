@@ -1,3 +1,9 @@
+# [1.5.0](https://github.com/nansphilip/EcoService/compare/v1.4.0...v1.5.0) (2025-05-20)
+
+### Features
+
+- ultra fast cache ([94e1938](https://github.com/nansphilip/EcoService/commit/94e193805c2727d8811b87c40eb8c1531fe440aa))
+
 # [1.4.0](https://github.com/nansphilip/EcoService/compare/v1.3.0...v1.4.0) (2025-05-20)
 
 ### Features
