@@ -51,13 +51,6 @@ export default function CatalogClient(props: CatalogClientProps) {
     };
 
     useEffect(() => {
-        // console.log(
-        //     "===== UseEffect =====",
-        //     "\nnewProductList: ",
-        //     newProductList,
-        //     "\nnewProductAmount: ",
-        //     newProductAmount,
-        // );
         if (newProductList && newProductAmount) {
             setDataStore({
                 productList: newProductList, // New data

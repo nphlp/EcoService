@@ -1,5 +1,8 @@
+import { ProductModel } from "@services/types";
+import { CategoryModel } from "@services/types/CategoryType";
 import { FetchV2 } from "@utils/FetchV2/FetchV2";
 import { Metadata } from "next";
+import { unstable_cacheLife as cacheLife, unstable_cacheTag as cacheTag } from "next/cache";
 import CatalogClient from "./components/catalog";
 import { CategoryListFetchParams, ProductAmountFetchParams, ProductListFetchParams } from "./components/fetchParams";
 import SelectorsClient from "./components/filters";
@@ -42,10 +45,19 @@ export async function generateMetadata(props: PageProps): Promise<Metadata> {
     };
 }
 
-export default async function Page(props: PageProps) {
-    const { searchParams } = props;
+type CachedData = {
+    productList: ProductModel[] | null;
+    productAmount: number | null;
+    categoryList: CategoryModel[];
+};
 
-    const { priceOrder, page, take, category, search } = await SearchParamsCached.parse(searchParams);
+const cachedFetchData = async (decodedSearchParams: SearchParamsType): Promise<CachedData> => {
+    "use cache";
+
+    cacheLife("hours");
+    cacheTag("catalog");
+
+    const { priceOrder, page, take, category, search } = decodedSearchParams;
 
     const productAmount = await FetchV2({
         route: "/product/count",
@@ -62,9 +74,16 @@ export default async function Page(props: PageProps) {
         params: CategoryListFetchParams,
     });
 
-    if (!categoryList.length || !productAmount || !productList.length) {
-        throw new Error("Something went wrong...");
-    }
+    return { productAmount, productList, categoryList };
+};
+
+const CachedPage = async (props: CachedData) => {
+    "use cache";
+
+    cacheLife("hours");
+    cacheTag("catalog");
+
+    const { productList, productAmount, categoryList } = props;
 
     return (
         <div className="flex h-full flex-col overflow-hidden">
@@ -83,4 +102,14 @@ export default async function Page(props: PageProps) {
             </div>
         </div>
     );
+};
+
+export default async function Page(props: PageProps) {
+    const { searchParams } = props;
+
+    const decodedSearchParams = await SearchParamsCached.parse(searchParams);
+
+    const cachedData = await cachedFetchData(decodedSearchParams);
+
+    return <CachedPage {...cachedData} />;
 }
