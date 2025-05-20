@@ -251,6 +251,7 @@ export const useBasketStore = create<Store>()(
                         const sameBaskets = areBasketsTheSame(serverBasket, localBasket);
                         // Ask user to choose which basket to keep
                         if (!sameBaskets) return { serverBasket, localBasket };
+                        get().syncLocalBasket(serverBasket.orderId);
                     }
                 }
 
