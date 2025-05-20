@@ -1,3 +1,5 @@
+"use cache";
+
 import { ArticleOrDiySlider } from "@comps/articleOrDiySlider";
 import ProductSlider from "@comps/productSlider";
 import ImageRatio from "@comps/server/imageRatio";
@@ -5,12 +7,10 @@ import { ArticleOrDiyFetchParams, ProductFetchParams } from "@comps/sliderFetchP
 import { combo } from "@lib/combo";
 import { FetchV2 } from "@utils/FetchV2/FetchV2";
 import { Metadata } from "next";
+import { unstable_cacheLife as cacheLife, unstable_cacheTag as cacheTag } from "next/cache";
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 if (!baseUrl) throw new Error("NEXT_PUBLIC_BASE_URL environment variable is not defined");
-
-export const dynamic = "auto";
-export const revalidate = 3600;
 
 export const metadata: Metadata = {
     title: "Eco Service",
@@ -22,6 +22,9 @@ export const metadata: Metadata = {
 };
 
 export default async function Page() {
+    cacheLife("hours");
+    cacheTag("home");
+
     const imageClass = "h-[100px] sm:h-[150px] md:h-[120px] lg:h-[160px] xl:h-[220px] rounded shadow-lg";
 
     const articleList = await FetchV2({

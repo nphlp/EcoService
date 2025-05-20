@@ -1,6 +1,6 @@
 import PrismaInstance from "@lib/prisma";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
-import { AddressCount, CountAddressProps, CountAddressResponse, CreateManyAddressProps, CreateManyAddressResponse, CreateAddressProps, CreateAddressResponse, DeleteManyAddressProps, DeleteManyAddressResponse, DeleteAddressProps, DeleteAddressResponse, FindFirstAddressProps, FindFirstAddressResponse, FindManyAddressProps, FindManyAddressResponse, FindUniqueAddressProps, FindUniqueAddressResponse, UpdateManyAddressProps, UpdateManyAddressResponse, UpdateAddressProps, UpdateAddressResponse, UpsertAddressProps, UpsertAddressResponse, countAddressSchema, createManyAddressSchema, createAddressSchema, deleteManyAddressSchema, deleteAddressSchema, selectFirstAddressSchema, selectManyAddressSchema, selectUniqueAddressSchema, updateManyAddressSchema, updateAddressSchema, upsertAddressSchema } from "@services/types/AddressType";
+import { AddressCount, AddressCountProps, AddressCountResponse, AddressCountSchema, AddressCreateManyProps, AddressCreateManyResponse, AddressCreateManySchema, AddressCreateProps, AddressCreateResponse, AddressCreateSchema, AddressDeleteManyProps, AddressDeleteManyResponse, AddressDeleteManySchema, AddressDeleteProps, AddressDeleteResponse, AddressDeleteSchema, AddressFindFirstProps, AddressFindFirstResponse, AddressFindFirstSchema, AddressFindManyProps, AddressFindManyResponse, AddressFindManySchema, AddressFindUniqueProps, AddressFindUniqueResponse, AddressFindUniqueSchema, AddressUpdateManyProps, AddressUpdateManyResponse, AddressUpdateManySchema, AddressUpdateProps, AddressUpdateResponse, AddressUpdateSchema, AddressUpsertProps, AddressUpsertResponse, AddressUpsertSchema } from "@services/types/AddressType";
 import { ResponseFormat } from "@utils/FetchConfig";
 import { ZodError } from "zod";
 
@@ -8,41 +8,41 @@ export default class AddressService {
 
     // ========== Single mutations ========== //
 
-    static async create<T extends CreateAddressProps>(props: T): Promise<ResponseFormat<CreateAddressResponse<T>>> {
+    static async create<T extends AddressCreateProps>(props: T): Promise<ResponseFormat<AddressCreateResponse<T>>> {
         try {
-            const parsedProps = createAddressSchema.parse(props);
+            const parsedProps = AddressCreateSchema.parse(props);
             const address = await PrismaInstance.address.create(parsedProps);
-            return { data: address as CreateAddressResponse<T> };
+            return { data: address as AddressCreateResponse<T> };
         } catch (error) {
             return AddressService.error("create", error);
         }
     }
 
-    static async upsert<T extends UpsertAddressProps>(props: T): Promise<ResponseFormat<UpsertAddressResponse<T>>> {
+    static async upsert<T extends AddressUpsertProps>(props: T): Promise<ResponseFormat<AddressUpsertResponse<T>>> {
         try {
-            const parsedProps = upsertAddressSchema.parse(props);
+            const parsedProps = AddressUpsertSchema.parse(props);
             const address = await PrismaInstance.address.upsert(parsedProps);
-            return { data: address as UpsertAddressResponse<T> };
+            return { data: address as AddressUpsertResponse<T> };
         } catch (error) {
             return AddressService.error("upsert", error);
         }
     }
 
-    static async update<T extends UpdateAddressProps>(props: T): Promise<ResponseFormat<UpdateAddressResponse<T>>> {
+    static async update<T extends AddressUpdateProps>(props: T): Promise<ResponseFormat<AddressUpdateResponse<T>>> {
         try {
-            const parsedProps = updateAddressSchema.parse(props);
+            const parsedProps = AddressUpdateSchema.parse(props);
             const address = await PrismaInstance.address.update(parsedProps);
-            return { data: address as UpdateAddressResponse<T> };
+            return { data: address as AddressUpdateResponse<T> };
         } catch (error) {
             return AddressService.error("update", error);
         }
     }
 
-    static async delete<T extends DeleteAddressProps>(props: T): Promise<ResponseFormat<DeleteAddressResponse<T>>> {
+    static async delete<T extends AddressDeleteProps>(props: T): Promise<ResponseFormat<AddressDeleteResponse<T>>> {
         try {
-            const parsedProps = deleteAddressSchema.parse(props);
+            const parsedProps = AddressDeleteSchema.parse(props);
             const address = await PrismaInstance.address.delete(parsedProps);
-            return { data: address as DeleteAddressResponse<T> };
+            return { data: address as AddressDeleteResponse<T> };
         } catch (error) {
             return AddressService.error("delete", error);
         }
@@ -50,9 +50,9 @@ export default class AddressService {
 
     // ========== Multiple mutations ========== //
 
-    static async createMany(props: CreateManyAddressProps): Promise<ResponseFormat<CreateManyAddressResponse>> {
+    static async createMany(props: AddressCreateManyProps): Promise<ResponseFormat<AddressCreateManyResponse>> {
         try {
-            const parsedProps = createManyAddressSchema.parse(props);
+            const parsedProps = AddressCreateManySchema.parse(props);
             const result = await PrismaInstance.address.createMany(parsedProps);
             return { data: result };
         } catch (error) {
@@ -60,9 +60,9 @@ export default class AddressService {
         }
     }
 
-    static async updateMany(props: UpdateManyAddressProps): Promise<ResponseFormat<UpdateManyAddressResponse>> {
+    static async updateMany(props: AddressUpdateManyProps): Promise<ResponseFormat<AddressUpdateManyResponse>> {
         try {
-            const parsedProps = updateManyAddressSchema.parse(props);
+            const parsedProps = AddressUpdateManySchema.parse(props);
             const result = await PrismaInstance.address.updateMany(parsedProps);
             return { data: result };
         } catch (error) {
@@ -70,9 +70,9 @@ export default class AddressService {
         }
     }
 
-    static async deleteMany(props: DeleteManyAddressProps): Promise<ResponseFormat<DeleteManyAddressResponse>> {
+    static async deleteMany(props: AddressDeleteManyProps): Promise<ResponseFormat<AddressDeleteManyResponse>> {
         try {
-            const parsedProps = deleteManyAddressSchema.parse(props);
+            const parsedProps = AddressDeleteManySchema.parse(props);
             const result = await PrismaInstance.address.deleteMany(parsedProps);
             return { data: result };
         } catch (error) {
@@ -82,32 +82,32 @@ export default class AddressService {
 
     // ========== Single queries ========== //
 
-    static async findFirst<T extends FindFirstAddressProps>(props: T): Promise<ResponseFormat<FindFirstAddressResponse<T>>> {
+    static async findFirst<T extends AddressFindFirstProps>(props: T): Promise<ResponseFormat<AddressFindFirstResponse<T>>> {
         try {
-            const parsedProps = selectFirstAddressSchema.parse(props);
+            const parsedProps = AddressFindFirstSchema.parse(props);
             const address = await PrismaInstance.address.findFirst(parsedProps);
-            return { data: address as FindFirstAddressResponse<T> };
+            return { data: address as AddressFindFirstResponse<T> };
         } catch (error) {
             return AddressService.error("findFirst", error);
         }
     }
 
-    static async findUnique<T extends FindUniqueAddressProps>(props: T): Promise<ResponseFormat<FindUniqueAddressResponse<T>>> {
+    static async findUnique<T extends AddressFindUniqueProps>(props: T): Promise<ResponseFormat<AddressFindUniqueResponse<T>>> {
         try {
-            const parsedProps = selectUniqueAddressSchema.parse(props);
+            const parsedProps = AddressFindUniqueSchema.parse(props);
             const address = await PrismaInstance.address.findUnique(parsedProps);
-            return { data: address as FindUniqueAddressResponse<T> };
+            return { data: address as AddressFindUniqueResponse<T> };
         } catch (error) {
             return AddressService.error("findUnique", error);
         }
     }
 
-    static async findMany<T extends FindManyAddressProps>(props: T): Promise<ResponseFormat<FindManyAddressResponse<T>>> {
+    static async findMany<T extends AddressFindManyProps>(props: T): Promise<ResponseFormat<AddressFindManyResponse<T>>> {
         try {
-            const parsedProps = selectManyAddressSchema.parse(props);
+            const parsedProps = AddressFindManySchema.parse(props);
             const { skip = 0, take = 10 } = parsedProps;
             const addressList = await PrismaInstance.address.findMany({ skip, take, ...parsedProps });
-            return { data: addressList as FindManyAddressResponse<T> };
+            return { data: addressList as AddressFindManyResponse<T> };
         } catch (error) {
             return AddressService.error("findMany", error);
         }
@@ -115,9 +115,9 @@ export default class AddressService {
 
     // ========== Aggregate queries ========== //
 
-    static async count(props: CountAddressProps): Promise<ResponseFormat<CountAddressResponse>> {
+    static async count(props: AddressCountProps): Promise<ResponseFormat<AddressCountResponse>> {
         try {
-            const parsedProps = countAddressSchema.parse(props);
+            const parsedProps = AddressCountSchema.parse(props);
             const addressAmount: AddressCount = await PrismaInstance.address.count(parsedProps);
             return { data: addressAmount };
         } catch (error) {

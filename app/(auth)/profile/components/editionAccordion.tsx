@@ -1,13 +1,13 @@
 "use client";
 
-import { UpdateUser } from "@actions/UserAction";
+import { UserUpdate } from "@actions/UserAction";
 import { Accordion, AccordionButton, AccordionContent } from "@comps/ui/accordion";
 import Button from "@comps/ui/button";
 import Input from "@comps/ui/input";
 import InputImage from "@comps/ui/inputImage";
 import InputPassword from "@comps/ui/inputPassword";
-import { BetterSessionServer } from "@lib/authServer";
 import { changeEmail, changePassword, updateUser } from "@lib/authClient";
+import { BetterSessionServer } from "@lib/authServer";
 import { fileToBase64 } from "@utils/base64";
 import { Dispatch, SetStateAction, useState } from "react";
 
@@ -57,7 +57,7 @@ const UpdateLastnameForm = (props: UpdateFormProps) => {
             if (!lastname) return;
             setIsLoading(true);
             // Change name and revalidate session
-            await UpdateUser({
+            await UserUpdate({
                 where: { id: session.user.id },
                 data: {
                     lastname,

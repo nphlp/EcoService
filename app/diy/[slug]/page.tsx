@@ -6,9 +6,7 @@ import { combo } from "@lib/combo";
 import PrismaInstance from "@lib/prisma";
 import { FetchV2 } from "@utils/FetchV2/FetchV2";
 import { Metadata } from "next";
-
-export const dynamic = "auto";
-export const revalidate = 3600;
+import { unstable_cacheLife as cacheLife, unstable_cacheTag as cacheTag } from "next/cache";
 
 export const generateStaticParams = async () => {
     const diys = await PrismaInstance.diy.findMany({
@@ -25,6 +23,11 @@ type PageProps = {
 };
 
 export async function generateMetadata(props: PageProps): Promise<Metadata> {
+    "use cache";
+
+    cacheLife("hours");
+    cacheTag("diy");
+
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
     if (!baseUrl) throw new Error("NEXT_PUBLIC_BASE_URL environment variable is not defined");
 
@@ -55,7 +58,7 @@ export async function generateMetadata(props: PageProps): Promise<Metadata> {
     return {
         title: `${diy.title} - Eco Service`,
         description: "Achetez des produits éco-responsables sur Eco Service.",
-        metadataBase: new URL(`${baseUrl}/diy`),
+        // metadataBase: new URL(`${baseUrl}/diy`),
         alternates: {
             canonical: `${baseUrl}/diy/${slug}`,
         },
@@ -63,6 +66,11 @@ export async function generateMetadata(props: PageProps): Promise<Metadata> {
 }
 
 export default async function Page(props: PageProps) {
+    "use cache";
+
+    cacheLife("hours");
+    cacheTag("diy");
+
     const { params } = props;
     const { slug } = await params;
 

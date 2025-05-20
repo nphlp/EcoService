@@ -12,44 +12,44 @@ export type UserCount = number;
 // ============== Props Types ============== //
 
 // Single mutations
-export type CreateUserProps = Prisma.UserCreateArgs;
-export type UpsertUserProps = Prisma.UserUpsertArgs;
-export type UpdateUserProps = Prisma.UserUpdateArgs;
-export type DeleteUserProps = Prisma.UserDeleteArgs;
+export type UserCreateProps = Prisma.UserCreateArgs;
+export type UserUpsertProps = Prisma.UserUpsertArgs;
+export type UserUpdateProps = Prisma.UserUpdateArgs;
+export type UserDeleteProps = Prisma.UserDeleteArgs;
 
 // Multiple mutations
-export type CreateManyUserProps = Prisma.UserCreateManyArgs;
-export type UpdateManyUserProps = Prisma.UserUpdateManyArgs;
-export type DeleteManyUserProps = Prisma.UserDeleteManyArgs;
+export type UserCreateManyProps = Prisma.UserCreateManyArgs;
+export type UserUpdateManyProps = Prisma.UserUpdateManyArgs;
+export type UserDeleteManyProps = Prisma.UserDeleteManyArgs;
 
 // Single queries
-export type FindFirstUserProps = Prisma.UserFindFirstArgs;
-export type FindUniqueUserProps = Prisma.UserFindUniqueArgs;
-export type FindManyUserProps = Prisma.UserFindManyArgs;
+export type UserFindFirstProps = Prisma.UserFindFirstArgs;
+export type UserFindUniqueProps = Prisma.UserFindUniqueArgs;
+export type UserFindManyProps = Prisma.UserFindManyArgs;
 
 // Multiple queries
-export type CountUserProps = Prisma.UserCountArgs;
+export type UserCountProps = Prisma.UserCountArgs;
 
 // ============== Schema Types ============== //
 
 // Single mutations
-export const createUserSchema: ZodType<CreateUserProps> = UserCreateArgsSchema;
-export const upsertUserSchema: ZodType<UpsertUserProps> = UserUpsertArgsSchema;
-export const updateUserSchema: ZodType<UpdateUserProps> = UserUpdateArgsSchema;
-export const deleteUserSchema: ZodType<DeleteUserProps> = UserDeleteArgsSchema;
+export const UserCreateSchema: ZodType<UserCreateProps> = UserCreateArgsSchema;
+export const UserUpsertSchema: ZodType<UserUpsertProps> = UserUpsertArgsSchema;
+export const UserUpdateSchema: ZodType<UserUpdateProps> = UserUpdateArgsSchema;
+export const UserDeleteSchema: ZodType<UserDeleteProps> = UserDeleteArgsSchema;
 
 // Multiple mutations
-export const createManyUserSchema: ZodType<CreateManyUserProps> = UserCreateManyArgsSchema;
-export const updateManyUserSchema: ZodType<UpdateManyUserProps> = UserUpdateManyArgsSchema;
-export const deleteManyUserSchema: ZodType<DeleteManyUserProps> = UserDeleteManyArgsSchema;
+export const UserCreateManySchema: ZodType<UserCreateManyProps> = UserCreateManyArgsSchema;
+export const UserUpdateManySchema: ZodType<UserUpdateManyProps> = UserUpdateManyArgsSchema;
+export const UserDeleteManySchema: ZodType<UserDeleteManyProps> = UserDeleteManyArgsSchema;
 
 // Single queries
-export const selectFirstUserSchema: ZodType<FindFirstUserProps> = UserFindFirstArgsSchema;
-export const selectUniqueUserSchema: ZodType<FindUniqueUserProps> = UserFindUniqueArgsSchema;
-export const selectManyUserSchema: ZodType<FindManyUserProps> = UserFindManyArgsSchema;
+export const UserFindFirstSchema: ZodType<UserFindFirstProps> = UserFindFirstArgsSchema;
+export const UserFindUniqueSchema: ZodType<UserFindUniqueProps> = UserFindUniqueArgsSchema;
+export const UserFindManySchema: ZodType<UserFindManyProps> = UserFindManyArgsSchema;
 
 // Aggregate queries
-export const countUserSchema: ZodType<CountUserProps> =  z.object({
+export const UserCountSchema: ZodType<UserCountProps> =  z.object({
     where: z.lazy(() => UserWhereInputSchema).optional(),
     orderBy: z.union([
         z.lazy(() => UserOrderByWithRelationInputSchema),
@@ -64,20 +64,20 @@ export const countUserSchema: ZodType<CountUserProps> =  z.object({
 // ============== Response Types ============== //
 
 // Single mutations
-export type CreateUserResponse<T extends CreateUserProps> = Prisma.UserGetPayload<T>;
-export type UpsertUserResponse<T extends UpsertUserProps> = Prisma.UserGetPayload<T>;
-export type UpdateUserResponse<T extends UpdateUserProps> = Prisma.UserGetPayload<T>;
-export type DeleteUserResponse<T extends DeleteUserProps> = Prisma.UserGetPayload<T>;
+export type UserCreateResponse<T extends UserCreateProps> = Prisma.UserGetPayload<T>;
+export type UserUpsertResponse<T extends UserUpsertProps> = Prisma.UserGetPayload<T>;
+export type UserUpdateResponse<T extends UserUpdateProps> = Prisma.UserGetPayload<T>;
+export type UserDeleteResponse<T extends UserDeleteProps> = Prisma.UserGetPayload<T>;
 
 // Multiple mutations
-export type CreateManyUserResponse = { count: number };
-export type UpdateManyUserResponse = { count: number };
-export type DeleteManyUserResponse = { count: number };
+export type UserCreateManyResponse = { count: number };
+export type UserUpdateManyResponse = { count: number };
+export type UserDeleteManyResponse = { count: number };
 
 // Single queries
-export type FindFirstUserResponse<T extends FindFirstUserProps> = Prisma.UserGetPayload<T> | null;
-export type FindUniqueUserResponse<T extends FindUniqueUserProps> = Prisma.UserGetPayload<T> | null;
-export type FindManyUserResponse<T extends FindManyUserProps> = Prisma.UserGetPayload<T>[];
+export type UserFindFirstResponse<T extends UserFindFirstProps> = Prisma.UserGetPayload<T> | null;
+export type UserFindUniqueResponse<T extends UserFindUniqueProps> = Prisma.UserGetPayload<T> | null;
+export type UserFindManyResponse<T extends UserFindManyProps> = Prisma.UserGetPayload<T>[];
 
 // Aggregate queries
-export type CountUserResponse = UserCount;
+export type UserCountResponse = UserCount;

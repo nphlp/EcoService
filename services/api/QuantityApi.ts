@@ -1,96 +1,102 @@
 import QuantityService from "@services/class/QuantityClass";
-import { CountQuantityProps, CountQuantityResponse, FindFirstQuantityProps, FindFirstQuantityResponse, FindManyQuantityProps, FindManyQuantityResponse, FindUniqueQuantityProps, FindUniqueQuantityResponse } from "@services/types/QuantityType";
-import { parseAndDecodeParams, revalidate } from "@utils/FetchConfig";
-import { unstable_cache as cache } from "next/cache";
+import { QuantityCountProps, QuantityCountResponse, QuantityFindFirstProps, QuantityFindFirstResponse, QuantityFindManyProps, QuantityFindManyResponse, QuantityFindUniqueProps, QuantityFindUniqueResponse } from "@services/types/QuantityType";
+import { cacheLifeApi, parseAndDecodeParams } from "@utils/FetchConfig";
+import { unstable_cacheLife as cacheLife, unstable_cacheTag as cacheTag } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 
 // ============== API Routes Types ============== //
 
 export type QuantityRoutes<Input> = {
     "/quantity": {
-        params: FindManyQuantityProps,
-        response: FindManyQuantityResponse<Input extends FindManyQuantityProps ? Input : never>
+        params: QuantityFindManyProps,
+        response: QuantityFindManyResponse<Input extends QuantityFindManyProps ? Input : never>
     },
     "/quantity/first": {
-        params: FindFirstQuantityProps,
-        response: FindFirstQuantityResponse<Input extends FindFirstQuantityProps ? Input : never>
+        params: QuantityFindFirstProps,
+        response: QuantityFindFirstResponse<Input extends QuantityFindFirstProps ? Input : never>
     },
     "/quantity/unique": {
-        params: FindUniqueQuantityProps,
-        response: FindUniqueQuantityResponse<Input extends FindUniqueQuantityProps ? Input : never>
+        params: QuantityFindUniqueProps,
+        response: QuantityFindUniqueResponse<Input extends QuantityFindUniqueProps ? Input : never>
     },
     "/quantity/count": {
-        params: CountQuantityProps,
-        response: CountQuantityResponse
+        params: QuantityCountProps,
+        response: QuantityCountResponse
     }
 }
 
 // ==================== Find Many ==================== //
 
-const quantityListCached = cache(async <T extends FindManyQuantityProps>(params: T) => QuantityService.findMany(params), ["quantity"], {
-    revalidate,
-    tags: ["quantity"],
-});
+const quantityFindManyCached = async <T extends QuantityFindManyProps>(params: T) => {
+    "use cache";
+    cacheLife(cacheLifeApi);
+    cacheTag("/api/quantity");
+    return QuantityService.findMany<T>(params);
+};
 
-export const SelectQuantityList = async <T extends FindManyQuantityProps>(request: NextRequest) => {
+export const QuantityFindManyApi = async <T extends QuantityFindManyProps>(request: NextRequest) => {
     try {
         const params: T = parseAndDecodeParams(request);
-        const response = await quantityListCached<T>(params);
+        const response = await quantityFindManyCached<T>(params);
         return NextResponse.json(response, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ error: "getQuantityListCached -> " + (error as Error).message }, { status: 500 });
+        return NextResponse.json({ error: "QuantityFindManyApi -> " + (error as Error).message }, { status: 500 });
     }
 };
 
 // ==================== Find First ==================== //
 
-const quantityFirstCached = cache(
-    async <T extends FindFirstQuantityProps>(params: T) => QuantityService.findFirst(params),
-    ["quantity/first"],
-    { revalidate, tags: ["quantity/first"] },
-);
+const quantityFindFirstCached = async <T extends QuantityFindFirstProps>(params: T) => {
+    "use cache";
+    cacheLife(cacheLifeApi);
+    cacheTag("/api/quantity/first");
+    return QuantityService.findFirst<T>(params);
+};
 
-export const SelectQuantityFirst = async <T extends FindFirstQuantityProps>(request: NextRequest) => {
+export const QuantityFindFirstApi = async <T extends QuantityFindFirstProps>(request: NextRequest) => {
     try {
         const params: T = parseAndDecodeParams(request);
-        const response = await quantityFirstCached<T>(params);
+        const response = await quantityFindFirstCached<T>(params);
         return NextResponse.json(response, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ error: "getQuantityFirstCached -> " + (error as Error).message }, { status: 500 });
+        return NextResponse.json({ error: "QuantityFindFirstApi -> " + (error as Error).message }, { status: 500 });
     }
 };
 
 // ==================== Find Unique ==================== //
 
-const quantityUniqueCached = cache(
-    async <T extends FindUniqueQuantityProps>(params: T) => QuantityService.findUnique(params),
-    ["quantity/unique"],
-    { revalidate, tags: ["quantity/unique"] },
-);
+const quantityFindUniqueCached = async <T extends QuantityFindUniqueProps>(params: T) => {
+    "use cache";
+    cacheLife(cacheLifeApi);
+    cacheTag("/api/quantity/unique");
+    return QuantityService.findUnique<T>(params);
+};
 
-export const SelectQuantityUnique = async <T extends FindUniqueQuantityProps>(request: NextRequest) => {
+export const QuantityFindUniqueApi = async <T extends QuantityFindUniqueProps>(request: NextRequest) => {
     try {
         const params: T = parseAndDecodeParams(request);
-        const response = await quantityUniqueCached<T>(params);
+        const response = await quantityFindUniqueCached<T>(params);
         return NextResponse.json(response, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ error: "getQuantityUniqueCached -> " + (error as Error).message }, { status: 500 });
+        return NextResponse.json({ error: "QuantityFindUniqueApi -> " + (error as Error).message }, { status: 500 });
     }
 };
 
 // ==================== Count ==================== //
 
-const quantityCountCached = cache(async (params: CountQuantityProps) => QuantityService.count(params), ["quantity/count"], {
-    revalidate,
-    tags: ["quantity/count"],
-});
+const quantityCountCached = async (params: QuantityCountProps) => {
+    "use cache";
+    cacheLife(cacheLifeApi);
+    cacheTag("/api/quantity/count");
+    return QuantityService.count(params);
+};
 
-export const SelectQuantityCount = async (request: NextRequest) => {
+export const QuantityCountApi = async (request: NextRequest) => {
     try {
-        const params: CountQuantityProps = parseAndDecodeParams(request);
+        const params: QuantityCountProps = parseAndDecodeParams(request);
         const response = await quantityCountCached(params);
         return NextResponse.json(response, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ error: "getQuantityCountCached -> " + (error as Error).message }, { status: 500 });
+        return NextResponse.json({ error: "QuantityCountApi -> " + (error as Error).message }, { status: 500 });
     }
 };

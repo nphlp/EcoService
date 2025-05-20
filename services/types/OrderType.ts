@@ -12,44 +12,44 @@ export type OrderCount = number;
 // ============== Props Types ============== //
 
 // Single mutations
-export type CreateOrderProps = Prisma.OrderCreateArgs;
-export type UpsertOrderProps = Prisma.OrderUpsertArgs;
-export type UpdateOrderProps = Prisma.OrderUpdateArgs;
-export type DeleteOrderProps = Prisma.OrderDeleteArgs;
+export type OrderCreateProps = Prisma.OrderCreateArgs;
+export type OrderUpsertProps = Prisma.OrderUpsertArgs;
+export type OrderUpdateProps = Prisma.OrderUpdateArgs;
+export type OrderDeleteProps = Prisma.OrderDeleteArgs;
 
 // Multiple mutations
-export type CreateManyOrderProps = Prisma.OrderCreateManyArgs;
-export type UpdateManyOrderProps = Prisma.OrderUpdateManyArgs;
-export type DeleteManyOrderProps = Prisma.OrderDeleteManyArgs;
+export type OrderCreateManyProps = Prisma.OrderCreateManyArgs;
+export type OrderUpdateManyProps = Prisma.OrderUpdateManyArgs;
+export type OrderDeleteManyProps = Prisma.OrderDeleteManyArgs;
 
 // Single queries
-export type FindFirstOrderProps = Prisma.OrderFindFirstArgs;
-export type FindUniqueOrderProps = Prisma.OrderFindUniqueArgs;
-export type FindManyOrderProps = Prisma.OrderFindManyArgs;
+export type OrderFindFirstProps = Prisma.OrderFindFirstArgs;
+export type OrderFindUniqueProps = Prisma.OrderFindUniqueArgs;
+export type OrderFindManyProps = Prisma.OrderFindManyArgs;
 
 // Multiple queries
-export type CountOrderProps = Prisma.OrderCountArgs;
+export type OrderCountProps = Prisma.OrderCountArgs;
 
 // ============== Schema Types ============== //
 
 // Single mutations
-export const createOrderSchema: ZodType<CreateOrderProps> = OrderCreateArgsSchema;
-export const upsertOrderSchema: ZodType<UpsertOrderProps> = OrderUpsertArgsSchema;
-export const updateOrderSchema: ZodType<UpdateOrderProps> = OrderUpdateArgsSchema;
-export const deleteOrderSchema: ZodType<DeleteOrderProps> = OrderDeleteArgsSchema;
+export const OrderCreateSchema: ZodType<OrderCreateProps> = OrderCreateArgsSchema;
+export const OrderUpsertSchema: ZodType<OrderUpsertProps> = OrderUpsertArgsSchema;
+export const OrderUpdateSchema: ZodType<OrderUpdateProps> = OrderUpdateArgsSchema;
+export const OrderDeleteSchema: ZodType<OrderDeleteProps> = OrderDeleteArgsSchema;
 
 // Multiple mutations
-export const createManyOrderSchema: ZodType<CreateManyOrderProps> = OrderCreateManyArgsSchema;
-export const updateManyOrderSchema: ZodType<UpdateManyOrderProps> = OrderUpdateManyArgsSchema;
-export const deleteManyOrderSchema: ZodType<DeleteManyOrderProps> = OrderDeleteManyArgsSchema;
+export const OrderCreateManySchema: ZodType<OrderCreateManyProps> = OrderCreateManyArgsSchema;
+export const OrderUpdateManySchema: ZodType<OrderUpdateManyProps> = OrderUpdateManyArgsSchema;
+export const OrderDeleteManySchema: ZodType<OrderDeleteManyProps> = OrderDeleteManyArgsSchema;
 
 // Single queries
-export const selectFirstOrderSchema: ZodType<FindFirstOrderProps> = OrderFindFirstArgsSchema;
-export const selectUniqueOrderSchema: ZodType<FindUniqueOrderProps> = OrderFindUniqueArgsSchema;
-export const selectManyOrderSchema: ZodType<FindManyOrderProps> = OrderFindManyArgsSchema;
+export const OrderFindFirstSchema: ZodType<OrderFindFirstProps> = OrderFindFirstArgsSchema;
+export const OrderFindUniqueSchema: ZodType<OrderFindUniqueProps> = OrderFindUniqueArgsSchema;
+export const OrderFindManySchema: ZodType<OrderFindManyProps> = OrderFindManyArgsSchema;
 
 // Aggregate queries
-export const countOrderSchema: ZodType<CountOrderProps> =  z.object({
+export const OrderCountSchema: ZodType<OrderCountProps> =  z.object({
     where: z.lazy(() => OrderWhereInputSchema).optional(),
     orderBy: z.union([
         z.lazy(() => OrderOrderByWithRelationInputSchema),
@@ -64,20 +64,20 @@ export const countOrderSchema: ZodType<CountOrderProps> =  z.object({
 // ============== Response Types ============== //
 
 // Single mutations
-export type CreateOrderResponse<T extends CreateOrderProps> = Prisma.OrderGetPayload<T>;
-export type UpsertOrderResponse<T extends UpsertOrderProps> = Prisma.OrderGetPayload<T>;
-export type UpdateOrderResponse<T extends UpdateOrderProps> = Prisma.OrderGetPayload<T>;
-export type DeleteOrderResponse<T extends DeleteOrderProps> = Prisma.OrderGetPayload<T>;
+export type OrderCreateResponse<T extends OrderCreateProps> = Prisma.OrderGetPayload<T>;
+export type OrderUpsertResponse<T extends OrderUpsertProps> = Prisma.OrderGetPayload<T>;
+export type OrderUpdateResponse<T extends OrderUpdateProps> = Prisma.OrderGetPayload<T>;
+export type OrderDeleteResponse<T extends OrderDeleteProps> = Prisma.OrderGetPayload<T>;
 
 // Multiple mutations
-export type CreateManyOrderResponse = { count: number };
-export type UpdateManyOrderResponse = { count: number };
-export type DeleteManyOrderResponse = { count: number };
+export type OrderCreateManyResponse = { count: number };
+export type OrderUpdateManyResponse = { count: number };
+export type OrderDeleteManyResponse = { count: number };
 
 // Single queries
-export type FindFirstOrderResponse<T extends FindFirstOrderProps> = Prisma.OrderGetPayload<T> | null;
-export type FindUniqueOrderResponse<T extends FindUniqueOrderProps> = Prisma.OrderGetPayload<T> | null;
-export type FindManyOrderResponse<T extends FindManyOrderProps> = Prisma.OrderGetPayload<T>[];
+export type OrderFindFirstResponse<T extends OrderFindFirstProps> = Prisma.OrderGetPayload<T> | null;
+export type OrderFindUniqueResponse<T extends OrderFindUniqueProps> = Prisma.OrderGetPayload<T> | null;
+export type OrderFindManyResponse<T extends OrderFindManyProps> = Prisma.OrderGetPayload<T>[];
 
 // Aggregate queries
-export type CountOrderResponse = OrderCount;
+export type OrderCountResponse = OrderCount;

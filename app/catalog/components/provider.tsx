@@ -3,6 +3,7 @@
 import { ProductModel } from "@services/types";
 import { createContext, ReactNode, useEffect, useState } from "react";
 import { useCatalogStore } from "./useCatalogStore";
+import isEqual from "lodash/isEqual";
 
 export type CatalogContextType = {
     // State
@@ -39,11 +40,12 @@ export default function CatalogProvider(props: CatalogContextProviderProps) {
 
     // Update context when a store state change
     useEffect(() => {
-        if (dataStore !== undefined) {
+        const areTheSame = isEqual(dataStore, dataLocalState);
+        if (dataStore !== undefined && !areTheSame) {
             console.log("Updating context 🔄");
             setDataLocalState(dataStore);
         }
-    }, [dataStore, setDataLocalState]);
+    }, [dataStore, dataLocalState, setDataLocalState]);
 
     // Provide only the local state, but do not provide local actions
     return <CatalogContext.Provider value={dataLocalState}>{children}</CatalogContext.Provider>;

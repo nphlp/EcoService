@@ -6,9 +6,7 @@ import { ArrowLeft, Package2, ShieldCheck, Truck } from "lucide-react";
 import { Metadata } from "next";
 import Link from "next/link";
 import { ProductFetchParams } from "./fetchParams";
-
-export const dynamic = "auto";
-export const revalidate = 3600;
+import { unstable_cacheLife as cacheLife, unstable_cacheTag as cacheTag } from "next/cache";
 
 export const generateStaticParams = async () => {
     const products = await PrismaInstance.product.findMany({
@@ -25,6 +23,11 @@ type PageProps = {
 };
 
 export async function generateMetadata(props: PageProps): Promise<Metadata> {
+    "use cache";
+
+    cacheLife("hours");
+    cacheTag("product");
+
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
     if (!baseUrl) throw new Error("NEXT_PUBLIC_BASE_URL environment variable is not defined");
 
@@ -45,7 +48,7 @@ export async function generateMetadata(props: PageProps): Promise<Metadata> {
     return {
         title: `${product.name} - Eco Service`,
         description: "Achetez des produits éco-responsables sur Eco Service.",
-        metadataBase: new URL(`${baseUrl}/product`),
+        // metadataBase: new URL(`${baseUrl}/product`),
         alternates: {
             canonical: `${baseUrl}/product/${slug}`,
         },
@@ -53,6 +56,11 @@ export async function generateMetadata(props: PageProps): Promise<Metadata> {
 }
 
 export default async function Page(props: PageProps) {
+    "use cache";
+
+    cacheLife("hours");
+    cacheTag("product");
+
     const { params } = props;
     const { slug } = await params;
 

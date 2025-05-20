@@ -1,79 +1,79 @@
 "use server";
 
 import OrderService from "@services/class/OrderClass";
-import { CountOrderProps, CountOrderResponse, CreateManyOrderProps, CreateManyOrderResponse, CreateOrderProps, CreateOrderResponse, DeleteManyOrderProps, DeleteManyOrderResponse, DeleteOrderProps, DeleteOrderResponse, FindFirstOrderProps, FindFirstOrderResponse, FindManyOrderProps, FindManyOrderResponse, FindUniqueOrderProps, FindUniqueOrderResponse, UpdateManyOrderProps, UpdateManyOrderResponse, UpdateOrderProps, UpdateOrderResponse, UpsertOrderProps, UpsertOrderResponse } from "@services/types/OrderType";
+import { OrderCountProps, OrderCountResponse, OrderCreateManyProps, OrderCreateManyResponse, OrderCreateProps, OrderCreateResponse, OrderDeleteManyProps, OrderDeleteManyResponse, OrderDeleteProps, OrderDeleteResponse, OrderFindFirstProps, OrderFindFirstResponse, OrderFindManyProps, OrderFindManyResponse, OrderFindUniqueProps, OrderFindUniqueResponse, OrderUpdateManyProps, OrderUpdateManyResponse, OrderUpdateProps, OrderUpdateResponse, OrderUpsertProps, OrderUpsertResponse } from "@services/types/OrderType";
 
 // ========== Single mutations ========== //
 
-export const CreateOrder = async <T extends CreateOrderProps>(props: T): Promise<CreateOrderResponse<T>> => {
+export const OrderCreate = async <T extends OrderCreateProps>(props: T): Promise<OrderCreateResponse<T>> => {
     try {
         const { data, error } = await OrderService.create(props);
         if (!data || error) throw new Error(error);
         return data;
     } catch (error) {
-        throw new Error("CreateOrder -> " + (error as Error).message);
+        throw new Error("OrderCreate -> " + (error as Error).message);
     }
 };
 
-export const UpsertOrder = async <T extends UpsertOrderProps>(props: T): Promise<UpsertOrderResponse<T>> => {
+export const OrderUpsert = async <T extends OrderUpsertProps>(props: T): Promise<OrderUpsertResponse<T>> => {
     try {
         const { data, error } = await OrderService.upsert(props);
         if (!data || error) throw new Error(error);
         return data;
     } catch (error) {
-        throw new Error("UpsertOrder -> " + (error as Error).message);
+        throw new Error("OrderUpsert -> " + (error as Error).message);
     }
 };
 
-export const UpdateOrder = async <T extends UpdateOrderProps>(props: T): Promise<UpdateOrderResponse<T>> => {
+export const OrderUpdate = async <T extends OrderUpdateProps>(props: T): Promise<OrderUpdateResponse<T>> => {
     try {
         const { data, error } = await OrderService.update(props);
         if (!data || error) throw new Error(error);
         return data;
     } catch (error) {
-        throw new Error("UpdateOrder -> " + (error as Error).message);
+        throw new Error("OrderUpdate -> " + (error as Error).message);
     }
 };
 
-export const DeleteOrder = async <T extends DeleteOrderProps>(props: T): Promise<DeleteOrderResponse<T>> => {
+export const OrderDelete = async <T extends OrderDeleteProps>(props: T): Promise<OrderDeleteResponse<T>> => {
     try {
         const { data, error } = await OrderService.delete(props);
         if (!data || error) throw new Error(error);
         return data;
     } catch (error) {
-        throw new Error("DeleteOrder -> " + (error as Error).message);
+        throw new Error("OrderDelete -> " + (error as Error).message);
     }
 };
 
 // ========== Multiple mutations ========== //
 
-export const CreateManyOrder = async (props: CreateManyOrderProps): Promise<CreateManyOrderResponse> => {
+export const OrderCreateMany = async (props: OrderCreateManyProps): Promise<OrderCreateManyResponse> => {
     try {
         const { data, error } = await OrderService.createMany(props);
         if (!data || error) throw new Error(error);
         return data;
     } catch (error) {
-        throw new Error("CreateManyOrder -> " + (error as Error).message);
+        throw new Error("OrderCreateMany -> " + (error as Error).message);
     }
 };
 
-export const UpdateManyOrder = async (props: UpdateManyOrderProps): Promise<UpdateManyOrderResponse> => {
+export const OrderUpdateMany = async (props: OrderUpdateManyProps): Promise<OrderUpdateManyResponse> => {
     try {
         const { data, error } = await OrderService.updateMany(props);
         if (!data || error) throw new Error(error);
         return data;
     } catch (error) {
-        throw new Error("UpdateManyOrder -> " + (error as Error).message);
+        throw new Error("OrderUpdateMany -> " + (error as Error).message);
     }
 };
 
-export const DeleteManyOrder = async (props: DeleteManyOrderProps): Promise<DeleteManyOrderResponse> => {
+export const OrderDeleteMany = async (props: OrderDeleteManyProps): Promise<OrderDeleteManyResponse> => {
     try {
         const { data, error } = await OrderService.deleteMany(props);
         if (!data || error) throw new Error(error);
         return data;
     } catch (error) {
-        throw new Error("DeleteManyOrder -> " + (error as Error).message);
+        throw new Error("OrderDeleteMany -> " + (error as Error).message);
     }
 };
 
@@ -82,45 +82,45 @@ export const DeleteManyOrder = async (props: DeleteManyOrderProps): Promise<Dele
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const SelectFirstOrder = async <T extends FindFirstOrderProps>(
+export const OrderFindFirst = async <T extends OrderFindFirstProps>(
     props: T
-): Promise<FindFirstOrderResponse<T>> => {
+): Promise<OrderFindFirstResponse<T>> => {
     try {
         const { data, error } = await OrderService.findFirst(props);
         if (error) throw new Error(error);
         return data ?? null;
     } catch (error) {
-        throw new Error("SelectFirstOrder -> " + (error as Error).message);
+        throw new Error("OrderFindFirst -> " + (error as Error).message);
     }
 };
 
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const SelectUniqueOrder = async <T extends FindUniqueOrderProps>(
+export const OrderFindUnique = async <T extends OrderFindUniqueProps>(
     props: T
-): Promise<FindUniqueOrderResponse<T>> => {
+): Promise<OrderFindUniqueResponse<T>> => {
     try {
         const { data, error } = await OrderService.findUnique(props);
         if (error) throw new Error(error);
         return data ?? null;
     } catch (error) {
-        throw new Error("SelectUniqueOrder -> " + (error as Error).message);
+        throw new Error("OrderFindUnique -> " + (error as Error).message);
     }
 };
 
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const SelectOrderList = async <T extends FindManyOrderProps>(
+export const OrderFindMany = async <T extends OrderFindManyProps>(
     props: T
-): Promise<FindManyOrderResponse<T>> => {
+): Promise<OrderFindManyResponse<T>> => {
     try {
         const { data, error } = await OrderService.findMany(props);
         if (!data || error) throw new Error(error);
         return data;
     } catch (error) {
-        throw new Error("SelectOrderList -> " + (error as Error).message);
+        throw new Error("OrderFindMany -> " + (error as Error).message);
     }
 };
 
@@ -129,12 +129,12 @@ export const SelectOrderList = async <T extends FindManyOrderProps>(
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const SelectOrderAmount = async (props: CountOrderProps): Promise<CountOrderResponse> => {
+export const OrderCount = async (props: OrderCountProps): Promise<OrderCountResponse> => {
     try {
         const { data, error } = await OrderService.count(props);
         if (!data || error) throw new Error(error);
         return data;
     } catch (error) {
-        throw new Error("SelectOrderAmount -> " + (error as Error).message);
+        throw new Error("OrderCount -> " + (error as Error).message);
     }
 };

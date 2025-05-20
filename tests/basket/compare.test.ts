@@ -153,7 +153,7 @@ describe("compareAndSyncBasket", () => {
 
         // Check the basket
         expect(result).toBeNull();
-        expect(basket).toBe(localBasketOrderId);
+        expect(basket).toBe(serverBasket);
         expect(findApi.FindPendingServerBasket).toHaveBeenCalled();
         await expect((findApi.FindPendingServerBasket as Mock).mock.results[0].value).resolves.toBe("order-123");
         expect(getApi.GetServerBasket).toHaveBeenCalled();

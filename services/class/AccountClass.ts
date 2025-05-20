@@ -1,6 +1,6 @@
 import PrismaInstance from "@lib/prisma";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
-import { AccountCount, CountAccountProps, CountAccountResponse, CreateManyAccountProps, CreateManyAccountResponse, CreateAccountProps, CreateAccountResponse, DeleteManyAccountProps, DeleteManyAccountResponse, DeleteAccountProps, DeleteAccountResponse, FindFirstAccountProps, FindFirstAccountResponse, FindManyAccountProps, FindManyAccountResponse, FindUniqueAccountProps, FindUniqueAccountResponse, UpdateManyAccountProps, UpdateManyAccountResponse, UpdateAccountProps, UpdateAccountResponse, UpsertAccountProps, UpsertAccountResponse, countAccountSchema, createManyAccountSchema, createAccountSchema, deleteManyAccountSchema, deleteAccountSchema, selectFirstAccountSchema, selectManyAccountSchema, selectUniqueAccountSchema, updateManyAccountSchema, updateAccountSchema, upsertAccountSchema } from "@services/types/AccountType";
+import { AccountCount, AccountCountProps, AccountCountResponse, AccountCountSchema, AccountCreateManyProps, AccountCreateManyResponse, AccountCreateManySchema, AccountCreateProps, AccountCreateResponse, AccountCreateSchema, AccountDeleteManyProps, AccountDeleteManyResponse, AccountDeleteManySchema, AccountDeleteProps, AccountDeleteResponse, AccountDeleteSchema, AccountFindFirstProps, AccountFindFirstResponse, AccountFindFirstSchema, AccountFindManyProps, AccountFindManyResponse, AccountFindManySchema, AccountFindUniqueProps, AccountFindUniqueResponse, AccountFindUniqueSchema, AccountUpdateManyProps, AccountUpdateManyResponse, AccountUpdateManySchema, AccountUpdateProps, AccountUpdateResponse, AccountUpdateSchema, AccountUpsertProps, AccountUpsertResponse, AccountUpsertSchema } from "@services/types/AccountType";
 import { ResponseFormat } from "@utils/FetchConfig";
 import { ZodError } from "zod";
 
@@ -8,41 +8,41 @@ export default class AccountService {
 
     // ========== Single mutations ========== //
 
-    static async create<T extends CreateAccountProps>(props: T): Promise<ResponseFormat<CreateAccountResponse<T>>> {
+    static async create<T extends AccountCreateProps>(props: T): Promise<ResponseFormat<AccountCreateResponse<T>>> {
         try {
-            const parsedProps = createAccountSchema.parse(props);
+            const parsedProps = AccountCreateSchema.parse(props);
             const account = await PrismaInstance.account.create(parsedProps);
-            return { data: account as CreateAccountResponse<T> };
+            return { data: account as AccountCreateResponse<T> };
         } catch (error) {
             return AccountService.error("create", error);
         }
     }
 
-    static async upsert<T extends UpsertAccountProps>(props: T): Promise<ResponseFormat<UpsertAccountResponse<T>>> {
+    static async upsert<T extends AccountUpsertProps>(props: T): Promise<ResponseFormat<AccountUpsertResponse<T>>> {
         try {
-            const parsedProps = upsertAccountSchema.parse(props);
+            const parsedProps = AccountUpsertSchema.parse(props);
             const account = await PrismaInstance.account.upsert(parsedProps);
-            return { data: account as UpsertAccountResponse<T> };
+            return { data: account as AccountUpsertResponse<T> };
         } catch (error) {
             return AccountService.error("upsert", error);
         }
     }
 
-    static async update<T extends UpdateAccountProps>(props: T): Promise<ResponseFormat<UpdateAccountResponse<T>>> {
+    static async update<T extends AccountUpdateProps>(props: T): Promise<ResponseFormat<AccountUpdateResponse<T>>> {
         try {
-            const parsedProps = updateAccountSchema.parse(props);
+            const parsedProps = AccountUpdateSchema.parse(props);
             const account = await PrismaInstance.account.update(parsedProps);
-            return { data: account as UpdateAccountResponse<T> };
+            return { data: account as AccountUpdateResponse<T> };
         } catch (error) {
             return AccountService.error("update", error);
         }
     }
 
-    static async delete<T extends DeleteAccountProps>(props: T): Promise<ResponseFormat<DeleteAccountResponse<T>>> {
+    static async delete<T extends AccountDeleteProps>(props: T): Promise<ResponseFormat<AccountDeleteResponse<T>>> {
         try {
-            const parsedProps = deleteAccountSchema.parse(props);
+            const parsedProps = AccountDeleteSchema.parse(props);
             const account = await PrismaInstance.account.delete(parsedProps);
-            return { data: account as DeleteAccountResponse<T> };
+            return { data: account as AccountDeleteResponse<T> };
         } catch (error) {
             return AccountService.error("delete", error);
         }
@@ -50,9 +50,9 @@ export default class AccountService {
 
     // ========== Multiple mutations ========== //
 
-    static async createMany(props: CreateManyAccountProps): Promise<ResponseFormat<CreateManyAccountResponse>> {
+    static async createMany(props: AccountCreateManyProps): Promise<ResponseFormat<AccountCreateManyResponse>> {
         try {
-            const parsedProps = createManyAccountSchema.parse(props);
+            const parsedProps = AccountCreateManySchema.parse(props);
             const result = await PrismaInstance.account.createMany(parsedProps);
             return { data: result };
         } catch (error) {
@@ -60,9 +60,9 @@ export default class AccountService {
         }
     }
 
-    static async updateMany(props: UpdateManyAccountProps): Promise<ResponseFormat<UpdateManyAccountResponse>> {
+    static async updateMany(props: AccountUpdateManyProps): Promise<ResponseFormat<AccountUpdateManyResponse>> {
         try {
-            const parsedProps = updateManyAccountSchema.parse(props);
+            const parsedProps = AccountUpdateManySchema.parse(props);
             const result = await PrismaInstance.account.updateMany(parsedProps);
             return { data: result };
         } catch (error) {
@@ -70,9 +70,9 @@ export default class AccountService {
         }
     }
 
-    static async deleteMany(props: DeleteManyAccountProps): Promise<ResponseFormat<DeleteManyAccountResponse>> {
+    static async deleteMany(props: AccountDeleteManyProps): Promise<ResponseFormat<AccountDeleteManyResponse>> {
         try {
-            const parsedProps = deleteManyAccountSchema.parse(props);
+            const parsedProps = AccountDeleteManySchema.parse(props);
             const result = await PrismaInstance.account.deleteMany(parsedProps);
             return { data: result };
         } catch (error) {
@@ -82,32 +82,32 @@ export default class AccountService {
 
     // ========== Single queries ========== //
 
-    static async findFirst<T extends FindFirstAccountProps>(props: T): Promise<ResponseFormat<FindFirstAccountResponse<T>>> {
+    static async findFirst<T extends AccountFindFirstProps>(props: T): Promise<ResponseFormat<AccountFindFirstResponse<T>>> {
         try {
-            const parsedProps = selectFirstAccountSchema.parse(props);
+            const parsedProps = AccountFindFirstSchema.parse(props);
             const account = await PrismaInstance.account.findFirst(parsedProps);
-            return { data: account as FindFirstAccountResponse<T> };
+            return { data: account as AccountFindFirstResponse<T> };
         } catch (error) {
             return AccountService.error("findFirst", error);
         }
     }
 
-    static async findUnique<T extends FindUniqueAccountProps>(props: T): Promise<ResponseFormat<FindUniqueAccountResponse<T>>> {
+    static async findUnique<T extends AccountFindUniqueProps>(props: T): Promise<ResponseFormat<AccountFindUniqueResponse<T>>> {
         try {
-            const parsedProps = selectUniqueAccountSchema.parse(props);
+            const parsedProps = AccountFindUniqueSchema.parse(props);
             const account = await PrismaInstance.account.findUnique(parsedProps);
-            return { data: account as FindUniqueAccountResponse<T> };
+            return { data: account as AccountFindUniqueResponse<T> };
         } catch (error) {
             return AccountService.error("findUnique", error);
         }
     }
 
-    static async findMany<T extends FindManyAccountProps>(props: T): Promise<ResponseFormat<FindManyAccountResponse<T>>> {
+    static async findMany<T extends AccountFindManyProps>(props: T): Promise<ResponseFormat<AccountFindManyResponse<T>>> {
         try {
-            const parsedProps = selectManyAccountSchema.parse(props);
+            const parsedProps = AccountFindManySchema.parse(props);
             const { skip = 0, take = 10 } = parsedProps;
             const accountList = await PrismaInstance.account.findMany({ skip, take, ...parsedProps });
-            return { data: accountList as FindManyAccountResponse<T> };
+            return { data: accountList as AccountFindManyResponse<T> };
         } catch (error) {
             return AccountService.error("findMany", error);
         }
@@ -115,9 +115,9 @@ export default class AccountService {
 
     // ========== Aggregate queries ========== //
 
-    static async count(props: CountAccountProps): Promise<ResponseFormat<CountAccountResponse>> {
+    static async count(props: AccountCountProps): Promise<ResponseFormat<AccountCountResponse>> {
         try {
-            const parsedProps = countAccountSchema.parse(props);
+            const parsedProps = AccountCountSchema.parse(props);
             const accountAmount: AccountCount = await PrismaInstance.account.count(parsedProps);
             return { data: accountAmount };
         } catch (error) {

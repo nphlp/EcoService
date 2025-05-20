@@ -1,79 +1,79 @@
 "use server";
 
 import AddressService from "@services/class/AddressClass";
-import { CountAddressProps, CountAddressResponse, CreateManyAddressProps, CreateManyAddressResponse, CreateAddressProps, CreateAddressResponse, DeleteManyAddressProps, DeleteManyAddressResponse, DeleteAddressProps, DeleteAddressResponse, FindFirstAddressProps, FindFirstAddressResponse, FindManyAddressProps, FindManyAddressResponse, FindUniqueAddressProps, FindUniqueAddressResponse, UpdateManyAddressProps, UpdateManyAddressResponse, UpdateAddressProps, UpdateAddressResponse, UpsertAddressProps, UpsertAddressResponse } from "@services/types/AddressType";
+import { AddressCountProps, AddressCountResponse, AddressCreateManyProps, AddressCreateManyResponse, AddressCreateProps, AddressCreateResponse, AddressDeleteManyProps, AddressDeleteManyResponse, AddressDeleteProps, AddressDeleteResponse, AddressFindFirstProps, AddressFindFirstResponse, AddressFindManyProps, AddressFindManyResponse, AddressFindUniqueProps, AddressFindUniqueResponse, AddressUpdateManyProps, AddressUpdateManyResponse, AddressUpdateProps, AddressUpdateResponse, AddressUpsertProps, AddressUpsertResponse } from "@services/types/AddressType";
 
 // ========== Single mutations ========== //
 
-export const CreateAddress = async <T extends CreateAddressProps>(props: T): Promise<CreateAddressResponse<T>> => {
+export const AddressCreate = async <T extends AddressCreateProps>(props: T): Promise<AddressCreateResponse<T>> => {
     try {
         const { data, error } = await AddressService.create(props);
         if (!data || error) throw new Error(error);
         return data;
     } catch (error) {
-        throw new Error("CreateAddress -> " + (error as Error).message);
+        throw new Error("AddressCreate -> " + (error as Error).message);
     }
 };
 
-export const UpsertAddress = async <T extends UpsertAddressProps>(props: T): Promise<UpsertAddressResponse<T>> => {
+export const AddressUpsert = async <T extends AddressUpsertProps>(props: T): Promise<AddressUpsertResponse<T>> => {
     try {
         const { data, error } = await AddressService.upsert(props);
         if (!data || error) throw new Error(error);
         return data;
     } catch (error) {
-        throw new Error("UpsertAddress -> " + (error as Error).message);
+        throw new Error("AddressUpsert -> " + (error as Error).message);
     }
 };
 
-export const UpdateAddress = async <T extends UpdateAddressProps>(props: T): Promise<UpdateAddressResponse<T>> => {
+export const AddressUpdate = async <T extends AddressUpdateProps>(props: T): Promise<AddressUpdateResponse<T>> => {
     try {
         const { data, error } = await AddressService.update(props);
         if (!data || error) throw new Error(error);
         return data;
     } catch (error) {
-        throw new Error("UpdateAddress -> " + (error as Error).message);
+        throw new Error("AddressUpdate -> " + (error as Error).message);
     }
 };
 
-export const DeleteAddress = async <T extends DeleteAddressProps>(props: T): Promise<DeleteAddressResponse<T>> => {
+export const AddressDelete = async <T extends AddressDeleteProps>(props: T): Promise<AddressDeleteResponse<T>> => {
     try {
         const { data, error } = await AddressService.delete(props);
         if (!data || error) throw new Error(error);
         return data;
     } catch (error) {
-        throw new Error("DeleteAddress -> " + (error as Error).message);
+        throw new Error("AddressDelete -> " + (error as Error).message);
     }
 };
 
 // ========== Multiple mutations ========== //
 
-export const CreateManyAddress = async (props: CreateManyAddressProps): Promise<CreateManyAddressResponse> => {
+export const AddressCreateMany = async (props: AddressCreateManyProps): Promise<AddressCreateManyResponse> => {
     try {
         const { data, error } = await AddressService.createMany(props);
         if (!data || error) throw new Error(error);
         return data;
     } catch (error) {
-        throw new Error("CreateManyAddress -> " + (error as Error).message);
+        throw new Error("AddressCreateMany -> " + (error as Error).message);
     }
 };
 
-export const UpdateManyAddress = async (props: UpdateManyAddressProps): Promise<UpdateManyAddressResponse> => {
+export const AddressUpdateMany = async (props: AddressUpdateManyProps): Promise<AddressUpdateManyResponse> => {
     try {
         const { data, error } = await AddressService.updateMany(props);
         if (!data || error) throw new Error(error);
         return data;
     } catch (error) {
-        throw new Error("UpdateManyAddress -> " + (error as Error).message);
+        throw new Error("AddressUpdateMany -> " + (error as Error).message);
     }
 };
 
-export const DeleteManyAddress = async (props: DeleteManyAddressProps): Promise<DeleteManyAddressResponse> => {
+export const AddressDeleteMany = async (props: AddressDeleteManyProps): Promise<AddressDeleteManyResponse> => {
     try {
         const { data, error } = await AddressService.deleteMany(props);
         if (!data || error) throw new Error(error);
         return data;
     } catch (error) {
-        throw new Error("DeleteManyAddress -> " + (error as Error).message);
+        throw new Error("AddressDeleteMany -> " + (error as Error).message);
     }
 };
 
@@ -82,45 +82,45 @@ export const DeleteManyAddress = async (props: DeleteManyAddressProps): Promise<
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const SelectFirstAddress = async <T extends FindFirstAddressProps>(
+export const AddressFindFirst = async <T extends AddressFindFirstProps>(
     props: T
-): Promise<FindFirstAddressResponse<T>> => {
+): Promise<AddressFindFirstResponse<T>> => {
     try {
         const { data, error } = await AddressService.findFirst(props);
         if (error) throw new Error(error);
         return data ?? null;
     } catch (error) {
-        throw new Error("SelectFirstAddress -> " + (error as Error).message);
+        throw new Error("AddressFindFirst -> " + (error as Error).message);
     }
 };
 
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const SelectUniqueAddress = async <T extends FindUniqueAddressProps>(
+export const AddressFindUnique = async <T extends AddressFindUniqueProps>(
     props: T
-): Promise<FindUniqueAddressResponse<T>> => {
+): Promise<AddressFindUniqueResponse<T>> => {
     try {
         const { data, error } = await AddressService.findUnique(props);
         if (error) throw new Error(error);
         return data ?? null;
     } catch (error) {
-        throw new Error("SelectUniqueAddress -> " + (error as Error).message);
+        throw new Error("AddressFindUnique -> " + (error as Error).message);
     }
 };
 
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const SelectAddressList = async <T extends FindManyAddressProps>(
+export const AddressFindMany = async <T extends AddressFindManyProps>(
     props: T
-): Promise<FindManyAddressResponse<T>> => {
+): Promise<AddressFindManyResponse<T>> => {
     try {
         const { data, error } = await AddressService.findMany(props);
         if (!data || error) throw new Error(error);
         return data;
     } catch (error) {
-        throw new Error("SelectAddressList -> " + (error as Error).message);
+        throw new Error("AddressFindMany -> " + (error as Error).message);
     }
 };
 
@@ -129,12 +129,12 @@ export const SelectAddressList = async <T extends FindManyAddressProps>(
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const SelectAddressAmount = async (props: CountAddressProps): Promise<CountAddressResponse> => {
+export const AddressCount = async (props: AddressCountProps): Promise<AddressCountResponse> => {
     try {
         const { data, error } = await AddressService.count(props);
         if (!data || error) throw new Error(error);
         return data;
     } catch (error) {
-        throw new Error("SelectAddressAmount -> " + (error as Error).message);
+        throw new Error("AddressCount -> " + (error as Error).message);
     }
 };

@@ -1,6 +1,6 @@
 "use server";
 
-import { UpdateOrder } from "@actions/OrderAction";
+import { OrderUpdate } from "@actions/OrderAction";
 import { LocalBasketItem } from "@comps/basket/basketType";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { OrderModel } from "@services/types";
@@ -37,7 +37,7 @@ export const UpdateProductOnServerBasket = async (
         if (!quantityId) return null;
 
         // Update quantity
-        await UpdateOrder({
+        await OrderUpdate({
             where: { id: orderId },
             data: {
                 Quantity: {

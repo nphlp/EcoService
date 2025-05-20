@@ -12,44 +12,44 @@ export type QuantityCount = number;
 // ============== Props Types ============== //
 
 // Single mutations
-export type CreateQuantityProps = Prisma.QuantityCreateArgs;
-export type UpsertQuantityProps = Prisma.QuantityUpsertArgs;
-export type UpdateQuantityProps = Prisma.QuantityUpdateArgs;
-export type DeleteQuantityProps = Prisma.QuantityDeleteArgs;
+export type QuantityCreateProps = Prisma.QuantityCreateArgs;
+export type QuantityUpsertProps = Prisma.QuantityUpsertArgs;
+export type QuantityUpdateProps = Prisma.QuantityUpdateArgs;
+export type QuantityDeleteProps = Prisma.QuantityDeleteArgs;
 
 // Multiple mutations
-export type CreateManyQuantityProps = Prisma.QuantityCreateManyArgs;
-export type UpdateManyQuantityProps = Prisma.QuantityUpdateManyArgs;
-export type DeleteManyQuantityProps = Prisma.QuantityDeleteManyArgs;
+export type QuantityCreateManyProps = Prisma.QuantityCreateManyArgs;
+export type QuantityUpdateManyProps = Prisma.QuantityUpdateManyArgs;
+export type QuantityDeleteManyProps = Prisma.QuantityDeleteManyArgs;
 
 // Single queries
-export type FindFirstQuantityProps = Prisma.QuantityFindFirstArgs;
-export type FindUniqueQuantityProps = Prisma.QuantityFindUniqueArgs;
-export type FindManyQuantityProps = Prisma.QuantityFindManyArgs;
+export type QuantityFindFirstProps = Prisma.QuantityFindFirstArgs;
+export type QuantityFindUniqueProps = Prisma.QuantityFindUniqueArgs;
+export type QuantityFindManyProps = Prisma.QuantityFindManyArgs;
 
 // Multiple queries
-export type CountQuantityProps = Prisma.QuantityCountArgs;
+export type QuantityCountProps = Prisma.QuantityCountArgs;
 
 // ============== Schema Types ============== //
 
 // Single mutations
-export const createQuantitySchema: ZodType<CreateQuantityProps> = QuantityCreateArgsSchema;
-export const upsertQuantitySchema: ZodType<UpsertQuantityProps> = QuantityUpsertArgsSchema;
-export const updateQuantitySchema: ZodType<UpdateQuantityProps> = QuantityUpdateArgsSchema;
-export const deleteQuantitySchema: ZodType<DeleteQuantityProps> = QuantityDeleteArgsSchema;
+export const QuantityCreateSchema: ZodType<QuantityCreateProps> = QuantityCreateArgsSchema;
+export const QuantityUpsertSchema: ZodType<QuantityUpsertProps> = QuantityUpsertArgsSchema;
+export const QuantityUpdateSchema: ZodType<QuantityUpdateProps> = QuantityUpdateArgsSchema;
+export const QuantityDeleteSchema: ZodType<QuantityDeleteProps> = QuantityDeleteArgsSchema;
 
 // Multiple mutations
-export const createManyQuantitySchema: ZodType<CreateManyQuantityProps> = QuantityCreateManyArgsSchema;
-export const updateManyQuantitySchema: ZodType<UpdateManyQuantityProps> = QuantityUpdateManyArgsSchema;
-export const deleteManyQuantitySchema: ZodType<DeleteManyQuantityProps> = QuantityDeleteManyArgsSchema;
+export const QuantityCreateManySchema: ZodType<QuantityCreateManyProps> = QuantityCreateManyArgsSchema;
+export const QuantityUpdateManySchema: ZodType<QuantityUpdateManyProps> = QuantityUpdateManyArgsSchema;
+export const QuantityDeleteManySchema: ZodType<QuantityDeleteManyProps> = QuantityDeleteManyArgsSchema;
 
 // Single queries
-export const selectFirstQuantitySchema: ZodType<FindFirstQuantityProps> = QuantityFindFirstArgsSchema;
-export const selectUniqueQuantitySchema: ZodType<FindUniqueQuantityProps> = QuantityFindUniqueArgsSchema;
-export const selectManyQuantitySchema: ZodType<FindManyQuantityProps> = QuantityFindManyArgsSchema;
+export const QuantityFindFirstSchema: ZodType<QuantityFindFirstProps> = QuantityFindFirstArgsSchema;
+export const QuantityFindUniqueSchema: ZodType<QuantityFindUniqueProps> = QuantityFindUniqueArgsSchema;
+export const QuantityFindManySchema: ZodType<QuantityFindManyProps> = QuantityFindManyArgsSchema;
 
 // Aggregate queries
-export const countQuantitySchema: ZodType<CountQuantityProps> =  z.object({
+export const QuantityCountSchema: ZodType<QuantityCountProps> =  z.object({
     where: z.lazy(() => QuantityWhereInputSchema).optional(),
     orderBy: z.union([
         z.lazy(() => QuantityOrderByWithRelationInputSchema),
@@ -64,20 +64,20 @@ export const countQuantitySchema: ZodType<CountQuantityProps> =  z.object({
 // ============== Response Types ============== //
 
 // Single mutations
-export type CreateQuantityResponse<T extends CreateQuantityProps> = Prisma.QuantityGetPayload<T>;
-export type UpsertQuantityResponse<T extends UpsertQuantityProps> = Prisma.QuantityGetPayload<T>;
-export type UpdateQuantityResponse<T extends UpdateQuantityProps> = Prisma.QuantityGetPayload<T>;
-export type DeleteQuantityResponse<T extends DeleteQuantityProps> = Prisma.QuantityGetPayload<T>;
+export type QuantityCreateResponse<T extends QuantityCreateProps> = Prisma.QuantityGetPayload<T>;
+export type QuantityUpsertResponse<T extends QuantityUpsertProps> = Prisma.QuantityGetPayload<T>;
+export type QuantityUpdateResponse<T extends QuantityUpdateProps> = Prisma.QuantityGetPayload<T>;
+export type QuantityDeleteResponse<T extends QuantityDeleteProps> = Prisma.QuantityGetPayload<T>;
 
 // Multiple mutations
-export type CreateManyQuantityResponse = { count: number };
-export type UpdateManyQuantityResponse = { count: number };
-export type DeleteManyQuantityResponse = { count: number };
+export type QuantityCreateManyResponse = { count: number };
+export type QuantityUpdateManyResponse = { count: number };
+export type QuantityDeleteManyResponse = { count: number };
 
 // Single queries
-export type FindFirstQuantityResponse<T extends FindFirstQuantityProps> = Prisma.QuantityGetPayload<T> | null;
-export type FindUniqueQuantityResponse<T extends FindUniqueQuantityProps> = Prisma.QuantityGetPayload<T> | null;
-export type FindManyQuantityResponse<T extends FindManyQuantityProps> = Prisma.QuantityGetPayload<T>[];
+export type QuantityFindFirstResponse<T extends QuantityFindFirstProps> = Prisma.QuantityGetPayload<T> | null;
+export type QuantityFindUniqueResponse<T extends QuantityFindUniqueProps> = Prisma.QuantityGetPayload<T> | null;
+export type QuantityFindManyResponse<T extends QuantityFindManyProps> = Prisma.QuantityGetPayload<T>[];
 
 // Aggregate queries
-export type CountQuantityResponse = QuantityCount;
+export type QuantityCountResponse = QuantityCount;

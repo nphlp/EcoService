@@ -1,96 +1,102 @@
 import FruitService from "@services/class/FruitClass";
-import { CountFruitProps, CountFruitResponse, FindFirstFruitProps, FindFirstFruitResponse, FindManyFruitProps, FindManyFruitResponse, FindUniqueFruitProps, FindUniqueFruitResponse } from "@services/types/FruitType";
-import { parseAndDecodeParams, revalidate } from "@utils/FetchConfig";
-import { unstable_cache as cache } from "next/cache";
+import { FruitCountProps, FruitCountResponse, FruitFindFirstProps, FruitFindFirstResponse, FruitFindManyProps, FruitFindManyResponse, FruitFindUniqueProps, FruitFindUniqueResponse } from "@services/types/FruitType";
+import { cacheLifeApi, parseAndDecodeParams } from "@utils/FetchConfig";
+import { unstable_cacheLife as cacheLife, unstable_cacheTag as cacheTag } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 
 // ============== API Routes Types ============== //
 
 export type FruitRoutes<Input> = {
     "/fruit": {
-        params: FindManyFruitProps,
-        response: FindManyFruitResponse<Input extends FindManyFruitProps ? Input : never>
+        params: FruitFindManyProps,
+        response: FruitFindManyResponse<Input extends FruitFindManyProps ? Input : never>
     },
     "/fruit/first": {
-        params: FindFirstFruitProps,
-        response: FindFirstFruitResponse<Input extends FindFirstFruitProps ? Input : never>
+        params: FruitFindFirstProps,
+        response: FruitFindFirstResponse<Input extends FruitFindFirstProps ? Input : never>
     },
     "/fruit/unique": {
-        params: FindUniqueFruitProps,
-        response: FindUniqueFruitResponse<Input extends FindUniqueFruitProps ? Input : never>
+        params: FruitFindUniqueProps,
+        response: FruitFindUniqueResponse<Input extends FruitFindUniqueProps ? Input : never>
     },
     "/fruit/count": {
-        params: CountFruitProps,
-        response: CountFruitResponse
+        params: FruitCountProps,
+        response: FruitCountResponse
     }
 }
 
 // ==================== Find Many ==================== //
 
-const fruitListCached = cache(async <T extends FindManyFruitProps>(params: T) => FruitService.findMany(params), ["fruit"], {
-    revalidate,
-    tags: ["fruit"],
-});
+const fruitFindManyCached = async <T extends FruitFindManyProps>(params: T) => {
+    "use cache";
+    cacheLife(cacheLifeApi);
+    cacheTag("/api/fruit");
+    return FruitService.findMany<T>(params);
+};
 
-export const SelectFruitList = async <T extends FindManyFruitProps>(request: NextRequest) => {
+export const FruitFindManyApi = async <T extends FruitFindManyProps>(request: NextRequest) => {
     try {
         const params: T = parseAndDecodeParams(request);
-        const response = await fruitListCached<T>(params);
+        const response = await fruitFindManyCached<T>(params);
         return NextResponse.json(response, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ error: "getFruitListCached -> " + (error as Error).message }, { status: 500 });
+        return NextResponse.json({ error: "FruitFindManyApi -> " + (error as Error).message }, { status: 500 });
     }
 };
 
 // ==================== Find First ==================== //
 
-const fruitFirstCached = cache(
-    async <T extends FindFirstFruitProps>(params: T) => FruitService.findFirst(params),
-    ["fruit/first"],
-    { revalidate, tags: ["fruit/first"] },
-);
+const fruitFindFirstCached = async <T extends FruitFindFirstProps>(params: T) => {
+    "use cache";
+    cacheLife(cacheLifeApi);
+    cacheTag("/api/fruit/first");
+    return FruitService.findFirst<T>(params);
+};
 
-export const SelectFruitFirst = async <T extends FindFirstFruitProps>(request: NextRequest) => {
+export const FruitFindFirstApi = async <T extends FruitFindFirstProps>(request: NextRequest) => {
     try {
         const params: T = parseAndDecodeParams(request);
-        const response = await fruitFirstCached<T>(params);
+        const response = await fruitFindFirstCached<T>(params);
         return NextResponse.json(response, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ error: "getFruitFirstCached -> " + (error as Error).message }, { status: 500 });
+        return NextResponse.json({ error: "FruitFindFirstApi -> " + (error as Error).message }, { status: 500 });
     }
 };
 
 // ==================== Find Unique ==================== //
 
-const fruitUniqueCached = cache(
-    async <T extends FindUniqueFruitProps>(params: T) => FruitService.findUnique(params),
-    ["fruit/unique"],
-    { revalidate, tags: ["fruit/unique"] },
-);
+const fruitFindUniqueCached = async <T extends FruitFindUniqueProps>(params: T) => {
+    "use cache";
+    cacheLife(cacheLifeApi);
+    cacheTag("/api/fruit/unique");
+    return FruitService.findUnique<T>(params);
+};
 
-export const SelectFruitUnique = async <T extends FindUniqueFruitProps>(request: NextRequest) => {
+export const FruitFindUniqueApi = async <T extends FruitFindUniqueProps>(request: NextRequest) => {
     try {
         const params: T = parseAndDecodeParams(request);
-        const response = await fruitUniqueCached<T>(params);
+        const response = await fruitFindUniqueCached<T>(params);
         return NextResponse.json(response, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ error: "getFruitUniqueCached -> " + (error as Error).message }, { status: 500 });
+        return NextResponse.json({ error: "FruitFindUniqueApi -> " + (error as Error).message }, { status: 500 });
     }
 };
 
 // ==================== Count ==================== //
 
-const fruitCountCached = cache(async (params: CountFruitProps) => FruitService.count(params), ["fruit/count"], {
-    revalidate,
-    tags: ["fruit/count"],
-});
+const fruitCountCached = async (params: FruitCountProps) => {
+    "use cache";
+    cacheLife(cacheLifeApi);
+    cacheTag("/api/fruit/count");
+    return FruitService.count(params);
+};
 
-export const SelectFruitCount = async (request: NextRequest) => {
+export const FruitCountApi = async (request: NextRequest) => {
     try {
-        const params: CountFruitProps = parseAndDecodeParams(request);
+        const params: FruitCountProps = parseAndDecodeParams(request);
         const response = await fruitCountCached(params);
         return NextResponse.json(response, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ error: "getFruitCountCached -> " + (error as Error).message }, { status: 500 });
+        return NextResponse.json({ error: "FruitCountApi -> " + (error as Error).message }, { status: 500 });
     }
 };

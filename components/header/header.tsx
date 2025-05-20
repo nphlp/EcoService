@@ -1,9 +1,12 @@
+"use cache";
+
 import Basket from "@comps/basket/basket";
 import Navigation from "@comps/header/browser/navigation";
 import SectionList from "@comps/header/browser/sectionList";
 import MobileHeader from "@comps/header/mobile/mobileHeader";
 import { CategoryModel } from "@services/types";
 import { FetchV2 } from "@utils/FetchV2/FetchV2";
+import { unstable_cacheLife as cacheLife, unstable_cacheTag as cacheTag } from "next/cache";
 
 export type SearchKeywords = {
     slug: string;
@@ -27,6 +30,9 @@ type HeaderProps = {
 };
 
 export default async function Header(props: HeaderProps) {
+    cacheLife("hours");
+    cacheTag("header");
+
     const { className } = props;
 
     const productList = await FetchV2({
