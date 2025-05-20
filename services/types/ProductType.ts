@@ -12,44 +12,44 @@ export type ProductCount = number;
 // ============== Props Types ============== //
 
 // Single mutations
-export type CreateProductProps = Prisma.ProductCreateArgs;
-export type UpsertProductProps = Prisma.ProductUpsertArgs;
-export type UpdateProductProps = Prisma.ProductUpdateArgs;
-export type DeleteProductProps = Prisma.ProductDeleteArgs;
+export type ProductCreateProps = Prisma.ProductCreateArgs;
+export type ProductUpsertProps = Prisma.ProductUpsertArgs;
+export type ProductUpdateProps = Prisma.ProductUpdateArgs;
+export type ProductDeleteProps = Prisma.ProductDeleteArgs;
 
 // Multiple mutations
-export type CreateManyProductProps = Prisma.ProductCreateManyArgs;
-export type UpdateManyProductProps = Prisma.ProductUpdateManyArgs;
-export type DeleteManyProductProps = Prisma.ProductDeleteManyArgs;
+export type ProductCreateManyProps = Prisma.ProductCreateManyArgs;
+export type ProductUpdateManyProps = Prisma.ProductUpdateManyArgs;
+export type ProductDeleteManyProps = Prisma.ProductDeleteManyArgs;
 
 // Single queries
-export type FindFirstProductProps = Prisma.ProductFindFirstArgs;
-export type FindUniqueProductProps = Prisma.ProductFindUniqueArgs;
-export type FindManyProductProps = Prisma.ProductFindManyArgs;
+export type ProductFindFirstProps = Prisma.ProductFindFirstArgs;
+export type ProductFindUniqueProps = Prisma.ProductFindUniqueArgs;
+export type ProductFindManyProps = Prisma.ProductFindManyArgs;
 
 // Multiple queries
-export type CountProductProps = Prisma.ProductCountArgs;
+export type ProductCountProps = Prisma.ProductCountArgs;
 
 // ============== Schema Types ============== //
 
 // Single mutations
-export const createProductSchema: ZodType<CreateProductProps> = ProductCreateArgsSchema;
-export const upsertProductSchema: ZodType<UpsertProductProps> = ProductUpsertArgsSchema;
-export const updateProductSchema: ZodType<UpdateProductProps> = ProductUpdateArgsSchema;
-export const deleteProductSchema: ZodType<DeleteProductProps> = ProductDeleteArgsSchema;
+export const ProductCreateSchema: ZodType<ProductCreateProps> = ProductCreateArgsSchema;
+export const ProductUpsertSchema: ZodType<ProductUpsertProps> = ProductUpsertArgsSchema;
+export const ProductUpdateSchema: ZodType<ProductUpdateProps> = ProductUpdateArgsSchema;
+export const ProductDeleteSchema: ZodType<ProductDeleteProps> = ProductDeleteArgsSchema;
 
 // Multiple mutations
-export const createManyProductSchema: ZodType<CreateManyProductProps> = ProductCreateManyArgsSchema;
-export const updateManyProductSchema: ZodType<UpdateManyProductProps> = ProductUpdateManyArgsSchema;
-export const deleteManyProductSchema: ZodType<DeleteManyProductProps> = ProductDeleteManyArgsSchema;
+export const ProductCreateManySchema: ZodType<ProductCreateManyProps> = ProductCreateManyArgsSchema;
+export const ProductUpdateManySchema: ZodType<ProductUpdateManyProps> = ProductUpdateManyArgsSchema;
+export const ProductDeleteManySchema: ZodType<ProductDeleteManyProps> = ProductDeleteManyArgsSchema;
 
 // Single queries
-export const selectFirstProductSchema: ZodType<FindFirstProductProps> = ProductFindFirstArgsSchema;
-export const selectUniqueProductSchema: ZodType<FindUniqueProductProps> = ProductFindUniqueArgsSchema;
-export const selectManyProductSchema: ZodType<FindManyProductProps> = ProductFindManyArgsSchema;
+export const ProductFindFirstSchema: ZodType<ProductFindFirstProps> = ProductFindFirstArgsSchema;
+export const ProductFindUniqueSchema: ZodType<ProductFindUniqueProps> = ProductFindUniqueArgsSchema;
+export const ProductFindManySchema: ZodType<ProductFindManyProps> = ProductFindManyArgsSchema;
 
 // Aggregate queries
-export const countProductSchema: ZodType<CountProductProps> =  z.object({
+export const ProductCountSchema: ZodType<ProductCountProps> =  z.object({
     where: z.lazy(() => ProductWhereInputSchema).optional(),
     orderBy: z.union([
         z.lazy(() => ProductOrderByWithRelationInputSchema),
@@ -64,20 +64,20 @@ export const countProductSchema: ZodType<CountProductProps> =  z.object({
 // ============== Response Types ============== //
 
 // Single mutations
-export type CreateProductResponse<T extends CreateProductProps> = Prisma.ProductGetPayload<T>;
-export type UpsertProductResponse<T extends UpsertProductProps> = Prisma.ProductGetPayload<T>;
-export type UpdateProductResponse<T extends UpdateProductProps> = Prisma.ProductGetPayload<T>;
-export type DeleteProductResponse<T extends DeleteProductProps> = Prisma.ProductGetPayload<T>;
+export type ProductCreateResponse<T extends ProductCreateProps> = Prisma.ProductGetPayload<T>;
+export type ProductUpsertResponse<T extends ProductUpsertProps> = Prisma.ProductGetPayload<T>;
+export type ProductUpdateResponse<T extends ProductUpdateProps> = Prisma.ProductGetPayload<T>;
+export type ProductDeleteResponse<T extends ProductDeleteProps> = Prisma.ProductGetPayload<T>;
 
 // Multiple mutations
-export type CreateManyProductResponse = { count: number };
-export type UpdateManyProductResponse = { count: number };
-export type DeleteManyProductResponse = { count: number };
+export type ProductCreateManyResponse = { count: number };
+export type ProductUpdateManyResponse = { count: number };
+export type ProductDeleteManyResponse = { count: number };
 
 // Single queries
-export type FindFirstProductResponse<T extends FindFirstProductProps> = Prisma.ProductGetPayload<T> | null;
-export type FindUniqueProductResponse<T extends FindUniqueProductProps> = Prisma.ProductGetPayload<T> | null;
-export type FindManyProductResponse<T extends FindManyProductProps> = Prisma.ProductGetPayload<T>[];
+export type ProductFindFirstResponse<T extends ProductFindFirstProps> = Prisma.ProductGetPayload<T> | null;
+export type ProductFindUniqueResponse<T extends ProductFindUniqueProps> = Prisma.ProductGetPayload<T> | null;
+export type ProductFindManyResponse<T extends ProductFindManyProps> = Prisma.ProductGetPayload<T>[];
 
 // Aggregate queries
-export type CountProductResponse = ProductCount;
+export type ProductCountResponse = ProductCount;

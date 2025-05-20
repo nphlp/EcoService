@@ -12,44 +12,44 @@ export type SessionCount = number;
 // ============== Props Types ============== //
 
 // Single mutations
-export type CreateSessionProps = Prisma.SessionCreateArgs;
-export type UpsertSessionProps = Prisma.SessionUpsertArgs;
-export type UpdateSessionProps = Prisma.SessionUpdateArgs;
-export type DeleteSessionProps = Prisma.SessionDeleteArgs;
+export type SessionCreateProps = Prisma.SessionCreateArgs;
+export type SessionUpsertProps = Prisma.SessionUpsertArgs;
+export type SessionUpdateProps = Prisma.SessionUpdateArgs;
+export type SessionDeleteProps = Prisma.SessionDeleteArgs;
 
 // Multiple mutations
-export type CreateManySessionProps = Prisma.SessionCreateManyArgs;
-export type UpdateManySessionProps = Prisma.SessionUpdateManyArgs;
-export type DeleteManySessionProps = Prisma.SessionDeleteManyArgs;
+export type SessionCreateManyProps = Prisma.SessionCreateManyArgs;
+export type SessionUpdateManyProps = Prisma.SessionUpdateManyArgs;
+export type SessionDeleteManyProps = Prisma.SessionDeleteManyArgs;
 
 // Single queries
-export type FindFirstSessionProps = Prisma.SessionFindFirstArgs;
-export type FindUniqueSessionProps = Prisma.SessionFindUniqueArgs;
-export type FindManySessionProps = Prisma.SessionFindManyArgs;
+export type SessionFindFirstProps = Prisma.SessionFindFirstArgs;
+export type SessionFindUniqueProps = Prisma.SessionFindUniqueArgs;
+export type SessionFindManyProps = Prisma.SessionFindManyArgs;
 
 // Multiple queries
-export type CountSessionProps = Prisma.SessionCountArgs;
+export type SessionCountProps = Prisma.SessionCountArgs;
 
 // ============== Schema Types ============== //
 
 // Single mutations
-export const createSessionSchema: ZodType<CreateSessionProps> = SessionCreateArgsSchema;
-export const upsertSessionSchema: ZodType<UpsertSessionProps> = SessionUpsertArgsSchema;
-export const updateSessionSchema: ZodType<UpdateSessionProps> = SessionUpdateArgsSchema;
-export const deleteSessionSchema: ZodType<DeleteSessionProps> = SessionDeleteArgsSchema;
+export const SessionCreateSchema: ZodType<SessionCreateProps> = SessionCreateArgsSchema;
+export const SessionUpsertSchema: ZodType<SessionUpsertProps> = SessionUpsertArgsSchema;
+export const SessionUpdateSchema: ZodType<SessionUpdateProps> = SessionUpdateArgsSchema;
+export const SessionDeleteSchema: ZodType<SessionDeleteProps> = SessionDeleteArgsSchema;
 
 // Multiple mutations
-export const createManySessionSchema: ZodType<CreateManySessionProps> = SessionCreateManyArgsSchema;
-export const updateManySessionSchema: ZodType<UpdateManySessionProps> = SessionUpdateManyArgsSchema;
-export const deleteManySessionSchema: ZodType<DeleteManySessionProps> = SessionDeleteManyArgsSchema;
+export const SessionCreateManySchema: ZodType<SessionCreateManyProps> = SessionCreateManyArgsSchema;
+export const SessionUpdateManySchema: ZodType<SessionUpdateManyProps> = SessionUpdateManyArgsSchema;
+export const SessionDeleteManySchema: ZodType<SessionDeleteManyProps> = SessionDeleteManyArgsSchema;
 
 // Single queries
-export const selectFirstSessionSchema: ZodType<FindFirstSessionProps> = SessionFindFirstArgsSchema;
-export const selectUniqueSessionSchema: ZodType<FindUniqueSessionProps> = SessionFindUniqueArgsSchema;
-export const selectManySessionSchema: ZodType<FindManySessionProps> = SessionFindManyArgsSchema;
+export const SessionFindFirstSchema: ZodType<SessionFindFirstProps> = SessionFindFirstArgsSchema;
+export const SessionFindUniqueSchema: ZodType<SessionFindUniqueProps> = SessionFindUniqueArgsSchema;
+export const SessionFindManySchema: ZodType<SessionFindManyProps> = SessionFindManyArgsSchema;
 
 // Aggregate queries
-export const countSessionSchema: ZodType<CountSessionProps> =  z.object({
+export const SessionCountSchema: ZodType<SessionCountProps> =  z.object({
     where: z.lazy(() => SessionWhereInputSchema).optional(),
     orderBy: z.union([
         z.lazy(() => SessionOrderByWithRelationInputSchema),
@@ -64,20 +64,20 @@ export const countSessionSchema: ZodType<CountSessionProps> =  z.object({
 // ============== Response Types ============== //
 
 // Single mutations
-export type CreateSessionResponse<T extends CreateSessionProps> = Prisma.SessionGetPayload<T>;
-export type UpsertSessionResponse<T extends UpsertSessionProps> = Prisma.SessionGetPayload<T>;
-export type UpdateSessionResponse<T extends UpdateSessionProps> = Prisma.SessionGetPayload<T>;
-export type DeleteSessionResponse<T extends DeleteSessionProps> = Prisma.SessionGetPayload<T>;
+export type SessionCreateResponse<T extends SessionCreateProps> = Prisma.SessionGetPayload<T>;
+export type SessionUpsertResponse<T extends SessionUpsertProps> = Prisma.SessionGetPayload<T>;
+export type SessionUpdateResponse<T extends SessionUpdateProps> = Prisma.SessionGetPayload<T>;
+export type SessionDeleteResponse<T extends SessionDeleteProps> = Prisma.SessionGetPayload<T>;
 
 // Multiple mutations
-export type CreateManySessionResponse = { count: number };
-export type UpdateManySessionResponse = { count: number };
-export type DeleteManySessionResponse = { count: number };
+export type SessionCreateManyResponse = { count: number };
+export type SessionUpdateManyResponse = { count: number };
+export type SessionDeleteManyResponse = { count: number };
 
 // Single queries
-export type FindFirstSessionResponse<T extends FindFirstSessionProps> = Prisma.SessionGetPayload<T> | null;
-export type FindUniqueSessionResponse<T extends FindUniqueSessionProps> = Prisma.SessionGetPayload<T> | null;
-export type FindManySessionResponse<T extends FindManySessionProps> = Prisma.SessionGetPayload<T>[];
+export type SessionFindFirstResponse<T extends SessionFindFirstProps> = Prisma.SessionGetPayload<T> | null;
+export type SessionFindUniqueResponse<T extends SessionFindUniqueProps> = Prisma.SessionGetPayload<T> | null;
+export type SessionFindManyResponse<T extends SessionFindManyProps> = Prisma.SessionGetPayload<T>[];
 
 // Aggregate queries
-export type CountSessionResponse = SessionCount;
+export type SessionCountResponse = SessionCount;
