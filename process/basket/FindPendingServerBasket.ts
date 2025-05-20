@@ -1,6 +1,6 @@
 "use server";
 
-import { SelectOrderList } from "@actions/OrderAction";
+import { OrderFindMany } from "@actions/OrderAction";
 import { GetSession } from "@lib/authServer";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { OrderModel } from "@services/types";
@@ -13,7 +13,7 @@ export const FindPendingServerBasket = async (): Promise<FindPendingServerBasket
         const session = await GetSession();
         if (!session) return null;
 
-        const orderList = await SelectOrderList({
+        const orderList = await OrderFindMany({
             where: {
                 userId: session.user.id,
                 orderStatus: "PENDING",

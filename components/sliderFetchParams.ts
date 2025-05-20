@@ -1,6 +1,6 @@
-import { FindManyArticleProps, FindManyArticleResponse } from "@services/types/ArticleType";
-import { FindManyDiyProps, FindManyDiyResponse } from "@services/types/DiyType";
-import { FindManyProductProps, FindManyProductResponse } from "@services/types/ProductType";
+import { ArticleFindManyProps, ArticleFindManyResponse } from "@services/types/ArticleType";
+import { DiyFindManyProps, DiyFindManyResponse } from "@services/types/DiyType";
+import { ProductFindManyProps, ProductFindManyResponse } from "@services/types/ProductType";
 
 // Article or diy fetch params
 
@@ -24,14 +24,14 @@ export const ArticleOrDiyFetchParams = {
     orderBy: {
         createdAt: "desc" as const,
     },
-} satisfies FindManyArticleProps | FindManyDiyProps;
+} satisfies ArticleFindManyProps | DiyFindManyProps;
 
-export const ArticleFetchParams = ArticleOrDiyFetchParams satisfies FindManyArticleProps;
-export const DiyFetchParams = ArticleOrDiyFetchParams satisfies FindManyDiyProps;
+export const ArticleFetchParams = ArticleOrDiyFetchParams satisfies ArticleFindManyProps;
+export const DiyFetchParams = ArticleOrDiyFetchParams satisfies DiyFindManyProps;
 
 export type ArticleOrDiyListType =
-    | FindManyArticleResponse<typeof ArticleOrDiyFetchParams>
-    | FindManyDiyResponse<typeof ArticleOrDiyFetchParams>;
+    | ArticleFindManyResponse<typeof ArticleOrDiyFetchParams>
+    | DiyFindManyResponse<typeof ArticleOrDiyFetchParams>;
 
 // Product list fetch params
 
@@ -40,6 +40,6 @@ export const ProductFetchParams = {
         createdAt: "desc" as const,
     },
     take: 10,
-} satisfies FindManyProductProps;
+} satisfies ProductFindManyProps;
 
-export type ProductListType = FindManyProductResponse<typeof ProductFetchParams>;
+export type ProductListType = ProductFindManyResponse<typeof ProductFetchParams>;

@@ -1,4 +1,4 @@
-import { SelectOrderList } from "@actions/OrderAction";
+import { OrderFindMany } from "@actions/OrderAction";
 import { Accordion, AccordionButton, AccordionContent } from "@comps/ui/accordion";
 import { BetterSessionServer } from "@lib/authServer";
 
@@ -10,7 +10,7 @@ type OrdersAccordionProps = {
 export default async function OrdersAccordion(props: OrdersAccordionProps) {
     const { session } = props;
 
-    const orderList = await SelectOrderList({
+    const orderList = await OrderFindMany({
         where: {
             userId: session.user.id,
             orderStatus: { not: "PENDING" },

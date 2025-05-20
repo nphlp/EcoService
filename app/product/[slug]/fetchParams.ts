@@ -1,5 +1,4 @@
-import { FindUniqueProductProps } from "@services/types/ProductType";
-import { FindUniqueProductResponse } from "@services/types";
+import { ProductFindUniqueProps, ProductFindUniqueResponse } from "@services/types/ProductType";
 
 // Product fetch params
 
@@ -25,6 +24,6 @@ export const ProductFetchParams = (slug: string) =>
                 },
             },
         },
-    }) satisfies FindUniqueProductProps;
+    }) satisfies ProductFindUniqueProps;
 
-export type ProductType = NonNullable<FindUniqueProductResponse<ReturnType<typeof ProductFetchParams>>>;
+export type ProductType = NonNullable<ProductFindUniqueResponse<ReturnType<typeof ProductFetchParams>>>;
