@@ -1,5 +1,9 @@
 import { spawn } from "child_process";
+import dotenv from "dotenv";
 import { createInterface } from "readline";
+
+// Charger les variables d'environnement du fichier .env
+dotenv.config();
 
 const rl = createInterface({
     input: process.stdin,
@@ -21,6 +25,23 @@ export const question = (query: string): Promise<string> => {
 export const closeReadline = (): void => {
     rl.close();
 };
+
+/**
+ * Récupère le mot de passe MySQL depuis l'environnement ou l'utilisateur
+ */
+export async function getMySqlPassword(): Promise<string> {
+    // Vérifier d'abord la variable d'environnement
+    const envPassword = process.env.MYSQL_ROOT_PASSWORD;
+
+    if (envPassword) {
+        return envPassword;
+    }
+
+    // Sinon demander à l'utilisateur
+    return new Promise((resolve) => {
+        rl.question("🔑 Mot de passe MySQL : ", resolve);
+    });
+}
 
 /**
  * Vérifie si une base de données existe

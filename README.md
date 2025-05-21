@@ -27,6 +27,10 @@ Install the project in three steps: `software requirements`, `environment variab
 
     Database connection managed by Prisma (more info [Prisma Docs](https://www.prisma.io/docs/getting-started/setup-prisma/add-to-existing-project/relational-databases/connect-your-database-typescript-mysql))
 
+- `MYSQL_ROOT_PASSWORD` (optional)
+
+    A password used in `scripts/db.ts` to connect to the database. If you don't want to use a password, you can leave it empty and the script will ask you for a password if needed.
+
 - `BETTER_AUTH_SECRET`
 
     Authentication managed by Better Auth (more info [Better Auth Docs](https://www.better-auth.com/docs/installation))
@@ -195,6 +199,9 @@ NEXT_PUBLIC_BASE_URL=https://eco-service.domain.com
 
 # Database connection (get it in the Mysql environnment)
 DATABASE_URL=mysql://eco-service-user: ******** @ ******** /eco-service-db
+
+# Mysql root password (optional, use in script/db.ts)
+MYSQL_ROOT_PASSWORD= ********
 
 # Better Auth encryption key (generate a random string)
 BETTER_AUTH_SECRET=session-encryption-key

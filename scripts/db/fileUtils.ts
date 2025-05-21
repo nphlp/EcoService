@@ -6,7 +6,7 @@ import { databaseExists } from "./utils";
 /**
  * Exécute un fichier SQL avec MySQL
  */
-export async function executeSqlFile(password: string, filename: string): Promise<boolean> {
+export async function executeSqlFile(filename: string, password: string): Promise<boolean> {
     const sqlPath = join(process.cwd(), "prisma", "sql", filename);
     const sqlContent = readFileSync(sqlPath, "utf-8");
 
@@ -67,10 +67,8 @@ export async function executeSqlFile(password: string, filename: string): Promis
 /**
  * Exécute plusieurs fichiers SQL en séquence
  */
-export async function executeMultipleFiles(files: string[], passwordArg?: string): Promise<boolean> {
+export async function executeMultipleFiles(files: string[], password: string): Promise<boolean> {
     if (files.length === 0) return true;
-
-    const password = passwordArg || (await question("🔑 Mot de passe MySQL : "));
 
     // Si nous sommes en train de faire un reload (reset.sql + setup.sql)
     if (files.includes("reset.sql") && files.includes("setup.sql")) {
@@ -86,7 +84,7 @@ export async function executeMultipleFiles(files: string[], passwordArg?: string
         } else if (dbExistsResult === false) {
             // Si la base n'existe pas, exécuter uniquement setup.sql
             console.log("ℹ️ Base de données inexistante, création directe sans reset");
-            const success = await executeSqlFile(password, "setup.sql");
+            const success = await executeSqlFile("setup.sql", password);
             if (success) {
                 console.log(`✅ setup.sql`);
                 return true;
@@ -99,7 +97,7 @@ export async function executeMultipleFiles(files: string[], passwordArg?: string
     // Exécution normale de tous les fichiers
     let allSuccessful = true;
     for (const file of files) {
-        const success = await executeSqlFile(password, file);
+        const success = await executeSqlFile(file, password);
         if (success) {
             console.log(`✅ ${file}`);
         } else {
@@ -112,4 +110,3 @@ export async function executeMultipleFiles(files: string[], passwordArg?: string
 }
 
 // Import de la fonction question depuis utils
-import { question } from "./utils";
