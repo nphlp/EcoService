@@ -1,0 +1,21 @@
+# Base
+FROM node:18-alpine3.21 AS base
+WORKDIR /app
+
+RUN npm install -g pnpm
+
+## Builder
+FROM base AS dev
+
+COPY . .
+
+# Override the .env file for nextjs
+COPY .env.dev .env
+
+RUN pnpm install
+# RUN pnpm run db:reload --prod
+RUN pnpm run prisma:generate
+
+EXPOSE 3000
+
+CMD ["/bin/sh", "-c", "pnpm run prisma:deploy && pnpm run fixtures:reload && pnpm run dev"]
