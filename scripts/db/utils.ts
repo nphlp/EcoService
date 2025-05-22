@@ -1,5 +1,7 @@
 import { spawn } from "child_process";
 import dotenv from "dotenv";
+import { readFileSync } from "fs";
+import { join } from "path";
 import { createInterface } from "readline";
 
 // Charger les variables d'environnement du fichier .env
@@ -84,4 +86,49 @@ export async function databaseExists(password: string, dbName: string): Promise<
             }
         });
     });
+}
+
+/**
+ * Exécute un fichier SQL avec MySQL
+ * @param filename Le nom du fichier SQL ou le chemin relatif à prisma/sql
+ * @param password Le mot de passe MySQL
+ */
+export async function executeSqlFile(filename: string, password: string): Promise<boolean> {
+    // Détermine le chemin du fichier SQL (toujours relatif à prisma/sql)
+    const filePath = join(process.cwd(), "prisma", "sql", filename);
+
+    try {
+        const fileContent = readFileSync(filePath, "utf-8");
+
+        const mysql = spawn("mysql", ["-u", "root", `--password=${password}`, "-e", fileContent], {
+            stdio: ["pipe", "pipe", "pipe"],
+        });
+
+        let errorOutput = "";
+
+        mysql.stdout.on("data", (data) => {
+            console.log(data.toString());
+        });
+
+        mysql.stderr.on("data", (data) => {
+            const errorMsg = data.toString();
+            if (!errorMsg.includes("Using a password on the command line interface can be insecure")) {
+                errorOutput += errorMsg;
+            }
+        });
+
+        return new Promise((resolve) => {
+            mysql.on("close", (code) => {
+                if (code === 0) {
+                    resolve(true);
+                } else {
+                    console.log("❌ Erreur SQL : " + errorOutput.trim());
+                    resolve(false);
+                }
+            });
+        });
+    } catch (error) {
+        console.log(`❌ Erreur lors de la lecture du fichier ${filePath} : ${error}`);
+        return false;
+    }
 }

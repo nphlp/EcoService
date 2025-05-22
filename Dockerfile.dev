@@ -13,7 +13,7 @@ COPY . .
 COPY .env.dev .env
 
 RUN pnpm install
-# RUN pnpm run db:reload --prod
+RUN pnpm run db:reload --docker
 RUN pnpm run prisma:generate
 
 EXPOSE 3000

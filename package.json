@@ -21,6 +21,7 @@
         "db:setup": "tsx scripts/db.ts setup",
         "db:reset": "tsx scripts/db.ts reset",
         "db:reload": "tsx scripts/db.ts reload",
+        "db:execute": "tsx scripts/db.ts execute",
         "prisma:generate": "pnpm dlx prisma generate",
         "prisma:migrate": "pnpm dlx prisma migrate dev",
         "prisma:deploy": "pnpm dlx prisma migrate deploy",

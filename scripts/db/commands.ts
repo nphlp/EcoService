@@ -1,11 +1,21 @@
-import { executeMultipleFiles, executeSqlFile } from "./fileUtils";
+import { databaseExists, executeSqlFile } from "./utils";
 
 /**
  * Configure la base de données en exécutant le fichier setup.sql
+ * Test si la DB existe et la crée que si nécessaire
  */
-export async function setupDb(isProd: boolean = false, password: string): Promise<void> {
+export async function setupDb(isDocker: boolean = false, password: string): Promise<void> {
     try {
-        const sqlFileName = isProd ? "setup-prod.sql" : "setup.sql";
+        const sqlFileName = isDocker ? "setup-docker.sql" : "setup.sql";
+
+        // Vérifier si la base de données existe déjà
+        const dbExistsResult = await databaseExists(password, "eco-service-db");
+
+        if (dbExistsResult === true) {
+            console.log("ℹ️ Base de données 'eco-service-db' existe déjà");
+            return;
+        }
+
         const success = await executeSqlFile(sqlFileName, password);
 
         if (success) {
@@ -18,10 +28,20 @@ export async function setupDb(isProd: boolean = false, password: string): Promis
 
 /**
  * Réinitialise la base de données en exécutant le fichier reset.sql
+ * Vérifie si la DB existe et la supprime si nécessaire
  */
-export async function resetDb(isProd: boolean = false, password: string): Promise<void> {
+export async function resetDb(isDocker: boolean = false, password: string): Promise<void> {
     try {
-        const sqlFileName = isProd ? "reset-prod.sql" : "reset.sql";
+        const sqlFileName = isDocker ? "reset-docker.sql" : "reset.sql";
+
+        // Vérifier si la base de données existe
+        const dbExistsResult = await databaseExists(password, "eco-service-db");
+
+        if (dbExistsResult !== true) {
+            console.log("ℹ️ Base de données 'eco-service-db' n'existe pas, rien à réinitialiser");
+            return;
+        }
+
         const success = await executeSqlFile(sqlFileName, password);
 
         if (success) {
@@ -34,12 +54,48 @@ export async function resetDb(isProd: boolean = false, password: string): Promis
 
 /**
  * Recharge la base de données en exécutant reset.sql puis setup.sql
+ * Reset si besoin puis crée la DB
  */
-export async function reloadDb(isProd: boolean = false, password: string): Promise<void> {
+export async function reloadDb(isDocker: boolean = false, password: string): Promise<void> {
     try {
-        const files = isProd ? ["reset-prod.sql", "setup-prod.sql"] : ["reset.sql", "setup.sql"];
-        const success = await executeMultipleFiles(files, password);
-        if (success) {
+        // Vérifier si la base de données existe
+        const dbExistsResult = await databaseExists(password, "eco-service-db");
+
+        if (dbExistsResult === "ACCESS_DENIED") {
+            console.log("❌ Mot de passe MySQL incorrect");
+            return;
+        } else if (dbExistsResult === "ERROR") {
+            console.log("❌ Erreur MySQL");
+            return;
+        }
+
+        // Si la base n'existe pas, exécuter uniquement setup.sql
+        if (dbExistsResult === false) {
+            console.log("ℹ️ Base de données inexistante, création directe sans reset");
+            const setupFile = isDocker ? "setup-docker.sql" : "setup.sql";
+            const success = await executeSqlFile(setupFile, password);
+            if (success) {
+                console.log(`✅ ${setupFile}`);
+            }
+            return;
+        }
+
+        // Si la base existe, exécuter reset.sql puis setup.sql
+        const resetFile = isDocker ? "reset-docker.sql" : "reset.sql";
+        const resetSuccess = await executeSqlFile(resetFile, password);
+
+        if (!resetSuccess) {
+            console.log("❌ Échec de la réinitialisation de la base de données");
+            return;
+        }
+
+        console.log(`✅ ${resetFile}`);
+
+        const setupFile = isDocker ? "setup-docker.sql" : "setup.sql";
+        const setupSuccess = await executeSqlFile(setupFile, password);
+
+        if (setupSuccess) {
+            console.log(`✅ ${setupFile}`);
             console.log("✅ Base de données rechargée");
         }
     } catch (error) {
@@ -49,16 +105,37 @@ export async function reloadDb(isProd: boolean = false, password: string): Promi
 
 /**
  * Exécute un fichier SQL personnalisé
+ * Teste si la DB existe et exécute le script
+ * @param sqlFilePath Le nom du fichier SQL ou le chemin relatif à prisma/sql
+ * @param isDocker Indique si on est en mode Docker
+ * @param password Le mot de passe MySQL
  */
-export async function customSqlFile(sqlFile: string, isProd: boolean = false, password: string): Promise<void> {
+export async function customSqlFile(sqlFilePath: string, isDocker: boolean = false, password: string): Promise<void> {
     try {
-        // Déterminer le fichier SQL à utiliser en fonction du mode
-        const sqlFileName = isProd ? sqlFile.replace(".sql", "-prod.sql") : sqlFile;
+        // Vérifier si la base de données existe
+        const dbExistsResult = await databaseExists(password, "eco-service-db");
 
-        const success = await executeSqlFile(sqlFileName, password);
+        if (dbExistsResult !== true) {
+            console.log("❌ Base de données 'eco-service-db' n'existe pas");
+            return;
+        }
 
-        if (success) {
-            console.log(`✅ ${sqlFileName}`);
+        // Si c'est un chemin avec des dossiers (contient '/')
+        if (sqlFilePath.includes("/")) {
+            // Utiliser le chemin tel quel (toujours relatif à prisma/sql)
+            const success = await executeSqlFile(sqlFilePath, password);
+
+            if (success) {
+                console.log(`✅ ${sqlFilePath}`);
+            }
+        } else {
+            // C'est juste un nom de fichier, appliquer la logique Docker si nécessaire
+            const sqlFileName = isDocker ? sqlFilePath.replace(".sql", "-docker.sql") : sqlFilePath;
+            const success = await executeSqlFile(sqlFileName, password);
+
+            if (success) {
+                console.log(`✅ ${sqlFileName}`);
+            }
         }
     } catch (error) {
         console.log("❌ Erreur :", error);
