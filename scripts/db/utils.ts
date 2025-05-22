@@ -50,9 +50,11 @@ export async function getMySqlPassword(): Promise<string> {
  */
 export async function databaseExists(password: string, dbName: string): Promise<boolean | string> {
     return new Promise((resolve) => {
+        const host = process.env.MYSQL_HOST ?? "localhost";
+
         const mysql = spawn(
             "mysql",
-            ["-u", "root", `--password=${password}`, "-e", "SHOW DATABASES LIKE '" + dbName + "'"],
+            ["-u", "root", `-p${password}`, "-h", host, "-e", "SHOW DATABASES LIKE '" + dbName + "'"],
             {
                 stdio: ["pipe", "pipe", "pipe"],
             },
@@ -98,9 +100,11 @@ export async function executeSqlFile(filename: string, password: string): Promis
     const filePath = join(process.cwd(), "prisma", "sql", filename);
 
     try {
+        const host = process.env.MYSQL_HOST ?? "localhost";
+
         const fileContent = readFileSync(filePath, "utf-8");
 
-        const mysql = spawn("mysql", ["-u", "root", `--password=${password}`, "-e", fileContent], {
+        const mysql = spawn("mysql", ["-u", "root", `-p${password}`, "-h", host, "-e", fileContent], {
             stdio: ["pipe", "pipe", "pipe"],
         });
 

@@ -2,20 +2,37 @@
 FROM node:18-alpine3.21 AS base
 WORKDIR /app
 
+# Install MySQL client
+RUN apk add --no-cache mysql-client
+
+# Install pnpm
 RUN npm install -g pnpm
 
-## Builder
+# Dependencies
+FROM base AS deps
+
+COPY package.json pnpm-lock.yaml ./
+
+RUN pnpm install
+
+## Development
 FROM base AS dev
 
+COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
 # Override the .env file for nextjs
 COPY .env.dev .env
 
 RUN pnpm install
-RUN pnpm run db:reload --docker
 RUN pnpm run prisma:generate
 
 EXPOSE 3000
 
-CMD ["/bin/sh", "-c", "pnpm run prisma:deploy && pnpm run fixtures:reload && pnpm run dev"]
+CMD ["/bin/sh", "-c", "\
+    sleep 5 && \
+    pnpm run db:setup --docker && \
+    pnpm run prisma:deploy && \
+    pnpm run fixtures:reload && \
+    pnpm run dev \
+"]
