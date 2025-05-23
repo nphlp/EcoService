@@ -3,7 +3,7 @@ FROM node:18-alpine3.21 AS base
 WORKDIR /app
 
 # Install MySQL client
-RUN apk add --no-cache mysql-client
+RUN apk add --no-cache mysql-client mariadb-connector-c
 
 # Install pnpm
 RUN npm install -g pnpm
@@ -31,7 +31,7 @@ EXPOSE 3000
 
 CMD ["/bin/sh", "-c", "\
     sleep 5 && \
-    pnpm run db:setup --docker && \
+    pnpm run db:reload --docker && \
     pnpm run prisma:deploy && \
     pnpm run fixtures:reload && \
     pnpm run dev \

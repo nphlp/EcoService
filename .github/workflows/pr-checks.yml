@@ -67,7 +67,7 @@ jobs:
                   --health-start-period=60s
         env:
             # Used in the workflow
-            DATABASE_URL: "mysql://eco_service_user:eco_service_password@127.0.0.1:3306/eco_service_db"
+            DATABASE_URL: "mysql://eco_service_user:eco_service_password@127.0.0.1:3306/eco_service_db?ssl-mode=DISABLED"
             NEXT_PUBLIC_BASE_URL: "http://localhost:3000"
             # Required to prevent errors
             BETTER_AUTH_SECRET: "session-encryption-key"
@@ -78,6 +78,10 @@ jobs:
 
         steps:
             - uses: actions/checkout@v4
+            - name: Generate MySQL SSL certificates
+              run: |
+                chmod +x ./docker/generate-mysql-ssl-certs.bash
+                ./docker/generate-mysql-ssl-certs.bash
             - id: setup-node-pnpm
               uses: ./.github/actions/setup-node-pnpm
             - id: setup-db-build

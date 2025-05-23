@@ -9,14 +9,14 @@ export async function setupDb(isDocker: boolean = false, password: string): Prom
         const sqlFileName = isDocker ? "setup-docker.sql" : "setup.sql";
 
         // Vérifier si la base de données existe déjà
-        const dbExistsResult = await databaseExists(password, "eco-service-db");
+        const dbExistsResult = await databaseExists(password, "eco-service-db", isDocker);
 
         if (dbExistsResult === true) {
             console.log("ℹ️ Base de données 'eco-service-db' existe déjà");
             return;
         }
 
-        const success = await executeSqlFile(sqlFileName, password);
+        const success = await executeSqlFile(sqlFileName, password, isDocker);
 
         if (success) {
             console.log(`✅ ${sqlFileName}`);
@@ -35,14 +35,14 @@ export async function resetDb(isDocker: boolean = false, password: string): Prom
         const sqlFileName = isDocker ? "reset-docker.sql" : "reset.sql";
 
         // Vérifier si la base de données existe
-        const dbExistsResult = await databaseExists(password, "eco-service-db");
+        const dbExistsResult = await databaseExists(password, "eco-service-db", isDocker);
 
         if (dbExistsResult !== true) {
             console.log("ℹ️ Base de données 'eco-service-db' n'existe pas, rien à réinitialiser");
             return;
         }
 
-        const success = await executeSqlFile(sqlFileName, password);
+        const success = await executeSqlFile(sqlFileName, password, isDocker);
 
         if (success) {
             console.log(`✅ ${sqlFileName}`);
@@ -59,21 +59,31 @@ export async function resetDb(isDocker: boolean = false, password: string): Prom
 export async function reloadDb(isDocker: boolean = false, password: string): Promise<void> {
     try {
         // Vérifier si la base de données existe
-        const dbExistsResult = await databaseExists(password, "eco-service-db");
+        const dbExistsResult = await databaseExists(password, "eco-service-db", isDocker);
 
         if (dbExistsResult === "ACCESS_DENIED") {
             console.log("❌ Mot de passe MySQL incorrect");
             return;
-        } else if (dbExistsResult === "ERROR") {
-            console.log("❌ Erreur MySQL");
-            return;
+        } else if (typeof dbExistsResult === "string") {
+            if (dbExistsResult.includes("TLS/SSL")) {
+                console.log(
+                    "❌ It's looks like you're in a Docker container...",
+                    "\n   Try adding the --docker flag to use SSL :",
+                    `\n   ➡️  \x1b[1mpnpm run db:${process.argv[2]} --docker\x1b[0m`,
+                );
+                console.log("");
+                return;
+            } else if (dbExistsResult.startsWith("ERROR:")) {
+                console.log(`❌ ${dbExistsResult}`);
+                return;
+            }
         }
 
         // Si la base n'existe pas, exécuter uniquement setup.sql
         if (dbExistsResult === false) {
             console.log("ℹ️ Base de données inexistante, création directe sans reset");
             const setupFile = isDocker ? "setup-docker.sql" : "setup.sql";
-            const success = await executeSqlFile(setupFile, password);
+            const success = await executeSqlFile(setupFile, password, isDocker);
             if (success) {
                 console.log(`✅ ${setupFile}`);
             }
@@ -82,7 +92,7 @@ export async function reloadDb(isDocker: boolean = false, password: string): Pro
 
         // Si la base existe, exécuter reset.sql puis setup.sql
         const resetFile = isDocker ? "reset-docker.sql" : "reset.sql";
-        const resetSuccess = await executeSqlFile(resetFile, password);
+        const resetSuccess = await executeSqlFile(resetFile, password, isDocker);
 
         if (!resetSuccess) {
             console.log("❌ Échec de la réinitialisation de la base de données");
@@ -92,7 +102,7 @@ export async function reloadDb(isDocker: boolean = false, password: string): Pro
         console.log(`✅ ${resetFile}`);
 
         const setupFile = isDocker ? "setup-docker.sql" : "setup.sql";
-        const setupSuccess = await executeSqlFile(setupFile, password);
+        const setupSuccess = await executeSqlFile(setupFile, password, isDocker);
 
         if (setupSuccess) {
             console.log(`✅ ${setupFile}`);
@@ -113,7 +123,7 @@ export async function reloadDb(isDocker: boolean = false, password: string): Pro
 export async function customSqlFile(sqlFilePath: string, isDocker: boolean = false, password: string): Promise<void> {
     try {
         // Vérifier si la base de données existe
-        const dbExistsResult = await databaseExists(password, "eco-service-db");
+        const dbExistsResult = await databaseExists(password, "eco-service-db", isDocker);
 
         if (dbExistsResult !== true) {
             console.log("❌ Base de données 'eco-service-db' n'existe pas");
@@ -123,7 +133,7 @@ export async function customSqlFile(sqlFilePath: string, isDocker: boolean = fal
         // Si c'est un chemin avec des dossiers (contient '/')
         if (sqlFilePath.includes("/")) {
             // Utiliser le chemin tel quel (toujours relatif à prisma/sql)
-            const success = await executeSqlFile(sqlFilePath, password);
+            const success = await executeSqlFile(sqlFilePath, password, isDocker);
 
             if (success) {
                 console.log(`✅ ${sqlFilePath}`);
@@ -131,7 +141,7 @@ export async function customSqlFile(sqlFilePath: string, isDocker: boolean = fal
         } else {
             // C'est juste un nom de fichier, appliquer la logique Docker si nécessaire
             const sqlFileName = isDocker ? sqlFilePath.replace(".sql", "-docker.sql") : sqlFilePath;
-            const success = await executeSqlFile(sqlFileName, password);
+            const success = await executeSqlFile(sqlFileName, password, isDocker);
 
             if (success) {
                 console.log(`✅ ${sqlFileName}`);

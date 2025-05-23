@@ -48,17 +48,32 @@ export async function getMySqlPassword(): Promise<string> {
 /**
  * Vérifie si une base de données existe
  */
-export async function databaseExists(password: string, dbName: string): Promise<boolean | string> {
+export async function databaseExists(
+    password: string,
+    dbName: string,
+    isDocker: boolean = false,
+): Promise<boolean | string> {
     return new Promise((resolve) => {
         const host = process.env.MYSQL_HOST ?? "localhost";
 
-        const mysql = spawn(
-            "mysql",
-            ["-u", "root", `-p${password}`, "-h", host, "-e", "SHOW DATABASES LIKE '" + dbName + "'"],
-            {
-                stdio: ["pipe", "pipe", "pipe"],
-            },
-        );
+        // Arguments de base pour MySQL
+        const args = ["-u", "root", `-p${password}`, "-h", host];
+
+        // Ajouter les options SSL si on est en mode Docker
+        if (isDocker) {
+            args.push(
+                "--ssl-ca=./docker/certs/ca.pem",
+                "--ssl-cert=./docker/certs/client-cert.pem",
+                "--ssl-key=./docker/certs/client-key.pem",
+            );
+        }
+
+        // Ajouter la requête SQL
+        args.push("-e", "SHOW DATABASES LIKE '" + dbName + "'");
+
+        const mysql = spawn("mysql", args, {
+            stdio: ["pipe", "pipe", "pipe"],
+        });
 
         let output = "";
         let errorOutput = "";
@@ -76,11 +91,12 @@ export async function databaseExists(password: string, dbName: string): Promise<
 
         mysql.on("close", (code) => {
             if (code !== 0) {
-                // Si le code d'erreur n'est pas 0, il y a eu un problème (probablement mot de passe incorrect)
+                // Si le code d'erreur n'est pas 0, il y a eu un problème
                 if (errorOutput.includes("Access denied")) {
                     resolve("ACCESS_DENIED");
                 } else {
-                    resolve("ERROR");
+                    // Retourner l'erreur détaillée au lieu de juste "ERROR"
+                    resolve(`ERROR: ${errorOutput.trim()}`);
                 }
             } else {
                 // Si la base de données existe, le résultat contiendra son nom
@@ -94,8 +110,9 @@ export async function databaseExists(password: string, dbName: string): Promise<
  * Exécute un fichier SQL avec MySQL
  * @param filename Le nom du fichier SQL ou le chemin relatif à prisma/sql
  * @param password Le mot de passe MySQL
+ * @param isDocker Indique si on est en mode Docker (pour SSL)
  */
-export async function executeSqlFile(filename: string, password: string): Promise<boolean> {
+export async function executeSqlFile(filename: string, password: string, isDocker: boolean = false): Promise<boolean> {
     // Détermine le chemin du fichier SQL (toujours relatif à prisma/sql)
     const filePath = join(process.cwd(), "prisma", "sql", filename);
 
@@ -104,7 +121,22 @@ export async function executeSqlFile(filename: string, password: string): Promis
 
         const fileContent = readFileSync(filePath, "utf-8");
 
-        const mysql = spawn("mysql", ["-u", "root", `-p${password}`, "-h", host, "-e", fileContent], {
+        // Arguments de base pour MySQL
+        const args = ["-u", "root", `-p${password}`, "-h", host];
+
+        // Ajouter les options SSL si on est en mode Docker
+        if (isDocker) {
+            args.push(
+                "--ssl-ca=./docker/certs/ca.pem",
+                "--ssl-cert=./docker/certs/client-cert.pem",
+                "--ssl-key=./docker/certs/client-key.pem",
+            );
+        }
+
+        // Ajouter le contenu SQL
+        args.push("-e", fileContent);
+
+        const mysql = spawn("mysql", args, {
             stdio: ["pipe", "pipe", "pipe"],
         });
 

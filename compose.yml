@@ -10,7 +10,7 @@ services:
     nextjs:
         build:
             context: ./
-            dockerfile: ${DOCKERFILE}
+            dockerfile: ./docker/${DOCKERFILE}
         container_name: nextjs
         ports:
             - "3000:3000"
@@ -20,6 +20,8 @@ services:
         depends_on:
             mysql:
                 condition: service_healthy
+        volumes:
+            - ./docker/certs:/app/certs:ro
         networks:
             - nextjs-network
 
@@ -27,6 +29,13 @@ services:
         image: mysql:9.3
         container_name: mysql
         restart: unless-stopped
+        command:
+            [
+                "mysqld",
+                "--ssl-ca=/etc/mysql/certs/ca.pem",
+                "--ssl-cert=/etc/mysql/certs/server-cert.pem",
+                "--ssl-key=/etc/mysql/certs/server-key.pem",
+            ]
         environment:
             - MYSQL_DATABASE=${MYSQL_DATABASE}
             - MYSQL_USER=${MYSQL_USER}
@@ -34,10 +43,22 @@ services:
             - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
         volumes:
             - mysql-volume:/var/lib/mysql
+            - ./docker/certs:/etc/mysql/certs:ro
         ports:
             - "${MYSQL_PORT}:3306"
         healthcheck:
-            test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-proot"]
+            test:
+                [
+                    "CMD",
+                    "mysqladmin",
+                    "ping",
+                    "-h",
+                    "localhost",
+                    "-u",
+                    "root",
+                    "-proot",
+                    "--ssl-ca=/etc/mysql/certs/ca.pem",
+                ]
             interval: 5s
             timeout: 5s
             retries: 10
