@@ -1,10 +1,10 @@
 # Start the project by loading the .env.dev file
 #
 # Development:
-# `docker compose up -d --env-file .env.dev`
+# `make dev` or `docker compose up -d --env-file .env.dev`
 #
 # Production:
-# `docker compose up -d --env-file .env.prod`
+# `make prod` or `docker compose up -d --env-file .env.prod`
 
 services:
     nextjs:
@@ -14,14 +14,21 @@ services:
         container_name: nextjs
         ports:
             - "3000:3000"
-        environment:
-            - NODE_ENV=${NODE_ENV}
         restart: unless-stopped
         depends_on:
             mysql:
                 condition: service_healthy
         volumes:
-            - ./docker/certs:/app/certs:ro
+            # SSL client certs (read-only)
+            - ./docker/certs:/app/docker/certs:ro
+            # .env (read-only)
+            - ./${ENV_FILE}:/app/.env:ro
+            # Codebase (read-write)
+            - .:/app
+            # .next (volume)
+            - next-volume:/app/.next
+            # node_modules (volume)
+            - deps-volume:/app/node_modules
         networks:
             - nextjs-network
 
@@ -42,8 +49,10 @@ services:
             - MYSQL_PASSWORD=${MYSQL_PASSWORD}
             - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
         volumes:
-            - mysql-volume:/var/lib/mysql
+            # SSL server certs (read-only)
             - ./docker/certs:/etc/mysql/certs:ro
+            # MySQL data (read-write)
+            - mysql-volume:/var/lib/mysql
         ports:
             - "${MYSQL_PORT}:3306"
         healthcheck:
@@ -67,8 +76,9 @@ services:
             - nextjs-network
 
 volumes:
+    next-volume:
+    deps-volume:
     mysql-volume:
-        name: data
 
 networks:
     nextjs-network:

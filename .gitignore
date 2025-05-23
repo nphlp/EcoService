@@ -1,5 +1,6 @@
 # dependencies
 /node_modules
+.pnpm-store
 
 # next.js
 .next/
@@ -24,7 +25,7 @@ next-env.d.ts
 .vscode
 
 # docker ssl certs
-certs/
+docker/certs/
 
 # prisma
 prisma/client

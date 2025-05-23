@@ -39,9 +39,9 @@ nextjs-it:
 nextjs-db-shell:
 	@ docker exec -it nextjs sh -c " \
 	    mysql -u root -p${MYSQL_ROOT_PASSWORD} -h mysql \
-	    --ssl-ca=/app/certs/ca.pem \
-	    --ssl-cert=/app/certs/client-cert.pem \
-	    --ssl-key=/app/certs/client-key.pem \
+	    --ssl-ca=/app/docker/certs/ca.pem \
+	    --ssl-cert=/app/docker/certs/client-cert.pem \
+	    --ssl-key=/app/docker/certs/client-key.pem \
 	"
 
 # Show the mysql logs

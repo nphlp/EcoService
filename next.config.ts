@@ -1,6 +1,11 @@
 import type { NextConfig } from "next";
 
+// const isDocker = process.env.DOCKERFILE !== "";
+
 const nextConfig: NextConfig = {
+    // Docker optimization
+    // output: isDocker ? "standalone" : undefined,
+
     images: {
         remotePatterns: [
             {

@@ -4,3 +4,4 @@ node_modules
 Dockerfile.dev
 Dockerfile.prod
 compose.yml
+.env
