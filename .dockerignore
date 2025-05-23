@@ -1,7 +1,36 @@
+# Dependencies
 node_modules
+.pnpm-store
+
+# Build outputs
 .next
-.git
-Dockerfile.dev
-Dockerfile.prod
-compose.yml
+dist
+
+# Environment files
 .env
+.env.example*
+
+# Git
+.git
+.gitignore
+
+# Docker files
+Dockerfile*
+compose*.yml
+coolify.yml
+
+# Development files
+.vscode
+.cursor
+.DS_Store
+*.log
+
+# Documentation
+README.md
+DEPLOYMENT.md
+TODO.md
+CHANGELOG.md
+
+# Misc
+.husky
+.github

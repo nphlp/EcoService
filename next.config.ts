@@ -1,10 +1,11 @@
 import type { NextConfig } from "next";
 
-// const isDocker = process.env.DOCKERFILE !== "";
+// const isDocker = process.env.MYSQL_HOST === "mysql";
+// const isProduction = process.env.NODE_ENV === "production";
 
 const nextConfig: NextConfig = {
-    // Docker optimization
-    // output: isDocker ? "standalone" : undefined,
+    // Docker production optimization
+    // output: isDocker && isProduction ? "standalone" : undefined,
 
     images: {
         remotePatterns: [

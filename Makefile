@@ -1,7 +1,15 @@
-.PHONY: dev prod certs-setup certs-reset certs-reload nextjs-logs nextjs-it nextjs-db-shell mysql-logs mysql-it mysql-db-shell
+####################
+#      Config      #
+####################
+
+.PHONY: dev prod build-dev build-prod stop-dev stop-prod rm-dev rm-prod nextjs-logs mysql-logs nextjs-it mysql-it nextjs-db-shell mysql-db-shell
 
 # Enable compose bake for better performance
-DOCKER_COMP_BAKE = COMPOSE_BAKE=true
+BAKE = COMPOSE_BAKE=true
+
+####################
+#    Certificates  #
+####################
 
 # Generate SSL certificates if needed
 certs-setup:
@@ -18,24 +26,67 @@ certs-reload:
 	@ $(MAKE) certs-reset
 	@ $(MAKE) certs-setup
 
-# Run the dev environment
-dev:
-	@ $(MAKE) certs-setup
-	@ $(DOCKER_COMP_BAKE) docker compose --env-file .env.dev up --build -d
+####################
+#    Environment   #
+####################
 
-# Run the prod environment
+DC_DEV = docker compose -f compose.dev.yml
+
+DC_PROD = docker compose -f compose.prod.yml
+
+# Build dev
+build-dev:
+	@ $(BAKE) $(DC_DEV) up -d --build
+
+# Build prod
+build-prod:
+	@ $(BAKE) $(DC_PROD) up -d --build
+
+# Run dev
+dev:
+	@ $(DC_DEV) up -d
+
+# Run prod
 prod:
-	@ $(MAKE) certs-setup
-	@ $(DOCKER_COMP_BAKE) docker compose --env-file .env.prod up --build -d
+	@ $(DC_PROD) up -d
+
+# Stop dev
+stop-dev:
+	@ $(DC_DEV) down
+
+# Stop prod
+stop-prod:
+	@ $(DC_PROD) down
+
+# Remove dev and volumes
+rm-dev:
+	@ $(DC_DEV) down -v
+
+# Remove prod and volumes
+rm-prod:
+	@ $(DC_PROD) down -v
+
+####################
+#    Containers    #
+####################
 
 # Show the nextjs logs
 nextjs-logs:
 	@ docker logs -f nextjs
 
+# Show the mysql logs
+mysql-logs:
+	@ docker logs -f mysql
+
 # Connect to the nextjs container
 nextjs-it:
 	@ docker exec -it nextjs sh
 
+# Connect to the mysql container
+mysql-it:
+	@ docker exec -it mysql sh
+
+# Connect to the mysql instance through the nextjs container
 nextjs-db-shell:
 	@ docker exec -it nextjs sh -c " \
 	    mysql -u root -p${MYSQL_ROOT_PASSWORD} -h mysql \
@@ -44,14 +95,32 @@ nextjs-db-shell:
 	    --ssl-key=/app/docker/certs/client-key.pem \
 	"
 
-# Show the mysql logs
-mysql-logs:
-	@ docker logs -f mysql
-
-# Connect to the mysql container
-mysql-it:
-	@ docker exec -it mysql sh
-
-# Connect to the mysql instance
+# Connect to the mysql instance through the mysql container
 mysql-db-shell:
 	@ docker exec -it mysql bash -c "mysql -u root -p${MYSQL_ROOT_PASSWORD}"
+
+####################
+#   Docker Swarm   #
+####################
+
+# # Deploy to Docker Swarm
+# swarm-deploy:
+# 	@ $(MAKE) certs-setup
+# 	@ echo "🚀 Deploying to Docker Swarm..."
+# 	@ docker stack deploy -c compose.prod.yml --with-registry-auth eco-service
+
+# # Update Docker Swarm deployment (rolling update)
+# swarm-update:
+# 	@ echo "🔄 Updating Docker Swarm deployment..."
+# 	@ docker service update --image eco-service:latest eco-service_nextjs
+
+# # Remove from Docker Swarm
+# swarm-down:
+# 	@ echo "🛑 Removing from Docker Swarm..."
+# 	@ docker stack rm eco-service
+
+# # Build production image
+# build-prod:
+# 	@ $(MAKE) certs-setup
+# 	@ echo "🏗️ Building production image..."
+# 	@ docker build -f docker/Dockerfile.prod -t eco-service:latest .
