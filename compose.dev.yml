@@ -45,6 +45,26 @@ services:
         networks:
             - nextjs-dev-network
 
+    redis:
+        image: redis/redis-stack:latest
+        container_name: redis
+        restart: unless-stopped
+        ports:
+            - "6379:6379"
+            - "8001:8001"
+        volumes:
+            - redis-dev-volume:/data
+        environment:
+            - REDIS_ARGS=--save 1 1
+        healthcheck:
+            test: ["CMD", "redis-cli", "ping"]
+            interval: 5s
+            timeout: 5s
+            retries: 10
+            start_period: 60s
+        networks:
+            - nextjs-dev-network
+
     nextjs:
         build:
             context: ./
@@ -56,6 +76,8 @@ services:
         depends_on:
             mysql:
                 condition: service_healthy
+            redis:
+                condition: service_healthy
         volumes:
             # SSL client certs (read-only)
             - ./docker/certs:/app/docker/certs:ro
@@ -65,6 +87,8 @@ services:
             - .:/app
             # node_modules (volume)
             - deps-dev-volume:/app/node_modules
+        environment:
+            - REDIS_URL=redis://redis:6379
         networks:
             - nextjs-dev-network
 
@@ -72,6 +96,8 @@ volumes:
     deps-dev-volume:
         driver: local
     mysql-dev-volume:
+        driver: local
+    redis-dev-volume:
         driver: local
 
 networks:

@@ -7,6 +7,10 @@ const nextConfig: NextConfig = {
     // Docker production optimization
     // output: isDocker && isProduction ? "standalone" : undefined,
 
+    // Redis cache handler
+    cacheHandler: require.resolve("./cache-handler.cjs"),
+    cacheMaxMemorySize: 1024 * 1024, // 1MB - Force external cache handler
+
     images: {
         remotePatterns: [
             {
