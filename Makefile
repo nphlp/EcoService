@@ -27,40 +27,66 @@ certs-reload:
 	@ $(MAKE) certs-setup
 
 ####################
-#    Environment   #
+#     Local env    #
+####################
+
+DC_LOCAL = docker compose -f compose.local.yml
+
+# Build local
+build-local:
+	@ $(BAKE) $(DC_LOCAL) up -d --build
+
+# Run local
+local:
+	@ $(DC_LOCAL) up -d
+
+# Stop local
+stop-local:
+	@ $(DC_LOCAL) down
+
+# Remove local and volumes
+rm-local:
+	@ $(DC_LOCAL) down -v
+
+####################
+#      Dev env     #
 ####################
 
 DC_DEV = docker compose -f compose.dev.yml
-
-DC_PROD = docker compose -f compose.prod.yml
 
 # Build dev
 build-dev:
 	@ $(BAKE) $(DC_DEV) up -d --build
 
-# Build prod
-build-prod:
-	@ $(BAKE) $(DC_PROD) up -d --build
-
 # Run dev
 dev:
 	@ $(DC_DEV) up -d
-
-# Run prod
-prod:
-	@ $(DC_PROD) up -d
 
 # Stop dev
 stop-dev:
 	@ $(DC_DEV) down
 
-# Stop prod
-stop-prod:
-	@ $(DC_PROD) down
-
 # Remove dev and volumes
 rm-dev:
 	@ $(DC_DEV) down -v
+
+####################
+#     Prod env     #
+####################
+
+DC_PROD = docker compose -f compose.prod.yml
+
+# Build prod
+build-prod:
+	@ $(BAKE) $(DC_PROD) up -d --build
+
+# Run prod
+prod:
+	@ $(DC_PROD) up -d
+
+# Stop prod
+stop-prod:
+	@ $(DC_PROD) down
 
 # Remove prod and volumes
 rm-prod:

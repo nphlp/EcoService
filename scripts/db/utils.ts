@@ -51,7 +51,7 @@ export async function getMySqlPassword(): Promise<string> {
 export async function databaseExists(
     password: string,
     dbName: string,
-    isDocker: boolean = false,
+    isSSL: boolean = false,
 ): Promise<boolean | string> {
     return new Promise((resolve) => {
         const host = process.env.MYSQL_HOST ?? "localhost";
@@ -60,7 +60,7 @@ export async function databaseExists(
         const args = ["-u", "root", `-p${password}`, "-h", host];
 
         // Ajouter les options SSL si on est en mode Docker
-        if (isDocker) {
+        if (isSSL) {
             args.push(
                 "--ssl-ca=./docker/certs/ca.pem",
                 "--ssl-cert=./docker/certs/client-cert.pem",
@@ -110,9 +110,9 @@ export async function databaseExists(
  * Exécute un fichier SQL avec MySQL
  * @param filename Le nom du fichier SQL ou le chemin relatif à prisma/sql
  * @param password Le mot de passe MySQL
- * @param isDocker Indique si on est en mode Docker (pour SSL)
+ * @param isSSL Indique si on est en mode Docker (pour SSL)
  */
-export async function executeSqlFile(filename: string, password: string, isDocker: boolean = false): Promise<boolean> {
+export async function executeSqlFile(filename: string, password: string, isSSL: boolean = false): Promise<boolean> {
     // Détermine le chemin du fichier SQL (toujours relatif à prisma/sql)
     const filePath = join(process.cwd(), "prisma", "sql", filename);
 
@@ -125,7 +125,7 @@ export async function executeSqlFile(filename: string, password: string, isDocke
         const args = ["-u", "root", `-p${password}`, "-h", host];
 
         // Ajouter les options SSL si on est en mode Docker
-        if (isDocker) {
+        if (isSSL) {
             args.push(
                 "--ssl-ca=./docker/certs/ca.pem",
                 "--ssl-cert=./docker/certs/client-cert.pem",

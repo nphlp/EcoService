@@ -17,6 +17,7 @@
  *
  * Options:
  * - --docker    : Utilise les fichiers *-docker.sql au lieu des fichiers standards
+ * - --ssl       : Utilise le SSL pour la connexion à la base de données
  *
  * Exemples:
  * - pnpm run db:setup            : Configure la base de données
@@ -39,9 +40,10 @@ import { closeReadline, getMySqlPassword } from "./db/utils";
  */
 const main = async (): Promise<void> => {
     try {
-        // Filtrer les arguments pour séparer le flag --docker
+        // Filtrer les arguments pour séparer les flags --docker et --ssl
         const args = process.argv.slice(2);
         const isDocker = args.includes("--docker");
+        const isSSL = args.includes("--ssl");
         const filteredArgs = args.filter((arg) => arg !== "--docker");
 
         const sqlFileOrCommand = filteredArgs[0];
@@ -58,15 +60,15 @@ const main = async (): Promise<void> => {
         switch (sqlFileOrCommand) {
             case "setup":
                 // Configuration de la base de données
-                await setupDb(isDocker, password);
+                await setupDb(isDocker, isSSL, password);
                 break;
             case "reset":
                 // Réinitialisation de la base de données
-                await resetDb(isDocker, password);
+                await resetDb(isDocker, isSSL, password);
                 break;
             case "reload":
                 // Rechargement complet de la base de données
-                await reloadDb(isDocker, password);
+                await reloadDb(isDocker, isSSL, password);
                 break;
             case "execute":
                 // Exécution d'un fichier SQL avec un chemin relatif à prisma/sql
@@ -79,11 +81,11 @@ const main = async (): Promise<void> => {
                 }
 
                 // Construction du chemin relatif à prisma/sql
-                await customSqlFile(relativePath, isDocker, password);
+                await customSqlFile(relativePath, isDocker, isSSL, password);
                 break;
             default:
                 // Exécution d'un fichier SQL dans le dossier prisma/sql
-                await customSqlFile(sqlFileOrCommand, isDocker, password);
+                await customSqlFile(sqlFileOrCommand, isDocker, isSSL, password);
                 break;
         }
     } finally {

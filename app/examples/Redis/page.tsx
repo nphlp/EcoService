@@ -1,4 +1,3 @@
-import Link from "@comps/ui/link";
 import { unstable_cacheLife as cacheLife, unstable_cacheTag as cacheTag } from "next/cache";
 import Client from "./client";
 
@@ -46,7 +45,6 @@ export default async function TestCachePage() {
                     <div className="flex justify-center text-2xl font-bold">Server time: {time}</div>
                 </div>
                 <div className="flex justify-center gap-4">
-                    <Link label="Normal refresh" href="/test-cache" variant="outline" />
                     <Client tag="time" />
                 </div>
             </div>

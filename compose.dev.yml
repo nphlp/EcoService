@@ -50,12 +50,10 @@ services:
         container_name: redis
         restart: unless-stopped
         ports:
-            - "6379:6379"
-            - "8001:8001"
+            - "6379:6379" # Redis server
+            - "8001:8001" # Redis dashboard
         volumes:
             - redis-dev-volume:/data
-        environment:
-            - REDIS_ARGS=--save 1 1
         healthcheck:
             test: ["CMD", "redis-cli", "ping"]
             interval: 5s

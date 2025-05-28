@@ -19,6 +19,11 @@ export default function Page() {
             text: "How to fetch data from the server in parallel",
         },
         {
+            label: "Redis Cache",
+            href: "/examples/Redis",
+            text: "How to use Redis cache",
+        },
+        {
             label: "Form",
             href: "/examples/Form",
             text: "How to create a form",

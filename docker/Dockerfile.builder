@@ -42,7 +42,7 @@ RUN pnpm run prisma:generate
 #     Build app    #
 ####################
 CMD ["/bin/sh", "-c", "\
-    pnpm run db:setup --docker && \
+    pnpm run db:setup --docker --ssl && \
     pnpm run prisma:deploy && \
     pnpm run fixtures:setup && \
     pnpm run build && \
