@@ -1,4 +1,6 @@
-## Deployment (Coolify process)
+# Deployment (Coolify process)
+
+[Home](../README.md) > [Deployment](./deployment.md)
 
 > Pipeline process [here](https://github.com/nansphilip/EcoService/tree/main/.github/ci-cd-workflows.md)
 

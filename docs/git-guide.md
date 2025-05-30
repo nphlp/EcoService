@@ -1,3 +1,15 @@
+# Guide sur Git
+
+[Home](../README.md) > [Guide sur Git](./git-guide.md)
+
+Voici quelques bonnes pratiques à suivre pour travailler en équipe avec Git.
+
+<h2>Sommaire</h2>
+
+- [Types de branches](#types-de-branches)
+- [Commits \& Push](#commits--push)
+- [Mettre à jour une branche par rapport à `main`](#mettre-à-jour-une-branche-par-rapport-à-main)
+
 ## Types de branches
 
 - `main` : branche de production, c'est à partir de cette branche qu'est déployé le site internet
@@ -29,7 +41,7 @@ C'est un confort pour toute l'équipe de suivre une typologie de nommage de `com
 >
 > Si vous travailler sur différents postes, vous devez être en plus rigoureux sur le `commit` et le `push` pour éviter les `conflits` entre vos ordinateurs.
 
-## Mettre à jour sa branche `feat`
+## Mettre à jour une branche par rapport à `main`
 
 Un nouveau commit a été ajouté à la branche `dev`. Vous souhaitez obtenir les dernières modifications de la branche `dev`.
 

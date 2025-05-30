@@ -1,8 +1,22 @@
 # Project Installation
 
+[Home](../README.md) > [Installation](./Installation.md)
+
 Install the project in three steps: `software requirements`, `environment variables` and `project setup`.
 
+<h2>Summary</h2>
+
+- [Available environments](#available-environments)
+    - [1. Local](#1-local)
+    - [2. Hybrid](#2-hybrid)
+    - [3. Docker (dev mode)](#3-docker-dev-mode)
+    - [4. Docker (prod mode)](#4-docker-prod-mode)
+- [Software requirements](#software-requirements)
+- [Project setup](#project-setup)
+
 ## Available environments
+
+This projects is compatible with multiple runtime environments.
 
 ### 1. Local
 
@@ -21,13 +35,17 @@ Hybrid environment that requires `Node JS` local server and `MySQL` in Docker co
 - Need the `.env` file
 - Compatible with `dev` and `prod` modes
 
-### 3. Docker in dev mode
+### 3. Docker (dev mode)
+
+Docker dev environment that requires `Node JS` and `MySQL` in Docker containers. Poor compiling performance, especially for Page and API compilation. Usefull for dockerizing the project, but not recommended to work efficiently.
 
 - Need `Node JS` and `MySQL` in Docker with `compose.dev.yml`
 - Need the `.env.dev` file for `dev` mode
 - Compatible with `dev` mode only
 
-### 4. Docker in prod mode
+### 4. Docker (prod mode)
+
+Docker prod environment that requires `Node JS` and `MySQL` in Docker containers. Excellent performance, recommended for production.
 
 - Need `Node JS` and `MySQL` in Docker with `compose.prod.yml`
 - Need the `.env.prod` file for `prod` mode
@@ -35,102 +53,37 @@ Hybrid environment that requires `Node JS` local server and `MySQL` in Docker co
 
 ## Software requirements
 
+Common software requirements:
+
 - [Git](https://git-scm.com/downloads)
 - [Node JS](https://nodejs.org/en/download/package-manager/current)
 - [PNPM](https://pnpm.io/fr/installation) package manager
 - [Stripe CLI](https://docs.stripe.com/stripe-cli) (optional)
-- [MySQL](https://dev.mysql.com/downloads/installer) community (for local environment)
-- [Docker](https://docs.docker.com/get-docker/) with [Makefile](https://www.gnu.org/software/make/) (for hybrid and docker environments)
 
-## Environment variables
+For local environments:
 
-- `DATABASE_URL` : database url connection for Prisma (more info [Prisma Docs](https://www.prisma.io/docs/getting-started/setup-prisma/add-to-existing-project/relational-databases/connect-your-database-typescript-mysql))
+- [MySQL](https://dev.mysql.com/downloads/installer) community
 
-- `MYSQL_ROOT_PASSWORD` (optional) : used in `scripts/db.ts`, `Dockerfile.dev` and `Dockerfile.builder` to auto install the database. If you're not confident, you can leave it empty and the `scripts/db.ts` will ask you for a password if needed. But for Dockerfile, you may need to adapt the code.
+For hybrid and docker environments:
 
-- `BETTER_AUTH_SECRET` : a random string used for authentication managed by Better Auth (more info [Better Auth Docs](https://www.better-auth.com/docs/installation)). You can generate a random string with `openssl rand -hex 32`.
-
-- `PLUNK_API_KEY` : the secret api key provider by UsePlunk (free but requires to create an account, more info [Plunk Docs](https://docs.useplunk.com/getting-started/introduction))
-
-- `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` and `STRIPE_SECRET_KEY` : public and secret api keys provided by Stripe (requires to create an account, follow the steps below)
-
-    1. Create a [Stripe Account](https://dashboard.stripe.com) (an IBAN is required, even for development/testing accounts)
-    2. Toggle your Stripe environment to test mode
-    3. Go to the [Workbench section](https://dashboard.stripe.com/test/workbench/overview) and get your Stripe Public and Private API keys
-
-- `STRIPE_WEBHOOK_SECRET` : the secret webhook key provided by Stripe (after your account is created, follow the steps below)
-
-    1. Create a [Webhook endpoint](https://dashboard.stripe.com/test/workbench/webhooks) with the following events: `account.updated`, `charge.dispute.created`, `checkout.session.completed`, `file.created`, `payment_intent.payment_failed`, `payment_intent.succeeded`, `payout.failed` and `payout.paid`
-    2. Install [Stripe CLI](https://docs.stripe.com/stripe-cli) and login
-    3. Run `pnpm stripe:webhooks` in your terminal to get your Webhook Key
+- [Docker](https://docs.docker.com/get-docker/)
+- [Makefile](https://www.gnu.org/software/make/)
 
 ## Project setup
 
-- Install project dependencies
+- Choose your environment: Local, Hybrid, Docker (dev mode) or Docker (prod mode)
 
-    ```bash
-    pnpm install
-    ```
+- Copy the correct `.env.example.*` file as a template for your `.env.*` file. For details, see [Environment variables](./environment-variables.md) documentation.
 
-- Then take a look to the local scripts
+    | Environment      | Template file       | Destination file |
+    | ---------------- | ------------------- | ---------------- |
+    | Local and hybrid | `.env.example`      | `.env`           |
+    | Docker dev       | `.env.example.dev`  | `.env.dev`       |
+    | Docker prod      | `.env.example.prod` | `.env.prod`      |
 
-    ```bash
-    pnpm run help
-    ```
+- Choose your setup guide:
 
-### Auto setup (option 1)
-
-- Install database, prisma, fixtures and run dev server
-
-    ```bash
-    pnpm auto
-    ```
-
-- Install [Stripe CLI](https://docs.stripe.com/stripe-cli) and run [Stripe Webhook Forwarder](https://docs.stripe.com/webhooks/quickstart)
-
-    ```bash
-    pnpm stripe:webhooks
-    ```
-
-- (optional) Clear your `localhost:3000` browser cookies if you have some session errors
-
-### Manual setup (option 2)
-
-- Creates a Mysql user and a password and grants privileges
-
-    - Automatic method
-
-    ```bash
-    pnpm db:setup
-    ```
-
-    - Manual method
-
-    ```
-    # bash terminal
-    mysql -u root -p
-
-    # mysql terminal
-    CREATE USER 'eco-service-user'@'localhost' IDENTIFIED BY 'eco-service-password';
-    GRANT ALL PRIVILEGES ON *.* TO 'eco-service-user'@'localhost';
-    ```
-
-- Run Prisma database migrations
-
-    ```bash
-    pnpm prisma:migrate
-    ```
-
-- Insert, reload or reset fixtures
-
-    ```bash
-    pnpm fixtures:setup
-    ```
-
-- Run server project
-
-    ```bash
-    pnpm dev
-    ```
-
-- (optional) Clear your `localhost:3000` browser cookies if you have some session errors
+    - [Local](./installation-guides/local.md)
+    - [Hybrid](./installation-guides/hybrid.md)
+    - [Docker (dev mode)](./installation-guides/docker.md#auto-setup-dev-mode)
+    - [Docker (prod mode)](./installation-guides/docker.md#auto-setup-prod-mode)

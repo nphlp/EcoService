@@ -10,9 +10,10 @@ Version production : [eco-service.nansp.dev](https://eco-service.nansp.dev)
 ## Summary
 
 - [Installation](./docs/installation.md) sur votre machine
+- [Technologies](./docs/technologies.md) utilisées
 - [CRUD Prisma](./docs/crud-prisma.md) auto-généré
 - [Coding Chart](./docs/coding-chart.md) pour consitance du code
-- [Guide sur Git](./docs/coding-chart.md) pour travailler en équipe
+- [Guide sur Git](./docs/git-guide.md) pour travailler en équipe
 - [CI/CD Workflows](./docs/ci-cd-workflows.md) pour la qualité du code
 - [Deploiement](./docs/deployment.md) sur un VPS avec [Coolify](https://coolify.io/)
 

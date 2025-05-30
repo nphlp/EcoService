@@ -1,22 +1,22 @@
 # Coding chart
 
+[Home](../README.md) > [Coding chart](./coding-chart.md)
+
 Voici quelques bonnes pratiques à suivre pour avoir un code consistant, robuste et maintenable.
 
-## Sommaire
+<h2>Sommaire</h2>
 
-- [Coding chart](#coding-chart)
-    - [Sommaire](#sommaire)
-    - [Nommage de membres](#nommage-de-membres)
-        - [UPPER_CASE](#upper_case)
-        - [kebab-case](#kebab-case)
-        - [PascalCase](#pascalcase)
-        - [camelCase](#camelcase)
-    - [Déclaration de fonctions](#déclaration-de-fonctions)
-        - [1. Server Components](#1-server-components)
-        - [2. Client Components](#2-client-components)
-        - [3. Fetch et mutations](#3-fetch-et-mutations)
-        - [4. Server Actions ou Process (mutations)](#4-server-actions-ou-process-mutations)
-        - [5. API routes (fetch ou api externes)](#5-api-routes-fetch-ou-api-externes)
+- [Nommage de membres](#nommage-de-membres)
+    - [UPPER_CASE](#upper_case)
+    - [kebab-case](#kebab-case)
+    - [PascalCase](#pascalcase)
+    - [camelCase](#camelcase)
+- [Déclaration de fonctions](#déclaration-de-fonctions)
+    - [1. Server Components](#1-server-components)
+    - [2. Client Components](#2-client-components)
+    - [3. Fetch et mutations](#3-fetch-et-mutations)
+    - [4. Server Actions ou Process (mutations)](#4-server-actions-ou-process-mutations)
+    - [5. API routes (fetch ou api externes)](#5-api-routes-fetch-ou-api-externes)
 
 ## Nommage de membres
 
