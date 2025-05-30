@@ -1,139 +1,51 @@
 # Eco Service
 
-Eco Service is an e-commerce application made with Next.js, Zustand, Prisma, Stripe, Plunk...
+Projet d'étude réalisé en période de formation pour le [Titre Professionnel (Niveau 6) - Concepteur développeur d'applications (RNCP37873)](https://www.francecompetences.fr/recherche/rncp/37873/).
 
-This project is deploy on a VPS with Coolify after some Github Workflows: [learn more](https://github.com/nansphilip/EcoService/tree/main/.github/ci-cd-workflows.md).
+## Demo
 
-Visit the demo: [Eco Service](https://eco-service.nansp.dev)
+Version de test : [preview.eco-service.nansp.dev](https://preview.eco-service.nansp.dev) \
+Version production : [eco-service.nansp.dev](https://eco-service.nansp.dev)
 
-## Coding chart
+## Summary
 
-Follow this link: [Coding chart](https://github.com/nansphilip/EcoService/blob/main/coding-chart.md)
+- [Installation](./docs/installation.md) sur votre machine
+- [CRUD Prisma](./docs/crud-prisma.md) auto-généré
+- [Coding Chart](./docs/coding-chart.md) pour consitance du code
+- [Guide sur Git](./docs/coding-chart.md) pour travailler en équipe
+- [CI/CD Workflows](./docs/ci-cd-workflows.md) pour la qualité du code
+- [Deploiement](./docs/deployment.md) sur un VPS avec [Coolify](https://coolify.io/)
 
-## Project installation
+## Projet
 
-Install the project in three steps: `software requirements`, `environment variables` and `project setup`.
+Le client virtuel est un entrepreneur qui souhaite créer une plateforme de type "marketplace" pour vendre des produits écologiques.
 
-### Software requirements
+1. Plateforme de vente de produits écologiques
 
-- [Git](https://git-scm.com/downloads)
-- [Node JS](https://nodejs.org/en/download/package-manager/current)
-- [PNPM](https://pnpm.io/fr/installation)
-- [MySQL](https://dev.mysql.com/downloads/installer)
+    - on trouve des **produits** de différents vendeurs
+    - on trouve des **articles** de blog qui parlent des produits et leurs concepteurs/vendeurs
+    - on trouve des articles de **DIY** (Do It Yourself) qui expliquent comment utiliser les produits et en concevoir soit-même
 
-### Environment variables
+2. Types d'utilisateurs
 
-- `DATABASE_URL`
+    - les **utilisateurs** qui achètent des produits (après inscription)
+    - les **vendeurs** qui vendent des produits (après approbation)
+    - les **employés** qui gèrent la plateforme (créé par l'administrateur)
+    - un ou des **administrateur** qui gère la plateforme (créé par le développeur)
 
-    Database connection managed by Prisma (more info [Prisma Docs](https://www.prisma.io/docs/getting-started/setup-prisma/add-to-existing-project/relational-databases/connect-your-database-typescript-mysql))
+3. Fonctionnalités principales
 
-- `MYSQL_ROOT_PASSWORD` (optional)
-
-    A password used in `scripts/db.ts` to connect to the database. If you don't want to use a password, you can leave it empty and the script will ask you for a password if needed.
-
-- `BETTER_AUTH_SECRET`
-
-    Authentication managed by Better Auth (more info [Better Auth Docs](https://www.better-auth.com/docs/installation))
-
-- `PLUNK_API_KEY`
-
-    Email provider managed by Plunk (requires to create an account, more info [Plunk Docs](https://docs.useplunk.com/getting-started/introduction))
-
-- `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` \
-  `STRIPE_SECRET_KEY`
-
-    Payment provider managed by Stripe (requires to create an account, follow the steps below)
-
-    1. Create your `.env` file from the `.env.example` file
-    2. Create a [Stripe Account](https://dashboard.stripe.com) (an IBAN is required, even for development/testing accounts)
-    3. Go to the [Workbench section](https://dashboard.stripe.com/test/workbench/overview) and get your Stripe Public and Private API keys
-
-- `STRIPE_WEBHOOK_SECRET`
-    1. Create a [Webhook endpoint](https://dashboard.stripe.com/test/workbench/webhooks) with the following events:
-        - `account.updated`
-        - `charge.dispute.created`
-        - `checkout.session.completed`
-        - `file.created`
-        - `payment_intent.payment_failed`
-        - `payment_intent.succeeded`
-        - `payout.failed`
-        - `payout.paid`
-    2. You will recive your Webhook Key when starting `pnpm stripe:webhooks` at the end of the setup
-
-### Project setup
-
-- Install project dependencies
-
-    ```bash
-    pnpm install
-    ```
-
-- Then take a look to the local scripts
-
-    ```bash
-    pnpm run help
-    ```
-
-#### Auto setup
-
-- Install database, prisma, fixtures and run dev server
-
-    ```bash
-    pnpm auto
-    ```
-
-- Install [Stripe CLI](https://docs.stripe.com/stripe-cli) and run [Stripe Webhook Forwarder](https://docs.stripe.com/webhooks/quickstart)
-
-    ```bash
-    pnpm stripe:webhooks
-    ```
-
-- (optional) Clear your `localhost:3000` browser cookies is you have an error
-
-#### Manual setup
-
-- Creates a Mysql user and a password and grants privileges
-
-    - Automatic method
-
-    ```bash
-    pnpm db:setup
-    ```
-
-    - Manual method
-
-    ```
-    # bash terminal
-    mysql -u root -p
-
-    # mysql terminal
-    CREATE USER 'eco-service-user'@'localhost' IDENTIFIED BY 'eco-service-password';
-    GRANT ALL PRIVILEGES ON *.* TO 'eco-service-user'@'localhost';
-    ```
-
-- Run Prisma database migrations
-
-    ```bash
-    pnpm prisma:migrate
-    ```
-
-- Insert, reload or reset fixtures
-
-    ```bash
-    pnpm fixtures:setup
-    ```
-
-- Run server project
-
-    ```bash
-    pnpm dev
-    ```
-
-- (optional) Clear your `localhost:3000` browser cookies is you have an error
+    - **Accueil** : qui présente le concept de la plateforme, les produits, les articles, les diy, etc.
+    - **Catalogue** : des produits, articles, diy, etc.
+    - **Recherche** : de produits, articles, diy, etc.
+    - **Panier** : qui se transforme en **commande**
+    - **Moyen de paiement** : avec Stripe
+    - **Authentification** : des utilisateurs
+    - **Tableau de bord** : pour les employés et les administrateurs
 
 ## Fixtures
 
-There is three types of users.
+Voici quelques identifiants d'exemple pour tester l'application.
 
 | Email                | Password      | User type |
 | -------------------- | ------------- | --------- |
@@ -141,78 +53,3 @@ There is three types of users.
 | vendor@example.com   | Password1234! | Vendor    |
 | employee@example.com | Password1234! | Employee  |
 | admin@example.com    | Password1234! | Admin     |
-
-## Deployment (Coolify process)
-
-> Pipeline process [here](https://github.com/nansphilip/EcoService/tree/main/.github/ci-cd-workflows.md)
-
-1. Create a `Mysql` environnment:
-
-- Name: `Eco Service (database)`
-- Normal User: `eco-service-user`
-- Initial Database: `eco-service-db`
-- Save and start the environnment
-
-2. Go to the online terminal tab
-
-- Login with the password generated by Coolify
-
-```bash
-mysql -u eco-service-user -p <generated-root-password>
-```
-
-- Add grant to the user on the database to allow Prisma to connect to the database.
-
-```sql
-GRANT ALL PRIVILEGES ON *.* TO 'eco-service-user'@'%';
-```
-
-3. Create a `Node.js` environnment:
-
-- Name: `Eco Service (main)`
-- Domain: `eco-service.domain.com`
-
-- Install Command
-
-```bash
-pnpm install && pnpm prisma:generate && pnpm prisma:deploy
-```
-
-- Build Command
-
-```bash
-pnpm run build && pnpm install --prod
-```
-
-- Start Command
-
-```bash
-pnpm run start
-```
-
-- Save configuration
-
-4. Add environment variables
-
-```env
-NEXT_PUBLIC_BASE_URL=https://eco-service.domain.com
-
-# Database connection (get it in the Mysql environnment)
-DATABASE_URL=mysql://eco-service-user: ******** @ ******** /eco-service-db
-
-# Mysql root password (optional, use in script/db.ts)
-MYSQL_ROOT_PASSWORD= ********
-
-# Better Auth encryption key (generate a random string)
-BETTER_AUTH_SECRET=session-encryption-key
-
-# Plunk keys (get it in the Plunk dashboard)
-PLUNK_API_KEY=plunk-private-key
-
-# Stripe keys (get it in the Stripe dashboard)
-NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_test_xxxxx
-STRIPE_SECRET_KEY=sk_test_pk_test_xxxxx
-STRIPE_WEBHOOK_SECRET=whsec_xxxxx
-```
-
-- Save variables and start the environnment

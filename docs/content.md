@@ -1,35 +1,4 @@
-# Eco Service
-
-Projet d'étude réalisé en période de formation pour le [Titre Professionnel (Niveau 6) - Concepteur développeur d'applications (RNCP37873)](https://www.francecompetences.fr/recherche/rncp/37873/)
-
-## Projet à réaliser
-
-1. Plateforme de vente de produits écologiques
-    - on trouve des **produits** de différents vendeurs
-    - on trouve des **articles** de blog qui parlent des produits et leurs concepteurs/vendeurs
-    - on trouve des articles de **DIY** (Do It Yourself) qui expliquent comment utiliser les produits et en concevoir soit-même
-2. Types d'utilisateurs
-    - les **utilisateurs** qui achètent des produits (après inscription)
-    - les **vendeurs** qui vendent des produits (après approbation)
-    - les **employés** qui gèrent la plateforme (créé par l'administrateur)
-    - un ou des **administrateur** qui gère la plateforme (créé par le développeur)
-3. Fonctionnalités principales
-    - **Accueil** : qui présente le concept de la plateforme, les produits, les articles, les diy, etc.
-    - **Catalogue** : des produits, articles, diy, etc.
-    - **Recherche** : de produits, articles, diy, etc.
-    - **Panier** : qui se transforme en **commande**
-    - **Moyen de paiement** : avec Stripe
-    - **Authentification** : des utilisateurs
-    - **Tableau de bord** : pour les employés et les administrateurs
-
-## Liens
-
-- Gestion sur Linear : []()
-- Maquette Figma : []()
-- Site de test : [preview.eco-service.nansp.dev](preview.eco-service.nansp.dev)
-- Site de production : [eco-service.nansp.dev](eco-service.nansp.dev)
-
-## Contenu à présenter
+# Contenu du projet à présenter
 
 1. Documentation
 

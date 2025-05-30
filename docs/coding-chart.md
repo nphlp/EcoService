@@ -1,132 +1,276 @@
 # Coding chart
 
-Vous trouverez ci-dessous, les règles d'usage de git et de formatage du code.
+Voici quelques bonnes pratiques à suivre pour avoir un code consistant, robuste et maintenable.
 
-## Types de branches
+## Sommaire
 
-- `main` : branche de production, c'est à partir de cette branche qu'est déployé le site internet
-- `dev` : branche de développement, c'est la branche sur laquelle toutes les features sont ajoutées unes à unes
-- `feat/{nom-developpeur}-{nom-feature}` : branche de développement d'une seule fonctionnalité, manipulée par un seul développeur \
-  Exemple: `feat/nans-add-header`
+- [Coding chart](#coding-chart)
+    - [Sommaire](#sommaire)
+    - [Nommage de membres](#nommage-de-membres)
+        - [UPPER_CASE](#upper_case)
+        - [kebab-case](#kebab-case)
+        - [PascalCase](#pascalcase)
+        - [camelCase](#camelcase)
+    - [Déclaration de fonctions](#déclaration-de-fonctions)
+        - [1. Server Components](#1-server-components)
+        - [2. Client Components](#2-client-components)
+        - [3. Fetch et mutations](#3-fetch-et-mutations)
+        - [4. Server Actions ou Process (mutations)](#4-server-actions-ou-process-mutations)
+        - [5. API routes (fetch ou api externes)](#5-api-routes-fetch-ou-api-externes)
 
-> [!IMPORTANT]
-> Les branches `main` et `dev` sont manipulées par le `lead dev` uniquement. \
-> Les branches `feat` sont créées et manipuléees par les développeurs eux-mêmes.
+## Nommage de membres
 
-## Commits & Push
+### UPPER_CASE
 
-> [!WARNING] > **Aucune manipulation** sur `git` ne doit être faite au hasard.
+For fixed values shared across the codebase.
 
-C'est un confort pour toute l'équipe de suivre une typologie de nommage de `commits`. On peut aisément savoir ce que représente chaque `commit` :
+```ts
+// Fixed values
+const MY_FIXED_NUMBER = 150;
 
-- Avancement sur la feature : `feat: new feature`
-- Correction sur la feature : `fix: issue solved`
-
-> [!NOTE]
-> Il est nécessaire de `commit` et `push` le plus régulièrement possible. \
-> Par exemple :
->
-> - dès qu'un ajout fonctionne
-> - dès qu'une erreur est corrigée
-> - dès qu'une fonctionnalité est terminée
-> - en fin de journée
->
-> Si vous travailler sur différents postes, vous devez être en plus rigoureux sur le `commit` et le `push` pour éviter les `conflits` entre vos ordinateurs.
-
-## Mettre à jour sa branche `feat`
-
-Un nouveau commit a été ajouté à la branche `dev`. Vous souhaitez obtenir les dernières modifications de la branche `dev`.
-
-La méthode la plus propre pour l'historique `git` est de rebaser les `commits` de votre branche `feat` à la suite de la branche `dev`.
-
-Voici les étapes à suivre pour faire un **rebase** facilement et rapidement.
-
-> [!NOTE]
-> Le **rebase** positionne les `commits` de votre branche `feat` à la suite des `commits` de la branche `dev` pour garder un historique linéaire. \
->
-> Le **merge** est a éviter car il crée un `commit` de `merge` qui rend la compréhension de l'historique plus difficile. \
->
-> ![Différence entre rebase et main](/public/rebase-or-merge.png)
-
-> [!TIP]
-> La première fois, il est recommandé de créer une branche de sauvegarde avant le rebase : `git checkout -b backup-your-branch`.
-
-1. Récupérer les dernières modifications de `main`
-
-```zsh
-git checkout main
-git fetch
-git pull
+// Env variables
+const BASE_URL = process.env.BASE_URL;
 ```
 
-2. Regrouper vos commits
+### kebab-case
 
-Revenez sur votre branche
+For files and folders names.
 
-```zsh
-git checkout your-branch
+```bash
+# Folder name
+./my-folder/and-sub-folder/
+
+# File name
+my-file.txt
 ```
 
-Ensuite, regroupez vos commits. Cela signifie combiner tous vos commits en un seul.
+### PascalCase
 
-Il y a deux options pour regrouper plusieurs commits :
+For classes, components and server actions.
 
-- **Option 1 :** remplacez `n` dans `HEAD~n` par le nombre de commits que vous voulez regrouper **en une seule fois**.
-- **Option 2 :** répétez `HEAD~` plusieurs fois pour regrouper vos commits **un par un**.
+```ts
+// Class
+class MyClass {
+    // ...
+}
 
-> [!WARNING]
-> Utilisez le flag `--soft` avec `reset` pour **défaire** vos commits en les mettant en statut **staged**. \
->
-> N'utilisez pas le flag `--hard`, il supprimera vos modifications.
+// Component
+const MyComp = () => {
+    // ...
+};
 
-```zsh
-# Option 1
-git reset --soft HEAD~n
-
-# Option 2
-git reset --soft HEAD~
+export const MyServerAction = async () => {
+    // ...
+};
 ```
 
-3. Faire le rebase de votre branche et résoudre les conflits
+### camelCase
 
-> [!NOTE]
-> Le nombre d'étapes potentielles de conflits correspond au nombre de commits sur votre branche.
+For constants and functions.
 
-Après avoir regroupé vos commits, il ne peut y avoir qu'une seule étape de conflit au maximum.
+> [!WARNING] > `let` and `var` are prohibited
 
-```zsh
-git rebase main
+```ts
+const myVariable = "value";
+const myFunction = () => {
+    // ...
+};
 ```
 
-4. Pousser votre branche
+## Déclaration de fonctions
 
-Après un `rebase`, votre branche locale est basée sur le dernier commit de `main`. Vous **devez forcer** le push pour écraser l'historique de la branche distante.
+Voici les pricipaux types de fichiers et patterns de déclaration de fonctions en NextJS.
 
-```zsh
-git push --force
+### 1. Server Components
+
+- Rendu côté serveur
+- Se trouve dans le dossier `/app/`
+- Il est fortement recommandé que tous les fichiers `page.tsx` soient des `Server Components`
+- Peut récupérer des données de la base de données directement dans le corps de la fonction
+- Peut rendre des `server components` ou `client components`
+- Ne peut pas contenir de **hooks React** !!
+
+```tsx
+// Type your props here
+type PageProps = {
+    params: Promise<{ slug: string }>; // optional
+};
+
+// Use ES6 function
+const Page = (props: PageProps) => {
+    // Destructure props
+    const { params } = props;
+    const { slug } = await params;
+
+    // Get data from the database
+    const myServerData = await fetchData(slug);
+
+    // Return JSX
+    return <div>{myServerData}</div>;
+};
+
+export default Component;
 ```
 
-## Formatage de code
+### 2. Client Components
 
-### Nommage de membres
+- Rendu côté client
+- Se trouve dans le dossier `/app/my-page/` (composant utilisé qu'a un seul endroit) et `/components/` (composant réutilisable)
+- Peut contenir des **hooks React**
+- Ne peut rendre que des `client components`
+- Ne peut pas récupérer des données de la base de données directement dans le corps de la fonction. Voici quelques solutions:
+    - Récupérer des données du composant server parent pour hydrater des `useState`
+    - Utiliser un hook dedié au fetch, comme `useFetch` dans ce projet
+    - Utiliser une `server action` pour effectuer une mutation
+    - Eviter d'utiliser des `useEffect` pour récupérer des données
 
-- Fichier, dossier : `kebab-case`
-- Classe, méthode, fonction : `PascalCase`
-- Variable, constante : `camelCase`
+```tsx
+"use client";
 
-### Fonction
+// Type your props here
+type ComponentProps = {
+    myString: string;
+};
 
-Préférez les fonctions fléchées pour tout type de fonction, qu'elle aient `export` ou non.
+// Use ES6 function
+const Component = (props: ComponentProps) => {
+    // Destructure props
+    const { myString } = props;
 
-Sauf pour la déclaration d'un composant React qui ont besoin des mots clés `export default`.
+    // Use state
+    const [myState, setMyState] = useState(myString);
 
-### Types
+    // Use effect
+    useEffect(() => {
+        // ...
+    }, [myState]);
 
-Les types doivent être déclaré à différent endroits selon la situation. Le type :
+    // Return JSX
+    return (
+        <div>
+            <div>{myState}</div>
+            <button onClick={() => setMyState("new value")}>Click me</button>
+        </div>
+    );
+};
 
-- Représente une table de la base de données -> le coder dans le dossier `/actions/types/nom-de-la-table`
+export default Component;
+```
 
-- Spécifique à un composant React -> le coder dans le même fichier que le composant
+### 3. Fetch et mutations
 
-<br>
-<br>
+> [!NOTE] CRUD Prisma
+> CREATE: `create` et `createMany` \
+> READ: `findFirst`, `findUnique` et `findMany` \
+> UPDATE: `update` et `updateMany` \
+> DELETE: `delete` et `deleteMany` \
+> Others: `upsert`, `count`, etc...
+
+Les fonctions de fetch et mutations de type "CRUD Prisma" sont automatiquement générées par la commande `pnpm generate:all` à partir du `/prisma/schema.prisma`. Plus d'informations le système de [génération CRUD Prisma ici](./crud-prisma.md).
+
+Si vous avez besoin de créer des fetch et mutations personnalisées, vous pouvez le faire en suivant ces patterns.
+
+### 4. Server Actions ou Process (mutations)
+
+- S'execute uniquement sur le server -> s'appelle depuis des `client components` ou `server components`
+- S'execute en série, ne peut pas être parallélisé -> dédié aux mutations ou fetch sans cache
+- Ne pas utiliser pour les fetch de données (absence de cache)
+- À utiliser en priorité pour effectuer des mutations sur la base de données
+- Très utile pour effectuer une suite de vérifications avant une mutation
+- Les actions sont rangées dans le dossier `/process/`
+
+```ts
+"use server";
+
+// Type your props here
+type MyServerActionProps = {
+    userId: string;
+    myString: string;
+};
+
+// Validate props with Zod
+const myServerActionSchema: ZodType<MyServerActionProps> = z.object({
+    userId: z.string(),
+    myString: z.string(),
+});
+
+// Type your response here
+type MyServerActionResponse = {
+    myUpdatedString: string;
+};
+
+// Use ES6 function
+export const MyServerAction = async (props: MyServerActionProps): Promise<MyServerActionResponse> => {
+    try {
+        // Destructure and validate props
+        const { myString } = myServerActionSchema.parse(props);
+
+        // Mutate data into the database
+        const myUpdatedString = await PrismaInstance.user.update({
+            where: { id: userId },
+            data: { name: myString },
+        });
+
+        // Return response
+        return { myUpdatedString };
+    } catch (error) {
+        console.error(error);
+        return "Something went wrong...";
+    }
+};
+```
+
+### 5. API routes (fetch ou api externes)
+
+- Dédié aux fetch (possibilité de cache)
+- Utile pour les communications avec des API externes (ex: Stripe)
+- Préférer les `routes` auto-générées par la commande `pnpm generate:all`
+- Eviter d'utiliser pour les mutations, préférer les `server actions` qui sont faites pour ça
+- Se trouve dans le dossier `/app/api/`
+
+Voici le format de réponse standard pour les `API routes`.
+
+```ts
+// Response format
+export type ResponseFormat<Response> = { data: Response; error?: undefined } | { data?: undefined; error: string };
+```
+
+Voici un exemple de fetch avec cache.
+
+```ts
+// Type your props here
+export type ApiRouteNameProps = {
+    myString: string;
+};
+
+// Validate props with Zod
+const apiRouteNamePropsSchema: ZodType<ApiRouteNameProps> = z.object({
+    myString: z.string(),
+});
+
+// Type your response here
+export type ApiRouteNameResponse = {
+    myData: string;
+};
+
+export async function GET(request: NextRequest): Promise<NextResponse<ResponseFormat<ApiRouteNameResponse>>> {
+    try {
+        // Decode and parse URL params
+        const params: CreateStripePriceProps = parseAndDecodeParams(request);
+
+        // Destructure and validate params
+        const { myString } = apiRouteNamePropsSchema.parse(params);
+
+        // Fetch data from the database
+        const myData = await PrismaInstance.product.findUnique({
+            where: { id: myString },
+        });
+
+        // Return response
+        return NextResponse.json({ data: myData }, { status: 200 });
+    } catch (e) {
+        const error = StripeError("/prices/create", e);
+        return NextResponse.json({ error }, { status: 500 });
+    }
+}
+```
