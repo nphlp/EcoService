@@ -68,7 +68,8 @@ export const MyServerAction = async () => {
 
 For constants and functions.
 
-> [!WARNING] > `let` and `var` are prohibited
+> [!WARNING] Warning
+> `let` and `var` are prohibited
 
 ```ts
 const myVariable = "value";

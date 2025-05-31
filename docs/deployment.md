@@ -2,7 +2,7 @@
 
 [Home](../README.md) > [Deployment](./deployment.md)
 
-> Pipeline process [here](https://github.com/nansphilip/EcoService/tree/main/.github/ci-cd-workflows.md)
+> You may interested in the [CI/CD Workflow Docs](./ci-cd-workflows.md) in complement of this documentation.
 
 1. Create a `Mysql` environnment:
 
