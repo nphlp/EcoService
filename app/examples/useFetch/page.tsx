@@ -1,16 +1,16 @@
 import { FetchV2 } from "@utils/FetchV2/FetchV2";
-import Client from "./client";
-import { DiyFetchParams } from "./fetchParams";
+import ClientComponent from "./client";
+import { ArticleFetchParams } from "./fetchParams";
 
 export default async function Page() {
-    const diyList = await FetchV2({
-        route: "/diy",
-        params: DiyFetchParams({ author: true }),
+    const articleList = await FetchV2({
+        route: "/article",
+        params: ArticleFetchParams({ includeAuthor: true }),
     });
 
-    if (!diyList.length) {
+    if (!articleList.length) {
         return <div>There is no data.</div>;
     }
 
-    return <Client initialData={{ diyList }} />;
+    return <ClientComponent articleList={articleList} />;
 }

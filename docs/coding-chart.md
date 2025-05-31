@@ -164,9 +164,10 @@ export default Component;
 > READ: `findFirst`, `findUnique` et `findMany` \
 > UPDATE: `update` et `updateMany` \
 > DELETE: `delete` et `deleteMany` \
-> Others: `upsert`, `count`, etc...
+>
+> Others methods: `upsert`, `upsertMany`, `count`, etc...
 
-Les fonctions de fetch et mutations de type "CRUD Prisma" sont automatiquement générées par la commande `pnpm generate:all` à partir du `/prisma/schema.prisma`. Plus d'informations le système de [génération CRUD Prisma ici](./crud-prisma.md).
+Les fonctions de fetch et mutations de type `CRUD Prisma` sont automatiquement générées par la commande `pnpm generate:all` à partir du `/prisma/schema.prisma`. Plus d'informations le système de [génération CRUD Prisma ici](./crud-prisma.md).
 
 Si vous avez besoin de créer des fetch et mutations personnalisées, vous pouvez le faire en suivant ces patterns.
 

@@ -4,6 +4,10 @@
 
 ## Auto setup
 
+> [!NOTE]
+> If you have a local MySQL server running on your machine on the default port `3306`, \
+> you may setup the host `3307` in your `.env` file for the Docker MySQL service.
+
 - Add the `.env` file from `.env.example` template ([see more](../environment-variables.md))
 
 - Run docker services (mysql, redis, etc...)
