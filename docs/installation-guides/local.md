@@ -1,12 +1,12 @@
 # Local installation
 
-[Home](../../README.md) > [Installation](../Installation.md) > [Local installation](./local.md)
+[Home](../../README.md) > [Installation](../installation.md) > [Local installation](./local.md)
 
 ## Auto setup
 
 - Add the `.env` file from `.env.example` template ([see more](../environment-variables.md))
 
-- Setup database and user, genreate prisma, deploy migrations, load fixtures and run dev server
+- Setup database and user, generate Prisma, deploy migrations, load fixtures and run dev server
 
     ```bash
     pnpm install && pnpm auto
@@ -18,7 +18,7 @@
     pnpm stripe:webhooks
     ```
 
-- (optional) Clear your `localhost:3000` browser cookies if you have some session errors
+- (optional) Clear your `localhost:3000` browser cookies if you have session errors
 
 ## Manual setup
 
@@ -30,7 +30,7 @@
     pnpm install
     ```
 
-- Creates a Mysql user and a password and grants privileges
+- Create a MySQL user and password and grant privileges
 
     - Automatic method
 
@@ -73,4 +73,4 @@
     pnpm stripe:webhooks
     ```
 
-- (optional) Clear your `localhost:3000` browser cookies if you have some session errors
+- (optional) Clear your `localhost:3000` browser cookies if you have session errors

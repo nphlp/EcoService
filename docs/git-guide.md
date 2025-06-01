@@ -1,144 +1,146 @@
-# Guide sur Git
+# Git Guide
 
-[Home](../README.md) > [Guide sur Git](./git-guide.md)
+[Home](../README.md) > [Git Guide](./git-guide.md)
 
-Voici quelques bonnes pratiques à suivre pour travailler en équipe avec Git.
+Here are some best practices to follow for team collaboration with Git.
 
-<h2>Sommaire</h2>
+<h2>Summary</h2>
 
-- [Types de branches](#types-de-branches)
+- [Branch types](#branch-types)
 - [Commits \& Push](#commits--push)
-- [Mettre à jour une branche par rapport à `main`](#mettre-à-jour-une-branche-par-rapport-à-main)
-    - [Rebase simple](#rebase-simple)
-    - [Rebase avec squash](#rebase-avec-squash)
+- [Update a branch relative to `main`](#update-a-branch-relative-to-main)
+    - [Simple rebase](#simple-rebase)
+    - [Rebase with squash](#rebase-with-squash)
 
-## Types de branches
+## Branch types
 
-- `main` : branche de production, c'est à partir de cette branche qu'est déployé le site internet
-- `test` : branche de développement, c'est la branche sur laquelle toutes les features sont ajoutées unes à unes
-- `{nom-developpeur}/{issue-id}` : branche `feat` qui agit sur une seule issue, manipulée par un seul développeur
-  Exemple: `johndoe/eco-25`
+- `main`: production branch, the website is deployed from this branch
+- `test`: development branch, this is the branch where all features are added one by one
+- `{developer-name}/{issue-id}`: `feat` branch that works on a single issue, handled by a single developer
+  Example: `johndoe/eco-25`
 
 > [!IMPORTANT]
-> Les branches `main` et `test` sont manipulées par le `lead dev` uniquement. \
-> Les branches `feat` sont créées et manipulées par les développeurs eux-mêmes.
+> The `main` and `test` branches are handled by the `lead dev` only. \
+> The `feat` branches are created and handled by the developers themselves.
 
 ## Commits & Push
 
-> [!WARNING] > **Aucune manipulation** sur `git` ne doit être faite au hasard.
+> [!WARNING]
+>
+> **No manipulation** on `git` should be done randomly.
 
-C'est un confort pour toute l'équipe de suivre une typologie de nommage de `commits`. On peut aisément savoir ce que représente chaque `commit` :
+It's convenient for the whole team to follow a commit naming convention. We can easily know what each `commit` represents:
 
-- Avancement sur la feature : `feat: {new feature description}`
-- Correction sur la feature : `fix: {bug fix description}`
+- Progress on the feature: `feat: {new feature description}`
+- Fix on the feature: `fix: {bug fix description}`
 
 > [!NOTE]
-> Il est nécessaire de `commit` et `push` le plus régulièrement possible. Par exemple :
+> It is necessary to `commit` and `push` as regularly as possible. For example:
 >
-> - dès qu'un ajout fonctionne
-> - dès qu'une erreur est corrigée
-> - dès qu'une fonctionnalité est terminée
-> - en fin de journée
+> - as soon as an addition works
+> - as soon as an error is fixed
+> - as soon as a functionality is completed
+> - at the end of the day
 >
-> Si vous travailler sur différents postes, vous devez être en plus rigoureux sur le `commit` et le `push` pour éviter les `conflits` entre vos ordinateurs.
+> If you work on different computers, you must be more rigorous about `commit` and `push` to avoid `conflicts` between your computers.
 
-## Mettre à jour une branche par rapport à `main`
+## Update a branch relative to `main`
 
-Un nouveau commit a été ajouté à la branche `main`. Vous souhaitez obtenir les dernières modifications de la branche `main`.
+A new commit has been added to the `main` branch. You want to get the latest changes from the `main` branch.
 
-La méthode la plus propre pour l'historique `git` est de rebaser les `commits` que vous avez ajouté à votre branche `feat` à la suite de la branche du nouveau commit de la branche `main`.
+The cleanest method for `git` history is to rebase the `commits` you added to your `feat` branch after the new commit from the `main` branch.
 
-Voici les étapes à suivre pour faire un **rebase** facilement et rapidement.
+Here are the steps to follow to do a **rebase** easily and quickly.
 
 > [!NOTE]
-> Le **rebase** positionne les `commits` de votre branche `feat` à la suite des `commits` de la branche `main` pour garder un historique linéaire. Ainsi, vos `commits` ne sont que des ajouts de code lors du `Pull request`, ce qui évite de perdre du code.
+> The **rebase** positions the `commits` from your `feat` branch after the `commits` from the `main` branch to keep a linear history. This way, your `commits` are only code additions during the `Pull request`, which avoids losing code.
 >
-> Le **merge** crée un `commit` de `merge`, il est à éviter car rend la compréhension de l'historique plus difficile. Il crée plus souvent des conflits ce qui peut faire perdre du code en écrasant des nouvelles modifications par des anciennes.
+> The **merge** creates a `merge` `commit`, it should be avoided as it makes understanding the history more difficult. It creates conflicts more often which can cause code loss by overwriting new changes with old ones.
 >
-> ![Différence entre rebase et main](/public/rebase-or-merge.png)
+> ![Difference between rebase and merge](/public/rebase-or-merge.png)
 
 > [!TIP]
-> La première fois, il est recommandé de créer une branche de sauvegarde avant le rebase : `git checkout -b backup-your-branch`.
+> The first time, it is recommended to create a backup branch before rebasing: `git checkout -b backup-your-branch`.
 >
-> Dans tous les cas, veillez à `push` vos commits sur le dépot distant avant de commencer les étapes de rebase pour avoir une sauvegarde de vos modifications sur le dépot distant. Ensuite, vous ne travaillez que sur votre dépot local pour pouvoir annuler les modifications si nécessaire.
+> In any case, make sure to `push` your commits to the remote repository before starting the rebase steps to have a backup of your changes on the remote repository. Then, you only work on your local repository to be able to cancel changes if necessary.
 >
-> Les outils de visualisation graphique de l'historique de `git` sont très utiles pour comprendre le rebase.
+> Graphical visualization tools for `git` history are very useful for understanding rebase.
 
-Deux méthodes sont possibles pour faire un rebase :
+Two methods are possible for rebasing:
 
-- rebase simple
-- rebase avec squash
+- simple rebase
+- rebase with squash
 
-### Rebase simple
+### Simple rebase
 
-Si vous et votre équipe avez travaillé sur des fonctionnalités indépendantes, vous pouvez faire un rebase simple et vous n'aurez aucun confilt.
+If you and your team have worked on independent features, you can do a simple rebase and you will have no conflicts.
 
 ```zsh
-# Version classique
-git checkout main # Aller sur main
-git fetch # Vérifier le dépot distant
-git pull # Récupérer les dernières modifications
-git checkout your-branch # Aller sur votre branche
-git rebase main # Rebaser avec main du dépot local
+# Classic version
+git checkout main               # Go to main
+git fetch                       # Check the remote repository
+git pull                        # Get the latest changes
+git checkout your-branch        # Go to your branch
+git rebase main                 # Rebase with local main
 
-# Version raccourcie
-git pull --rebase main # Rebaser avec main du dépot distant
+# Shortened version
+git pull --rebase origin main   # Rebase with remote main
 ```
 
-Un fois le rebase effectué, vous pouvez vérifier que vos commits sont bien à la suite de la branche `main` avec une interface graphique ou `git log --oneline`.
+Once the rebase is done, you can verify that your commits are properly after the `main` branch with a graphical interface or `git log --oneline`.
 
-Si tout est bon, vous pouvez pousser les modifications avec le flag `--force` pour écraser l'historique de la branche distante. C'est obligatoire parce que nous avons modifié l'historique avec le rebase. Attention, c'est une opération irréversible.
+If everything is good, you can push the changes with the `--force` flag to overwrite the remote branch history. This is mandatory because we modified the history with the rebase. Warning, this is an irreversible operation.
 
 ```zsh
 git push --force
 ```
 
-### Rebase avec squash
+### Rebase with squash
 
-Si vous et votre équipe avez travaillé sur des fonctionnalités liées, vous allez probablement avoir des conflits. Si vous avez fait 15 commits, vous pouvez avoir jusqu'à 15 étapes de conflits : car vos commits sont ajoutés un à un après main. C'est très pénible et génère souvent des erreurs.
+If you and your team have worked on related features, you will probably have conflicts. If you made 15 commits, you can have up to 15 conflict steps: because your commits are added one by one after main. This is very tedious and often generates errors.
 
-Une solution est de regrouper vos commits en un seul : un `squash`. C'est une opération qui va fusionner tous vos commits en un seul. Après le squash, vous n'aurez plus qu'une seule étape de conflit à résoudre.
+One solution is to group your commits into one: a `squash`. This is an operation that will merge all your commits into one. After the squash, you will only have one conflict step to resolve.
 
 > [!TIP]
-> Essayez le rebase simple d'abord. Si vous avez beaucoup de conflits, vous pouvez annuler le rebase avec `git rebase --abort` puis faire un rebase avec squash.
+> Try the simple rebase first. If you have many conflicts, you can cancel the rebase with `git rebase --abort` then do a rebase with squash.
 
-1. Regrouper vos commits
+1. Group your commits
 
-Ensuite, il faut regrouper/combiner tous vos commits en un seul.
+Then, you need to group/combine all your commits into one.
 
-Il y a deux options pour regrouper plusieurs commits :
+There are two options to group multiple commits:
 
-- **Option 1 :** `uncommit` plusieurs commits en une seule fois
+- **Option 1:** `uncommit` multiple commits at once
 
 ```zsh
-# Remplacez n par le nombre de commits que vous voulez regrouper en une seule fois
+# Replace n with the number of commits you want to group at once
 git reset --soft HEAD~n
 ```
 
-- **Option 2 :** `uncommit` un commit à la fois
+- **Option 2:** `uncommit` one commit at a time
 
 ```zsh
-# Répétez autant de fois que nécessaire
-git reset --soft HEAD~
+# Repeat as many times as necessary
+git reset --soft HEAD~1
 ```
 
 > [!WARNING]
-> Utilisez le flag `--soft` avec `reset` pour `uncommit` les modifications en les mettant en statut `staged`.
+> Use the `--soft` flag with `reset` to `uncommit` changes by putting them in `staged` status.
 >
-> N'utilisez pas le flag `--hard`, il supprimera vos modifications.
+> Do not use the `--hard` flag, it will delete your changes.
 
-2. Faire le rebase de votre branche et résoudre les conflits
+2. Rebase your branch and resolve conflicts
 
-Après avoir regroupé vos commits, il ne peut y avoir qu'une seule étape de conflit au maximum.
+After grouping your commits, there can be at most one conflict step.
 
 ```zsh
-# Rebaser avec main du dépot distant
-git pull --rebase main
+# Rebase with remote main
+git pull --rebase origin main
 ```
 
-3. Pousser votre branche
+3. Push your branch
 
-Écrasez le dépot distant avec vos modifications locales.
+Overwrite the remote repository with your local changes.
 
 ```zsh
 git push --force

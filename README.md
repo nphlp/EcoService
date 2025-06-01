@@ -1,52 +1,53 @@
 # Eco Service
 
-Projet d'étude réalisé en période de formation pour le [Titre Professionnel (Niveau 6) - Concepteur développeur d'applications (RNCP37873)](https://www.francecompetences.fr/recherche/rncp/37873/).
+Study project developed during training for the [Titre Professionnel (Niveau 6) - Concepteur développeur d'applications
+(RNCP37873)](https://www.francecompetences.fr/recherche/rncp/37873/).
 
 ## Demo
 
-Version de test : [preview.eco-service.nansp.dev](https://preview.eco-service.nansp.dev) \
-Version production : [eco-service.nansp.dev](https://eco-service.nansp.dev)
+Test version: [preview.eco-service.nansp.dev](https://preview.eco-service.nansp.dev) \
+Production version: [eco-service.nansp.dev](https://eco-service.nansp.dev)
 
 ## Summary
 
-- [Installation](./docs/installation.md) sur votre machine
-- [Technologies](./docs/technologies.md) utilisées
-- [CRUD Prisma](./docs/crud-prisma.md) auto-généré
-- [Coding Chart](./docs/coding-chart.md) pour consitance du code
-- [Guide sur Git](./docs/git-guide.md) pour travailler en équipe
-- [CI/CD Workflows](./docs/ci-cd-workflows.md) pour la qualité du code
-- [Deploiement](./docs/deployment.md) sur un VPS avec [Coolify](https://coolify.io/)
+- [Installation](./docs/installation.md) on your machine
+- [CI/CD Workflows](./docs/ci-cd-workflows.md) to ensure code quality
+- [Deployment](./docs/deployment.md) on VPS with [Coolify](https://coolify.io/)
+- [Technologies](./docs/technologies.md) used in the project
+- [Auto-generated CRUD Prisma](./docs/crud-prisma.md) system for API and Server Actions
+- [Coding Chart](./docs/coding-chart.md) for code consistency
+- [Git Guide](./docs/git-guide.md) for team collaboration
 
-## Projet
+## Project
 
-Le client virtuel est un entrepreneur qui souhaite créer une plateforme de type "marketplace" pour vendre des produits écologiques.
+The virtual client is an entrepreneur who wants to create a marketplace platform to sell eco-friendly products.
 
-1. Plateforme de vente de produits écologiques
+1. Eco-friendly product marketplace platform
 
-    - on trouve des **produits** de différents vendeurs
-    - on trouve des **articles** de blog qui parlent des produits et leurs concepteurs/vendeurs
-    - on trouve des articles de **DIY** (Do It Yourself) qui expliquent comment utiliser les produits et en concevoir soit-même
+    - features **products** from different vendors
+    - includes blog **articles** about products and their creators/vendors
+    - provides **DIY** (Do It Yourself) articles explaining how to use products and create them yourself
 
-2. Types d'utilisateurs
+2. User types
 
-    - les **utilisateurs** qui achètent des produits (après inscription)
-    - les **vendeurs** qui vendent des produits (après approbation)
-    - les **employés** qui gèrent la plateforme (créé par l'administrateur)
-    - un ou des **administrateur** qui gère la plateforme (créé par le développeur)
+    - **users** who purchase products (after registration)
+    - **vendors** who sell products (after approval)
+    - **employees** who manage the platform (created by administrator)
+    - one or more **administrators** who manage the platform (created by developer)
 
-3. Fonctionnalités principales
+3. Main features
 
-    - **Accueil** : qui présente le concept de la plateforme, les produits, les articles, les diy, etc.
-    - **Catalogue** : des produits, articles, diy, etc.
-    - **Recherche** : de produits, articles, diy, etc.
-    - **Panier** : qui se transforme en **commande**
-    - **Moyen de paiement** : avec Stripe
-    - **Authentification** : des utilisateurs
-    - **Tableau de bord** : pour les employés et les administrateurs
+    - **Homepage**: presents the platform concept, products, articles, DIY content, etc.
+    - **Catalog**: of products, articles, DIY content, etc.
+    - **Search**: for products, articles, DIY content, etc.
+    - **Shopping cart**: which converts to **orders**
+    - **Payment method**: with Stripe
+    - **Authentication**: for users
+    - **Dashboard**: for employees and administrators
 
 ## Fixtures
 
-Voici quelques identifiants d'exemple pour tester l'application.
+Here are some sample credentials to test the application.
 
 | Email                | Password      | User type |
 | -------------------- | ------------- | --------- |

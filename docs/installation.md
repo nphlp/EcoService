@@ -1,6 +1,6 @@
 # Project Installation
 
-[Home](../README.md) > [Installation](./Installation.md)
+[Home](../README.md) > [Installation](./installation.md)
 
 Install the project in three steps: `software requirements`, `environment variables` and `project setup`.
 
@@ -16,39 +16,39 @@ Install the project in three steps: `software requirements`, `environment variab
 
 ## Available environments
 
-This projects is compatible with multiple runtime environments.
+This project is compatible with multiple runtime environments.
 
 ### 1. Local
 
-Pure local environment that requires `Node JS` and `MySQL` local servers installed on your machine. Excellent performance but requires Mysql installation.
+Pure local environment that requires `Node.js` and `MySQL` local servers installed on your machine. Excellent performance but requires MySQL installation.
 
-- Need `Node JS` and `MySQL` local servers
-- Need the `.env` file
+- Requires `Node.js` and `MySQL` local servers
+- Requires the `.env` file
 - Compatible with `dev` and `prod` modes
 
 ### 2. Hybrid
 
-Hybrid environment that requires `Node JS` local server and `MySQL` in Docker container. Excellent performance, the best of both worlds.
+Hybrid environment that requires `Node.js` local server and `MySQL` in Docker container. Excellent performance, the best of both worlds.
 
-- Need `Node JS` local server
-- Need `MySQL` in Docker with `compose.local.yml`
-- Need the `.env` file
+- Requires `Node.js` local server
+- Requires `MySQL` in Docker with `compose.local.yml`
+- Requires the `.env` file
 - Compatible with `dev` and `prod` modes
 
 ### 3. Docker (dev mode)
 
-Docker dev environment that requires `Node JS` and `MySQL` in Docker containers. Poor compiling performance, especially for Page and API compilation. Usefull for dockerizing the project, but not recommended to work efficiently.
+Docker dev environment that requires `Node.js` and `MySQL` in Docker containers. Poor compilation performance, especially for Page and API compilation. Useful for dockerizing the project, but not recommended for efficient development work.
 
-- Need `Node JS` and `MySQL` in Docker with `compose.dev.yml`
-- Need the `.env.dev` file for `dev` mode
+- Requires `Node.js` and `MySQL` in Docker with `compose.dev.yml`
+- Requires the `.env.dev` file for `dev` mode
 - Compatible with `dev` mode only
 
 ### 4. Docker (prod mode)
 
-Docker prod environment that requires `Node JS` and `MySQL` in Docker containers. Excellent performance, recommended for production.
+Docker prod environment that requires `Node.js` and `MySQL` in Docker containers. Excellent performance, recommended for production.
 
-- Need `Node JS` and `MySQL` in Docker with `compose.prod.yml`
-- Need the `.env.prod` file for `prod` mode
+- Requires `Node.js` and `MySQL` in Docker with `compose.prod.yml`
+- Requires the `.env.prod` file for `prod` mode
 - Compatible with `prod` mode only
 
 ## Software requirements
@@ -56,8 +56,8 @@ Docker prod environment that requires `Node JS` and `MySQL` in Docker containers
 Common software requirements:
 
 - [Git](https://git-scm.com/downloads)
-- [Node JS](https://nodejs.org/en/download/package-manager/current)
-- [PNPM](https://pnpm.io/fr/installation) package manager
+- [Node.js](https://nodejs.org/en/download/package-manager/current)
+- [PNPM](https://pnpm.io/installation) package manager
 - [Stripe CLI](https://docs.stripe.com/stripe-cli) (optional)
 
 For local environments:
