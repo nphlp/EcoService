@@ -51,7 +51,7 @@ type CachedData = {
     categoryList: CategoryModel[];
 };
 
-const cachedFetchData = async (decodedSearchParams: SearchParamsType): Promise<CachedData> => {
+const cachedFetch = async (decodedSearchParams: SearchParamsType): Promise<CachedData> => {
     "use cache";
 
     cacheLife("hours");
@@ -109,7 +109,7 @@ export default async function Page(props: PageProps) {
 
     const decodedSearchParams = await SearchParamsCached.parse(searchParams);
 
-    const cachedData = await cachedFetchData(decodedSearchParams);
+    const cachedData = await cachedFetch(decodedSearchParams);
 
     return <CachedPage {...cachedData} />;
 }
