@@ -4,6 +4,21 @@ import Link from "@comps/ui/link";
 export default function Page() {
     const links = [
         {
+            label: "Server Actions (Server Component)",
+            href: "/examples/Actions/server",
+            text: "How to use server actions in a Server Component",
+        },
+        {
+            label: "Server Actions (Client Component)",
+            href: "/examples/Actions/client",
+            text: "How to use server actions in a Client Component",
+        },
+        {
+            label: "Server Actions (with a Process)",
+            href: "/examples/Actions/process",
+            text: "How to use server actions with a Process script",
+        },
+        {
             label: "Fetch",
             href: "/examples/Fetch",
             text: "How to fetch data from the server",
@@ -17,6 +32,11 @@ export default function Page() {
             label: "Fetch Parallelized",
             href: "/examples/FetchParallelized",
             text: "How to fetch data from the server in parallel",
+        },
+        {
+            label: "Redis Cache",
+            href: "/examples/Redis",
+            text: "How to use Redis cache",
         },
         {
             label: "Form",

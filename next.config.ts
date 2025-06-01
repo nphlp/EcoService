@@ -1,6 +1,15 @@
 import type { NextConfig } from "next";
 
+// const isDocker = process.env.MYSQL_HOST === "mysql";
+// const isProduction = process.env.NODE_ENV === "production";
+
 const nextConfig: NextConfig = {
+    // Docker production optimization
+    // output: isDocker && isProduction ? "standalone" : undefined,
+
+    // Redis cache handler
+    // cacheHandler: require.resolve("./cache-handler.cjs"),
+
     images: {
         remotePatterns: [
             {

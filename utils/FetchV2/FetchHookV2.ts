@@ -5,7 +5,7 @@ import { FetchProps, FetchResponse, FetchV2, Params, Route } from "./FetchV2";
 
 export type FetchHookProps<Input, R extends Route<Input>, P extends Params<Input, R>> = Omit<
     FetchProps<Input, R, P>,
-    "client"
+    "client" | "signal"
 > & {
     fetchOnFirstRender?: boolean;
 };
