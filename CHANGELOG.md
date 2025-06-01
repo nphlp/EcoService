@@ -1,3 +1,9 @@
+# [1.6.0](https://github.com/nansphilip/EcoService/compare/v1.5.0...v1.6.0) (2025-06-01)
+
+### Features
+
+- add docker env and complete documentation ([c12df7a](https://github.com/nansphilip/EcoService/commit/c12df7a7a197da942336e021d8ee18ba0287bb27))
+
 # [1.5.0](https://github.com/nansphilip/EcoService/compare/v1.4.0...v1.5.0) (2025-05-20)
 
 ### Features
