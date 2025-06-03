@@ -1,3 +1,9 @@
+## [1.6.1](https://github.com/nansphilip/EcoService/compare/v1.6.0...v1.6.1) (2025-06-03)
+
+### Bug Fixes
+
+- dockers config ([e6f4b3c](https://github.com/nansphilip/EcoService/commit/e6f4b3ca7ebcb9d3ec4eb6042c70ff48feb37711))
+
 # [1.6.0](https://github.com/nansphilip/EcoService/compare/v1.5.0...v1.6.0) (2025-06-01)
 
 ### Features
