@@ -37,3 +37,6 @@ run/
 
 # Husky hooks
 .husky/_
+
+# Sonar
+.scannerwork/
