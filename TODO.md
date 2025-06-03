@@ -2,6 +2,11 @@
 
 Complete auth and user management
 
+## Code quality
+
+- [] Sonar Cube
+- [] Test coverage
+
 ## Priority
 
 - [] Snippet pour créer un composant React ?????
