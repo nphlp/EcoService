@@ -17,6 +17,7 @@ Production version: [eco-service.nansp.dev](https://eco-service.nansp.dev)
 - [Auto-generated CRUD Prisma](./docs/crud-prisma.md) system for API and Server Actions
 - [Coding Chart](./docs/coding-chart.md) for code consistency
 - [Git Guide](./docs/git-guide.md) for team collaboration
+- [Sonar Cube](./docs/sonar-cube.md) for code quality
 
 ## Project
 
