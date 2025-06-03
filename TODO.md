@@ -2,6 +2,13 @@
 
 Complete auth and user management
 
+## Code quality
+
+- [] Sonar Cube
+- [] Test coverage
+- [] Dependabot -> Safely update dependencies
+- [] Dependency Track -> Search for vulnerabilities in dependencies
+
 ## Priority
 
 - [] Snippet pour créer un composant React ?????

@@ -4,11 +4,11 @@ node_modules
 
 # Build outputs
 .next
-dist
 
 # Environment files
-.env
-.env.example*
+# .env
+.env.example
+.env.example.*
 
 # Git
 .git
@@ -27,9 +27,8 @@ coolify.yml
 
 # Documentation
 README.md
-DEPLOYMENT.md
 TODO.md
-CHANGELOG.md
+docs/
 
 # Misc
 .husky
