@@ -30,7 +30,7 @@ certs-reload:
 #     Local env    #
 ####################
 
-DC_LOCAL = docker compose -f compose.local.yml
+DC_LOCAL = docker compose -f compose.local.yml --env-file .env
 
 # Build local
 build-local:
@@ -52,7 +52,7 @@ rm-local:
 #      Dev env     #
 ####################
 
-DC_DEV = docker compose -f compose.dev.yml
+DC_DEV = docker compose -f compose.dev.yml --env-file .env.dev
 
 # Build dev
 build-dev:
@@ -74,7 +74,7 @@ rm-dev:
 #     Prod env     #
 ####################
 
-DC_PROD = docker compose -f compose.prod.yml
+DC_PROD = docker compose -f compose.prod.yml --env-file .env.prod
 
 # Build prod
 build-prod:

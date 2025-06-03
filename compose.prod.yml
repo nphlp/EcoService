@@ -1,5 +1,4 @@
 # Configuration Docker Compose pour la production
-# Compatible avec Docker Swarm et Coolify
 # Usage: docker compose -f compose.prod.yml up -d
 
 services:
