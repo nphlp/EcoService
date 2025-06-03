@@ -1,36 +1,36 @@
-# Dependencies
-node_modules
-.pnpm-store
+# # Dependencies
+# node_modules
+# .pnpm-store
 
-# Build outputs
-.next
-dist
+# # Build outputs
+# .next
+# dist
 
-# Environment files
-.env
-.env.example*
+# # Environment files
+# .env
+# .env.example*
 
-# Git
-.git
-.gitignore
+# # Git
+# .git
+# .gitignore
 
-# Docker files
-Dockerfile*
-compose*.yml
-coolify.yml
+# # Docker files
+# Dockerfile*
+# compose*.yml
+# coolify.yml
 
-# Development files
-.vscode
-.cursor
-.DS_Store
-*.log
+# # Development files
+# .vscode
+# .cursor
+# .DS_Store
+# *.log
 
-# Documentation
-README.md
-DEPLOYMENT.md
-TODO.md
-CHANGELOG.md
+# # Documentation
+# README.md
+# DEPLOYMENT.md
+# TODO.md
+# CHANGELOG.md
 
-# Misc
-.husky
-.github
+# # Misc
+# .husky
+# .github
