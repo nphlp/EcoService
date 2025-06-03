@@ -42,11 +42,16 @@ sonar-scanner \
   -Dsonar.sources=. \
   -Dsonar.host.url=http://sonarqube:9000 \ # Modifier cette ligne
   -Dsonar.login= **TOKEN FOURNI PAR SONAR CUBE** \
-  -Dsonar.inclusions=**/*.ts,**/*.tsx,**/*.js,**/*.jsx \ # Ajouter cette ligne
-  -Dsonar.exclusions=**/node_modules/**,**/dist/**,**/build/**,**/*.min.js # Ajouter cette ligne
 ```
 
-Exemple de commande :
+Add the following commands :
+
+```sh
+  -Dsonar.inclusions=**/*.ts,**/*.tsx,**/*.js,**/*.jsx \
+  -Dsonar.exclusions=**/node_modules/**,**/dist/**,**/build/**,**/*.min.js
+```
+
+## Exemple complet de scan
 
 ```sh
 sonar-scanner \

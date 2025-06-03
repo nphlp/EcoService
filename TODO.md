@@ -6,6 +6,8 @@ Complete auth and user management
 
 - [] Sonar Cube
 - [] Test coverage
+- [] Dependabot -> Safely update dependencies
+- [] Dependency Track -> Search for vulnerabilities in dependencies
 
 ## Priority
 
