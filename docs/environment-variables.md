@@ -1,27 +1,29 @@
 # Environment variables
 
+[Home](../README.md) > [Installation](./installation.md) > [Environment variables](./environment-variables.md)
+
 This is the list of environment variables used in the project.
 
 ## Required variables
 
-| Variable                           | Value                                                                                                               | Description                                             |
-| ---------------------------------- | ------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------- |
-| NODE_ENV                           | `production` or `development`                                                                                       | Node environment                                        |
-| NEXT_PUBLIC_BASE_URL               | `http://localhost:3000` or `https://your-static-sub-domain.ngrok-free.app`                                          | Base URL                                                |
-| MYSQL_ROOT_PASSWORD                | `root`                                                                                                              | MySQL root password (for local server or Docker server) |
-| DATABASE_URL                       | `mysql://eco-service-user:eco-service-password@{HOST}:3306/eco-service-db` where `{HOST}` is `localhost` or `mysql` | MySQL URL for Prisma                                    |
-| MYSQL_DATABASE                     | `eco-service-db`                                                                                                    | MySQL variable for Docker service                       |
-| MYSQL_USER                         | `eco-service-user`                                                                                                  | MySQL variable for Docker service                       |
-| MYSQL_PASSWORD                     | `eco-service-password`                                                                                              | MySQL variable for Docker service                       |
-| MYSQL_HOST                         | `localhost` or `mysql`                                                                                              | MySQL variable for Docker service                       |
-| MYSQL_PORT                         | `3306`                                                                                                              | MySQL variable for Docker service                       |
-| REDIS_URL                          | `redis://localhost:6379` or `redis://redis:6379`                                                                    | Redis URL                                               |
-| REDIS_ARGS                         | `--save 1 1` for testing, `--save 3600 10` for production                                                           | Redis arguments                                         |
-| BETTER_AUTH_SECRET                 | `session-encryption-key`                                                                                            | Better Auth encryption key                              |
-| PLUNK_API_KEY                      | `sk_xxxxx`                                                                                                          | Plunk API key                                           |
-| NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY | `pk_test_xxxxx`                                                                                                     | Stripe public key                                       |
-| STRIPE_SECRET_KEY                  | `sk_test_pk_test_xxxxx`                                                                                             | Stripe secret key                                       |
-| STRIPE_WEBHOOK_SECRET              | `whsec_xxxxx`                                                                                                       | Stripe webhook secret                                   |
+| Variable                           | Value                                                                        | Description                                             |
+| ---------------------------------- | ---------------------------------------------------------------------------- | ------------------------------------------------------- |
+| NODE_ENV                           | `production` or `development`                                                | Node environment                                        |
+| NEXT_PUBLIC_BASE_URL               | `http://localhost:3000` or `https://your-static-sub-domain.ngrok-free.app`   | Base URL                                                |
+| MYSQL_ROOT_PASSWORD                | `root`                                                                       | MySQL root password (for local server or Docker server) |
+| DATABASE_URL                       | `mysql://eco-service-user:eco-service-password@{HOST}:{PORT}/eco-service-db` | MySQL URL for Prisma                                    |
+| MYSQL_DATABASE                     | `eco-service-db`                                                             | MySQL variable for Docker service                       |
+| MYSQL_USER                         | `eco-service-user`                                                           | MySQL variable for Docker service                       |
+| MYSQL_PASSWORD                     | `eco-service-password`                                                       | MySQL variable for Docker service                       |
+| MYSQL_HOST                         | `localhost` or `mysql`                                                       | MySQL variable for Docker service                       |
+| MYSQL_PORT                         | `3306` or `3307`                                                             | MySQL variable for Docker service                       |
+| REDIS_URL                          | `redis://localhost:6379` or `redis://redis:6379`                             | Redis URL                                               |
+| REDIS_ARGS                         | `--save 1 1` for testing, `--save 3600 10` for production                    | Redis arguments                                         |
+| BETTER_AUTH_SECRET                 | `session-encryption-key`                                                     | Better Auth encryption key                              |
+| PLUNK_API_KEY                      | `sk_xxxxx`                                                                   | Plunk API key                                           |
+| NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY | `pk_test_xxxxx`                                                              | Stripe public key                                       |
+| STRIPE_SECRET_KEY                  | `sk_test_pk_test_xxxxx`                                                      | Stripe secret key                                       |
+| STRIPE_WEBHOOK_SECRET              | `whsec_xxxxx`                                                                | Stripe webhook secret                                   |
 
 ## Details
 
@@ -45,6 +47,12 @@ Used in `scripts/db.ts`, `Dockerfile.dev` and `Dockerfile.builder` to automatica
 #### `DATABASE_URL`
 
 Database URL connection for Prisma (more info [Prisma Docs](https://www.prisma.io/docs/getting-started/setup-prisma/add-to-existing-project/relational-databases/connect-your-database-typescript-mysql))
+
+Example :
+
+- `mysql://eco-service-user:eco-service-password@localhost:3306/eco-service-db`
+- `mysql://eco-service-user:eco-service-password@localhost:3307/eco-service-db`
+- `mysql://eco-service-user:eco-service-password@mysql:3306/eco-service-db`
 
 #### `MYSQL_DATABASE`, `MYSQL_USER`, `MYSQL_PASSWORD`, `MYSQL_HOST`, `MYSQL_PORT`
 

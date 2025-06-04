@@ -6,8 +6,8 @@ node_modules
 .next
 
 # Environment files
-# .env
 .env.example
+.env.example.hybrid
 .env.example.dev
 .env.example.prod
 

@@ -1,13 +1,13 @@
 generator client {
     provider = "prisma-client-js"
-    output   = "../prisma/client"
+    output   = "./client"
 }
 
 generator zod {
     provider                  = "zod-prisma-types"
     useMultipleFiles          = true
     createRelationValuesTypes = true
-    output                    = "../prisma/zod"
+    output                    = "./zod"
 }
 
 datasource db {

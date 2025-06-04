@@ -27,32 +27,32 @@ certs-reload:
 	@ $(MAKE) certs-setup
 
 ####################
-#     Local env    #
+#     Hybrid env    #
 ####################
 
-DC_LOCAL = docker compose -f compose.local.yml --env-file .env
+DC_HYBRID = docker compose -f docker/compose/compose.hybrid.yml --env-file .env.hybrid
 
-# Build local
-build-local:
-	@ $(BAKE) $(DC_LOCAL) up -d --build
+# Build hybrid
+build-hybrid:
+	@ $(BAKE) $(DC_HYBRID) up -d --build
 
-# Run local
-local:
-	@ $(DC_LOCAL) up -d
+# Run hybrid
+hybrid:
+	@ $(DC_HYBRID) up -d
 
-# Stop local
-stop-local:
-	@ $(DC_LOCAL) down
+# Stop hybrid
+stop-hybrid:
+	@ $(DC_HYBRID) down
 
-# Remove local and volumes
-rm-local:
-	@ $(DC_LOCAL) down -v
+# Remove hybrid and volumes
+rm-hybrid:
+	@ $(DC_HYBRID) down -v
 
 ####################
 #      Dev env     #
 ####################
 
-DC_DEV = docker compose -f compose.dev.yml --env-file .env.dev
+DC_DEV = docker compose -f docker/compose/compose.dev.yml --env-file .env.dev
 
 # Build dev
 build-dev:
@@ -74,7 +74,7 @@ rm-dev:
 #     Prod env     #
 ####################
 
-DC_PROD = docker compose -f compose.prod.yml --env-file .env.prod
+DC_PROD = docker compose -f docker/compose/compose.prod.yml --env-file .env.prod
 
 # Build prod
 build-prod:

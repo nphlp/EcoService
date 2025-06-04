@@ -6,10 +6,16 @@
 
 - Add the `.env` file from `.env.example` template ([see more](../environment-variables.md))
 
+- Install dependencies
+
+    ```bash
+    pnpm install
+    ```
+
 - Setup database and user, generate Prisma, deploy migrations, load fixtures and run dev server
 
     ```bash
-    pnpm install && pnpm auto
+    pnpm auto
     ```
 
 - In another terminal, run [Stripe Webhook Forwarder](https://docs.stripe.com/webhooks/quickstart)

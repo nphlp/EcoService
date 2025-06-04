@@ -1,5 +1,5 @@
-# Configuration Docker Compose pour le développement
-# Usage: docker compose -f compose.dev.yml up -d
+# Docker Dev Config
+# See more: `./docs/installation-guides/docker.md > Dev section`
 
 services:
     mysql:
@@ -20,7 +20,7 @@ services:
             - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
         volumes:
             # SSL server certs (read-only)
-            - ./docker/certs:/etc/mysql/certs:ro
+            - ../certs:/etc/mysql/certs:ro
             # MySQL data (volume)
             - mysql-dev-volume:/var/lib/mysql
         ports:
@@ -47,8 +47,8 @@ services:
 
     nextjs:
         build:
-            context: ./
-            dockerfile: ./docker/Dockerfile.dev
+            context: ../../
+            dockerfile: ./docker/dockerfile/Dockerfile.dev
         container_name: nextjs
         ports:
             - "3000:3000"
@@ -58,11 +58,11 @@ services:
                 condition: service_healthy
         volumes:
             # SSL client certs (read-only)
-            - ./docker/certs:/app/docker/certs:ro
+            - ../certs:/app/docker/certs:ro
             # Codebase (read-write) -> hot reload
-            - .:/app
+            # - .:/app
             # .env (read-only)
-            - ./.env.dev:/app/.env:ro
+            - ../../.env.dev:/app/.env:ro
             # node_modules (volume)
             - deps-dev-volume:/app/node_modules
         networks:
