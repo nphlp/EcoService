@@ -10,6 +10,23 @@ Development, quality checks, preview deployment, version creation and automated 
 - Tests on `test` branch
 - Production on `main` branch
 
+## Commit checks
+
+When you make a `commit`, code quality checks are automatically performed.
+
+- **Husky**: `git hooks` manager
+
+    Executes a script in [.husky/pre-commit](../.husky/pre-commit).
+
+- **Lint-staged**: linting/formatting on modified files only
+
+    Provides the list of modified files in the `commit` on which to perform checks. \
+     Cancels the current `commit` if the checks do not pass.
+
+- **Commitlint**: conventional commit format validation
+    Verifies that the `commit` message follows the commit naming convention.
+    The message must be prefixed with `feat`, `fix`, `chore`, etc... to be valid.
+
 ## Pull Request to `test` or `main`
 
 When a Pull Request to `test` or `main` is created, or when a commit is pushed after, a GitHub Workflow is automatically triggered.
