@@ -1,3 +1,9 @@
+# [1.7.0](https://github.com/nansphilip/EcoService/compare/v1.6.1...v1.7.0) (2025-06-09)
+
+### Features
+
+- add permissions ([0300a54](https://github.com/nansphilip/EcoService/commit/0300a546b7f44e476a712cf433f45beecee6955d))
+
 ## [1.6.1](https://github.com/nansphilip/EcoService/compare/v1.6.0...v1.6.1) (2025-06-03)
 
 ### Bug Fixes
