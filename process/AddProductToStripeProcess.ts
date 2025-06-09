@@ -2,7 +2,7 @@
 
 import { CategoryFindUnique } from "@actions/CategoryAction";
 import { ProductFindUnique } from "@actions/ProductAction";
-import { isVendorOrEmployeeOrAdmin } from "@lib/checkRole";
+import { hasRole } from "@lib/checkRole";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { Fetch } from "@utils/Fetch/Fetch";
 import { strictObject, z, ZodError, ZodType } from "zod";
@@ -36,7 +36,7 @@ export const AddProductToStripeProcess = async (
         const { name, description, price, categoryId, image } = addProductToStripeProcessSchema.parse(props);
 
         // Authorization
-        const session = await isVendorOrEmployeeOrAdmin();
+        const session = await hasRole(["VENDOR", "EMPLOYEE", "ADMIN"]);
 
         if (!session) {
             return { message: "Unauthorized", status: false };

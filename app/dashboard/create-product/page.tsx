@@ -1,19 +1,17 @@
-import { isVendorOrEmployeeOrAdmin } from "@lib/checkRole";
+import { hasRole } from "@lib/checkRole";
 import { FetchV2 } from "@utils/FetchV2/FetchV2";
 import { Metadata } from "next";
 import { unauthorized } from "next/navigation";
-import ProductCreationForm from "./productCreationForm";
 import { SideBarToggleTitle } from "../sideBar";
+import ProductCreationForm from "./productCreationForm";
 
 export const metadata: Metadata = {
     title: "Créer un produit",
 };
 
 export default async function Page() {
-    const session = await isVendorOrEmployeeOrAdmin();
-    if (!session) {
-        unauthorized();
-    }
+    const session = await hasRole(["VENDOR", "EMPLOYEE", "ADMIN"]);
+    if (!session) unauthorized();
 
     const categoryList = await FetchV2({ route: "/category" });
     if (!categoryList) {

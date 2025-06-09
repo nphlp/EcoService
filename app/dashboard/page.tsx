@@ -1,15 +1,15 @@
 import Card from "@comps/server/card";
+import { hasRole } from "@lib/checkRole";
 import { Metadata } from "next";
-import { SideBarToggleTitle } from "./sideBar";
 import { unauthorized } from "next/navigation";
-import { isVendorOrEmployeeOrAdmin } from "@lib/checkRole";
+import { SideBarToggleTitle } from "./sideBar";
 
 export const metadata: Metadata = {
     title: "Dashboard",
 };
 
 export default async function Page() {
-    const session = await isVendorOrEmployeeOrAdmin();
+    const session = await hasRole(["VENDOR", "EMPLOYEE", "ADMIN"]);
     if (!session) {
         unauthorized();
     }
