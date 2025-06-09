@@ -1,4 +1,4 @@
-import { GetSession } from "@lib/authServer";
+import { hasRole } from "@lib/checkRole";
 import { Fetch } from "@utils/Fetch/Fetch";
 import { Metadata } from "next";
 import { unauthorized } from "next/navigation";
@@ -10,11 +10,8 @@ export const metadata: Metadata = {
 };
 
 export default async function Page() {
-    const session = await GetSession();
-
-    if (!session) {
-        unauthorized();
-    }
+    const session = await hasRole(["VENDOR", "EMPLOYEE", "ADMIN"]);
+    if (!session) unauthorized();
 
     const stripeProductList = await Fetch({ route: "/stripe/products" });
 

@@ -9,9 +9,7 @@ import OrdersAccordion from "./components/ordersAccordion";
 
 export default async function Page() {
     const session = await GetSession();
-    if (!session) {
-        unauthorized();
-    }
+    if (!session) unauthorized();
 
     return (
         <div className="h-full overflow-y-auto border-t-1 border-gray-300 bg-gray-50 p-6">

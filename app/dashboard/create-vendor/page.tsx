@@ -1,4 +1,4 @@
-import { GetSession } from "@lib/authServer";
+import { hasRole } from "@lib/checkRole";
 import PrismaInstance from "@lib/prisma";
 import { Metadata } from "next";
 import { unauthorized } from "next/navigation";
@@ -12,11 +12,8 @@ export const metadata: Metadata = {
 };
 
 export default async function Page() {
-    const session = await GetSession();
-
-    if (!session) {
-        unauthorized();
-    }
+    const session = await hasRole(["VENDOR", "EMPLOYEE", "ADMIN"]);
+    if (!session) unauthorized();
 
     const user = session
         ? await PrismaInstance.user.findUnique({
