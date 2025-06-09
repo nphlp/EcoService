@@ -1,4 +1,6 @@
+import { hasRole } from "@lib/checkRole";
 import { Fetch } from "@utils/Fetch/Fetch";
+import { unauthorized } from "next/navigation";
 
 type PageProps = {
     params: Promise<{ id: string }>;
@@ -7,6 +9,9 @@ type PageProps = {
 export default async function Page(props: PageProps) {
     const { params } = props;
     const { id } = await params;
+
+    const session = await hasRole(["VENDOR", "EMPLOYEE", "ADMIN"]);
+    if (!session) unauthorized();
 
     const stripeProduct = await Fetch({
         route: "/stripe/products/select",

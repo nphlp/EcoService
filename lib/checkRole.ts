@@ -1,23 +1,29 @@
 "use server";
 
+import { $Enums } from "@prisma/client";
 import { BetterSessionServer, GetSession } from "./authServer";
 
 // ========== Complex checks ========= //
 
-/**
- * Check if the user is a vendor, employee or admin
- * @returns true if the user is a vendor, employee or admin, false otherwise
- */
-export const isVendorOrEmployeeOrAdmin = async (): Promise<BetterSessionServer | null> => {
-    const session = await GetSession();
+type Roles = $Enums.Role;
 
+/**
+ * Check if the user has the given role
+ * @returns session or null
+ */
+export const hasRole = async (roles: Roles[]): Promise<BetterSessionServer | null> => {
+    // Get session and role
+    const session = await GetSession();
     const role = session?.user.role;
 
-    const isVendorOrEmployeeOrAdmin = role === "VENDOR" || role === "EMPLOYEE" || role === "ADMIN";
+    // If the user is not logged in, return null
+    if (!role) return null;
 
-    if (!session || !isVendorOrEmployeeOrAdmin) {
-        return null;
-    }
+    // Check if the user has the given role
+    const hasRole = roles.includes(role);
+
+    // If the user does not have the given role, return null
+    if (!hasRole) return null;
 
     return session;
 };

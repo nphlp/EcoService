@@ -1,6 +1,5 @@
-# Configuration Docker Compose pour la production
-# Compatible avec Docker Swarm et Coolify
-# Usage: docker compose -f compose.prod.yml up -d
+# Docker Prod Config
+# See more: `./docs/installation-guides/docker.md > Prod section`
 
 services:
     mysql:
@@ -21,7 +20,7 @@ services:
             - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
         volumes:
             # SSL server certs (read-only)
-            - ./docker/certs:/etc/mysql/certs:ro
+            - ../certs:/etc/mysql/certs:ro
             # MySQL data (volume)
             - mysql-prod-volume:/var/lib/mysql
         ports:
@@ -48,14 +47,14 @@ services:
 
     builder:
         build:
-            context: ./
-            dockerfile: ./docker/Dockerfile.builder
+            context: ../../
+            dockerfile: ./docker/dockerfile/Dockerfile.builder
         container_name: builder
         volumes:
             # SSL client certs (read-only)
-            - ./docker/certs:/app/docker/certs:ro
+            - ../certs:/app/docker/certs:ro
             # Environment file
-            - ./.env.prod:/app/.env:ro
+            - ../../.env.prod:/app/.env:ro
             # Build cache (volume)
             - app-build-cache:/app/.next/cache
             # Build output (volume)
@@ -68,16 +67,16 @@ services:
 
     runner:
         build:
-            context: ./
-            dockerfile: ./docker/Dockerfile.runner
+            context: ../../
+            dockerfile: ./docker/dockerfile/Dockerfile.runner
         container_name: nextjs
         ports:
             - "3000:3000"
         volumes:
             # SSL client certs (read-only)
-            - ./docker/certs:/app/docker/certs:ro
+            - ../certs:/app/docker/certs:ro
             # Environment file
-            - ./.env.prod:/app/.env:ro
+            - ../../.env.prod:/app/.env:ro
             # Build output (volume)
             - app-build:/app
         depends_on:

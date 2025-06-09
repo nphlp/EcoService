@@ -9,8 +9,8 @@ Install the project in three steps: `software requirements`, `environment variab
 - [Available environments](#available-environments)
     - [1. Local](#1-local)
     - [2. Hybrid](#2-hybrid)
-    - [3. Docker (dev mode)](#3-docker-dev-mode)
-    - [4. Docker (prod mode)](#4-docker-prod-mode)
+    - [3. Docker Dev](#3-docker-dev)
+    - [4. Docker Prod](#4-docker-prod)
 - [Software requirements](#software-requirements)
 - [Project setup](#project-setup)
 
@@ -31,24 +31,24 @@ Pure local environment that requires `Node.js` and `MySQL` local servers install
 Hybrid environment that requires `Node.js` local server and `MySQL` in Docker container. Excellent performance, the best of both worlds.
 
 - Requires `Node.js` local server
-- Requires `MySQL` in Docker with `compose.local.yml`
-- Requires the `.env` file
+- Requires `MySQL` in Docker with `compose.hybrid.yml`
+- Requires the `.env.hybrid` file
 - Compatible with `dev` and `prod` modes
 
-### 3. Docker (dev mode)
+### 3. Docker Dev
 
 Docker dev environment that requires `Node.js` and `MySQL` in Docker containers. Poor compilation performance, especially for Page and API compilation. Useful for dockerizing the project, but not recommended for efficient development work.
 
 - Requires `Node.js` and `MySQL` in Docker with `compose.dev.yml`
-- Requires the `.env.dev` file for `dev` mode
+- Requires the `.env.dev` file
 - Compatible with `dev` mode only
 
-### 4. Docker (prod mode)
+### 4. Docker Prod
 
 Docker prod environment that requires `Node.js` and `MySQL` in Docker containers. Excellent performance, recommended for production.
 
 - Requires `Node.js` and `MySQL` in Docker with `compose.prod.yml`
-- Requires the `.env.prod` file for `prod` mode
+- Requires the `.env.prod` file
 - Compatible with `prod` mode only
 
 ## Software requirements
@@ -75,15 +75,16 @@ For hybrid and docker environments:
 
 - Copy the correct `.env.example.*` file as a template for your `.env.*` file. For details, see [Environment variables](./environment-variables.md) documentation.
 
-    | Environment      | Template file       | Destination file |
-    | ---------------- | ------------------- | ---------------- |
-    | Local and hybrid | `.env.example`      | `.env`           |
-    | Docker dev       | `.env.example.dev`  | `.env.dev`       |
-    | Docker prod      | `.env.example.prod` | `.env.prod`      |
+    | Environment | Template file         | Destination file |
+    | ----------- | --------------------- | ---------------- |
+    | Local       | `.env.example`        | `.env`           |
+    | Hybrid      | `.env.example.hybrid` | `.env.hybrid`    |
+    | Docker dev  | `.env.example.dev`    | `.env.dev`       |
+    | Docker prod | `.env.example.prod`   | `.env.prod`      |
 
 - Choose your setup guide:
 
     - [Local](./installation-guides/local.md)
     - [Hybrid](./installation-guides/hybrid.md)
-    - [Docker (dev mode)](./installation-guides/docker.md#auto-setup-dev-mode)
-    - [Docker (prod mode)](./installation-guides/docker.md#auto-setup-prod-mode)
+    - [Docker Dev](./installation-guides/docker-dev.md)
+    - [Docker Prod](./installation-guides/docker-prod.md)
