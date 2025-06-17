@@ -6,22 +6,31 @@ All technologies used in the project.
 
 ## Environment
 
-- **PNPM** \
-   Package manager for Node.js with efficient disk space usage and fast installations
+- **TypeScript** \
+   Strongly typed programming language that builds on JavaScript
 
 - **Node.js** \
    JavaScript runtime environment for server-side development
 
+- **PNPM** \
+   Package manager for Node.js with efficient disk space usage and fast installations
+
 - **MySQL** \
    Relational database management system for data storage
-
-- **Docker** \
-   Containerization platform for consistent deployment environments
 
 - **Redis** \
    In-memory data structure store used for caching and session management
 
+- **Docker** \
+   Containerization platform for consistent deployment environments
+
+- **Coolify** \
+   Platform for deploying and managing applications
+
 ## Frontend
+
+- **React** \
+   JavaScript library for building user interfaces
 
 - **Tailwind CSS** \
    Utility-first CSS framework for rapid UI development
@@ -43,17 +52,11 @@ All technologies used in the project.
 
 ## Backend
 
-- **TypeScript** \
-   Strongly typed programming language that builds on JavaScript
-
 - **Next.js** \
    React framework with server-side rendering and API routes
 
 - **Prisma** \
    Next-generation ORM for Node.js and TypeScript
-
-- **Stripe** \
-   Payment processing platform for online transactions
 
 - **Zod** \
    TypeScript-first schema validation library
@@ -64,6 +67,9 @@ All technologies used in the project.
 - **Plunk** \
    Email delivery API service for transactional emails
 
+- **Stripe** \
+   Payment processing platform for online transactions
+
 ## Services
 
 - **TSX** \
@@ -72,9 +78,6 @@ All technologies used in the project.
 - **Handlebars** \
    Template engine for generating dynamic HTML content
 
-- **Semantic Release** \
-   Automated versioning and changelog generation tool
-
 ## Test
 
 - **Vite** \
@@ -82,6 +85,9 @@ All technologies used in the project.
 
 - **Vitest** \
    Blazing fast unit testing framework powered by Vite
+
+- **Playwright** \
+   Browser automation and testing framework
 
 ## Code quality
 
@@ -96,3 +102,12 @@ All technologies used in the project.
 
 - **Lint-staged** \
    Tool for running linters on staged git files only
+
+- **Semantic Release** \
+   Automated versioning and changelog generation tool
+
+- **SonarQube** \
+   Static code analysis tool for identifying problematic patterns
+
+- **Github Actions** \
+   Workflow CI/CD for the deployment of the application
