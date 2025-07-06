@@ -1,10 +1,7 @@
-import UserService from "@services/class/UserClass";
-import { UserCountProps, UserCountResponse, UserFindFirstProps, UserFindFirstResponse, UserFindManyProps, UserFindManyResponse, UserFindUniqueProps, UserFindUniqueResponse } from "@services/types/UserType";
-import { cacheLifeApi, parseAndDecodeParams } from "@utils/FetchConfig";
-import { unstable_cacheLife as cacheLife, unstable_cacheTag as cacheTag } from "next/cache";
+import { UserCountCached, UserFindFirstCached, UserFindManyCached, UserFindUniqueCached } from "@services/cached/index";
+import { UserCountProps, UserCountResponse, UserFindFirstProps, UserFindFirstResponse, UserFindManyProps, UserFindManyResponse, UserFindUniqueProps, UserFindUniqueResponse } from "@services/types/index";
+import { parseAndDecodeParams } from "@utils/FetchConfig";
 import { NextRequest, NextResponse } from "next/server";
-
-// ============== API Routes Types ============== //
 
 export type UserRoutes<Input> = {
     "/user": {
@@ -25,76 +22,40 @@ export type UserRoutes<Input> = {
     }
 }
 
-// ==================== Find Many ==================== //
-
-const userFindManyCached = async <T extends UserFindManyProps>(params: T) => {
-    "use cache";
-    cacheLife(cacheLifeApi);
-    cacheTag("/api/user");
-    return UserService.findMany<T>(params);
-};
-
 export const UserFindManyApi = async <T extends UserFindManyProps>(request: NextRequest) => {
     try {
         const params: T = parseAndDecodeParams(request);
-        const response = await userFindManyCached<T>(params);
+        const response = await UserFindManyCached<T>(params);
         return NextResponse.json(response, { status: 200 });
     } catch (error) {
         return NextResponse.json({ error: "UserFindManyApi -> " + (error as Error).message }, { status: 500 });
     }
 };
 
-// ==================== Find First ==================== //
-
-const userFindFirstCached = async <T extends UserFindFirstProps>(params: T) => {
-    "use cache";
-    cacheLife(cacheLifeApi);
-    cacheTag("/api/user/first");
-    return UserService.findFirst<T>(params);
-};
-
 export const UserFindFirstApi = async <T extends UserFindFirstProps>(request: NextRequest) => {
     try {
         const params: T = parseAndDecodeParams(request);
-        const response = await userFindFirstCached<T>(params);
+        const response = await UserFindFirstCached<T>(params);
         return NextResponse.json(response, { status: 200 });
     } catch (error) {
         return NextResponse.json({ error: "UserFindFirstApi -> " + (error as Error).message }, { status: 500 });
     }
 };
 
-// ==================== Find Unique ==================== //
-
-const userFindUniqueCached = async <T extends UserFindUniqueProps>(params: T) => {
-    "use cache";
-    cacheLife(cacheLifeApi);
-    cacheTag("/api/user/unique");
-    return UserService.findUnique<T>(params);
-};
-
 export const UserFindUniqueApi = async <T extends UserFindUniqueProps>(request: NextRequest) => {
     try {
         const params: T = parseAndDecodeParams(request);
-        const response = await userFindUniqueCached<T>(params);
+        const response = await UserFindUniqueCached<T>(params);
         return NextResponse.json(response, { status: 200 });
     } catch (error) {
         return NextResponse.json({ error: "UserFindUniqueApi -> " + (error as Error).message }, { status: 500 });
     }
 };
 
-// ==================== Count ==================== //
-
-const userCountCached = async (params: UserCountProps) => {
-    "use cache";
-    cacheLife(cacheLifeApi);
-    cacheTag("/api/user/count");
-    return UserService.count(params);
-};
-
 export const UserCountApi = async (request: NextRequest) => {
     try {
         const params: UserCountProps = parseAndDecodeParams(request);
-        const response = await userCountCached(params);
+        const response = await UserCountCached(params);
         return NextResponse.json(response, { status: 200 });
     } catch (error) {
         return NextResponse.json({ error: "UserCountApi -> " + (error as Error).message }, { status: 500 });

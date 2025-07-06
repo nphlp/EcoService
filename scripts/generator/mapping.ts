@@ -22,9 +22,10 @@ export interface FileTemplate {
  * avant une nouvelle génération
  */
 export const pathsToRemove: string[] = [
-    "services/class",
     "services/actions",
     "services/api",
+    "services/cached",
+    "services/class",
     "services/types",
     "app/api/internal",
 ];
@@ -38,20 +39,25 @@ export const pathsToRemove: string[] = [
  * - {{model}}: Placeholder remplacé par le nom du modèle dans les chemins de template
  */
 export const templates: FileTemplate[] = [
-    // Classes de service
-    {
-        input: `templates/services/class/{{model}}Class.hbs`,
-        output: `services/class/{{modelName}}Class.ts`,
-    },
-    // Actions CRUD
+    // Actions
     {
         input: `templates/services/actions/{{model}}Action.hbs`,
         output: `services/actions/{{modelName}}Action.ts`,
     },
-    // Endpoints API
+    // API
     {
         input: `templates/services/api/{{model}}Api.hbs`,
         output: `services/api/{{modelName}}Api.ts`,
+    },
+    // Cached
+    {
+        input: `templates/services/cached/{{model}}Cached.hbs`,
+        output: `services/cached/{{modelName}}Cached.ts`,
+    },
+    // Classes
+    {
+        input: `templates/services/class/{{model}}Class.hbs`,
+        output: `services/class/{{modelName}}Class.ts`,
     },
     // Types
     {
@@ -71,16 +77,20 @@ export const templates: FileTemplate[] = [
 export const indexTemplates: FileTemplate[] = [
     // Fichiers index pour les services
     {
-        input: "templates/services/class/index.hbs",
-        output: "services/class/index.ts",
-    },
-    {
         input: "templates/services/actions/index.hbs",
         output: "services/actions/index.ts",
     },
     {
         input: "templates/services/api/index.hbs",
         output: "services/api/index.ts",
+    },
+    {
+        input: "templates/services/cached/index.hbs",
+        output: "services/cached/index.ts",
+    },
+    {
+        input: "templates/services/class/index.hbs",
+        output: "services/class/index.ts",
     },
     {
         input: "templates/services/types/index.hbs",

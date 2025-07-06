@@ -1,10 +1,7 @@
-import OrderService from "@services/class/OrderClass";
-import { OrderCountProps, OrderCountResponse, OrderFindFirstProps, OrderFindFirstResponse, OrderFindManyProps, OrderFindManyResponse, OrderFindUniqueProps, OrderFindUniqueResponse } from "@services/types/OrderType";
-import { cacheLifeApi, parseAndDecodeParams } from "@utils/FetchConfig";
-import { unstable_cacheLife as cacheLife, unstable_cacheTag as cacheTag } from "next/cache";
+import { OrderCountCached, OrderFindFirstCached, OrderFindManyCached, OrderFindUniqueCached } from "@services/cached/index";
+import { OrderCountProps, OrderCountResponse, OrderFindFirstProps, OrderFindFirstResponse, OrderFindManyProps, OrderFindManyResponse, OrderFindUniqueProps, OrderFindUniqueResponse } from "@services/types/index";
+import { parseAndDecodeParams } from "@utils/FetchConfig";
 import { NextRequest, NextResponse } from "next/server";
-
-// ============== API Routes Types ============== //
 
 export type OrderRoutes<Input> = {
     "/order": {
@@ -25,76 +22,40 @@ export type OrderRoutes<Input> = {
     }
 }
 
-// ==================== Find Many ==================== //
-
-const orderFindManyCached = async <T extends OrderFindManyProps>(params: T) => {
-    "use cache";
-    cacheLife(cacheLifeApi);
-    cacheTag("/api/order");
-    return OrderService.findMany<T>(params);
-};
-
 export const OrderFindManyApi = async <T extends OrderFindManyProps>(request: NextRequest) => {
     try {
         const params: T = parseAndDecodeParams(request);
-        const response = await orderFindManyCached<T>(params);
+        const response = await OrderFindManyCached<T>(params);
         return NextResponse.json(response, { status: 200 });
     } catch (error) {
         return NextResponse.json({ error: "OrderFindManyApi -> " + (error as Error).message }, { status: 500 });
     }
 };
 
-// ==================== Find First ==================== //
-
-const orderFindFirstCached = async <T extends OrderFindFirstProps>(params: T) => {
-    "use cache";
-    cacheLife(cacheLifeApi);
-    cacheTag("/api/order/first");
-    return OrderService.findFirst<T>(params);
-};
-
 export const OrderFindFirstApi = async <T extends OrderFindFirstProps>(request: NextRequest) => {
     try {
         const params: T = parseAndDecodeParams(request);
-        const response = await orderFindFirstCached<T>(params);
+        const response = await OrderFindFirstCached<T>(params);
         return NextResponse.json(response, { status: 200 });
     } catch (error) {
         return NextResponse.json({ error: "OrderFindFirstApi -> " + (error as Error).message }, { status: 500 });
     }
 };
 
-// ==================== Find Unique ==================== //
-
-const orderFindUniqueCached = async <T extends OrderFindUniqueProps>(params: T) => {
-    "use cache";
-    cacheLife(cacheLifeApi);
-    cacheTag("/api/order/unique");
-    return OrderService.findUnique<T>(params);
-};
-
 export const OrderFindUniqueApi = async <T extends OrderFindUniqueProps>(request: NextRequest) => {
     try {
         const params: T = parseAndDecodeParams(request);
-        const response = await orderFindUniqueCached<T>(params);
+        const response = await OrderFindUniqueCached<T>(params);
         return NextResponse.json(response, { status: 200 });
     } catch (error) {
         return NextResponse.json({ error: "OrderFindUniqueApi -> " + (error as Error).message }, { status: 500 });
     }
 };
 
-// ==================== Count ==================== //
-
-const orderCountCached = async (params: OrderCountProps) => {
-    "use cache";
-    cacheLife(cacheLifeApi);
-    cacheTag("/api/order/count");
-    return OrderService.count(params);
-};
-
 export const OrderCountApi = async (request: NextRequest) => {
     try {
         const params: OrderCountProps = parseAndDecodeParams(request);
-        const response = await orderCountCached(params);
+        const response = await OrderCountCached(params);
         return NextResponse.json(response, { status: 200 });
     } catch (error) {
         return NextResponse.json({ error: "OrderCountApi -> " + (error as Error).message }, { status: 500 });
