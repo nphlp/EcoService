@@ -1,5 +1,5 @@
 import { hasRole } from "@lib/checkRole";
-import { FetchV2 } from "@utils/FetchV2/FetchV2";
+import { CategoryFindManyServer } from "@services/server";
 import { Metadata } from "next";
 import { unauthorized } from "next/navigation";
 import { SideBarToggleTitle } from "../sideBar";
@@ -13,7 +13,7 @@ export default async function Page() {
     const session = await hasRole(["VENDOR", "EMPLOYEE", "ADMIN"]);
     if (!session) unauthorized();
 
-    const categoryList = await FetchV2({ route: "/category" });
+    const categoryList = await CategoryFindManyServer({});
     if (!categoryList) {
         throw new Error("Category list not found");
     }

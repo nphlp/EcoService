@@ -1,0 +1,26 @@
+import {{modelName}}Service from "@services/class/{{modelName}}Class";
+import { {{modelName}}CountProps, {{modelName}}FindFirstProps, {{modelName}}FindManyProps, {{modelName}}FindUniqueProps } from "@services/types/{{modelName}}Type";
+
+export const {{modelName}}FindManyServer = async <T extends {{modelName}}FindManyProps>(params: T) => {
+    const { data, error } = await {{modelName}}Service.findMany<T>(params);
+    if (error || data === undefined) throw new Error(error ?? "Something went wrong...");
+    return data;
+};
+
+export const {{modelName}}FindFirstServer = async <T extends {{modelName}}FindFirstProps>(params: T) => {
+    const { data, error } = await {{modelName}}Service.findFirst<T>(params);
+    if (error || data === undefined) throw new Error(error ?? "Something went wrong...");
+    return data;
+};
+
+export const {{modelName}}FindUniqueServer = async <T extends {{modelName}}FindUniqueProps>(params: T) => {
+    const { data, error } = await {{modelName}}Service.findUnique<T>(params);
+    if (error || data === undefined) throw new Error(error ?? "Something went wrong...");
+    return data;
+};
+
+export const {{modelName}}CountServer = async (params: {{modelName}}CountProps) => {
+    const { data, error } = await {{modelName}}Service.count(params);
+    if (error || data === undefined) throw new Error(error ?? "Something went wrong...");
+    return data;
+}; 

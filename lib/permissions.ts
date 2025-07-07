@@ -1,5 +1,3 @@
-"use server";
-
 import { $Enums, Prisma } from "@prisma/client";
 import { Operation } from "@prisma/client/runtime/library";
 import { GetSession } from "./authServer";
@@ -17,11 +15,12 @@ type Create = "create" | "createMany";
 type Upsert = "upsert" | "upsertMany";
 type Update = "update" | "updateMany";
 type Delete = "delete" | "deleteMany";
+type Count = "count";
 
 // Important types
 type Roles = $Enums.Role | "NON_LOGGED";
 type Models = Prisma.ModelName;
-type Methods = Extract<Operations, Find | Create | Upsert | Update | Delete>;
+type Methods = Extract<Operations, Find | Create | Upsert | Update | Delete | Count>;
 type Permissions = { [value in Models]: Methods[] };
 
 // =============================== //
@@ -83,7 +82,7 @@ const ADMIN: Permissions = {
     ...EMPLOYEE,
 
     // Override with
-    User: ["findMany"],
+    User: ["findMany", "count"],
 };
 
 // =============================== //
@@ -92,19 +91,33 @@ const ADMIN: Permissions = {
 
 // Types
 type GlobalPermissions = { [value in Roles]: Permissions };
-type PermissionsToCheck = { model: Models; methods: Methods[] }[];
 
 // Permissions
 const permissions: GlobalPermissions = { NON_LOGGED, USER, VENDOR, EMPLOYEE, ADMIN };
 
 // Check permissions
-export const hasPermission = async (permissionsToCheck: PermissionsToCheck): Promise<boolean> => {
+export const hasPermission = async (pathname: string): Promise<boolean> => {
     // Get session and role
     const session = await GetSession();
     const role: Roles = session?.user.role ?? "NON_LOGGED";
 
-    // Check if every permissions are authorized for the role
-    return permissionsToCheck.every(({ model, methods }) =>
-        methods.every((method) => permissions[role][model].includes(method)),
-    );
+    // Check if it's an API request
+    const isApiRequest = pathname.startsWith("/api/internal");
+    if (!isApiRequest) return true;
+
+    // Get model and method from pathname
+    const modelRaw = pathname.split("/")[3];
+    const methodRaw = pathname.split("/")[4] ?? "findMany";
+
+    // If no model, return true
+    if (!modelRaw) return true;
+
+    // Parse model and method
+    const parsedModel = (modelRaw.charAt(0).toUpperCase() + modelRaw.slice(1)) as Models;
+    const parsedMethod = methodRaw as Methods;
+
+    console.log("=====>", pathname, "\nmodel:", parsedModel, "\nmethod:", parsedMethod, "\nrole:", role, "\n======");
+
+    // Check if the current user have the permission to access the model and method
+    return permissions[role][parsedModel]?.includes(parsedMethod);
 };

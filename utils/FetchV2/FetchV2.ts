@@ -42,9 +42,9 @@ export const FetchV2 = async <Input, R extends Route<Input>, P extends Params<In
 
     const { data, error }: ResponseFormat<FetchResponse<Input, R, P>> = await response.json();
 
-    if (error) {
+    if (error || data === undefined) {
         throw new Error(error ?? "Something went wrong...");
     }
 
-    return data as FetchResponse<Input, R, P>;
+    return data;
 };

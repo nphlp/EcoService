@@ -26,6 +26,7 @@ export const pathsToRemove: string[] = [
     "services/api",
     "services/cached",
     "services/class",
+    "services/server",
     "services/types",
     "app/api/internal",
 ];
@@ -59,6 +60,11 @@ export const templates: FileTemplate[] = [
         input: `templates/services/class/{{model}}Class.hbs`,
         output: `services/class/{{modelName}}Class.ts`,
     },
+    // Server
+    {
+        input: `templates/services/server/{{model}}Server.hbs`,
+        output: `services/server/{{modelName}}Server.ts`,
+    },
     // Types
     {
         input: `templates/services/types/{{model}}Type.hbs`,
@@ -91,6 +97,10 @@ export const indexTemplates: FileTemplate[] = [
     {
         input: "templates/services/class/index.hbs",
         output: "services/class/index.ts",
+    },
+    {
+        input: "templates/services/server/index.hbs",
+        output: "services/server/index.ts",
     },
     {
         input: "templates/services/types/index.hbs",

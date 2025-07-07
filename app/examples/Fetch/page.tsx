@@ -1,6 +1,6 @@
 import PrismaInstance from "@lib/prisma";
 import { ArticleFindMany } from "@services/actions/ArticleAction";
-import { FetchV2 } from "@utils/FetchV2/FetchV2";
+import { ArticleFindManyServer } from "@services/server";
 
 export default async function Page() {
     /**
@@ -23,11 +23,8 @@ export default async function Page() {
      * Api fetch
      * Prefer this method, cacheable and parallelizable!
      */
-    const articlesApi = await FetchV2({
-        route: "/article",
-        params: {
-            select: { id: true, authorId: true },
-        },
+    const articlesApi = await ArticleFindManyServer({
+        select: { id: true, authorId: true },
     });
 
     const dataPrisma = articlesPrisma[0];

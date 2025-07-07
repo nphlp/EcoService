@@ -21,6 +21,8 @@ const cachedServerTimestamp = async () => {
 };
 
 export default async function TestCachePage() {
+    return <></>;
+
     const time = await cachedServerTimestamp();
 
     const now = new Date();
