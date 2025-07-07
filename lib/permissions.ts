@@ -1,5 +1,7 @@
 import { $Enums, Prisma } from "@prisma/client";
-import { Operation } from "@prisma/client/runtime/library";
+// import { Operation } from "@prisma/client/runtime/library";
+import { parseAndDecodeParams } from "@utils/FetchConfig";
+import { NextRequest } from "next/server";
 import { GetSession } from "./authServer";
 
 // =============================== //
@@ -7,50 +9,41 @@ import { GetSession } from "./authServer";
 // =============================== //
 
 // Raw operations form Prisma
-type Operations = Operation;
+// type Operations = Operation;
 
 // Select only available methods in the app/services
-type Find = "findFirst" | "findUnique" | "findMany";
-type Create = "create" | "createMany";
-type Upsert = "upsert" | "upsertMany";
-type Update = "update" | "updateMany";
-type Delete = "delete" | "deleteMany";
-type Count = "count";
+// type Find = "findFirst" | "findUnique" | "findMany";
+// type Create = "create" | "createMany";
+// type Upsert = "upsert" | "upsertMany";
+// type Update = "update" | "updateMany";
+// type Delete = "delete" | "deleteMany";
+// type Count = "count";
 
 // Important types
 type Roles = $Enums.Role | "NON_LOGGED";
 type Models = Prisma.ModelName;
-type Methods = Extract<Operations, Find | Create | Upsert | Update | Delete | Count>;
+type Methods = "many" | "many-HO" | "first" | "first-HO" | "unique" | "unique-HO" | "count" | "count-HO";
 type Permissions = { [value in Models]: Methods[] };
 
 // =============================== //
 // ======== Configuration ======== //
 // =============================== //
 
-// Default no permissions
-const NO_PERMISSIONS: Permissions = {
+// Default
+const NON_LOGGED: Permissions = {
     Account: [],
     Address: [],
-    Article: [],
-    Category: [],
-    Content: [],
-    Diy: [],
+    Article: ["many", "unique"],
+    Category: ["many", "unique"],
+    Content: ["many", "unique"],
+    Diy: ["many", "unique"],
     Fruit: [],
     Order: [],
-    Product: [],
+    Product: ["many", "unique"],
     Quantity: [],
     Session: [],
     User: [],
     Verification: [],
-};
-
-// Configuration
-const NON_LOGGED: Permissions = {
-    // Inherit from NO_PERMISSIONS
-    ...NO_PERMISSIONS,
-
-    // Override with
-    Content: ["findMany"],
 };
 
 const USER: Permissions = {
@@ -58,7 +51,7 @@ const USER: Permissions = {
     ...NON_LOGGED,
 
     // Override with
-    Diy: ["findMany"],
+    User: ["unique-HO"],
 };
 
 const VENDOR: Permissions = {
@@ -66,7 +59,7 @@ const VENDOR: Permissions = {
     ...USER,
 
     // Override with
-    Article: ["findMany"],
+    Article: [],
 };
 
 const EMPLOYEE: Permissions = {
@@ -74,7 +67,7 @@ const EMPLOYEE: Permissions = {
     ...VENDOR,
 
     // Override with
-    Product: ["findMany"],
+    Product: [],
 };
 
 const ADMIN: Permissions = {
@@ -82,12 +75,80 @@ const ADMIN: Permissions = {
     ...EMPLOYEE,
 
     // Override with
-    User: ["findMany", "count"],
+    User: ["many"],
 };
 
 // =============================== //
 // ============ Utils ============ //
 // =============================== //
+
+const getModel = (pathname: string): Models | null => {
+    const model = pathname.split("/")[3];
+    if (!model) return null;
+    return (model.charAt(0).toUpperCase() + model.slice(1)) as Models;
+};
+
+const getMethod = (pathname: string): { method: Methods; methodForHimOnly: Methods } => {
+    const method = pathname.split("/")[4] ?? "findMany";
+    const methodForHimOnly = method + "-HO";
+    return { method: method as Methods, methodForHimOnly: methodForHimOnly as Methods };
+};
+
+const debug = (
+    enabled: boolean,
+    args: {
+        pathname: string;
+        model: Models;
+        method: Methods;
+        methodForHimOnly: Methods;
+        params: { where: { id: string } };
+        rolePermissions: Methods[];
+        hasPermission: boolean;
+        hasPermissionForHimOnly: boolean;
+        userId: string | undefined;
+    },
+) => {
+    if (!enabled) return;
+
+    const {
+        pathname,
+        model,
+        method,
+        methodForHimOnly,
+        params,
+        rolePermissions,
+        hasPermission,
+        hasPermissionForHimOnly,
+        userId,
+    } = args;
+
+    console.log(
+        "┏━",
+        pathname,
+        "\n┃ model:",
+        model,
+        "\n┃ method:",
+        method,
+        "\n┃ methodForHimOnly:",
+        methodForHimOnly,
+        "\n┃ params:",
+        params,
+        "\n┃ rolePermissions:",
+        rolePermissions,
+        "\n┃ hasPermission:",
+        hasPermission,
+        "\n┃ hasPermissionForHimOnly:",
+        hasPermissionForHimOnly,
+        "\n┃ userId (from session):",
+        userId,
+        "\n┃ params.where.id (from request params):",
+        params?.where?.id,
+        "\n┃ userId === params.where.id:",
+        userId === params?.where?.id,
+        "\n┗━ result:",
+        hasPermission || (hasPermissionForHimOnly && userId === params?.where?.id),
+    );
+};
 
 // Types
 type GlobalPermissions = { [value in Roles]: Permissions };
@@ -96,28 +157,51 @@ type GlobalPermissions = { [value in Roles]: Permissions };
 const permissions: GlobalPermissions = { NON_LOGGED, USER, VENDOR, EMPLOYEE, ADMIN };
 
 // Check permissions
-export const hasPermission = async (pathname: string): Promise<boolean> => {
-    // Get session and role
+export const hasPermission = async (request: NextRequest): Promise<boolean> => {
+    const { pathname } = request.nextUrl;
+
+    // Get session, userId and role
     const session = await GetSession();
+    const userId = session?.user.id;
     const role: Roles = session?.user.role ?? "NON_LOGGED";
 
     // Check if it's an API request
     const isApiRequest = pathname.startsWith("/api/internal");
     if (!isApiRequest) return true;
 
-    // Get model and method from pathname
-    const modelRaw = pathname.split("/")[3];
-    const methodRaw = pathname.split("/")[4] ?? "findMany";
+    // Get model from pathname
+    const model = getModel(pathname);
+    if (!model) return true;
 
-    // If no model, return true
-    if (!modelRaw) return true;
+    // Get method from pathname
+    const { method, methodForHimOnly } = getMethod(pathname);
 
-    // Parse model and method
-    const parsedModel = (modelRaw.charAt(0).toUpperCase() + modelRaw.slice(1)) as Models;
-    const parsedMethod = methodRaw as Methods;
+    // Get params from request
+    const params = parseAndDecodeParams(request);
 
-    console.log("=====>", pathname, "\nmodel:", parsedModel, "\nmethod:", parsedMethod, "\nrole:", role, "\n======");
+    // Check permissions
+    const rolePermissions = permissions[role][model];
+    const hasPermission = rolePermissions.includes(method);
+    const hasPermissionForHimOnly = rolePermissions.includes(methodForHimOnly);
 
-    // Check if the current user have the permission to access the model and method
-    return permissions[role][parsedModel]?.includes(parsedMethod);
+    debug(true, {
+        pathname,
+        model,
+        method,
+        methodForHimOnly,
+        params,
+        rolePermissions,
+        hasPermission,
+        hasPermissionForHimOnly,
+        userId,
+    });
+
+    // Has full permission
+    if (hasPermission) return true;
+
+    // Has permission for him only
+    if (hasPermissionForHimOnly) return params?.where?.id === userId;
+
+    // Has not permission
+    return false;
 };

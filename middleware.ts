@@ -5,12 +5,10 @@ const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 if (!baseUrl) throw new Error("NEXT_PUBLIC_BASE_URL environment variable is not defined");
 
 export async function middleware(request: NextRequest) {
-    const pathname = request.nextUrl.pathname;
-
-    const isAuthorized = await hasPermission(pathname);
+    const isAuthorized = await hasPermission(request);
 
     if (!isAuthorized) {
-        return NextResponse.next(); // TODO: Remove this
+        // return NextResponse.next(); // WARNING: To disable temporarily
         return NextResponse.redirect(`${baseUrl}/unauthorized`);
     }
 
