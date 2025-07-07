@@ -5,7 +5,7 @@ import { AccountCountProps, AccountCountResponse, AccountCreateManyProps, Accoun
 
 // ========== Single mutations ========== //
 
-export const AccountCreate = async <T extends AccountCreateProps>(props: T): Promise<AccountCreateResponse<T>> => {
+export const AccountCreateAction = async <T extends AccountCreateProps>(props: T): Promise<AccountCreateResponse<T>> => {
     try {
         const { data, error } = await AccountService.create(props);
         if (!data || error) throw new Error(error);
@@ -15,7 +15,7 @@ export const AccountCreate = async <T extends AccountCreateProps>(props: T): Pro
     }
 };
 
-export const AccountUpsert = async <T extends AccountUpsertProps>(props: T): Promise<AccountUpsertResponse<T>> => {
+export const AccountUpsertAction = async <T extends AccountUpsertProps>(props: T): Promise<AccountUpsertResponse<T>> => {
     try {
         const { data, error } = await AccountService.upsert(props);
         if (!data || error) throw new Error(error);
@@ -25,7 +25,7 @@ export const AccountUpsert = async <T extends AccountUpsertProps>(props: T): Pro
     }
 };
 
-export const AccountUpdate = async <T extends AccountUpdateProps>(props: T): Promise<AccountUpdateResponse<T>> => {
+export const AccountUpdateAction = async <T extends AccountUpdateProps>(props: T): Promise<AccountUpdateResponse<T>> => {
     try {
         const { data, error } = await AccountService.update(props);
         if (!data || error) throw new Error(error);
@@ -35,7 +35,7 @@ export const AccountUpdate = async <T extends AccountUpdateProps>(props: T): Pro
     }
 };
 
-export const AccountDelete = async <T extends AccountDeleteProps>(props: T): Promise<AccountDeleteResponse<T>> => {
+export const AccountDeleteAction = async <T extends AccountDeleteProps>(props: T): Promise<AccountDeleteResponse<T>> => {
     try {
         const { data, error } = await AccountService.delete(props);
         if (!data || error) throw new Error(error);
@@ -47,7 +47,7 @@ export const AccountDelete = async <T extends AccountDeleteProps>(props: T): Pro
 
 // ========== Multiple mutations ========== //
 
-export const AccountCreateMany = async (props: AccountCreateManyProps): Promise<AccountCreateManyResponse> => {
+export const AccountCreateManyAction = async (props: AccountCreateManyProps): Promise<AccountCreateManyResponse> => {
     try {
         const { data, error } = await AccountService.createMany(props);
         if (!data || error) throw new Error(error);
@@ -57,7 +57,7 @@ export const AccountCreateMany = async (props: AccountCreateManyProps): Promise<
     }
 };
 
-export const AccountUpdateMany = async (props: AccountUpdateManyProps): Promise<AccountUpdateManyResponse> => {
+export const AccountUpdateManyAction = async (props: AccountUpdateManyProps): Promise<AccountUpdateManyResponse> => {
     try {
         const { data, error } = await AccountService.updateMany(props);
         if (!data || error) throw new Error(error);
@@ -67,7 +67,7 @@ export const AccountUpdateMany = async (props: AccountUpdateManyProps): Promise<
     }
 };
 
-export const AccountDeleteMany = async (props: AccountDeleteManyProps): Promise<AccountDeleteManyResponse> => {
+export const AccountDeleteManyAction = async (props: AccountDeleteManyProps): Promise<AccountDeleteManyResponse> => {
     try {
         const { data, error } = await AccountService.deleteMany(props);
         if (!data || error) throw new Error(error);
@@ -82,7 +82,7 @@ export const AccountDeleteMany = async (props: AccountDeleteManyProps): Promise<
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const AccountFindFirst = async <T extends AccountFindFirstProps>(
+export const AccountFindFirstAction = async <T extends AccountFindFirstProps>(
     props: T
 ): Promise<AccountFindFirstResponse<T>> => {
     try {
@@ -97,7 +97,7 @@ export const AccountFindFirst = async <T extends AccountFindFirstProps>(
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const AccountFindUnique = async <T extends AccountFindUniqueProps>(
+export const AccountFindUniqueAction = async <T extends AccountFindUniqueProps>(
     props: T
 ): Promise<AccountFindUniqueResponse<T>> => {
     try {
@@ -112,7 +112,7 @@ export const AccountFindUnique = async <T extends AccountFindUniqueProps>(
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const AccountFindMany = async <T extends AccountFindManyProps>(
+export const AccountFindManyAction = async <T extends AccountFindManyProps>(
     props: T
 ): Promise<AccountFindManyResponse<T>> => {
     try {
@@ -129,7 +129,7 @@ export const AccountFindMany = async <T extends AccountFindManyProps>(
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const AccountCount = async (props: AccountCountProps): Promise<AccountCountResponse> => {
+export const AccountCountAction = async (props: AccountCountProps): Promise<AccountCountResponse> => {
     try {
         const { data, error } = await AccountService.count(props);
         if (!data || error) throw new Error(error);

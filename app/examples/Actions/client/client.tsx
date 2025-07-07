@@ -1,6 +1,6 @@
 "use client";
 
-import { UserUpdate } from "@actions/UserAction";
+import { UserUpdateAction } from "@actions/UserAction";
 import Button from "@comps/ui/button";
 import Input from "@comps/ui/input";
 import Select from "@comps/ui/select";
@@ -27,7 +27,7 @@ export default function ClientComponent(props: ClientProps) {
 
         if (!name || !userId) return;
 
-        const userData = await UserUpdate({
+        const userData = await UserUpdateAction({
             where: { id: userId },
             data: { name },
         });

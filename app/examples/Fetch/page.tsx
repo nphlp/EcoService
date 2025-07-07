@@ -1,5 +1,5 @@
 import PrismaInstance from "@lib/prisma";
-import { ArticleFindMany } from "@services/actions/ArticleAction";
+import { ArticleFindManyAction } from "@services/actions/ArticleAction";
 import { ArticleFindManyServer } from "@services/server";
 
 export default async function Page() {
@@ -15,7 +15,7 @@ export default async function Page() {
      * Action fetch
      * To avoid, not cachable and parallelizable
      */
-    const articlesAction = await ArticleFindMany({
+    const articlesAction = await ArticleFindManyAction({
         select: { id: true, authorId: true },
     });
 

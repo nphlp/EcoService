@@ -5,7 +5,7 @@ import { ProductCountProps, ProductCountResponse, ProductCreateManyProps, Produc
 
 // ========== Single mutations ========== //
 
-export const ProductCreate = async <T extends ProductCreateProps>(props: T): Promise<ProductCreateResponse<T>> => {
+export const ProductCreateAction = async <T extends ProductCreateProps>(props: T): Promise<ProductCreateResponse<T>> => {
     try {
         const { data, error } = await ProductService.create(props);
         if (!data || error) throw new Error(error);
@@ -15,7 +15,7 @@ export const ProductCreate = async <T extends ProductCreateProps>(props: T): Pro
     }
 };
 
-export const ProductUpsert = async <T extends ProductUpsertProps>(props: T): Promise<ProductUpsertResponse<T>> => {
+export const ProductUpsertAction = async <T extends ProductUpsertProps>(props: T): Promise<ProductUpsertResponse<T>> => {
     try {
         const { data, error } = await ProductService.upsert(props);
         if (!data || error) throw new Error(error);
@@ -25,7 +25,7 @@ export const ProductUpsert = async <T extends ProductUpsertProps>(props: T): Pro
     }
 };
 
-export const ProductUpdate = async <T extends ProductUpdateProps>(props: T): Promise<ProductUpdateResponse<T>> => {
+export const ProductUpdateAction = async <T extends ProductUpdateProps>(props: T): Promise<ProductUpdateResponse<T>> => {
     try {
         const { data, error } = await ProductService.update(props);
         if (!data || error) throw new Error(error);
@@ -35,7 +35,7 @@ export const ProductUpdate = async <T extends ProductUpdateProps>(props: T): Pro
     }
 };
 
-export const ProductDelete = async <T extends ProductDeleteProps>(props: T): Promise<ProductDeleteResponse<T>> => {
+export const ProductDeleteAction = async <T extends ProductDeleteProps>(props: T): Promise<ProductDeleteResponse<T>> => {
     try {
         const { data, error } = await ProductService.delete(props);
         if (!data || error) throw new Error(error);
@@ -47,7 +47,7 @@ export const ProductDelete = async <T extends ProductDeleteProps>(props: T): Pro
 
 // ========== Multiple mutations ========== //
 
-export const ProductCreateMany = async (props: ProductCreateManyProps): Promise<ProductCreateManyResponse> => {
+export const ProductCreateManyAction = async (props: ProductCreateManyProps): Promise<ProductCreateManyResponse> => {
     try {
         const { data, error } = await ProductService.createMany(props);
         if (!data || error) throw new Error(error);
@@ -57,7 +57,7 @@ export const ProductCreateMany = async (props: ProductCreateManyProps): Promise<
     }
 };
 
-export const ProductUpdateMany = async (props: ProductUpdateManyProps): Promise<ProductUpdateManyResponse> => {
+export const ProductUpdateManyAction = async (props: ProductUpdateManyProps): Promise<ProductUpdateManyResponse> => {
     try {
         const { data, error } = await ProductService.updateMany(props);
         if (!data || error) throw new Error(error);
@@ -67,7 +67,7 @@ export const ProductUpdateMany = async (props: ProductUpdateManyProps): Promise<
     }
 };
 
-export const ProductDeleteMany = async (props: ProductDeleteManyProps): Promise<ProductDeleteManyResponse> => {
+export const ProductDeleteManyAction = async (props: ProductDeleteManyProps): Promise<ProductDeleteManyResponse> => {
     try {
         const { data, error } = await ProductService.deleteMany(props);
         if (!data || error) throw new Error(error);
@@ -82,7 +82,7 @@ export const ProductDeleteMany = async (props: ProductDeleteManyProps): Promise<
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const ProductFindFirst = async <T extends ProductFindFirstProps>(
+export const ProductFindFirstAction = async <T extends ProductFindFirstProps>(
     props: T
 ): Promise<ProductFindFirstResponse<T>> => {
     try {
@@ -97,7 +97,7 @@ export const ProductFindFirst = async <T extends ProductFindFirstProps>(
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const ProductFindUnique = async <T extends ProductFindUniqueProps>(
+export const ProductFindUniqueAction = async <T extends ProductFindUniqueProps>(
     props: T
 ): Promise<ProductFindUniqueResponse<T>> => {
     try {
@@ -112,7 +112,7 @@ export const ProductFindUnique = async <T extends ProductFindUniqueProps>(
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const ProductFindMany = async <T extends ProductFindManyProps>(
+export const ProductFindManyAction = async <T extends ProductFindManyProps>(
     props: T
 ): Promise<ProductFindManyResponse<T>> => {
     try {
@@ -129,7 +129,7 @@ export const ProductFindMany = async <T extends ProductFindManyProps>(
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const ProductCount = async (props: ProductCountProps): Promise<ProductCountResponse> => {
+export const ProductCountAction = async (props: ProductCountProps): Promise<ProductCountResponse> => {
     try {
         const { data, error } = await ProductService.count(props);
         if (!data || error) throw new Error(error);

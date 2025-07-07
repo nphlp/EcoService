@@ -1,11 +1,11 @@
-import { UserFindMany, UserUpdate } from "@actions/UserAction";
+import { UserFindManyAction, UserUpdateAction } from "@actions/UserAction";
 import Button from "@comps/ui/button";
 import Input from "@comps/ui/input";
 import Select from "@comps/ui/select";
 import { revalidatePath } from "next/cache";
 
 export default async function Page() {
-    const userList = await UserFindMany({});
+    const userList = await UserFindManyAction({});
 
     if (!userList.length) {
         return <div>No user found</div>;
@@ -21,7 +21,7 @@ export default async function Page() {
 
         if (!name || !userId) return;
 
-        const userData = await UserUpdate({
+        const userData = await UserUpdateAction({
             where: { id: userId as string },
             data: { name: name as string },
         });

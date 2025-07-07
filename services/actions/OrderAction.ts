@@ -5,7 +5,7 @@ import { OrderCountProps, OrderCountResponse, OrderCreateManyProps, OrderCreateM
 
 // ========== Single mutations ========== //
 
-export const OrderCreate = async <T extends OrderCreateProps>(props: T): Promise<OrderCreateResponse<T>> => {
+export const OrderCreateAction = async <T extends OrderCreateProps>(props: T): Promise<OrderCreateResponse<T>> => {
     try {
         const { data, error } = await OrderService.create(props);
         if (!data || error) throw new Error(error);
@@ -15,7 +15,7 @@ export const OrderCreate = async <T extends OrderCreateProps>(props: T): Promise
     }
 };
 
-export const OrderUpsert = async <T extends OrderUpsertProps>(props: T): Promise<OrderUpsertResponse<T>> => {
+export const OrderUpsertAction = async <T extends OrderUpsertProps>(props: T): Promise<OrderUpsertResponse<T>> => {
     try {
         const { data, error } = await OrderService.upsert(props);
         if (!data || error) throw new Error(error);
@@ -25,7 +25,7 @@ export const OrderUpsert = async <T extends OrderUpsertProps>(props: T): Promise
     }
 };
 
-export const OrderUpdate = async <T extends OrderUpdateProps>(props: T): Promise<OrderUpdateResponse<T>> => {
+export const OrderUpdateAction = async <T extends OrderUpdateProps>(props: T): Promise<OrderUpdateResponse<T>> => {
     try {
         const { data, error } = await OrderService.update(props);
         if (!data || error) throw new Error(error);
@@ -35,7 +35,7 @@ export const OrderUpdate = async <T extends OrderUpdateProps>(props: T): Promise
     }
 };
 
-export const OrderDelete = async <T extends OrderDeleteProps>(props: T): Promise<OrderDeleteResponse<T>> => {
+export const OrderDeleteAction = async <T extends OrderDeleteProps>(props: T): Promise<OrderDeleteResponse<T>> => {
     try {
         const { data, error } = await OrderService.delete(props);
         if (!data || error) throw new Error(error);
@@ -47,7 +47,7 @@ export const OrderDelete = async <T extends OrderDeleteProps>(props: T): Promise
 
 // ========== Multiple mutations ========== //
 
-export const OrderCreateMany = async (props: OrderCreateManyProps): Promise<OrderCreateManyResponse> => {
+export const OrderCreateManyAction = async (props: OrderCreateManyProps): Promise<OrderCreateManyResponse> => {
     try {
         const { data, error } = await OrderService.createMany(props);
         if (!data || error) throw new Error(error);
@@ -57,7 +57,7 @@ export const OrderCreateMany = async (props: OrderCreateManyProps): Promise<Orde
     }
 };
 
-export const OrderUpdateMany = async (props: OrderUpdateManyProps): Promise<OrderUpdateManyResponse> => {
+export const OrderUpdateManyAction = async (props: OrderUpdateManyProps): Promise<OrderUpdateManyResponse> => {
     try {
         const { data, error } = await OrderService.updateMany(props);
         if (!data || error) throw new Error(error);
@@ -67,7 +67,7 @@ export const OrderUpdateMany = async (props: OrderUpdateManyProps): Promise<Orde
     }
 };
 
-export const OrderDeleteMany = async (props: OrderDeleteManyProps): Promise<OrderDeleteManyResponse> => {
+export const OrderDeleteManyAction = async (props: OrderDeleteManyProps): Promise<OrderDeleteManyResponse> => {
     try {
         const { data, error } = await OrderService.deleteMany(props);
         if (!data || error) throw new Error(error);
@@ -82,7 +82,7 @@ export const OrderDeleteMany = async (props: OrderDeleteManyProps): Promise<Orde
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const OrderFindFirst = async <T extends OrderFindFirstProps>(
+export const OrderFindFirstAction = async <T extends OrderFindFirstProps>(
     props: T
 ): Promise<OrderFindFirstResponse<T>> => {
     try {
@@ -97,7 +97,7 @@ export const OrderFindFirst = async <T extends OrderFindFirstProps>(
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const OrderFindUnique = async <T extends OrderFindUniqueProps>(
+export const OrderFindUniqueAction = async <T extends OrderFindUniqueProps>(
     props: T
 ): Promise<OrderFindUniqueResponse<T>> => {
     try {
@@ -112,7 +112,7 @@ export const OrderFindUnique = async <T extends OrderFindUniqueProps>(
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const OrderFindMany = async <T extends OrderFindManyProps>(
+export const OrderFindManyAction = async <T extends OrderFindManyProps>(
     props: T
 ): Promise<OrderFindManyResponse<T>> => {
     try {
@@ -129,7 +129,7 @@ export const OrderFindMany = async <T extends OrderFindManyProps>(
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const OrderCount = async (props: OrderCountProps): Promise<OrderCountResponse> => {
+export const OrderCountAction = async (props: OrderCountProps): Promise<OrderCountResponse> => {
     try {
         const { data, error } = await OrderService.count(props);
         if (!data || error) throw new Error(error);

@@ -1,7 +1,7 @@
 "use server";
 
-import { OrderDelete } from "@actions/OrderAction";
-import { QuantityDelete } from "@actions/QuantityAction";
+import { OrderDeleteAction } from "@actions/OrderAction";
+import { QuantityDeleteAction } from "@actions/QuantityAction";
 import { LocalBasketItem } from "@comps/basket/basketType";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { OrderModel } from "@services/types";
@@ -37,7 +37,7 @@ export const RemoveProductFromServerBasket = async (
 
         // Delete quantity
         if (items.length > 1) {
-            await QuantityDelete({
+            await QuantityDeleteAction({
                 where: {
                     id: quantityId,
                 },
@@ -45,7 +45,7 @@ export const RemoveProductFromServerBasket = async (
         }
         // Last product, delete basket
         else if (items.length === 1) {
-            await OrderDelete({
+            await OrderDeleteAction({
                 where: {
                     id: orderId,
                 },

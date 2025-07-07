@@ -1,6 +1,6 @@
 "use server";
 
-import { UserFindUnique, UserUpdate } from "@actions/UserAction";
+import { UserFindUniqueAction, UserUpdateAction } from "@actions/UserAction";
 import { UserModel } from "@services/types";
 
 type UpdateProcessProps = {
@@ -14,7 +14,7 @@ export const UpdateProcess = async (props: UpdateProcessProps): Promise<UpdatePr
     const { name, userId } = props;
 
     // Check if the user exists
-    const userList = await UserFindUnique({
+    const userList = await UserFindUniqueAction({
         where: { id: userId },
     });
 
@@ -23,7 +23,7 @@ export const UpdateProcess = async (props: UpdateProcessProps): Promise<UpdatePr
     }
 
     // Update the user
-    const userData = await UserUpdate({
+    const userData = await UserUpdateAction({
         where: { id: userId },
         data: { name },
     });

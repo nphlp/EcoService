@@ -5,7 +5,7 @@ import { CategoryCountProps, CategoryCountResponse, CategoryCreateManyProps, Cat
 
 // ========== Single mutations ========== //
 
-export const CategoryCreate = async <T extends CategoryCreateProps>(props: T): Promise<CategoryCreateResponse<T>> => {
+export const CategoryCreateAction = async <T extends CategoryCreateProps>(props: T): Promise<CategoryCreateResponse<T>> => {
     try {
         const { data, error } = await CategoryService.create(props);
         if (!data || error) throw new Error(error);
@@ -15,7 +15,7 @@ export const CategoryCreate = async <T extends CategoryCreateProps>(props: T): P
     }
 };
 
-export const CategoryUpsert = async <T extends CategoryUpsertProps>(props: T): Promise<CategoryUpsertResponse<T>> => {
+export const CategoryUpsertAction = async <T extends CategoryUpsertProps>(props: T): Promise<CategoryUpsertResponse<T>> => {
     try {
         const { data, error } = await CategoryService.upsert(props);
         if (!data || error) throw new Error(error);
@@ -25,7 +25,7 @@ export const CategoryUpsert = async <T extends CategoryUpsertProps>(props: T): P
     }
 };
 
-export const CategoryUpdate = async <T extends CategoryUpdateProps>(props: T): Promise<CategoryUpdateResponse<T>> => {
+export const CategoryUpdateAction = async <T extends CategoryUpdateProps>(props: T): Promise<CategoryUpdateResponse<T>> => {
     try {
         const { data, error } = await CategoryService.update(props);
         if (!data || error) throw new Error(error);
@@ -35,7 +35,7 @@ export const CategoryUpdate = async <T extends CategoryUpdateProps>(props: T): P
     }
 };
 
-export const CategoryDelete = async <T extends CategoryDeleteProps>(props: T): Promise<CategoryDeleteResponse<T>> => {
+export const CategoryDeleteAction = async <T extends CategoryDeleteProps>(props: T): Promise<CategoryDeleteResponse<T>> => {
     try {
         const { data, error } = await CategoryService.delete(props);
         if (!data || error) throw new Error(error);
@@ -47,7 +47,7 @@ export const CategoryDelete = async <T extends CategoryDeleteProps>(props: T): P
 
 // ========== Multiple mutations ========== //
 
-export const CategoryCreateMany = async (props: CategoryCreateManyProps): Promise<CategoryCreateManyResponse> => {
+export const CategoryCreateManyAction = async (props: CategoryCreateManyProps): Promise<CategoryCreateManyResponse> => {
     try {
         const { data, error } = await CategoryService.createMany(props);
         if (!data || error) throw new Error(error);
@@ -57,7 +57,7 @@ export const CategoryCreateMany = async (props: CategoryCreateManyProps): Promis
     }
 };
 
-export const CategoryUpdateMany = async (props: CategoryUpdateManyProps): Promise<CategoryUpdateManyResponse> => {
+export const CategoryUpdateManyAction = async (props: CategoryUpdateManyProps): Promise<CategoryUpdateManyResponse> => {
     try {
         const { data, error } = await CategoryService.updateMany(props);
         if (!data || error) throw new Error(error);
@@ -67,7 +67,7 @@ export const CategoryUpdateMany = async (props: CategoryUpdateManyProps): Promis
     }
 };
 
-export const CategoryDeleteMany = async (props: CategoryDeleteManyProps): Promise<CategoryDeleteManyResponse> => {
+export const CategoryDeleteManyAction = async (props: CategoryDeleteManyProps): Promise<CategoryDeleteManyResponse> => {
     try {
         const { data, error } = await CategoryService.deleteMany(props);
         if (!data || error) throw new Error(error);
@@ -82,7 +82,7 @@ export const CategoryDeleteMany = async (props: CategoryDeleteManyProps): Promis
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const CategoryFindFirst = async <T extends CategoryFindFirstProps>(
+export const CategoryFindFirstAction = async <T extends CategoryFindFirstProps>(
     props: T
 ): Promise<CategoryFindFirstResponse<T>> => {
     try {
@@ -97,7 +97,7 @@ export const CategoryFindFirst = async <T extends CategoryFindFirstProps>(
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const CategoryFindUnique = async <T extends CategoryFindUniqueProps>(
+export const CategoryFindUniqueAction = async <T extends CategoryFindUniqueProps>(
     props: T
 ): Promise<CategoryFindUniqueResponse<T>> => {
     try {
@@ -112,7 +112,7 @@ export const CategoryFindUnique = async <T extends CategoryFindUniqueProps>(
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const CategoryFindMany = async <T extends CategoryFindManyProps>(
+export const CategoryFindManyAction = async <T extends CategoryFindManyProps>(
     props: T
 ): Promise<CategoryFindManyResponse<T>> => {
     try {
@@ -129,7 +129,7 @@ export const CategoryFindMany = async <T extends CategoryFindManyProps>(
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const CategoryCount = async (props: CategoryCountProps): Promise<CategoryCountResponse> => {
+export const CategoryCountAction = async (props: CategoryCountProps): Promise<CategoryCountResponse> => {
     try {
         const { data, error } = await CategoryService.count(props);
         if (!data || error) throw new Error(error);

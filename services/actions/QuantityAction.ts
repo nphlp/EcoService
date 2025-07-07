@@ -5,7 +5,7 @@ import { QuantityCountProps, QuantityCountResponse, QuantityCreateManyProps, Qua
 
 // ========== Single mutations ========== //
 
-export const QuantityCreate = async <T extends QuantityCreateProps>(props: T): Promise<QuantityCreateResponse<T>> => {
+export const QuantityCreateAction = async <T extends QuantityCreateProps>(props: T): Promise<QuantityCreateResponse<T>> => {
     try {
         const { data, error } = await QuantityService.create(props);
         if (!data || error) throw new Error(error);
@@ -15,7 +15,7 @@ export const QuantityCreate = async <T extends QuantityCreateProps>(props: T): P
     }
 };
 
-export const QuantityUpsert = async <T extends QuantityUpsertProps>(props: T): Promise<QuantityUpsertResponse<T>> => {
+export const QuantityUpsertAction = async <T extends QuantityUpsertProps>(props: T): Promise<QuantityUpsertResponse<T>> => {
     try {
         const { data, error } = await QuantityService.upsert(props);
         if (!data || error) throw new Error(error);
@@ -25,7 +25,7 @@ export const QuantityUpsert = async <T extends QuantityUpsertProps>(props: T): P
     }
 };
 
-export const QuantityUpdate = async <T extends QuantityUpdateProps>(props: T): Promise<QuantityUpdateResponse<T>> => {
+export const QuantityUpdateAction = async <T extends QuantityUpdateProps>(props: T): Promise<QuantityUpdateResponse<T>> => {
     try {
         const { data, error } = await QuantityService.update(props);
         if (!data || error) throw new Error(error);
@@ -35,7 +35,7 @@ export const QuantityUpdate = async <T extends QuantityUpdateProps>(props: T): P
     }
 };
 
-export const QuantityDelete = async <T extends QuantityDeleteProps>(props: T): Promise<QuantityDeleteResponse<T>> => {
+export const QuantityDeleteAction = async <T extends QuantityDeleteProps>(props: T): Promise<QuantityDeleteResponse<T>> => {
     try {
         const { data, error } = await QuantityService.delete(props);
         if (!data || error) throw new Error(error);
@@ -47,7 +47,7 @@ export const QuantityDelete = async <T extends QuantityDeleteProps>(props: T): P
 
 // ========== Multiple mutations ========== //
 
-export const QuantityCreateMany = async (props: QuantityCreateManyProps): Promise<QuantityCreateManyResponse> => {
+export const QuantityCreateManyAction = async (props: QuantityCreateManyProps): Promise<QuantityCreateManyResponse> => {
     try {
         const { data, error } = await QuantityService.createMany(props);
         if (!data || error) throw new Error(error);
@@ -57,7 +57,7 @@ export const QuantityCreateMany = async (props: QuantityCreateManyProps): Promis
     }
 };
 
-export const QuantityUpdateMany = async (props: QuantityUpdateManyProps): Promise<QuantityUpdateManyResponse> => {
+export const QuantityUpdateManyAction = async (props: QuantityUpdateManyProps): Promise<QuantityUpdateManyResponse> => {
     try {
         const { data, error } = await QuantityService.updateMany(props);
         if (!data || error) throw new Error(error);
@@ -67,7 +67,7 @@ export const QuantityUpdateMany = async (props: QuantityUpdateManyProps): Promis
     }
 };
 
-export const QuantityDeleteMany = async (props: QuantityDeleteManyProps): Promise<QuantityDeleteManyResponse> => {
+export const QuantityDeleteManyAction = async (props: QuantityDeleteManyProps): Promise<QuantityDeleteManyResponse> => {
     try {
         const { data, error } = await QuantityService.deleteMany(props);
         if (!data || error) throw new Error(error);
@@ -82,7 +82,7 @@ export const QuantityDeleteMany = async (props: QuantityDeleteManyProps): Promis
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const QuantityFindFirst = async <T extends QuantityFindFirstProps>(
+export const QuantityFindFirstAction = async <T extends QuantityFindFirstProps>(
     props: T
 ): Promise<QuantityFindFirstResponse<T>> => {
     try {
@@ -97,7 +97,7 @@ export const QuantityFindFirst = async <T extends QuantityFindFirstProps>(
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const QuantityFindUnique = async <T extends QuantityFindUniqueProps>(
+export const QuantityFindUniqueAction = async <T extends QuantityFindUniqueProps>(
     props: T
 ): Promise<QuantityFindUniqueResponse<T>> => {
     try {
@@ -112,7 +112,7 @@ export const QuantityFindUnique = async <T extends QuantityFindUniqueProps>(
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const QuantityFindMany = async <T extends QuantityFindManyProps>(
+export const QuantityFindManyAction = async <T extends QuantityFindManyProps>(
     props: T
 ): Promise<QuantityFindManyResponse<T>> => {
     try {
@@ -129,7 +129,7 @@ export const QuantityFindMany = async <T extends QuantityFindManyProps>(
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const QuantityCount = async (props: QuantityCountProps): Promise<QuantityCountResponse> => {
+export const QuantityCountAction = async (props: QuantityCountProps): Promise<QuantityCountResponse> => {
     try {
         const { data, error } = await QuantityService.count(props);
         if (!data || error) throw new Error(error);

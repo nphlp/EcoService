@@ -1,7 +1,7 @@
 "use server";
 
-import { CategoryFindUnique } from "@actions/CategoryAction";
-import { ProductFindUnique } from "@actions/ProductAction";
+import { CategoryFindUniqueAction } from "@actions/CategoryAction";
+import { ProductFindUniqueAction } from "@actions/ProductAction";
 import { hasRole } from "@lib/checkRole";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { Fetch } from "@utils/Fetch/Fetch";
@@ -43,7 +43,7 @@ export const AddProductToStripeProcess = async (
         }
 
         // Product already exists ?
-        const existingProductInDatabase = await ProductFindUnique({
+        const existingProductInDatabase = await ProductFindUniqueAction({
             where: { name },
         });
 
@@ -52,7 +52,7 @@ export const AddProductToStripeProcess = async (
         }
 
         // Category exists ?
-        const categoryExists = await CategoryFindUnique({
+        const categoryExists = await CategoryFindUniqueAction({
             where: {
                 id: categoryId,
             },

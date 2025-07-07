@@ -1,6 +1,6 @@
 "use server";
 
-import { OrderDelete } from "@actions/OrderAction";
+import { OrderDeleteAction } from "@actions/OrderAction";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { OrderModel } from "@services/types";
 import { revalidatePath } from "next/cache";
@@ -25,7 +25,7 @@ export const ClearServerBasket = async (props: ClearServerBasketProps): Promise<
         if (!serverBasket) return null;
 
         // Delete order and linked quantities
-        await OrderDelete({ where: { id: serverBasket.orderId } });
+        await OrderDeleteAction({ where: { id: serverBasket.orderId } });
 
         // Refresh checkout page
         revalidatePath("/checkout", "page");

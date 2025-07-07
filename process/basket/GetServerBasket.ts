@@ -1,6 +1,6 @@
 "use server";
 
-import { OrderFindUnique } from "@actions/OrderAction";
+import { OrderFindUniqueAction } from "@actions/OrderAction";
 import { ServerBasket } from "@comps/basket/basketType";
 import { Order } from "@prisma/client";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
@@ -30,7 +30,7 @@ export const GetServerBasket = async (props: GetServerBasketProps): Promise<GetS
     try {
         const { orderId } = getServerBasketSchema.parse(props);
 
-        const order = await OrderFindUnique({
+        const order = await OrderFindUniqueAction({
             where: {
                 id: orderId,
             },

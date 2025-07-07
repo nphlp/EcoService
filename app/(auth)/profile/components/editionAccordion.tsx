@@ -1,6 +1,6 @@
 "use client";
 
-import { UserUpdate } from "@actions/UserAction";
+import { UserUpdateAction } from "@actions/UserAction";
 import { Accordion, AccordionButton, AccordionContent } from "@comps/ui/accordion";
 import Button from "@comps/ui/button";
 import Input from "@comps/ui/input";
@@ -57,7 +57,7 @@ const UpdateLastnameForm = (props: UpdateFormProps) => {
             if (!lastname) return;
             setIsLoading(true);
             // Change name and revalidate session
-            await UserUpdate({
+            await UserUpdateAction({
                 where: { id: session.user.id },
                 data: {
                     lastname,

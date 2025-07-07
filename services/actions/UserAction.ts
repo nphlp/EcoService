@@ -5,7 +5,7 @@ import { UserCountProps, UserCountResponse, UserCreateManyProps, UserCreateManyR
 
 // ========== Single mutations ========== //
 
-export const UserCreate = async <T extends UserCreateProps>(props: T): Promise<UserCreateResponse<T>> => {
+export const UserCreateAction = async <T extends UserCreateProps>(props: T): Promise<UserCreateResponse<T>> => {
     try {
         const { data, error } = await UserService.create(props);
         if (!data || error) throw new Error(error);
@@ -15,7 +15,7 @@ export const UserCreate = async <T extends UserCreateProps>(props: T): Promise<U
     }
 };
 
-export const UserUpsert = async <T extends UserUpsertProps>(props: T): Promise<UserUpsertResponse<T>> => {
+export const UserUpsertAction = async <T extends UserUpsertProps>(props: T): Promise<UserUpsertResponse<T>> => {
     try {
         const { data, error } = await UserService.upsert(props);
         if (!data || error) throw new Error(error);
@@ -25,7 +25,7 @@ export const UserUpsert = async <T extends UserUpsertProps>(props: T): Promise<U
     }
 };
 
-export const UserUpdate = async <T extends UserUpdateProps>(props: T): Promise<UserUpdateResponse<T>> => {
+export const UserUpdateAction = async <T extends UserUpdateProps>(props: T): Promise<UserUpdateResponse<T>> => {
     try {
         const { data, error } = await UserService.update(props);
         if (!data || error) throw new Error(error);
@@ -35,7 +35,7 @@ export const UserUpdate = async <T extends UserUpdateProps>(props: T): Promise<U
     }
 };
 
-export const UserDelete = async <T extends UserDeleteProps>(props: T): Promise<UserDeleteResponse<T>> => {
+export const UserDeleteAction = async <T extends UserDeleteProps>(props: T): Promise<UserDeleteResponse<T>> => {
     try {
         const { data, error } = await UserService.delete(props);
         if (!data || error) throw new Error(error);
@@ -47,7 +47,7 @@ export const UserDelete = async <T extends UserDeleteProps>(props: T): Promise<U
 
 // ========== Multiple mutations ========== //
 
-export const UserCreateMany = async (props: UserCreateManyProps): Promise<UserCreateManyResponse> => {
+export const UserCreateManyAction = async (props: UserCreateManyProps): Promise<UserCreateManyResponse> => {
     try {
         const { data, error } = await UserService.createMany(props);
         if (!data || error) throw new Error(error);
@@ -57,7 +57,7 @@ export const UserCreateMany = async (props: UserCreateManyProps): Promise<UserCr
     }
 };
 
-export const UserUpdateMany = async (props: UserUpdateManyProps): Promise<UserUpdateManyResponse> => {
+export const UserUpdateManyAction = async (props: UserUpdateManyProps): Promise<UserUpdateManyResponse> => {
     try {
         const { data, error } = await UserService.updateMany(props);
         if (!data || error) throw new Error(error);
@@ -67,7 +67,7 @@ export const UserUpdateMany = async (props: UserUpdateManyProps): Promise<UserUp
     }
 };
 
-export const UserDeleteMany = async (props: UserDeleteManyProps): Promise<UserDeleteManyResponse> => {
+export const UserDeleteManyAction = async (props: UserDeleteManyProps): Promise<UserDeleteManyResponse> => {
     try {
         const { data, error } = await UserService.deleteMany(props);
         if (!data || error) throw new Error(error);
@@ -82,7 +82,7 @@ export const UserDeleteMany = async (props: UserDeleteManyProps): Promise<UserDe
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const UserFindFirst = async <T extends UserFindFirstProps>(
+export const UserFindFirstAction = async <T extends UserFindFirstProps>(
     props: T
 ): Promise<UserFindFirstResponse<T>> => {
     try {
@@ -97,7 +97,7 @@ export const UserFindFirst = async <T extends UserFindFirstProps>(
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const UserFindUnique = async <T extends UserFindUniqueProps>(
+export const UserFindUniqueAction = async <T extends UserFindUniqueProps>(
     props: T
 ): Promise<UserFindUniqueResponse<T>> => {
     try {
@@ -112,7 +112,7 @@ export const UserFindUnique = async <T extends UserFindUniqueProps>(
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const UserFindMany = async <T extends UserFindManyProps>(
+export const UserFindManyAction = async <T extends UserFindManyProps>(
     props: T
 ): Promise<UserFindManyResponse<T>> => {
     try {
@@ -129,7 +129,7 @@ export const UserFindMany = async <T extends UserFindManyProps>(
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const UserCount = async (props: UserCountProps): Promise<UserCountResponse> => {
+export const UserCountAction = async (props: UserCountProps): Promise<UserCountResponse> => {
     try {
         const { data, error } = await UserService.count(props);
         if (!data || error) throw new Error(error);

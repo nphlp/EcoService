@@ -5,7 +5,7 @@ import { VerificationCountProps, VerificationCountResponse, VerificationCreateMa
 
 // ========== Single mutations ========== //
 
-export const VerificationCreate = async <T extends VerificationCreateProps>(props: T): Promise<VerificationCreateResponse<T>> => {
+export const VerificationCreateAction = async <T extends VerificationCreateProps>(props: T): Promise<VerificationCreateResponse<T>> => {
     try {
         const { data, error } = await VerificationService.create(props);
         if (!data || error) throw new Error(error);
@@ -15,7 +15,7 @@ export const VerificationCreate = async <T extends VerificationCreateProps>(prop
     }
 };
 
-export const VerificationUpsert = async <T extends VerificationUpsertProps>(props: T): Promise<VerificationUpsertResponse<T>> => {
+export const VerificationUpsertAction = async <T extends VerificationUpsertProps>(props: T): Promise<VerificationUpsertResponse<T>> => {
     try {
         const { data, error } = await VerificationService.upsert(props);
         if (!data || error) throw new Error(error);
@@ -25,7 +25,7 @@ export const VerificationUpsert = async <T extends VerificationUpsertProps>(prop
     }
 };
 
-export const VerificationUpdate = async <T extends VerificationUpdateProps>(props: T): Promise<VerificationUpdateResponse<T>> => {
+export const VerificationUpdateAction = async <T extends VerificationUpdateProps>(props: T): Promise<VerificationUpdateResponse<T>> => {
     try {
         const { data, error } = await VerificationService.update(props);
         if (!data || error) throw new Error(error);
@@ -35,7 +35,7 @@ export const VerificationUpdate = async <T extends VerificationUpdateProps>(prop
     }
 };
 
-export const VerificationDelete = async <T extends VerificationDeleteProps>(props: T): Promise<VerificationDeleteResponse<T>> => {
+export const VerificationDeleteAction = async <T extends VerificationDeleteProps>(props: T): Promise<VerificationDeleteResponse<T>> => {
     try {
         const { data, error } = await VerificationService.delete(props);
         if (!data || error) throw new Error(error);
@@ -47,7 +47,7 @@ export const VerificationDelete = async <T extends VerificationDeleteProps>(prop
 
 // ========== Multiple mutations ========== //
 
-export const VerificationCreateMany = async (props: VerificationCreateManyProps): Promise<VerificationCreateManyResponse> => {
+export const VerificationCreateManyAction = async (props: VerificationCreateManyProps): Promise<VerificationCreateManyResponse> => {
     try {
         const { data, error } = await VerificationService.createMany(props);
         if (!data || error) throw new Error(error);
@@ -57,7 +57,7 @@ export const VerificationCreateMany = async (props: VerificationCreateManyProps)
     }
 };
 
-export const VerificationUpdateMany = async (props: VerificationUpdateManyProps): Promise<VerificationUpdateManyResponse> => {
+export const VerificationUpdateManyAction = async (props: VerificationUpdateManyProps): Promise<VerificationUpdateManyResponse> => {
     try {
         const { data, error } = await VerificationService.updateMany(props);
         if (!data || error) throw new Error(error);
@@ -67,7 +67,7 @@ export const VerificationUpdateMany = async (props: VerificationUpdateManyProps)
     }
 };
 
-export const VerificationDeleteMany = async (props: VerificationDeleteManyProps): Promise<VerificationDeleteManyResponse> => {
+export const VerificationDeleteManyAction = async (props: VerificationDeleteManyProps): Promise<VerificationDeleteManyResponse> => {
     try {
         const { data, error } = await VerificationService.deleteMany(props);
         if (!data || error) throw new Error(error);
@@ -82,7 +82,7 @@ export const VerificationDeleteMany = async (props: VerificationDeleteManyProps)
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const VerificationFindFirst = async <T extends VerificationFindFirstProps>(
+export const VerificationFindFirstAction = async <T extends VerificationFindFirstProps>(
     props: T
 ): Promise<VerificationFindFirstResponse<T>> => {
     try {
@@ -97,7 +97,7 @@ export const VerificationFindFirst = async <T extends VerificationFindFirstProps
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const VerificationFindUnique = async <T extends VerificationFindUniqueProps>(
+export const VerificationFindUniqueAction = async <T extends VerificationFindUniqueProps>(
     props: T
 ): Promise<VerificationFindUniqueResponse<T>> => {
     try {
@@ -112,7 +112,7 @@ export const VerificationFindUnique = async <T extends VerificationFindUniquePro
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const VerificationFindMany = async <T extends VerificationFindManyProps>(
+export const VerificationFindManyAction = async <T extends VerificationFindManyProps>(
     props: T
 ): Promise<VerificationFindManyResponse<T>> => {
     try {
@@ -129,7 +129,7 @@ export const VerificationFindMany = async <T extends VerificationFindManyProps>(
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const VerificationCount = async (props: VerificationCountProps): Promise<VerificationCountResponse> => {
+export const VerificationCountAction = async (props: VerificationCountProps): Promise<VerificationCountResponse> => {
     try {
         const { data, error } = await VerificationService.count(props);
         if (!data || error) throw new Error(error);

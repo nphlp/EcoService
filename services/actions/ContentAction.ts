@@ -5,7 +5,7 @@ import { ContentCountProps, ContentCountResponse, ContentCreateManyProps, Conten
 
 // ========== Single mutations ========== //
 
-export const ContentCreate = async <T extends ContentCreateProps>(props: T): Promise<ContentCreateResponse<T>> => {
+export const ContentCreateAction = async <T extends ContentCreateProps>(props: T): Promise<ContentCreateResponse<T>> => {
     try {
         const { data, error } = await ContentService.create(props);
         if (!data || error) throw new Error(error);
@@ -15,7 +15,7 @@ export const ContentCreate = async <T extends ContentCreateProps>(props: T): Pro
     }
 };
 
-export const ContentUpsert = async <T extends ContentUpsertProps>(props: T): Promise<ContentUpsertResponse<T>> => {
+export const ContentUpsertAction = async <T extends ContentUpsertProps>(props: T): Promise<ContentUpsertResponse<T>> => {
     try {
         const { data, error } = await ContentService.upsert(props);
         if (!data || error) throw new Error(error);
@@ -25,7 +25,7 @@ export const ContentUpsert = async <T extends ContentUpsertProps>(props: T): Pro
     }
 };
 
-export const ContentUpdate = async <T extends ContentUpdateProps>(props: T): Promise<ContentUpdateResponse<T>> => {
+export const ContentUpdateAction = async <T extends ContentUpdateProps>(props: T): Promise<ContentUpdateResponse<T>> => {
     try {
         const { data, error } = await ContentService.update(props);
         if (!data || error) throw new Error(error);
@@ -35,7 +35,7 @@ export const ContentUpdate = async <T extends ContentUpdateProps>(props: T): Pro
     }
 };
 
-export const ContentDelete = async <T extends ContentDeleteProps>(props: T): Promise<ContentDeleteResponse<T>> => {
+export const ContentDeleteAction = async <T extends ContentDeleteProps>(props: T): Promise<ContentDeleteResponse<T>> => {
     try {
         const { data, error } = await ContentService.delete(props);
         if (!data || error) throw new Error(error);
@@ -47,7 +47,7 @@ export const ContentDelete = async <T extends ContentDeleteProps>(props: T): Pro
 
 // ========== Multiple mutations ========== //
 
-export const ContentCreateMany = async (props: ContentCreateManyProps): Promise<ContentCreateManyResponse> => {
+export const ContentCreateManyAction = async (props: ContentCreateManyProps): Promise<ContentCreateManyResponse> => {
     try {
         const { data, error } = await ContentService.createMany(props);
         if (!data || error) throw new Error(error);
@@ -57,7 +57,7 @@ export const ContentCreateMany = async (props: ContentCreateManyProps): Promise<
     }
 };
 
-export const ContentUpdateMany = async (props: ContentUpdateManyProps): Promise<ContentUpdateManyResponse> => {
+export const ContentUpdateManyAction = async (props: ContentUpdateManyProps): Promise<ContentUpdateManyResponse> => {
     try {
         const { data, error } = await ContentService.updateMany(props);
         if (!data || error) throw new Error(error);
@@ -67,7 +67,7 @@ export const ContentUpdateMany = async (props: ContentUpdateManyProps): Promise<
     }
 };
 
-export const ContentDeleteMany = async (props: ContentDeleteManyProps): Promise<ContentDeleteManyResponse> => {
+export const ContentDeleteManyAction = async (props: ContentDeleteManyProps): Promise<ContentDeleteManyResponse> => {
     try {
         const { data, error } = await ContentService.deleteMany(props);
         if (!data || error) throw new Error(error);
@@ -82,7 +82,7 @@ export const ContentDeleteMany = async (props: ContentDeleteManyProps): Promise<
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const ContentFindFirst = async <T extends ContentFindFirstProps>(
+export const ContentFindFirstAction = async <T extends ContentFindFirstProps>(
     props: T
 ): Promise<ContentFindFirstResponse<T>> => {
     try {
@@ -97,7 +97,7 @@ export const ContentFindFirst = async <T extends ContentFindFirstProps>(
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const ContentFindUnique = async <T extends ContentFindUniqueProps>(
+export const ContentFindUniqueAction = async <T extends ContentFindUniqueProps>(
     props: T
 ): Promise<ContentFindUniqueResponse<T>> => {
     try {
@@ -112,7 +112,7 @@ export const ContentFindUnique = async <T extends ContentFindUniqueProps>(
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const ContentFindMany = async <T extends ContentFindManyProps>(
+export const ContentFindManyAction = async <T extends ContentFindManyProps>(
     props: T
 ): Promise<ContentFindManyResponse<T>> => {
     try {
@@ -129,7 +129,7 @@ export const ContentFindMany = async <T extends ContentFindManyProps>(
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const ContentCount = async (props: ContentCountProps): Promise<ContentCountResponse> => {
+export const ContentCountAction = async (props: ContentCountProps): Promise<ContentCountResponse> => {
     try {
         const { data, error } = await ContentService.count(props);
         if (!data || error) throw new Error(error);

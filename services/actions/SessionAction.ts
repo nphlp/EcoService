@@ -5,7 +5,7 @@ import { SessionCountProps, SessionCountResponse, SessionCreateManyProps, Sessio
 
 // ========== Single mutations ========== //
 
-export const SessionCreate = async <T extends SessionCreateProps>(props: T): Promise<SessionCreateResponse<T>> => {
+export const SessionCreateAction = async <T extends SessionCreateProps>(props: T): Promise<SessionCreateResponse<T>> => {
     try {
         const { data, error } = await SessionService.create(props);
         if (!data || error) throw new Error(error);
@@ -15,7 +15,7 @@ export const SessionCreate = async <T extends SessionCreateProps>(props: T): Pro
     }
 };
 
-export const SessionUpsert = async <T extends SessionUpsertProps>(props: T): Promise<SessionUpsertResponse<T>> => {
+export const SessionUpsertAction = async <T extends SessionUpsertProps>(props: T): Promise<SessionUpsertResponse<T>> => {
     try {
         const { data, error } = await SessionService.upsert(props);
         if (!data || error) throw new Error(error);
@@ -25,7 +25,7 @@ export const SessionUpsert = async <T extends SessionUpsertProps>(props: T): Pro
     }
 };
 
-export const SessionUpdate = async <T extends SessionUpdateProps>(props: T): Promise<SessionUpdateResponse<T>> => {
+export const SessionUpdateAction = async <T extends SessionUpdateProps>(props: T): Promise<SessionUpdateResponse<T>> => {
     try {
         const { data, error } = await SessionService.update(props);
         if (!data || error) throw new Error(error);
@@ -35,7 +35,7 @@ export const SessionUpdate = async <T extends SessionUpdateProps>(props: T): Pro
     }
 };
 
-export const SessionDelete = async <T extends SessionDeleteProps>(props: T): Promise<SessionDeleteResponse<T>> => {
+export const SessionDeleteAction = async <T extends SessionDeleteProps>(props: T): Promise<SessionDeleteResponse<T>> => {
     try {
         const { data, error } = await SessionService.delete(props);
         if (!data || error) throw new Error(error);
@@ -47,7 +47,7 @@ export const SessionDelete = async <T extends SessionDeleteProps>(props: T): Pro
 
 // ========== Multiple mutations ========== //
 
-export const SessionCreateMany = async (props: SessionCreateManyProps): Promise<SessionCreateManyResponse> => {
+export const SessionCreateManyAction = async (props: SessionCreateManyProps): Promise<SessionCreateManyResponse> => {
     try {
         const { data, error } = await SessionService.createMany(props);
         if (!data || error) throw new Error(error);
@@ -57,7 +57,7 @@ export const SessionCreateMany = async (props: SessionCreateManyProps): Promise<
     }
 };
 
-export const SessionUpdateMany = async (props: SessionUpdateManyProps): Promise<SessionUpdateManyResponse> => {
+export const SessionUpdateManyAction = async (props: SessionUpdateManyProps): Promise<SessionUpdateManyResponse> => {
     try {
         const { data, error } = await SessionService.updateMany(props);
         if (!data || error) throw new Error(error);
@@ -67,7 +67,7 @@ export const SessionUpdateMany = async (props: SessionUpdateManyProps): Promise<
     }
 };
 
-export const SessionDeleteMany = async (props: SessionDeleteManyProps): Promise<SessionDeleteManyResponse> => {
+export const SessionDeleteManyAction = async (props: SessionDeleteManyProps): Promise<SessionDeleteManyResponse> => {
     try {
         const { data, error } = await SessionService.deleteMany(props);
         if (!data || error) throw new Error(error);
@@ -82,7 +82,7 @@ export const SessionDeleteMany = async (props: SessionDeleteManyProps): Promise<
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const SessionFindFirst = async <T extends SessionFindFirstProps>(
+export const SessionFindFirstAction = async <T extends SessionFindFirstProps>(
     props: T
 ): Promise<SessionFindFirstResponse<T>> => {
     try {
@@ -97,7 +97,7 @@ export const SessionFindFirst = async <T extends SessionFindFirstProps>(
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const SessionFindUnique = async <T extends SessionFindUniqueProps>(
+export const SessionFindUniqueAction = async <T extends SessionFindUniqueProps>(
     props: T
 ): Promise<SessionFindUniqueResponse<T>> => {
     try {
@@ -112,7 +112,7 @@ export const SessionFindUnique = async <T extends SessionFindUniqueProps>(
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const SessionFindMany = async <T extends SessionFindManyProps>(
+export const SessionFindManyAction = async <T extends SessionFindManyProps>(
     props: T
 ): Promise<SessionFindManyResponse<T>> => {
     try {
@@ -129,7 +129,7 @@ export const SessionFindMany = async <T extends SessionFindManyProps>(
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const SessionCount = async (props: SessionCountProps): Promise<SessionCountResponse> => {
+export const SessionCountAction = async (props: SessionCountProps): Promise<SessionCountResponse> => {
     try {
         const { data, error } = await SessionService.count(props);
         if (!data || error) throw new Error(error);

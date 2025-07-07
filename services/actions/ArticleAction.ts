@@ -5,7 +5,7 @@ import { ArticleCountProps, ArticleCountResponse, ArticleCreateManyProps, Articl
 
 // ========== Single mutations ========== //
 
-export const ArticleCreate = async <T extends ArticleCreateProps>(props: T): Promise<ArticleCreateResponse<T>> => {
+export const ArticleCreateAction = async <T extends ArticleCreateProps>(props: T): Promise<ArticleCreateResponse<T>> => {
     try {
         const { data, error } = await ArticleService.create(props);
         if (!data || error) throw new Error(error);
@@ -15,7 +15,7 @@ export const ArticleCreate = async <T extends ArticleCreateProps>(props: T): Pro
     }
 };
 
-export const ArticleUpsert = async <T extends ArticleUpsertProps>(props: T): Promise<ArticleUpsertResponse<T>> => {
+export const ArticleUpsertAction = async <T extends ArticleUpsertProps>(props: T): Promise<ArticleUpsertResponse<T>> => {
     try {
         const { data, error } = await ArticleService.upsert(props);
         if (!data || error) throw new Error(error);
@@ -25,7 +25,7 @@ export const ArticleUpsert = async <T extends ArticleUpsertProps>(props: T): Pro
     }
 };
 
-export const ArticleUpdate = async <T extends ArticleUpdateProps>(props: T): Promise<ArticleUpdateResponse<T>> => {
+export const ArticleUpdateAction = async <T extends ArticleUpdateProps>(props: T): Promise<ArticleUpdateResponse<T>> => {
     try {
         const { data, error } = await ArticleService.update(props);
         if (!data || error) throw new Error(error);
@@ -35,7 +35,7 @@ export const ArticleUpdate = async <T extends ArticleUpdateProps>(props: T): Pro
     }
 };
 
-export const ArticleDelete = async <T extends ArticleDeleteProps>(props: T): Promise<ArticleDeleteResponse<T>> => {
+export const ArticleDeleteAction = async <T extends ArticleDeleteProps>(props: T): Promise<ArticleDeleteResponse<T>> => {
     try {
         const { data, error } = await ArticleService.delete(props);
         if (!data || error) throw new Error(error);
@@ -47,7 +47,7 @@ export const ArticleDelete = async <T extends ArticleDeleteProps>(props: T): Pro
 
 // ========== Multiple mutations ========== //
 
-export const ArticleCreateMany = async (props: ArticleCreateManyProps): Promise<ArticleCreateManyResponse> => {
+export const ArticleCreateManyAction = async (props: ArticleCreateManyProps): Promise<ArticleCreateManyResponse> => {
     try {
         const { data, error } = await ArticleService.createMany(props);
         if (!data || error) throw new Error(error);
@@ -57,7 +57,7 @@ export const ArticleCreateMany = async (props: ArticleCreateManyProps): Promise<
     }
 };
 
-export const ArticleUpdateMany = async (props: ArticleUpdateManyProps): Promise<ArticleUpdateManyResponse> => {
+export const ArticleUpdateManyAction = async (props: ArticleUpdateManyProps): Promise<ArticleUpdateManyResponse> => {
     try {
         const { data, error } = await ArticleService.updateMany(props);
         if (!data || error) throw new Error(error);
@@ -67,7 +67,7 @@ export const ArticleUpdateMany = async (props: ArticleUpdateManyProps): Promise<
     }
 };
 
-export const ArticleDeleteMany = async (props: ArticleDeleteManyProps): Promise<ArticleDeleteManyResponse> => {
+export const ArticleDeleteManyAction = async (props: ArticleDeleteManyProps): Promise<ArticleDeleteManyResponse> => {
     try {
         const { data, error } = await ArticleService.deleteMany(props);
         if (!data || error) throw new Error(error);
@@ -82,7 +82,7 @@ export const ArticleDeleteMany = async (props: ArticleDeleteManyProps): Promise<
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const ArticleFindFirst = async <T extends ArticleFindFirstProps>(
+export const ArticleFindFirstAction = async <T extends ArticleFindFirstProps>(
     props: T
 ): Promise<ArticleFindFirstResponse<T>> => {
     try {
@@ -97,7 +97,7 @@ export const ArticleFindFirst = async <T extends ArticleFindFirstProps>(
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const ArticleFindUnique = async <T extends ArticleFindUniqueProps>(
+export const ArticleFindUniqueAction = async <T extends ArticleFindUniqueProps>(
     props: T
 ): Promise<ArticleFindUniqueResponse<T>> => {
     try {
@@ -112,7 +112,7 @@ export const ArticleFindUnique = async <T extends ArticleFindUniqueProps>(
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const ArticleFindMany = async <T extends ArticleFindManyProps>(
+export const ArticleFindManyAction = async <T extends ArticleFindManyProps>(
     props: T
 ): Promise<ArticleFindManyResponse<T>> => {
     try {
@@ -129,7 +129,7 @@ export const ArticleFindMany = async <T extends ArticleFindManyProps>(
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const ArticleCount = async (props: ArticleCountProps): Promise<ArticleCountResponse> => {
+export const ArticleCountAction = async (props: ArticleCountProps): Promise<ArticleCountResponse> => {
     try {
         const { data, error } = await ArticleService.count(props);
         if (!data || error) throw new Error(error);

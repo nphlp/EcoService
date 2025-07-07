@@ -5,7 +5,7 @@ import { DiyCountProps, DiyCountResponse, DiyCreateManyProps, DiyCreateManyRespo
 
 // ========== Single mutations ========== //
 
-export const DiyCreate = async <T extends DiyCreateProps>(props: T): Promise<DiyCreateResponse<T>> => {
+export const DiyCreateAction = async <T extends DiyCreateProps>(props: T): Promise<DiyCreateResponse<T>> => {
     try {
         const { data, error } = await DiyService.create(props);
         if (!data || error) throw new Error(error);
@@ -15,7 +15,7 @@ export const DiyCreate = async <T extends DiyCreateProps>(props: T): Promise<Diy
     }
 };
 
-export const DiyUpsert = async <T extends DiyUpsertProps>(props: T): Promise<DiyUpsertResponse<T>> => {
+export const DiyUpsertAction = async <T extends DiyUpsertProps>(props: T): Promise<DiyUpsertResponse<T>> => {
     try {
         const { data, error } = await DiyService.upsert(props);
         if (!data || error) throw new Error(error);
@@ -25,7 +25,7 @@ export const DiyUpsert = async <T extends DiyUpsertProps>(props: T): Promise<Diy
     }
 };
 
-export const DiyUpdate = async <T extends DiyUpdateProps>(props: T): Promise<DiyUpdateResponse<T>> => {
+export const DiyUpdateAction = async <T extends DiyUpdateProps>(props: T): Promise<DiyUpdateResponse<T>> => {
     try {
         const { data, error } = await DiyService.update(props);
         if (!data || error) throw new Error(error);
@@ -35,7 +35,7 @@ export const DiyUpdate = async <T extends DiyUpdateProps>(props: T): Promise<Diy
     }
 };
 
-export const DiyDelete = async <T extends DiyDeleteProps>(props: T): Promise<DiyDeleteResponse<T>> => {
+export const DiyDeleteAction = async <T extends DiyDeleteProps>(props: T): Promise<DiyDeleteResponse<T>> => {
     try {
         const { data, error } = await DiyService.delete(props);
         if (!data || error) throw new Error(error);
@@ -47,7 +47,7 @@ export const DiyDelete = async <T extends DiyDeleteProps>(props: T): Promise<Diy
 
 // ========== Multiple mutations ========== //
 
-export const DiyCreateMany = async (props: DiyCreateManyProps): Promise<DiyCreateManyResponse> => {
+export const DiyCreateManyAction = async (props: DiyCreateManyProps): Promise<DiyCreateManyResponse> => {
     try {
         const { data, error } = await DiyService.createMany(props);
         if (!data || error) throw new Error(error);
@@ -57,7 +57,7 @@ export const DiyCreateMany = async (props: DiyCreateManyProps): Promise<DiyCreat
     }
 };
 
-export const DiyUpdateMany = async (props: DiyUpdateManyProps): Promise<DiyUpdateManyResponse> => {
+export const DiyUpdateManyAction = async (props: DiyUpdateManyProps): Promise<DiyUpdateManyResponse> => {
     try {
         const { data, error } = await DiyService.updateMany(props);
         if (!data || error) throw new Error(error);
@@ -67,7 +67,7 @@ export const DiyUpdateMany = async (props: DiyUpdateManyProps): Promise<DiyUpdat
     }
 };
 
-export const DiyDeleteMany = async (props: DiyDeleteManyProps): Promise<DiyDeleteManyResponse> => {
+export const DiyDeleteManyAction = async (props: DiyDeleteManyProps): Promise<DiyDeleteManyResponse> => {
     try {
         const { data, error } = await DiyService.deleteMany(props);
         if (!data || error) throw new Error(error);
@@ -82,7 +82,7 @@ export const DiyDeleteMany = async (props: DiyDeleteManyProps): Promise<DiyDelet
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const DiyFindFirst = async <T extends DiyFindFirstProps>(
+export const DiyFindFirstAction = async <T extends DiyFindFirstProps>(
     props: T
 ): Promise<DiyFindFirstResponse<T>> => {
     try {
@@ -97,7 +97,7 @@ export const DiyFindFirst = async <T extends DiyFindFirstProps>(
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const DiyFindUnique = async <T extends DiyFindUniqueProps>(
+export const DiyFindUniqueAction = async <T extends DiyFindUniqueProps>(
     props: T
 ): Promise<DiyFindUniqueResponse<T>> => {
     try {
@@ -112,7 +112,7 @@ export const DiyFindUnique = async <T extends DiyFindUniqueProps>(
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const DiyFindMany = async <T extends DiyFindManyProps>(
+export const DiyFindManyAction = async <T extends DiyFindManyProps>(
     props: T
 ): Promise<DiyFindManyResponse<T>> => {
     try {
@@ -129,7 +129,7 @@ export const DiyFindMany = async <T extends DiyFindManyProps>(
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const DiyCount = async (props: DiyCountProps): Promise<DiyCountResponse> => {
+export const DiyCountAction = async (props: DiyCountProps): Promise<DiyCountResponse> => {
     try {
         const { data, error } = await DiyService.count(props);
         if (!data || error) throw new Error(error);

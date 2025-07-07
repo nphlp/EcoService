@@ -5,7 +5,7 @@ import { AddressCountProps, AddressCountResponse, AddressCreateManyProps, Addres
 
 // ========== Single mutations ========== //
 
-export const AddressCreate = async <T extends AddressCreateProps>(props: T): Promise<AddressCreateResponse<T>> => {
+export const AddressCreateAction = async <T extends AddressCreateProps>(props: T): Promise<AddressCreateResponse<T>> => {
     try {
         const { data, error } = await AddressService.create(props);
         if (!data || error) throw new Error(error);
@@ -15,7 +15,7 @@ export const AddressCreate = async <T extends AddressCreateProps>(props: T): Pro
     }
 };
 
-export const AddressUpsert = async <T extends AddressUpsertProps>(props: T): Promise<AddressUpsertResponse<T>> => {
+export const AddressUpsertAction = async <T extends AddressUpsertProps>(props: T): Promise<AddressUpsertResponse<T>> => {
     try {
         const { data, error } = await AddressService.upsert(props);
         if (!data || error) throw new Error(error);
@@ -25,7 +25,7 @@ export const AddressUpsert = async <T extends AddressUpsertProps>(props: T): Pro
     }
 };
 
-export const AddressUpdate = async <T extends AddressUpdateProps>(props: T): Promise<AddressUpdateResponse<T>> => {
+export const AddressUpdateAction = async <T extends AddressUpdateProps>(props: T): Promise<AddressUpdateResponse<T>> => {
     try {
         const { data, error } = await AddressService.update(props);
         if (!data || error) throw new Error(error);
@@ -35,7 +35,7 @@ export const AddressUpdate = async <T extends AddressUpdateProps>(props: T): Pro
     }
 };
 
-export const AddressDelete = async <T extends AddressDeleteProps>(props: T): Promise<AddressDeleteResponse<T>> => {
+export const AddressDeleteAction = async <T extends AddressDeleteProps>(props: T): Promise<AddressDeleteResponse<T>> => {
     try {
         const { data, error } = await AddressService.delete(props);
         if (!data || error) throw new Error(error);
@@ -47,7 +47,7 @@ export const AddressDelete = async <T extends AddressDeleteProps>(props: T): Pro
 
 // ========== Multiple mutations ========== //
 
-export const AddressCreateMany = async (props: AddressCreateManyProps): Promise<AddressCreateManyResponse> => {
+export const AddressCreateManyAction = async (props: AddressCreateManyProps): Promise<AddressCreateManyResponse> => {
     try {
         const { data, error } = await AddressService.createMany(props);
         if (!data || error) throw new Error(error);
@@ -57,7 +57,7 @@ export const AddressCreateMany = async (props: AddressCreateManyProps): Promise<
     }
 };
 
-export const AddressUpdateMany = async (props: AddressUpdateManyProps): Promise<AddressUpdateManyResponse> => {
+export const AddressUpdateManyAction = async (props: AddressUpdateManyProps): Promise<AddressUpdateManyResponse> => {
     try {
         const { data, error } = await AddressService.updateMany(props);
         if (!data || error) throw new Error(error);
@@ -67,7 +67,7 @@ export const AddressUpdateMany = async (props: AddressUpdateManyProps): Promise<
     }
 };
 
-export const AddressDeleteMany = async (props: AddressDeleteManyProps): Promise<AddressDeleteManyResponse> => {
+export const AddressDeleteManyAction = async (props: AddressDeleteManyProps): Promise<AddressDeleteManyResponse> => {
     try {
         const { data, error } = await AddressService.deleteMany(props);
         if (!data || error) throw new Error(error);
@@ -82,7 +82,7 @@ export const AddressDeleteMany = async (props: AddressDeleteManyProps): Promise<
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const AddressFindFirst = async <T extends AddressFindFirstProps>(
+export const AddressFindFirstAction = async <T extends AddressFindFirstProps>(
     props: T
 ): Promise<AddressFindFirstResponse<T>> => {
     try {
@@ -97,7 +97,7 @@ export const AddressFindFirst = async <T extends AddressFindFirstProps>(
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const AddressFindUnique = async <T extends AddressFindUniqueProps>(
+export const AddressFindUniqueAction = async <T extends AddressFindUniqueProps>(
     props: T
 ): Promise<AddressFindUniqueResponse<T>> => {
     try {
@@ -112,7 +112,7 @@ export const AddressFindUnique = async <T extends AddressFindUniqueProps>(
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const AddressFindMany = async <T extends AddressFindManyProps>(
+export const AddressFindManyAction = async <T extends AddressFindManyProps>(
     props: T
 ): Promise<AddressFindManyResponse<T>> => {
     try {
@@ -129,7 +129,7 @@ export const AddressFindMany = async <T extends AddressFindManyProps>(
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const AddressCount = async (props: AddressCountProps): Promise<AddressCountResponse> => {
+export const AddressCountAction = async (props: AddressCountProps): Promise<AddressCountResponse> => {
     try {
         const { data, error } = await AddressService.count(props);
         if (!data || error) throw new Error(error);

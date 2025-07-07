@@ -1,8 +1,8 @@
-import { UserFindMany } from "@actions/UserAction";
+import { UserFindManyAction } from "@actions/UserAction";
 import ClientComponent from "./client";
 
 export default async function Page() {
-    const userList = await UserFindMany({});
+    const userList = await UserFindManyAction({});
 
     if (!userList.length) {
         return <div>No user found</div>;

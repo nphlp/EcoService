@@ -5,7 +5,7 @@ import { {{modelName}}CountProps, {{modelName}}CountResponse, {{modelName}}Creat
 
 // ========== Single mutations ========== //
 
-export const {{modelName}}Create = async <T extends {{modelName}}CreateProps>(props: T): Promise<{{modelName}}CreateResponse<T>> => {
+export const {{modelName}}CreateAction = async <T extends {{modelName}}CreateProps>(props: T): Promise<{{modelName}}CreateResponse<T>> => {
     try {
         const { data, error } = await {{modelName}}Service.create(props);
         if (!data || error) throw new Error(error);
@@ -15,7 +15,7 @@ export const {{modelName}}Create = async <T extends {{modelName}}CreateProps>(pr
     }
 };
 
-export const {{modelName}}Upsert = async <T extends {{modelName}}UpsertProps>(props: T): Promise<{{modelName}}UpsertResponse<T>> => {
+export const {{modelName}}UpsertAction = async <T extends {{modelName}}UpsertProps>(props: T): Promise<{{modelName}}UpsertResponse<T>> => {
     try {
         const { data, error } = await {{modelName}}Service.upsert(props);
         if (!data || error) throw new Error(error);
@@ -25,7 +25,7 @@ export const {{modelName}}Upsert = async <T extends {{modelName}}UpsertProps>(pr
     }
 };
 
-export const {{modelName}}Update = async <T extends {{modelName}}UpdateProps>(props: T): Promise<{{modelName}}UpdateResponse<T>> => {
+export const {{modelName}}UpdateAction = async <T extends {{modelName}}UpdateProps>(props: T): Promise<{{modelName}}UpdateResponse<T>> => {
     try {
         const { data, error } = await {{modelName}}Service.update(props);
         if (!data || error) throw new Error(error);
@@ -35,7 +35,7 @@ export const {{modelName}}Update = async <T extends {{modelName}}UpdateProps>(pr
     }
 };
 
-export const {{modelName}}Delete = async <T extends {{modelName}}DeleteProps>(props: T): Promise<{{modelName}}DeleteResponse<T>> => {
+export const {{modelName}}DeleteAction = async <T extends {{modelName}}DeleteProps>(props: T): Promise<{{modelName}}DeleteResponse<T>> => {
     try {
         const { data, error } = await {{modelName}}Service.delete(props);
         if (!data || error) throw new Error(error);
@@ -47,7 +47,7 @@ export const {{modelName}}Delete = async <T extends {{modelName}}DeleteProps>(pr
 
 // ========== Multiple mutations ========== //
 
-export const {{modelName}}CreateMany = async (props: {{modelName}}CreateManyProps): Promise<{{modelName}}CreateManyResponse> => {
+export const {{modelName}}CreateManyAction = async (props: {{modelName}}CreateManyProps): Promise<{{modelName}}CreateManyResponse> => {
     try {
         const { data, error } = await {{modelName}}Service.createMany(props);
         if (!data || error) throw new Error(error);
@@ -57,7 +57,7 @@ export const {{modelName}}CreateMany = async (props: {{modelName}}CreateManyProp
     }
 };
 
-export const {{modelName}}UpdateMany = async (props: {{modelName}}UpdateManyProps): Promise<{{modelName}}UpdateManyResponse> => {
+export const {{modelName}}UpdateManyAction = async (props: {{modelName}}UpdateManyProps): Promise<{{modelName}}UpdateManyResponse> => {
     try {
         const { data, error } = await {{modelName}}Service.updateMany(props);
         if (!data || error) throw new Error(error);
@@ -67,7 +67,7 @@ export const {{modelName}}UpdateMany = async (props: {{modelName}}UpdateManyProp
     }
 };
 
-export const {{modelName}}DeleteMany = async (props: {{modelName}}DeleteManyProps): Promise<{{modelName}}DeleteManyResponse> => {
+export const {{modelName}}DeleteManyAction = async (props: {{modelName}}DeleteManyProps): Promise<{{modelName}}DeleteManyResponse> => {
     try {
         const { data, error } = await {{modelName}}Service.deleteMany(props);
         if (!data || error) throw new Error(error);
@@ -82,7 +82,7 @@ export const {{modelName}}DeleteMany = async (props: {{modelName}}DeleteManyProp
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const {{modelName}}FindFirst = async <T extends {{modelName}}FindFirstProps>(
+export const {{modelName}}FindFirstAction = async <T extends {{modelName}}FindFirstProps>(
     props: T
 ): Promise<{{modelName}}FindFirstResponse<T>> => {
     try {
@@ -97,7 +97,7 @@ export const {{modelName}}FindFirst = async <T extends {{modelName}}FindFirstPro
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const {{modelName}}FindUnique = async <T extends {{modelName}}FindUniqueProps>(
+export const {{modelName}}FindUniqueAction = async <T extends {{modelName}}FindUniqueProps>(
     props: T
 ): Promise<{{modelName}}FindUniqueResponse<T>> => {
     try {
@@ -112,7 +112,7 @@ export const {{modelName}}FindUnique = async <T extends {{modelName}}FindUniqueP
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const {{modelName}}FindMany = async <T extends {{modelName}}FindManyProps>(
+export const {{modelName}}FindManyAction = async <T extends {{modelName}}FindManyProps>(
     props: T
 ): Promise<{{modelName}}FindManyResponse<T>> => {
     try {
@@ -129,7 +129,7 @@ export const {{modelName}}FindMany = async <T extends {{modelName}}FindManyProps
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const {{modelName}}Count = async (props: {{modelName}}CountProps): Promise<{{modelName}}CountResponse> => {
+export const {{modelName}}CountAction = async (props: {{modelName}}CountProps): Promise<{{modelName}}CountResponse> => {
     try {
         const { data, error } = await {{modelName}}Service.count(props);
         if (!data || error) throw new Error(error);
