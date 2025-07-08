@@ -2,7 +2,7 @@ import { $Enums, Prisma } from "@prisma/client";
 // import { Operation } from "@prisma/client/runtime/library";
 import { parseAndDecodeParams } from "@utils/FetchConfig";
 import { NextRequest } from "next/server";
-import { GetSession } from "./authServer";
+import { BetterSessionServer, GetSession } from "../lib/authServer";
 
 // =============================== //
 // ====== Types Operations ======= //
@@ -51,7 +51,7 @@ const USER: Permissions = {
     ...NON_LOGGED,
 
     // Override with
-    User: ["unique-HO"],
+    // User: ["unique-HO"],
 };
 
 const VENDOR: Permissions = {
@@ -94,33 +94,82 @@ const getMethod = (pathname: string): { method: Methods; methodForHimOnly: Metho
     return { method: method as Methods, methodForHimOnly: methodForHimOnly as Methods };
 };
 
-const debug = (
-    enabled: boolean,
-    args: {
-        pathname: string;
-        model: Models;
-        method: Methods;
-        methodForHimOnly: Methods;
-        params: { where: { id: string } };
-        rolePermissions: Methods[];
-        hasPermission: boolean;
-        hasPermissionForHimOnly: boolean;
-        userId: string | undefined;
-    },
-) => {
-    if (!enabled) return;
+// Types
+type GlobalPermissions = { [value in Roles]: Permissions };
 
-    const {
-        pathname,
-        model,
-        method,
-        methodForHimOnly,
-        params,
-        rolePermissions,
-        hasPermission,
-        hasPermissionForHimOnly,
-        userId,
-    } = args;
+// Permissions
+const permissions: GlobalPermissions = { NON_LOGGED, USER, VENDOR, EMPLOYEE, ADMIN };
+
+// Check permissions
+export const hasPermission = async (request: NextRequest): Promise<boolean> => {
+    // Get headers and pathname
+    const headers = request.headers;
+    const pathname = request.nextUrl.pathname;
+
+    // Get session
+    const session = await GetSession();
+
+    const isStripeRequest = pathname.startsWith("/api/stripe");
+    if (isStripeRequest) return StripePermissions({ session, request });
+
+    const isServerAction = headers.get("next-action");
+    if (isServerAction) return ActionPermissions();
+
+    const isApiRequest = pathname.startsWith("/api/internal");
+    if (isApiRequest) return ApiPermsisions({ session, request });
+
+    // If the case is not covered, return false
+    return true;
+};
+
+type PermissionsArgs = {
+    session: BetterSessionServer | null;
+    request: NextRequest;
+};
+
+/**
+ * Stripe requests (GET and POST)
+ */
+const StripePermissions = (props: PermissionsArgs) => {
+    const { session, request } = props;
+    console.log("==> 💰 StripePermissions =", session, request);
+
+    // TODO: add checks for stripe requests
+    return true;
+};
+
+/**
+ * Server Actions (POST requests)
+ */
+const ActionPermissions = () => {
+    return true;
+};
+
+/**
+ * API fetches (GET requests)
+ */
+const ApiPermsisions = (props: PermissionsArgs) => {
+    const { session, request } = props;
+    console.log("==> 📡 ApiPermsisions =", session, request);
+
+    const pathname = request.nextUrl.pathname;
+    const role: Roles = session?.user.role ?? "NON_LOGGED";
+    const userId = session?.user.id;
+
+    // Get model from pathname
+    const model = getModel(pathname);
+    if (!model) return true;
+
+    // Get method from pathname
+    const { method, methodForHimOnly } = getMethod(pathname);
+
+    // Get params from request
+    const params = parseAndDecodeParams(request);
+
+    // Check permissions
+    const rolePermissions = permissions[role][model];
+    const hasPermission = rolePermissions.includes(method);
+    const hasPermissionForHimOnly = rolePermissions.includes(methodForHimOnly);
 
     console.log(
         "┏━",
@@ -148,53 +197,6 @@ const debug = (
         "\n┗━ result:",
         hasPermission || (hasPermissionForHimOnly && userId === params?.where?.id),
     );
-};
-
-// Types
-type GlobalPermissions = { [value in Roles]: Permissions };
-
-// Permissions
-const permissions: GlobalPermissions = { NON_LOGGED, USER, VENDOR, EMPLOYEE, ADMIN };
-
-// Check permissions
-export const hasPermission = async (request: NextRequest): Promise<boolean> => {
-    const { pathname } = request.nextUrl;
-
-    // Get session, userId and role
-    const session = await GetSession();
-    const userId = session?.user.id;
-    const role: Roles = session?.user.role ?? "NON_LOGGED";
-
-    // Check if it's an API request
-    const isApiRequest = pathname.startsWith("/api/internal");
-    if (!isApiRequest) return true;
-
-    // Get model from pathname
-    const model = getModel(pathname);
-    if (!model) return true;
-
-    // Get method from pathname
-    const { method, methodForHimOnly } = getMethod(pathname);
-
-    // Get params from request
-    const params = parseAndDecodeParams(request);
-
-    // Check permissions
-    const rolePermissions = permissions[role][model];
-    const hasPermission = rolePermissions.includes(method);
-    const hasPermissionForHimOnly = rolePermissions.includes(methodForHimOnly);
-
-    debug(true, {
-        pathname,
-        model,
-        method,
-        methodForHimOnly,
-        params,
-        rolePermissions,
-        hasPermission,
-        hasPermissionForHimOnly,
-        userId,
-    });
 
     // Has full permission
     if (hasPermission) return true;

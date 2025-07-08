@@ -55,7 +55,7 @@ export const auth = betterAuth({
     },
     plugins: [
         customSession(async ({ session, user }) => {
-            const userData = await UserFindUniqueAction({ where: { id: user.id } });
+            const userData = await UserFindUniqueAction({ where: { id: user.id } }, true);
             if (!userData) {
                 throw new Error("User not found");
             }

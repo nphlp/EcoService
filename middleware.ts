@@ -1,4 +1,4 @@
-import { hasPermission } from "@lib/permissions";
+import { hasPermission } from "@permissions/Permissions";
 import { NextRequest, NextResponse } from "next/server";
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;

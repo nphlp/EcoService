@@ -1,79 +1,87 @@
 "use server";
 
+import { requiresSafeMessage } from "@permissions/SafeMessage";
 import {{modelName}}Service from "@services/class/{{modelName}}Class";
 import { {{modelName}}CountProps, {{modelName}}CountResponse, {{modelName}}CreateManyProps, {{modelName}}CreateManyResponse, {{modelName}}CreateProps, {{modelName}}CreateResponse, {{modelName}}DeleteManyProps, {{modelName}}DeleteManyResponse, {{modelName}}DeleteProps, {{modelName}}DeleteResponse, {{modelName}}FindFirstProps, {{modelName}}FindFirstResponse, {{modelName}}FindManyProps, {{modelName}}FindManyResponse, {{modelName}}FindUniqueProps, {{modelName}}FindUniqueResponse, {{modelName}}UpdateManyProps, {{modelName}}UpdateManyResponse, {{modelName}}UpdateProps, {{modelName}}UpdateResponse, {{modelName}}UpsertProps, {{modelName}}UpsertResponse } from "@services/types/{{modelName}}Type";
 
 // ========== Single mutations ========== //
 
-export const {{modelName}}CreateAction = async <T extends {{modelName}}CreateProps>(props: T): Promise<{{modelName}}CreateResponse<T>> => {
+export const {{modelName}}CreateAction = async <T extends {{modelName}}CreateProps>(props: T, disableSafeMessage: boolean = false): Promise<{{modelName}}CreateResponse<T>> => {
     try {
+        await requiresSafeMessage(disableSafeMessage, "{{modelName}}CreateAction", "{{modelName}}", "create");
         const { data, error } = await {{modelName}}Service.create(props);
         if (!data || error) throw new Error(error);
         return data;
     } catch (error) {
-        throw new Error("{{modelName}}Create -> " + (error as Error).message);
+        throw new Error("{{modelName}}CreateAction -> " + (error as Error).message);
     }
 };
 
-export const {{modelName}}UpsertAction = async <T extends {{modelName}}UpsertProps>(props: T): Promise<{{modelName}}UpsertResponse<T>> => {
+export const {{modelName}}UpsertAction = async <T extends {{modelName}}UpsertProps>(props: T, disableSafeMessage: boolean = false): Promise<{{modelName}}UpsertResponse<T>> => {
     try {
+        await requiresSafeMessage(disableSafeMessage, "{{modelName}}UpsertAction", "{{modelName}}", "upsert");
         const { data, error } = await {{modelName}}Service.upsert(props);
         if (!data || error) throw new Error(error);
         return data;
     } catch (error) {
-        throw new Error("{{modelName}}Upsert -> " + (error as Error).message);
+        throw new Error("{{modelName}}UpsertAction -> " + (error as Error).message);
     }
 };
 
-export const {{modelName}}UpdateAction = async <T extends {{modelName}}UpdateProps>(props: T): Promise<{{modelName}}UpdateResponse<T>> => {
+export const {{modelName}}UpdateAction = async <T extends {{modelName}}UpdateProps>(props: T, disableSafeMessage: boolean = false): Promise<{{modelName}}UpdateResponse<T>> => {
     try {
+        await requiresSafeMessage(disableSafeMessage, "{{modelName}}UpdateAction", "{{modelName}}", "update");
         const { data, error } = await {{modelName}}Service.update(props);
         if (!data || error) throw new Error(error);
         return data;
     } catch (error) {
-        throw new Error("{{modelName}}Update -> " + (error as Error).message);
+        throw new Error("{{modelName}}UpdateAction -> " + (error as Error).message);
     }
 };
 
-export const {{modelName}}DeleteAction = async <T extends {{modelName}}DeleteProps>(props: T): Promise<{{modelName}}DeleteResponse<T>> => {
+export const {{modelName}}DeleteAction = async <T extends {{modelName}}DeleteProps>(props: T, disableSafeMessage: boolean = false): Promise<{{modelName}}DeleteResponse<T>> => {
     try {
+        await requiresSafeMessage(disableSafeMessage, "{{modelName}}DeleteAction", "{{modelName}}", "delete");
         const { data, error } = await {{modelName}}Service.delete(props);
         if (!data || error) throw new Error(error);
         return data;
     } catch (error) {
-        throw new Error("{{modelName}}Delete -> " + (error as Error).message);
+        throw new Error("{{modelName}}DeleteAction -> " + (error as Error).message);
     }
 };
 
 // ========== Multiple mutations ========== //
 
-export const {{modelName}}CreateManyAction = async (props: {{modelName}}CreateManyProps): Promise<{{modelName}}CreateManyResponse> => {
+export const {{modelName}}CreateManyAction = async (props: {{modelName}}CreateManyProps, disableSafeMessage: boolean = false): Promise<{{modelName}}CreateManyResponse> => {
     try {
+        await requiresSafeMessage(disableSafeMessage, "{{modelName}}CreateManyAction", "{{modelName}}", "createMany");
         const { data, error } = await {{modelName}}Service.createMany(props);
         if (!data || error) throw new Error(error);
         return data;
     } catch (error) {
-        throw new Error("{{modelName}}CreateMany -> " + (error as Error).message);
+        throw new Error("{{modelName}}CreateManyAction -> " + (error as Error).message);
     }
 };
 
-export const {{modelName}}UpdateManyAction = async (props: {{modelName}}UpdateManyProps): Promise<{{modelName}}UpdateManyResponse> => {
+export const {{modelName}}UpdateManyAction = async (props: {{modelName}}UpdateManyProps, disableSafeMessage: boolean = false): Promise<{{modelName}}UpdateManyResponse> => {
     try {
+        await requiresSafeMessage(disableSafeMessage, "{{modelName}}UpdateManyAction", "{{modelName}}", "updateMany");
         const { data, error } = await {{modelName}}Service.updateMany(props);
         if (!data || error) throw new Error(error);
         return data;
     } catch (error) {
-        throw new Error("{{modelName}}UpdateMany -> " + (error as Error).message);
+        throw new Error("{{modelName}}UpdateManyAction -> " + (error as Error).message);
     }
 };
 
-export const {{modelName}}DeleteManyAction = async (props: {{modelName}}DeleteManyProps): Promise<{{modelName}}DeleteManyResponse> => {
+export const {{modelName}}DeleteManyAction = async (props: {{modelName}}DeleteManyProps, disableSafeMessage: boolean = false): Promise<{{modelName}}DeleteManyResponse> => {
     try {
+        await requiresSafeMessage(disableSafeMessage, "{{modelName}}DeleteManyAction", "{{modelName}}", "deleteMany");
         const { data, error } = await {{modelName}}Service.deleteMany(props);
         if (!data || error) throw new Error(error);
         return data;
     } catch (error) {
-        throw new Error("{{modelName}}DeleteMany -> " + (error as Error).message);
+        throw new Error("{{modelName}}DeleteManyAction -> " + (error as Error).message);
     }
 };
 
@@ -83,14 +91,16 @@ export const {{modelName}}DeleteManyAction = async (props: {{modelName}}DeleteMa
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
 export const {{modelName}}FindFirstAction = async <T extends {{modelName}}FindFirstProps>(
-    props: T
+    props: T,
+    disableSafeMessage: boolean = false
 ): Promise<{{modelName}}FindFirstResponse<T>> => {
     try {
+        await requiresSafeMessage(disableSafeMessage, "{{modelName}}FindFirstAction", "{{modelName}}", "findFirst");
         const { data, error } = await {{modelName}}Service.findFirst(props);
         if (error) throw new Error(error);
         return data ?? null;
     } catch (error) {
-        throw new Error("{{modelName}}FindFirst -> " + (error as Error).message);
+        throw new Error("{{modelName}}FindFirstAction -> " + (error as Error).message);
     }
 };
 
@@ -98,14 +108,16 @@ export const {{modelName}}FindFirstAction = async <T extends {{modelName}}FindFi
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
 export const {{modelName}}FindUniqueAction = async <T extends {{modelName}}FindUniqueProps>(
-    props: T
+    props: T,
+    disableSafeMessage: boolean = false
 ): Promise<{{modelName}}FindUniqueResponse<T>> => {
     try {
+        await requiresSafeMessage(disableSafeMessage, "{{modelName}}FindUniqueAction", "{{modelName}}", "findUnique");
         const { data, error } = await {{modelName}}Service.findUnique(props);
         if (error) throw new Error(error);
         return data ?? null;
     } catch (error) {
-        throw new Error("{{modelName}}FindUnique -> " + (error as Error).message);
+        throw new Error("{{modelName}}FindUniqueAction -> " + (error as Error).message);
     }
 };
 
@@ -113,14 +125,16 @@ export const {{modelName}}FindUniqueAction = async <T extends {{modelName}}FindU
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
 export const {{modelName}}FindManyAction = async <T extends {{modelName}}FindManyProps>(
-    props: T
+    props: T,
+    disableSafeMessage: boolean = false
 ): Promise<{{modelName}}FindManyResponse<T>> => {
     try {
+        await requiresSafeMessage(disableSafeMessage, "{{modelName}}FindManyAction", "{{modelName}}", "findMany");
         const { data, error } = await {{modelName}}Service.findMany(props);
         if (!data || error) throw new Error(error);
         return data;
     } catch (error) {
-        throw new Error("{{modelName}}FindMany -> " + (error as Error).message);
+        throw new Error("{{modelName}}FindManyAction -> " + (error as Error).message);
     }
 };
 
@@ -129,12 +143,13 @@ export const {{modelName}}FindManyAction = async <T extends {{modelName}}FindMan
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const {{modelName}}CountAction = async (props: {{modelName}}CountProps): Promise<{{modelName}}CountResponse> => {
+export const {{modelName}}CountAction = async (props: {{modelName}}CountProps, disableSafeMessage: boolean = false): Promise<{{modelName}}CountResponse> => {
     try {
+        await requiresSafeMessage(disableSafeMessage, "{{modelName}}CountAction", "{{modelName}}", "count");
         const { data, error } = await {{modelName}}Service.count(props);
         if (!data || error) throw new Error(error);
         return data;
     } catch (error) {
-        throw new Error("{{modelName}}Count -> " + (error as Error).message);
+        throw new Error("{{modelName}}CountAction -> " + (error as Error).message);
     }
 };
