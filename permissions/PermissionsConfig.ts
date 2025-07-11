@@ -1,27 +1,4 @@
-import { $Enums, Prisma } from "@prisma/client";
-
-// Fetch methods (GET requests)
-type Find = "findFirst" | "findUnique" | "findMany" | "findFirst-HO" | "findUnique-HO" | "findMany-HO";
-type Count = "count" | "count-HO";
-
-// Mutations methods (POST requests)
-type Create = "create" | "createMany" | "create-HO" | "createMany-HO";
-type Upsert = "upsert" | "upsertMany" | "upsert-HO" | "upsertMany-HO";
-type Update = "update" | "updateMany" | "update-HO" | "updateMany-HO";
-type Delete = "delete" | "deleteMany" | "delete-HO" | "deleteMany-HO";
-
-// Types
-export type Roles = $Enums.Role | "NON_LOGGED";
-export type Models = Prisma.ModelName;
-export type RolePermissions = { [value in Models]: Methods[] };
-export type Methods = Find | Count | Create | Upsert | Update | Delete;
-
-// Global permissions
-type GlobalPermissions = { [value in Roles]: RolePermissions };
-
-// ┏━━━━━━━━━━━━━━━━━━━━┓
-// ┃ Models permissions ┃
-// ┗━━━━━━━━━━━━━━━━━━━━┛
+import { GlobalPermissions, RolePermissions } from "./permissionsType";
 
 // Default
 const NON_LOGGED: RolePermissions = {
@@ -33,7 +10,7 @@ const NON_LOGGED: RolePermissions = {
     Diy: ["findMany", "findUnique"],
     Fruit: [],
     Order: [],
-    Product: ["findMany", "findUnique"],
+    Product: ["findMany", "findUnique", "count"],
     Quantity: [],
     Session: [],
     User: [],
@@ -45,7 +22,8 @@ const USER: RolePermissions = {
     ...NON_LOGGED,
 
     // Override with
-    User: ["update"],
+    User: ["findUnique-HO", "update-HO"],
+    Order: ["findMany-HO"],
 };
 
 const VENDOR: RolePermissions = {
@@ -76,4 +54,4 @@ const ADMIN: RolePermissions = {
 // ┃ Global permissions ┃
 // ┗━━━━━━━━━━━━━━━━━━━━┛
 
-export const globalPermissions: GlobalPermissions = { NON_LOGGED, USER, VENDOR, EMPLOYEE, ADMIN };
+export const GLOBAL_PERMISSIONS: GlobalPermissions = { NON_LOGGED, USER, VENDOR, EMPLOYEE, ADMIN };

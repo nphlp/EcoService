@@ -4,15 +4,15 @@ import { parseAndDecodeParams } from "@utils/FetchConfig";
 import { NextRequest, NextResponse } from "next/server";
 
 export type {{modelName}}Routes<Input> = {
-    "/{{modelNameLower}}": {
+    "/{{modelNameLower}}/findMany": {
         params: {{modelName}}FindManyProps,
         response: {{modelName}}FindManyResponse<Input extends {{modelName}}FindManyProps ? Input : never>
     },
-    "/{{modelNameLower}}/first": {
+    "/{{modelNameLower}}/findFirst": {
         params: {{modelName}}FindFirstProps,
         response: {{modelName}}FindFirstResponse<Input extends {{modelName}}FindFirstProps ? Input : never>
     },
-    "/{{modelNameLower}}/unique": {
+    "/{{modelNameLower}}/findUnique": {
         params: {{modelName}}FindUniqueProps,
         response: {{modelName}}FindUniqueResponse<Input extends {{modelName}}FindUniqueProps ? Input : never>
     },

@@ -4,15 +4,15 @@ import { parseAndDecodeParams } from "@utils/FetchConfig";
 import { NextRequest, NextResponse } from "next/server";
 
 export type ContentRoutes<Input> = {
-    "/content": {
+    "/content/findMany": {
         params: ContentFindManyProps,
         response: ContentFindManyResponse<Input extends ContentFindManyProps ? Input : never>
     },
-    "/content/first": {
+    "/content/findFirst": {
         params: ContentFindFirstProps,
         response: ContentFindFirstResponse<Input extends ContentFindFirstProps ? Input : never>
     },
-    "/content/unique": {
+    "/content/findUnique": {
         params: ContentFindUniqueProps,
         response: ContentFindUniqueResponse<Input extends ContentFindUniqueProps ? Input : never>
     },

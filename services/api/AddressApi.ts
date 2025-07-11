@@ -4,15 +4,15 @@ import { parseAndDecodeParams } from "@utils/FetchConfig";
 import { NextRequest, NextResponse } from "next/server";
 
 export type AddressRoutes<Input> = {
-    "/address": {
+    "/address/findMany": {
         params: AddressFindManyProps,
         response: AddressFindManyResponse<Input extends AddressFindManyProps ? Input : never>
     },
-    "/address/first": {
+    "/address/findFirst": {
         params: AddressFindFirstProps,
         response: AddressFindFirstResponse<Input extends AddressFindFirstProps ? Input : never>
     },
-    "/address/unique": {
+    "/address/findUnique": {
         params: AddressFindUniqueProps,
         response: AddressFindUniqueResponse<Input extends AddressFindUniqueProps ? Input : never>
     },

@@ -6,6 +6,7 @@ import { hasPermission } from "@permissions/hasPermissions";
 import { strictObject, z, ZodType } from "zod";
 import { ProcessDevError } from "./Error";
 import { ProcessResponse } from "./Type";
+import { revalidatePath } from "next/cache";
 
 type UpdateLastnameProcessProps = {
     lastname: string;
@@ -25,7 +26,7 @@ export const UpdateLastnameProcess = async (props: UpdateLastnameProcessProps): 
 
         // Check permissions
         const isAuthorized = await hasPermission(session, {
-            User: ["update"],
+            User: ["update-HO"],
         });
         if (!isAuthorized) return { message: "Permission denied", status: false };
 
@@ -40,11 +41,9 @@ export const UpdateLastnameProcess = async (props: UpdateLastnameProcessProps): 
 
         if (!user.lastname) return { message: "Update failed", status: false };
 
-        return {
-            data: user.lastname,
-            status: true,
-            message: "Update successful",
-        };
+        revalidatePath("/profile");
+
+        return { data: user.lastname, status: true };
     } catch (error) {
         const processName = "UpdateLastnameProcess";
 

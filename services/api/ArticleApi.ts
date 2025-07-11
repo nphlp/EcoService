@@ -4,15 +4,15 @@ import { parseAndDecodeParams } from "@utils/FetchConfig";
 import { NextRequest, NextResponse } from "next/server";
 
 export type ArticleRoutes<Input> = {
-    "/article": {
+    "/article/findMany": {
         params: ArticleFindManyProps,
         response: ArticleFindManyResponse<Input extends ArticleFindManyProps ? Input : never>
     },
-    "/article/first": {
+    "/article/findFirst": {
         params: ArticleFindFirstProps,
         response: ArticleFindFirstResponse<Input extends ArticleFindFirstProps ? Input : never>
     },
-    "/article/unique": {
+    "/article/findUnique": {
         params: ArticleFindUniqueProps,
         response: ArticleFindUniqueResponse<Input extends ArticleFindUniqueProps ? Input : never>
     },

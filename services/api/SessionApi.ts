@@ -4,15 +4,15 @@ import { parseAndDecodeParams } from "@utils/FetchConfig";
 import { NextRequest, NextResponse } from "next/server";
 
 export type SessionRoutes<Input> = {
-    "/session": {
+    "/session/findMany": {
         params: SessionFindManyProps,
         response: SessionFindManyResponse<Input extends SessionFindManyProps ? Input : never>
     },
-    "/session/first": {
+    "/session/findFirst": {
         params: SessionFindFirstProps,
         response: SessionFindFirstResponse<Input extends SessionFindFirstProps ? Input : never>
     },
-    "/session/unique": {
+    "/session/findUnique": {
         params: SessionFindUniqueProps,
         response: SessionFindUniqueResponse<Input extends SessionFindUniqueProps ? Input : never>
     },

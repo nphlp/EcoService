@@ -4,15 +4,15 @@ import { parseAndDecodeParams } from "@utils/FetchConfig";
 import { NextRequest, NextResponse } from "next/server";
 
 export type ProductRoutes<Input> = {
-    "/product": {
+    "/product/findMany": {
         params: ProductFindManyProps,
         response: ProductFindManyResponse<Input extends ProductFindManyProps ? Input : never>
     },
-    "/product/first": {
+    "/product/findFirst": {
         params: ProductFindFirstProps,
         response: ProductFindFirstResponse<Input extends ProductFindFirstProps ? Input : never>
     },
-    "/product/unique": {
+    "/product/findUnique": {
         params: ProductFindUniqueProps,
         response: ProductFindUniqueResponse<Input extends ProductFindUniqueProps ? Input : never>
     },

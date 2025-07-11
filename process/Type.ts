@@ -1,5 +1,11 @@
-export type ProcessResponse<T> = {
-    data?: T;
-    status: boolean;
-    message: string;
-};
+export type ProcessResponse<T> =
+    | {
+          data: T;
+          status: true;
+          message?: undefined;
+      }
+    | {
+          data?: undefined;
+          status: false;
+          message: string;
+      };

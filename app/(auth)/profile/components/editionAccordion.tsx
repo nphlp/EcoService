@@ -3,13 +3,13 @@
 import { Accordion, AccordionButton, AccordionContent } from "@comps/ui/accordion";
 import Button from "@comps/ui/button";
 import Input from "@comps/ui/input";
-// import InputImage from "@comps/ui/inputImage";
-// import InputPassword from "@comps/ui/inputPassword";
-// import { changeEmail, changePassword, updateUser } from "@lib/authClient";
+import InputImage from "@comps/ui/inputImage";
+import InputPassword from "@comps/ui/inputPassword";
+import { changeEmail, changePassword, updateUser, useSession } from "@lib/authClient";
 import { BetterSessionServer } from "@lib/authServer";
 import { UpdateLastnameProcess } from "@process/ProfileUpdate";
-// import { fileToBase64 } from "@utils/base64";
-import { Dispatch, SetStateAction, useState } from "react";
+import { fileToBase64 } from "@utils/base64";
+import { useState } from "react";
 
 type EditionAccordionProps = {
     session: NonNullable<BetterSessionServer>;
@@ -17,9 +17,11 @@ type EditionAccordionProps = {
 };
 
 export default function EditionAccordion(props: EditionAccordionProps) {
-    const { session: init } = props;
+    const { session: serverSession } = props;
+    const { data: clientSession } = useSession();
 
-    const [session, setSession] = useState(init);
+    // SSR session
+    const session = clientSession ?? serverSession;
 
     return (
         <Accordion>
@@ -29,11 +31,11 @@ export default function EditionAccordion(props: EditionAccordionProps) {
             </AccordionButton>
             <AccordionContent>
                 <div className="space-y-4">
-                    <UpdateLastnameForm session={session} setSession={setSession} />
-                    {/* <UpdateFirstnameForm session={session} setSession={setSession} />
-                    <UpdateEmailForm session={session} setSession={setSession} />
+                    <UpdateLastnameForm session={session} />
+                    <UpdateFirstnameForm session={session} />
+                    <UpdateEmailForm session={session} />
                     <UpdatePasswordForm />
-                    <UpdateImageForm session={session} setSession={setSession} /> */}
+                    <UpdateImageForm />
                 </div>
             </AccordionContent>
         </Accordion>
@@ -42,26 +44,27 @@ export default function EditionAccordion(props: EditionAccordionProps) {
 
 type UpdateFormProps = {
     session: NonNullable<BetterSessionServer>;
-    setSession: Dispatch<SetStateAction<NonNullable<BetterSessionServer>>>;
 };
 
 const UpdateLastnameForm = (props: UpdateFormProps) => {
-    const { session, setSession } = props;
+    const { session } = props;
 
     const [lastname, setLastname] = useState("");
+    const [placeholder, setPlaceholder] = useState(session.user.lastname ?? "");
     const [isLoading, setIsLoading] = useState(false);
 
     const handleNameUpdate = async (e: React.FormEvent) => {
-        // Prevent refresh
+        // Prevent refresh and check if data exists
         e.preventDefault();
-        // Check if lastname is not empty
         if (!lastname) return;
+
         // Set loading state
         setIsLoading(true);
 
-        // Update database and update state
-        const newLastname = await UpdateLastnameProcess({ lastname });
-        if (newLastname) setSession({ ...session, user: { ...session.user, lastname: newLastname } });
+        // Update database
+        const updateResponse = await UpdateLastnameProcess({ lastname });
+        if (!updateResponse.status) console.error("Erreur lors de la modification du nom");
+        setPlaceholder(lastname);
 
         // Reset form and stop loading
         setLastname("");
@@ -72,7 +75,7 @@ const UpdateLastnameForm = (props: UpdateFormProps) => {
         <form onSubmit={handleNameUpdate} className="flex flex-col items-center gap-2">
             <Input
                 label="Nom"
-                placeholder={session.user.lastname ?? ""}
+                placeholder={placeholder}
                 onChange={(e) => setLastname(e.target.value)}
                 value={lastname}
                 required={false}
@@ -83,157 +86,173 @@ const UpdateLastnameForm = (props: UpdateFormProps) => {
     );
 };
 
-// const UpdateFirstnameForm = (props: UpdateFormProps) => {
-//     const { session, setSession } = props;
+const UpdateFirstnameForm = (props: UpdateFormProps) => {
+    const { session } = props;
 
-//     const [name, setName] = useState("");
-//     const [isLoading, setIsLoading] = useState(false);
+    const [name, setName] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
 
-//     const handleNameUpdate = async (e: React.FormEvent) => {
-//         try {
-//             e.preventDefault();
-//             if (!name) return;
-//             setIsLoading(true);
-//             // Change name and revalidate session
-//             await updateUser({ name });
-//             setSession({ ...session, user: { ...session.user, name } });
-//         } catch (error) {
-//             console.error("Erreur lors de la modification du nom:", error);
-//         } finally {
-//             setName("");
-//             setIsLoading(false);
-//         }
-//     };
+    const handleNameUpdate = async (e: React.FormEvent) => {
+        // Prevent refresh and check if data exists
+        e.preventDefault();
+        if (!name) return;
 
-//     return (
-//         <form onSubmit={handleNameUpdate} className="flex flex-col items-center gap-2">
-//             <Input
-//                 label="Prénom"
-//                 placeholder={session.user.name}
-//                 onChange={(e) => setName(e.target.value)}
-//                 value={name}
-//                 required={false}
-//                 classComponent="w-full"
-//             />
-//             <Button label="Modifier" isLoading={isLoading} type="submit" />
-//         </form>
-//     );
-// };
+        // Set loading state
+        setIsLoading(true);
 
-// const UpdateEmailForm = (props: UpdateFormProps) => {
-//     const { session, setSession } = props;
+        // Update database through Better Auth API
+        try {
+            await updateUser({ name });
+        } catch {
+            console.error("Erreur lors de la modification du prénom");
+        }
 
-//     const [email, setEmail] = useState("");
-//     const [isLoading, setIsLoading] = useState(false);
+        // Reset form and stop loading
+        setName("");
+        setIsLoading(false);
+    };
 
-//     const handleEmailUpdate = async (e: React.FormEvent) => {
-//         try {
-//             e.preventDefault();
-//             if (!email) return;
-//             setIsLoading(true);
-//             // Change email and revalidate session
-//             await changeEmail({ newEmail: email, callbackURL: "/profile" });
-//             setSession({ ...session, user: { ...session.user, email } });
-//         } catch (error) {
-//             console.error("Erreur lors de la modification de l'email:", error);
-//         } finally {
-//             setEmail("");
-//             setIsLoading(false);
-//         }
-//     };
+    return (
+        <form onSubmit={handleNameUpdate} className="flex flex-col items-center gap-2">
+            <Input
+                label="Prénom"
+                placeholder={session.user.name}
+                onChange={(e) => setName(e.target.value)}
+                value={name}
+                required={false}
+                classComponent="w-full"
+            />
+            <Button label="Modifier" isLoading={isLoading} type="submit" />
+        </form>
+    );
+};
 
-//     return (
-//         <form onSubmit={handleEmailUpdate} className="flex flex-col items-center gap-2">
-//             <Input
-//                 label="Email"
-//                 placeholder={session.user.email}
-//                 onChange={(e) => setEmail(e.target.value)}
-//                 value={email}
-//                 required={false}
-//                 classComponent="w-full"
-//             />
-//             <Button label="Modifier" isLoading={isLoading} type="submit" />
-//         </form>
-//     );
-// };
+const UpdateEmailForm = (props: UpdateFormProps) => {
+    const { session } = props;
 
-// const UpdatePasswordForm = () => {
-//     const [currentPassword, setCurrentPassword] = useState("");
-//     const [newPassword, setNewPassword] = useState("");
-//     const [isLoading, setIsLoading] = useState(false);
+    const [email, setEmail] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
 
-//     const handlePasswordUpdate = async (e: React.FormEvent) => {
-//         try {
-//             e.preventDefault();
-//             if (!currentPassword || !newPassword) return;
-//             setIsLoading(true);
-//             // Change password and revalidate session
-//             await changePassword({ currentPassword, newPassword });
-//         } catch (error) {
-//             console.error("Erreur lors de la modification du mot de passe:", error);
-//         } finally {
-//             setCurrentPassword("");
-//             setNewPassword("");
-//             setIsLoading(false);
-//         }
-//     };
+    const handleEmailUpdate = async (e: React.FormEvent) => {
+        // Prevent refresh and check if data exists
+        e.preventDefault();
+        if (!email) return;
 
-//     return (
-//         <form onSubmit={handlePasswordUpdate} className="flex flex-col items-center gap-2">
-//             <InputPassword
-//                 label="Mot de passe actuel"
-//                 placeholder="Mot de passe actuel"
-//                 onChange={(e) => setCurrentPassword(e.target.value)}
-//                 value={currentPassword}
-//                 required={false}
-//                 classPasswordComponent="w-full"
-//             />
-//             <InputPassword
-//                 label="Nouveau mot de passe"
-//                 placeholder="Nouveau mot de passe"
-//                 onChange={(e) => setNewPassword(e.target.value)}
-//                 value={newPassword}
-//                 required={false}
-//                 classPasswordComponent="w-full"
-//             />
-//             <Button label="Modifier" isLoading={isLoading} type="submit" />
-//         </form>
-//     );
-// };
+        // Set loading state
+        setIsLoading(true);
 
-// const UpdateImageForm = (props: UpdateFormProps) => {
-//     const { session, setSession } = props;
+        // Update database through Better Auth API
+        try {
+            await changeEmail({ newEmail: email, callbackURL: "/profile" });
+        } catch {
+            console.error("Erreur lors de la modification de l'email");
+        }
 
-//     const [image, setImage] = useState<File | null>(null);
-//     const [isLoading, setIsLoading] = useState(false);
+        // Reset form and stop loading
+        setEmail("");
+        setIsLoading(false);
+    };
 
-//     const handleImageUpdate = async (e: React.FormEvent) => {
-//         try {
-//             e.preventDefault();
-//             if (!image) return;
-//             setIsLoading(true);
-//             // Encode and update image, then revalidate session
-//             const encodedImage = await fileToBase64(image);
-//             await updateUser({ image: encodedImage });
-//             setSession({ ...session, user: { ...session.user, image: encodedImage } });
-//         } catch (error) {
-//             console.error("Erreur lors de l'encodage de l'image:", error);
-//         } finally {
-//             setImage(null);
-//             setIsLoading(false);
-//         }
-//     };
+    return (
+        <form onSubmit={handleEmailUpdate} className="flex flex-col items-center gap-2">
+            <Input
+                label="Email"
+                placeholder={session.user.email}
+                onChange={(e) => setEmail(e.target.value)}
+                value={email}
+                required={false}
+                classComponent="w-full"
+            />
+            <Button label="Modifier" isLoading={isLoading} type="submit" />
+        </form>
+    );
+};
 
-//     return (
-//         <form onSubmit={handleImageUpdate} className="flex flex-col items-center gap-2">
-//             <InputImage
-//                 label="Image"
-//                 onChange={setImage}
-//                 imagePreview={image}
-//                 required={false}
-//                 classComponent="w-full"
-//             />
-//             <Button label="Modifier" isLoading={isLoading} type="submit" />
-//         </form>
-//     );
-// };
+const UpdatePasswordForm = () => {
+    const [currentPassword, setCurrentPassword] = useState("");
+    const [newPassword, setNewPassword] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
+
+    const handlePasswordUpdate = async (e: React.FormEvent) => {
+        // Prevent refresh and check if data exists
+        e.preventDefault();
+        if (!currentPassword || !newPassword) return;
+
+        // Set loading state
+        setIsLoading(true);
+
+        // Update database through Better Auth API
+        try {
+            await changePassword({ currentPassword, newPassword });
+        } catch {
+            console.error("Erreur lors de la modification du mot de passe");
+        }
+
+        // Reset form and stop loading
+        setCurrentPassword("");
+        setNewPassword("");
+        setIsLoading(false);
+    };
+
+    return (
+        <form onSubmit={handlePasswordUpdate} className="flex flex-col items-center gap-2">
+            <InputPassword
+                label="Mot de passe actuel"
+                placeholder="Mot de passe actuel"
+                onChange={(e) => setCurrentPassword(e.target.value)}
+                value={currentPassword}
+                required={false}
+                classPasswordComponent="w-full"
+            />
+            <InputPassword
+                label="Nouveau mot de passe"
+                placeholder="Nouveau mot de passe"
+                onChange={(e) => setNewPassword(e.target.value)}
+                value={newPassword}
+                required={false}
+                classPasswordComponent="w-full"
+            />
+            <Button label="Modifier" isLoading={isLoading} type="submit" />
+        </form>
+    );
+};
+
+const UpdateImageForm = () => {
+    const [image, setImage] = useState<File | null>(null);
+    const [isLoading, setIsLoading] = useState(false);
+
+    const handleImageUpdate = async (e: React.FormEvent) => {
+        // Prevent refresh and check if data exists
+        e.preventDefault();
+        if (!image) return;
+
+        // Set loading state
+        setIsLoading(true);
+
+        // Update database through Better Auth API
+        try {
+            const encodedImage = await fileToBase64(image);
+            if (!encodedImage) return;
+            await updateUser({ image: encodedImage });
+        } catch {
+            console.error("Erreur lors de la modification de l'image");
+        }
+
+        // Reset form and stop loading
+        setImage(null);
+        setIsLoading(false);
+    };
+
+    return (
+        <form onSubmit={handleImageUpdate} className="flex flex-col items-center gap-2">
+            <InputImage
+                label="Image"
+                onChange={setImage}
+                imagePreview={image}
+                required={false}
+                classComponent="w-full"
+            />
+            <Button label="Modifier" isLoading={isLoading} type="submit" />
+        </form>
+    );
+};

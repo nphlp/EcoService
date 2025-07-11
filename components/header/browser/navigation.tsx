@@ -158,7 +158,7 @@ const RightNav = () => {
                     }}
                 >
                     {session.user.image ? (
-                        <ImageProfile image={session.user.image} name={session.user.name} />
+                        <ImageProfile imageBase64={session.user.image} name={session.user.name} />
                     ) : (
                         <UserRound />
                     )}

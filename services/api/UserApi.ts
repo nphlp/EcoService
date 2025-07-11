@@ -4,15 +4,15 @@ import { parseAndDecodeParams } from "@utils/FetchConfig";
 import { NextRequest, NextResponse } from "next/server";
 
 export type UserRoutes<Input> = {
-    "/user": {
+    "/user/findMany": {
         params: UserFindManyProps,
         response: UserFindManyResponse<Input extends UserFindManyProps ? Input : never>
     },
-    "/user/first": {
+    "/user/findFirst": {
         params: UserFindFirstProps,
         response: UserFindFirstResponse<Input extends UserFindFirstProps ? Input : never>
     },
-    "/user/unique": {
+    "/user/findUnique": {
         params: UserFindUniqueProps,
         response: UserFindUniqueResponse<Input extends UserFindUniqueProps ? Input : never>
     },

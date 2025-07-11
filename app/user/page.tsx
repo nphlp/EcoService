@@ -25,13 +25,13 @@ export default async function Page() {
 
 type UserCardProps = {
     user: UserModel;
-    session: BetterSessionServer | null;
+    session: BetterSessionServer;
 };
 
 const UserCard = (props: UserCardProps) => {
     const { user, session } = props;
 
-    const apiUrl = "/api/internal/user/unique?params=";
+    const apiUrl = "/api/internal/user/findUnique?params=";
     const params = encodeURIComponent(JSON.stringify({ where: { id: user.id } }));
     const href = `${baseUrl}${apiUrl}${params}`;
 
@@ -39,7 +39,8 @@ const UserCard = (props: UserCardProps) => {
         <Card className="space-y-1">
             <div>ID: {user.id}</div>
             <div>
-                Name: {user.name} {session?.user?.id === user.id ? " (You)" : ""}
+                <span>Name: {user.name} </span>
+                <span className="font-bold">{session?.user?.id === user.id ? "(You)" : ""}</span>
             </div>
             <div>Role: {user.role}</div>
             <Link label="API URL with ID" href={href} className="w-fit" />

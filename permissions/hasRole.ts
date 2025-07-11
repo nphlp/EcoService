@@ -1,12 +1,12 @@
 "use server";
 
 import { BetterSessionServer, GetSession } from "../lib/authServer";
-import { Roles } from "./PermissionsConfig";
+import { Roles } from "./permissionsType";
 
 /**
  * Check if the user has one of the given roles
  */
-export const hasRole = async (roles: Roles[]): Promise<BetterSessionServer | null> => {
+export const hasRole = async (roles: Roles[]): Promise<BetterSessionServer> => {
     // Get session
     const session = await GetSession();
 

@@ -4,15 +4,15 @@ import { parseAndDecodeParams } from "@utils/FetchConfig";
 import { NextRequest, NextResponse } from "next/server";
 
 export type OrderRoutes<Input> = {
-    "/order": {
+    "/order/findMany": {
         params: OrderFindManyProps,
         response: OrderFindManyResponse<Input extends OrderFindManyProps ? Input : never>
     },
-    "/order/first": {
+    "/order/findFirst": {
         params: OrderFindFirstProps,
         response: OrderFindFirstResponse<Input extends OrderFindFirstProps ? Input : never>
     },
-    "/order/unique": {
+    "/order/findUnique": {
         params: OrderFindUniqueProps,
         response: OrderFindUniqueResponse<Input extends OrderFindUniqueProps ? Input : never>
     },

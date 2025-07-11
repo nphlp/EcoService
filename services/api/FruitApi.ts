@@ -4,15 +4,15 @@ import { parseAndDecodeParams } from "@utils/FetchConfig";
 import { NextRequest, NextResponse } from "next/server";
 
 export type FruitRoutes<Input> = {
-    "/fruit": {
+    "/fruit/findMany": {
         params: FruitFindManyProps,
         response: FruitFindManyResponse<Input extends FruitFindManyProps ? Input : never>
     },
-    "/fruit/first": {
+    "/fruit/findFirst": {
         params: FruitFindFirstProps,
         response: FruitFindFirstResponse<Input extends FruitFindFirstProps ? Input : never>
     },
-    "/fruit/unique": {
+    "/fruit/findUnique": {
         params: FruitFindUniqueProps,
         response: FruitFindUniqueResponse<Input extends FruitFindUniqueProps ? Input : never>
     },

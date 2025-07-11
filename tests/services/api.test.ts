@@ -5,7 +5,7 @@ describe("API tests", () => {
     it("User API", async () => {
         // Fetch users
         const users = await FetchV2({
-            route: "/user",
+            route: "/user/findMany",
             params: {
                 include: {
                     Account: true,
@@ -26,7 +26,7 @@ describe("API tests", () => {
     it("Product API", async () => {
         // Fetch products
         const products = await FetchV2({
-            route: "/product",
+            route: "/product/findMany",
             params: {
                 include: {
                     Category: true,

@@ -4,15 +4,15 @@ import { parseAndDecodeParams } from "@utils/FetchConfig";
 import { NextRequest, NextResponse } from "next/server";
 
 export type QuantityRoutes<Input> = {
-    "/quantity": {
+    "/quantity/findMany": {
         params: QuantityFindManyProps,
         response: QuantityFindManyResponse<Input extends QuantityFindManyProps ? Input : never>
     },
-    "/quantity/first": {
+    "/quantity/findFirst": {
         params: QuantityFindFirstProps,
         response: QuantityFindFirstResponse<Input extends QuantityFindFirstProps ? Input : never>
     },
-    "/quantity/unique": {
+    "/quantity/findUnique": {
         params: QuantityFindUniqueProps,
         response: QuantityFindUniqueResponse<Input extends QuantityFindUniqueProps ? Input : never>
     },

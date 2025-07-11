@@ -10,23 +10,26 @@ type OrdersAccordionProps = {
 export default async function OrdersAccordion(props: OrdersAccordionProps) {
     const { session } = props;
 
-    const orderList = await OrderFindManyAction({
-        where: {
-            userId: session.user.id,
-            orderStatus: { not: "PENDING" },
-            paymentStatus: { not: "PENDING" },
-        },
-        include: {
-            Quantity: {
-                include: {
-                    Product: true,
+    const orderList = await OrderFindManyAction(
+        {
+            where: {
+                userId: session.user.id,
+                orderStatus: { not: "PENDING" },
+                paymentStatus: { not: "PENDING" },
+            },
+            include: {
+                Quantity: {
+                    include: {
+                        Product: true,
+                    },
                 },
             },
+            orderBy: {
+                updatedAt: "desc",
+            },
         },
-        orderBy: {
-            updatedAt: "desc",
-        },
-    });
+        true, // Disable safe message
+    );
 
     return (
         <Accordion>

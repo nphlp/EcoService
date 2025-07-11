@@ -4,15 +4,15 @@ import { parseAndDecodeParams } from "@utils/FetchConfig";
 import { NextRequest, NextResponse } from "next/server";
 
 export type VerificationRoutes<Input> = {
-    "/verification": {
+    "/verification/findMany": {
         params: VerificationFindManyProps,
         response: VerificationFindManyResponse<Input extends VerificationFindManyProps ? Input : never>
     },
-    "/verification/first": {
+    "/verification/findFirst": {
         params: VerificationFindFirstProps,
         response: VerificationFindFirstResponse<Input extends VerificationFindFirstProps ? Input : never>
     },
-    "/verification/unique": {
+    "/verification/findUnique": {
         params: VerificationFindUniqueProps,
         response: VerificationFindUniqueResponse<Input extends VerificationFindUniqueProps ? Input : never>
     },

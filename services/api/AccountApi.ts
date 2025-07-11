@@ -4,15 +4,15 @@ import { parseAndDecodeParams } from "@utils/FetchConfig";
 import { NextRequest, NextResponse } from "next/server";
 
 export type AccountRoutes<Input> = {
-    "/account": {
+    "/account/findMany": {
         params: AccountFindManyProps,
         response: AccountFindManyResponse<Input extends AccountFindManyProps ? Input : never>
     },
-    "/account/first": {
+    "/account/findFirst": {
         params: AccountFindFirstProps,
         response: AccountFindFirstResponse<Input extends AccountFindFirstProps ? Input : never>
     },
-    "/account/unique": {
+    "/account/findUnique": {
         params: AccountFindUniqueProps,
         response: AccountFindUniqueResponse<Input extends AccountFindUniqueProps ? Input : never>
     },

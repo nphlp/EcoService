@@ -2,6 +2,7 @@
 
 import { OrderFindManyAction } from "@actions/OrderAction";
 import { GetSession } from "@lib/authServer";
+import { hasPermission } from "@permissions/hasPermissions";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { OrderModel } from "@services/types";
 import { ZodError } from "zod";
@@ -13,23 +14,31 @@ export const FindPendingServerBasket = async (): Promise<FindPendingServerBasket
         const session = await GetSession();
         if (!session) return null;
 
-        const orderList = await OrderFindManyAction({
-            where: {
-                userId: session.user.id,
-                orderStatus: "PENDING",
-                paymentStatus: "PENDING",
-            },
-            include: {
-                Quantity: {
-                    include: {
-                        Product: true,
+        const isAuthorized = await hasPermission(session, {
+            Order: ["findMany-HO"],
+        });
+        if (!isAuthorized) return null;
+
+        const orderList = await OrderFindManyAction(
+            {
+                where: {
+                    userId: session.user.id,
+                    orderStatus: "PENDING",
+                    paymentStatus: "PENDING",
+                },
+                include: {
+                    Quantity: {
+                        include: {
+                            Product: true,
+                        },
                     },
                 },
+                orderBy: {
+                    updatedAt: "desc",
+                },
             },
-            orderBy: {
-                updatedAt: "desc",
-            },
-        });
+            true, // Disable safe message
+        );
 
         if (!orderList.length) return null;
 

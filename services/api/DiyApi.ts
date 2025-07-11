@@ -4,15 +4,15 @@ import { parseAndDecodeParams } from "@utils/FetchConfig";
 import { NextRequest, NextResponse } from "next/server";
 
 export type DiyRoutes<Input> = {
-    "/diy": {
+    "/diy/findMany": {
         params: DiyFindManyProps,
         response: DiyFindManyResponse<Input extends DiyFindManyProps ? Input : never>
     },
-    "/diy/first": {
+    "/diy/findFirst": {
         params: DiyFindFirstProps,
         response: DiyFindFirstResponse<Input extends DiyFindFirstProps ? Input : never>
     },
-    "/diy/unique": {
+    "/diy/findUnique": {
         params: DiyFindUniqueProps,
         response: DiyFindUniqueResponse<Input extends DiyFindUniqueProps ? Input : never>
     },

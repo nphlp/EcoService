@@ -4,15 +4,15 @@ import { parseAndDecodeParams } from "@utils/FetchConfig";
 import { NextRequest, NextResponse } from "next/server";
 
 export type CategoryRoutes<Input> = {
-    "/category": {
+    "/category/findMany": {
         params: CategoryFindManyProps,
         response: CategoryFindManyResponse<Input extends CategoryFindManyProps ? Input : never>
     },
-    "/category/first": {
+    "/category/findFirst": {
         params: CategoryFindFirstProps,
         response: CategoryFindFirstResponse<Input extends CategoryFindFirstProps ? Input : never>
     },
-    "/category/unique": {
+    "/category/findUnique": {
         params: CategoryFindUniqueProps,
         response: CategoryFindUniqueResponse<Input extends CategoryFindUniqueProps ? Input : never>
     },
