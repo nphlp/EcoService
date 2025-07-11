@@ -42,7 +42,7 @@
         "@prisma/client": "^6.6.0",
         "@stripe/react-stripe-js": "^3.7.0",
         "dotenv": "^16.5.0",
-        "next": "15.4.0-canary.116",
+        "next": "15.4.0-canary.126",
         "prettier": "3.5.3",
         "react": "^19.1.0",
         "react-dom": "^19.1.0",
@@ -50,7 +50,9 @@
         "tsx": "^4.19.3"
     },
     "devDependencies": {
+        "@commitlint/cli": "^19.8.1",
         "@commitlint/config-conventional": "^19.8.0",
+        "@commitlint/types": "^19.8.1",
         "@eslint/eslintrc": "^3.3.1",
         "@next/eslint-plugin-next": "^15.3.1",
         "@oslojs/encoding": "^1.1.0",
