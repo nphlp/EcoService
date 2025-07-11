@@ -1,6 +1,6 @@
 "use server";
 
-import { requiresSafeMessage } from "@permissions/SafeMessage";
+import { requiresSafeMessage } from "@permissions/requiresSafeMessage";
 import AddressService from "@services/class/AddressClass";
 import { AddressCountProps, AddressCountResponse, AddressCreateManyProps, AddressCreateManyResponse, AddressCreateProps, AddressCreateResponse, AddressDeleteManyProps, AddressDeleteManyResponse, AddressDeleteProps, AddressDeleteResponse, AddressFindFirstProps, AddressFindFirstResponse, AddressFindManyProps, AddressFindManyResponse, AddressFindUniqueProps, AddressFindUniqueResponse, AddressUpdateManyProps, AddressUpdateManyResponse, AddressUpdateProps, AddressUpdateResponse, AddressUpsertProps, AddressUpsertResponse } from "@services/types/AddressType";
 

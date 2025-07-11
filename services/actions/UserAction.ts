@@ -1,6 +1,6 @@
 "use server";
 
-import { requiresSafeMessage } from "@permissions/SafeMessage";
+import { requiresSafeMessage } from "@permissions/requiresSafeMessage";
 import UserService from "@services/class/UserClass";
 import { UserCountProps, UserCountResponse, UserCreateManyProps, UserCreateManyResponse, UserCreateProps, UserCreateResponse, UserDeleteManyProps, UserDeleteManyResponse, UserDeleteProps, UserDeleteResponse, UserFindFirstProps, UserFindFirstResponse, UserFindManyProps, UserFindManyResponse, UserFindUniqueProps, UserFindUniqueResponse, UserUpdateManyProps, UserUpdateManyResponse, UserUpdateProps, UserUpdateResponse, UserUpsertProps, UserUpsertResponse } from "@services/types/UserType";
 

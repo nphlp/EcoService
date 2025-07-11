@@ -1,6 +1,6 @@
 "use server";
 
-import { requiresSafeMessage } from "@permissions/SafeMessage";
+import { requiresSafeMessage } from "@permissions/requiresSafeMessage";
 import FruitService from "@services/class/FruitClass";
 import { FruitCountProps, FruitCountResponse, FruitCreateManyProps, FruitCreateManyResponse, FruitCreateProps, FruitCreateResponse, FruitDeleteManyProps, FruitDeleteManyResponse, FruitDeleteProps, FruitDeleteResponse, FruitFindFirstProps, FruitFindFirstResponse, FruitFindManyProps, FruitFindManyResponse, FruitFindUniqueProps, FruitFindUniqueResponse, FruitUpdateManyProps, FruitUpdateManyResponse, FruitUpdateProps, FruitUpdateResponse, FruitUpsertProps, FruitUpsertResponse } from "@services/types/FruitType";
 

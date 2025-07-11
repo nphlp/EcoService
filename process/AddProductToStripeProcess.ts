@@ -2,7 +2,7 @@
 
 import { CategoryFindUniqueAction } from "@actions/CategoryAction";
 import { ProductFindUniqueAction } from "@actions/ProductAction";
-import { hasRole } from "@lib/checkRole";
+import { hasRole } from "@permissions/hasRole";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { Fetch } from "@utils/Fetch/Fetch";
 import { strictObject, z, ZodError, ZodType } from "zod";

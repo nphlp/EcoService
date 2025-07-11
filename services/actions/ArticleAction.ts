@@ -1,6 +1,6 @@
 "use server";
 
-import { requiresSafeMessage } from "@permissions/SafeMessage";
+import { requiresSafeMessage } from "@permissions/requiresSafeMessage";
 import ArticleService from "@services/class/ArticleClass";
 import { ArticleCountProps, ArticleCountResponse, ArticleCreateManyProps, ArticleCreateManyResponse, ArticleCreateProps, ArticleCreateResponse, ArticleDeleteManyProps, ArticleDeleteManyResponse, ArticleDeleteProps, ArticleDeleteResponse, ArticleFindFirstProps, ArticleFindFirstResponse, ArticleFindManyProps, ArticleFindManyResponse, ArticleFindUniqueProps, ArticleFindUniqueResponse, ArticleUpdateManyProps, ArticleUpdateManyResponse, ArticleUpdateProps, ArticleUpdateResponse, ArticleUpsertProps, ArticleUpsertResponse } from "@services/types/ArticleType";
 

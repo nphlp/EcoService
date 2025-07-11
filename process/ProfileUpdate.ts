@@ -2,8 +2,10 @@
 
 import { UserUpdateAction } from "@actions/UserAction";
 import { GetSession } from "@lib/authServer";
+import { hasPermission } from "@permissions/hasPermissions";
 import { strictObject, z, ZodType } from "zod";
-import { ErrorLogging } from "./Error";
+import { ProcessDevError } from "./Error";
+import { ProcessResponse } from "./Type";
 
 type UpdateLastnameProcessProps = {
     lastname: string;
@@ -13,11 +15,7 @@ const UpdateLastnameSchema: ZodType<UpdateLastnameProcessProps> = strictObject({
     lastname: z.string(),
 });
 
-type UpdateLastnameProcessResponse = string | null;
-
-export const UpdateLastnameProcess = async (
-    props: UpdateLastnameProcessProps,
-): Promise<UpdateLastnameProcessResponse> => {
+export const UpdateLastnameProcess = async (props: UpdateLastnameProcessProps): Promise<ProcessResponse<string>> => {
     try {
         // Extract and validate props
         const { lastname } = UpdateLastnameSchema.parse(props);
@@ -26,8 +24,10 @@ export const UpdateLastnameProcess = async (
         const session = await GetSession();
 
         // Check permissions
-        // const isAuthorized = await hasPermission(session);
-        // if (!isAuthorized) throw new Error("Permission denied");
+        const isAuthorized = await hasPermission(session, {
+            User: ["update"],
+        });
+        if (!isAuthorized) return { message: "Permission denied", status: false };
 
         // Update database
         const user = await UserUpdateAction(
@@ -35,14 +35,22 @@ export const UpdateLastnameProcess = async (
                 where: { id: session?.user.id },
                 data: { lastname },
             },
-            // true // Disable safe message
+            true, // Disable safe message
         );
 
-        if (!user) throw new Error("Update failed");
+        if (!user.lastname) return { message: "Update failed", status: false };
 
-        return user.lastname;
+        return {
+            data: user.lastname,
+            status: true,
+            message: "Update successful",
+        };
     } catch (error) {
         const processName = "UpdateLastnameProcess";
-        return ErrorLogging({ processName, error });
+
+        ProcessDevError(processName, error);
+
+        // TODO: add logging
+        return { message: "Something went wrong...", status: false };
     }
 };

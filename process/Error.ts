@@ -1,18 +1,9 @@
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
-import "server-only";
 import { ZodError } from "zod";
 
-type ErrorLoggingProps = {
-    processName: string;
-    error: unknown;
-};
-
-export const ErrorLogging = (props: ErrorLoggingProps) => {
-    const { processName, error } = props;
-
+export const ProcessDevError = (processName: string, error: unknown) => {
+    // In development mode, throw an error
     if (process.env.NODE_ENV === "development") {
-        const message = (error as Error).message;
-
         // Zod error
         if (error instanceof ZodError) {
             const zodMessage = processName + " -> Invalid Zod params -> " + error.message;
@@ -27,12 +18,11 @@ export const ErrorLogging = (props: ErrorLoggingProps) => {
             throw new Error(prismaMessage);
         }
 
-        // Default error
-        const errorMessage = processName + " -> " + message;
+        // Other error
+        const errorMessage = processName + " -> " + (error as Error).message;
         console.error(errorMessage);
         throw new Error(errorMessage);
     }
 
-    // TODO: add logging
-    return null;
+    // TODO: In production mode, log the error
 };

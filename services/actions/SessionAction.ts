@@ -1,6 +1,6 @@
 "use server";
 
-import { requiresSafeMessage } from "@permissions/SafeMessage";
+import { requiresSafeMessage } from "@permissions/requiresSafeMessage";
 import SessionService from "@services/class/SessionClass";
 import { SessionCountProps, SessionCountResponse, SessionCreateManyProps, SessionCreateManyResponse, SessionCreateProps, SessionCreateResponse, SessionDeleteManyProps, SessionDeleteManyResponse, SessionDeleteProps, SessionDeleteResponse, SessionFindFirstProps, SessionFindFirstResponse, SessionFindManyProps, SessionFindManyResponse, SessionFindUniqueProps, SessionFindUniqueResponse, SessionUpdateManyProps, SessionUpdateManyResponse, SessionUpdateProps, SessionUpdateResponse, SessionUpsertProps, SessionUpsertResponse } from "@services/types/SessionType";
 

@@ -1,6 +1,6 @@
 "use server";
 
-import { requiresSafeMessage } from "@permissions/SafeMessage";
+import { requiresSafeMessage } from "@permissions/requiresSafeMessage";
 import DiyService from "@services/class/DiyClass";
 import { DiyCountProps, DiyCountResponse, DiyCreateManyProps, DiyCreateManyResponse, DiyCreateProps, DiyCreateResponse, DiyDeleteManyProps, DiyDeleteManyResponse, DiyDeleteProps, DiyDeleteResponse, DiyFindFirstProps, DiyFindFirstResponse, DiyFindManyProps, DiyFindManyResponse, DiyFindUniqueProps, DiyFindUniqueResponse, DiyUpdateManyProps, DiyUpdateManyResponse, DiyUpdateProps, DiyUpdateResponse, DiyUpsertProps, DiyUpsertResponse } from "@services/types/DiyType";
 

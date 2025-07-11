@@ -1,6 +1,6 @@
 "use server";
 
-import { requiresSafeMessage } from "@permissions/SafeMessage";
+import { requiresSafeMessage } from "@permissions/requiresSafeMessage";
 import ProductService from "@services/class/ProductClass";
 import { ProductCountProps, ProductCountResponse, ProductCreateManyProps, ProductCreateManyResponse, ProductCreateProps, ProductCreateResponse, ProductDeleteManyProps, ProductDeleteManyResponse, ProductDeleteProps, ProductDeleteResponse, ProductFindFirstProps, ProductFindFirstResponse, ProductFindManyProps, ProductFindManyResponse, ProductFindUniqueProps, ProductFindUniqueResponse, ProductUpdateManyProps, ProductUpdateManyResponse, ProductUpdateProps, ProductUpdateResponse, ProductUpsertProps, ProductUpsertResponse } from "@services/types/ProductType";
 

@@ -1,4 +1,4 @@
-import { hasRole } from "@lib/checkRole";
+import { hasRole } from "@permissions/hasRole";
 import { CategoryFindManyServer } from "@services/server";
 import { Metadata } from "next";
 import { unauthorized } from "next/navigation";

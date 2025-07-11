@@ -1,6 +1,6 @@
 "use server";
 
-import { requiresSafeMessage } from "@permissions/SafeMessage";
+import { requiresSafeMessage } from "@permissions/requiresSafeMessage";
 import ContentService from "@services/class/ContentClass";
 import { ContentCountProps, ContentCountResponse, ContentCreateManyProps, ContentCreateManyResponse, ContentCreateProps, ContentCreateResponse, ContentDeleteManyProps, ContentDeleteManyResponse, ContentDeleteProps, ContentDeleteResponse, ContentFindFirstProps, ContentFindFirstResponse, ContentFindManyProps, ContentFindManyResponse, ContentFindUniqueProps, ContentFindUniqueResponse, ContentUpdateManyProps, ContentUpdateManyResponse, ContentUpdateProps, ContentUpdateResponse, ContentUpsertProps, ContentUpsertResponse } from "@services/types/ContentType";
 
