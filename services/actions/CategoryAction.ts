@@ -1,79 +1,87 @@
 "use server";
 
+import { requiresSafeMessage } from "@permissions/requiresSafeMessage";
 import CategoryService from "@services/class/CategoryClass";
 import { CategoryCountProps, CategoryCountResponse, CategoryCreateManyProps, CategoryCreateManyResponse, CategoryCreateProps, CategoryCreateResponse, CategoryDeleteManyProps, CategoryDeleteManyResponse, CategoryDeleteProps, CategoryDeleteResponse, CategoryFindFirstProps, CategoryFindFirstResponse, CategoryFindManyProps, CategoryFindManyResponse, CategoryFindUniqueProps, CategoryFindUniqueResponse, CategoryUpdateManyProps, CategoryUpdateManyResponse, CategoryUpdateProps, CategoryUpdateResponse, CategoryUpsertProps, CategoryUpsertResponse } from "@services/types/CategoryType";
 
 // ========== Single mutations ========== //
 
-export const CategoryCreate = async <T extends CategoryCreateProps>(props: T): Promise<CategoryCreateResponse<T>> => {
+export const CategoryCreateAction = async <T extends CategoryCreateProps>(props: T, disableSafeMessage: boolean = false): Promise<CategoryCreateResponse<T>> => {
     try {
+        await requiresSafeMessage(disableSafeMessage, "CategoryCreateAction", "Category", "create");
         const { data, error } = await CategoryService.create(props);
         if (!data || error) throw new Error(error);
         return data;
     } catch (error) {
-        throw new Error("CategoryCreate -> " + (error as Error).message);
+        throw new Error("CategoryCreateAction -> " + (error as Error).message);
     }
 };
 
-export const CategoryUpsert = async <T extends CategoryUpsertProps>(props: T): Promise<CategoryUpsertResponse<T>> => {
+export const CategoryUpsertAction = async <T extends CategoryUpsertProps>(props: T, disableSafeMessage: boolean = false): Promise<CategoryUpsertResponse<T>> => {
     try {
+        await requiresSafeMessage(disableSafeMessage, "CategoryUpsertAction", "Category", "upsert");
         const { data, error } = await CategoryService.upsert(props);
         if (!data || error) throw new Error(error);
         return data;
     } catch (error) {
-        throw new Error("CategoryUpsert -> " + (error as Error).message);
+        throw new Error("CategoryUpsertAction -> " + (error as Error).message);
     }
 };
 
-export const CategoryUpdate = async <T extends CategoryUpdateProps>(props: T): Promise<CategoryUpdateResponse<T>> => {
+export const CategoryUpdateAction = async <T extends CategoryUpdateProps>(props: T, disableSafeMessage: boolean = false): Promise<CategoryUpdateResponse<T>> => {
     try {
+        await requiresSafeMessage(disableSafeMessage, "CategoryUpdateAction", "Category", "update");
         const { data, error } = await CategoryService.update(props);
         if (!data || error) throw new Error(error);
         return data;
     } catch (error) {
-        throw new Error("CategoryUpdate -> " + (error as Error).message);
+        throw new Error("CategoryUpdateAction -> " + (error as Error).message);
     }
 };
 
-export const CategoryDelete = async <T extends CategoryDeleteProps>(props: T): Promise<CategoryDeleteResponse<T>> => {
+export const CategoryDeleteAction = async <T extends CategoryDeleteProps>(props: T, disableSafeMessage: boolean = false): Promise<CategoryDeleteResponse<T>> => {
     try {
+        await requiresSafeMessage(disableSafeMessage, "CategoryDeleteAction", "Category", "delete");
         const { data, error } = await CategoryService.delete(props);
         if (!data || error) throw new Error(error);
         return data;
     } catch (error) {
-        throw new Error("CategoryDelete -> " + (error as Error).message);
+        throw new Error("CategoryDeleteAction -> " + (error as Error).message);
     }
 };
 
 // ========== Multiple mutations ========== //
 
-export const CategoryCreateMany = async (props: CategoryCreateManyProps): Promise<CategoryCreateManyResponse> => {
+export const CategoryCreateManyAction = async (props: CategoryCreateManyProps, disableSafeMessage: boolean = false): Promise<CategoryCreateManyResponse> => {
     try {
+        await requiresSafeMessage(disableSafeMessage, "CategoryCreateManyAction", "Category", "createMany");
         const { data, error } = await CategoryService.createMany(props);
         if (!data || error) throw new Error(error);
         return data;
     } catch (error) {
-        throw new Error("CategoryCreateMany -> " + (error as Error).message);
+        throw new Error("CategoryCreateManyAction -> " + (error as Error).message);
     }
 };
 
-export const CategoryUpdateMany = async (props: CategoryUpdateManyProps): Promise<CategoryUpdateManyResponse> => {
+export const CategoryUpdateManyAction = async (props: CategoryUpdateManyProps, disableSafeMessage: boolean = false): Promise<CategoryUpdateManyResponse> => {
     try {
+        await requiresSafeMessage(disableSafeMessage, "CategoryUpdateManyAction", "Category", "updateMany");
         const { data, error } = await CategoryService.updateMany(props);
         if (!data || error) throw new Error(error);
         return data;
     } catch (error) {
-        throw new Error("CategoryUpdateMany -> " + (error as Error).message);
+        throw new Error("CategoryUpdateManyAction -> " + (error as Error).message);
     }
 };
 
-export const CategoryDeleteMany = async (props: CategoryDeleteManyProps): Promise<CategoryDeleteManyResponse> => {
+export const CategoryDeleteManyAction = async (props: CategoryDeleteManyProps, disableSafeMessage: boolean = false): Promise<CategoryDeleteManyResponse> => {
     try {
+        await requiresSafeMessage(disableSafeMessage, "CategoryDeleteManyAction", "Category", "deleteMany");
         const { data, error } = await CategoryService.deleteMany(props);
         if (!data || error) throw new Error(error);
         return data;
     } catch (error) {
-        throw new Error("CategoryDeleteMany -> " + (error as Error).message);
+        throw new Error("CategoryDeleteManyAction -> " + (error as Error).message);
     }
 };
 
@@ -82,45 +90,51 @@ export const CategoryDeleteMany = async (props: CategoryDeleteManyProps): Promis
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const CategoryFindFirst = async <T extends CategoryFindFirstProps>(
-    props: T
+export const CategoryFindFirstAction = async <T extends CategoryFindFirstProps>(
+    props: T,
+    disableSafeMessage: boolean = false
 ): Promise<CategoryFindFirstResponse<T>> => {
     try {
+        await requiresSafeMessage(disableSafeMessage, "CategoryFindFirstAction", "Category", "findFirst");
         const { data, error } = await CategoryService.findFirst(props);
         if (error) throw new Error(error);
         return data ?? null;
     } catch (error) {
-        throw new Error("CategoryFindFirst -> " + (error as Error).message);
+        throw new Error("CategoryFindFirstAction -> " + (error as Error).message);
     }
 };
 
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const CategoryFindUnique = async <T extends CategoryFindUniqueProps>(
-    props: T
+export const CategoryFindUniqueAction = async <T extends CategoryFindUniqueProps>(
+    props: T,
+    disableSafeMessage: boolean = false
 ): Promise<CategoryFindUniqueResponse<T>> => {
     try {
+        await requiresSafeMessage(disableSafeMessage, "CategoryFindUniqueAction", "Category", "findUnique");
         const { data, error } = await CategoryService.findUnique(props);
         if (error) throw new Error(error);
         return data ?? null;
     } catch (error) {
-        throw new Error("CategoryFindUnique -> " + (error as Error).message);
+        throw new Error("CategoryFindUniqueAction -> " + (error as Error).message);
     }
 };
 
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const CategoryFindMany = async <T extends CategoryFindManyProps>(
-    props: T
+export const CategoryFindManyAction = async <T extends CategoryFindManyProps>(
+    props: T,
+    disableSafeMessage: boolean = false
 ): Promise<CategoryFindManyResponse<T>> => {
     try {
+        await requiresSafeMessage(disableSafeMessage, "CategoryFindManyAction", "Category", "findMany");
         const { data, error } = await CategoryService.findMany(props);
         if (!data || error) throw new Error(error);
         return data;
     } catch (error) {
-        throw new Error("CategoryFindMany -> " + (error as Error).message);
+        throw new Error("CategoryFindManyAction -> " + (error as Error).message);
     }
 };
 
@@ -129,12 +143,13 @@ export const CategoryFindMany = async <T extends CategoryFindManyProps>(
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const CategoryCount = async (props: CategoryCountProps): Promise<CategoryCountResponse> => {
+export const CategoryCountAction = async (props: CategoryCountProps, disableSafeMessage: boolean = false): Promise<CategoryCountResponse> => {
     try {
+        await requiresSafeMessage(disableSafeMessage, "CategoryCountAction", "Category", "count");
         const { data, error } = await CategoryService.count(props);
         if (!data || error) throw new Error(error);
         return data;
     } catch (error) {
-        throw new Error("CategoryCount -> " + (error as Error).message);
+        throw new Error("CategoryCountAction -> " + (error as Error).message);
     }
 };

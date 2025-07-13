@@ -4,7 +4,7 @@ import { ArticleOrDiyFetchParams } from "@comps/sliderFetchParams";
 import Link from "@comps/ui/link";
 import { combo } from "@lib/combo";
 import PrismaInstance from "@lib/prisma";
-import { FetchV2 } from "@utils/FetchV2/FetchV2";
+import { ArticleFindManyServer, ArticleFindUniqueServer } from "@services/server";
 import { Metadata } from "next";
 import { unstable_cacheLife as cacheLife, unstable_cacheTag as cacheTag } from "next/cache";
 
@@ -34,12 +34,7 @@ export async function generateMetadata(props: PageProps): Promise<Metadata> {
     const { params } = props;
     const { slug } = await params;
 
-    const article = await FetchV2({
-        route: "/article/unique",
-        params: {
-            where: { slug },
-        },
-    });
+    const article = await ArticleFindUniqueServer({ where: { slug } });
 
     if (!article) {
         return {
@@ -66,34 +61,28 @@ export default async function Page(props: PageProps) {
     const { params } = props;
     const { slug } = await params;
 
-    const article = await FetchV2({
-        route: "/article/unique",
-        params: {
-            where: { slug },
-            select: {
-                title: true,
-                createdAt: true,
-                Content: {
-                    select: {
-                        content: true,
-                        image: true,
-                    },
+    const article = await ArticleFindUniqueServer({
+        where: { slug },
+        select: {
+            title: true,
+            createdAt: true,
+            Content: {
+                select: {
+                    content: true,
+                    image: true,
                 },
-                Author: {
-                    select: {
-                        name: true,
-                    },
+            },
+            Author: {
+                select: {
+                    name: true,
                 },
             },
         },
     });
 
-    const otherArticleList = await FetchV2({
-        route: "/article",
-        params: ArticleOrDiyFetchParams,
-    });
+    const otherArticleList = await ArticleFindManyServer(ArticleOrDiyFetchParams);
 
-    if (!article || !otherArticleList) {
+    if (!article) {
         return <div className="container mx-auto px-4 py-10">Article non trouvé</div>;
     }
 

@@ -1,12 +1,14 @@
 import AddToCartButtonWrapper from "@app/product/[slug]/addToCartButtonWrapper";
 import ImageRatio from "@comps/server/imageRatio";
+import Loader from "@comps/ui/loader";
 import PrismaInstance from "@lib/prisma";
-import { FetchV2 } from "@utils/FetchV2/FetchV2";
+import { ProductFindUniqueServer } from "@services/server";
 import { ArrowLeft, Package2, ShieldCheck, Truck } from "lucide-react";
 import { Metadata } from "next";
-import Link from "next/link";
-import { ProductFetchParams } from "./fetchParams";
 import { unstable_cacheLife as cacheLife, unstable_cacheTag as cacheTag } from "next/cache";
+import Link from "next/link";
+import { Suspense } from "react";
+import { ProductFetchParams } from "./fetchParams";
 
 export const generateStaticParams = async () => {
     const products = await PrismaInstance.product.findMany({
@@ -34,10 +36,7 @@ export async function generateMetadata(props: PageProps): Promise<Metadata> {
     const { params } = props;
     const { slug } = await params;
 
-    const product = await FetchV2({
-        route: "/product/unique",
-        params: { where: { slug } },
-    });
+    const product = await ProductFindUniqueServer({ where: { slug } });
 
     if (!product) {
         return {
@@ -64,10 +63,7 @@ export default async function Page(props: PageProps) {
     const { params } = props;
     const { slug } = await params;
 
-    const product = await FetchV2({
-        route: "/product/unique",
-        params: ProductFetchParams(slug),
-    });
+    const product = await ProductFindUniqueServer(ProductFetchParams(slug));
 
     if (!product) {
         return (
@@ -124,7 +120,9 @@ export default async function Page(props: PageProps) {
                             </div>
                         </div>
 
-                        <AddToCartButtonWrapper product={product} stock={stock} />
+                        <Suspense fallback={<Loader />}>
+                            <AddToCartButtonWrapper product={product} stock={stock} />
+                        </Suspense>
                     </div>
 
                     {/* Vendeur */}

@@ -1,12 +1,14 @@
 "use server";
 
-import { OrderDelete } from "@actions/OrderAction";
-import { QuantityDelete } from "@actions/QuantityAction";
+import { OrderDeleteAction } from "@actions/OrderAction";
+import { QuantityDeleteAction } from "@actions/QuantityAction";
 import { LocalBasketItem } from "@comps/basket/basketType";
-import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
+import { GetSession } from "@lib/authServer";
+import { hasPermission } from "@permissions/hasPermissions";
+import { ProcessDevError } from "@process/Error";
 import { OrderModel } from "@services/types";
 import { revalidatePath } from "next/cache";
-import { z, ZodError, ZodSchema } from "zod";
+import { z, ZodSchema } from "zod";
 import { GetServerBasket } from "./GetServerBasket";
 
 type RemoveProductFromServerBasketProps = {
@@ -27,6 +29,17 @@ export const RemoveProductFromServerBasket = async (
     try {
         const { productId, orderId } = removeProductFromServerBasketSchema.parse(props);
 
+        // Get session for security
+        const session = await GetSession();
+
+        // Check permissions
+        const isAuthorized = await hasPermission(session, {
+            Quantity: ["delete-HO"],
+            Order: ["delete-HO"],
+        });
+        if (!isAuthorized) return null;
+
+        // Get server basket
         const serverBasket = await GetServerBasket({ orderId });
         if (!serverBasket) return null;
 
@@ -37,42 +50,38 @@ export const RemoveProductFromServerBasket = async (
 
         // Delete quantity
         if (items.length > 1) {
-            await QuantityDelete({
-                where: {
-                    id: quantityId,
+            await QuantityDeleteAction(
+                {
+                    where: {
+                        id: quantityId,
+                        // TODO: add this security ?
+                        // Order: { userId: session?.user.id },
+                    },
                 },
-            });
+                true, // Disable safe message
+            );
         }
         // Last product, delete basket
         else if (items.length === 1) {
-            await OrderDelete({
-                where: {
-                    id: orderId,
+            await OrderDeleteAction(
+                {
+                    where: {
+                        id: orderId,
+                        // TODO: add this security ?
+                        // userId: session?.user.id
+                    },
                 },
-            });
+                true, // Disable safe message
+            );
         }
 
         // Refresh checkout page
         revalidatePath("/checkout", "page");
         return orderId;
     } catch (error) {
-        if (process.env.NODE_ENV === "development") {
-            const processName = "RemoveProductFromServerBasket";
-            const message = (error as Error).message;
-            if (error instanceof ZodError) {
-                const zodMessage = processName + " -> Invalid Zod params -> " + error.message;
-                console.error(zodMessage);
-                throw new Error(zodMessage);
-            } else if (error instanceof PrismaClientKnownRequestError) {
-                const prismaMessage = processName + " -> Prisma error -> " + error.message;
-                console.error(prismaMessage);
-                throw new Error(prismaMessage);
-            } else {
-                const errorMessage = processName + " -> " + message;
-                console.error(errorMessage);
-                throw new Error(errorMessage);
-            }
-        }
+        const processName = "RemoveProductFromServerBasket";
+        ProcessDevError(processName, error);
+
         // TODO: add logging
         return null;
     }

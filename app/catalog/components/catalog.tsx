@@ -32,7 +32,7 @@ export default function CatalogClient(props: CatalogClientProps) {
     });
 
     const { data: newProductList, isLoading: isLoadingProductList } = useFetchV2({
-        route: "/product",
+        route: "/product/findMany",
         params: ProductListFetchParams({ priceOrder, page, take, category, search }),
     });
 

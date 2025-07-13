@@ -1,10 +1,12 @@
 "use server";
 
-import { OrderFindUnique } from "@actions/OrderAction";
+import { OrderFindUniqueAction } from "@actions/OrderAction";
 import { ServerBasket } from "@comps/basket/basketType";
+import { GetSession } from "@lib/authServer";
+import { hasPermission } from "@permissions/hasPermissions";
 import { Order } from "@prisma/client";
-import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
-import { z, ZodError, ZodType } from "zod";
+import { ProcessDevError } from "@process/Error";
+import { z, ZodType } from "zod";
 
 export type GetServerBasketProps = {
     orderId: string;
@@ -30,18 +32,33 @@ export const GetServerBasket = async (props: GetServerBasketProps): Promise<GetS
     try {
         const { orderId } = getServerBasketSchema.parse(props);
 
-        const order = await OrderFindUnique({
-            where: {
-                id: orderId,
-            },
-            include: {
-                Quantity: {
-                    include: {
-                        Product: true,
+        // Get session for security
+        const session = await GetSession();
+
+        // Check permissions
+        const isAuthorized = await hasPermission(session, {
+            Order: ["findUnique-HO"],
+        });
+        if (!isAuthorized) return null;
+
+        // Get order
+        const order = await OrderFindUniqueAction(
+            {
+                where: {
+                    id: orderId,
+                    // TODO: add this security ?
+                    // userId: session?.user.id
+                },
+                include: {
+                    Quantity: {
+                        include: {
+                            Product: true,
+                        },
                     },
                 },
             },
-        });
+            true, // Disable safe message
+        );
 
         if (!order) {
             return null;
@@ -66,23 +83,9 @@ export const GetServerBasket = async (props: GetServerBasketProps): Promise<GetS
 
         return basket;
     } catch (error) {
-        if (process.env.NODE_ENV === "development") {
-            const processName = "GetServerBasket";
-            const message = (error as Error).message;
-            if (error instanceof ZodError) {
-                const zodMessage = processName + " -> Invalid Zod params -> " + error.message;
-                console.error(zodMessage);
-                throw new Error(zodMessage);
-            } else if (error instanceof PrismaClientKnownRequestError) {
-                const prismaMessage = processName + " -> Prisma error -> " + error.message;
-                console.error(prismaMessage);
-                throw new Error(prismaMessage);
-            } else {
-                const errorMessage = processName + " -> " + message;
-                console.error(errorMessage);
-                throw new Error(errorMessage);
-            }
-        }
+        const processName = "GetServerBasket";
+        ProcessDevError(processName, error);
+
         // TODO: add logging
         return null;
     }

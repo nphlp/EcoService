@@ -4,7 +4,7 @@ import { ProductFetchParams } from "@comps/sliderFetchParams";
 import Link from "@comps/ui/link";
 import { combo } from "@lib/combo";
 import PrismaInstance from "@lib/prisma";
-import { FetchV2 } from "@utils/FetchV2/FetchV2";
+import { DiyFindUniqueServer, ProductFindManyServer } from "@services/server";
 import { Metadata } from "next";
 import { unstable_cacheLife as cacheLife, unstable_cacheTag as cacheTag } from "next/cache";
 
@@ -34,16 +34,13 @@ export async function generateMetadata(props: PageProps): Promise<Metadata> {
     const { params } = props;
     const { slug } = await params;
 
-    const diy = await FetchV2({
-        route: "/diy/unique",
-        params: {
-            where: { slug },
-            select: {
-                title: true,
-                Author: {
-                    select: {
-                        name: true,
-                    },
+    const diy = await DiyFindUniqueServer({
+        where: { slug },
+        select: {
+            title: true,
+            Author: {
+                select: {
+                    name: true,
                 },
             },
         },
@@ -74,34 +71,28 @@ export default async function Page(props: PageProps) {
     const { params } = props;
     const { slug } = await params;
 
-    const diy = await FetchV2({
-        route: "/diy/unique",
-        params: {
-            where: { slug },
-            select: {
-                title: true,
-                createdAt: true,
-                Content: {
-                    select: {
-                        content: true,
-                        image: true,
-                    },
+    const diy = await DiyFindUniqueServer({
+        where: { slug },
+        select: {
+            title: true,
+            createdAt: true,
+            Content: {
+                select: {
+                    content: true,
+                    image: true,
                 },
-                Author: {
-                    select: {
-                        name: true,
-                    },
+            },
+            Author: {
+                select: {
+                    name: true,
                 },
             },
         },
     });
 
-    const productList = await FetchV2({
-        route: "/product",
-        params: ProductFetchParams,
-    });
+    const productList = await ProductFindManyServer(ProductFetchParams);
 
-    if (!diy || !productList) {
+    if (!diy) {
         return <div className="container mx-auto px-4 py-10">Something went wrong...</div>;
     }
 

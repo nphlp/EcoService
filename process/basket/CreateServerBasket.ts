@@ -1,12 +1,13 @@
 "use server";
 
-import { OrderCreate } from "@actions/OrderAction";
+import { OrderCreateAction } from "@actions/OrderAction";
 import { LocalBasketItem, localBasketItemSchema } from "@comps/basket/basketType";
 import { GetSession } from "@lib/authServer";
-import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
+import { hasPermission } from "@permissions/hasPermissions";
+import { ProcessDevError } from "@process/Error";
 import { OrderModel } from "@services/types";
 import { revalidatePath } from "next/cache";
-import { z, ZodError, ZodType } from "zod";
+import { z, ZodType } from "zod";
 
 export type CreateServerBasketProps = {
     items: LocalBasketItem[];
@@ -22,46 +23,43 @@ export const CreateServerBasket = async (props: CreateServerBasketProps): Promis
     try {
         const { items } = createServerBasketSchema.parse(props);
 
+        // Get session for security
         const session = await GetSession();
         if (!session) return null;
 
-        const order = await OrderCreate({
-            data: {
-                userId: session.user.id,
-                Quantity: {
-                    createMany: {
-                        data: items.map((item) => ({
-                            productId: item.productId,
-                            quantity: item.quantity,
-                        })),
-                        skipDuplicates: true,
+        // Check permissions
+        const isAuthorized = await hasPermission(session, {
+            Order: ["create-HO"],
+        });
+        if (!isAuthorized) return null;
+
+        // Create order
+        const order = await OrderCreateAction(
+            {
+                data: {
+                    userId: session.user.id,
+                    Quantity: {
+                        createMany: {
+                            data: items.map((item) => ({
+                                productId: item.productId,
+                                quantity: item.quantity,
+                            })),
+                            skipDuplicates: true,
+                        },
                     },
                 },
             },
-        });
+            true, // Disable safe message
+        );
 
         // Refresh checkout page
         revalidatePath("/checkout", "page");
 
         return order.id;
     } catch (error) {
-        if (process.env.NODE_ENV === "development") {
-            const processName = "CreateServerBasket";
-            const message = (error as Error).message;
-            if (error instanceof ZodError) {
-                const zodMessage = processName + " -> Invalid Zod params -> " + error.message;
-                console.error(zodMessage);
-                throw new Error(zodMessage);
-            } else if (error instanceof PrismaClientKnownRequestError) {
-                const prismaMessage = processName + " -> Prisma error -> " + error.message;
-                console.error(prismaMessage);
-                throw new Error(prismaMessage);
-            } else {
-                const errorMessage = processName + " -> " + message;
-                console.error(errorMessage);
-                throw new Error(errorMessage);
-            }
-        }
+        const processName = "CreateServerBasket";
+        ProcessDevError(processName, error);
+
         // TODO: add logging
         return null;
     }

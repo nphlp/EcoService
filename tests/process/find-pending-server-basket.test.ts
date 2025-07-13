@@ -7,6 +7,7 @@ vi.mock("@lib/authServer", () => ({
     GetSession: vi.fn().mockResolvedValue({
         user: {
             id: "user-1",
+            role: "USER",
         },
     }),
 }));

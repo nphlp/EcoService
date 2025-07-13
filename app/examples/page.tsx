@@ -4,39 +4,9 @@ import Link from "@comps/ui/link";
 export default function Page() {
     const links = [
         {
-            label: "Server Actions (Server Component)",
-            href: "/examples/Actions/server",
-            text: "How to use server actions in a Server Component",
-        },
-        {
-            label: "Server Actions (Client Component)",
-            href: "/examples/Actions/client",
-            text: "How to use server actions in a Client Component",
-        },
-        {
-            label: "Server Actions (with a Process)",
-            href: "/examples/Actions/process",
-            text: "How to use server actions with a Process script",
-        },
-        {
-            label: "Fetch",
-            href: "/examples/Fetch",
-            text: "How to fetch data from the server",
-        },
-        {
-            label: "useFetch",
-            href: "/examples/useFetch",
-            text: "How to fetch data from the client",
-        },
-        {
-            label: "Fetch Parallelized",
-            href: "/examples/FetchParallelized",
-            text: "How to fetch data from the server in parallel",
-        },
-        {
-            label: "Redis Cache",
-            href: "/examples/Redis",
-            text: "How to use Redis cache",
+            label: "Combobox (Shadcn)",
+            href: "/examples/Combobox",
+            text: "How to create a combobox",
         },
         {
             label: "Form",
@@ -49,6 +19,11 @@ export default function Page() {
             text: "How to import an image",
         },
         {
+            label: "Slider",
+            href: "/examples/Slider",
+            text: "How to create a slider",
+        },
+        {
             label: "View Transition Image",
             href: "/examples/ViewTransitionImage",
             text: "How to create a view transition image",
@@ -57,16 +32,6 @@ export default function Page() {
             label: "View Transition Link",
             href: "/examples/ViewTransitionLink",
             text: "How to create a view transition link",
-        },
-        {
-            label: "Slider",
-            href: "/examples/Slider",
-            text: "How to create a slider",
-        },
-        {
-            label: "Combobox (Shadcn)",
-            href: "/examples/Combobox",
-            text: "How to create a combobox",
         },
     ];
     return (

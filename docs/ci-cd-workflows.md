@@ -20,10 +20,10 @@ When you make a `commit`, code quality checks are automatically performed.
 
 - **Lint-staged**: linting/formatting on modified files only
 
-    Provides the list of modified files in the `commit` on which to perform checks. \
-     Cancels the current `commit` if the checks do not pass.
+    Provides the list of modified files in the `commit` on which to perform checks. Cancels the current `commit` if the checks do not pass.
 
 - **Commitlint**: conventional commit format validation
+
     Verifies that the `commit` message follows the commit naming convention.
     The message must be prefixed with `feat`, `fix`, `chore`, etc... to be valid.
 

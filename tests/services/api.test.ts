@@ -3,30 +3,28 @@ import { describe, expect, it } from "vitest";
 
 describe("API tests", () => {
     it("User API", async () => {
-        // Fetch users
-        const users = await FetchV2({
-            route: "/user",
+        // Fetch articles
+        const articles = await FetchV2({
+            route: "/article/findMany",
             params: {
                 include: {
-                    Account: true,
-                    Address: true,
+                    Author: true,
                 },
             },
         });
 
-        // Check users
-        expect(users).toBeDefined();
-        expect(Array.isArray(users)).toBe(true);
-        expect(users[0]).toHaveProperty("id");
-        expect(users[0]).toHaveProperty("email");
-        expect(users[0]).toHaveProperty("Account");
-        expect(users[0]).toHaveProperty("Address");
+        // Check articles
+        expect(articles).toBeDefined();
+        expect(Array.isArray(articles)).toBe(true);
+        expect(articles[0]).toHaveProperty("id");
+        expect(articles[0]).toHaveProperty("title");
+        expect(articles[0]).toHaveProperty("Author");
     });
 
     it("Product API", async () => {
         // Fetch products
         const products = await FetchV2({
-            route: "/product",
+            route: "/product/findMany",
             params: {
                 include: {
                     Category: true,

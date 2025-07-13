@@ -1,14 +1,9 @@
 import ProductCard from "@comps/productCard";
 import Slider from "@comps/ui/slider";
-import { FetchV2 } from "@utils/FetchV2/FetchV2";
+import { ProductFindManyServer } from "@services/server";
 
 export default async function Page() {
-    const productList = await FetchV2({
-        route: "/product",
-        params: {
-            take: 15,
-        },
-    });
+    const productList = await ProductFindManyServer({ take: 15 });
 
     return (
         <div className="flex h-full flex-col items-start justify-start p-5">

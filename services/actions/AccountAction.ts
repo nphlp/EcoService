@@ -1,79 +1,87 @@
 "use server";
 
+import { requiresSafeMessage } from "@permissions/requiresSafeMessage";
 import AccountService from "@services/class/AccountClass";
 import { AccountCountProps, AccountCountResponse, AccountCreateManyProps, AccountCreateManyResponse, AccountCreateProps, AccountCreateResponse, AccountDeleteManyProps, AccountDeleteManyResponse, AccountDeleteProps, AccountDeleteResponse, AccountFindFirstProps, AccountFindFirstResponse, AccountFindManyProps, AccountFindManyResponse, AccountFindUniqueProps, AccountFindUniqueResponse, AccountUpdateManyProps, AccountUpdateManyResponse, AccountUpdateProps, AccountUpdateResponse, AccountUpsertProps, AccountUpsertResponse } from "@services/types/AccountType";
 
 // ========== Single mutations ========== //
 
-export const AccountCreate = async <T extends AccountCreateProps>(props: T): Promise<AccountCreateResponse<T>> => {
+export const AccountCreateAction = async <T extends AccountCreateProps>(props: T, disableSafeMessage: boolean = false): Promise<AccountCreateResponse<T>> => {
     try {
+        await requiresSafeMessage(disableSafeMessage, "AccountCreateAction", "Account", "create");
         const { data, error } = await AccountService.create(props);
         if (!data || error) throw new Error(error);
         return data;
     } catch (error) {
-        throw new Error("AccountCreate -> " + (error as Error).message);
+        throw new Error("AccountCreateAction -> " + (error as Error).message);
     }
 };
 
-export const AccountUpsert = async <T extends AccountUpsertProps>(props: T): Promise<AccountUpsertResponse<T>> => {
+export const AccountUpsertAction = async <T extends AccountUpsertProps>(props: T, disableSafeMessage: boolean = false): Promise<AccountUpsertResponse<T>> => {
     try {
+        await requiresSafeMessage(disableSafeMessage, "AccountUpsertAction", "Account", "upsert");
         const { data, error } = await AccountService.upsert(props);
         if (!data || error) throw new Error(error);
         return data;
     } catch (error) {
-        throw new Error("AccountUpsert -> " + (error as Error).message);
+        throw new Error("AccountUpsertAction -> " + (error as Error).message);
     }
 };
 
-export const AccountUpdate = async <T extends AccountUpdateProps>(props: T): Promise<AccountUpdateResponse<T>> => {
+export const AccountUpdateAction = async <T extends AccountUpdateProps>(props: T, disableSafeMessage: boolean = false): Promise<AccountUpdateResponse<T>> => {
     try {
+        await requiresSafeMessage(disableSafeMessage, "AccountUpdateAction", "Account", "update");
         const { data, error } = await AccountService.update(props);
         if (!data || error) throw new Error(error);
         return data;
     } catch (error) {
-        throw new Error("AccountUpdate -> " + (error as Error).message);
+        throw new Error("AccountUpdateAction -> " + (error as Error).message);
     }
 };
 
-export const AccountDelete = async <T extends AccountDeleteProps>(props: T): Promise<AccountDeleteResponse<T>> => {
+export const AccountDeleteAction = async <T extends AccountDeleteProps>(props: T, disableSafeMessage: boolean = false): Promise<AccountDeleteResponse<T>> => {
     try {
+        await requiresSafeMessage(disableSafeMessage, "AccountDeleteAction", "Account", "delete");
         const { data, error } = await AccountService.delete(props);
         if (!data || error) throw new Error(error);
         return data;
     } catch (error) {
-        throw new Error("AccountDelete -> " + (error as Error).message);
+        throw new Error("AccountDeleteAction -> " + (error as Error).message);
     }
 };
 
 // ========== Multiple mutations ========== //
 
-export const AccountCreateMany = async (props: AccountCreateManyProps): Promise<AccountCreateManyResponse> => {
+export const AccountCreateManyAction = async (props: AccountCreateManyProps, disableSafeMessage: boolean = false): Promise<AccountCreateManyResponse> => {
     try {
+        await requiresSafeMessage(disableSafeMessage, "AccountCreateManyAction", "Account", "createMany");
         const { data, error } = await AccountService.createMany(props);
         if (!data || error) throw new Error(error);
         return data;
     } catch (error) {
-        throw new Error("AccountCreateMany -> " + (error as Error).message);
+        throw new Error("AccountCreateManyAction -> " + (error as Error).message);
     }
 };
 
-export const AccountUpdateMany = async (props: AccountUpdateManyProps): Promise<AccountUpdateManyResponse> => {
+export const AccountUpdateManyAction = async (props: AccountUpdateManyProps, disableSafeMessage: boolean = false): Promise<AccountUpdateManyResponse> => {
     try {
+        await requiresSafeMessage(disableSafeMessage, "AccountUpdateManyAction", "Account", "updateMany");
         const { data, error } = await AccountService.updateMany(props);
         if (!data || error) throw new Error(error);
         return data;
     } catch (error) {
-        throw new Error("AccountUpdateMany -> " + (error as Error).message);
+        throw new Error("AccountUpdateManyAction -> " + (error as Error).message);
     }
 };
 
-export const AccountDeleteMany = async (props: AccountDeleteManyProps): Promise<AccountDeleteManyResponse> => {
+export const AccountDeleteManyAction = async (props: AccountDeleteManyProps, disableSafeMessage: boolean = false): Promise<AccountDeleteManyResponse> => {
     try {
+        await requiresSafeMessage(disableSafeMessage, "AccountDeleteManyAction", "Account", "deleteMany");
         const { data, error } = await AccountService.deleteMany(props);
         if (!data || error) throw new Error(error);
         return data;
     } catch (error) {
-        throw new Error("AccountDeleteMany -> " + (error as Error).message);
+        throw new Error("AccountDeleteManyAction -> " + (error as Error).message);
     }
 };
 
@@ -82,45 +90,51 @@ export const AccountDeleteMany = async (props: AccountDeleteManyProps): Promise<
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const AccountFindFirst = async <T extends AccountFindFirstProps>(
-    props: T
+export const AccountFindFirstAction = async <T extends AccountFindFirstProps>(
+    props: T,
+    disableSafeMessage: boolean = false
 ): Promise<AccountFindFirstResponse<T>> => {
     try {
+        await requiresSafeMessage(disableSafeMessage, "AccountFindFirstAction", "Account", "findFirst");
         const { data, error } = await AccountService.findFirst(props);
         if (error) throw new Error(error);
         return data ?? null;
     } catch (error) {
-        throw new Error("AccountFindFirst -> " + (error as Error).message);
+        throw new Error("AccountFindFirstAction -> " + (error as Error).message);
     }
 };
 
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const AccountFindUnique = async <T extends AccountFindUniqueProps>(
-    props: T
+export const AccountFindUniqueAction = async <T extends AccountFindUniqueProps>(
+    props: T,
+    disableSafeMessage: boolean = false
 ): Promise<AccountFindUniqueResponse<T>> => {
     try {
+        await requiresSafeMessage(disableSafeMessage, "AccountFindUniqueAction", "Account", "findUnique");
         const { data, error } = await AccountService.findUnique(props);
         if (error) throw new Error(error);
         return data ?? null;
     } catch (error) {
-        throw new Error("AccountFindUnique -> " + (error as Error).message);
+        throw new Error("AccountFindUniqueAction -> " + (error as Error).message);
     }
 };
 
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const AccountFindMany = async <T extends AccountFindManyProps>(
-    props: T
+export const AccountFindManyAction = async <T extends AccountFindManyProps>(
+    props: T,
+    disableSafeMessage: boolean = false
 ): Promise<AccountFindManyResponse<T>> => {
     try {
+        await requiresSafeMessage(disableSafeMessage, "AccountFindManyAction", "Account", "findMany");
         const { data, error } = await AccountService.findMany(props);
         if (!data || error) throw new Error(error);
         return data;
     } catch (error) {
-        throw new Error("AccountFindMany -> " + (error as Error).message);
+        throw new Error("AccountFindManyAction -> " + (error as Error).message);
     }
 };
 
@@ -129,12 +143,13 @@ export const AccountFindMany = async <T extends AccountFindManyProps>(
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const AccountCount = async (props: AccountCountProps): Promise<AccountCountResponse> => {
+export const AccountCountAction = async (props: AccountCountProps, disableSafeMessage: boolean = false): Promise<AccountCountResponse> => {
     try {
+        await requiresSafeMessage(disableSafeMessage, "AccountCountAction", "Account", "count");
         const { data, error } = await AccountService.count(props);
         if (!data || error) throw new Error(error);
         return data;
     } catch (error) {
-        throw new Error("AccountCount -> " + (error as Error).message);
+        throw new Error("AccountCountAction -> " + (error as Error).message);
     }
 };
