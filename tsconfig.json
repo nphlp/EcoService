@@ -27,6 +27,7 @@
             "@class/*": ["./services/class/*"],
             "@comps/*": ["./components/*"],
             "@lib/*": ["./lib/*"],
+            "@permissions/*": ["./permissions/*"],
             "@prisma/*": ["./prisma/*"],
             "@public/*": ["./public/*"],
             "@ui/*": ["./components/ui/*"],

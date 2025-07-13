@@ -1,79 +1,87 @@
 "use server";
 
+import { requiresSafeMessage } from "@permissions/requiresSafeMessage";
 import ArticleService from "@services/class/ArticleClass";
 import { ArticleCountProps, ArticleCountResponse, ArticleCreateManyProps, ArticleCreateManyResponse, ArticleCreateProps, ArticleCreateResponse, ArticleDeleteManyProps, ArticleDeleteManyResponse, ArticleDeleteProps, ArticleDeleteResponse, ArticleFindFirstProps, ArticleFindFirstResponse, ArticleFindManyProps, ArticleFindManyResponse, ArticleFindUniqueProps, ArticleFindUniqueResponse, ArticleUpdateManyProps, ArticleUpdateManyResponse, ArticleUpdateProps, ArticleUpdateResponse, ArticleUpsertProps, ArticleUpsertResponse } from "@services/types/ArticleType";
 
 // ========== Single mutations ========== //
 
-export const ArticleCreate = async <T extends ArticleCreateProps>(props: T): Promise<ArticleCreateResponse<T>> => {
+export const ArticleCreateAction = async <T extends ArticleCreateProps>(props: T, disableSafeMessage: boolean = false): Promise<ArticleCreateResponse<T>> => {
     try {
+        await requiresSafeMessage(disableSafeMessage, "ArticleCreateAction", "Article", "create");
         const { data, error } = await ArticleService.create(props);
         if (!data || error) throw new Error(error);
         return data;
     } catch (error) {
-        throw new Error("ArticleCreate -> " + (error as Error).message);
+        throw new Error("ArticleCreateAction -> " + (error as Error).message);
     }
 };
 
-export const ArticleUpsert = async <T extends ArticleUpsertProps>(props: T): Promise<ArticleUpsertResponse<T>> => {
+export const ArticleUpsertAction = async <T extends ArticleUpsertProps>(props: T, disableSafeMessage: boolean = false): Promise<ArticleUpsertResponse<T>> => {
     try {
+        await requiresSafeMessage(disableSafeMessage, "ArticleUpsertAction", "Article", "upsert");
         const { data, error } = await ArticleService.upsert(props);
         if (!data || error) throw new Error(error);
         return data;
     } catch (error) {
-        throw new Error("ArticleUpsert -> " + (error as Error).message);
+        throw new Error("ArticleUpsertAction -> " + (error as Error).message);
     }
 };
 
-export const ArticleUpdate = async <T extends ArticleUpdateProps>(props: T): Promise<ArticleUpdateResponse<T>> => {
+export const ArticleUpdateAction = async <T extends ArticleUpdateProps>(props: T, disableSafeMessage: boolean = false): Promise<ArticleUpdateResponse<T>> => {
     try {
+        await requiresSafeMessage(disableSafeMessage, "ArticleUpdateAction", "Article", "update");
         const { data, error } = await ArticleService.update(props);
         if (!data || error) throw new Error(error);
         return data;
     } catch (error) {
-        throw new Error("ArticleUpdate -> " + (error as Error).message);
+        throw new Error("ArticleUpdateAction -> " + (error as Error).message);
     }
 };
 
-export const ArticleDelete = async <T extends ArticleDeleteProps>(props: T): Promise<ArticleDeleteResponse<T>> => {
+export const ArticleDeleteAction = async <T extends ArticleDeleteProps>(props: T, disableSafeMessage: boolean = false): Promise<ArticleDeleteResponse<T>> => {
     try {
+        await requiresSafeMessage(disableSafeMessage, "ArticleDeleteAction", "Article", "delete");
         const { data, error } = await ArticleService.delete(props);
         if (!data || error) throw new Error(error);
         return data;
     } catch (error) {
-        throw new Error("ArticleDelete -> " + (error as Error).message);
+        throw new Error("ArticleDeleteAction -> " + (error as Error).message);
     }
 };
 
 // ========== Multiple mutations ========== //
 
-export const ArticleCreateMany = async (props: ArticleCreateManyProps): Promise<ArticleCreateManyResponse> => {
+export const ArticleCreateManyAction = async (props: ArticleCreateManyProps, disableSafeMessage: boolean = false): Promise<ArticleCreateManyResponse> => {
     try {
+        await requiresSafeMessage(disableSafeMessage, "ArticleCreateManyAction", "Article", "createMany");
         const { data, error } = await ArticleService.createMany(props);
         if (!data || error) throw new Error(error);
         return data;
     } catch (error) {
-        throw new Error("ArticleCreateMany -> " + (error as Error).message);
+        throw new Error("ArticleCreateManyAction -> " + (error as Error).message);
     }
 };
 
-export const ArticleUpdateMany = async (props: ArticleUpdateManyProps): Promise<ArticleUpdateManyResponse> => {
+export const ArticleUpdateManyAction = async (props: ArticleUpdateManyProps, disableSafeMessage: boolean = false): Promise<ArticleUpdateManyResponse> => {
     try {
+        await requiresSafeMessage(disableSafeMessage, "ArticleUpdateManyAction", "Article", "updateMany");
         const { data, error } = await ArticleService.updateMany(props);
         if (!data || error) throw new Error(error);
         return data;
     } catch (error) {
-        throw new Error("ArticleUpdateMany -> " + (error as Error).message);
+        throw new Error("ArticleUpdateManyAction -> " + (error as Error).message);
     }
 };
 
-export const ArticleDeleteMany = async (props: ArticleDeleteManyProps): Promise<ArticleDeleteManyResponse> => {
+export const ArticleDeleteManyAction = async (props: ArticleDeleteManyProps, disableSafeMessage: boolean = false): Promise<ArticleDeleteManyResponse> => {
     try {
+        await requiresSafeMessage(disableSafeMessage, "ArticleDeleteManyAction", "Article", "deleteMany");
         const { data, error } = await ArticleService.deleteMany(props);
         if (!data || error) throw new Error(error);
         return data;
     } catch (error) {
-        throw new Error("ArticleDeleteMany -> " + (error as Error).message);
+        throw new Error("ArticleDeleteManyAction -> " + (error as Error).message);
     }
 };
 
@@ -82,45 +90,51 @@ export const ArticleDeleteMany = async (props: ArticleDeleteManyProps): Promise<
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const ArticleFindFirst = async <T extends ArticleFindFirstProps>(
-    props: T
+export const ArticleFindFirstAction = async <T extends ArticleFindFirstProps>(
+    props: T,
+    disableSafeMessage: boolean = false
 ): Promise<ArticleFindFirstResponse<T>> => {
     try {
+        await requiresSafeMessage(disableSafeMessage, "ArticleFindFirstAction", "Article", "findFirst");
         const { data, error } = await ArticleService.findFirst(props);
         if (error) throw new Error(error);
         return data ?? null;
     } catch (error) {
-        throw new Error("ArticleFindFirst -> " + (error as Error).message);
+        throw new Error("ArticleFindFirstAction -> " + (error as Error).message);
     }
 };
 
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const ArticleFindUnique = async <T extends ArticleFindUniqueProps>(
-    props: T
+export const ArticleFindUniqueAction = async <T extends ArticleFindUniqueProps>(
+    props: T,
+    disableSafeMessage: boolean = false
 ): Promise<ArticleFindUniqueResponse<T>> => {
     try {
+        await requiresSafeMessage(disableSafeMessage, "ArticleFindUniqueAction", "Article", "findUnique");
         const { data, error } = await ArticleService.findUnique(props);
         if (error) throw new Error(error);
         return data ?? null;
     } catch (error) {
-        throw new Error("ArticleFindUnique -> " + (error as Error).message);
+        throw new Error("ArticleFindUniqueAction -> " + (error as Error).message);
     }
 };
 
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const ArticleFindMany = async <T extends ArticleFindManyProps>(
-    props: T
+export const ArticleFindManyAction = async <T extends ArticleFindManyProps>(
+    props: T,
+    disableSafeMessage: boolean = false
 ): Promise<ArticleFindManyResponse<T>> => {
     try {
+        await requiresSafeMessage(disableSafeMessage, "ArticleFindManyAction", "Article", "findMany");
         const { data, error } = await ArticleService.findMany(props);
         if (!data || error) throw new Error(error);
         return data;
     } catch (error) {
-        throw new Error("ArticleFindMany -> " + (error as Error).message);
+        throw new Error("ArticleFindManyAction -> " + (error as Error).message);
     }
 };
 
@@ -129,12 +143,13 @@ export const ArticleFindMany = async <T extends ArticleFindManyProps>(
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const ArticleCount = async (props: ArticleCountProps): Promise<ArticleCountResponse> => {
+export const ArticleCountAction = async (props: ArticleCountProps, disableSafeMessage: boolean = false): Promise<ArticleCountResponse> => {
     try {
+        await requiresSafeMessage(disableSafeMessage, "ArticleCountAction", "Article", "count");
         const { data, error } = await ArticleService.count(props);
         if (!data || error) throw new Error(error);
         return data;
     } catch (error) {
-        throw new Error("ArticleCount -> " + (error as Error).message);
+        throw new Error("ArticleCountAction -> " + (error as Error).message);
     }
 };

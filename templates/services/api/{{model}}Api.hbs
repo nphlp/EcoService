@@ -1,21 +1,18 @@
-import {{modelName}}Service from "@services/class/{{modelName}}Class";
-import { {{modelName}}CountProps, {{modelName}}CountResponse, {{modelName}}FindFirstProps, {{modelName}}FindFirstResponse, {{modelName}}FindManyProps, {{modelName}}FindManyResponse, {{modelName}}FindUniqueProps, {{modelName}}FindUniqueResponse } from "@services/types/{{modelName}}Type";
-import { cacheLifeApi, parseAndDecodeParams } from "@utils/FetchConfig";
-import { unstable_cacheLife as cacheLife, unstable_cacheTag as cacheTag } from "next/cache";
+import { {{modelName}}CountCached, {{modelName}}FindFirstCached, {{modelName}}FindManyCached, {{modelName}}FindUniqueCached } from "@services/cached/index";
+import { {{modelName}}CountProps, {{modelName}}CountResponse, {{modelName}}FindFirstProps, {{modelName}}FindFirstResponse, {{modelName}}FindManyProps, {{modelName}}FindManyResponse, {{modelName}}FindUniqueProps, {{modelName}}FindUniqueResponse } from "@services/types/index";
+import { parseAndDecodeParams } from "@utils/FetchConfig";
 import { NextRequest, NextResponse } from "next/server";
 
-// ============== API Routes Types ============== //
-
 export type {{modelName}}Routes<Input> = {
-    "/{{modelNameLower}}": {
+    "/{{modelNameLower}}/findMany": {
         params: {{modelName}}FindManyProps,
         response: {{modelName}}FindManyResponse<Input extends {{modelName}}FindManyProps ? Input : never>
     },
-    "/{{modelNameLower}}/first": {
+    "/{{modelNameLower}}/findFirst": {
         params: {{modelName}}FindFirstProps,
         response: {{modelName}}FindFirstResponse<Input extends {{modelName}}FindFirstProps ? Input : never>
     },
-    "/{{modelNameLower}}/unique": {
+    "/{{modelNameLower}}/findUnique": {
         params: {{modelName}}FindUniqueProps,
         response: {{modelName}}FindUniqueResponse<Input extends {{modelName}}FindUniqueProps ? Input : never>
     },
@@ -25,76 +22,40 @@ export type {{modelName}}Routes<Input> = {
     }
 }
 
-// ==================== Find Many ==================== //
-
-const {{modelNameLower}}FindManyCached = async <T extends {{modelName}}FindManyProps>(params: T) => {
-    "use cache";
-    cacheLife(cacheLifeApi);
-    cacheTag("/api/{{modelNameLower}}");
-    return {{modelName}}Service.findMany<T>(params);
-};
-
 export const {{modelName}}FindManyApi = async <T extends {{modelName}}FindManyProps>(request: NextRequest) => {
     try {
         const params: T = parseAndDecodeParams(request);
-        const response = await {{modelNameLower}}FindManyCached<T>(params);
+        const response = await {{modelName}}FindManyCached<T>(params);
         return NextResponse.json(response, { status: 200 });
     } catch (error) {
         return NextResponse.json({ error: "{{modelName}}FindManyApi -> " + (error as Error).message }, { status: 500 });
     }
 };
 
-// ==================== Find First ==================== //
-
-const {{modelNameLower}}FindFirstCached = async <T extends {{modelName}}FindFirstProps>(params: T) => {
-    "use cache";
-    cacheLife(cacheLifeApi);
-    cacheTag("/api/{{modelNameLower}}/first");
-    return {{modelName}}Service.findFirst<T>(params);
-};
-
 export const {{modelName}}FindFirstApi = async <T extends {{modelName}}FindFirstProps>(request: NextRequest) => {
     try {
         const params: T = parseAndDecodeParams(request);
-        const response = await {{modelNameLower}}FindFirstCached<T>(params);
+        const response = await {{modelName}}FindFirstCached<T>(params);
         return NextResponse.json(response, { status: 200 });
     } catch (error) {
         return NextResponse.json({ error: "{{modelName}}FindFirstApi -> " + (error as Error).message }, { status: 500 });
     }
 };
 
-// ==================== Find Unique ==================== //
-
-const {{modelNameLower}}FindUniqueCached = async <T extends {{modelName}}FindUniqueProps>(params: T) => {
-    "use cache";
-    cacheLife(cacheLifeApi);
-    cacheTag("/api/{{modelNameLower}}/unique");
-    return {{modelName}}Service.findUnique<T>(params);
-};
-
 export const {{modelName}}FindUniqueApi = async <T extends {{modelName}}FindUniqueProps>(request: NextRequest) => {
     try {
         const params: T = parseAndDecodeParams(request);
-        const response = await {{modelNameLower}}FindUniqueCached<T>(params);
+        const response = await {{modelName}}FindUniqueCached<T>(params);
         return NextResponse.json(response, { status: 200 });
     } catch (error) {
         return NextResponse.json({ error: "{{modelName}}FindUniqueApi -> " + (error as Error).message }, { status: 500 });
     }
 };
 
-// ==================== Count ==================== //
-
-const {{modelNameLower}}CountCached = async (params: {{modelName}}CountProps) => {
-    "use cache";
-    cacheLife(cacheLifeApi);
-    cacheTag("/api/{{modelNameLower}}/count");
-    return {{modelName}}Service.count(params);
-};
-
 export const {{modelName}}CountApi = async (request: NextRequest) => {
     try {
         const params: {{modelName}}CountProps = parseAndDecodeParams(request);
-        const response = await {{modelNameLower}}CountCached(params);
+        const response = await {{modelName}}CountCached(params);
         return NextResponse.json(response, { status: 200 });
     } catch (error) {
         return NextResponse.json({ error: "{{modelName}}CountApi -> " + (error as Error).message }, { status: 500 });

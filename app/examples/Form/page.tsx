@@ -1,24 +1,18 @@
-import { FetchV2 } from "@utils/FetchV2/FetchV2";
+import { CategoryFindManyServer, ProductFindManyServer } from "@services/server";
 import Form from "./form";
 
 export default async function Page() {
     // Fetch the data
-    const categoryList = await FetchV2({
-        route: "/category",
-        params: {
-            select: {
-                id: true,
-                name: true,
-            },
+    const categoryList = await CategoryFindManyServer({
+        select: {
+            id: true,
+            name: true,
         },
     });
-    const productList = await FetchV2({
-        route: "/product",
-        params: {
-            select: {
-                id: true,
-                name: true,
-            },
+    const productList = await ProductFindManyServer({
+        select: {
+            id: true,
+            name: true,
         },
     });
 

@@ -3,7 +3,7 @@ import { StripeInstance } from "@lib/stripe";
 import { CheckCircleIcon, X } from "lucide-react";
 import { redirect } from "next/navigation";
 import BasketCleaner from "./basketCleaner";
-import { OrderFindUnique, OrderUpdate } from "@actions/OrderAction";
+import { OrderFindUniqueAction, OrderUpdateAction } from "@actions/OrderAction";
 
 type SuccessPageProps = {
     searchParams: Promise<{ payment_intent: string }>;
@@ -23,12 +23,12 @@ export default async function SuccessPage(props: SuccessPageProps) {
 
     const orderId = paymentIntent.metadata.orderId;
 
-    const order = await OrderFindUnique({
+    const order = await OrderFindUniqueAction({
         where: { id: orderId },
     });
 
     if (status === "succeeded" && order) {
-        await OrderUpdate({
+        await OrderUpdateAction({
             where: { id: orderId },
             data: {
                 orderStatus: "ACCEPTED",

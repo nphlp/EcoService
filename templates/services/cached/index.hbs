@@ -1,0 +1,3 @@
+{{#each models}}
+export { {{this.name}}CountCached, {{this.name}}FindFirstCached, {{this.name}}FindManyCached, {{this.name}}FindUniqueCached } from './{{this.name}}Cached';
+{{/each}}

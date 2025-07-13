@@ -1,79 +1,87 @@
 "use server";
 
+import { requiresSafeMessage } from "@permissions/requiresSafeMessage";
 import VerificationService from "@services/class/VerificationClass";
 import { VerificationCountProps, VerificationCountResponse, VerificationCreateManyProps, VerificationCreateManyResponse, VerificationCreateProps, VerificationCreateResponse, VerificationDeleteManyProps, VerificationDeleteManyResponse, VerificationDeleteProps, VerificationDeleteResponse, VerificationFindFirstProps, VerificationFindFirstResponse, VerificationFindManyProps, VerificationFindManyResponse, VerificationFindUniqueProps, VerificationFindUniqueResponse, VerificationUpdateManyProps, VerificationUpdateManyResponse, VerificationUpdateProps, VerificationUpdateResponse, VerificationUpsertProps, VerificationUpsertResponse } from "@services/types/VerificationType";
 
 // ========== Single mutations ========== //
 
-export const VerificationCreate = async <T extends VerificationCreateProps>(props: T): Promise<VerificationCreateResponse<T>> => {
+export const VerificationCreateAction = async <T extends VerificationCreateProps>(props: T, disableSafeMessage: boolean = false): Promise<VerificationCreateResponse<T>> => {
     try {
+        await requiresSafeMessage(disableSafeMessage, "VerificationCreateAction", "Verification", "create");
         const { data, error } = await VerificationService.create(props);
         if (!data || error) throw new Error(error);
         return data;
     } catch (error) {
-        throw new Error("VerificationCreate -> " + (error as Error).message);
+        throw new Error("VerificationCreateAction -> " + (error as Error).message);
     }
 };
 
-export const VerificationUpsert = async <T extends VerificationUpsertProps>(props: T): Promise<VerificationUpsertResponse<T>> => {
+export const VerificationUpsertAction = async <T extends VerificationUpsertProps>(props: T, disableSafeMessage: boolean = false): Promise<VerificationUpsertResponse<T>> => {
     try {
+        await requiresSafeMessage(disableSafeMessage, "VerificationUpsertAction", "Verification", "upsert");
         const { data, error } = await VerificationService.upsert(props);
         if (!data || error) throw new Error(error);
         return data;
     } catch (error) {
-        throw new Error("VerificationUpsert -> " + (error as Error).message);
+        throw new Error("VerificationUpsertAction -> " + (error as Error).message);
     }
 };
 
-export const VerificationUpdate = async <T extends VerificationUpdateProps>(props: T): Promise<VerificationUpdateResponse<T>> => {
+export const VerificationUpdateAction = async <T extends VerificationUpdateProps>(props: T, disableSafeMessage: boolean = false): Promise<VerificationUpdateResponse<T>> => {
     try {
+        await requiresSafeMessage(disableSafeMessage, "VerificationUpdateAction", "Verification", "update");
         const { data, error } = await VerificationService.update(props);
         if (!data || error) throw new Error(error);
         return data;
     } catch (error) {
-        throw new Error("VerificationUpdate -> " + (error as Error).message);
+        throw new Error("VerificationUpdateAction -> " + (error as Error).message);
     }
 };
 
-export const VerificationDelete = async <T extends VerificationDeleteProps>(props: T): Promise<VerificationDeleteResponse<T>> => {
+export const VerificationDeleteAction = async <T extends VerificationDeleteProps>(props: T, disableSafeMessage: boolean = false): Promise<VerificationDeleteResponse<T>> => {
     try {
+        await requiresSafeMessage(disableSafeMessage, "VerificationDeleteAction", "Verification", "delete");
         const { data, error } = await VerificationService.delete(props);
         if (!data || error) throw new Error(error);
         return data;
     } catch (error) {
-        throw new Error("VerificationDelete -> " + (error as Error).message);
+        throw new Error("VerificationDeleteAction -> " + (error as Error).message);
     }
 };
 
 // ========== Multiple mutations ========== //
 
-export const VerificationCreateMany = async (props: VerificationCreateManyProps): Promise<VerificationCreateManyResponse> => {
+export const VerificationCreateManyAction = async (props: VerificationCreateManyProps, disableSafeMessage: boolean = false): Promise<VerificationCreateManyResponse> => {
     try {
+        await requiresSafeMessage(disableSafeMessage, "VerificationCreateManyAction", "Verification", "createMany");
         const { data, error } = await VerificationService.createMany(props);
         if (!data || error) throw new Error(error);
         return data;
     } catch (error) {
-        throw new Error("VerificationCreateMany -> " + (error as Error).message);
+        throw new Error("VerificationCreateManyAction -> " + (error as Error).message);
     }
 };
 
-export const VerificationUpdateMany = async (props: VerificationUpdateManyProps): Promise<VerificationUpdateManyResponse> => {
+export const VerificationUpdateManyAction = async (props: VerificationUpdateManyProps, disableSafeMessage: boolean = false): Promise<VerificationUpdateManyResponse> => {
     try {
+        await requiresSafeMessage(disableSafeMessage, "VerificationUpdateManyAction", "Verification", "updateMany");
         const { data, error } = await VerificationService.updateMany(props);
         if (!data || error) throw new Error(error);
         return data;
     } catch (error) {
-        throw new Error("VerificationUpdateMany -> " + (error as Error).message);
+        throw new Error("VerificationUpdateManyAction -> " + (error as Error).message);
     }
 };
 
-export const VerificationDeleteMany = async (props: VerificationDeleteManyProps): Promise<VerificationDeleteManyResponse> => {
+export const VerificationDeleteManyAction = async (props: VerificationDeleteManyProps, disableSafeMessage: boolean = false): Promise<VerificationDeleteManyResponse> => {
     try {
+        await requiresSafeMessage(disableSafeMessage, "VerificationDeleteManyAction", "Verification", "deleteMany");
         const { data, error } = await VerificationService.deleteMany(props);
         if (!data || error) throw new Error(error);
         return data;
     } catch (error) {
-        throw new Error("VerificationDeleteMany -> " + (error as Error).message);
+        throw new Error("VerificationDeleteManyAction -> " + (error as Error).message);
     }
 };
 
@@ -82,45 +90,51 @@ export const VerificationDeleteMany = async (props: VerificationDeleteManyProps)
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const VerificationFindFirst = async <T extends VerificationFindFirstProps>(
-    props: T
+export const VerificationFindFirstAction = async <T extends VerificationFindFirstProps>(
+    props: T,
+    disableSafeMessage: boolean = false
 ): Promise<VerificationFindFirstResponse<T>> => {
     try {
+        await requiresSafeMessage(disableSafeMessage, "VerificationFindFirstAction", "Verification", "findFirst");
         const { data, error } = await VerificationService.findFirst(props);
         if (error) throw new Error(error);
         return data ?? null;
     } catch (error) {
-        throw new Error("VerificationFindFirst -> " + (error as Error).message);
+        throw new Error("VerificationFindFirstAction -> " + (error as Error).message);
     }
 };
 
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const VerificationFindUnique = async <T extends VerificationFindUniqueProps>(
-    props: T
+export const VerificationFindUniqueAction = async <T extends VerificationFindUniqueProps>(
+    props: T,
+    disableSafeMessage: boolean = false
 ): Promise<VerificationFindUniqueResponse<T>> => {
     try {
+        await requiresSafeMessage(disableSafeMessage, "VerificationFindUniqueAction", "Verification", "findUnique");
         const { data, error } = await VerificationService.findUnique(props);
         if (error) throw new Error(error);
         return data ?? null;
     } catch (error) {
-        throw new Error("VerificationFindUnique -> " + (error as Error).message);
+        throw new Error("VerificationFindUniqueAction -> " + (error as Error).message);
     }
 };
 
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const VerificationFindMany = async <T extends VerificationFindManyProps>(
-    props: T
+export const VerificationFindManyAction = async <T extends VerificationFindManyProps>(
+    props: T,
+    disableSafeMessage: boolean = false
 ): Promise<VerificationFindManyResponse<T>> => {
     try {
+        await requiresSafeMessage(disableSafeMessage, "VerificationFindManyAction", "Verification", "findMany");
         const { data, error } = await VerificationService.findMany(props);
         if (!data || error) throw new Error(error);
         return data;
     } catch (error) {
-        throw new Error("VerificationFindMany -> " + (error as Error).message);
+        throw new Error("VerificationFindManyAction -> " + (error as Error).message);
     }
 };
 
@@ -129,12 +143,13 @@ export const VerificationFindMany = async <T extends VerificationFindManyProps>(
 /**
  * WARNING: do not use this for fetching data -> use API routes with caching instead
  */
-export const VerificationCount = async (props: VerificationCountProps): Promise<VerificationCountResponse> => {
+export const VerificationCountAction = async (props: VerificationCountProps, disableSafeMessage: boolean = false): Promise<VerificationCountResponse> => {
     try {
+        await requiresSafeMessage(disableSafeMessage, "VerificationCountAction", "Verification", "count");
         const { data, error } = await VerificationService.count(props);
         if (!data || error) throw new Error(error);
         return data;
     } catch (error) {
-        throw new Error("VerificationCount -> " + (error as Error).message);
+        throw new Error("VerificationCountAction -> " + (error as Error).message);
     }
 };

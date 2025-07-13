@@ -1,7 +1,7 @@
 "use cache";
 
 import ImageRatio from "@comps/server/imageRatio";
-import { FetchV2 } from "@utils/FetchV2/FetchV2";
+import { ArticleFindManyServer } from "@services/server";
 import { Metadata } from "next";
 import { unstable_cacheLife as cacheLife, unstable_cacheTag as cacheTag } from "next/cache";
 import Link from "next/link";
@@ -22,28 +22,25 @@ export default async function Page() {
     cacheLife("hours");
     cacheTag("articles");
 
-    const articleList = await FetchV2({
-        route: "/article",
-        params: {
-            select: {
-                title: true,
-                slug: true,
-                createdAt: true,
-                Content: {
-                    select: {
-                        content: true,
-                        image: true,
-                    },
-                },
-                Author: {
-                    select: {
-                        name: true,
-                    },
+    const articleList = await ArticleFindManyServer({
+        select: {
+            title: true,
+            slug: true,
+            createdAt: true,
+            Content: {
+                select: {
+                    content: true,
+                    image: true,
                 },
             },
-            orderBy: {
-                createdAt: "desc",
+            Author: {
+                select: {
+                    name: true,
+                },
             },
+        },
+        orderBy: {
+            createdAt: "desc",
         },
     });
 

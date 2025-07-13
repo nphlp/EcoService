@@ -1,6 +1,6 @@
 "use client";
 
-import { UserUpdate } from "@actions/UserAction";
+import { UserUpdateAction } from "@actions/UserAction";
 import Button from "@comps/ui/button";
 import Feedback, { FeedbackMode } from "@comps/ui/feedback";
 import Input from "@comps/ui/input";
@@ -48,7 +48,7 @@ export default function RegisterClient() {
             });
 
             if (data) {
-                const userData = await UserUpdate({
+                const userData = await UserUpdateAction({
                     where: { id: data.user.id },
                     data: {
                         lastname,

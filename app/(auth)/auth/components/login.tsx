@@ -6,7 +6,7 @@ import Input from "@comps/ui/input";
 import InputPassword from "@comps/ui/inputPassword";
 import Link from "@comps/ui/link";
 import { signIn } from "@lib/authClient";
-import { hasRole } from "@lib/checkRole";
+import { hasRole } from "@permissions/hasRole";
 import { useRouter, useSearchParams } from "next/navigation";
 import { FormEvent, useState } from "react";
 
@@ -46,6 +46,7 @@ export default function LoginClient() {
             setMessage("Successfully logged in.");
             setMode("success");
             setIsFeedbackOpen(true);
+
             const isAuthorizedToDashboard = await hasRole(["VENDOR", "EMPLOYEE", "ADMIN"]);
             const redirectAccordingRole = isAuthorizedToDashboard ? "/dashboard" : "/profile";
 

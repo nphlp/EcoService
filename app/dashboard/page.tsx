@@ -1,5 +1,5 @@
 import Card from "@comps/server/card";
-import { hasRole } from "@lib/checkRole";
+import { hasRole } from "@permissions/hasRole";
 import { Metadata } from "next";
 import { unauthorized } from "next/navigation";
 import { SideBarToggleTitle } from "./sideBar";
