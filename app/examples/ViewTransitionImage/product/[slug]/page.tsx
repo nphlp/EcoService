@@ -1,6 +1,6 @@
 import ImageRatio from "@comps/server/imageRatio";
 import Link from "@comps/ui/link";
-import { FetchV2 } from "@utils/FetchV2/FetchV2";
+import { ProductFindUniqueServer } from "@services/server";
 import { unstable_ViewTransition as ViewTransition } from "react";
 
 type PageProps = {
@@ -11,10 +11,7 @@ export default async function Page(props: PageProps) {
     const { params } = props;
     const { slug } = await params;
 
-    const product = await FetchV2({
-        route: "/product/unique",
-        params: { where: { slug } },
-    });
+    const product = await ProductFindUniqueServer({ where: { slug } });
 
     if (!product) {
         return <div>Produit non trouvé</div>;

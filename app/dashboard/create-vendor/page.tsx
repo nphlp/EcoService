@@ -1,5 +1,5 @@
-import { hasRole } from "@lib/checkRole";
 import PrismaInstance from "@lib/prisma";
+import { hasRole } from "@permissions/hasRole";
 import { Metadata } from "next";
 import { unauthorized } from "next/navigation";
 import { SideBarToggleTitle } from "../sideBar";

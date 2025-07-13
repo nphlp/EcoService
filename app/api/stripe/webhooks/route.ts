@@ -1,5 +1,5 @@
-import { OrderUpdate } from "@actions/OrderAction";
-import { ProductUpsert } from "@actions/ProductAction";
+import { OrderUpdateAction } from "@actions/OrderAction";
+import { ProductUpsertAction } from "@actions/ProductAction";
 import { StripeInstance } from "@lib/stripe";
 import { StripeError } from "@stripe/stripe-js";
 import { Fetch } from "@utils/Fetch/Fetch";
@@ -106,7 +106,7 @@ const updateOrderStatus = async (paymentIntent: Stripe.PaymentIntent) => {
 
     const { orderId } = metadata;
 
-    await OrderUpdate({
+    await OrderUpdateAction({
         where: { id: orderId },
         data: {
             orderStatus: "ACCEPTED",
@@ -131,7 +131,7 @@ const productUpsert = async (product: Stripe.Product) => {
     const image = images[0];
     const price = productPrice?.unit_amount ?? undefined;
 
-    await ProductUpsert({
+    await ProductUpsertAction({
         where: { id: product.id },
         create: {
             id,

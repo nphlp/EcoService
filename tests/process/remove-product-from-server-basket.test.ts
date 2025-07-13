@@ -8,6 +8,16 @@ vi.mock("next/cache", () => ({
     revalidatePath: vi.fn(),
 }));
 
+// Mock the GetSession function
+vi.mock("@lib/authServer", () => ({
+    GetSession: vi.fn().mockResolvedValue({
+        user: {
+            id: "user-8",
+            role: "USER",
+        },
+    }),
+}));
+
 describe("RemoveProductFromServerBasket", () => {
     it("Add data to database", async () => {
         const { user, products, order } = await createUserProductAndOrder({

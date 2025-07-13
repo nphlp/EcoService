@@ -1,4 +1,4 @@
-import { hasRole } from "@lib/checkRole";
+import { hasRole } from "@permissions/hasRole";
 import { Fetch } from "@utils/Fetch/Fetch";
 import { unauthorized } from "next/navigation";
 

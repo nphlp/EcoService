@@ -1,15 +1,10 @@
 import ImageRatio from "@comps/server/imageRatio";
 import Link from "@comps/ui/link";
-import { FetchV2 } from "@utils/FetchV2/FetchV2";
+import { ProductFindManyServer } from "@services/server";
 import { unstable_ViewTransition as ViewTransition } from "react";
 
 export default async function Page() {
-    const productList = await FetchV2({
-        route: "/product",
-        params: {
-            take: 5,
-        },
-    });
+    const productList = await ProductFindManyServer({ take: 5 });
 
     return (
         <div className="flex h-full flex-col items-start justify-start gap-4 p-7">

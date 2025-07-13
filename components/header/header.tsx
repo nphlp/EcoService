@@ -4,9 +4,10 @@ import Basket from "@comps/basket/basket";
 import Navigation from "@comps/header/browser/navigation";
 import SectionList from "@comps/header/browser/sectionList";
 import MobileHeader from "@comps/header/mobile/mobileHeader";
+import { CategoryFindManyServer, ProductFindManyServer } from "@services/server";
 import { CategoryModel } from "@services/types";
-import { FetchV2 } from "@utils/FetchV2/FetchV2";
 import { unstable_cacheLife as cacheLife, unstable_cacheTag as cacheTag } from "next/cache";
+import { Suspense } from "react";
 
 export type SearchKeywords = {
     slug: string;
@@ -35,15 +36,8 @@ export default async function Header(props: HeaderProps) {
 
     const { className } = props;
 
-    const productList = await FetchV2({
-        route: "/product",
-        params: { take: 100 },
-    });
-
-    const categorieList = await FetchV2({
-        route: "/category",
-        params: { take: 100 },
-    });
+    const productList = await ProductFindManyServer({ take: 100 });
+    const categorieList = await CategoryFindManyServer({ take: 100 });
 
     if (!productList || !categorieList) {
         return <div>Mmmm... It seems there is not data.</div>;
@@ -69,14 +63,16 @@ export default async function Header(props: HeaderProps) {
     );
 
     return (
-        <header className={className}>
-            <BrowserHeader
-                className="bg-white text-center max-md:hidden"
-                keywords={keywords}
-                categorieList={categorieList}
-            />
-            <MobileHeader className="md:hidden" />
-        </header>
+        <Suspense>
+            <header className={className}>
+                <BrowserHeader
+                    className="bg-white text-center max-md:hidden"
+                    keywords={keywords}
+                    categorieList={categorieList}
+                />
+                <MobileHeader className="md:hidden" />
+            </header>
+        </Suspense>
     );
 }
 

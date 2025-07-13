@@ -1,6 +1,11 @@
+import {
+    CategoryFindManyServer,
+    CategoryFindUniqueServer,
+    ProductCountServer,
+    ProductFindManyServer,
+} from "@services/server";
 import { ProductModel } from "@services/types";
 import { CategoryModel } from "@services/types/CategoryType";
-import { FetchV2 } from "@utils/FetchV2/FetchV2";
 import { Metadata } from "next";
 import { unstable_cacheLife as cacheLife, unstable_cacheTag as cacheTag } from "next/cache";
 import CatalogClient from "./components/catalog";
@@ -22,10 +27,7 @@ export async function generateMetadata(props: PageProps): Promise<Metadata> {
 
     const { category } = await SearchParamsCached.parse(searchParams);
 
-    const categoryData = await FetchV2({
-        route: "/category/unique",
-        params: { where: { slug: category } },
-    });
+    const categoryData = await CategoryFindUniqueServer({ where: { slug: category } });
 
     if (!categoryData) {
         return {
@@ -59,20 +61,13 @@ const cachedFetch = async (decodedSearchParams: SearchParamsType): Promise<Cache
 
     const { priceOrder, page, take, category, search } = decodedSearchParams;
 
-    const productAmount = await FetchV2({
-        route: "/product/count",
-        params: ProductAmountFetchParams({ category, search }),
-    });
+    const productAmount = await ProductCountServer(ProductAmountFetchParams({ category, search }));
 
-    const productList = await FetchV2({
-        route: "/product",
-        params: ProductListFetchParams({ priceOrder, page, take, category, search }),
-    });
+    const productList = await ProductFindManyServer(
+        ProductListFetchParams({ priceOrder, page, take, category, search }),
+    );
 
-    const categoryList = await FetchV2({
-        route: "/category",
-        params: CategoryListFetchParams,
-    });
+    const categoryList = await CategoryFindManyServer(CategoryListFetchParams);
 
     return { productAmount, productList, categoryList };
 };

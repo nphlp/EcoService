@@ -11,8 +11,10 @@ Complete auth and user management
 
 ## Priority
 
+- [] Gérer les suspenses
+- [] Gérer les erreurs
+
 - [] Snippet pour créer un composant React ?????
-- [] Renommer les fonctions de l'API avec "API"
 
 - Add test with :
     - Vitest for API, Components, Hooks, Services

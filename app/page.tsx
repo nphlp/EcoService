@@ -5,7 +5,7 @@ import ProductSlider from "@comps/productSlider";
 import ImageRatio from "@comps/server/imageRatio";
 import { ArticleOrDiyFetchParams, ProductFetchParams } from "@comps/sliderFetchParams";
 import { combo } from "@lib/combo";
-import { FetchV2 } from "@utils/FetchV2/FetchV2";
+import { ArticleFindManyServer, DiyFindManyServer, ProductFindManyServer } from "@services/server";
 import { Metadata } from "next";
 import { unstable_cacheLife as cacheLife, unstable_cacheTag as cacheTag } from "next/cache";
 
@@ -27,24 +27,10 @@ export default async function Page() {
 
     const imageClass = "h-[100px] sm:h-[150px] md:h-[120px] lg:h-[160px] xl:h-[220px] rounded shadow-lg";
 
-    const articleList = await FetchV2({
-        route: "/article",
-        params: ArticleOrDiyFetchParams,
-    });
-
-    const diyList = await FetchV2({
-        route: "/diy",
-        params: ArticleOrDiyFetchParams,
-    });
-
-    const productList = await FetchV2({
-        route: "/product",
-        params: ProductFetchParams,
-    });
-
-    if (!articleList || !diyList || !productList) {
-        return <div className="container mx-auto px-4 py-10">Aucun article disponible pour le moment.</div>;
-    }
+    // Data fetching
+    const articleList = await ArticleFindManyServer(ArticleOrDiyFetchParams);
+    const diyList = await DiyFindManyServer(ArticleOrDiyFetchParams);
+    const productList = await ProductFindManyServer(ProductFetchParams);
 
     return (
         <>

@@ -21,28 +21,29 @@ const findRoute = (path: string[]): Route | null => {
     const ApiRoutes: Record<string, Route> = routes;
 
     // If the path is empty, return null
-    if (path.length === 0) {
+    if (path.length === 0 || path.length === 1) {
         return null;
     }
 
     // If the path has a single segment, return the main handler (list)
     const ModelName = path[0].charAt(0).toUpperCase() + path[0].slice(1);
 
-    if (path.length === 1) {
-        return ApiRoutes[`${ModelName}FindManyApi`] ?? null;
-    }
-
     // If the path has two segments, check sub-routes
     if (path.length === 2) {
         const subRoute = path[1];
 
-        // If the sub-route is "unique", return the handler to get a unique item
-        if (subRoute === "unique") {
+        // If the sub-route is "findMany", return the handler to get the list of items
+        if (subRoute === "findMany") {
+            return ApiRoutes[`${ModelName}FindManyApi`] ?? null;
+        }
+
+        // If the sub-route is "findUnique", return the handler to get a unique item
+        if (subRoute === "findUnique") {
             return ApiRoutes[`${ModelName}FindUniqueApi`] ?? null;
         }
 
-        // If the sub-route is "first", return the handler to get the first item
-        if (subRoute === "first") {
+        // If the sub-route is "findFirst", return the handler to get the first item
+        if (subRoute === "findFirst") {
             return ApiRoutes[`${ModelName}FindFirstApi`] ?? null;
         }
 

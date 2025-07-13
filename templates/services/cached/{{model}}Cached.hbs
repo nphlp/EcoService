@@ -1,0 +1,32 @@
+import {{modelName}}Service from "@services/class/{{modelName}}Class";
+import { {{modelName}}CountProps, {{modelName}}FindFirstProps, {{modelName}}FindManyProps, {{modelName}}FindUniqueProps } from "@services/types/{{modelName}}Type";
+import { cacheLifeApi } from "@utils/FetchConfig";
+import { unstable_cacheLife as cacheLife, unstable_cacheTag as cacheTag } from "next/cache";
+
+export const {{modelName}}FindManyCached = async <T extends {{modelName}}FindManyProps>(params: T) => {
+    "use cache";
+    cacheLife(cacheLifeApi);
+    cacheTag("/api/{{modelNameLower}}");
+    return {{modelName}}Service.findMany<T>(params);
+};
+
+export const {{modelName}}FindFirstCached = async <T extends {{modelName}}FindFirstProps>(params: T) => {
+    "use cache";
+    cacheLife(cacheLifeApi);
+    cacheTag("/api/{{modelNameLower}}/first");
+    return {{modelName}}Service.findFirst<T>(params);
+};
+
+export const {{modelName}}FindUniqueCached = async <T extends {{modelName}}FindUniqueProps>(params: T) => {
+    "use cache";
+    cacheLife(cacheLifeApi);
+    cacheTag("/api/{{modelNameLower}}/unique");
+    return {{modelName}}Service.findUnique<T>(params);
+};
+
+export const {{modelName}}CountCached = async (params: {{modelName}}CountProps) => {
+    "use cache";
+    cacheLife(cacheLifeApi);
+    cacheTag("/api/{{modelNameLower}}/count");
+    return {{modelName}}Service.count(params);
+};

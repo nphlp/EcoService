@@ -1,21 +1,18 @@
-import SessionService from "@services/class/SessionClass";
-import { SessionCountProps, SessionCountResponse, SessionFindFirstProps, SessionFindFirstResponse, SessionFindManyProps, SessionFindManyResponse, SessionFindUniqueProps, SessionFindUniqueResponse } from "@services/types/SessionType";
-import { cacheLifeApi, parseAndDecodeParams } from "@utils/FetchConfig";
-import { unstable_cacheLife as cacheLife, unstable_cacheTag as cacheTag } from "next/cache";
+import { SessionCountCached, SessionFindFirstCached, SessionFindManyCached, SessionFindUniqueCached } from "@services/cached/index";
+import { SessionCountProps, SessionCountResponse, SessionFindFirstProps, SessionFindFirstResponse, SessionFindManyProps, SessionFindManyResponse, SessionFindUniqueProps, SessionFindUniqueResponse } from "@services/types/index";
+import { parseAndDecodeParams } from "@utils/FetchConfig";
 import { NextRequest, NextResponse } from "next/server";
 
-// ============== API Routes Types ============== //
-
 export type SessionRoutes<Input> = {
-    "/session": {
+    "/session/findMany": {
         params: SessionFindManyProps,
         response: SessionFindManyResponse<Input extends SessionFindManyProps ? Input : never>
     },
-    "/session/first": {
+    "/session/findFirst": {
         params: SessionFindFirstProps,
         response: SessionFindFirstResponse<Input extends SessionFindFirstProps ? Input : never>
     },
-    "/session/unique": {
+    "/session/findUnique": {
         params: SessionFindUniqueProps,
         response: SessionFindUniqueResponse<Input extends SessionFindUniqueProps ? Input : never>
     },
@@ -25,76 +22,40 @@ export type SessionRoutes<Input> = {
     }
 }
 
-// ==================== Find Many ==================== //
-
-const sessionFindManyCached = async <T extends SessionFindManyProps>(params: T) => {
-    "use cache";
-    cacheLife(cacheLifeApi);
-    cacheTag("/api/session");
-    return SessionService.findMany<T>(params);
-};
-
 export const SessionFindManyApi = async <T extends SessionFindManyProps>(request: NextRequest) => {
     try {
         const params: T = parseAndDecodeParams(request);
-        const response = await sessionFindManyCached<T>(params);
+        const response = await SessionFindManyCached<T>(params);
         return NextResponse.json(response, { status: 200 });
     } catch (error) {
         return NextResponse.json({ error: "SessionFindManyApi -> " + (error as Error).message }, { status: 500 });
     }
 };
 
-// ==================== Find First ==================== //
-
-const sessionFindFirstCached = async <T extends SessionFindFirstProps>(params: T) => {
-    "use cache";
-    cacheLife(cacheLifeApi);
-    cacheTag("/api/session/first");
-    return SessionService.findFirst<T>(params);
-};
-
 export const SessionFindFirstApi = async <T extends SessionFindFirstProps>(request: NextRequest) => {
     try {
         const params: T = parseAndDecodeParams(request);
-        const response = await sessionFindFirstCached<T>(params);
+        const response = await SessionFindFirstCached<T>(params);
         return NextResponse.json(response, { status: 200 });
     } catch (error) {
         return NextResponse.json({ error: "SessionFindFirstApi -> " + (error as Error).message }, { status: 500 });
     }
 };
 
-// ==================== Find Unique ==================== //
-
-const sessionFindUniqueCached = async <T extends SessionFindUniqueProps>(params: T) => {
-    "use cache";
-    cacheLife(cacheLifeApi);
-    cacheTag("/api/session/unique");
-    return SessionService.findUnique<T>(params);
-};
-
 export const SessionFindUniqueApi = async <T extends SessionFindUniqueProps>(request: NextRequest) => {
     try {
         const params: T = parseAndDecodeParams(request);
-        const response = await sessionFindUniqueCached<T>(params);
+        const response = await SessionFindUniqueCached<T>(params);
         return NextResponse.json(response, { status: 200 });
     } catch (error) {
         return NextResponse.json({ error: "SessionFindUniqueApi -> " + (error as Error).message }, { status: 500 });
     }
 };
 
-// ==================== Count ==================== //
-
-const sessionCountCached = async (params: SessionCountProps) => {
-    "use cache";
-    cacheLife(cacheLifeApi);
-    cacheTag("/api/session/count");
-    return SessionService.count(params);
-};
-
 export const SessionCountApi = async (request: NextRequest) => {
     try {
         const params: SessionCountProps = parseAndDecodeParams(request);
-        const response = await sessionCountCached(params);
+        const response = await SessionCountCached(params);
         return NextResponse.json(response, { status: 200 });
     } catch (error) {
         return NextResponse.json({ error: "SessionCountApi -> " + (error as Error).message }, { status: 500 });
