@@ -8,9 +8,6 @@ export async function middleware(request: NextRequest) {
     // Skip in dev for faster refresh
     // if (process.env.NODE_ENV === "development") return NextResponse.next();
 
-    // Skip in test to dodge permissions
-    if (process.env.NODE_ENV === "test") return NextResponse.next();
-
     // Analyse request
     const isAuthorized = await analyseRequest(request);
     if (!isAuthorized) return NextResponse.redirect(`${baseUrl}/unauthorized`);

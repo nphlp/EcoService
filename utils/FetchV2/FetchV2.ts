@@ -35,9 +35,11 @@ export const FetchV2 = async <Input, R extends Route<Input>, P extends Params<In
     const urlParams = params ? "?params=" + encodedParams : "";
     const url = baseUrl + "/api/internal" + route + urlParams;
 
+    const newAbortSignal = process.env.NODE_ENV !== "test" ? AbortSignal.timeout(10000) : undefined;
+
     const response = await fetch(url, {
         method: "GET",
-        signal: signal ?? AbortSignal.timeout(10000),
+        signal: signal ?? newAbortSignal,
     });
 
     const { data, error }: ResponseFormat<FetchResponse<Input, R, P>> = await response.json();

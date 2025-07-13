@@ -22,8 +22,9 @@ const USER: RolePermissions = {
     ...NON_LOGGED,
 
     // Override with
+    Quantity: ["createMany-HO", "delete-HO", "deleteMany-HO"],
+    Order: ["create-HO", "findMany-HO", "findUnique-HO", "update-HO", "delete-HO"],
     User: ["findUnique-HO", "update-HO"],
-    Order: ["findMany-HO"],
 };
 
 const VENDOR: RolePermissions = {

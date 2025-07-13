@@ -1,6 +1,16 @@
 import { GetServerBasket } from "@process/basket/GetServerBasket";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { createUserProductAndOrder, removeUserProductAndOrder } from "./fixtures-mock";
+
+// Mock the GetSession function
+vi.mock("@lib/authServer", () => ({
+    GetSession: vi.fn().mockResolvedValue({
+        user: {
+            id: "user-7",
+            role: "USER",
+        },
+    }),
+}));
 
 describe("GetServerBasket", () => {
     it("Add data to database", async () => {

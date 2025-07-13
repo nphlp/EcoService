@@ -10,7 +10,9 @@ describe("Actions tests", () => {
                 Account: true,
                 Address: true,
             },
-        });
+        },
+        true // Disable safe message
+    );
 
         // Check users
         expect(users).toBeDefined();
@@ -27,7 +29,9 @@ describe("Actions tests", () => {
             include: {
                 Category: true,
             },
-        });
+        },
+        true // Disable safe message
+    );
 
         // Check products
         expect(products).toBeDefined();

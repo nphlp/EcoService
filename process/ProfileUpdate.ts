@@ -46,7 +46,6 @@ export const UpdateLastnameProcess = async (props: UpdateLastnameProcessProps): 
         return { data: user.lastname, status: true };
     } catch (error) {
         const processName = "UpdateLastnameProcess";
-
         ProcessDevError(processName, error);
 
         // TODO: add logging
