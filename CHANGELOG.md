@@ -1,3 +1,10 @@
+# [1.8.0](https://github.com/nansphilip/EcoService/compare/v1.7.0...v1.8.0) (2025-07-13)
+
+### Features
+
+- implement permissions ([243c40f](https://github.com/nansphilip/EcoService/commit/243c40f0a6eb69062df8e6f2f0b0e249823c2468))
+- update ci cd doc ([5a3a5b3](https://github.com/nansphilip/EcoService/commit/5a3a5b38180276599f69c3a5f7d66faab3714559))
+
 # [1.7.0](https://github.com/nansphilip/EcoService/compare/v1.6.1...v1.7.0) (2025-06-09)
 
 ### Features
