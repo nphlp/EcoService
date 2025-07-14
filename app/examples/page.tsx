@@ -4,13 +4,8 @@ import Link from "@comps/ui/link";
 export default function Page() {
     const links = [
         {
-            label: "Combobox (Shadcn)",
-            href: "/examples/Combobox",
-            text: "How to create a combobox",
-        },
-        {
-            label: "Form",
-            href: "/examples/Form",
+            label: "Formulaire",
+            href: "/examples/formulaire",
             text: "How to create a form",
         },
         {

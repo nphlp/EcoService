@@ -15,7 +15,7 @@ export type InputProps = {
 } & Omit<InputHTMLAttributes<HTMLInputElement>, "className" | "label" | "required">;
 
 /**
- * Input image with preview
+ * Input component
  * @example
  * ```tsx
  * // Define the state

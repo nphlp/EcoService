@@ -14,14 +14,16 @@ import {
 import { Popover, PopoverContent, PopoverTrigger } from "@comps/shadcn/components/ui/popover";
 import { useState } from "react";
 
-type ComboboxProps = {
-    options: {
-        label: string;
-        value: string;
-    }[];
+export type OptionShadCnType = {
+    label: string;
+    value: string;
 };
 
-export default function Combobox(props: ComboboxProps) {
+type ComboboxShadCnProps = {
+    options: OptionShadCnType[];
+};
+
+export default function ComboboxShadCn(props: ComboboxShadCnProps) {
     const { options } = props;
 
     const [value, setValue] = useState("");
