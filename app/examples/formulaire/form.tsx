@@ -1,17 +1,16 @@
 "use client";
 
 import Button from "@comps/ui/button";
-import Combobox, { OptionComboType } from "@comps/ui/combobox";
-import ComboboxMulti, { OptionComboMultiType } from "@comps/ui/comboboxMulti";
+import Combobox, { OptionComboType, useComboboxStates } from "@comps/ui/combobox";
+import ComboboxMulti, { OptionComboMultiType, useComboboxMultiStates } from "@comps/ui/comboboxMulti";
 import Feedback, { FeedbackMode } from "@comps/ui/feedback";
-import Input from "@comps/ui/input";
+import Input, { useInputState } from "@comps/ui/input";
 import InputImage from "@comps/ui/inputImage";
-import Select from "@comps/ui/select";
+import Select, { OptionSelectType } from "@comps/ui/select";
 import { FormEvent, useState } from "react";
-import { OptionShadCnType } from "./comboboxShadCn";
 
 type FormProps = {
-    categoryOptions: OptionShadCnType[];
+    categoryOptions: OptionSelectType[];
     articleOptions: OptionComboType[];
     productOptions: OptionComboMultiType[];
 };
@@ -20,23 +19,11 @@ export default function Form(props: FormProps) {
     const { categoryOptions, articleOptions, productOptions } = props;
 
     // State
-    const [name, setName] = useState<string>("");
+    const [name, setName] = useInputState();
     const [category, setCategory] = useState<string>("");
     const [image, setImage] = useState<File | null>(null);
-
-    // Combobox
-    const initialSelection: string | null = null; // Get this from server
-    const initialOption: OptionComboType[] = articleOptions; // Get this from server
-    const [query, setQuery] = useState<string>("");
-    const [selected, setSelected] = useState<string | null>(initialSelection);
-    const [options, setOptions] = useState<OptionComboType[]>(initialOption);
-
-    // ComboboxMulti
-    const initialSelections: string[] = []; // Get this from server
-    const initialOptions: OptionComboMultiType[] = productOptions; // Get this from server
-    const [queryMulti, setQueryMulti] = useState<string>("");
-    const [selectedMulti, setSelectedMulti] = useState<string[]>(initialSelections);
-    const [optionsMulti, setOptionsMulti] = useState<OptionComboMultiType[]>(initialOptions);
+    const comboboxStates = useComboboxStates(null, articleOptions);
+    const comboboxMultiStates = useComboboxMultiStates([], productOptions);
 
     // Feedback
     const [message, setMessage] = useState("");
@@ -50,26 +37,30 @@ export default function Form(props: FormProps) {
         e.preventDefault();
         setIsLoading(true);
 
+        // Simulate latency
         await new Promise((resolve) => setTimeout(resolve, 500));
 
-        const data = {
+        // Print all states
+        console.log({
             input: name,
             select: category,
-            combobox: selected,
-            comboboxMulti: selectedMulti,
+            combobox: comboboxStates.selected,
+            comboboxMulti: comboboxMultiStates.selected,
             inputImage: image?.name,
-        };
+        });
 
-        console.log(data);
-
+        // Set feedback
         setMessage("Formulaire envoyé avec succès");
         setMode("success");
         setIsFeedbackOpen(true);
 
+        // Reset loading
         setIsLoading(false);
 
+        // Wait for feedback reset
         await new Promise((resolve) => setTimeout(resolve, 2000));
 
+        // Reset feedback
         setIsFeedbackOpen(false);
     };
 
@@ -97,24 +88,14 @@ export default function Form(props: FormProps) {
                 placeholder="Sélectionnez un article"
                 classComponent="w-full"
                 initialOption={articleOptions}
-                query={query}
-                setQuery={setQuery}
-                selected={selected}
-                setSelected={setSelected}
-                options={options}
-                setOptions={setOptions}
+                states={comboboxStates}
             />
             <ComboboxMulti
                 label="Produits"
                 placeholder="Sélectionnez des produits"
                 classComponent="w-full"
                 initialOptions={productOptions}
-                query={queryMulti}
-                setQuery={setQueryMulti}
-                selected={selectedMulti}
-                setSelected={setSelectedMulti}
-                options={optionsMulti}
-                setOptions={setOptionsMulti}
+                states={comboboxMultiStates}
             />
             <InputImage
                 label="Image"

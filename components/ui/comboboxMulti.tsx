@@ -25,27 +25,43 @@ type ComboboxMultiProps = {
     placeholder?: string;
     classComponent?: string;
     initialOptions: OptionComboMultiType[];
-    // States
-    query: string;
-    setQuery: (value: string) => void;
-    selected: string[];
-    setSelected: (value: string[]) => void;
-    options: OptionComboMultiType[];
-    setOptions: (value: OptionComboMultiType[]) => void;
+    states: {
+        query: string;
+        setQuery: (value: string) => void;
+        selected: string[];
+        setSelected: (value: string[]) => void;
+        options: OptionComboMultiType[];
+        setOptions: (value: OptionComboMultiType[]) => void;
+    };
+};
+
+/**
+ * Typed hook to manage combobox multi-selection state
+ * @example
+ * ```tsx
+ * // Import hook states
+ * const comboboxMultiStates = useComboboxMultiStates([], productOptions);
+ *
+ * // Extract any state you need in the following properties
+ * const { query, setQuery, selected, setSelected, options, setOptions } = comboboxMultiStates;
+ * ```
+ */
+export const useComboboxMultiStates = (initialSelections: string[], initialOptions: OptionComboMultiType[]) => {
+    const [query, setQuery] = useState<string>("");
+    const [selected, setSelected] = useState<string[]>(initialSelections);
+    const [options, setOptions] = useState<OptionComboMultiType[]>(initialOptions);
+    return { query, setQuery, selected, setSelected, options, setOptions };
 };
 
 /**
  * Combobox multi-selection component
  * @example
  * ```tsx
- * // Get initial selection and options from server
- * const initialSelections: string[] = [];
- * const initialOptions: OptionComboMultiType[] = productOptions;
+ * // Import hook states
+ * const comboboxMultiStates = useComboboxMultiStates([], productOptions);
  *
- * // Define the state
- * const [query, setQuery] = useState<string>("");
- * const [selected, setSelected] = useState<string[]>(initialSelections);
- * const [options, setOptions] = useState<OptionComboMultiType[]>(initialOptions);
+ * // Extract only what you need
+ * const { selected, setOptions } = comboboxMultiStates;
  *
  * // Use the component
  * <ComboboxMulti
@@ -53,28 +69,13 @@ type ComboboxMultiProps = {
  *     placeholder="Sélectionnez des produits"
  *     classComponent="w-full"
  *     initialOptions={productOptions}
- *     query={query}
- *     setQuery={setQuery}
- *     selected={selected}
- *     setSelected={setSelected}
- *     options={options}
- *     setOptions={setOptions}
+ *     states={comboboxMultiStates}
  * />
  * ```
  */
 export default function ComboboxMulti(props: ComboboxMultiProps) {
-    const {
-        label,
-        placeholder,
-        classComponent,
-        initialOptions,
-        query,
-        setQuery,
-        selected,
-        setSelected,
-        options,
-        setOptions,
-    } = props;
+    const { label, placeholder, classComponent, initialOptions, states } = props;
+    const { query, setQuery, selected, setSelected, options, setOptions } = states;
 
     const handleQueryChange = (event: ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value;

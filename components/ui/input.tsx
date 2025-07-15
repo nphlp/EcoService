@@ -1,7 +1,7 @@
 "use client";
 
 import { combo } from "@lib/combo";
-import { ChangeEvent, InputHTMLAttributes, MouseEvent } from "react";
+import { ChangeEvent, InputHTMLAttributes, MouseEvent, useState } from "react";
 import { InputVariant, inputTheme } from "./themes/inputTheme";
 
 /** Input props */
@@ -15,16 +15,21 @@ export type InputProps = {
     classInput?: string;
 } & Omit<InputHTMLAttributes<HTMLInputElement>, "className" | "label" | "onChange" | "required">;
 
-// const useInputState = () => {
-//     const [value, setValue] = useState<string>("");
-// }
+/**
+ * Typed hook to manage input state
+ * @example
+ * ```tsx
+ * const [name, setName] = useInputState();
+ * ```
+ */
+export const useInputState = () => useState<string>("");
 
 /**
  * Input component
  * @example
  * ```tsx
  * // Define the state
- * const [name, setName] = useState<string>("");
+ * const [name, setName] = useInputState();
  *
  * // Use the component
  * <Input

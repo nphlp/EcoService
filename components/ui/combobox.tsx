@@ -11,7 +11,7 @@ import { combo } from "@lib/combo";
 import { StringToSlug } from "@utils/StringToSlug";
 import isEqual from "lodash/isEqual";
 import { Check, ChevronDown, X } from "lucide-react";
-import { ChangeEvent, useEffect } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 
 export type OptionComboType = {
     slug: string;
@@ -23,27 +23,43 @@ type ComboboxProps = {
     placeholder?: string;
     classComponent?: string;
     initialOption: OptionComboType[];
-    // States
-    query: string;
-    setQuery: (value: string) => void;
-    selected: string | null;
-    setSelected: (value: string | null) => void;
-    options: OptionComboType[];
-    setOptions: (value: OptionComboType[]) => void;
+    states: {
+        query: string;
+        setQuery: (value: string) => void;
+        selected: string | null;
+        setSelected: (value: string | null) => void;
+        options: OptionComboType[];
+        setOptions: (value: OptionComboType[]) => void;
+    };
+};
+
+/**
+ * Typed hook to manage combobox state
+ * @example
+ * ```tsx
+ * // Import hook states
+ * const comboboxStates = useComboboxStates(null, articleOptions);
+ *
+ * // Extract any state you need in the following properties
+ * const { query, setQuery, selected, setSelected, options, setOptions } = comboboxStates;
+ * ```
+ */
+export const useComboboxStates = (initialSelection: string | null, initialOption: OptionComboType[]) => {
+    const [query, setQuery] = useState<string>("");
+    const [selected, setSelected] = useState<string | null>(initialSelection);
+    const [options, setOptions] = useState<OptionComboType[]>(initialOption);
+    return { query, setQuery, selected, setSelected, options, setOptions };
 };
 
 /**
  * Combobox component
  * @example
  * ```tsx
- * // Get initial selection and options from server
- * const initialSelection: string | null = null;
- * const initialOption: OptionComboType[] = articleOptions;
+ * // Import hook states
+ * const comboboxStates = useComboboxStates(null, articleOptions);
  *
- * // Define the state
- * const [query, setQuery] = useState<string>("");
- * const [selected, setSelected] = useState<string | null>(initialSelection);
- * const [options, setOptions] = useState<OptionComboType[]>(initialOption);
+ * // Extract only what you need
+ * const { selected, setOptions } = comboboxStates;
  *
  * // Use the component
  * <Combobox
@@ -51,28 +67,13 @@ type ComboboxProps = {
  *     placeholder="Sélectionnez un article"
  *     classComponent="w-full"
  *     initialOption={articleOptions}
- *     query={query}
- *     setQuery={setQuery}
- *     selected={selected}
- *     setSelected={setSelected}
- *     options={options}
- *     setOptions={setOptions}
+ *     states={comboboxStates}
  * />
  * ```
  */
 export default function Combobox(props: ComboboxProps) {
-    const {
-        label,
-        placeholder,
-        classComponent,
-        initialOption,
-        query,
-        setQuery,
-        selected,
-        setSelected,
-        options,
-        setOptions,
-    } = props;
+    const { label, placeholder, classComponent, initialOption, states } = props;
+    const { query, setQuery, selected, setSelected, options, setOptions } = states;
 
     const handleQueryChange = (event: ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value;
