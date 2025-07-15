@@ -78,7 +78,7 @@ export default function Form(props: FormProps) {
             <Input
                 label="Nom"
                 placeholder="Entrez votre nom"
-                onChange={(e) => setName(e.target.value)}
+                setValue={setName}
                 value={name}
                 classComponent="w-full"
                 required={false}

@@ -88,20 +88,10 @@ export default function RegisterClient() {
             </div>
             <form onSubmit={handleSubmit} className="flex flex-col items-center justify-center gap-4">
                 <div className="w-full space-y-4">
-                    <Input
-                        label="Prénom"
-                        type="text"
-                        onChange={(e) => setFirstname(e.target.value)}
-                        value={firstname}
-                    />
-                    <Input label="Nom" type="text" onChange={(e) => setLastname(e.target.value)} value={lastname} />
-                    <Input label="Email" type="email" onChange={(e) => setEmail(e.target.value)} value={email} />
-                    <InputPassword
-                        label="Mot de passe"
-                        onChange={(e) => setPassword(e.target.value)}
-                        value={password}
-                        required={false}
-                    />
+                    <Input label="Prénom" type="text" setValue={setFirstname} value={firstname} />
+                    <Input label="Nom" type="text" setValue={setLastname} value={lastname} />
+                    <Input label="Email" type="email" setValue={setEmail} value={email} />
+                    <InputPassword label="Mot de passe" setValue={setPassword} value={password} required={false} />
                 </div>
                 <Link
                     href="/auth"

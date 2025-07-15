@@ -1,19 +1,19 @@
 "use client";
 
+import { combo } from "@lib/combo";
 import { Eye, EyeClosed } from "lucide-react";
+import { useState } from "react";
 import Button from "./button";
 import Input, { InputProps } from "./input";
-import { ChangeEvent, useState } from "react";
-import { combo } from "@lib/combo";
 
 type InputPasswordProps = {
     classPasswordComponent?: string;
-    onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+    setValue: (value: string) => void;
     value: string;
 } & Omit<InputProps, "onChange" | "value">;
 
 export default function InputPassword(props: InputPasswordProps) {
-    const { onChange, value, classPasswordComponent, ...others } = props;
+    const { setValue, value, classPasswordComponent, ...others } = props;
     const [toggleVisibility, setToggleVisibility] = useState(false);
 
     return (
@@ -21,7 +21,7 @@ export default function InputPassword(props: InputPasswordProps) {
             <Input
                 type={toggleVisibility ? "text" : "password"}
                 classComponent="w-full"
-                onChange={onChange}
+                setValue={setValue}
                 value={value}
                 {...others}
             />

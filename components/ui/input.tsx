@@ -1,18 +1,23 @@
 "use client";
 
 import { combo } from "@lib/combo";
-import { InputHTMLAttributes, MouseEvent } from "react";
+import { ChangeEvent, InputHTMLAttributes, MouseEvent } from "react";
 import { InputVariant, inputTheme } from "./themes/inputTheme";
 
 /** Input props */
 export type InputProps = {
     label: string;
     variant?: InputVariant;
+    setValue: (value: string) => void;
     required?: boolean;
     classComponent?: string;
     classLabel?: string;
     classInput?: string;
-} & Omit<InputHTMLAttributes<HTMLInputElement>, "className" | "label" | "required">;
+} & Omit<InputHTMLAttributes<HTMLInputElement>, "className" | "label" | "onChange" | "required">;
+
+// const useInputState = () => {
+//     const [value, setValue] = useState<string>("");
+// }
 
 /**
  * Input component
@@ -31,7 +36,20 @@ export type InputProps = {
  * ```
  */
 export default function Input(props: InputProps) {
-    const { label, variant = "default", required = true, classComponent, classLabel, classInput, ...others } = props;
+    const {
+        label,
+        variant = "default",
+        setValue,
+        required = true,
+        classComponent,
+        classLabel,
+        classInput,
+        ...others
+    } = props;
+
+    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+        setValue(e.target.value);
+    };
 
     /** Prevent a clic on the label to focus the input */
     const preventDefault = (e: MouseEvent<HTMLLabelElement>) => {
@@ -45,7 +63,12 @@ export default function Input(props: InputProps) {
             <div className={combo(inputTheme[variant].label, classLabel)}>{label}</div>
 
             {/* Input */}
-            <input className={combo(inputTheme[variant].input, classInput)} required={required} {...others} />
+            <input
+                onChange={handleChange}
+                className={combo(inputTheme[variant].input, classInput)}
+                required={required}
+                {...others}
+            />
         </label>
     );
 }
