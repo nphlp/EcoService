@@ -6,12 +6,17 @@ export default function Page() {
         {
             label: "Formulaire",
             href: "/examples/formulaire",
-            text: "How to create a form",
+            text: "How to create a form with input, select...",
         },
         {
-            label: "Image Import",
-            href: "/examples/ImageImport",
-            text: "How to import an image",
+            label: "Search",
+            href: "/examples/search",
+            text: "How to create a multi-search combobox",
+        },
+        {
+            label: "Image Upload",
+            href: "/examples/image-upload",
+            text: "How to upload an image",
         },
         {
             label: "Slider",

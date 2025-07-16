@@ -1,8 +1,9 @@
 "use client";
 
 import Button from "@comps/ui/button";
-import Combobox, { OptionComboType, useComboboxStates } from "@comps/ui/combobox";
-import ComboboxMulti, { OptionComboMultiType, useComboboxMultiStates } from "@comps/ui/comboboxMulti";
+import Combobox, { useComboboxStates } from "@comps/ui/comboboxes/combobox";
+import ComboboxMulti, { useComboboxMultiStates } from "@comps/ui/comboboxes/comboboxMulti";
+import { OptionComboType } from "@comps/ui/comboboxes/utils";
 import Feedback, { FeedbackMode } from "@comps/ui/feedback";
 import Input, { useInputState } from "@comps/ui/input";
 import InputImage from "@comps/ui/inputImage";
@@ -12,7 +13,7 @@ import { FormEvent, useState } from "react";
 type FormProps = {
     categoryOptions: OptionSelectType[];
     articleOptions: OptionComboType[];
-    productOptions: OptionComboMultiType[];
+    productOptions: OptionComboType[];
 };
 
 export default function Form(props: FormProps) {

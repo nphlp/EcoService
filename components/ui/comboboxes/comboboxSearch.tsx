@@ -1,5 +1,6 @@
 "use client";
 
+import Loader from "@comps/ui/loader";
 import {
     ComboboxButton,
     Combobox as ComboboxHeadlessUI,
@@ -8,21 +9,14 @@ import {
     ComboboxOptions,
 } from "@headlessui/react";
 import { combo } from "@lib/combo";
-import { StringToSlug } from "@utils/StringToSlug";
-import isEqual from "lodash/isEqual";
 import { Check, ChevronDown, X } from "lucide-react";
-import { ChangeEvent, useEffect, useState } from "react";
-
-export type OptionComboType = {
-    slug: string;
-    name: string;
-};
+import { ChangeEvent, KeyboardEvent, useState } from "react";
+import { getOptionFromSlug, OptionComboType } from "./utils";
 
 type ComboboxProps = {
     label?: string;
     placeholder?: string;
     classComponent?: string;
-    initialOption: OptionComboType[];
     states: {
         query: string;
         setQuery: (value: string) => void;
@@ -31,19 +25,9 @@ type ComboboxProps = {
         options: OptionComboType[];
         setOptions: (value: OptionComboType[]) => void;
     };
+    isLoading?: boolean;
 };
 
-/**
- * Typed hook to manage combobox state
- * @example
- * ```tsx
- * // Import hook states
- * const comboboxStates = useComboboxStates(null, articleOptions);
- *
- * // Extract any state you need in the following properties
- * const { query, setQuery, selected, setSelected, options, setOptions } = comboboxStates;
- * ```
- */
 export const useComboboxStates = (initialSelection: string | null, initialOption: OptionComboType[]) => {
     const [query, setQuery] = useState<string>("");
     const [selected, setSelected] = useState<string | null>(initialSelection);
@@ -51,29 +35,9 @@ export const useComboboxStates = (initialSelection: string | null, initialOption
     return { query, setQuery, selected, setSelected, options, setOptions };
 };
 
-/**
- * Combobox component
- * @example
- * ```tsx
- * // Import hook states
- * const comboboxStates = useComboboxStates(null, articleOptions);
- *
- * // Extract only what you need
- * const { selected, setOptions } = comboboxStates;
- *
- * // Use the component
- * <Combobox
- *     label="Article"
- *     placeholder="Sélectionnez un article"
- *     classComponent="w-full"
- *     initialOption={articleOptions}
- *     states={comboboxStates}
- * />
- * ```
- */
-export default function Combobox(props: ComboboxProps) {
-    const { label, placeholder, classComponent, initialOption, states } = props;
-    const { query, setQuery, selected, setSelected, options, setOptions } = states;
+export default function ComboboxSearch(props: ComboboxProps) {
+    const { label, placeholder, classComponent, states, isLoading } = props;
+    const { setQuery, selected, setSelected, options } = states;
 
     const handleQueryChange = (event: ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value;
@@ -83,28 +47,16 @@ export default function Combobox(props: ComboboxProps) {
     const handleSelectionChange = (value: string | null) => {
         if (value === null) return;
         setSelected(value);
-        setQuery("");
-    };
-
-    const handleDisplayValue = (slug: string) => {
-        const option = options.find((option) => option.slug === slug);
-        return option?.name ?? "";
     };
 
     const handleDropdownClosing = () => {
         setQuery("");
-        setOptions(initialOption);
     };
 
-    useEffect(() => {
-        if (query.length > 0) {
-            const querySlug = StringToSlug(query);
-            const newOptions = initialOption.filter((option) => option.slug.includes(querySlug));
-            if (!isEqual(newOptions, options)) setOptions(newOptions);
-        } else {
-            setOptions(initialOption);
-        }
-    }, [query, options, initialOption, setOptions]);
+    const handleDisplayValue = (slug: string) => {
+        const option = getOptionFromSlug(slug, options);
+        return option?.name ?? "";
+    };
 
     return (
         <div className={combo(classComponent)}>
@@ -129,7 +81,12 @@ export default function Combobox(props: ComboboxProps) {
                             "transition-all duration-150",
                         )}
                     />
-                    <ComboboxIcon selected={selected} setSelected={setSelected} setQuery={setQuery} />
+                    <ComboboxIcon
+                        selected={selected}
+                        setSelected={setSelected}
+                        setQuery={setQuery}
+                        isLoading={isLoading}
+                    />
                 </div>
                 <ComboboxOptions
                     anchor="bottom"
@@ -165,10 +122,29 @@ type ComboboxIconProps = {
     selected: string | null;
     setSelected: (value: string | null) => void;
     setQuery: (value: string) => void;
+    isLoading?: boolean;
 };
 
 export const ComboboxIcon = (props: ComboboxIconProps) => {
-    const { selected, setSelected, setQuery } = props;
+    const { selected, setSelected, setQuery, isLoading } = props;
+
+    const handleRemoveAll = () => {
+        setSelected("");
+        setQuery("");
+    };
+
+    const preventDefault = (e: KeyboardEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+        e.stopPropagation();
+    };
+
+    if (isLoading) {
+        return (
+            <div className={combo("absolute top-1/2 right-1 -translate-y-1/2 cursor-pointer rounded-full p-1")}>
+                <Loader />
+            </div>
+        );
+    }
 
     if (!selected) {
         return (
@@ -183,10 +159,8 @@ export const ComboboxIcon = (props: ComboboxIconProps) => {
     return (
         <button
             type="button"
-            onClick={() => {
-                setSelected("");
-                setQuery("");
-            }}
+            onClick={handleRemoveAll}
+            onKeyDown={preventDefault}
             className={combo("absolute top-1/2 right-1 -translate-y-1/2 cursor-pointer rounded-full p-1")}
         >
             <X className="size-5 fill-white" />

@@ -12,26 +12,22 @@ import { StringToSlug } from "@utils/StringToSlug";
 import { motion } from "framer-motion";
 import isEqual from "lodash/isEqual";
 import { Check, ChevronDown, X } from "lucide-react";
-import { ChangeEvent, useEffect, useRef, useState } from "react";
-import Popover from "./popover";
-
-export type OptionComboMultiType = {
-    slug: string;
-    name: string;
-};
+import { ChangeEvent, KeyboardEvent, useEffect, useRef, useState } from "react";
+import Popover from "../popover";
+import { OptionComboType } from "./utils";
 
 type ComboboxMultiProps = {
     label?: string;
     placeholder?: string;
     classComponent?: string;
-    initialOptions: OptionComboMultiType[];
+    initialOptions: OptionComboType[];
     states: {
         query: string;
         setQuery: (value: string) => void;
         selected: string[];
         setSelected: (value: string[]) => void;
-        options: OptionComboMultiType[];
-        setOptions: (value: OptionComboMultiType[]) => void;
+        options: OptionComboType[];
+        setOptions: (value: OptionComboType[]) => void;
     };
 };
 
@@ -46,10 +42,10 @@ type ComboboxMultiProps = {
  * const { query, setQuery, selected, setSelected, options, setOptions } = comboboxMultiStates;
  * ```
  */
-export const useComboboxMultiStates = (initialSelections: string[], initialOptions: OptionComboMultiType[]) => {
+export const useComboboxMultiStates = (initialSelections: string[], initialOptions: OptionComboType[]) => {
     const [query, setQuery] = useState<string>("");
     const [selected, setSelected] = useState<string[]>(initialSelections);
-    const [options, setOptions] = useState<OptionComboMultiType[]>(initialOptions);
+    const [options, setOptions] = useState<OptionComboType[]>(initialOptions);
     return { query, setQuery, selected, setSelected, options, setOptions };
 };
 
@@ -102,7 +98,7 @@ export default function ComboboxMulti(props: ComboboxMultiProps) {
             const newOptions = initialOptions.filter((option) => option.slug.includes(querySlug));
             if (!isEqual(newOptions, options)) setOptions(newOptions);
         } else {
-            setOptions(initialOptions);
+            if (!isEqual(initialOptions, options)) setOptions(initialOptions);
         }
     }, [query, options, initialOptions, setOptions]);
 
@@ -175,6 +171,16 @@ type ComboboxIconProps = {
 export const ComboboxIcon = (props: ComboboxIconProps) => {
     const { selected, setSelected, setQuery } = props;
 
+    const handleRemoveAll = () => {
+        setSelected([]);
+        setQuery("");
+    };
+
+    const preventDefault = (e: KeyboardEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+        e.stopPropagation();
+    };
+
     if (selected.length === 0) {
         return (
             <ComboboxButton
@@ -188,10 +194,8 @@ export const ComboboxIcon = (props: ComboboxIconProps) => {
     return (
         <button
             type="button"
-            onClick={() => {
-                setSelected([]);
-                setQuery("");
-            }}
+            onClick={handleRemoveAll}
+            onKeyDown={preventDefault}
             className={combo("absolute top-1/2 right-1 -translate-y-1/2 cursor-pointer rounded-full p-1")}
         >
             <X className="size-5 fill-white" />
@@ -201,7 +205,7 @@ export const ComboboxIcon = (props: ComboboxIconProps) => {
 
 type ComboboxDisplayProps = {
     selected: string[];
-    initialOptions: OptionComboMultiType[];
+    initialOptions: OptionComboType[];
     maxLength?: number;
     handleRemove: (slug: string) => void;
     className?: string;
