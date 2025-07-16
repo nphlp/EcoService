@@ -12,15 +12,15 @@ import { useFetchV2 } from "@utils/FetchV2/FetchHookV2";
 import { isEqual } from "lodash";
 import { FormEvent, useEffect } from "react";
 
-type ResearchProps = {
-    productOptions: OptionComboType[];
+type ResearchProps<T extends string | undefined> = {
+    initialOptions: OptionComboType<T | undefined>[];
 };
 
-export default function Search(props: ResearchProps) {
-    const { productOptions } = props;
+export default function Search<T extends string | undefined>(props: ResearchProps<T>) {
+    const { initialOptions } = props;
 
     // ======= State ======= //
-    const comboboxStates = useComboboxStates(null, productOptions);
+    const comboboxStates = useComboboxStates(null, initialOptions);
     const { selected, query, options, setOptions } = comboboxStates;
 
     // ======= Fetch ======= //
@@ -29,7 +29,7 @@ export default function Search(props: ResearchProps) {
         params: {
             select: { slug: true, name: true },
             where: { name: { contains: query } },
-            take: 8,
+            take: 5,
         },
     });
 
@@ -38,7 +38,7 @@ export default function Search(props: ResearchProps) {
         params: {
             select: { slug: true, name: true },
             where: { name: { contains: query } },
-            take: 8,
+            take: 5,
         },
     });
 
@@ -47,30 +47,53 @@ export default function Search(props: ResearchProps) {
         params: {
             select: { slug: true, title: true },
             where: { title: { contains: query } },
-            take: 8,
+            take: 5,
+        },
+    });
+
+    const { data: diyData, isLoading: isLoadingDiy } = useFetchV2({
+        route: "/diy/findMany",
+        params: {
+            select: { slug: true, title: true },
+            where: { title: { contains: query } },
+            take: 5,
         },
     });
 
     // ======= Updates ======= //
     useEffect(() => {
+        // Required to avoid useEffect execution on initial render
+        // and to keep initial options
+        if (!articleData && !categoryData && !productData) return;
+
         // Create an options with the selected state
         const selectedOptions = createSelectedOptions(selected, options);
 
         // Create formatted options from the fetched data
-        const productOptions = createOptions(productData);
-        const categoryOptions = createOptions(categoryData);
-        const articleOptions = createOptions(articleData);
+        const productOptions = createOptions(productData, "product");
+        const categoryOptions = createOptions(categoryData, "category");
+        const articleOptions = createOptions(articleData, "article");
+        const diyOptions = createOptions(diyData, "diy");
 
         // Merge options
-        const optionsToMerge = [...selectedOptions, ...productOptions, ...categoryOptions, ...articleOptions];
-        const newOptions = mergeAndDeduplicateOptions({ optionsToMerge, limit: 10 });
+        const optionsToMerge = [
+            ...selectedOptions,
+            ...productOptions,
+            ...categoryOptions,
+            ...articleOptions,
+            ...diyOptions,
+        ];
+        const newOptions = mergeAndDeduplicateOptions<T>({
+            optionsToMerge: optionsToMerge as OptionComboType<T>[],
+            limit: 10,
+        });
 
         // Update options if different
         const areDifferent = !isEqual(newOptions, options);
         if (areDifferent) setOptions(newOptions);
-    }, [productData, categoryData, articleData, options, setOptions, selected]);
+    }, [productData, categoryData, articleData, diyData, options, setOptions, selected]);
 
-    const isLoading = isLoadingProduct || isLoadingCategory || isLoadingArticle;
+    const isLoading = isLoadingProduct || isLoadingCategory || isLoadingArticle || isLoadingDiy;
 
     // ======= Form ======= //
     const handleSubmit = async (e: FormEvent) => {
@@ -81,8 +104,8 @@ export default function Search(props: ResearchProps) {
     return (
         <form className="flex flex-col items-center justify-center gap-4" onSubmit={handleSubmit}>
             <ComboboxSearch
-                label="Produits"
-                placeholder="Recherchez un produit"
+                label="Recherchez et sélectionnez"
+                placeholder="Un produit, une catégorie ou un article..."
                 classComponent="w-full"
                 states={comboboxStates}
                 isLoading={isLoading}

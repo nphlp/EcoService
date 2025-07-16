@@ -10,10 +10,10 @@ import {
 } from "@headlessui/react";
 import { combo } from "@lib/combo";
 import { Check, ChevronDown, X } from "lucide-react";
-import { ChangeEvent, KeyboardEvent, useState } from "react";
+import { ChangeEvent, KeyboardEvent, MouseEvent, useState } from "react";
 import { getOptionFromSlug, OptionComboType } from "./utils";
 
-type ComboboxProps = {
+type ComboboxProps<T extends string | undefined> = {
     label?: string;
     placeholder?: string;
     classComponent?: string;
@@ -22,20 +22,23 @@ type ComboboxProps = {
         setQuery: (value: string) => void;
         selected: string | null;
         setSelected: (value: string | null) => void;
-        options: OptionComboType[];
-        setOptions: (value: OptionComboType[]) => void;
+        options: OptionComboType<T>[];
+        setOptions: (value: OptionComboType<T>[]) => void;
     };
     isLoading?: boolean;
 };
 
-export const useComboboxStates = (initialSelection: string | null, initialOption: OptionComboType[]) => {
+export const useComboboxStates = <T extends string | undefined>(
+    initialSelection: string | null,
+    initialOption: OptionComboType<T>[],
+) => {
     const [query, setQuery] = useState<string>("");
     const [selected, setSelected] = useState<string | null>(initialSelection);
-    const [options, setOptions] = useState<OptionComboType[]>(initialOption);
+    const [options, setOptions] = useState<OptionComboType<T>[]>(initialOption);
     return { query, setQuery, selected, setSelected, options, setOptions };
 };
 
-export default function ComboboxSearch(props: ComboboxProps) {
+export default function ComboboxSearch<T extends string | undefined>(props: ComboboxProps<T>) {
     const { label, placeholder, classComponent, states, isLoading } = props;
     const { setQuery, selected, setSelected, options } = states;
 
@@ -109,7 +112,14 @@ export default function ComboboxSearch(props: ComboboxProps) {
                             )}
                         >
                             <Check className="invisible size-5 stroke-[2.5px] group-data-selected:visible" />
-                            {option.name}
+                            <div className="flex w-full items-center justify-between">
+                                <span>{option.name}</span>
+                                {option.type && (
+                                    <span className="text-3xs rounded-xs bg-gray-400 px-1 py-0.5 font-bold text-white uppercase">
+                                        {option.type}
+                                    </span>
+                                )}
+                            </div>
                         </ComboboxOption>
                     ))}
                 </ComboboxOptions>
@@ -133,9 +143,16 @@ export const ComboboxIcon = (props: ComboboxIconProps) => {
         setQuery("");
     };
 
-    const preventDefault = (e: KeyboardEvent<HTMLButtonElement>) => {
+    const handleClick = (e: MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
         e.stopPropagation();
+        handleRemoveAll();
+    };
+
+    const handleKeyDown = (e: KeyboardEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+        e.stopPropagation();
+        handleRemoveAll();
     };
 
     if (isLoading) {
@@ -159,8 +176,8 @@ export const ComboboxIcon = (props: ComboboxIconProps) => {
     return (
         <button
             type="button"
-            onClick={handleRemoveAll}
-            onKeyDown={preventDefault}
+            onClick={handleClick}
+            onKeyDown={handleKeyDown}
             className={combo("absolute top-1/2 right-1 -translate-y-1/2 cursor-pointer rounded-full p-1")}
         >
             <X className="size-5 fill-white" />

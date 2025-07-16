@@ -1,50 +1,62 @@
-export type OptionComboType = {
+export type OptionComboType<T extends string | undefined = undefined> = {
     slug: string;
     name: string;
+    type?: T;
 };
 
 // --- Get option from slug --- //
 
-export const getOptionFromSlug = (slug: string | null, options: OptionComboType[]): OptionComboType | undefined =>
-    options.find((option) => option.slug === slug);
+export const getOptionFromSlug = <T extends string | undefined>(
+    slug: string | null,
+    options: OptionComboType<T>[],
+): OptionComboType<T> | undefined => options.find((option) => option.slug === slug);
 
 // --- Create selected options --- //
 
-export const createSelectedOptions = (selected: string | null, options: OptionComboType[]): OptionComboType[] => {
+export const createSelectedOptions = <T extends string | undefined>(
+    selected: string | null,
+    options: OptionComboType<T>[],
+): OptionComboType<T>[] => {
     const selectedOption = getOptionFromSlug(selected, options);
-    return selectedOption ? [{ slug: selectedOption.slug, name: selectedOption.name }] : [];
+    return selectedOption ? [{ slug: selectedOption.slug, name: selectedOption.name, type: selectedOption.type }] : [];
 };
 
 // --- Create options --- //
 
-type OptionDataType =
+type OptionDataType<T> =
     | {
           slug: string;
           name: string;
           title?: undefined;
+          type?: T;
       }
     | {
           slug: string;
           name?: undefined;
           title: string;
+          type?: T;
       };
 
-export const createOptions = (data: OptionDataType[] | undefined): OptionComboType[] => {
-    if (!data) return [];
-    return data.map((option) => ({
+export const createOptions = <T extends string | undefined = undefined>(
+    data: OptionDataType<T>[] | undefined,
+    type?: T,
+): OptionComboType<T>[] =>
+    data?.map((option) => ({
         slug: option.slug,
         name: option.title ?? option.name,
-    }));
-};
+        type: type,
+    })) ?? [];
 
 // --- Merge and deduplicate options --- //
 
-type MergeAndDeduplicateOptionsProps = {
-    optionsToMerge: OptionComboType[];
+type MergeAndDeduplicateOptionsProps<T extends string | undefined> = {
+    optionsToMerge: OptionComboType<T>[];
     limit: number;
 };
 
-export const mergeAndDeduplicateOptions = (props: MergeAndDeduplicateOptionsProps): OptionComboType[] => {
+export const mergeAndDeduplicateOptions = <T extends string | undefined>(
+    props: MergeAndDeduplicateOptionsProps<T>,
+): OptionComboType<T>[] => {
     const { optionsToMerge, limit } = props;
 
     // Remove duplicates

@@ -1,6 +1,7 @@
 import Card from "@comps/server/card";
 import { ArticleFindManyServer, CategoryFindManyServer, ProductFindManyServer } from "@services/server";
 import Form from "./form";
+import { createOptions } from "@comps/ui/comboboxes/utils";
 
 export default async function Page() {
     // Fetch the data
@@ -16,8 +17,8 @@ export default async function Page() {
 
     // Format the options
     const categoryOptions = categoryList.map(({ slug, name }) => ({ label: name, value: slug }));
-    const articleOptions = articleList.map(({ slug, title }) => ({ slug, name: title }));
-    const productOptions = productList.map(({ slug, name }) => ({ slug, name: name }));
+    const articleOptions = createOptions(articleList);
+    const productOptions = createOptions(productList);
 
     return (
         <div className="flex h-full flex-col items-center justify-center">

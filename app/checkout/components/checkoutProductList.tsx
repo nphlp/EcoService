@@ -45,7 +45,7 @@ const CheckoutProductItem = (props: CheckoutProductProps) => {
                     <div>{product.price.toFixed(2)} €</div>
                 </div>
                 <div className="flex flex-row items-baseline gap-2">
-                    <div className="text-xxs text-gray-500">TTC</div>
+                    <div className="text-2xs text-gray-500">TTC</div>
                     <div className="text-lg font-semibold text-gray-800">{totalPrice.toFixed(2)} €</div>
                 </div>
             </div>

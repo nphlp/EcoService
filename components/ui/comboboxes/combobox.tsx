@@ -11,7 +11,7 @@ import { combo } from "@lib/combo";
 import { StringToSlug } from "@utils/StringToSlug";
 import isEqual from "lodash/isEqual";
 import { Check, ChevronDown, X } from "lucide-react";
-import { ChangeEvent, KeyboardEvent, useEffect, useState } from "react";
+import { ChangeEvent, KeyboardEvent, MouseEvent, useEffect, useState } from "react";
 import { getOptionFromSlug, OptionComboType } from "./utils";
 
 type ComboboxProps = {
@@ -170,9 +170,16 @@ export const ComboboxIcon = (props: ComboboxIconProps) => {
         setQuery("");
     };
 
-    const preventDefault = (e: KeyboardEvent<HTMLButtonElement>) => {
+    const handleClick = (e: MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
         e.stopPropagation();
+        handleRemoveAll();
+    };
+
+    const handleKeyDown = (e: KeyboardEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+        e.stopPropagation();
+        handleRemoveAll();
     };
 
     if (!selected) {
@@ -188,8 +195,8 @@ export const ComboboxIcon = (props: ComboboxIconProps) => {
     return (
         <button
             type="button"
-            onClick={handleRemoveAll}
-            onKeyDown={preventDefault}
+            onClick={handleClick}
+            onKeyDown={handleKeyDown}
             className={combo("absolute top-1/2 right-1 -translate-y-1/2 cursor-pointer rounded-full p-1")}
         >
             <X className="size-5 fill-white" />
