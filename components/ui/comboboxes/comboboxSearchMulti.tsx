@@ -15,7 +15,7 @@ import { motion } from "framer-motion";
 import { Check, ChevronDown, X } from "lucide-react";
 import { ChangeEvent, KeyboardEvent, MouseEvent, useEffect, useRef, useState } from "react";
 
-type ComboboxMultiProps = {
+type ComboboxMultiProps<T extends string | undefined> = {
     label?: string;
     placeholder?: string;
     classComponent?: string;
@@ -24,8 +24,8 @@ type ComboboxMultiProps = {
         setQuery: (value: string) => void;
         selected: string[];
         setSelected: (value: string[]) => void;
-        options: OptionComboType[];
-        setOptions: (value: OptionComboType[]) => void;
+        options: OptionComboType<T>[];
+        setOptions: (value: OptionComboType<T>[]) => void;
     };
     isLoading?: boolean;
     displaySelectedValuesInDropdown?: boolean;
@@ -42,10 +42,13 @@ type ComboboxMultiProps = {
  * const { query, setQuery, selected, setSelected, options, setOptions } = comboboxMultiStates;
  * ```
  */
-export const useComboboxMultiStates = (initialSelections: string[], initialOptions: OptionComboType[]) => {
+export const useComboboxMultiStates = <T extends string | undefined>(
+    initialSelections: string[],
+    initialOptions: OptionComboType<T | undefined>[],
+) => {
     const [query, setQuery] = useState<string>("");
     const [selected, setSelected] = useState<string[]>(initialSelections);
-    const [options, setOptions] = useState<OptionComboType[]>(initialOptions);
+    const [options, setOptions] = useState<OptionComboType<T | undefined>[]>(initialOptions);
     return { query, setQuery, selected, setSelected, options, setOptions };
 };
 
@@ -69,7 +72,7 @@ export const useComboboxMultiStates = (initialSelections: string[], initialOptio
  * />
  * ```
  */
-export default function ComboboxSearchMulti(props: ComboboxMultiProps) {
+export default function ComboboxSearchMulti<T extends string | undefined>(props: ComboboxMultiProps<T>) {
     const { label, placeholder, classComponent, states, isLoading, displaySelectedValuesInDropdown = false } = props;
     const { setQuery, selected, setSelected, options } = states;
 
@@ -145,7 +148,14 @@ export default function ComboboxSearchMulti(props: ComboboxMultiProps) {
                                 )}
                             >
                                 <Check className="invisible size-5 stroke-[2.5px] group-data-selected:visible" />
-                                {option.name}
+                                <div className="flex w-full items-center justify-start gap-2">
+                                    <span>{option.name}</span>
+                                    {option.type && (
+                                        <span className="text-3xs rounded-full bg-gray-500 px-1.5 pt-[3px] pb-[2px] font-semibold text-white uppercase">
+                                            {option.type}
+                                        </span>
+                                    )}
+                                </div>
                             </ComboboxOption>
                         ))}
                 </ComboboxOptions>
@@ -211,15 +221,15 @@ export const ComboboxIcon = (props: ComboboxIconProps) => {
     );
 };
 
-type ComboboxDisplayProps = {
+type ComboboxDisplayProps<T extends string | undefined> = {
     selected: string[];
-    options: OptionComboType[];
+    options: OptionComboType<T>[];
     maxLength?: number;
     handleRemove: (slug: string) => void;
     className?: string;
 };
 
-const ComboboxDisplay = (props: ComboboxDisplayProps) => {
+const ComboboxDisplay = <T extends string | undefined>(props: ComboboxDisplayProps<T>) => {
     const { selected, options, maxLength = 12, handleRemove, className } = props;
 
     const needsEllipsis = (name: string) => name.length > maxLength;

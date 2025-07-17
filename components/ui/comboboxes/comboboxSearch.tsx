@@ -112,10 +112,10 @@ export default function ComboboxSearch<T extends string | undefined>(props: Comb
                             )}
                         >
                             <Check className="invisible size-5 stroke-[2.5px] group-data-selected:visible" />
-                            <div className="flex w-full items-center justify-between">
+                            <div className="flex w-full items-center justify-start gap-2">
                                 <span>{option.name}</span>
                                 {option.type && (
-                                    <span className="text-3xs rounded-xs bg-gray-400 px-1 py-0.5 font-bold text-white uppercase">
+                                    <span className="text-3xs rounded-full bg-gray-500 px-1.5 pt-[3px] pb-[2px] font-semibold text-white uppercase">
                                         {option.type}
                                     </span>
                                 )}

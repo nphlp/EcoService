@@ -8,7 +8,7 @@ import {
 import Search from "./search";
 
 export default async function Page() {
-    // ======= Fetch ======= //
+    // Fetch
     const productList = await ProductFindManyServer({
         select: { slug: true, name: true },
         take: 3,
@@ -29,16 +29,16 @@ export default async function Page() {
         take: 2,
     });
 
-    // ======= Create formatted options ======= //
+    // Format options
     const productOptions = createOptions(productList, "product");
     const categoryOptions = createOptions(categoryList, "category");
     const articleOptions = createOptions(articleList, "article");
     const diyOptions = createOptions(diyList, "diy");
 
-    // ======= Merge and deduplicate options ======= //
+    // Merge and deduplicate options
     const mergedOptions = [...productOptions, ...categoryOptions, ...articleOptions, ...diyOptions];
     const initialOptions = mergeAndDeduplicateOptions({ optionsToMerge: mergedOptions, limit: 10 });
 
-    // ======= Render ======= //
+    // Render
     return <Search<"product" | "category" | "article" | "diy"> initialOptions={initialOptions} />;
 }

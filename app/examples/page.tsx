@@ -15,7 +15,7 @@ export default function Page() {
             text: "How to create a form with input, select...",
         },
         {
-            label: "Search",
+            label: "Search Comboboxes",
             href: "/examples/search",
             text: "How to create a search combobox",
         },
