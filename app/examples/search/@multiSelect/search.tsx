@@ -10,9 +10,7 @@ import {
 import { useFetchV2 } from "@utils/FetchV2/FetchHookV2";
 import { isEqual } from "lodash";
 import { FormEvent, useEffect } from "react";
-import ComboboxSearchMulti, {
-    useComboboxMultiStates,
-} from "../../../../../components/ui/comboboxes/comboboxSearchMulti";
+import ComboboxSearchMulti, { useComboboxMultiStates } from "../../../../components/ui/comboboxes/comboboxSearchMulti";
 
 type ResearchProps = {
     initialOptions: OptionComboType[];

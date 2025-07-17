@@ -3,7 +3,6 @@ import Link from "@comps/ui/link";
 
 type LinkProps = {
     label: string;
-    grayLabel?: string;
     href: string;
     text: string;
 };
@@ -17,21 +16,8 @@ export default function Page() {
         },
         {
             label: "Search",
-            grayLabel: "Single source",
-            href: "/examples/search-single-source",
-            text: "How to create a single source search combobox",
-        },
-        {
-            label: "Search",
-            grayLabel: "Multi source",
-            href: "/examples/search-multi-source",
-            text: "How to create a multi source search combobox",
-        },
-        {
-            label: "Search",
-            grayLabel: "Single source • Multi select",
-            href: "/examples/search-single-source/multi-select",
-            text: "How to create a single source search combobox with multi select",
+            href: "/examples/search",
+            text: "How to create a search combobox",
         },
         {
             label: "Image Upload",
@@ -71,7 +57,7 @@ export default function Page() {
 type UnderlinedLinkProps = LinkProps;
 
 const UnderlinedLink = (props: UnderlinedLinkProps) => {
-    const { href, label, text, grayLabel } = props;
+    const { href, label, text } = props;
     return (
         <li className="list-disc">
             <Link
@@ -80,10 +66,7 @@ const UnderlinedLink = (props: UnderlinedLinkProps) => {
                 label={label}
                 baseStyleWithout={["outline", "padding", "flex", "font"]}
                 className="decoration-gray-600"
-            >
-                <span>{label}</span>
-                {grayLabel && <span className="text-gray-500"> {grayLabel}</span>}
-            </Link>
+            />
             <p className="text-xs text-gray-500">{text}</p>
         </li>
     );
