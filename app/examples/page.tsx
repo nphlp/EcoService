@@ -28,6 +28,12 @@ export default function Page() {
             text: "How to create a multi source search combobox",
         },
         {
+            label: "Search",
+            grayLabel: "Single source • Multi select",
+            href: "/examples/search-single-source/multi-select",
+            text: "How to create a single source search combobox with multi select",
+        },
+        {
             label: "Image Upload",
             href: "/examples/image-upload",
             text: "How to upload an image",
