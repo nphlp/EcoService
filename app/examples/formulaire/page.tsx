@@ -21,7 +21,7 @@ export default async function Page() {
     const productOptions = createOptions(productList);
 
     return (
-        <div className="flex h-full flex-col items-center justify-center">
+        <div className="p-7">
             <Card className="h-fit w-[450px] space-y-4">
                 <div className="text-2xl font-bold">Formulaire</div>
                 <div className="text-sm text-gray-500">

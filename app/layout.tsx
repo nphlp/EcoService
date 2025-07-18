@@ -1,6 +1,8 @@
 import "@/globals.css";
-import BasketSync from "@comps/basket/basketSync";
-import Header from "@comps/header/header";
+import Footer from "@comps/CORE/Footer";
+import Header from "@comps/CORE/Header";
+import { Portal, PortalProvider } from "@comps/CORE/Portal";
+import Search from "@comps/CORE/Search";
 import { combo } from "@lib/combo";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
@@ -32,14 +34,19 @@ export default async function Layout(props: LayoutProps) {
 
     return (
         <html lang={lang} className={combo("h-full overflow-hidden", inter.className)}>
-            <body className={combo("flex flex-col", "h-full")}>
+            <body className="flex h-full flex-col">
                 <NuqsAdapter>
-                    <Header />
-                    <BasketSync />
-                    <main className="flex-1 overflow-x-hidden overflow-y-auto">
-                        <div className="h-full bg-white">{children}</div>
-                        {/* <Footer className="bg-eco h-[300px]" /> */}
-                    </main>
+                    <PortalProvider>
+                        <Header />
+                        <Search />
+                        {/* <Basket /> */}
+                        {/* <BasketSync /> */}
+                        <div className="flex-1 overflow-y-auto">
+                            <main className="flex min-h-full flex-col items-center justify-center">{children}</main>
+                            <Footer />
+                        </div>
+                        <Portal />
+                    </PortalProvider>
                 </NuqsAdapter>
             </body>
         </html>

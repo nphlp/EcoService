@@ -60,12 +60,12 @@ export default async function Page(props: PageProps) {
     const categoryList = await CategoryFindManyServer(CategoryListFetchParams);
 
     return (
-        <div className="flex h-full flex-col overflow-hidden">
+        <div className="flex w-full flex-1 flex-col">
             <h1 className="bg-eco text-ecoco px-6 pt-6 text-4xl font-bold">Catalogue</h1>
             <div className="bg-eco px-6 pt-2 text-white">
                 Retrouvez l&apos;intégralité de nos produits dans notre catalogue.
             </div>
-            <div className="flex h-full flex-col justify-start overflow-hidden">
+            <div className="flex flex-1 flex-col justify-start">
                 <Provider initialProductAmount={initialProductAmount}>
                     <Selectors categoryList={categoryList} />
                     <div id="scrollable-target" className="flex-1 overflow-y-auto">

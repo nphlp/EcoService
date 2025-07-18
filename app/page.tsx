@@ -33,7 +33,7 @@ export default async function Page() {
     const productList = await ProductFindManyServer(ProductFetchParams);
 
     return (
-        <>
+        <div className="w-full">
             <section
                 className="flex flex-row items-center justify-between gap-12 p-8 backdrop-blur-md md:p-16"
                 style={{
@@ -92,6 +92,6 @@ export default async function Page() {
             <ProductSlider productList={productList} title="Nos produits vedettes" />
             <ArticleOrDiySlider articleOrDiy={diyList} link="/diy" title="Nos Do It Yourself" />
             <ArticleOrDiySlider articleOrDiy={articleList} link="/article" title="Nos articles" />
-        </>
+        </div>
     );
 }
