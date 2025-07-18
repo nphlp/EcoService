@@ -76,7 +76,7 @@ const UpdateLastnameForm = (props: UpdateFormProps) => {
             <Input
                 label="Nom"
                 placeholder={placeholder}
-                onChange={(e) => setLastname(e.target.value)}
+                setValue={setLastname}
                 value={lastname}
                 required={false}
                 classComponent="w-full"
@@ -117,7 +117,7 @@ const UpdateFirstnameForm = (props: UpdateFormProps) => {
             <Input
                 label="Prénom"
                 placeholder={session.user.name}
-                onChange={(e) => setName(e.target.value)}
+                setValue={setName}
                 value={name}
                 required={false}
                 classComponent="w-full"
@@ -158,7 +158,7 @@ const UpdateEmailForm = (props: UpdateFormProps) => {
             <Input
                 label="Email"
                 placeholder={session.user.email}
-                onChange={(e) => setEmail(e.target.value)}
+                setValue={setEmail}
                 value={email}
                 required={false}
                 classComponent="w-full"
@@ -199,7 +199,7 @@ const UpdatePasswordForm = () => {
             <InputPassword
                 label="Mot de passe actuel"
                 placeholder="Mot de passe actuel"
-                onChange={(e) => setCurrentPassword(e.target.value)}
+                setValue={setCurrentPassword}
                 value={currentPassword}
                 required={false}
                 classPasswordComponent="w-full"
@@ -207,7 +207,7 @@ const UpdatePasswordForm = () => {
             <InputPassword
                 label="Nouveau mot de passe"
                 placeholder="Nouveau mot de passe"
-                onChange={(e) => setNewPassword(e.target.value)}
+                setValue={setNewPassword}
                 value={newPassword}
                 required={false}
                 classPasswordComponent="w-full"
