@@ -16,7 +16,7 @@ export type InputThemeType = {
 export const inputTheme: InputThemeType = {
     default: {
         component: combo("block space-y-1"),
-        label: combo("text-sm font-medium text-gray-600"),
+        label: combo("text-sm font-medium text-black"),
         input: combo(
             "w-full rounded-lg border border-black/20 bg-white px-4 py-1.5",
             "outline-none ring-0 focus:ring-2 focus:ring-teal-300",

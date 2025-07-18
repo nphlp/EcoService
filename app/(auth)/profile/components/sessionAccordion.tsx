@@ -61,7 +61,7 @@ const CurrentSession = async (props: CurrentSessionProps) => {
                             <span className="text-xs text-gray-500"> • </span>
                             <span className="text-xs text-gray-500">{`${getBrowser(userAgent)}, ${getOs(userAgent)}`}</span>
                         </div>
-                        <div className="text-xxs line-clamp-1 text-gray-500">{locationString(location)}</div>
+                        <div className="text-2xs line-clamp-1 text-gray-500">{locationString(location)}</div>
                     </div>
                 </div>
                 <Logout

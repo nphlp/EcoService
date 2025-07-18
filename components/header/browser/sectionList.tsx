@@ -265,7 +265,7 @@ export default function SectionList(props: SubProps) {
                                         href={urlSerializer("/catalog", { category: slug })}
                                         onClick={() => handleCategorySearch(slug)}
                                     >
-                                        <span className="text-xxs rounded bg-gray-100 px-2 py-0.5 font-bold text-gray-500">
+                                        <span className="text-2xs rounded bg-gray-100 px-2 py-0.5 font-bold text-gray-500">
                                             CATEGORY
                                         </span>
                                         <span>{keyword}</span>
