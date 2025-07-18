@@ -94,13 +94,8 @@ export default function AddFruitClient() {
                         Fill the fields to add a new fruit.
                     </div>
                 </div>
-                <Input label="Name" classComponent="w-full" onChange={(e) => setName(e.target.value)} value={name} />
-                <Input
-                    label="Description"
-                    classComponent="w-full"
-                    onChange={(e) => setDescription(e.target.value)}
-                    value={description}
-                />
+                <Input label="Name" classComponent="w-full" setValue={setName} value={name} />
+                <Input label="Description" classComponent="w-full" setValue={setDescription} value={description} />
                 <InputFile label="Image" onChange={handleImageChange} imagePreview={image} classComponent="w-full" />
                 <Feedback message={message} mode={mode} isFeedbackOpen={isFeedbackOpen} />
                 <Button label="add-fruit" onClick={handleSubmit} isLoading={isLoading}>

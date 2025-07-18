@@ -9,7 +9,7 @@ import { selectTheme, SelectVariant } from "./themes/selectTheme";
 import { motion } from "framer-motion";
 
 /** Options type */
-export type OptionsType = {
+export type OptionSelectType = {
     label: string;
     value: string;
 };
@@ -21,7 +21,7 @@ type SelectProps = {
     placeholder?: string;
     variant?: SelectVariant;
     required?: boolean;
-    options: OptionsType[];
+    options: OptionSelectType[];
     classComponent?: string;
     classLabel?: string;
     classInput?: string;

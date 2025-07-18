@@ -71,13 +71,8 @@ export default function LoginClient() {
             </div>
             <form onSubmit={handleSubmit} className="flex flex-col items-center justify-center gap-4">
                 <div className="w-full space-y-4">
-                    <Input label="Email" type="email" onChange={(e) => setEmail(e.target.value)} value={email} />
-                    <InputPassword
-                        label="Mot de passe"
-                        onChange={(e) => setPassword(e.target.value)}
-                        value={password}
-                        required={false}
-                    />
+                    <Input label="Email" type="email" setValue={setEmail} value={email} />
+                    <InputPassword label="Mot de passe" setValue={setPassword} value={password} required={false} />
                 </div>
                 <Link
                     className="rounded px-1 text-sm text-gray-500"

@@ -1,22 +1,28 @@
 import Card from "@comps/server/card";
 import Link from "@comps/ui/link";
 
+type LinkProps = {
+    label: string;
+    href: string;
+    text: string;
+};
+
 export default function Page() {
-    const links = [
+    const links: LinkProps[] = [
         {
-            label: "Combobox (Shadcn)",
-            href: "/examples/Combobox",
-            text: "How to create a combobox",
+            label: "Formulaire",
+            href: "/examples/formulaire",
+            text: "How to create a form with input, select...",
         },
         {
-            label: "Form",
-            href: "/examples/Form",
-            text: "How to create a form",
+            label: "Search Comboboxes",
+            href: "/examples/search",
+            text: "How to create a search combobox",
         },
         {
-            label: "Image Import",
-            href: "/examples/ImageImport",
-            text: "How to import an image",
+            label: "Image Upload",
+            href: "/examples/image-upload",
+            text: "How to upload an image",
         },
         {
             label: "Slider",
@@ -39,8 +45,8 @@ export default function Page() {
             <Card className="flex flex-col items-center gap-4 pl-10">
                 <h1 className="text-2xl font-bold">Examples</h1>
                 <ul className="space-y-2">
-                    {links.map(({ label, href, text }) => (
-                        <UnderlinedLink key={label} label={label} href={href} text={text} />
+                    {links.map((link, index) => (
+                        <UnderlinedLink key={index} {...link} />
                     ))}
                 </ul>
             </Card>
@@ -48,11 +54,7 @@ export default function Page() {
     );
 }
 
-type UnderlinedLinkProps = {
-    href: string;
-    label: string;
-    text: string;
-};
+type UnderlinedLinkProps = LinkProps;
 
 const UnderlinedLink = (props: UnderlinedLinkProps) => {
     const { href, label, text } = props;
@@ -63,6 +65,7 @@ const UnderlinedLink = (props: UnderlinedLinkProps) => {
                 variant="underline"
                 label={label}
                 baseStyleWithout={["outline", "padding", "flex", "font"]}
+                className="decoration-gray-600"
             />
             <p className="text-xs text-gray-500">{text}</p>
         </li>

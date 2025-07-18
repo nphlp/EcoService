@@ -6,8 +6,8 @@ import { Dispatch, SetStateAction } from "react";
 import { LocationResponse } from "@app/api/external/location/route";
 import Button from "@comps/ui/button";
 import Modal from "@comps/ui/modal";
-import { BetterSessionListServer } from "@lib/authServer";
 import { revokeOtherSessions, revokeSession } from "@lib/authClient";
+import { BetterSessionListServer } from "@lib/authServer";
 import { createContext, Fragment, ReactNode, useContext, useState } from "react";
 import { getBrowser, getOs, locationString } from "./utils";
 
@@ -134,10 +134,10 @@ const SessionItem = (props: SessionItemProps) => {
                 <div className="flex w-full flex-row items-center justify-between gap-3">
                     <div className="text-sm">
                         <div className="font-semibold">{`${getBrowser(userAgent)} • ${getOs(userAgent)}`}</div>
-                        <div className="text-xxs line-clamp-1 w-full text-gray-500">{locationString(location)}</div>
+                        <div className="text-2xs line-clamp-1 w-full text-gray-500">{locationString(location)}</div>
                     </div>
                     <div className="text-right text-gray-500">
-                        <div className="text-xxs">Dernière activité le </div>
+                        <div className="text-2xs">Dernière activité le </div>
                         <div className="text-xs text-nowrap">
                             <span className="font-semibold">{formattedDate}</span>
                             <span> à </span>

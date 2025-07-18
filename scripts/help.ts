@@ -1,3 +1,8 @@
+import dotenv from "dotenv";
+
+// Charger les variables d'environnement du fichier .env
+dotenv.config();
+
 type CommandCategory = {
     color: string;
     description: string;
@@ -74,9 +79,19 @@ const reset = "\x1b[0m";
 const bold = "\x1b[1m";
 const dim = "\x1b[2m";
 const cyan = "\x1b[36m";
+const yellow = "\x1b[33m";
 
 export function tip() {
     console.log(`💡 Tip: Use ${bold}${cyan}pnpm run help${reset} to see all available commands\n`);
+
+    const middlewarePermissions = process.env.MIDDLEWARE_PERMISSIONS ?? "enabled";
+
+    if (middlewarePermissions === "disabled") {
+        console.log(
+            "⚠️  " + bold + yellow + "Middleware skipping" + reset + " is enabled for faster refresh in dev mode",
+        );
+        console.log("   Remove MIDDLEWARE_PERMISSIONS=disabled from .env to enable it\n");
+    }
 }
 
 export function help() {

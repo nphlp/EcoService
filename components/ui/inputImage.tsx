@@ -90,19 +90,19 @@ export default function InputFile(props: InputFileProps) {
 
     const theme = {
         default: {
-            component: combo("block space-y-2"),
+            component: combo("block space-y-1"),
             label: combo("text-sm font-medium text-black"),
             content: combo(
-                "rounded-xl border border-dashed border-black/20 bg-white",
+                "rounded-xl border-[1.4px] border-dashed border-black/20 bg-white",
                 "outline-none ring-0 focus:ring-2 focus:ring-teal-300",
                 "transition-all duration-150",
             ),
         },
         dark: {
-            component: combo("block space-y-2"),
+            component: combo("block space-y-1"),
             label: combo("text-sm font-medium text-white"),
             content: combo(
-                "rounded-xl border border-dashed border-white/20 bg-white/10",
+                "rounded-xl border-[1.4px] border-dashed border-white/20 bg-white/10",
                 "outline-none ring-0 focus:ring-2 focus:ring-teal-300",
                 "transition-all duration-150",
             ),
