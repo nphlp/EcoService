@@ -25,20 +25,11 @@ export default function Navigation() {
 }
 
 const LeftNav = () => {
-    const path = usePathname();
     const [isHomeHovered, setIsHomeHovered] = useState(false);
 
     return (
         <motion.div onHoverStart={() => setIsHomeHovered(true)} onHoverEnd={() => setIsHomeHovered(false)}>
-            <Link
-                type="link"
-                // pageTransition={true}
-                href="/"
-                label="home"
-                variant="none"
-                baseStyleOnly={["flex"]}
-                className={combo(path === "/" && "font-bold")}
-            >
+            <Link type="link" href="/" label="home" variant="none" baseStyleOnly={["flex"]}>
                 <Logo className="size-9" />
                 <span className="relative">
                     <div className="text-2xl font-semibold uppercase">Circle</div>

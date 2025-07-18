@@ -1,7 +1,7 @@
 "use client";
 
-import { urlSerializer } from "@app/catalog/components/searchParams";
-import { useCatalogParams } from "@app/catalog/components/useCatalogParams";
+import { urlSerializer } from "@app/catalog/components/queryParamsConfig";
+import { useCatalogParams } from "@app/catalog/components/queryParamsHook";
 import ButtonClient from "@comps/client/button";
 import InputClient from "@comps/client/input";
 import MotionSection from "@comps/header/browser/motionSection";

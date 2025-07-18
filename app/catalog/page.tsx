@@ -4,16 +4,13 @@ import {
     ProductCountServer,
     ProductFindManyServer,
 } from "@services/server";
-import { ProductModel } from "@services/types";
-import { CategoryModel } from "@services/types/CategoryType";
 import { Metadata } from "next";
-import { unstable_cacheLife as cacheLife, unstable_cacheTag as cacheTag } from "next/cache";
-import CatalogClient from "./components/catalog";
+import Catalog from "./components/catalog";
 import { CategoryListFetchParams, ProductAmountFetchParams, ProductListFetchParams } from "./components/fetchParams";
-import SelectorsClient from "./components/filters";
-import PaginationClient from "./components/pagination";
-import CatalogProvider from "./components/provider";
-import { SearchParamsCached, SearchParamsType } from "./components/searchParams";
+import Pagination from "./components/pagination";
+import Provider from "./components/provider";
+import { SearchParamsCached, SearchParamsType } from "./components/queryParamsConfig";
+import Selectors from "./components/selectors";
 
 type PageProps = {
     searchParams: Promise<SearchParamsType>;
@@ -47,38 +44,20 @@ export async function generateMetadata(props: PageProps): Promise<Metadata> {
     };
 }
 
-type CachedData = {
-    productList: ProductModel[] | null;
-    productAmount: number | null;
-    categoryList: CategoryModel[];
-};
+export default async function Page(props: PageProps) {
+    const { searchParams } = props;
 
-const cachedFetch = async (decodedSearchParams: SearchParamsType): Promise<CachedData> => {
-    "use cache";
+    // Get search params
+    const { priceOrder, page, take, category, search } = await SearchParamsCached.parse(searchParams);
 
-    cacheLife("hours");
-    cacheTag("catalog");
+    // Fetch data
+    const initialProductAmount = await ProductCountServer(ProductAmountFetchParams({ category, search }));
 
-    const { priceOrder, page, take, category, search } = decodedSearchParams;
-
-    const productAmount = await ProductCountServer(ProductAmountFetchParams({ category, search }));
-
-    const productList = await ProductFindManyServer(
+    const initialProductList = await ProductFindManyServer(
         ProductListFetchParams({ priceOrder, page, take, category, search }),
     );
 
     const categoryList = await CategoryFindManyServer(CategoryListFetchParams);
-
-    return { productAmount, productList, categoryList };
-};
-
-const CachedPage = async (props: CachedData) => {
-    "use cache";
-
-    cacheLife("hours");
-    cacheTag("catalog");
-
-    const { productList, productAmount, categoryList } = props;
 
     return (
         <div className="flex h-full flex-col overflow-hidden">
@@ -87,24 +66,14 @@ const CachedPage = async (props: CachedData) => {
                 Retrouvez l&apos;intégralité de nos produits dans notre catalogue.
             </div>
             <div className="flex h-full flex-col justify-start overflow-hidden">
-                <CatalogProvider initialData={{ productList, productAmount }}>
-                    <SelectorsClient categoryList={categoryList} />
-                    <div className="flex-1 overflow-y-auto">
-                        <CatalogClient className="p-6" />
-                        <PaginationClient className="mb-6" />
+                <Provider initialProductAmount={initialProductAmount}>
+                    <Selectors categoryList={categoryList} />
+                    <div id="scrollable-target" className="flex-1 overflow-y-auto">
+                        <Catalog className="p-6" initialProductList={initialProductList} />
+                        <Pagination className="mb-6" />
                     </div>
-                </CatalogProvider>
+                </Provider>
             </div>
         </div>
     );
-};
-
-export default async function Page(props: PageProps) {
-    const { searchParams } = props;
-
-    const decodedSearchParams = await SearchParamsCached.parse(searchParams);
-
-    const cachedData = await cachedFetch(decodedSearchParams);
-
-    return <CachedPage {...cachedData} />;
 }

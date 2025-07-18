@@ -1,6 +1,6 @@
 import { CategoryFindManyProps } from "@services/types/CategoryType";
 import { ProductCountProps, ProductFindManyProps } from "@services/types/ProductType";
-import { SearchParamsType } from "./searchParams";
+import { SearchParamsType } from "./queryParamsConfig";
 
 // Product amount fetch params
 

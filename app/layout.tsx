@@ -32,7 +32,7 @@ export default async function Layout(props: LayoutProps) {
 
     return (
         <html lang={lang} className={combo("h-full overflow-hidden", inter.className)}>
-            <body className={combo("flex flex-col", "h-full overflow-hidden")}>
+            <body className={combo("flex flex-col", "h-full")}>
                 <NuqsAdapter>
                     <Header />
                     <BasketSync />

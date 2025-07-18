@@ -22,7 +22,7 @@ export default function ProductCard(props: ProductCardProps) {
                         <h2 className="text-xl font-bold">{name}</h2>
                         <div className="text-sm text-gray-500">{description}</div>
                     </div>
-                    <div className="font-bold text-nowrap text-gray-500">{price} €</div>
+                    <div className="font-bold text-nowrap text-gray-500">{price.toFixed(2)} €</div>
                 </div>
                 <AddToCartIconWrapper product={product} />
             </div>

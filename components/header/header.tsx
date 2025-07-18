@@ -61,6 +61,7 @@ export default async function Header(props: HeaderProps) {
             keyword: name,
         })),
     );
+    // TODO: add articles and diy
 
     return (
         <Suspense>

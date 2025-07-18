@@ -1,7 +1,7 @@
 "use client";
 
 import { useQueryState } from "nuqs";
-import { SearchParams } from "./searchParams";
+import { SearchParams } from "./queryParamsConfig";
 
 /**
  * Use Query States

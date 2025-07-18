@@ -7,9 +7,7 @@ import {
     parseAsStringEnum,
 } from "nuqs/server";
 
-// ========================= //
-//    Query params types     //
-// ========================= //
+// ========== Query params types ========== //
 
 export type SearchParamsType = {
     /** Page number (default value: `1`) */
@@ -24,9 +22,7 @@ export type SearchParamsType = {
     search: string;
 };
 
-// ============================= //
-//        Custom parsers         //
-// ============================= //
+// ========== Query params custom parsers ========== //
 
 const parseAsItemsPerPage = createParser({
     parse: (queryValue: number | string) => {
@@ -41,9 +37,7 @@ const parseAsItemsPerPage = createParser({
     },
 });
 
-// ============================= //
-//  Query params client parsers  //
-// ============================= //
+// ========== Query params client parsers ========== //
 
 export const SearchParams = {
     /** Page number (default value: `1`) */
@@ -58,9 +52,7 @@ export const SearchParams = {
     search: parseAsString.withDefault(""),
 };
 
-// ============================= //
-//   Query param server parsers  //
-// ============================= //
+// ========== Query param server parsers ========== //
 
 export const SearchParamsCached = createSearchParamsCache(SearchParams);
 
