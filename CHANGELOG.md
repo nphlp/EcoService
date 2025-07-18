@@ -1,3 +1,9 @@
+# [1.9.0](https://github.com/nansphilip/EcoService/compare/v1.8.0...v1.9.0) (2025-07-18)
+
+### Features
+
+- add search comboboxes ([86e5ca1](https://github.com/nansphilip/EcoService/commit/86e5ca16662c3d7276d8e7bced45defcc815cfbb))
+
 # [1.8.0](https://github.com/nansphilip/EcoService/compare/v1.7.0...v1.8.0) (2025-07-13)
 
 ### Features
