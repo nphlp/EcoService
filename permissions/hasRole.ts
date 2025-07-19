@@ -6,7 +6,7 @@ import { Roles } from "./permissionsType";
 /**
  * Check if the user has one of the given roles
  */
-export const hasRole = async (roles: Roles[]): Promise<BetterSessionServer> => {
+export const hasRole = async (roles: Roles[]): Promise<BetterSessionServer | null> => {
     // Get session
     const session = await GetSession();
 

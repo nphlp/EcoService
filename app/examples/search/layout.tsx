@@ -13,48 +13,46 @@ export default function Layout(props: LayoutProps) {
     const { singleSource, multiSelect, multiSource, multiSelectSource } = props;
 
     return (
-        <div className="flex min-h-full items-center justify-center p-5">
-            <div className="mb-[300px] space-y-6">
-                <div className="space-y-1">
-                    <div className="text-4xl font-bold">Search Comboboxes</div>
-                    <div className="text-sm text-gray-500">
-                        This is a collection of search comboboxes with different configurations.
-                    </div>
+        <div className="mb-[300px] space-y-6 p-7">
+            <div className="space-y-1">
+                <div className="text-4xl font-bold">Search Comboboxes</div>
+                <div className="text-sm text-gray-500">
+                    This is a collection of search comboboxes with different configurations.
                 </div>
-                <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
-                    <ComboCard
-                        title="ssrc-sse"
-                        description="Rechercher et sélectionner un seul élément parmis un seul type d'élément."
-                        tagSelect="singleSelect"
-                        tagSource="singleSource"
-                    >
-                        {singleSource}
-                    </ComboCard>
-                    <ComboCard
-                        title="msrc-mse"
-                        description="Rechercher et sélectionner un seul élément parmis plusieurs types d'éléments."
-                        tagSelect="singleSelect"
-                        tagSource="multiSource"
-                    >
-                        {multiSource}
-                    </ComboCard>
-                    <ComboCard
-                        title="msrc-mse"
-                        description="Rechercher et sélectionner plusieurs éléments parmis un seul type d'élément."
-                        tagSelect="multiSelect"
-                        tagSource="singleSource"
-                    >
-                        {multiSelect}
-                    </ComboCard>
-                    <ComboCard
-                        title="msrc-mse"
-                        description="Rechercher et sélectionner plusieurs éléments parmis plusieurs types d'éléments."
-                        tagSelect="multiSelect"
-                        tagSource="multiSource"
-                    >
-                        {multiSelectSource}
-                    </ComboCard>
-                </div>
+            </div>
+            <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+                <ComboCard
+                    title="ssrc-sse"
+                    description="Rechercher et sélectionner un seul élément parmis un seul type d'élément."
+                    tagSelect="singleSelect"
+                    tagSource="singleSource"
+                >
+                    {singleSource}
+                </ComboCard>
+                <ComboCard
+                    title="msrc-mse"
+                    description="Rechercher et sélectionner un seul élément parmis plusieurs types d'éléments."
+                    tagSelect="singleSelect"
+                    tagSource="multiSource"
+                >
+                    {multiSource}
+                </ComboCard>
+                <ComboCard
+                    title="msrc-mse"
+                    description="Rechercher et sélectionner plusieurs éléments parmis un seul type d'élément."
+                    tagSelect="multiSelect"
+                    tagSource="singleSource"
+                >
+                    {multiSelect}
+                </ComboCard>
+                <ComboCard
+                    title="msrc-mse"
+                    description="Rechercher et sélectionner plusieurs éléments parmis plusieurs types d'éléments."
+                    tagSelect="multiSelect"
+                    tagSource="multiSource"
+                >
+                    {multiSelectSource}
+                </ComboCard>
             </div>
         </div>
     );

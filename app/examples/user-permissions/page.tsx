@@ -13,7 +13,7 @@ export default async function Page() {
     const userList = await UserFindManyServer({});
 
     return (
-        <div className="flex justify-center p-8">
+        <div className="space-y-2 p-7">
             <div className="w-[600px] space-y-2">
                 {userList.map((user, index) => (
                     <UserCard key={index} user={user} session={session} />

@@ -20,6 +20,21 @@ export default function Page() {
             text: "How to create a search combobox",
         },
         {
+            label: "Auto-Layout",
+            href: "/examples/auto-layout",
+            text: "How to create a auto-layout",
+        },
+        {
+            label: "Bouncy Height Resizer",
+            href: "/examples/bouncy-height-resize",
+            text: "How to create a bouncy height resize",
+        },
+        {
+            label: "User permissions",
+            href: "/examples/user-permissions",
+            text: "How to create a user permissions",
+        },
+        {
             label: "Image Upload",
             href: "/examples/image-upload",
             text: "How to upload an image",
@@ -40,8 +55,9 @@ export default function Page() {
             text: "How to create a view transition link",
         },
     ];
+
     return (
-        <div className="flex h-full flex-col items-center justify-center gap-4">
+        <div className="p-7">
             <Card className="flex flex-col items-center gap-4 pl-10">
                 <h1 className="text-2xl font-bold">Examples</h1>
                 <ul className="space-y-2">

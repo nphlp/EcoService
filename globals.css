@@ -200,3 +200,39 @@ body {
     /* For Chrome, Safari, and Opera */
     display: none;
 }
+
+/* Shimmer animation */
+@keyframes shimmer {
+    0% {
+        background-position: -1000px 0;
+    }
+    100% {
+        background-position: 1000px 0;
+    }
+}
+
+body {
+    /* Shimmer colors */
+    --shimmer-light: hsl(210, 12%, 97%);
+    --shimmer-dark: hsl(225, 12%, 92%);
+    /* Shimmer second colors */
+    --shimmer-second-light: hsl(210, 12%, 92%);
+    --shimmer-second-dark: hsl(225, 12%, 87%);
+}
+
+.animate-shimmer {
+    animation: shimmer 2s infinite linear;
+    background: linear-gradient(to right, var(--shimmer-light) 4%, var(--shimmer-dark) 25%, var(--shimmer-light) 36%);
+    background-size: 1000px 100%;
+}
+
+.animate-shimmer-second {
+    animation: shimmer 2s infinite linear;
+    background: linear-gradient(
+        to right,
+        var(--shimmer-second-light) 4%,
+        var(--shimmer-second-dark) 25%,
+        var(--shimmer-second-light) 36%
+    );
+    background-size: 1000px 100%;
+}
