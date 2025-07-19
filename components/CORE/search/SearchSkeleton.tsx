@@ -15,7 +15,7 @@ type SkeletonType = {
     type: "product" | "category" | "article" | "diy";
 };
 
-const ItemSkeletonList = (props: SkeletonType) => {
+export const ItemSkeletonList = (props: SkeletonType) => {
     const { type } = props;
 
     const length = type === "product" || type === "article" ? 2 : 1;

@@ -15,10 +15,30 @@ const DURATION = 0.3;
 export default function SearchPortal(props: SearchModalProps) {
     const { initialResults } = props;
 
-    const { searchOpen } = useHeaderStore();
+    const { searchOpen, setSearchOpen } = useHeaderStore();
 
     const { setIsOpen, setSize, setContent } = useContext(PortalContext);
 
+    // CMD + K listener
+    useEffect(() => {
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if (e.metaKey && e.key === "k") {
+                setSearchOpen(true);
+            }
+        };
+
+        if (!searchOpen) {
+            window.addEventListener("keydown", handleKeyDown);
+        }
+
+        return () => {
+            if (!searchOpen) {
+                window.removeEventListener("keydown", handleKeyDown);
+            }
+        };
+    }, [searchOpen, setSearchOpen]);
+
+    // Search open state
     useEffect(() => {
         let timeout: NodeJS.Timeout | undefined;
 

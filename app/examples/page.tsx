@@ -25,6 +25,11 @@ export default function Page() {
             text: "How to create a auto-layout",
         },
         {
+            label: "Bouncy Height Resizer",
+            href: "/examples/bouncy-height-resize",
+            text: "How to create a bouncy height resize",
+        },
+        {
             label: "User permissions",
             href: "/examples/user-permissions",
             text: "How to create a user permissions",
