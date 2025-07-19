@@ -47,7 +47,12 @@ export const buttonTheme: ButtonThemeType = {
         loaderColor: "white",
     },
     outline: {
-        button: combo("border border-gray-300 bg-white text-gray-800", "hover:border-gray-500 hover:bg-gray-100"),
+        button: combo(
+            "border border-gray-300 bg-white text-gray-800",
+            "hover:border-gray-500 hover:bg-gray-100",
+            // Ring and focus
+            "outline-none ring-0 focus:ring-2 focus:ring-teal-300 focus:border-gray-500",
+        ),
         isLoading: combo("hover:border-gray-300 hover:bg-white"),
         disabled: combo(
             "disabled:border-gray-100 disabled:text-gray-300",
