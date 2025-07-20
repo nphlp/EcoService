@@ -270,7 +270,7 @@ const ComboboxDisplay = <T extends string | undefined>(props: ComboboxDisplayPro
             animate={{ height: currentHeight }}
             transition={{
                 duration: 0.15,
-                animate: "easeInOut",
+                ease: "easeInOut",
             }}
             className={className}
         >

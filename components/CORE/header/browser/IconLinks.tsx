@@ -8,12 +8,14 @@ import ImageProfile from "@comps/ui/imageProfile";
 import Link from "@comps/ui/link";
 import { useSession } from "@lib/authClient";
 import { combo } from "@lib/combo";
-import { LogOut, PanelsTopLeft, Search, ShoppingCart, UserRound } from "lucide-react";
+import { motion } from "framer-motion";
+import { LogOut, Moon, PanelsTopLeft, Search, ShoppingCart, Sun, UserRound } from "lucide-react";
 
 export default function IconLinks() {
-    const { setSearchOpen, searchOpen, basketOpen, setBasketOpen } = useHeaderStore();
-    const { basket } = useBasketStore();
     const { data: session } = useSession();
+
+    const { basket } = useBasketStore();
+    const { searchOpen, setSearchOpen, basketOpen, setBasketOpen, isDarkMode, setIsDarkMode } = useHeaderStore();
 
     const role = session?.user.role;
 
@@ -31,6 +33,25 @@ export default function IconLinks() {
                 }}
             >
                 <Search />
+            </Button>
+
+            {/* Toogle mode */}
+            <Button
+                label="toggle-mode"
+                variant="ghost"
+                baseStyleOnly={["flex", "rounded"]}
+                onClick={() => setIsDarkMode(!isDarkMode)}
+                className="w-10 overflow-hidden p-2"
+            >
+                <motion.div
+                    initial={{ translateX: "20px" }}
+                    animate={{ translateX: isDarkMode ? "20px" : "-20px" }}
+                    transition={{ duration: 0.5, ease: "easeInOut", type: "spring" }}
+                    className="flex flex-row gap-4"
+                >
+                    <Sun />
+                    <Moon />
+                </motion.div>
             </Button>
 
             {/* Account button */}

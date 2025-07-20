@@ -102,7 +102,7 @@ export default function TabClient(props: TabClientProps) {
                     animate={{ left: tabPosition.left, right: tabPosition.right }}
                     transition={{
                         duration: 0.5,
-                        animate: "easeInOut",
+                        ease: "easeInOut",
                         type: "spring",
                         bounce: 0.2,
                     }}
@@ -117,7 +117,7 @@ export default function TabClient(props: TabClientProps) {
                 animate={{ height: currentHeight }}
                 transition={{
                     duration: 0.3,
-                    animate: "easeInOut",
+                    ease: "easeInOut",
                 }}
                 className="w-full overflow-hidden rounded-2xl border border-gray-300 bg-white shadow-md"
             >
