@@ -1,5 +1,5 @@
 import Card from "@comps/server/card";
-import ImageRatio from "@comps/server/imageRatio";
+import ImageRatio from "@comps/ui/imageRatio";
 import PrismaInstance from "@lib/prisma";
 import { ProductFindUniqueServer } from "@services/server";
 import { ArrowLeft, Package2, ShieldCheck, Truck, User } from "lucide-react";

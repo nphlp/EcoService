@@ -1,5 +1,5 @@
 import Card, { CardProps } from "@comps/server/card";
-import ImageRatio from "@comps/server/imageRatio";
+import ImageRatio from "@comps/ui/imageRatio";
 import { ArticleOrDiyListType } from "./sliderFetchParams";
 
 type ArticleOrDiyCardProps = {

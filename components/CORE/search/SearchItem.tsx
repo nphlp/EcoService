@@ -1,14 +1,14 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import { ArticleSearchType, CategorySearchType, DiySearchType, ProductSearchType } from "./fetchParams";
-import { useHeaderStore } from "../header/headerStore";
 import { urlSerializer } from "@app/catalog/components/queryParamsConfig";
-import { MouseEvent } from "react";
-import Link from "next/link";
+import ImageRatio from "@comps/ui/imageRatio";
 import { combo } from "@lib/combo";
-import ImageRatio from "@comps/server/imageRatio";
 import { ArrowRightIcon } from "lucide-react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { MouseEvent } from "react";
+import { useHeaderStore } from "../header/headerStore";
+import { ArticleSearchType, CategorySearchType, DiySearchType, ProductSearchType } from "./fetchParams";
 
 type ItemListProps = {
     items:

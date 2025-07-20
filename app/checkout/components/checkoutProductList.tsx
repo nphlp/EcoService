@@ -2,7 +2,7 @@
 
 import { useBasketStore } from "@comps/basket/basketStore";
 import { LocalBasketItem } from "@comps/basket/basketType";
-import ImageRatio from "@comps/server/imageRatio";
+import ImageRatio from "@comps/ui/imageRatio";
 import { combo } from "@lib/combo";
 import QuantityManager from "./quantityManager";
 

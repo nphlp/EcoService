@@ -1,7 +1,7 @@
 "use client";
 
 import Card, { CardProps } from "@comps/server/card";
-import ImageRatio from "@comps/server/imageRatio";
+import ImageRatio from "@comps/ui/imageRatio";
 import { ProductModel } from "@services/types";
 import AddToCartIconWrapper from "./wrapper/addToCartIconWrapper";
 

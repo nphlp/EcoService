@@ -3,7 +3,7 @@
 import QuantityManager from "@app/checkout/components/quantityManager";
 import ButtonClient from "@comps/client/button";
 import { useHeaderStore } from "@comps/CORE/header/headerStore";
-import ImageRatio from "@comps/server/imageRatio";
+import ImageRatio from "@comps/ui/imageRatio";
 import Link from "@comps/ui/link";
 import { combo } from "@lib/combo";
 import { motion } from "framer-motion";

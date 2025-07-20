@@ -117,20 +117,25 @@ export default function SearchModal(props: SearchModalProps) {
         <div
             className={combo(
                 // "bg-lime-400/20",
-                "flex w-full flex-1 justify-center px-7 py-20",
+                "flex w-full flex-1 justify-center py-20",
+                // Responsive
+                "px-3 md:px-7",
                 className,
             )}
         >
             <BackgroundCloseButton />
             <div
                 className={combo(
-                    "relative w-1/2",
+                    "relative",
                     "rounded-2xl bg-white",
                     "border border-gray-300",
                     "shadow-[2px_2px_8px_rgba(0,0,0,0.2)]",
                     "overflow-hidden",
-                    "space-y-5 p-5",
+                    "space-y-5",
                     "h-fit",
+                    // Responsive
+                    "p-3 md:p-5",
+                    "w-full md:w-2/3 lg:w-1/2",
                 )}
             >
                 <div className="space-y-4">

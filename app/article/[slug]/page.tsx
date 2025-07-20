@@ -1,5 +1,5 @@
 import ArticleOrDiyCard from "@comps/articleOrDiyCard";
-import ImageRatio from "@comps/server/imageRatio";
+import ImageRatio from "@comps/ui/imageRatio";
 import Link from "@comps/ui/link";
 import Slider from "@comps/ui/slider";
 import { combo } from "@lib/combo";
