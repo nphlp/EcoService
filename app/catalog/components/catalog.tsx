@@ -10,7 +10,7 @@ import { PackageSearch } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { MouseEvent, useContext } from "react";
 import { Context } from "./context";
-import { ProductListFetchParams } from "./fetchParams";
+import { productFetchParams } from "./fetchParams";
 import { useCatalogParams } from "./queryParamsHook";
 
 type CatalogProps = {
@@ -25,11 +25,11 @@ export default function Catalog(props: CatalogProps) {
 
     const { isLoading: isLoadingProductAmount } = useContext(Context);
 
-    const { priceOrder, page, take, category, search } = useCatalogParams();
+    const catalogContext = useCatalogParams();
 
     const { data: productList, isLoading: isLoadingProductList } = useFetchV2({
         route: "/product/findMany",
-        params: ProductListFetchParams({ priceOrder, page, take, category, search }),
+        params: productFetchParams(catalogContext),
         initialData: initialProductList,
     });
 

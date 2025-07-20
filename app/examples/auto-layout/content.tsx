@@ -1,6 +1,6 @@
 "use client";
 
-import Select from "@comps/ui/select";
+import Select from "@comps/ui/select/select";
 import { useState } from "react";
 
 export default function Content() {

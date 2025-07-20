@@ -5,7 +5,7 @@ import { join } from "path";
 import { createInterface } from "readline";
 
 // Charger les variables d'environnement du fichier .env
-dotenv.config();
+dotenv.config({ quiet: true });
 
 const rl = createInterface({
     input: process.stdin,

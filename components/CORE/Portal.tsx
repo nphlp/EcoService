@@ -3,20 +3,18 @@
 import { combo } from "@lib/combo";
 import { createContext, ReactNode, useContext, useState } from "react";
 
-type CssProps = number | string | undefined;
+type CssProps = number | string;
+
+type BoxType = { x?: CssProps; y?: CssProps; w?: CssProps; h?: CssProps };
 
 type PortalContextType = {
     // Search
     isOpen: boolean;
     setIsOpen: (isOpen: boolean) => void;
 
-    // Position
-    position: { x: CssProps; y: CssProps };
-    setPosition: (position: { x: CssProps; y: CssProps }) => void;
-
-    // Size
-    size: { w: CssProps; h: CssProps };
-    setSize: (size: { w: CssProps; h: CssProps }) => void;
+    // Position and size
+    box: BoxType;
+    setBox: (box: BoxType) => void;
 
     // Content
     content: ReactNode;
@@ -33,23 +31,22 @@ export const PortalProvider = (props: PortalProviderProps) => {
     const { children } = props;
 
     const [isOpen, setIsOpen] = useState(false);
-    const [position, setPosition] = useState<{ x: CssProps; y: CssProps }>({ x: 0, y: 0 });
-    const [size, setSize] = useState<{ w: CssProps; h: CssProps }>({ w: 0, h: 0 });
+    const [box, setBox] = useState<BoxType>({});
     const [content, setContent] = useState<ReactNode | null>(null);
 
-    const value = { isOpen, setIsOpen, position, setPosition, size, setSize, content, setContent };
+    const value = { isOpen, setIsOpen, box, setBox, content, setContent };
 
     return <PortalContext.Provider value={value}>{children}</PortalContext.Provider>;
 };
 
 export const Portal = () => {
-    const { isOpen, position, size, content } = useContext(PortalContext);
+    const { isOpen, box, content } = useContext(PortalContext);
 
     return (
         <div
             id="portal"
             className={combo("absolute", !isOpen && "pointer-events-none")}
-            style={{ top: position.y, left: position.x, width: size.w, height: size.h }}
+            style={{ top: box.y, left: box.x, width: box.w, height: box.h }}
         >
             {content}
         </div>

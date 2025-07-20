@@ -2,14 +2,24 @@
 
 import Button from "@comps/ui/button";
 import Input from "@comps/ui/input";
-import Select from "@comps/ui/select";
+import Select from "@comps/ui/select/select";
 import { combo } from "@lib/combo";
 import { useState } from "react";
+import { CategorySearchType } from "./fetchParams";
+import { createSelectOptions } from "@comps/ui/select/utils";
 
-export default function Client() {
+type ClientProps = {
+    initialData: {
+        categoryList: CategorySearchType[];
+    };
+};
+
+export default function Client(props: ClientProps) {
+    const { initialData } = props;
+
     const common = combo(
         "space-y-3",
-        "p-5 border rounded-lg",
+        "p-5 border border-gray-200 rounded-lg",
         // Optionnal
     );
 
@@ -19,10 +29,12 @@ export default function Client() {
     const [inputValue, setInputValue] = useState("");
 
     // Select
+    const { categoryList } = initialData;
+    const selectOptions = createSelectOptions(categoryList, { label: "name", slug: "slug" });
     const [selectValue, setSelectValue] = useState("");
 
     return (
-        <div className={combo("w-full flex-1", "grid grid-cols-4 gap-6", "p-7")}>
+        <div className={combo("w-full flex-1", "grid grid-cols-4 grid-rows-4 gap-6", "p-7")}>
             <div className={combo(common)}>
                 <h2 className="text-2xl font-bold">Button</h2>
                 <div className="grid grid-cols-2 justify-items-start gap-2">
@@ -45,16 +57,11 @@ export default function Client() {
             <div className={combo(common)}>
                 <h2 className="text-2xl font-bold">Select</h2>
                 <Select
-                    label="Select"
-                    placeholder="Select an option..."
-                    classLabel="sr-only"
-                    options={[
-                        { label: "Option 1", value: "option-1" },
-                        { label: "Option 2", value: "option-2" },
-                        { label: "Option 3", value: "option-3" },
-                    ]}
-                    onChange={(e) => setSelectValue(e.target.value)}
-                    value={selectValue}
+                    label="Categorie"
+                    placeholder="Select a category"
+                    options={selectOptions}
+                    setSelected={setSelectValue}
+                    selected={selectValue}
                 />
             </div>
         </div>

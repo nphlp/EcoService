@@ -6,7 +6,7 @@ import Button from "@comps/ui/button";
 import Feedback, { FeedbackMode } from "@comps/ui/feedback";
 import Input from "@comps/ui/input";
 import InputImage from "@comps/ui/inputImage";
-import Select from "@comps/ui/select";
+import Select from "@comps/ui/select/select";
 import { CategoryFindManyProps, CategoryFindManyResponse } from "@services/types/CategoryType";
 import { authorizedFileSize, authorizedFormats } from "@utils/ImageValidation";
 import { useState } from "react";

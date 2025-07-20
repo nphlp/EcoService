@@ -7,7 +7,7 @@ import { OptionComboType } from "@comps/ui/comboboxes/utils";
 import Feedback, { FeedbackMode } from "@comps/ui/feedback";
 import Input, { useInputState } from "@comps/ui/input";
 import InputImage from "@comps/ui/inputImage";
-import Select, { OptionSelectType } from "@comps/ui/select";
+import Select, { OptionSelectType } from "@comps/ui/select/select";
 import { FormEvent, useState } from "react";
 
 type FormProps = {

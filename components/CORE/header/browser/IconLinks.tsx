@@ -35,7 +35,7 @@ export default function IconLinks() {
                 <Search />
             </Button>
 
-            {/* Toogle mode */}
+            {/* Toogle theme mode */}
             <Button
                 label="toggle-mode"
                 variant="ghost"
@@ -44,8 +44,8 @@ export default function IconLinks() {
                 className="w-10 overflow-hidden p-2"
             >
                 <motion.div
-                    initial={{ translateX: "20px" }}
-                    animate={{ translateX: isDarkMode ? "20px" : "-20px" }}
+                    initial={{ translateX: isDarkMode ? "-20px" : "20px" }}
+                    animate={{ translateX: isDarkMode ? "-20px" : "20px" }}
                     transition={{ duration: 0.5, ease: "easeInOut", type: "spring" }}
                     className="flex flex-row gap-4"
                 >

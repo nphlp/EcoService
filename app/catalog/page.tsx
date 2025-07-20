@@ -6,7 +6,7 @@ import {
 } from "@services/server";
 import { Metadata } from "next";
 import Catalog from "./components/catalog";
-import { CategoryListFetchParams, ProductAmountFetchParams, ProductListFetchParams } from "./components/fetchParams";
+import { categoryFetchParams, productCountParams, productFetchParams } from "./components/fetchParams";
 import Pagination from "./components/pagination";
 import Provider from "./components/provider";
 import { SearchParamsCached, SearchParamsType } from "./components/queryParamsConfig";
@@ -51,13 +51,13 @@ export default async function Page(props: PageProps) {
     const { priceOrder, page, take, category, search } = await SearchParamsCached.parse(searchParams);
 
     // Fetch data
-    const initialProductAmount = await ProductCountServer(ProductAmountFetchParams({ category, search }));
+    const initialProductAmount = await ProductCountServer(productCountParams({ category, search }));
 
     const initialProductList = await ProductFindManyServer(
-        ProductListFetchParams({ priceOrder, page, take, category, search }),
+        productFetchParams({ priceOrder, page, take, category, search }),
     );
 
-    const categoryList = await CategoryFindManyServer(CategoryListFetchParams);
+    const categoryList = await CategoryFindManyServer(categoryFetchParams());
 
     return (
         <div className="flex w-full flex-1 flex-col">

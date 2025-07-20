@@ -3,7 +3,7 @@
 import { useFetchV2 } from "@utils/FetchV2/FetchHookV2";
 import { ReactNode } from "react";
 import { Context } from "./context";
-import { ProductAmountFetchParams } from "./fetchParams";
+import { productCountParams } from "./fetchParams";
 import { useCatalogParams } from "./queryParamsHook";
 
 type ContextProviderProps = {
@@ -18,7 +18,7 @@ export default function Provider(props: ContextProviderProps) {
 
     const { data: productAmount, isLoading } = useFetchV2({
         route: "/product/count",
-        params: ProductAmountFetchParams({ category, search }),
+        params: productCountParams({ category, search }),
         initialData: initialProductAmount,
     });
 

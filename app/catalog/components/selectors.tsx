@@ -1,13 +1,14 @@
 "use client";
 
 import Input from "@comps/ui/input";
-import Select from "@comps/ui/select";
-import { CategoryModel } from "@services/types";
+import Select from "@comps/ui/select/select";
 import { SearchParamsType } from "./queryParamsConfig";
 import { useCatalogParams } from "./queryParamsHook";
+import { createSelectOptions } from "@comps/ui/select/utils";
+import { CategorySearchType } from "./fetchParams";
 
 type SelectorsProps = {
-    categoryList: CategoryModel[];
+    categoryList: CategorySearchType[];
 };
 
 export default function Selectors(props: SelectorsProps) {
@@ -23,43 +24,41 @@ export default function Selectors(props: SelectorsProps) {
             <Select
                 label="Catégorie"
                 classLabel="text-white"
-                options={categoryList.map((category) => ({ label: category.name, value: category.slug }))}
-                onChange={(e) => {
-                    const value: string = e.target.value;
+                options={createSelectOptions(categoryList, { label: "name", slug: "slug" })}
+                setSelected={(value) => {
                     setCategory(value);
                     setPage(1);
                 }}
-                value={category}
+                selected={category}
             />
             <Select
                 label="Trier par prix"
+                placeholder="Non trié"
                 classLabel="text-white"
                 options={[
-                    { label: "Non trié", value: "not" },
-                    { label: "Prix croissant", value: "asc" },
-                    { label: "Prix décroissant", value: "desc" },
+                    { label: "Prix croissant", slug: "asc" },
+                    { label: "Prix décroissant", slug: "desc" },
                 ]}
-                onChange={(e) => {
-                    const value = e.target.value;
+                setSelected={(value) => {
                     setPriceOrder(value as SearchParamsType["priceOrder"]);
                 }}
-                value={priceOrder}
+                selected={priceOrder}
             />
             <Select
                 label="Produits par page"
                 classLabel="text-white"
                 options={[
-                    { label: "10", value: "10" },
-                    { label: "20", value: "20" },
-                    { label: "50", value: "50" },
-                    { label: "100", value: "100" },
+                    { label: "10", slug: "10" },
+                    { label: "20", slug: "20" },
+                    { label: "50", slug: "50" },
+                    { label: "100", slug: "100" },
                 ]}
-                onChange={(e) => {
-                    const value = e.target.value;
+                setSelected={(value) => {
                     setTake(Number(value) as SearchParamsType["take"]);
                     setPage(1);
                 }}
-                value={take}
+                selected={String(take)}
+                canNotBeEmpty
             />
             <Input
                 label="Rechercher"

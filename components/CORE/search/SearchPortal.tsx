@@ -17,7 +17,7 @@ export default function SearchPortal(props: SearchModalProps) {
 
     const { searchOpen, setSearchOpen } = useHeaderStore();
 
-    const { setIsOpen, setSize, setContent } = useContext(PortalContext);
+    const { setIsOpen, setBox, setContent } = useContext(PortalContext);
 
     // CMD + K listener
     useEffect(() => {
@@ -44,18 +44,18 @@ export default function SearchPortal(props: SearchModalProps) {
 
         if (searchOpen) {
             setIsOpen(true);
-            setSize({ w: "100vw", h: "100vh" });
+            setBox({ w: "100vw", h: "100vh" });
             setContent(<PortalLayout initialResults={initialResults} />);
         } else {
             timeout = setTimeout(() => {
                 setIsOpen(false);
-                setSize({ w: 0, h: 0 });
+                setBox({});
                 setContent(null);
             }, DURATION * 1000);
         }
 
         return () => clearTimeout(timeout);
-    }, [searchOpen, initialResults, setIsOpen, setSize, setContent]);
+    }, [searchOpen, initialResults, setIsOpen, setBox, setContent]);
 
     return <></>;
 }
