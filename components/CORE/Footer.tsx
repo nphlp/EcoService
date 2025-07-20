@@ -52,23 +52,99 @@ export default async function Footer(props: FooterProps) {
         take: linksAmount,
     });
 
+    const linksList = {
+        topNavigation,
+        topProducts,
+        topArticles: topArticles.map(formatTitleToName),
+        topDiys: topDiys.map(formatTitleToName),
+    };
+
     return (
-        <footer className={combo("bg-eco flex gap-18 p-18", className)}>
-            <div className="flex flex-col items-center justify-center gap-4">
-                <div className="flex size-[70px] items-center justify-center rounded-full bg-white md:size-[108px]">
-                    <Logo className="size-16 md:size-24" />
-                </div>
-                <h2 className="text-4xl font-bold text-white uppercase">Circle</h2>
+        <footer className={combo("bg-eco flex items-center justify-center gap-24 p-18", className)}>
+            {/* Mobile */}
+            <div className={combo("flex sm:hidden", "flex-col gap-12")}>
+                <LogoTitle scale={1.2} />
+                <TopLinksList
+                    linksList={linksList}
+                    className={combo("flex flex-row flex-wrap justify-between gap-12")}
+                />
             </div>
-            <div className="flex gap-12">
-                <TopLinks title="Navigation" url="" items={topNavigation} />
-                <TopLinks title="Meilleurs ventes" url="/product/" items={topProducts} />
-                <TopLinks title="Articles" url="/article/" items={topArticles.map(formatTitleToName)} />
-                <TopLinks title="Do it yourselfes" url="/diy/" items={topDiys.map(formatTitleToName)} />
+            {/* Tablet */}
+            <div className={combo("hidden sm:flex md:hidden", "flex-col gap-12")}>
+                <LogoTitle />
+                <TopLinksList
+                    linksList={linksList}
+                    className={combo("grid grid-flow-col grid-cols-[auto_1fr] grid-rows-2 gap-12")}
+                />
+            </div>
+            {/* Desktop */}
+            <div className={combo("hidden md:flex lg:hidden", "flex-row items-start gap-16")}>
+                <LogoTitle />
+                <TopLinksList
+                    linksList={linksList}
+                    className={combo("grid grid-flow-col grid-cols-[auto_1fr] grid-rows-2 gap-12")}
+                />
+            </div>
+            {/* Large Desktop */}
+            <div className={combo("hidden lg:flex", "flex-row gap-16")}>
+                <LogoTitle />
+                <TopLinksList
+                    linksList={linksList}
+                    className={combo("grid grid-flow-col grid-cols-[auto_1fr] gap-12")}
+                />
             </div>
         </footer>
     );
 }
+
+type LogoTitleProps = {
+    scale?: number;
+};
+
+const LogoTitle = (props: LogoTitleProps) => {
+    const { scale = 1 } = props;
+
+    return (
+        <div style={{ scale }} className="flex flex-col items-center justify-center gap-4">
+            <div className="flex size-[108px] items-center justify-center rounded-full bg-white">
+                <Logo className="size-[100px]" />
+            </div>
+            <div className="text-4xl font-semibold text-white uppercase">Circle</div>
+        </div>
+    );
+};
+
+type LinksItem = {
+    name: string;
+    slug: string;
+};
+
+type LinksList = {
+    topNavigation: LinksItem[];
+    topProducts: LinksItem[];
+    topArticles: LinksItem[];
+    topDiys: LinksItem[];
+};
+
+type TopLinksListProps = {
+    className?: string;
+    linksList: LinksList;
+};
+
+const TopLinksList = (props: TopLinksListProps) => {
+    const { className, linksList } = props;
+
+    const { topNavigation, topProducts, topArticles, topDiys } = linksList;
+
+    return (
+        <div className={className}>
+            <TopLinks title="Navigation" url="" items={topNavigation} />
+            <TopLinks title="Produits" url="/product/" items={topProducts} />
+            <TopLinks title="Articles" url="/article/" items={topArticles} />
+            <TopLinks title="DIYs" url="/diy/" items={topDiys} />
+        </div>
+    );
+};
 
 type TopLinksProps = {
     title: string;
@@ -83,7 +159,7 @@ const TopLinks = (props: TopLinksProps) => {
     const { title, url, items } = props;
 
     return (
-        <div className="space-y-3 text-white">
+        <div className={combo("space-y-3 text-white")}>
             <div className="space-y-1">
                 <h3 className="text-xl font-semibold text-nowrap text-white">{title}</h3>
                 <hr className="w-8 border-gray-400" />
