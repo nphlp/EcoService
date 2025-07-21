@@ -61,14 +61,6 @@ export default function Client(props: ClientProps) {
                     setSelected={setSelectValue}
                     selected={selectValue}
                 />
-                <Select
-                    label="Categorie"
-                    variant="dark"
-                    placeholder="Select a category"
-                    options={selectOptions}
-                    setSelected={setSelectValue}
-                    selected={selectValue}
-                />
             </div>
             <div className={combo(common)}>
                 <h2 className="text-2xl font-bold">Input</h2>

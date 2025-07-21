@@ -30,23 +30,56 @@ export type StylesType = {
 };
 
 const structure: StructureType = {
-    component: combo(""),
+    component: combo("space-y-1"),
     label: combo(""),
 
     displayedValue: combo(""),
     placeholder: combo(""),
 
-    buttonGroup: combo(""),
-    button: combo(""),
+    buttonGroup: combo("relative"),
+    button: combo(
+        // Text
+        "text-black text-left",
+        // Size and padding
+        "w-full",
+        // Accessibility
+        "cursor-pointer",
+    ),
 
-    subButton: combo(""),
+    subButton: combo(
+        // Position
+        "absolute right-2 top-1/2 -translate-y-1/2",
+        // Accessibility
+        "cursor-pointer",
+    ),
     subCross: combo(""),
 
-    subDiv: combo(""),
+    subDiv: combo(
+        // Position
+        "absolute right-2 top-1/2 -translate-y-1/2",
+        // Accessibility
+        "pointer-events-none",
+    ),
     subChevron: combo(""),
 
-    optionList: combo(""),
-    optionButton: combo(""),
+    optionList: combo(
+        // Position
+        "absolute",
+        // Spacing
+        "space-y-0.5",
+        // Size and padding
+        "w-full",
+    ),
+    optionButton: combo(
+        // Display
+        "flex gap-2",
+        // Text
+        "text-black text-left",
+        // Size and padding
+        "w-full",
+        // Accessibility
+        "cursor-pointer",
+    ),
     optionIcon: combo(""),
     optionLabel: combo(""),
 };
@@ -61,7 +94,7 @@ const style: StylesType = {
 
         buttonGroup: combo("relative"),
         button: combo(
-            // Text position
+            // Text
             "text-left",
             // Size and padding
             "px-4 py-1.5 w-full",
@@ -97,11 +130,22 @@ const style: StylesType = {
         ),
         subChevron: combo("stroke-gray-600 translate-y-px"),
 
-        optionList: combo("absolute w-full space-y-0.5 border border-gray-300 bg-white rounded-lg p-1"),
+        optionList: combo(
+            // Position
+            "absolute",
+            // Spacing
+            "space-y-0.5",
+            // Size and padding
+            "w-full p-1",
+            // Border and radius
+            "border border-gray-300 rounded-lg",
+            // Background
+            "bg-white",
+        ),
         optionButton: combo(
             // Display
             "flex gap-2",
-            // Text position
+            // Text
             "text-left",
             // Size and padding
             "w-full px-2 py-0.5",
@@ -119,19 +163,80 @@ const style: StylesType = {
         optionLabel: combo(""),
     },
     dark: {
-        component: combo(""),
-        label: combo(""),
-        displayedValue: combo(""),
-        placeholder: combo(""),
-        buttonGroup: combo(""),
-        button: combo(""),
-        subButton: combo(""),
-        subCross: combo(""),
-        subDiv: combo(""),
-        subChevron: combo(""),
-        optionList: combo(""),
-        optionButton: combo(""),
-        optionIcon: combo(""),
+        component: combo("space-y-1"),
+        label: combo("text-gray-200 text-sm font-semibold"),
+
+        displayedValue: combo("text-white"),
+        placeholder: combo("text-gray-400"),
+
+        buttonGroup: combo("relative"),
+        button: combo(
+            // Text
+            "text-white text-left",
+            // Size and padding
+            "px-4 py-1.5 w-full",
+            // Border and radius
+            "border border-gray-500 focus:border-gray-300 rounded-lg",
+            // Background
+            "bg-black",
+            // Outline
+            "outline-none focus:ring-2 ring-teal-500",
+            "transition-all duration-150",
+            // Accessibility
+            "cursor-pointer",
+        ),
+
+        subButton: combo(
+            // Position
+            "absolute right-2 top-1/2 -translate-y-1/2",
+            // Border and radius
+            "rounded",
+            // Outline
+            "outline-none focus:ring-2 ring-teal-500",
+            "transition-all duration-150",
+            // Accessibility
+            "cursor-pointer",
+        ),
+        subCross: combo("stroke-gray-300"),
+
+        subDiv: combo(
+            // Position
+            "absolute right-2 top-1/2 -translate-y-1/2",
+            // Accessibility
+            "pointer-events-none",
+        ),
+        subChevron: combo("stroke-gray-300 translate-y-px"),
+
+        optionList: combo(
+            // Position
+            "absolute",
+            // Spacing
+            "space-y-0.5",
+            // Size and padding
+            "w-full p-1",
+            // Border and radius
+            "border border-gray-500 rounded-lg",
+            // Background
+            "bg-black",
+        ),
+        optionButton: combo(
+            // Display
+            "flex gap-2",
+            // Text
+            "text-white text-left",
+            // Size and padding
+            "w-full px-2 py-0.5",
+            // Border and radius
+            "rounded",
+            // Background
+            "bg-black hover:bg-gray-700",
+            // Outline
+            "outline-none focus:ring-2 ring-teal-500",
+            "transition-all duration-150",
+            // Accessibility
+            "cursor-pointer",
+        ),
+        optionIcon: combo("stroke-gray-300"),
         optionLabel: combo(""),
     },
     none: {
