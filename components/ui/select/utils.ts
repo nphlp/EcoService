@@ -26,9 +26,9 @@ export const getOptionFromSlug = (slug: string | null, options: SelectOptionType
  *  ]
  * ```
  */
-export const createSelectOptions = (
-    data: { [key: string]: string }[] | undefined,
-    { label, slug }: { label: string; slug: string },
+export const createSelectOptions = <T extends { [key: string]: string }>(
+    data: T[] | undefined,
+    { label, slug }: { label: keyof T; slug: keyof T },
 ): SelectOptionType[] =>
     data?.map((option) => ({
         label: option[label],

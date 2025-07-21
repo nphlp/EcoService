@@ -23,8 +23,6 @@ export default function Client(props: ClientProps) {
         // Optionnal
     );
 
-    // Button
-
     // Input
     const [inputValue, setInputValue] = useState("");
 
@@ -62,6 +60,24 @@ export default function Client(props: ClientProps) {
                     options={selectOptions}
                     setSelected={setSelectValue}
                     selected={selectValue}
+                />
+                <Select
+                    label="Categorie"
+                    variant="dark"
+                    placeholder="Select a category"
+                    options={selectOptions}
+                    setSelected={setSelectValue}
+                    selected={selectValue}
+                />
+            </div>
+            <div className={combo(common)}>
+                <h2 className="text-2xl font-bold">Input</h2>
+                <Input
+                    label="Input"
+                    placeholder="Type here..."
+                    classLabel="sr-only"
+                    setValue={setInputValue}
+                    value={inputValue}
                 />
             </div>
         </div>

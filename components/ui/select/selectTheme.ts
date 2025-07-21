@@ -1,28 +1,57 @@
 import { combo } from "@lib/combo";
+import { mergeStylesAndStructure } from "../themes/utils";
 
 export type VariantType = "default" | "dark" | "none";
 
-export type ThemeType = {
-    [key in VariantType]: {
-        component: string;
-        label: string;
+type StructureType = {
+    component: string;
+    label: string;
 
-        displayedValue: string;
-        placeholder: string;
+    displayedValue: string;
+    placeholder: string;
 
-        buttonGroup: string;
-        button: string;
-        subButton: string;
-        subButtonIcon: string;
+    buttonGroup: string;
+    button: string;
 
-        optionList: string;
-        optionButton: string;
-        optionIcon: string;
-        optionLabel: string;
-    };
+    subButton: string;
+    subCross: string;
+
+    subDiv: string;
+    subChevron: string;
+
+    optionList: string;
+    optionButton: string;
+    optionIcon: string;
+    optionLabel: string;
 };
 
-export const theme: ThemeType = {
+export type StylesType = {
+    [key in VariantType]: StructureType;
+};
+
+const structure: StructureType = {
+    component: combo(""),
+    label: combo(""),
+
+    displayedValue: combo(""),
+    placeholder: combo(""),
+
+    buttonGroup: combo(""),
+    button: combo(""),
+
+    subButton: combo(""),
+    subCross: combo(""),
+
+    subDiv: combo(""),
+    subChevron: combo(""),
+
+    optionList: combo(""),
+    optionButton: combo(""),
+    optionIcon: combo(""),
+    optionLabel: combo(""),
+};
+
+const style: StylesType = {
     default: {
         component: combo("space-y-1"),
         label: combo("text-gray-700 text-sm font-semibold"),
@@ -46,13 +75,27 @@ export const theme: ThemeType = {
             // Accessibility
             "cursor-pointer",
         ),
+
         subButton: combo(
             // Position
-            "absolute right-2 inset-y-0",
+            "absolute right-2 top-1/2 -translate-y-1/2",
+            // Border and radius
+            "rounded",
+            // Outline
+            "outline-none focus:ring-2 ring-teal-300",
+            "transition-all duration-150",
             // Accessibility
             "cursor-pointer",
         ),
-        subButtonIcon: combo("stroke-gray-600"),
+        subCross: combo("stroke-gray-600"),
+
+        subDiv: combo(
+            // Position
+            "absolute right-2 top-1/2 -translate-y-1/2",
+            // Accessibility
+            "pointer-events-none",
+        ),
+        subChevron: combo("stroke-gray-600 translate-y-px"),
 
         optionList: combo("absolute w-full space-y-0.5 border border-gray-300 bg-white rounded-lg p-1"),
         optionButton: combo(
@@ -63,9 +106,12 @@ export const theme: ThemeType = {
             // Size and padding
             "w-full px-2 py-0.5",
             // Border and radius
-            "rounded-lg",
+            "rounded",
             // Background
             "bg-white hover:bg-gray-100",
+            // Outline
+            "outline-none focus:ring-2 ring-teal-300",
+            "transition-all duration-150",
             // Accessibility
             "cursor-pointer",
         ),
@@ -80,7 +126,9 @@ export const theme: ThemeType = {
         buttonGroup: combo(""),
         button: combo(""),
         subButton: combo(""),
-        subButtonIcon: combo(""),
+        subCross: combo(""),
+        subDiv: combo(""),
+        subChevron: combo(""),
         optionList: combo(""),
         optionButton: combo(""),
         optionIcon: combo(""),
@@ -94,10 +142,14 @@ export const theme: ThemeType = {
         buttonGroup: combo(""),
         button: combo(""),
         subButton: combo(""),
-        subButtonIcon: combo(""),
+        subCross: combo(""),
+        subDiv: combo(""),
+        subChevron: combo(""),
         optionList: combo(""),
         optionButton: combo(""),
         optionIcon: combo(""),
         optionLabel: combo(""),
     },
 };
+
+export const theme = mergeStylesAndStructure(structure, style);

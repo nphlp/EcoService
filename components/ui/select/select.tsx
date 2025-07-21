@@ -6,6 +6,7 @@ import { Check, ChevronDown, X } from "lucide-react";
 import {
     createContext,
     FocusEvent,
+    KeyboardEvent,
     MouseEvent,
     ReactNode,
     RefObject,
@@ -36,8 +37,12 @@ type CommonProps = {
 
     classButtonGroup?: string;
     classButton?: string;
+
     classSubButton?: string;
-    classSubButtonIcon?: string;
+    classSubCross?: string;
+
+    classSubDiv?: string;
+    classSubChevron?: string;
 
     classOptionList?: string;
     classOptionButton?: string;
@@ -56,7 +61,9 @@ type ContextType = CommonProps & {
     // Internal States
     isOpen: boolean;
     setIsOpen: (isOpen: boolean) => void;
+
     buttonRef: RefObject<HTMLButtonElement | null>;
+    optionListRef: RefObject<HTMLDivElement | null>;
 };
 
 const Context = createContext<ContextType>({} as ContextType);
@@ -73,9 +80,10 @@ const Provider = (props: ProviderProps) => {
     // Internal States
     const [isOpen, setIsOpen] = useState(false);
     const buttonRef = useRef<HTMLButtonElement>(null);
+    const optionListRef = useRef<HTMLDivElement>(null);
 
     // Context value
-    const value = { ...others, isOpen, setIsOpen, buttonRef };
+    const value = { ...others, isOpen, setIsOpen, buttonRef, optionListRef };
 
     return <Context.Provider value={value}>{children}</Context.Provider>;
 };
@@ -148,7 +156,9 @@ const SelectButton = () => {
         classButton,
         classButtonGroup,
         classSubButton,
-        classSubButtonIcon,
+        classSubCross,
+        classSubDiv,
+        classSubChevron,
         classDisplayedValue,
         classPlaceholder,
         selected,
@@ -157,8 +167,10 @@ const SelectButton = () => {
         label,
         canNotBeEmpty,
         setIsOpen,
+        isOpen,
         setSelected,
         buttonRef,
+        optionListRef,
     } = useContext(Context);
 
     // Get the selected option
@@ -171,6 +183,7 @@ const SelectButton = () => {
     const handleFocus = (e: FocusEvent<HTMLButtonElement>) => {
         e.preventDefault();
         e.stopPropagation();
+
         setIsOpen(true);
     };
 
@@ -178,12 +191,47 @@ const SelectButton = () => {
     const handleBlur = (e: FocusEvent<HTMLButtonElement>) => {
         e.preventDefault();
         e.stopPropagation();
-        if (e.relatedTarget?.hasAttribute("data-slug")) {
-            // Selecting an option
-            const slug = e.relatedTarget?.getAttribute("data-slug");
-            if (slug) setSelected(slug);
+
+        // On click outside, not on an option
+        if (!e.relatedTarget?.hasAttribute("data-slug")) {
+            setIsOpen(false);
         }
-        setIsOpen(false);
+    };
+
+    // Handle key down
+    const handleKeyDown = (e: KeyboardEvent<HTMLButtonElement>) => {
+        const key = e.key;
+        const listenedKeys = ["Enter", "ArrowDown"];
+
+        if (listenedKeys.includes(key)) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            // Open options if not open (this behavior happens after a keyboard selection)
+            if (!isOpen) setIsOpen(true);
+
+            // Focus the first option
+            const firstOption: HTMLElement | null =
+                optionListRef.current?.querySelector("[data-slug]:first-child") ?? null;
+            if (firstOption) firstOption.focus();
+        }
+
+        if (key === "ArrowUp") {
+            e.preventDefault();
+            e.stopPropagation();
+
+            // Open options if not open (this behavior happens after a keyboard selection)
+            if (!isOpen) setIsOpen(true);
+
+            // Focus the last option
+            const lastOption: HTMLElement | null =
+                optionListRef.current?.querySelector("[data-slug]:last-child") ?? null;
+            if (lastOption) lastOption.focus();
+        }
+
+        if (key === "Escape") {
+            e.currentTarget.blur();
+        }
     };
 
     // Open or reset
@@ -193,8 +241,6 @@ const SelectButton = () => {
 
         if (!canNotBeEmpty && hasSelection) {
             setSelected("");
-        } else {
-            buttonRef.current?.focus();
         }
     };
 
@@ -205,6 +251,7 @@ const SelectButton = () => {
                 type="button"
                 onFocus={handleFocus}
                 onBlur={handleBlur}
+                onKeyDown={handleKeyDown}
                 className={combo(theme[variant].button, classButton)}
             >
                 {hasSelection ? (
@@ -215,19 +262,19 @@ const SelectButton = () => {
                     <span className={combo(theme[variant].placeholder, classPlaceholder)}>{placeholder ?? label}</span>
                 )}
             </button>
-            <button
-                type="button"
-                className={combo(theme[variant].subButton, classSubButton)}
-                onClick={handleClickSubButton}
-            >
-                {!canNotBeEmpty && hasSelection ? (
-                    // TODO: stylize focus
-                    <X className={combo(theme[variant].subButtonIcon, classSubButtonIcon)} />
-                ) : (
-                    // TODO: can't be focused
-                    <ChevronDown className={combo(theme[variant].subButtonIcon, classSubButtonIcon)} />
-                )}
-            </button>
+            {!canNotBeEmpty && hasSelection ? (
+                <button
+                    type="button"
+                    className={combo(theme[variant].subButton, classSubButton)}
+                    onClick={handleClickSubButton}
+                >
+                    <X className={combo(theme[variant].subCross, classSubCross)} />
+                </button>
+            ) : (
+                <div className={combo(theme[variant].subDiv, classSubDiv)}>
+                    <ChevronDown className={combo(theme[variant].subChevron, classSubChevron)} />
+                </div>
+            )}
         </div>
     );
 };
@@ -264,18 +311,83 @@ const SelectOptions = () => {
 type SelectOptionsPortalProps = ContextType;
 
 const SelectOptionsPortal = (props: SelectOptionsPortalProps) => {
-    const { selected, variant, classOptionList, classOptionButton, classOptionIcon, classOptionLabel, options } = props;
+    const {
+        selected,
+        variant,
+        classOptionList,
+        classOptionButton,
+        classOptionIcon,
+        classOptionLabel,
+        options,
+        optionListRef,
+        buttonRef,
+        setSelected,
+        setIsOpen,
+    } = props;
 
     // Get the selected option
     const selectedOption = getOptionFromSlug(selected, options);
 
+    // Handle click
+    const handleClick = (e: MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        const slug = e.currentTarget.getAttribute("data-slug");
+        if (slug) setSelected(slug);
+        setIsOpen(false);
+    };
+
+    // Handle key down
+    const handleKeyDown = (e: KeyboardEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        const key = e.key;
+
+        if (key === "Enter") {
+            // Select the option
+            const option = e.currentTarget.getAttribute("data-slug");
+            if (option) setSelected(option);
+            buttonRef.current?.focus();
+            setIsOpen(false);
+        }
+
+        if (key === "ArrowDown") {
+            // Focus next option
+            const nextOption: HTMLElement | null = e.currentTarget.nextElementSibling as HTMLElement | null;
+            if (nextOption) {
+                nextOption.focus();
+            } else {
+                buttonRef.current?.focus();
+            }
+        }
+
+        if (key === "ArrowUp") {
+            // Focus previous option
+            const previousOption: HTMLElement | null = e.currentTarget.previousElementSibling as HTMLElement | null;
+            if (previousOption) {
+                previousOption.focus();
+            } else {
+                buttonRef.current?.focus();
+            }
+        }
+
+        if (key === "Escape") {
+            buttonRef.current?.focus();
+            setIsOpen(false);
+        }
+    };
+
     return (
-        <div className={combo(theme[variant].optionList, classOptionList)}>
+        <div ref={optionListRef} className={combo(theme[variant].optionList, classOptionList)}>
             {options?.map((option, index) => (
                 <button
                     key={index}
                     type="button"
                     data-slug={option.slug}
+                    onClick={handleClick}
+                    onKeyDown={handleKeyDown}
                     className={combo(theme[variant].optionButton, classOptionButton)}
                 >
                     <Check

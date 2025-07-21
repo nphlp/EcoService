@@ -137,7 +137,7 @@ export default function ComboboxMulti(props: ComboboxMultiProps) {
                     anchor="bottom"
                     className={combo(
                         "w-(--input-width) empty:invisible",
-                        "rounded-lg border bg-white p-1",
+                        "rounded-lg border border-gray-300 bg-white p-1",
                         "[--anchor-gap:6px]",
                     )}
                 >

@@ -21,8 +21,16 @@ const productFetchParams = ({
     take: SearchParamsType["take"];
     category: SearchParamsType["category"];
     search: SearchParamsType["search"];
-}): ProductFindManyProps => // TODO: remove response typing
+}) =>
     ({
+        select: {
+            id: true,
+            name: true,
+            slug: true,
+            description: true,
+            image: true,
+            price: true,
+        },
         ...(priceOrder !== "not" && { orderBy: { price: priceOrder } }),
         ...(page > 1 && { skip: (page - 1) * take }),
         take,

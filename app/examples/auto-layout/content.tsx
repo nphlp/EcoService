@@ -12,18 +12,13 @@ export default function Content() {
                 <h1 className="text-2xl font-bold">Auto-Layout</h1>
                 <Select
                     label="Toggle"
-                    onChange={(e) => setToggle(e.target.value === "true")}
-                    value={toggle.toString()}
+                    setSelected={(value) => setToggle(value === "true")}
+                    selected={toggle.toString()}
                     options={[
-                        {
-                            label: "Short text",
-                            value: "true",
-                        },
-                        {
-                            label: "Long text",
-                            value: "false",
-                        },
+                        { label: "Short text", slug: "true" },
+                        { label: "Long text", slug: "false" },
                     ]}
+                    canNotBeEmpty
                 />
             </div>
             <div>{toggle ? <Text /> : Array.from({ length: 10 }).map((_, index) => <Text key={index} />)}</div>

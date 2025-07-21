@@ -10,12 +10,12 @@ import { PackageSearch } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { MouseEvent, useContext } from "react";
 import { Context } from "./context";
-import { productFetchParams } from "./fetchParams";
+import { productFetchParams, ProductSearchType } from "./fetchParams";
 import { useCatalogParams } from "./queryParamsHook";
 
 type CatalogProps = {
     className?: string;
-    initialProductList: ProductModel[];
+    initialProductList: ProductSearchType[];
 };
 
 export default function Catalog(props: CatalogProps) {

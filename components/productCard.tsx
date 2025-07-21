@@ -1,12 +1,12 @@
 "use client";
 
+import { ProductSearchType } from "@app/catalog/components/fetchParams";
 import Card, { CardProps } from "@comps/server/card";
 import ImageRatio from "@comps/ui/imageRatio";
-import { ProductModel } from "@services/types";
-import AddToCartIconWrapper from "./wrapper/addToCartIconWrapper";
+import AddToCartIcon from "./addToCartIcon";
 
 type ProductCardProps = {
-    product: ProductModel;
+    product: ProductSearchType;
 } & CardProps;
 
 export default function ProductCard(props: ProductCardProps) {
@@ -24,7 +24,7 @@ export default function ProductCard(props: ProductCardProps) {
                     </div>
                     <div className="font-bold text-nowrap text-gray-500">{price.toFixed(2)} €</div>
                 </div>
-                <AddToCartIconWrapper product={product} />
+                <AddToCartIcon product={product} />
             </div>
         </Card>
     );

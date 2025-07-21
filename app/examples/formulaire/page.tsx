@@ -1,7 +1,8 @@
 import Card from "@comps/server/card";
+import { createOptions } from "@comps/ui/comboboxes/utils";
+import { createSelectOptions } from "@comps/ui/select/utils";
 import { ArticleFindManyServer, CategoryFindManyServer, ProductFindManyServer } from "@services/server";
 import Form from "./form";
-import { createOptions } from "@comps/ui/comboboxes/utils";
 
 export default async function Page() {
     // Fetch the data
@@ -16,7 +17,7 @@ export default async function Page() {
     });
 
     // Format the options
-    const categoryOptions = categoryList.map(({ slug, name }) => ({ label: name, value: slug }));
+    const categoryOptions = createSelectOptions(categoryList, { label: "name", slug: "slug" });
     const articleOptions = createOptions(articleList);
     const productOptions = createOptions(productList);
 
