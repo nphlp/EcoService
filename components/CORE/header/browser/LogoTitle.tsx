@@ -13,7 +13,7 @@ export default function LogoTitle() {
             <Link type="link" href="/" label="home" variant="none" baseStyleOnly={["flex"]}>
                 <Logo className="size-9" />
                 <span className="relative">
-                    <div className="text-2xl font-semibold uppercase">Circle</div>
+                    <div className="text-2xl font-semibold text-black uppercase">Circle</div>
                     <motion.div
                         initial={{ width: 0 }}
                         animate={{ width: isHomeHovered ? "75%" : 0 }}

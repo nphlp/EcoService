@@ -60,7 +60,7 @@ export default async function Footer(props: FooterProps) {
     };
 
     return (
-        <footer className={combo("bg-eco flex items-center justify-center gap-24 p-18", className)}>
+        <footer className={combo("bg-primary flex items-center justify-center gap-24 p-18", className)}>
             {/* Mobile */}
             <div className={combo("flex sm:hidden", "flex-col gap-12")}>
                 <LogoTitle scale={1.2} />

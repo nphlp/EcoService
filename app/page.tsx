@@ -46,7 +46,7 @@ export default async function Page() {
             >
                 <div className="w-full text-4xl font-bold text-nowrap sm:text-5xl md:text-4xl lg:text-5xl xl:text-6xl">
                     <div className="text-white text-shadow-lg">Passez au</div>
-                    <div className="text-ecoco text-shadow-lg">zéro déchet</div>
+                    <div className="text-secondary text-shadow-lg">zéro déchet</div>
                 </div>
                 <div className="flex flex-row items-center justify-center gap-8">
                     <ImageRatio
@@ -65,7 +65,7 @@ export default async function Page() {
             </section>
             <section className="flex flex-col items-center gap-12 px-8 pt-8 text-center lg:flex-row lg:justify-between lg:px-16 lg:pt-16 lg:text-left">
                 <div className="space-y-4 lg:w-1/2">
-                    <h1 className="text-ecoco text-xl font-bold md:text-3xl">Réinventez Votre Quotidien !</h1>
+                    <h1 className="text-secondary text-xl font-bold md:text-3xl">Réinventez Votre Quotidien !</h1>
                     <p className="mt-2 text-gray-700">
                         Dans un monde où la surconsommation génère des tonnes de déchets chaque jour, le zéro déchet
                         apparaît comme une solution incontournable pour préserver notre environnement.

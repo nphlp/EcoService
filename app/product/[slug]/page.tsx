@@ -72,7 +72,7 @@ export default async function Page(props: PageProps) {
 
     return (
         <div className="w-full flex-1 p-7">
-            <Link href="/catalog" className="text-eco mb-8 inline-flex items-center hover:underline">
+            <Link href="/catalog" className="text-primary mb-8 inline-flex items-center hover:underline">
                 <ArrowLeft className="mr-2 size-4" />
                 Retour aux produits
             </Link>
@@ -83,7 +83,7 @@ export default async function Page(props: PageProps) {
                 <div className="w-full space-y-6">
                     <div>
                         {Category && (
-                            <div className="bg-eco/10 text-eco mb-2 w-fit rounded-full px-3 py-1 text-sm">
+                            <div className="bg-primary/10 text-primary mb-2 w-fit rounded-full px-3 py-1 text-sm">
                                 {Category.name}
                             </div>
                         )}
@@ -97,7 +97,7 @@ export default async function Page(props: PageProps) {
                         <div className="flex items-end justify-between">
                             <div>
                                 <p className="text-sm text-gray-500">Prix</p>
-                                <p className="text-eco text-3xl font-bold">{price.toFixed(2)} €</p>
+                                <p className="text-primary text-3xl font-bold">{price.toFixed(2)} €</p>
                             </div>
                             <div className="text-right">
                                 <p className="text-sm text-gray-500">Stock</p>

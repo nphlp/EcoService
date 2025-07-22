@@ -61,8 +61,8 @@ export default async function Page(props: PageProps) {
 
     return (
         <div className="flex w-full flex-1 flex-col">
-            <h1 className="bg-eco text-ecoco px-6 pt-6 text-4xl font-bold">Catalogue</h1>
-            <div className="bg-eco px-6 pt-2 text-white">
+            <h1 className="bg-primary text-secondary px-6 pt-6 text-4xl font-bold">Catalogue</h1>
+            <div className="bg-primary px-6 pt-2 text-white">
                 Retrouvez l&apos;intégralité de nos produits dans notre catalogue.
             </div>
             <div className="flex flex-1 flex-col justify-start">

@@ -1,12 +1,13 @@
 "use client";
 
+import { useThemeStore } from "@comps/CORE/themeStore";
 import Button from "@comps/ui/button";
 import Input from "@comps/ui/input";
 import Select from "@comps/ui/select/select";
+import { createSelectOptions } from "@comps/ui/select/utils";
 import { combo } from "@lib/combo";
 import { useState } from "react";
 import { CategorySearchType } from "./fetchParams";
-import { createSelectOptions } from "@comps/ui/select/utils";
 
 type ClientProps = {
     initialData: {
@@ -16,6 +17,8 @@ type ClientProps = {
 
 export default function Client(props: ClientProps) {
     const { initialData } = props;
+
+    const { isDarkMode } = useThemeStore();
 
     const common = combo(
         "space-y-3",
@@ -60,17 +63,25 @@ export default function Client(props: ClientProps) {
                     options={selectOptions}
                     setSelected={setSelectValue}
                     selected={selectValue}
+                    variant={isDarkMode ? "dark" : "default"}
                 />
             </div>
             <div className={combo(common)}>
-                <h2 className="text-2xl font-bold">Input</h2>
-                <Input
-                    label="Input"
-                    placeholder="Type here..."
-                    classLabel="sr-only"
-                    setValue={setInputValue}
-                    value={inputValue}
-                />
+                <h2 className="text-2xl font-bold text-[var(--foreground)]">Theme Info</h2>
+                <div className="space-y-2 text-sm text-[var(--foreground)]">
+                    <p>
+                        Mode actuel:{" "}
+                        <span className="font-semibold text-[var(--foreground)]">
+                            {isDarkMode ? "Sombre" : "Clair"}
+                        </span>
+                    </p>
+                    <p>
+                        Préférence:{" "}
+                        <span className="font-semibold text-[var(--foreground)]">
+                            {isDarkMode === null ? "Système" : "Manuel"}
+                        </span>
+                    </p>
+                </div>
             </div>
         </div>
     );

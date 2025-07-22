@@ -2,10 +2,10 @@
 
 import Input from "@comps/ui/input";
 import Select from "@comps/ui/select/select";
-import { SearchParamsType } from "./queryParamsConfig";
-import { useCatalogParams } from "./queryParamsHook";
 import { createSelectOptions } from "@comps/ui/select/utils";
 import { CategorySearchType } from "./fetchParams";
+import { SearchParamsType } from "./queryParamsConfig";
+import { useCatalogParams } from "./queryParamsHook";
 
 type SelectorsProps = {
     categoryList: CategorySearchType[];
@@ -20,7 +20,7 @@ export default function Selectors(props: SelectorsProps) {
         useCatalogParams();
 
     return (
-        <div className="bg-eco grid grid-cols-2 gap-5 p-6 md:grid-cols-4">
+        <div className="bg-primary grid grid-cols-2 gap-5 p-6 md:grid-cols-4">
             <Select
                 label="Catégorie"
                 classLabel="text-white"

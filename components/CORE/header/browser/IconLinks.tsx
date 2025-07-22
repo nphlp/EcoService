@@ -3,21 +3,28 @@
 import { useBasketStore } from "@comps/basket/basketStore";
 import Logout from "@comps/client/logout";
 import { useHeaderStore } from "@comps/CORE/header/headerStore";
+import { useThemeStore } from "@comps/CORE/themeStore";
 import Button from "@comps/ui/button";
 import ImageProfile from "@comps/ui/imageProfile";
 import Link from "@comps/ui/link";
 import { useSession } from "@lib/authClient";
 import { combo } from "@lib/combo";
-import { motion } from "framer-motion";
-import { LogOut, Moon, PanelsTopLeft, Search, ShoppingCart, Sun, UserRound } from "lucide-react";
+import { LogOut, Monitor, Moon, PanelsTopLeft, Search, ShoppingCart, Sun, UserRound } from "lucide-react";
 
 export default function IconLinks() {
     const { data: session } = useSession();
 
     const { basket } = useBasketStore();
-    const { searchOpen, setSearchOpen, basketOpen, setBasketOpen, isDarkMode, setIsDarkMode } = useHeaderStore();
+    const { isDarkMode, setIsDarkMode } = useThemeStore();
+    const { searchOpen, setSearchOpen, basketOpen, setBasketOpen } = useHeaderStore();
 
     const role = session?.user.role;
+
+    const handleSwitchTheme = () => {
+        if (isDarkMode === null) setIsDarkMode(true);
+        if (isDarkMode === true) setIsDarkMode(false);
+        if (isDarkMode === false) setIsDarkMode(null);
+    };
 
     return (
         <div className="flex flex-row items-center justify-center gap-3">
@@ -40,18 +47,12 @@ export default function IconLinks() {
                 label="toggle-mode"
                 variant="ghost"
                 baseStyleOnly={["flex", "rounded"]}
-                onClick={() => setIsDarkMode(!isDarkMode)}
+                onClick={handleSwitchTheme}
                 className="w-10 overflow-hidden p-2"
             >
-                <motion.div
-                    initial={{ translateX: isDarkMode ? "-20px" : "20px" }}
-                    animate={{ translateX: isDarkMode ? "-20px" : "20px" }}
-                    transition={{ duration: 0.5, ease: "easeInOut", type: "spring" }}
-                    className="flex flex-row gap-4"
-                >
-                    <Sun />
-                    <Moon />
-                </motion.div>
+                {isDarkMode === null && <Monitor />}
+                {isDarkMode === true && <Moon />}
+                {isDarkMode === false && <Sun />}
             </Button>
 
             {/* Account button */}
