@@ -1,5 +1,5 @@
 import { OrderModel, ProductModel, QuantityModel } from "@services/types";
-import { z, ZodSchema } from "zod";
+import { z, ZodType } from "zod";
 
 /** Basket product */
 export type BasketProduct = {
@@ -37,7 +37,7 @@ export type LocalBasket = {
 };
 
 /** Local basket item schema */
-export const localBasketItemSchema: ZodSchema<LocalBasketItem> = z.object({
+export const localBasketItemSchema: ZodType<LocalBasketItem> = z.object({
     // Product
     productId: z.coerce.string(),
     name: z.coerce.string(),
@@ -50,7 +50,7 @@ export const localBasketItemSchema: ZodSchema<LocalBasketItem> = z.object({
 });
 
 /** Local basket schema */
-export const localBasketSchema: ZodSchema<LocalBasket> = z.object({
+export const localBasketSchema: ZodType<LocalBasket> = z.object({
     orderId: z.coerce.string().optional(),
     items: z.array(localBasketItemSchema),
 });
