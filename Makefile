@@ -7,6 +7,13 @@
 # Enable compose bake for better performance
 BAKE = COMPOSE_BAKE=true
 
+#############################
+#    Image Compression      #
+#############################
+
+compress:
+	@make -f Makefile.compress auto-compress
+
 ####################
 #    Certificates  #
 ####################
