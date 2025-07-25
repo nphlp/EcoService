@@ -11,7 +11,9 @@ export default function CheckoutProductList() {
 
     return (
         <div className="flex w-[600px] flex-col gap-4">
-            {basket?.items.map((product, index) => <CheckoutProductItem key={index} index={index} product={product} />)}
+            {basket?.items.map((product, index) => (
+                <CheckoutProductItem key={index} index={index} product={product} />
+            ))}
         </div>
     );
 }

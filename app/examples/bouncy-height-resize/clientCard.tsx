@@ -36,7 +36,9 @@ export default function ClientCard(props: ClientCardProps) {
                 <div className="text-md font-semibold text-gray-500">Take 10 items</div>
             </div>
             <AutoResizerCard>
-                {productList?.map((product, index) => <div key={index}>{product.name}</div>)}
+                {productList?.map((product, index) => (
+                    <div key={index}>{product.name}</div>
+                ))}
             </AutoResizerCard>
         </div>
     );

@@ -84,7 +84,7 @@ const structure: StructureType = {
     optionLabel: combo(""),
 };
 
-const style: StylesType = {
+const styles: StylesType = {
     default: {
         component: combo("space-y-1"),
         label: combo("text-gray-700 text-sm font-semibold"),
@@ -257,4 +257,4 @@ const style: StylesType = {
     },
 };
 
-export const theme = mergeStylesAndStructure(structure, style);
+export const theme = mergeStylesAndStructure(structure, styles);

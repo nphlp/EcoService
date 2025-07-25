@@ -53,6 +53,7 @@ export default function Client(props: ClientProps) {
                     classLabel="sr-only"
                     setValue={setInputValue}
                     value={inputValue}
+                    variant={"default"}
                 />
             </div>
             <div className={combo(common)}>
@@ -60,10 +61,11 @@ export default function Client(props: ClientProps) {
                 <Select
                     label="Categorie"
                     placeholder="Select a category"
+                    classLabel="sr-only"
                     options={selectOptions}
                     setSelected={setSelectValue}
                     selected={selectValue}
-                    variant={isDarkMode ? "dark" : "default"}
+                    variant={"default"}
                 />
             </div>
             <div className={combo(common)}>

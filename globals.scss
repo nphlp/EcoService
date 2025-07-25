@@ -5,41 +5,64 @@
 /* ========== Theme Styles ========== */
 
 @mixin light-theme {
-    --background: #ffffff;
-    --foreground: #000000;
+    --background: hsl(0, 0%, 100%);
+    --foreground: hsl(0, 0%, 0%);
 
-    --primary: #0E073B;
-    --secondary: #00C2CB;
+    --background-accent: hsl(0, 0%, 95%);
+    --foreground-accent: hsl(0, 0%, 0%);
+
+    --primary: hsl(248, 79%, 13%);
+    --secondary: hsl(183, 100%, 40%);
+
+    --primary-accent: hsl(248, 79%, 13%);
+    --secondary-accent: hsl(183, 100%, 40%);
 }
 
 @mixin dark-theme {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: hsl(0, 0%, 10%);
+    --foreground: hsl(0, 0%, 95%);
 
-    --primary: #0E073B;
-    --secondary: #00C2CB;
+    --background-accent: hsl(0, 0%, 15%);
+    --foreground-accent: hsl(0, 0%, 95%);
+
+    --primary: hsl(248, 79%, 13%);
+    --secondary: hsl(183, 100%, 40%);
+
+    --primary-accent: hsl(248, 79%, 13%);
+    --secondary-accent: hsl(183, 100%, 40%);
+}
+
+@mixin common-theme {
+    --corner-radius-sm: 0.25rem;
+    --corner-radius-md: 0.5rem;
+    --corner-radius-lg: 1rem;
 }
 
 /* ========== Theme Config ========== */
 
 :root {
     @include light-theme;
+    @include common-theme;
 }
 
 :root.dark {
     @include dark-theme;
+    @include common-theme;
 }
 
 @media (prefers-color-scheme: dark) {
     :root:not(.light) {
         @include dark-theme;
+        @include common-theme;
     }
 }
 
 body {
     background: var(--background);
     color: var(--foreground);
-    transition: background-color 0.2s ease, color 0.2s ease;
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease;
 }
 
 /* ========== Scrollbar ========== */
