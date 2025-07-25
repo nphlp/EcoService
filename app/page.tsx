@@ -37,7 +37,7 @@ export default async function Page() {
             <section
                 className="flex flex-row items-center justify-between gap-12 p-8 backdrop-blur-md md:p-16"
                 style={{
-                    backgroundImage: "url('/illustration/produit 4.jpg')",
+                    backgroundImage: "url('/illustration/produit 4.webp')",
                     backgroundSize: "cover",
                     backgroundPosition: "center",
                     backgroundBlendMode: "multiply",
@@ -50,13 +50,13 @@ export default async function Page() {
                 </div>
                 <div className="flex flex-row items-center justify-center gap-8">
                     <ImageRatio
-                        src="/illustration/produit 2.jpg"
+                        src="/illustration/produit 2.webp"
                         alt="produit"
                         className={combo("max-md:hidden", imageClass)}
                         priority
                     />
                     <ImageRatio
-                        src="/illustration/produit 3.jpg"
+                        src="/illustration/produit 3.webp"
                         alt="produit"
                         className={combo("max-md:hidden", imageClass)}
                         priority
@@ -83,7 +83,7 @@ export default async function Page() {
                     </p>
                 </div>
                 <ImageRatio
-                    src="/illustration/produit 5.jpg"
+                    src="/illustration/produit 5.webp"
                     alt="produit"
                     className="rounded-lg shadow-md max-lg:w-full lg:h-80"
                     priority

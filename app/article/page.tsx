@@ -60,9 +60,7 @@ export default async function Page() {
                         className="group flex flex-col overflow-hidden rounded-xl border border-gray-300 bg-white shadow-md transition-shadow duration-300 hover:shadow-lg"
                     >
                         {/* Image */}
-                        {article.Content[0] && (
-                            <ImageRatio src={`/illustration/${article.Content[0].image}`} alt={article.title} />
-                        )}
+                        {article.Content[0] && <ImageRatio src={article.Content[0].image} alt={article.title} />}
 
                         {/* Contenu */}
                         <div className="flex flex-1 flex-col p-4">

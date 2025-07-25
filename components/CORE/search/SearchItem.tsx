@@ -66,14 +66,14 @@ const Item = (props: ItemProps) => {
             case "article":
                 return {
                     href: `/article/${data.slug}`,
-                    imageUrl: `/illustration/${data.Content[0].image}`,
+                    imageUrl: data.Content[0].image,
                     title: data.title,
                     description: data.Content[0].content,
                 };
             case "diy":
                 return {
                     href: `/diy/${data.slug}`,
-                    imageUrl: `/illustration/${data.Content[0].image}`,
+                    imageUrl: data.Content[0].image,
                     title: data.title,
                     description: data.Content[0].content,
                 };
