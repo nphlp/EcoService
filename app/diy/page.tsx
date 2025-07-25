@@ -1,6 +1,6 @@
 "use cache";
 
-import ImageRatio from "@comps/server/imageRatio";
+import ImageRatio from "@comps/ui/imageRatio";
 import { DiyFindManyServer } from "@services/server";
 import { Metadata } from "next";
 import { unstable_cacheLife as cacheLife, unstable_cacheTag as cacheTag } from "next/cache";
@@ -52,7 +52,7 @@ export default async function Page() {
         <div className="container mx-auto px-4 py-10">
             <h1 className="mb-10 text-center text-3xl font-bold md:text-4xl">Nos tutoriels DIY</h1>
 
-            <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+            <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                 {diyList.map((diy, index) => (
                     <Link
                         key={index}
@@ -60,15 +60,7 @@ export default async function Page() {
                         className="group flex flex-col overflow-hidden rounded-xl border border-gray-300 bg-white shadow-md transition-shadow duration-300 hover:shadow-lg"
                     >
                         {/* Image */}
-                        {diy.Content[0] && (
-                            <div className="h-48 overflow-hidden">
-                                <ImageRatio
-                                    src={`/illustration/${diy.Content[0].image}`}
-                                    alt={diy.title}
-                                    className="size-full transition-transform duration-300 group-hover:scale-105"
-                                />
-                            </div>
-                        )}
+                        {diy.Content[0] && <ImageRatio src={diy.Content[0].image} alt={diy.title} />}
 
                         {/* Contenu */}
                         <div className="flex flex-1 flex-col p-4">

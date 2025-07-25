@@ -1,5 +1,5 @@
 import { StripeProductsResponse } from "@app/api/stripe/products/route";
-import ImageRatio from "@comps/server/imageRatio";
+import ImageRatio from "@comps/ui/imageRatio";
 import Link from "@comps/ui/link";
 import { combo } from "@lib/combo";
 import Stripe from "stripe";

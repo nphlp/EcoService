@@ -24,20 +24,17 @@ Production version: [eco-service.nansp.dev](https://eco-service.nansp.dev)
 The virtual client is an entrepreneur who wants to create a marketplace platform to sell eco-friendly products.
 
 1. Eco-friendly product marketplace platform
-
     - features **products** from different vendors
     - includes blog **articles** about products and their creators/vendors
     - provides **DIY** (Do It Yourself) articles explaining how to use products and create them yourself
 
 2. User types
-
     - **users** who purchase products (after registration)
     - **vendors** who sell products (after approval)
     - **employees** who manage the platform (created by administrator)
     - one or more **administrators** who manage the platform (created by developer)
 
 3. Main features
-
     - **Homepage**: presents the platform concept, products, articles, DIY content, etc.
     - **Catalog**: of products, articles, DIY content, etc.
     - **Search**: for products, articles, DIY content, etc.

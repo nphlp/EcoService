@@ -7,11 +7,12 @@ import { OptionComboType } from "@comps/ui/comboboxes/utils";
 import Feedback, { FeedbackMode } from "@comps/ui/feedback";
 import Input, { useInputState } from "@comps/ui/input";
 import InputImage from "@comps/ui/inputImage";
-import Select, { OptionSelectType } from "@comps/ui/select";
+import Select from "@comps/ui/select/select";
+import { SelectOptionType } from "@comps/ui/select/utils";
 import { FormEvent, useState } from "react";
 
 type FormProps = {
-    categoryOptions: OptionSelectType[];
+    categoryOptions: SelectOptionType[];
     articleOptions: OptionComboType[];
     productOptions: OptionComboType[];
 };
@@ -79,10 +80,10 @@ export default function Form(props: FormProps) {
                 label="Catégorie"
                 placeholder="Sélectionnez une catégorie"
                 options={categoryOptions}
-                onChange={(e) => setCategory(e.target.value)}
-                value={category}
+                setSelected={setCategory}
+                selected={category}
                 classComponent="w-full"
-                required={false}
+                canNotBeEmpty
             />
             <Combobox
                 label="Article"

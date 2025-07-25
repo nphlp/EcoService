@@ -13,7 +13,12 @@ export default async function Page() {
     const session = await hasRole(["VENDOR", "EMPLOYEE", "ADMIN"]);
     if (!session) unauthorized();
 
-    const categoryList = await CategoryFindManyServer({});
+    const categoryList = await CategoryFindManyServer({
+        select: {
+            id: true,
+            name: true,
+        },
+    });
     if (!categoryList) {
         throw new Error("Category list not found");
     }

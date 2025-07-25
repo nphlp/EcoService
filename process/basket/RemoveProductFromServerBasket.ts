@@ -8,7 +8,7 @@ import { hasPermission } from "@permissions/hasPermissions";
 import { ProcessDevError } from "@process/Error";
 import { OrderModel } from "@services/types";
 import { revalidatePath } from "next/cache";
-import { z, ZodSchema } from "zod";
+import { z, ZodType } from "zod";
 import { GetServerBasket } from "./GetServerBasket";
 
 type RemoveProductFromServerBasketProps = {
@@ -16,7 +16,7 @@ type RemoveProductFromServerBasketProps = {
     orderId: OrderModel["id"];
 };
 
-const removeProductFromServerBasketSchema: ZodSchema<RemoveProductFromServerBasketProps> = z.object({
+const removeProductFromServerBasketSchema: ZodType<RemoveProductFromServerBasketProps> = z.object({
     productId: z.string(),
     orderId: z.string(),
 });

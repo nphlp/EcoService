@@ -1,12 +1,13 @@
-import { ArticleOrDiySlider } from "@comps/articleOrDiySlider";
-import ImageRatio from "@comps/server/imageRatio";
-import { ArticleOrDiyFetchParams } from "@comps/sliderFetchParams";
+import ArticleOrDiyCard from "@comps/articleOrDiyCard";
+import ImageRatio from "@comps/ui/imageRatio";
 import Link from "@comps/ui/link";
+import Slider from "@comps/ui/slider";
 import { combo } from "@lib/combo";
 import PrismaInstance from "@lib/prisma";
 import { ArticleFindManyServer, ArticleFindUniqueServer } from "@services/server";
 import { Metadata } from "next";
 import { unstable_cacheLife as cacheLife, unstable_cacheTag as cacheTag } from "next/cache";
+import { notFound } from "next/navigation";
 
 export const generateStaticParams = async () => {
     const articles = await PrismaInstance.article.findMany({
@@ -80,16 +81,33 @@ export default async function Page(props: PageProps) {
         },
     });
 
-    const otherArticleList = await ArticleFindManyServer(ArticleOrDiyFetchParams);
+    const otherArticleList = await ArticleFindManyServer({
+        select: {
+            title: true,
+            slug: true,
+            createdAt: true,
+            Content: {
+                select: {
+                    content: true,
+                    image: true,
+                },
+            },
+            Author: {
+                select: {
+                    name: true,
+                },
+            },
+        },
+        where: {
+            slug: { not: slug },
+        },
+    });
 
-    if (!article) {
-        return <div className="container mx-auto px-4 py-10">Article non trouvé</div>;
-    }
+    if (!article) notFound();
 
     return (
-        <div className="container mx-auto px-4 py-10">
-            {/* En-tête de l'article */}
-            <div className="mb-10 text-center">
+        <div className="w-full space-y-8 p-12">
+            <div className="text-center">
                 <h1 className="mb-4 text-3xl font-bold md:text-4xl">{article.title}</h1>
                 {article.Author && (
                     <p className="text-gray-600">
@@ -103,7 +121,7 @@ export default async function Page(props: PageProps) {
                 )}
             </div>
 
-            <div className="mx-auto max-w-[900px] space-y-16">
+            <div className="mx-auto max-w-[900px] space-y-12">
                 {article.Content.map((content, index) => (
                     <div
                         key={index}
@@ -115,7 +133,7 @@ export default async function Page(props: PageProps) {
                         <p className="w-full md:w-2/3">{content.content}</p>
 
                         <ImageRatio
-                            src={`/illustration/${content.image}`}
+                            src={content.image}
                             alt={`Illustration pour ${article.title}`}
                             className="w-2/3 rounded-lg shadow-md md:w-1/3"
                         />
@@ -123,9 +141,22 @@ export default async function Page(props: PageProps) {
                 ))}
             </div>
 
-            <ArticleOrDiySlider articleOrDiy={otherArticleList} link="/article" title="À lire aussi" />
+            <section className="space-y-6 py-8">
+                <h2 className="text-center text-4xl font-bold">À lire aussi</h2>
+                <Slider
+                    dataListLength={otherArticleList.length}
+                    linkList={otherArticleList.map((articleOrDiy) => ({
+                        label: articleOrDiy.title,
+                        href: `/article/${articleOrDiy.slug}`,
+                    }))}
+                >
+                    {otherArticleList.map((articleOrDiy, index) => (
+                        <ArticleOrDiyCard key={index} articleOrDiy={articleOrDiy} />
+                    ))}
+                </Slider>
+            </section>
 
-            <div className="mt-16 flex justify-center">
+            <div className="flex justify-center">
                 <Link href="/article" label="Retour aux articles" variant="outline">
                     Retour aux articles
                 </Link>

@@ -1,13 +1,18 @@
-import "@/globals.css";
-import BasketSync from "@comps/basket/basketSync";
-import Header from "@comps/header/header";
+import "@/globals.scss";
+import Footer from "@comps/CORE/Footer";
+import Header from "@comps/CORE/Header";
+import { Portal, PortalProvider } from "@comps/CORE/Portal";
+import Search from "@comps/CORE/Search";
+import Theme from "@comps/CORE/Theme";
+import { themeSchema, ThemeStore } from "@comps/CORE/themeStore";
 import { combo } from "@lib/combo";
+import { getZustandCookie } from "@lib/zustandServer";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
 import { ReactNode } from "react";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ subsets: ["latin"], weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"] });
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 if (!baseUrl) throw new Error("NEXT_PUBLIC_BASE_URL environment variable is not defined");
@@ -30,16 +35,32 @@ export default async function Layout(props: LayoutProps) {
 
     const lang = "fr";
 
+    // const isDarkMode = await getZustandCookie<ThemeStore["isDarkMode"]>("theme-cookie", themeSchema, "isDarkMode");
+
     return (
-        <html lang={lang} className={combo("h-full overflow-hidden", inter.className)}>
-            <body className={combo("flex flex-col", "h-full overflow-hidden")}>
+        <html
+            lang={lang}
+            className={combo(
+                "h-full overflow-hidden",
+                inter.className,
+                // isDarkMode === true && "dark",
+                // isDarkMode === false && "light",
+            )}
+        >
+            <body className="flex h-full flex-col">
                 <NuqsAdapter>
-                    <Header />
-                    <BasketSync />
-                    <main className="flex-1 overflow-x-hidden overflow-y-auto">
-                        <div className="h-full bg-white">{children}</div>
-                        {/* <Footer className="bg-eco h-[300px]" /> */}
-                    </main>
+                    <PortalProvider>
+                        <Header />
+                        {/* <Theme /> */}
+                        <Search />
+                        {/* <Basket /> */}
+                        {/* <BasketSync /> */}
+                        <div className="flex-1 overflow-y-auto">
+                            <main className="flex min-h-full flex-col items-center justify-center">{children}</main>
+                            <Footer />
+                        </div>
+                        <Portal />
+                    </PortalProvider>
                 </NuqsAdapter>
             </body>
         </html>

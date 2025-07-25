@@ -128,7 +128,7 @@ export default function ComboboxSearchMulti<T extends string | undefined>(props:
                     anchor="bottom"
                     className={combo(
                         "w-(--input-width) empty:invisible",
-                        "rounded-lg border bg-white p-1",
+                        "rounded-lg border border-gray-300 bg-white p-1",
                         "[--anchor-gap:6px]",
                     )}
                 >
@@ -270,7 +270,7 @@ const ComboboxDisplay = <T extends string | undefined>(props: ComboboxDisplayPro
             animate={{ height: currentHeight }}
             transition={{
                 duration: 0.15,
-                animate: "easeInOut",
+                ease: "easeInOut",
             }}
             className={className}
         >

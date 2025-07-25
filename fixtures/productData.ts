@@ -18,7 +18,7 @@ export const productData: Prisma.ProductCreateInput[] = [
         name: "Panier de fruits bio",
         slug: StringToSlug("Panier de fruits bio"),
         description: "Assortiment de fruits de saison bio",
-        image: "/illustration/produit 1.jpg",
+        image: "/illustration/produit 1.webp",
         price: 25.99,
         stock: 50,
         Category: {
@@ -36,7 +36,7 @@ export const productData: Prisma.ProductCreateInput[] = [
         name: "Légumes locaux",
         slug: StringToSlug("Légumes locaux"),
         description: "Mix de légumes frais de producteurs locaux",
-        image: "/illustration/produit 2.jpg",
+        image: "/illustration/produit 2.webp",
         price: 18.5,
         stock: 40,
         Category: {
@@ -54,7 +54,7 @@ export const productData: Prisma.ProductCreateInput[] = [
         name: "Herbes aromatiques",
         slug: StringToSlug("Herbes aromatiques"),
         description: "Assortiment d'herbes fraîches bio",
-        image: "/illustration/produit 3.jpg",
+        image: "/illustration/produit 3.webp",
         price: 4.99,
         stock: 30,
         Category: {
@@ -74,7 +74,7 @@ export const productData: Prisma.ProductCreateInput[] = [
         name: "Fromage fermier",
         slug: StringToSlug("Fromage fermier"),
         description: "Fromage artisanal de vache",
-        image: "/illustration/produit 4.jpg",
+        image: "/illustration/produit 4.webp",
         price: 7.99,
         stock: 25,
         Category: {
@@ -92,7 +92,7 @@ export const productData: Prisma.ProductCreateInput[] = [
         name: "Yaourt bio",
         slug: StringToSlug("Yaourt bio"),
         description: "Pack de yaourts nature bio",
-        image: "/illustration/produit 5.jpg",
+        image: "/illustration/produit 5.webp",
         price: 4.5,
         stock: 60,
         Category: {
@@ -110,7 +110,7 @@ export const productData: Prisma.ProductCreateInput[] = [
         name: "Beurre fermier",
         slug: StringToSlug("Beurre fermier"),
         description: "Beurre traditionnel de baratte",
-        image: "/illustration/coton 1.jpg",
+        image: "/illustration/coton 1.webp",
         price: 3.99,
         stock: 45,
         Category: {
@@ -130,7 +130,7 @@ export const productData: Prisma.ProductCreateInput[] = [
         name: "Pain au levain",
         slug: StringToSlug("Pain au levain"),
         description: "Pain traditionnel au levain naturel",
-        image: "/illustration/coton 2.jpg",
+        image: "/illustration/coton 2.webp",
         price: 4.5,
         stock: 30,
         Category: {
@@ -148,7 +148,7 @@ export const productData: Prisma.ProductCreateInput[] = [
         name: "Croissants",
         slug: StringToSlug("Croissants"),
         description: "Lot de 4 croissants pur beurre",
-        image: "/illustration/coton 3.jpg",
+        image: "/illustration/coton 3.webp",
         price: 6.99,
         stock: 40,
         Category: {
@@ -166,7 +166,7 @@ export const productData: Prisma.ProductCreateInput[] = [
         name: "Baguette tradition",
         slug: StringToSlug("Baguette tradition"),
         description: "Baguette artisanale à l'ancienne",
-        image: "/illustration/cafe.jpg",
+        image: "/illustration/cafe.webp",
         price: 1.5,
         stock: 100,
         Category: {
@@ -186,7 +186,7 @@ export const productData: Prisma.ProductCreateInput[] = [
         name: "Filet de bœuf",
         slug: StringToSlug("Filet de bœuf"),
         description: "Filet de bœuf local race Charolaise",
-        image: "/illustration/eolienne.jpg",
+        image: "/illustration/eolienne.webp",
         price: 32.99,
         stock: 20,
         Category: {
@@ -204,7 +204,7 @@ export const productData: Prisma.ProductCreateInput[] = [
         name: "Saumon frais",
         slug: StringToSlug("Saumon frais"),
         description: "Filet de saumon de l'Atlantique",
-        image: "/illustration/espace 1.jpg",
+        image: "/illustration/espace 1.webp",
         price: 24.99,
         stock: 25,
         Category: {
@@ -222,7 +222,7 @@ export const productData: Prisma.ProductCreateInput[] = [
         name: "Poulet fermier",
         slug: StringToSlug("Poulet fermier"),
         description: "Poulet fermier Label Rouge",
-        image: "/illustration/feuille.jpg",
+        image: "/illustration/feuille.webp",
         price: 15.99,
         stock: 30,
         Category: {
@@ -242,7 +242,7 @@ export const productData: Prisma.ProductCreateInput[] = [
         name: "Huile d'olive",
         slug: StringToSlug("Huile d'olive"),
         description: "Huile d'olive extra vierge bio",
-        image: "/illustration/pots.jpg",
+        image: "/illustration/pots.webp",
         price: 12.99,
         stock: 40,
         Category: {
@@ -260,7 +260,7 @@ export const productData: Prisma.ProductCreateInput[] = [
         name: "Miel local",
         slug: StringToSlug("Miel local"),
         description: "Miel toutes fleurs local",
-        image: "/illustration/pshit 1.jpg",
+        image: "/illustration/pshit 1.webp",
         price: 8.5,
         stock: 35,
         Category: {
@@ -278,7 +278,7 @@ export const productData: Prisma.ProductCreateInput[] = [
         name: "Pâtes artisanales",
         slug: StringToSlug("Pâtes artisanales"),
         description: "Pâtes fraîches aux œufs",
-        image: "/illustration/pshit 2.jpg",
+        image: "/illustration/pshit 2.webp",
         price: 5.99,
         stock: 50,
         Category: {
@@ -298,7 +298,7 @@ export const productData: Prisma.ProductCreateInput[] = [
         name: "Vin rouge bio",
         slug: StringToSlug("Vin rouge bio"),
         description: "Vin rouge biodynamique local",
-        image: "/illustration/produit 3.jpg",
+        image: "/illustration/produit 3.webp",
         price: 15.99,
         stock: 60,
         Category: {
@@ -316,7 +316,7 @@ export const productData: Prisma.ProductCreateInput[] = [
         name: "Jus de pomme",
         slug: StringToSlug("Jus de pomme"),
         description: "Jus de pomme pressé artisanal",
-        image: "/illustration/produit 4.jpg",
+        image: "/illustration/produit 4.webp",
         price: 4.5,
         stock: 45,
         Category: {
@@ -334,7 +334,7 @@ export const productData: Prisma.ProductCreateInput[] = [
         name: "Bière artisanale",
         slug: StringToSlug("Bière artisanale"),
         description: "Bière blonde locale",
-        image: "/illustration/produit 5.jpg",
+        image: "/illustration/produit 5.webp",
         price: 3.99,
         stock: 70,
         Category: {
@@ -354,7 +354,7 @@ export const productData: Prisma.ProductCreateInput[] = [
         name: "Farine sans gluten",
         slug: StringToSlug("Farine sans gluten"),
         description: "Farine de riz bio sans gluten",
-        image: "/illustration/coton 1.jpg",
+        image: "/illustration/coton 1.webp",
         price: 6.99,
         stock: 40,
         Category: {
@@ -372,7 +372,7 @@ export const productData: Prisma.ProductCreateInput[] = [
         name: "Granola bio",
         slug: StringToSlug("Granola bio"),
         description: "Granola bio aux fruits secs",
-        image: "/illustration/coton 2.jpg",
+        image: "/illustration/coton 2.webp",
         price: 8.99,
         stock: 35,
         Category: {
@@ -390,7 +390,7 @@ export const productData: Prisma.ProductCreateInput[] = [
         name: "Cookies vegan",
         slug: StringToSlug("Cookies vegan"),
         description: "Cookies bio sans gluten vegan",
-        image: "/illustration/coton 3.jpg",
+        image: "/illustration/coton 3.webp",
         price: 5.5,
         stock: 45,
         Category: {
@@ -410,7 +410,7 @@ export const productData: Prisma.ProductCreateInput[] = [
         name: "Légumes surgelés",
         slug: StringToSlug("Légumes surgelés"),
         description: "Mix de légumes bio surgelés",
-        image: "/illustration/cafe.jpg",
+        image: "/illustration/cafe.webp",
         price: 6.99,
         stock: 50,
         Category: {
@@ -428,7 +428,7 @@ export const productData: Prisma.ProductCreateInput[] = [
         name: "Poisson surgelé",
         slug: StringToSlug("Poisson surgelé"),
         description: "Filets de cabillaud surgelés",
-        image: "/illustration/eolienne.jpg",
+        image: "/illustration/eolienne.webp",
         price: 14.99,
         stock: 30,
         Category: {
@@ -446,7 +446,7 @@ export const productData: Prisma.ProductCreateInput[] = [
         name: "Glace artisanale",
         slug: StringToSlug("Glace artisanale"),
         description: "Crème glacée vanille de Madagascar",
-        image: "/illustration/espace 1.jpg",
+        image: "/illustration/espace 1.webp",
         price: 7.99,
         stock: 25,
         Category: {
@@ -466,7 +466,7 @@ export const productData: Prisma.ProductCreateInput[] = [
         name: "Savon naturel",
         slug: StringToSlug("Savon naturel"),
         description: "Savon artisanal aux huiles essentielles",
-        image: "/illustration/terre-main.jpg",
+        image: "/illustration/terre-main.webp",
         price: 5.99,
         stock: 55,
         Category: {
@@ -484,7 +484,7 @@ export const productData: Prisma.ProductCreateInput[] = [
         name: "Shampooing solide",
         slug: StringToSlug("Shampooing solide"),
         description: "Shampooing solide bio zéro déchet",
-        image: "/illustration/produit 1.jpg",
+        image: "/illustration/produit 1.webp",
         price: 8.99,
         stock: 40,
         Category: {
@@ -502,7 +502,7 @@ export const productData: Prisma.ProductCreateInput[] = [
         name: "Crème visage",
         slug: StringToSlug("Crème visage"),
         description: "Crème hydratante bio",
-        image: "/illustration/produit 2.jpg",
+        image: "/illustration/produit 2.webp",
         price: 19.99,
         stock: 30,
         Category: {
@@ -522,7 +522,7 @@ export const productData: Prisma.ProductCreateInput[] = [
         name: "Lessive écologique",
         slug: StringToSlug("Lessive écologique"),
         description: "Lessive naturelle concentrée",
-        image: "/illustration/lessive 1.jpg",
+        image: "/illustration/lessive 1.webp",
         price: 12.99,
         stock: 45,
         Category: {
@@ -540,7 +540,7 @@ export const productData: Prisma.ProductCreateInput[] = [
         name: "Éponges naturelles",
         slug: StringToSlug("Éponges naturelles"),
         description: "Lot de 3 éponges biodégradables",
-        image: "/illustration/lessive 2.jpg",
+        image: "/illustration/lessive 2.webp",
         price: 6.99,
         stock: 60,
         Category: {
@@ -558,7 +558,7 @@ export const productData: Prisma.ProductCreateInput[] = [
         name: "Spray multi-usage",
         slug: StringToSlug("Spray multi-usage"),
         description: "Nettoyant écologique tout usage",
-        image: "/illustration/brosse-a-dent.jpg",
+        image: "/illustration/brosse-a-dent.webp",
         price: 4.99,
         stock: 50,
         Category: {

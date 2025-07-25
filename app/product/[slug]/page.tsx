@@ -1,13 +1,14 @@
-import AddToCartButtonWrapper from "@app/product/[slug]/addToCartButtonWrapper";
-import ImageRatio from "@comps/server/imageRatio";
-import Loader from "@comps/ui/loader";
+import Card from "@comps/server/card";
+import ImageRatio from "@comps/ui/imageRatio";
 import PrismaInstance from "@lib/prisma";
 import { ProductFindUniqueServer } from "@services/server";
-import { ArrowLeft, Package2, ShieldCheck, Truck } from "lucide-react";
+import { ArrowLeft, Package2, ShieldCheck, Truck, User } from "lucide-react";
 import { Metadata } from "next";
 import { unstable_cacheLife as cacheLife, unstable_cacheTag as cacheTag } from "next/cache";
 import Link from "next/link";
-import { Suspense } from "react";
+import { notFound } from "next/navigation";
+import { cloneElement, JSX } from "react";
+import AddToCartButton from "./addToCartButton";
 import { ProductFetchParams } from "./fetchParams";
 
 export const generateStaticParams = async () => {
@@ -65,52 +66,38 @@ export default async function Page(props: PageProps) {
 
     const product = await ProductFindUniqueServer(ProductFetchParams(slug));
 
-    if (!product) {
-        return (
-            <div className="flex flex-col items-center justify-center space-y-4">
-                <h1 className="text-2xl font-semibold">Produit non trouvé</h1>
-                <Link href="/products" className="text-eco flex items-center hover:underline">
-                    <ArrowLeft className="mr-2 size-4" />
-                    Retour aux produits
-                </Link>
-            </div>
-        );
-    }
+    if (!product) notFound();
 
-    const { name, image, price, description, stock, Vendor, Category } = product;
+    const { name, image, price, description, stock, Category } = product;
 
     return (
-        <div className="p-7">
-            {/* Bouton retour */}
-            <Link href="/catalog" className="text-eco mb-8 inline-flex items-center hover:underline">
+        <div className="w-full flex-1 p-7">
+            <Link href="/catalog" className="text-primary mb-8 inline-flex items-center hover:underline">
                 <ArrowLeft className="mr-2 size-4" />
                 Retour aux produits
             </Link>
 
-            <div className="grid gap-8 md:grid-cols-2">
-                {/* Image du produit */}
-                <div className="rounded-2xl border border-gray-300 bg-white p-4 shadow-[2px_2px_7px_rgba(0,0,0,0.1)]">
-                    <ImageRatio src={image} alt={name} className="rounded-lg" />
-                </div>
+            <div className="flex items-start justify-start gap-8">
+                <ImageRatio src={image} alt={name} className="hidden h-[420px] shrink-0 grow-0 rounded-lg lg:block" />
 
-                {/* Informations produit */}
-                <div className="space-y-6">
+                <div className="w-full space-y-6">
                     <div>
                         {Category && (
-                            <span className="bg-eco/10 text-eco mb-2 inline-block rounded-full px-3 py-1 text-sm">
+                            <div className="bg-primary/10 text-primary mb-2 w-fit rounded-full px-3 py-1 text-sm">
                                 {Category.name}
-                            </span>
+                            </div>
                         )}
                         <h1 className="text-3xl font-bold">{name}</h1>
-                        <p className="mt-2 text-gray-600">{description}</p>
+                        <p className="text-gray-600">{description}</p>
                     </div>
 
-                    {/* Prix et stock */}
-                    <div className="space-y-4 rounded-xl border border-gray-300 bg-white p-6 shadow-[2px_2px_7px_rgba(0,0,0,0.1)]">
+                    <ImageRatio src={image} alt={name} className="rounded-lg lg:hidden" />
+
+                    <div className="w-full space-y-4">
                         <div className="flex items-end justify-between">
                             <div>
                                 <p className="text-sm text-gray-500">Prix</p>
-                                <p className="text-eco text-3xl font-bold">{price.toFixed(2)} €</p>
+                                <p className="text-primary text-3xl font-bold">{price.toFixed(2)} €</p>
                             </div>
                             <div className="text-right">
                                 <p className="text-sm text-gray-500">Stock</p>
@@ -120,36 +107,37 @@ export default async function Page(props: PageProps) {
                             </div>
                         </div>
 
-                        <Suspense fallback={<Loader />}>
-                            <AddToCartButtonWrapper product={product} stock={stock} />
-                        </Suspense>
+                        <AddToCartButton
+                            className="py-3 text-xl lg:py-1.5 lg:text-base"
+                            product={product}
+                            stock={stock}
+                        />
                     </div>
 
-                    {/* Vendeur */}
-                    {Vendor && (
-                        <div className="rounded-xl border border-gray-300 bg-white p-6 shadow-[2px_2px_7px_rgba(0,0,0,0.1)]">
-                            <p className="text-sm text-gray-500">Vendu par</p>
-                            <p className="font-medium">{Vendor.name}</p>
-                        </div>
-                    )}
-
-                    {/* Avantages */}
-                    <div className="grid grid-cols-3 gap-4">
-                        <div className="flex flex-col items-center rounded-xl border border-gray-300 bg-white p-4 text-center shadow-[2px_2px_7px_rgba(0,0,0,0.1)]">
-                            <Truck className="text-eco mb-2 size-6" />
-                            <span className="text-sm">Livraison rapide</span>
-                        </div>
-                        <div className="flex flex-col items-center rounded-xl border border-gray-300 bg-white p-4 text-center shadow-[2px_2px_7px_rgba(0,0,0,0.1)]">
-                            <Package2 className="text-eco mb-2 size-6" />
-                            <span className="text-sm">Emballage écologique</span>
-                        </div>
-                        <div className="flex flex-col items-center rounded-xl border border-gray-300 bg-white p-4 text-center shadow-[2px_2px_7px_rgba(0,0,0,0.1)]">
-                            <ShieldCheck className="text-eco mb-2 size-6" />
-                            <span className="text-sm">Qualité garantie</span>
-                        </div>
+                    <div className="grid grid-cols-4 gap-3 lg:grid-cols-2">
+                        <ProductInfo icon={<User />} title="Vendeur agréé" />
+                        <ProductInfo icon={<Truck />} title="Livraison rapide" />
+                        <ProductInfo icon={<Package2 />} title="Eco-emballage" />
+                        <ProductInfo icon={<ShieldCheck />} title="Qualité garantie" />
                     </div>
                 </div>
             </div>
         </div>
     );
 }
+
+type ProductInfoProps = {
+    icon: JSX.Element;
+    title: string;
+};
+
+const ProductInfo = (props: ProductInfoProps) => {
+    const { icon, title } = props;
+
+    return (
+        <Card className="flex flex-col items-center justify-center gap-2 p-3">
+            {cloneElement(icon, { className: "size-6" })}
+            <div className="text-center text-sm text-gray-500">{title}</div>
+        </Card>
+    );
+};

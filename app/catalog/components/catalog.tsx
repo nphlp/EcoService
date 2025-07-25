@@ -1,39 +1,36 @@
 "use client";
 
 import ProductCard from "@comps/productCard";
+import Card from "@comps/server/card";
 import Link from "@comps/ui/link";
-import Loader from "@comps/ui/loader";
 import { combo } from "@lib/combo";
 import { ProductModel } from "@services/types";
 import { useFetchV2 } from "@utils/FetchV2/FetchHookV2";
+import { PackageSearch } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { MouseEvent, useContext, useEffect } from "react";
-import { ProductAmountFetchParams, ProductListFetchParams } from "./fetchParams";
-import { CatalogContext } from "./provider";
-import { useCatalogParams } from "./useCatalogParams";
-import { useCatalogStore } from "./useCatalogStore";
+import { MouseEvent, useContext } from "react";
+import { Context } from "./context";
+import { productFetchParams, ProductSearchType } from "./fetchParams";
+import { useCatalogParams } from "./queryParamsHook";
 
-type CatalogClientProps = {
+type CatalogProps = {
     className?: string;
+    initialProductList: ProductSearchType[];
 };
 
-export default function CatalogClient(props: CatalogClientProps) {
-    const { className } = props;
+export default function Catalog(props: CatalogProps) {
+    const { className, initialProductList } = props;
 
     const router = useRouter();
 
-    const { productList: productListLocal, productAmount: productAmountLocal } = useContext(CatalogContext);
-    const { setDataStore } = useCatalogStore();
-    const { priceOrder, page, take, category, search } = useCatalogParams();
+    const { isLoading: isLoadingProductAmount } = useContext(Context);
 
-    const { data: newProductAmount, isLoading: isLoadingProductAmount } = useFetchV2({
-        route: "/product/count",
-        params: ProductAmountFetchParams({ category, search }),
-    });
+    const catalogContext = useCatalogParams();
 
-    const { data: newProductList, isLoading: isLoadingProductList } = useFetchV2({
+    const { data: productList, isLoading: isLoadingProductList } = useFetchV2({
         route: "/product/findMany",
-        params: ProductListFetchParams({ priceOrder, page, take, category, search }),
+        params: productFetchParams(catalogContext),
+        initialData: initialProductList,
     });
 
     const handleClick = (e: MouseEvent<HTMLAnchorElement>, slug: ProductModel["slug"]) => {
@@ -50,44 +47,31 @@ export default function CatalogClient(props: CatalogClientProps) {
         }
     };
 
-    useEffect(() => {
-        if (newProductList && newProductAmount) {
-            setDataStore({
-                productList: newProductList, // New data
-                productAmount: newProductAmount, // New data
-            });
-        } else if (newProductList && !newProductAmount) {
-            setDataStore({
-                productList: newProductList, // New data
-                productAmount: productAmountLocal, // Current data
-            });
-        } else if (!newProductList && newProductAmount) {
-            setDataStore({
-                productAmount: newProductAmount, // New data
-                productList: productListLocal, // Current data
-            });
-        }
-    }, [newProductAmount, newProductList, setDataStore, productListLocal, productAmountLocal]);
-
     if (isLoadingProductList || isLoadingProductAmount) {
         return (
-            <div className="flex size-full items-center justify-center">
-                <Loader className="size-8" />
+            <div className={combo("grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4", className)}>
+                {Array.from({ length: 7 }).map((_, index) => (
+                    <ProductCardSkeleton key={index} />
+                ))}
             </div>
         );
     }
 
-    if (!productListLocal) {
+    if (!productList?.length) {
         return (
-            <div className={combo("flex size-full items-center justify-center", className)}>
-                Aucun produit disponible pour le moment.
+            <div className={combo("flex h-full flex-col items-center justify-center gap-8", className)}>
+                <PackageSearch className="size-24 stroke-1" />
+                <div className="flex flex-col items-center text-xl">
+                    <div className="font-semibold">Aucun produit n&apos;a été trouvé</div>
+                    <div>pour cette recherche.</div>
+                </div>
             </div>
         );
     }
 
     return (
         <div className={combo("grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4", className)}>
-            {productListLocal.map((product, index) => (
+            {productList.map((product, index) => (
                 <Link
                     key={index}
                     id={`product-${product.slug}`}
@@ -103,3 +87,21 @@ export default function CatalogClient(props: CatalogClientProps) {
         </div>
     );
 }
+
+const ProductCardSkeleton = () => {
+    return (
+        <Card className="h-full overflow-hidden p-0">
+            <div className="animate-shimmer aspect-[3/2]" />
+            <div className="flex flex-row items-end justify-between p-5">
+                <div className="w-full space-y-3">
+                    <div className="w-full space-y-2">
+                        <div className="animate-shimmer h-[24px] w-[50%] rounded" />
+                        <div className="animate-shimmer h-[18px] w-[70%] rounded" />
+                    </div>
+                    <div className="animate-shimmer h-[18px] w-[20%] rounded" />
+                </div>
+                <div className="animate-shimmer size-[44px] shrink-0 rounded-xl" />
+            </div>
+        </Card>
+    );
+};

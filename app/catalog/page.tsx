@@ -4,16 +4,13 @@ import {
     ProductCountServer,
     ProductFindManyServer,
 } from "@services/server";
-import { ProductModel } from "@services/types";
-import { CategoryModel } from "@services/types/CategoryType";
 import { Metadata } from "next";
-import { unstable_cacheLife as cacheLife, unstable_cacheTag as cacheTag } from "next/cache";
-import CatalogClient from "./components/catalog";
-import { CategoryListFetchParams, ProductAmountFetchParams, ProductListFetchParams } from "./components/fetchParams";
-import SelectorsClient from "./components/filters";
-import PaginationClient from "./components/pagination";
-import CatalogProvider from "./components/provider";
-import { SearchParamsCached, SearchParamsType } from "./components/searchParams";
+import Catalog from "./components/catalog";
+import { categoryFetchParams, productCountParams, productFetchParams } from "./components/fetchParams";
+import Pagination from "./components/pagination";
+import Provider from "./components/provider";
+import { SearchParamsCached, SearchParamsType } from "./components/queryParamsConfig";
+import Selectors from "./components/selectors";
 
 type PageProps = {
     searchParams: Promise<SearchParamsType>;
@@ -47,64 +44,36 @@ export async function generateMetadata(props: PageProps): Promise<Metadata> {
     };
 }
 
-type CachedData = {
-    productList: ProductModel[] | null;
-    productAmount: number | null;
-    categoryList: CategoryModel[];
-};
-
-const cachedFetch = async (decodedSearchParams: SearchParamsType): Promise<CachedData> => {
-    "use cache";
-
-    cacheLife("hours");
-    cacheTag("catalog");
-
-    const { priceOrder, page, take, category, search } = decodedSearchParams;
-
-    const productAmount = await ProductCountServer(ProductAmountFetchParams({ category, search }));
-
-    const productList = await ProductFindManyServer(
-        ProductListFetchParams({ priceOrder, page, take, category, search }),
-    );
-
-    const categoryList = await CategoryFindManyServer(CategoryListFetchParams);
-
-    return { productAmount, productList, categoryList };
-};
-
-const CachedPage = async (props: CachedData) => {
-    "use cache";
-
-    cacheLife("hours");
-    cacheTag("catalog");
-
-    const { productList, productAmount, categoryList } = props;
-
-    return (
-        <div className="flex h-full flex-col overflow-hidden">
-            <h1 className="bg-eco text-ecoco px-6 pt-6 text-4xl font-bold">Catalogue</h1>
-            <div className="bg-eco px-6 pt-2 text-white">
-                Retrouvez l&apos;intégralité de nos produits dans notre catalogue.
-            </div>
-            <div className="flex h-full flex-col justify-start overflow-hidden">
-                <CatalogProvider initialData={{ productList, productAmount }}>
-                    <SelectorsClient categoryList={categoryList} />
-                    <div className="flex-1 overflow-y-auto">
-                        <CatalogClient className="p-6" />
-                        <PaginationClient className="mb-6" />
-                    </div>
-                </CatalogProvider>
-            </div>
-        </div>
-    );
-};
-
 export default async function Page(props: PageProps) {
     const { searchParams } = props;
 
-    const decodedSearchParams = await SearchParamsCached.parse(searchParams);
+    // Get search params
+    const { priceOrder, page, take, category, search } = await SearchParamsCached.parse(searchParams);
 
-    const cachedData = await cachedFetch(decodedSearchParams);
+    // Fetch data
+    const initialProductAmount = await ProductCountServer(productCountParams({ category, search }));
 
-    return <CachedPage {...cachedData} />;
+    const initialProductList = await ProductFindManyServer(
+        productFetchParams({ priceOrder, page, take, category, search }),
+    );
+
+    const categoryList = await CategoryFindManyServer(categoryFetchParams());
+
+    return (
+        <div className="flex w-full flex-1 flex-col">
+            <h1 className="bg-primary text-secondary px-6 pt-6 text-4xl font-bold">Catalogue</h1>
+            <div className="bg-primary px-6 pt-2 text-white">
+                Retrouvez l&apos;intégralité de nos produits dans notre catalogue.
+            </div>
+            <div className="flex flex-1 flex-col justify-start">
+                <Provider initialProductAmount={initialProductAmount}>
+                    <Selectors categoryList={categoryList} />
+                    <div id="scrollable-target" className="flex-1 overflow-y-auto">
+                        <Catalog className="p-6" initialProductList={initialProductList} />
+                        <Pagination className="mb-6" />
+                    </div>
+                </Provider>
+            </div>
+        </div>
+    );
 }

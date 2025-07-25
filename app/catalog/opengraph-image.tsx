@@ -2,7 +2,7 @@ import PrismaInstance from "@lib/prisma";
 import { ImageResponse } from "next/og";
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
-import { SearchParamsCached, SearchParamsType } from "./components/searchParams";
+import { SearchParamsCached, SearchParamsType } from "./components/queryParamsConfig";
 
 // Image metadata
 export const alt = "Eco Service Icon";

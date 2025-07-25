@@ -2,7 +2,7 @@
 
 import { combo } from "@lib/combo";
 import { ChangeEvent, InputHTMLAttributes, MouseEvent, useState } from "react";
-import { InputVariant, inputTheme } from "./themes/inputTheme";
+import { InputVariant, theme } from "./themes/inputTheme";
 
 /** Input props */
 export type InputProps = {
@@ -63,14 +63,14 @@ export default function Input(props: InputProps) {
     };
 
     return (
-        <label onClick={preventDefault} className={combo(inputTheme[variant].component, classComponent)}>
+        <label onClick={preventDefault} className={combo(theme[variant].component, classComponent)}>
             {/* Label */}
-            <div className={combo(inputTheme[variant].label, classLabel)}>{label}</div>
+            <div className={combo(theme[variant].label, classLabel)}>{label}</div>
 
             {/* Input */}
             <input
                 onChange={handleChange}
-                className={combo(inputTheme[variant].input, classInput)}
+                className={combo(theme[variant].input, classInput)}
                 required={required}
                 {...others}
             />

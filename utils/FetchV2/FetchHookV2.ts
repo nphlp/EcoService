@@ -8,12 +8,13 @@ export type FetchHookProps<Input, R extends Route<Input>, P extends Params<Input
     "client" | "signal"
 > & {
     fetchOnFirstRender?: boolean;
+    initialData?: FetchResponse<Input, R, P>;
 };
 
 export const useFetchV2 = <Input, R extends Route<Input>, P extends Params<Input, R>>(
     props: FetchHookProps<Input, R, P>,
 ) => {
-    const { route, params, fetchOnFirstRender = false } = props;
+    const { route, params, fetchOnFirstRender = false, initialData } = props;
 
     const stringifiedParams = JSON.stringify(params);
     const memoizedProps = useMemo(
@@ -26,7 +27,7 @@ export const useFetchV2 = <Input, R extends Route<Input>, P extends Params<Input
 
     const fetchOnFirstRenderRef = useRef(fetchOnFirstRender);
 
-    const [data, setData] = useState<FetchResponse<Input, R, P>>();
+    const [data, setData] = useState<FetchResponse<Input, R, P> | undefined>(initialData);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string>();
 

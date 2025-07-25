@@ -129,7 +129,7 @@ export default function Combobox(props: ComboboxProps) {
                 <ComboboxOptions
                     anchor="bottom"
                     className={combo(
-                        "w-(--input-width) border bg-white p-1 empty:invisible",
+                        "w-(--input-width) border border-gray-300 bg-white p-1 empty:invisible",
                         "rounded-lg",
                         "[--anchor-gap:6px]",
                     )}

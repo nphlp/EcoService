@@ -1,12 +1,12 @@
 "use client";
 
-import { UserUpdateAction } from "@actions/UserAction";
 import Button from "@comps/ui/button";
 import Feedback, { FeedbackMode } from "@comps/ui/feedback";
 import Input from "@comps/ui/input";
 import InputPassword from "@comps/ui/inputPassword";
 import Link from "@comps/ui/link";
 import { signUp } from "@lib/authClient";
+import { UpdateLastnameProcess } from "@process/ProfileUpdate";
 import { useRouter, useSearchParams } from "next/navigation";
 import { FormEvent, useState } from "react";
 
@@ -48,12 +48,7 @@ export default function RegisterClient() {
             });
 
             if (data) {
-                const userData = await UserUpdateAction({
-                    where: { id: data.user.id },
-                    data: {
-                        lastname,
-                    },
-                });
+                const userData = await UpdateLastnameProcess({ lastname });
 
                 if (userData) {
                     setMessage("Successfully registered.");

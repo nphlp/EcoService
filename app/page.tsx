@@ -2,8 +2,8 @@
 
 import { ArticleOrDiySlider } from "@comps/articleOrDiySlider";
 import ProductSlider from "@comps/productSlider";
-import ImageRatio from "@comps/server/imageRatio";
 import { ArticleOrDiyFetchParams, ProductFetchParams } from "@comps/sliderFetchParams";
+import ImageRatio from "@comps/ui/imageRatio";
 import { combo } from "@lib/combo";
 import { ArticleFindManyServer, DiyFindManyServer, ProductFindManyServer } from "@services/server";
 import { Metadata } from "next";
@@ -33,11 +33,11 @@ export default async function Page() {
     const productList = await ProductFindManyServer(ProductFetchParams);
 
     return (
-        <>
+        <div className="w-full">
             <section
                 className="flex flex-row items-center justify-between gap-12 p-8 backdrop-blur-md md:p-16"
                 style={{
-                    backgroundImage: "url('/illustration/produit 4.jpg')",
+                    backgroundImage: "url('/illustration/produit 4.webp')",
                     backgroundSize: "cover",
                     backgroundPosition: "center",
                     backgroundBlendMode: "multiply",
@@ -46,17 +46,17 @@ export default async function Page() {
             >
                 <div className="w-full text-4xl font-bold text-nowrap sm:text-5xl md:text-4xl lg:text-5xl xl:text-6xl">
                     <div className="text-white text-shadow-lg">Passez au</div>
-                    <div className="text-ecoco text-shadow-lg">zéro déchet</div>
+                    <div className="text-secondary text-shadow-lg">zéro déchet</div>
                 </div>
                 <div className="flex flex-row items-center justify-center gap-8">
                     <ImageRatio
-                        src="/illustration/produit 2.jpg"
+                        src="/illustration/produit 2.webp"
                         alt="produit"
                         className={combo("max-md:hidden", imageClass)}
                         priority
                     />
                     <ImageRatio
-                        src="/illustration/produit 3.jpg"
+                        src="/illustration/produit 3.webp"
                         alt="produit"
                         className={combo("max-md:hidden", imageClass)}
                         priority
@@ -65,7 +65,7 @@ export default async function Page() {
             </section>
             <section className="flex flex-col items-center gap-12 px-8 pt-8 text-center lg:flex-row lg:justify-between lg:px-16 lg:pt-16 lg:text-left">
                 <div className="space-y-4 lg:w-1/2">
-                    <h1 className="text-ecoco text-xl font-bold md:text-3xl">Réinventez Votre Quotidien !</h1>
+                    <h1 className="text-secondary text-xl font-bold md:text-3xl">Réinventez Votre Quotidien !</h1>
                     <p className="mt-2 text-gray-700">
                         Dans un monde où la surconsommation génère des tonnes de déchets chaque jour, le zéro déchet
                         apparaît comme une solution incontournable pour préserver notre environnement.
@@ -83,7 +83,7 @@ export default async function Page() {
                     </p>
                 </div>
                 <ImageRatio
-                    src="/illustration/produit 5.jpg"
+                    src="/illustration/produit 5.webp"
                     alt="produit"
                     className="rounded-lg shadow-md max-lg:w-full lg:h-80"
                     priority
@@ -92,6 +92,6 @@ export default async function Page() {
             <ProductSlider productList={productList} title="Nos produits vedettes" />
             <ArticleOrDiySlider articleOrDiy={diyList} link="/diy" title="Nos Do It Yourself" />
             <ArticleOrDiySlider articleOrDiy={articleList} link="/article" title="Nos articles" />
-        </>
+        </div>
     );
 }

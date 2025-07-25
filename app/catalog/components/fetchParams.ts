@@ -1,47 +1,75 @@
-import { CategoryFindManyProps } from "@services/types/CategoryType";
+import { Prisma } from "@prisma/client";
+import { CategoryCountProps, CategoryFindManyProps } from "@services/types/CategoryType";
 import { ProductCountProps, ProductFindManyProps } from "@services/types/ProductType";
-import { SearchParamsType } from "./searchParams";
+import { SearchParamsType } from "./queryParamsConfig";
 
-// Product amount fetch params
+type CountType = number;
 
-type ProductAmountFetchParams = {
-    category: string;
-    search: string;
-};
+// ============== Product ============== //
 
-export const ProductAmountFetchParams = ({ category, search }: ProductAmountFetchParams): ProductCountProps => ({
-    where: {
-        ...(category && { Category: { slug: category } }),
-        ...(search && { name: { contains: search } }),
-    },
-});
+type ProductSearchType = Prisma.ProductGetPayload<ReturnType<typeof productFetchParams>>;
 
-// Product list fetch params
-
-type ProductListFetchParams = {
-    priceOrder: SearchParamsType["priceOrder"];
-    page: SearchParamsType["page"];
-    take: SearchParamsType["take"];
-    category: SearchParamsType["category"];
-    search: SearchParamsType["search"];
-};
-
-export const ProductListFetchParams = ({
+const productFetchParams = ({
     priceOrder,
     page,
     take,
     category,
     search,
-}: ProductListFetchParams): ProductFindManyProps => ({
-    ...(priceOrder !== "not" && { orderBy: { price: priceOrder } }),
-    ...(page > 1 && { skip: (page - 1) * take }),
-    take,
-    where: {
-        ...(category && { Category: { slug: category } }),
-        ...(search && { name: { contains: search } }),
-    },
-});
+}: {
+    priceOrder: SearchParamsType["priceOrder"];
+    page: SearchParamsType["page"];
+    take: SearchParamsType["take"];
+    category: SearchParamsType["category"];
+    search: SearchParamsType["search"];
+}) =>
+    ({
+        select: {
+            id: true,
+            name: true,
+            slug: true,
+            description: true,
+            image: true,
+            price: true,
+        },
+        ...(priceOrder !== "not" && { orderBy: { price: priceOrder } }),
+        ...(page > 1 && { skip: (page - 1) * take }),
+        take,
+        where: {
+            ...(category && { Category: { slug: category } }),
+            ...(search && { name: { contains: search } }),
+        },
+    }) satisfies ProductFindManyProps;
 
-// Category list fetch params
+const productCountParams = ({ category, search }: { category: string; search: string }) =>
+    ({
+        where: {
+            ...(category && { Category: { slug: category } }),
+            ...(search && { name: { contains: search } }),
+        },
+    }) satisfies ProductCountProps;
 
-export const CategoryListFetchParams: CategoryFindManyProps = { orderBy: { name: "asc" as const } };
+// ============== Category ============== //
+
+type CategorySearchType = Prisma.CategoryGetPayload<ReturnType<typeof categoryFetchParams>>;
+
+const categoryFetchParams = () =>
+    ({
+        select: {
+            name: true,
+            slug: true,
+        },
+        orderBy: { name: "asc" as const },
+    }) satisfies CategoryFindManyProps;
+
+const categoryCountParams = (search?: string) =>
+    ({
+        where: {
+            name: { contains: search },
+        },
+    }) satisfies CategoryCountProps;
+
+// ============== Exports ============== //
+
+export type { CategorySearchType, CountType, ProductSearchType };
+
+export { categoryCountParams, categoryFetchParams, productCountParams, productFetchParams };
