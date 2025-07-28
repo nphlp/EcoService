@@ -1,4 +1,4 @@
-import { createOptions, mergeAndDeduplicateOptions } from "@comps/ui/comboboxes/utils";
+import { createOptions, deduplicateOptions } from "@comps/ui/comboboxes/utils";
 import { ProductFindManyServer } from "@services/server";
 import Search from "./search";
 
@@ -14,7 +14,7 @@ export default async function Page() {
 
     // Merge and deduplicate options
     const mergedOptions = [...productOptions];
-    const initialOptions = mergeAndDeduplicateOptions({ optionsToMerge: mergedOptions, limit: 10 });
+    const initialOptions = deduplicateOptions({ mergedOptions, limit: 10 });
 
     // Render
     return <Search initialOptions={initialOptions} />;

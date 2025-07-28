@@ -2,12 +2,7 @@
 
 import Button from "@comps/ui/button";
 import ComboboxSearch, { useComboboxStates } from "@comps/ui/comboboxes/comboboxSearch";
-import {
-    createOptions,
-    createSelectedOptions,
-    mergeAndDeduplicateOptions,
-    OptionComboType,
-} from "@comps/ui/comboboxes/utils";
+import { createOptions, createSelectedOptions, deduplicateOptions, OptionComboType } from "@comps/ui/comboboxes/utils";
 import { useFetchV2 } from "@utils/FetchV2/FetchHookV2";
 import { isEqual } from "lodash";
 import { FormEvent, useEffect } from "react";
@@ -76,15 +71,16 @@ export default function Search<T extends string | undefined>(props: ResearchProp
         const diyOptions = createOptions(diyData, "diy");
 
         // Merge options
-        const optionsToMerge = [
+        const mergedOptions = [
             ...selectedOptions,
             ...productOptions,
             ...categoryOptions,
             ...articleOptions,
             ...diyOptions,
-        ];
-        const newOptions = mergeAndDeduplicateOptions<T>({
-            optionsToMerge: optionsToMerge as OptionComboType<T>[],
+        ] as OptionComboType<T>[];
+
+        const newOptions = deduplicateOptions<T>({
+            mergedOptions,
             limit: 10,
         });
 

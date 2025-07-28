@@ -47,29 +47,31 @@ export const createOptions = <T extends string | undefined = undefined>(
         type: type,
     })) ?? [];
 
-// --- Merge and deduplicate options --- //
+// --- Deduplicate options --- //
 
-type MergeAndDeduplicateOptionsProps<T extends string | undefined> = {
-    optionsToMerge: OptionComboType<T>[];
+type DeduplicateOptionsProps<T extends string | undefined> = {
+    mergedOptions: OptionComboType<T>[];
     limit: number;
 };
 
-export const mergeAndDeduplicateOptions = <T extends string | undefined>(
-    props: MergeAndDeduplicateOptionsProps<T>,
+export const deduplicateOptions = <T extends string | undefined>(
+    props: DeduplicateOptionsProps<T>,
 ): OptionComboType<T>[] => {
-    const { optionsToMerge, limit } = props;
+    const { mergedOptions, limit } = props;
+
+    // Already seen options
+    const seenOptions = new Set<string>();
 
     // Remove duplicates
-    const seenSlugs = new Set<string>();
-    const cleanedOptions = optionsToMerge.filter((option) => {
-        // If the slug does not exist yet, add it
-        if (!seenSlugs.has(option.slug)) {
-            seenSlugs.add(option.slug);
-            return true;
+    const cleanedOptions = mergedOptions.filter((option) => {
+        if (seenOptions.has(option.slug)) {
+            // If the slug already exists, do not add it
+            return false;
         }
 
-        // If the slug already exists, do not add it
-        return false;
+        // If the slug does not exist yet, add it
+        seenOptions.add(option.slug);
+        return true;
     });
 
     // Return options

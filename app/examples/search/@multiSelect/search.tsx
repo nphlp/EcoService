@@ -1,12 +1,7 @@
 "use client";
 
 import Button from "@comps/ui/button";
-import {
-    createOptions,
-    createSelectedOptions,
-    mergeAndDeduplicateOptions,
-    OptionComboType,
-} from "@comps/ui/comboboxes/utils";
+import { createOptions, createSelectedOptions, deduplicateOptions, OptionComboType } from "@comps/ui/comboboxes/utils";
 import { useFetchV2 } from "@utils/FetchV2/FetchHookV2";
 import { isEqual } from "lodash";
 import { FormEvent, useEffect } from "react";
@@ -50,10 +45,10 @@ export default function Search(props: ResearchProps) {
         const productOptions = createOptions(productData);
 
         // Merge options
-        const optionsToMerge = [...selectedOptions, ...productOptions];
+        const mergedOptions = [...selectedOptions, ...productOptions];
 
         // Add selected length to get 10 options more
-        const newOptions = mergeAndDeduplicateOptions({ optionsToMerge, limit: 10 + selected.length });
+        const newOptions = deduplicateOptions({ mergedOptions, limit: 10 + selected.length });
 
         // Update options if different
         const areDifferent = !isEqual(newOptions, options);
