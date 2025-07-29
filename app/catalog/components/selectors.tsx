@@ -14,8 +14,6 @@ type SelectorsProps = {
 export default function Selectors(props: SelectorsProps) {
     const { categoryList } = props;
 
-    // TODO: rework selectors to get a cancel cross button
-
     const { priceOrder, take, category, setCategory, setPage, setPriceOrder, setTake, search, setSearch } =
         useCatalogParams();
 

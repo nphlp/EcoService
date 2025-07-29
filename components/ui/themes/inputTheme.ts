@@ -29,7 +29,7 @@ export const styles: StylesType = {
     default: {
         component: combo(""),
         label: combo("text-black"),
-        input: combo("text-black", "bg-background", "border-gray-300 focus:border-gray-500"),
+        input: combo("text-black", "bg-white", "border-gray-300 focus:border-gray-500"),
     },
     none: {
         component: combo(""),

@@ -9,10 +9,9 @@ import {
 } from "@headlessui/react";
 import { combo } from "@lib/combo";
 import { StringToSlug } from "@utils/StringToSlug";
-import isEqual from "lodash/isEqual";
 import { Check, ChevronDown, X } from "lucide-react";
-import { ChangeEvent, KeyboardEvent, MouseEvent, useEffect, useState } from "react";
-import { getOptionFromSlug, ComboOptionType } from "./utils";
+import { ChangeEvent, KeyboardEvent, MouseEvent, useState } from "react";
+import { ComboOptionType } from "./utils";
 
 type ComboboxProps = {
     label?: string;
@@ -22,8 +21,8 @@ type ComboboxProps = {
     states: {
         query: string;
         setQuery: (value: string) => void;
-        selected: string | null;
-        setSelected: (value: string | null) => void;
+        selected: ComboOptionType | null;
+        setSelected: (value: ComboOptionType | null) => void;
         options: ComboOptionType[];
         setOptions: (value: ComboOptionType[]) => void;
     };
@@ -40,9 +39,9 @@ type ComboboxProps = {
  * const { query, setQuery, selected, setSelected, options, setOptions } = comboboxStates;
  * ```
  */
-export const useComboboxStates = (initialSelection: string | null, initialOptions: ComboOptionType[]) => {
+export const useComboboxStates = (initialSelection: ComboOptionType | null, initialOptions: ComboOptionType[]) => {
     const [query, setQuery] = useState<string>("");
-    const [selected, setSelected] = useState<string | null>(initialSelection);
+    const [selected, setSelected] = useState<ComboOptionType | null>(initialSelection);
     const [options, setOptions] = useState<ComboOptionType[]>(initialOptions);
     return { query, setQuery, selected, setSelected, options, setOptions };
 };
@@ -71,14 +70,16 @@ export default function Combobox(props: ComboboxProps) {
     const { label, placeholder, classComponent, initialOptions, states } = props;
     const { query, setQuery, selected, setSelected, options, setOptions } = states;
 
+    const displayedOptions = options.filter((option) => option.slug.includes(StringToSlug(query)));
+
     const handleQueryChange = (event: ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value;
         setQuery(value);
     };
 
-    const handleSelectionChange = (value: string | null) => {
-        if (value === null) return;
-        setSelected(value);
+    const handleSelectionChange = (option: ComboOptionType | null) => {
+        if (!option) return;
+        setSelected(option);
     };
 
     const handleDropdownClosing = () => {
@@ -86,20 +87,10 @@ export default function Combobox(props: ComboboxProps) {
         setQuery("");
     };
 
-    const handleDisplayValue = (slug: string) => {
-        const option = getOptionFromSlug(slug, options);
-        return option?.name ?? "";
+    const handleDisplayValue = (option: ComboOptionType | null) => {
+        if (!option) return "";
+        return option.name;
     };
-
-    useEffect(() => {
-        if (query.length > 0) {
-            const querySlug = StringToSlug(query);
-            const newOptions = initialOptions.filter((option) => option.slug.includes(querySlug));
-            if (!isEqual(newOptions, options)) setOptions(newOptions);
-        } else {
-            if (!isEqual(initialOptions, options)) setOptions(initialOptions);
-        }
-    }, [query, options, initialOptions, setOptions]);
 
     return (
         <div className={combo(classComponent)}>
@@ -129,21 +120,21 @@ export default function Combobox(props: ComboboxProps) {
                 <ComboboxOptions
                     anchor="bottom"
                     className={combo(
-                        "w-(--input-width) border border-gray-300 bg-white p-1 empty:invisible",
-                        "rounded-lg",
-                        "[--anchor-gap:6px]",
+                        "rounded-lg border border-gray-300 bg-white p-1",
+                        // HeadlessUI styles
+                        "w-(--input-width) [--anchor-gap:6px] empty:invisible",
                     )}
                 >
-                    {options.map((option, index) => (
+                    {displayedOptions.map((option, index) => (
                         <ComboboxOption
                             key={index}
-                            value={option.slug} // TODO: change that to the option object
+                            value={option}
                             className={combo(
                                 "group bg-white data-focus:bg-gray-100",
                                 "flex items-center gap-2",
                                 "rounded-sm px-2 py-1",
                                 "cursor-pointer text-sm",
-                                selected === option.slug && "font-semibold",
+                                selected?.slug === option.slug && "font-semibold",
                             )}
                         >
                             <Check className="invisible size-5 stroke-[2.5px] group-data-selected:visible" />
@@ -157,8 +148,8 @@ export default function Combobox(props: ComboboxProps) {
 }
 
 type ComboboxIconProps = {
-    selected: string | null;
-    setSelected: (value: string | null) => void;
+    selected: ComboOptionType | null;
+    setSelected: (value: ComboOptionType | null) => void;
     setQuery: (value: string) => void;
 };
 
@@ -166,7 +157,7 @@ export const ComboboxIcon = (props: ComboboxIconProps) => {
     const { selected, setSelected, setQuery } = props;
 
     const handleRemoveAll = () => {
-        setSelected("");
+        setSelected(null);
         setQuery("");
     };
 

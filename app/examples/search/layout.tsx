@@ -23,7 +23,7 @@ export default function Layout(props: LayoutProps) {
             </div>
             <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
                 <ComboCard
-                    title="ssrc-sse"
+                    title="SSe-SSo"
                     description="Rechercher et sélectionner un seul élément parmis un seul type d'élément."
                     tagSelect="singleSelect"
                     tagSource="singleSource"
@@ -31,7 +31,7 @@ export default function Layout(props: LayoutProps) {
                     {singleSelectSingleSource}
                 </ComboCard>
                 <ComboCard
-                    title="msrc-mse"
+                    title="SSe-MSo"
                     description="Rechercher et sélectionner un seul élément parmis plusieurs types d'éléments."
                     tagSelect="singleSelect"
                     tagSource="multiSource"
@@ -39,7 +39,7 @@ export default function Layout(props: LayoutProps) {
                     {singleSelectMultiSource}
                 </ComboCard>
                 <ComboCard
-                    title="msrc-mse"
+                    title="MSe-SSo"
                     description="Rechercher et sélectionner plusieurs éléments parmis un seul type d'élément."
                     tagSelect="multiSelect"
                     tagSource="singleSource"
@@ -47,7 +47,7 @@ export default function Layout(props: LayoutProps) {
                     {multiSelectSingleSource}
                 </ComboCard>
                 <ComboCard
-                    title="msrc-mse"
+                    title="MSe-MSo"
                     description="Rechercher et sélectionner plusieurs éléments parmis plusieurs types d'éléments."
                     tagSelect="multiSelect"
                     tagSource="multiSource"

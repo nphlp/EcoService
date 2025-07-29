@@ -47,8 +47,8 @@ export default function Form(props: FormProps) {
         console.log({
             input: name,
             select: category,
-            combobox: comboboxStates.selected,
-            comboboxMulti: comboboxMultiStates.selected,
+            combobox: comboboxStates.selected?.slug,
+            comboboxMulti: comboboxMultiStates.selected.map((option) => option.slug),
             inputImage: image?.name,
         });
 

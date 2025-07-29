@@ -10,7 +10,6 @@ import {
 import { combo } from "@lib/combo";
 import { StringToSlug } from "@utils/StringToSlug";
 import { motion } from "framer-motion";
-import isEqual from "lodash/isEqual";
 import { Check, ChevronDown, X } from "lucide-react";
 import { ChangeEvent, KeyboardEvent, MouseEvent, useEffect, useRef, useState } from "react";
 import Popover from "../popover";
@@ -24,8 +23,8 @@ type ComboboxMultiProps = {
     states: {
         query: string;
         setQuery: (value: string) => void;
-        selected: string[];
-        setSelected: (value: string[]) => void;
+        selected: MultiComboOptionType[];
+        setSelected: (value: MultiComboOptionType[]) => void;
         options: MultiComboOptionType[];
         setOptions: (value: MultiComboOptionType[]) => void;
     };
@@ -42,9 +41,12 @@ type ComboboxMultiProps = {
  * const { query, setQuery, selected, setSelected, options, setOptions } = comboboxMultiStates;
  * ```
  */
-export const useComboboxMultiStates = (initialSelections: string[], initialOptions: MultiComboOptionType[]) => {
+export const useComboboxMultiStates = (
+    initialSelections: MultiComboOptionType[],
+    initialOptions: MultiComboOptionType[],
+) => {
     const [query, setQuery] = useState<string>("");
-    const [selected, setSelected] = useState<string[]>(initialSelections);
+    const [selected, setSelected] = useState<MultiComboOptionType[]>(initialSelections);
     const [options, setOptions] = useState<MultiComboOptionType[]>(initialOptions);
     return { query, setQuery, selected, setSelected, options, setOptions };
 };
@@ -73,35 +75,27 @@ export default function ComboboxMulti(props: ComboboxMultiProps) {
     const { label, placeholder, classComponent, initialOptions, states } = props;
     const { query, setQuery, selected, setSelected, options, setOptions } = states;
 
+    const displayedOptions = options.filter((option) => option.slug.includes(StringToSlug(query)));
+
     const handleQueryChange = (event: ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value;
         setQuery(value);
     };
 
-    const handleSelectionChange = (value: string[]) => {
-        setSelected(value);
+    const handleSelectionChange = (options: MultiComboOptionType[]) => {
+        setSelected(options);
         setQuery("");
     };
 
     const handleDropdownClosing = () => {
-        setQuery("");
         setOptions(initialOptions);
+        setQuery("");
     };
 
-    const handleRemove = (slug: string) => {
-        const optionToRemove = selected.filter((selectedSlug) => selectedSlug !== slug);
-        setSelected(optionToRemove);
+    const handleRemove = (optionToRemove: MultiComboOptionType) => {
+        const optionsLeft = selected.filter((selectedOption) => selectedOption.slug !== optionToRemove.slug);
+        setSelected(optionsLeft);
     };
-
-    useEffect(() => {
-        if (query.length > 0) {
-            const querySlug = StringToSlug(query);
-            const newOptions = initialOptions.filter((option) => option.slug.includes(querySlug));
-            if (!isEqual(newOptions, options)) setOptions(newOptions);
-        } else {
-            if (!isEqual(initialOptions, options)) setOptions(initialOptions);
-        }
-    }, [query, options, initialOptions, setOptions]);
 
     return (
         <div className={combo(classComponent)}>
@@ -136,25 +130,26 @@ export default function ComboboxMulti(props: ComboboxMultiProps) {
                 <ComboboxOptions
                     anchor="bottom"
                     className={combo(
-                        "w-(--input-width) empty:invisible",
                         "rounded-lg border border-gray-300 bg-white p-1",
-                        "[--anchor-gap:6px]",
+                        // HeadlessUI styles
+                        "w-(--input-width) [--anchor-gap:6px] empty:invisible",
                     )}
                 >
-                    {options.map((option, index) => (
+                    {displayedOptions.map((option, index) => (
                         <ComboboxOption
                             key={index}
-                            value={option.slug} // TODO: change that to the option object
+                            value={option}
                             className={combo(
-                                "group bg-white data-focus:bg-blue-100",
+                                "group bg-white data-focus:bg-gray-100",
                                 "flex items-center gap-2",
                                 "rounded-sm px-2 py-1",
                                 "cursor-pointer text-sm",
-                                selected.includes(option.slug) && "font-semibold",
+                                selected.some((selectedOption) => selectedOption.slug === option.slug) &&
+                                    "font-semibold",
                             )}
                         >
                             <Check className="invisible size-5 stroke-[2.5px] group-data-selected:visible" />
-                            {option.name}
+                            <ComboboxLabel optionName={option.name} query={query} />
                         </ComboboxOption>
                     ))}
                 </ComboboxOptions>
@@ -164,8 +159,8 @@ export default function ComboboxMulti(props: ComboboxMultiProps) {
 }
 
 type ComboboxIconProps = {
-    selected: string[];
-    setSelected: (value: string[]) => void;
+    selected: MultiComboOptionType[];
+    setSelected: (value: MultiComboOptionType[]) => void;
     setQuery: (value: string) => void;
 };
 
@@ -212,10 +207,10 @@ export const ComboboxIcon = (props: ComboboxIconProps) => {
 };
 
 type ComboboxDisplayProps = {
-    selected: string[];
+    selected: MultiComboOptionType[];
     initialOptions: MultiComboOptionType[];
     maxLength?: number;
-    handleRemove: (slug: string) => void;
+    handleRemove: (option: MultiComboOptionType) => void;
     className?: string;
 };
 
@@ -225,7 +220,9 @@ const ComboboxDisplay = (props: ComboboxDisplayProps) => {
     const needsEllipsis = (name: string) => name.length > maxLength;
     const ellipsis = (name: string) => (needsEllipsis(name) ? name.slice(0, maxLength) : name);
 
-    const selectedOptions = initialOptions.filter((option) => selected.includes(option.slug));
+    const selectedOptions = initialOptions.filter((option) =>
+        selected.some((selectedOption) => selectedOption.slug === option.slug),
+    );
 
     // Current container height
     const [currentHeight, setCurrentHeight] = useState("auto");
@@ -296,7 +293,7 @@ const ComboboxDisplay = (props: ComboboxDisplayProps) => {
                         </div>
                         <button
                             type="button"
-                            onClick={() => handleRemove(option.slug)}
+                            onClick={() => handleRemove(option)}
                             className="cursor-pointer rounded-full p-1 hover:bg-gray-100"
                         >
                             <X className="size-4" />
@@ -305,5 +302,35 @@ const ComboboxDisplay = (props: ComboboxDisplayProps) => {
                 ))}
             </div>
         </motion.div>
+    );
+};
+
+type ComboboxLabelProps = {
+    optionName: string;
+    query: string;
+};
+
+const ComboboxLabel = (props: ComboboxLabelProps) => {
+    const { optionName, query } = props;
+
+    // Slugify the option name and the query
+    const nameSlug = StringToSlug(optionName);
+    const querySlug = StringToSlug(query);
+
+    // Find the index of the query in the option name
+    const queryStartIndex = nameSlug.indexOf(querySlug);
+    const queryEndIndex = queryStartIndex + querySlug.length;
+
+    // Slice the option name into before, highlighted and after
+    const before = optionName.slice(0, queryStartIndex);
+    const highlighted = optionName.slice(queryStartIndex, queryEndIndex);
+    const after = optionName.slice(queryEndIndex);
+
+    return (
+        <span>
+            <span>{before}</span>
+            <span className="rounded-sm bg-teal-200 font-bold">{highlighted}</span>
+            <span>{after}</span>
+        </span>
     );
 };
