@@ -139,7 +139,7 @@ export default function Combobox(props: ComboboxProps) {
                             key={index}
                             value={option.slug}
                             className={combo(
-                                "group bg-white data-focus:bg-blue-100",
+                                "group bg-white data-focus:bg-gray-100",
                                 "flex items-center gap-2",
                                 "rounded-sm px-2 py-1",
                                 "cursor-pointer text-sm",
@@ -147,7 +147,7 @@ export default function Combobox(props: ComboboxProps) {
                             )}
                         >
                             <Check className="invisible size-5 stroke-[2.5px] group-data-selected:visible" />
-                            {option.name}
+                            <ComboboxLabel optionName={option.name} query={query} />
                         </ComboboxOption>
                     ))}
                 </ComboboxOptions>
@@ -201,5 +201,35 @@ export const ComboboxIcon = (props: ComboboxIconProps) => {
         >
             <X className="size-5 fill-white" />
         </button>
+    );
+};
+
+type ComboboxLabelProps = {
+    optionName: string;
+    query: string;
+};
+
+const ComboboxLabel = (props: ComboboxLabelProps) => {
+    const { optionName, query } = props;
+
+    // Slugify the option name and the query
+    const nameSlug = StringToSlug(optionName);
+    const querySlug = StringToSlug(query);
+
+    // Find the index of the query in the option name
+    const queryStartIndex = nameSlug.indexOf(querySlug);
+    const queryEndIndex = queryStartIndex + querySlug.length;
+
+    // Slice the option name into before, highlighted and after
+    const before = optionName.slice(0, queryStartIndex);
+    const highlighted = optionName.slice(queryStartIndex, queryEndIndex);
+    const after = optionName.slice(queryEndIndex);
+
+    return (
+        <span>
+            <span>{before}</span>
+            <span className="rounded-sm bg-teal-200 font-bold">{highlighted}</span>
+            <span>{after}</span>
+        </span>
     );
 };

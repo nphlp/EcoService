@@ -1,8 +1,9 @@
 "use client";
 
 import Button from "@comps/ui/button";
-import Combobox, { useComboboxStates } from "@comps/ui/comboboxes/combobox";
 import ComboboxMulti, { useComboboxMultiStates } from "@comps/ui/comboboxes/comboboxMulti";
+import Combobox, { useComboboxStates } from "@comps/ui/comboboxes/combobox";
+// import ComboboxSearch, { useComboboxStates } from "@comps/ui/comboboxes/comboboxSearch";
 import { OptionComboType } from "@comps/ui/comboboxes/utils";
 import Feedback, { FeedbackMode } from "@comps/ui/feedback";
 import Input, { useInputState } from "@comps/ui/input";
@@ -94,7 +95,7 @@ export default function Form(props: FormProps) {
             />
             <ComboboxMulti
                 label="Produits"
-                placeholder="Sélectionnez des produits"
+                placeholder="Sélectionnez plusieurs produits"
                 classComponent="w-full"
                 initialOptions={productOptions}
                 states={comboboxMultiStates}

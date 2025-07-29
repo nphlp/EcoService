@@ -17,6 +17,7 @@ type ComboboxProps<T extends string | undefined> = {
     label?: string;
     placeholder?: string;
     classComponent?: string;
+    initialOption: OptionComboType<T>[];
     states: {
         query: string;
         setQuery: (value: string) => void;
@@ -39,8 +40,8 @@ export const useComboboxStates = <T extends string | undefined>(
 };
 
 export default function ComboboxSearch<T extends string | undefined>(props: ComboboxProps<T>) {
-    const { label, placeholder, classComponent, states, isLoading } = props;
-    const { setQuery, selected, setSelected, options } = states;
+    const { label, placeholder, classComponent, initialOption, states, isLoading } = props;
+    const { setQuery, selected, setSelected, options, setOptions } = states;
 
     const handleQueryChange = (event: ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value;
@@ -53,6 +54,7 @@ export default function ComboboxSearch<T extends string | undefined>(props: Comb
     };
 
     const handleDropdownClosing = () => {
+        setOptions(initialOption);
         setQuery("");
     };
 
