@@ -3,14 +3,15 @@ import { CornerRightDown, ListTodo, Shuffle, SquareCheckBig } from "lucide-react
 import { cloneElement, ReactNode } from "react";
 
 type LayoutProps = {
-    singleSource: ReactNode;
-    multiSelect: ReactNode;
-    multiSource: ReactNode;
-    multiSelectSource: ReactNode;
+    singleSelectSingleSource: ReactNode;
+    singleSelectMultiSource: ReactNode;
+    multiSelectSingleSource: ReactNode;
+    multiSelectMultiSource: ReactNode;
 };
 
 export default function Layout(props: LayoutProps) {
-    const { singleSource, multiSelect, multiSource, multiSelectSource } = props;
+    const { singleSelectSingleSource, singleSelectMultiSource, multiSelectSingleSource, multiSelectMultiSource } =
+        props;
 
     return (
         <div className="mb-[300px] space-y-6 p-7">
@@ -27,7 +28,7 @@ export default function Layout(props: LayoutProps) {
                     tagSelect="singleSelect"
                     tagSource="singleSource"
                 >
-                    {singleSource}
+                    {singleSelectSingleSource}
                 </ComboCard>
                 <ComboCard
                     title="msrc-mse"
@@ -35,7 +36,7 @@ export default function Layout(props: LayoutProps) {
                     tagSelect="singleSelect"
                     tagSource="multiSource"
                 >
-                    {multiSource}
+                    {singleSelectMultiSource}
                 </ComboCard>
                 <ComboCard
                     title="msrc-mse"
@@ -43,7 +44,7 @@ export default function Layout(props: LayoutProps) {
                     tagSelect="multiSelect"
                     tagSource="singleSource"
                 >
-                    {multiSelect}
+                    {multiSelectSingleSource}
                 </ComboCard>
                 <ComboCard
                     title="msrc-mse"
@@ -51,7 +52,7 @@ export default function Layout(props: LayoutProps) {
                     tagSelect="multiSelect"
                     tagSource="multiSource"
                 >
-                    {multiSelectSource}
+                    {multiSelectMultiSource}
                 </ComboCard>
             </div>
         </div>

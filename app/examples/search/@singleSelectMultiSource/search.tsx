@@ -3,17 +3,17 @@
 import Button from "@comps/ui/button";
 import ComboboxSearch, { useComboboxStates } from "@comps/ui/comboboxes/comboboxSearch";
 import {
-    ComboOptionType,
     createComboOptions,
     createSelectedOptions,
     deduplicateOptions,
+    MultiComboOptionType,
 } from "@comps/ui/comboboxes/utils";
 import { useFetchV2 } from "@utils/FetchV2/FetchHookV2";
 import { isEqual } from "lodash";
 import { FormEvent, useEffect } from "react";
 
 type SearchProps = {
-    initialOptions: ComboOptionType[];
+    initialOptions: MultiComboOptionType[];
 };
 
 export default function Search(props: SearchProps) {
@@ -29,7 +29,34 @@ export default function Search(props: SearchProps) {
         params: {
             select: { slug: true, name: true },
             where: { name: { contains: query } },
-            take: 10,
+            take: 5,
+        },
+    });
+
+    const { data: categoryData, isLoading: isLoadingCategory } = useFetchV2({
+        route: "/category/findMany",
+        params: {
+            select: { slug: true, name: true },
+            where: { name: { contains: query } },
+            take: 5,
+        },
+    });
+
+    const { data: articleData, isLoading: isLoadingArticle } = useFetchV2({
+        route: "/article/findMany",
+        params: {
+            select: { slug: true, title: true },
+            where: { title: { contains: query } },
+            take: 5,
+        },
+    });
+
+    const { data: diyData, isLoading: isLoadingDiy } = useFetchV2({
+        route: "/diy/findMany",
+        params: {
+            select: { slug: true, title: true },
+            where: { title: { contains: query } },
+            take: 5,
         },
     });
 
@@ -37,24 +64,34 @@ export default function Search(props: SearchProps) {
     useEffect(() => {
         // Required to avoid useEffect execution on initial render
         // and to keep initial options
-        if (!productData) return;
+        if (!articleData && !categoryData && !productData) return;
 
         // Create an options with the selected state
         const selectedOptions = createSelectedOptions(selected, options);
 
         // Create formatted options from the fetched data
-        const productOptions = createComboOptions(productData, { slug: "slug", name: "name" });
+        const productOptions = createComboOptions(productData, { slug: "slug", name: "name", type: "product" });
+        const categoryOptions = createComboOptions(categoryData, { slug: "slug", name: "name", type: "category" });
+        const articleOptions = createComboOptions(articleData, { slug: "slug", name: "title", type: "article" });
+        const diyOptions = createComboOptions(diyData, { slug: "slug", name: "title", type: "diy" });
 
         // Merge options
-        const mergedOptions = [...selectedOptions, ...productOptions];
-        const newOptions = deduplicateOptions(mergedOptions, 10);
+        const mergedOptions = [
+            ...selectedOptions,
+            ...productOptions,
+            ...categoryOptions,
+            ...articleOptions,
+            ...diyOptions,
+        ] as MultiComboOptionType[];
+
+        const newOptions: MultiComboOptionType[] = deduplicateOptions(mergedOptions, 10);
 
         // Update options if different
         const areDifferent = !isEqual(newOptions, options);
         if (areDifferent) setOptions(newOptions);
-    }, [productData, options, setOptions, selected]);
+    }, [productData, categoryData, articleData, diyData, options, setOptions, selected]);
 
-    const isLoading = isLoadingProduct;
+    const isLoading = isLoadingProduct || isLoadingCategory || isLoadingArticle || isLoadingDiy;
 
     // ======= Form ======= //
     const handleSubmit = async (e: FormEvent) => {
@@ -68,7 +105,7 @@ export default function Search(props: SearchProps) {
                 label="Recherchez et sélectionnez"
                 placeholder="Un produit, une catégorie ou un article..."
                 classComponent="w-full"
-                initialOption={initialOptions}
+                initialOptions={initialOptions}
                 states={comboboxStates}
                 isLoading={isLoading}
             />

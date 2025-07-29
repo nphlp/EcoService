@@ -18,7 +18,7 @@ type ComboboxProps = {
     label?: string;
     placeholder?: string;
     classComponent?: string;
-    initialOption: ComboOptionType[];
+    initialOptions: ComboOptionType[];
     states: {
         query: string;
         setQuery: (value: string) => void;
@@ -40,10 +40,10 @@ type ComboboxProps = {
  * const { query, setQuery, selected, setSelected, options, setOptions } = comboboxStates;
  * ```
  */
-export const useComboboxStates = (initialSelection: string | null, initialOption: ComboOptionType[]) => {
+export const useComboboxStates = (initialSelection: string | null, initialOptions: ComboOptionType[]) => {
     const [query, setQuery] = useState<string>("");
     const [selected, setSelected] = useState<string | null>(initialSelection);
-    const [options, setOptions] = useState<ComboOptionType[]>(initialOption);
+    const [options, setOptions] = useState<ComboOptionType[]>(initialOptions);
     return { query, setQuery, selected, setSelected, options, setOptions };
 };
 
@@ -68,7 +68,7 @@ export const useComboboxStates = (initialSelection: string | null, initialOption
  * ```
  */
 export default function Combobox(props: ComboboxProps) {
-    const { label, placeholder, classComponent, initialOption, states } = props;
+    const { label, placeholder, classComponent, initialOptions, states } = props;
     const { query, setQuery, selected, setSelected, options, setOptions } = states;
 
     const handleQueryChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -82,7 +82,7 @@ export default function Combobox(props: ComboboxProps) {
     };
 
     const handleDropdownClosing = () => {
-        setOptions(initialOption);
+        setOptions(initialOptions);
         setQuery("");
     };
 
@@ -94,12 +94,12 @@ export default function Combobox(props: ComboboxProps) {
     useEffect(() => {
         if (query.length > 0) {
             const querySlug = StringToSlug(query);
-            const newOptions = initialOption.filter((option) => option.slug.includes(querySlug));
+            const newOptions = initialOptions.filter((option) => option.slug.includes(querySlug));
             if (!isEqual(newOptions, options)) setOptions(newOptions);
         } else {
-            if (!isEqual(initialOption, options)) setOptions(initialOption);
+            if (!isEqual(initialOptions, options)) setOptions(initialOptions);
         }
-    }, [query, options, initialOption, setOptions]);
+    }, [query, options, initialOptions, setOptions]);
 
     return (
         <div className={combo(classComponent)}>

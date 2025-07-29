@@ -17,7 +17,7 @@ type ComboboxProps<T extends ComboOptionType | MultiComboOptionType> = {
     label?: string;
     placeholder?: string;
     classComponent?: string;
-    initialOption: T[];
+    initialOptions: T[];
     states: {
         query: string;
         setQuery: (value: string) => void;
@@ -31,16 +31,16 @@ type ComboboxProps<T extends ComboOptionType | MultiComboOptionType> = {
 
 export const useComboboxStates = <T extends ComboOptionType | MultiComboOptionType>(
     initialSelection: string | null,
-    initialOption: T[],
+    initialOptions: T[],
 ) => {
     const [query, setQuery] = useState<string>("");
     const [selected, setSelected] = useState<string | null>(initialSelection);
-    const [options, setOptions] = useState<T[]>(initialOption);
+    const [options, setOptions] = useState<T[]>(initialOptions);
     return { query, setQuery, selected, setSelected, options, setOptions };
 };
 
 export default function ComboboxSearch<T extends ComboOptionType | MultiComboOptionType>(props: ComboboxProps<T>) {
-    const { label, placeholder, classComponent, initialOption, states, isLoading } = props;
+    const { label, placeholder, classComponent, initialOptions, states, isLoading } = props;
     const { setQuery, selected, setSelected, options, setOptions } = states;
 
     const handleQueryChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -54,7 +54,7 @@ export default function ComboboxSearch<T extends ComboOptionType | MultiComboOpt
     };
 
     const handleDropdownClosing = () => {
-        setOptions(initialOption);
+        setOptions(initialOptions);
         setQuery("");
     };
 

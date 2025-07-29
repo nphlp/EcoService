@@ -90,7 +90,7 @@ export default function Form(props: FormProps) {
                 label="Article"
                 placeholder="Sélectionnez un article"
                 classComponent="w-full"
-                initialOption={articleOptions}
+                initialOptions={articleOptions}
                 states={comboboxStates}
             />
             <ComboboxMulti
