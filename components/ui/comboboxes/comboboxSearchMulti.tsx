@@ -1,6 +1,6 @@
 "use client";
 
-import { OptionComboType } from "@comps/ui/comboboxes/utils";
+import { ComboOptionType, MultiComboOptionType } from "@comps/ui/comboboxes/utils";
 import Loader from "@comps/ui/loader";
 import Popover from "@comps/ui/popover";
 import {
@@ -15,7 +15,7 @@ import { motion } from "framer-motion";
 import { Check, ChevronDown, X } from "lucide-react";
 import { ChangeEvent, KeyboardEvent, MouseEvent, useEffect, useRef, useState } from "react";
 
-type ComboboxMultiProps<T extends string | undefined> = {
+type ComboboxMultiProps<T extends ComboOptionType | MultiComboOptionType> = {
     label?: string;
     placeholder?: string;
     classComponent?: string;
@@ -24,8 +24,8 @@ type ComboboxMultiProps<T extends string | undefined> = {
         setQuery: (value: string) => void;
         selected: string[];
         setSelected: (value: string[]) => void;
-        options: OptionComboType<T>[];
-        setOptions: (value: OptionComboType<T>[]) => void;
+        options: T[];
+        setOptions: (value: T[]) => void;
     };
     isLoading?: boolean;
     displaySelectedValuesInDropdown?: boolean;
@@ -42,13 +42,13 @@ type ComboboxMultiProps<T extends string | undefined> = {
  * const { query, setQuery, selected, setSelected, options, setOptions } = comboboxMultiStates;
  * ```
  */
-export const useComboboxMultiStates = <T extends string | undefined>(
+export const useComboboxMultiStates = <T extends ComboOptionType | MultiComboOptionType>(
     initialSelections: string[],
-    initialOptions: OptionComboType<T | undefined>[],
+    initialOptions: T[],
 ) => {
     const [query, setQuery] = useState<string>("");
     const [selected, setSelected] = useState<string[]>(initialSelections);
-    const [options, setOptions] = useState<OptionComboType<T | undefined>[]>(initialOptions);
+    const [options, setOptions] = useState<T[]>(initialOptions);
     return { query, setQuery, selected, setSelected, options, setOptions };
 };
 
@@ -72,7 +72,9 @@ export const useComboboxMultiStates = <T extends string | undefined>(
  * />
  * ```
  */
-export default function ComboboxSearchMulti<T extends string | undefined>(props: ComboboxMultiProps<T>) {
+export default function ComboboxSearchMulti<T extends ComboOptionType | MultiComboOptionType>(
+    props: ComboboxMultiProps<T>,
+) {
     const { label, placeholder, classComponent, states, isLoading, displaySelectedValuesInDropdown = false } = props;
     const { setQuery, selected, setSelected, options } = states;
 
@@ -138,7 +140,7 @@ export default function ComboboxSearchMulti<T extends string | undefined>(props:
                         .map((option, index) => (
                             <ComboboxOption
                                 key={index}
-                                value={option.slug}
+                                value={option.slug} // TODO: change that to the option object
                                 className={combo(
                                     "group bg-white data-focus:bg-blue-100",
                                     "flex items-center gap-2",
@@ -150,7 +152,7 @@ export default function ComboboxSearchMulti<T extends string | undefined>(props:
                                 <Check className="invisible size-5 stroke-[2.5px] group-data-selected:visible" />
                                 <div className="flex w-full items-center justify-start gap-2">
                                     <span>{option.name}</span>
-                                    {option.type && (
+                                    {"type" in option && (
                                         <span className="text-3xs rounded-full bg-gray-500 px-1.5 pt-[3px] pb-[2px] font-semibold text-white uppercase">
                                             {option.type}
                                         </span>
@@ -221,15 +223,15 @@ export const ComboboxIcon = (props: ComboboxIconProps) => {
     );
 };
 
-type ComboboxDisplayProps<T extends string | undefined> = {
+type ComboboxDisplayProps = {
     selected: string[];
-    options: OptionComboType<T>[];
+    options: ComboOptionType[] | MultiComboOptionType[];
     maxLength?: number;
     handleRemove: (slug: string) => void;
     className?: string;
 };
 
-const ComboboxDisplay = <T extends string | undefined>(props: ComboboxDisplayProps<T>) => {
+const ComboboxDisplay = (props: ComboboxDisplayProps) => {
     const { selected, options, maxLength = 12, handleRemove, className } = props;
 
     const needsEllipsis = (name: string) => name.length > maxLength;

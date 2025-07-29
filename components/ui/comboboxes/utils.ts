@@ -1,64 +1,167 @@
-export type OptionComboType<T extends string | undefined = undefined> = {
+// --- Types --- //
+
+export type ComboOptionType = {
     slug: string;
     name: string;
-    type?: T;
+};
+
+export type MultiComboOptionType = ComboOptionType & {
+    type: string;
 };
 
 // --- Get option from slug --- //
 
-export const getOptionFromSlug = <T extends string | undefined>(
+/**
+ * Get an option from a slug
+ * @example
+ * ```tsx
+ * // Input
+ * const slug = "option-1";
+ * const options = [
+ *     { slug: "option-1", name: "Option 1" },
+ *     { slug: "option-2", name: "Option 2" },
+ * ];
+ *
+ * // Usage
+ * const option = getOptionFromSlug(slug, options);
+ *
+ * // Output
+ * option = { slug: "option-1", name: "Option 1" };
+ */
+
+// Overload for ComboOptionType
+function getOptionFromSlug(slug: string | null, options: ComboOptionType[]): ComboOptionType | undefined;
+
+// Overload for MultiComboOptionType
+function getOptionFromSlug(slug: string | null, options: MultiComboOptionType[]): MultiComboOptionType | undefined;
+
+// Implementation
+function getOptionFromSlug(
     slug: string | null,
-    options: OptionComboType<T>[],
-): OptionComboType<T> | undefined => options.find((option) => option.slug === slug);
+    options: ComboOptionType[] | MultiComboOptionType[],
+): ComboOptionType | MultiComboOptionType | undefined {
+    return options.find((option) => option.slug === slug);
+}
 
 // --- Create selected options --- //
 
-export const createSelectedOptions = <T extends string | undefined>(
+/**
+ * Create a list of options from a selected option
+ * @example
+ * ```tsx
+ * // Input
+ * const selected = "option-1";
+ * const options = [
+ *     { slug: "option-1", name: "Option 1" },
+ *     { slug: "option-2", name: "Option 2" },
+ * ];
+ *
+ * // Usage
+ * const selectedOptions = createSelectedOptions(selected, options);
+ *
+ * // Output
+ * selectedOptions = [
+ *     { slug: "option-1", name: "Option 1" },
+ * ];
+ * ```
+ */
+
+function createSelectedOptions<T extends ComboOptionType | MultiComboOptionType>(
     selected: string | null,
-    options: OptionComboType<T>[],
-): OptionComboType<T>[] => {
+    options: T[],
+): T[] {
     const selectedOption = getOptionFromSlug(selected, options);
-    return selectedOption ? [{ slug: selectedOption.slug, name: selectedOption.name, type: selectedOption.type }] : [];
-};
+
+    if (!selectedOption) return [];
+
+    const hasType = "type" in selectedOption;
+
+    const option = hasType
+        ? {
+              slug: selectedOption.slug,
+              name: selectedOption.name,
+              type: selectedOption.type,
+          }
+        : {
+              slug: selectedOption.slug,
+              name: selectedOption.name,
+          };
+
+    return [option as T];
+}
 
 // --- Create options --- //
+/**
+ * Parse any array of data to a list of options
+ * @example
+ * ```tsx
+ * // Input
+ * const data = [
+ *     { id: "option-1", name: "Option 1" },
+ *     { id: "option-2", name: "Option 2" },
+ * ];
+ *
+ * // Usage
+ * const options = createSelectOptions(data, { slug: "id", name: "name" });
+ *
+ * // Output
+ * options = [
+ *      { slug: "option-1", name: "Option 1" },
+ *      { slug: "option-2", name: "Option 2" },
+ *  ]
+ * ```
+ */
 
-type OptionDataType<T> =
-    | {
-          slug: string;
-          name: string;
-          title?: undefined;
-          type?: T;
-      }
-    | {
-          slug: string;
-          name?: undefined;
-          title: string;
-          type?: T;
-      };
+// Overload for ComboOptionType
+function createComboOptions<T>(
+    data: T[] | undefined,
+    { slug, name }: { slug: keyof T; name: keyof T },
+): ComboOptionType[];
 
-export const createOptions = <T extends string | undefined = undefined>(
-    data: OptionDataType<T>[] | undefined,
-    type?: T,
-): OptionComboType<T>[] =>
-    data?.map((option) => ({
-        slug: option.slug,
-        name: option.title ?? option.name,
-        type: type,
-    })) ?? [];
+// Overload for MultiComboOptionType
+function createComboOptions<T>(
+    data: T[] | undefined,
+    { slug, name, type }: { slug: keyof T; name: keyof T; type: string },
+): MultiComboOptionType[];
+
+// Implementation
+function createComboOptions<T>(
+    data: T[] | undefined,
+    { slug, name, type }: { slug: keyof T; name: keyof T; type?: string },
+): ComboOptionType[] | MultiComboOptionType[] {
+    return (
+        data?.map((option) => ({
+            slug: String(option[slug]),
+            name: String(option[name]),
+            ...(type && { type }),
+        })) ?? []
+    );
+}
 
 // --- Deduplicate options --- //
 
-type DeduplicateOptionsProps<T extends string | undefined> = {
-    mergedOptions: OptionComboType<T>[];
-    limit: number;
-};
+/**
+ * Remove duplicates from a list of options
+ * @example
+ * ```tsx
+ * // Input
+ * const options = [
+ *     { slug: "option-1", name: "Option 1" },
+ *     { slug: "option-1", name: "Option 1" },
+ *     { slug: "option-2", name: "Option 2" },
+ * ];
+ *
+ * // Usage
+ * const deduplicatedOptions = deduplicateOptions(options);
+ *
+ * // Output
+ * deduplicatedOptions = [
+ *     { slug: "option-1", name: "Option 1" },
+ *     { slug: "option-2", name: "Option 2" },
+ * ];
+ */
 
-export const deduplicateOptions = <T extends string | undefined>(
-    props: DeduplicateOptionsProps<T>,
-): OptionComboType<T>[] => {
-    const { mergedOptions, limit } = props;
-
+function deduplicateOptions<T extends ComboOptionType | MultiComboOptionType>(mergedOptions: T[], limit: number): T[] {
     // Already seen options
     const seenOptions = new Set<string>();
 
@@ -76,4 +179,8 @@ export const deduplicateOptions = <T extends string | undefined>(
 
     // Return options
     return cleanedOptions.slice(0, limit);
-};
+}
+
+// --- Exports --- //
+
+export { createComboOptions, createSelectedOptions, deduplicateOptions, getOptionFromSlug };

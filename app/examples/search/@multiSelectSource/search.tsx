@@ -1,17 +1,22 @@
 "use client";
 
 import Button from "@comps/ui/button";
-import { createOptions, createSelectedOptions, deduplicateOptions, OptionComboType } from "@comps/ui/comboboxes/utils";
+import {
+    createComboOptions,
+    createSelectedOptions,
+    deduplicateOptions,
+    MultiComboOptionType,
+} from "@comps/ui/comboboxes/utils";
 import { useFetchV2 } from "@utils/FetchV2/FetchHookV2";
 import { isEqual } from "lodash";
 import { FormEvent, useEffect } from "react";
-import ComboboxSearchMulti, { useComboboxMultiStates } from "../../../../components/ui/comboboxes/comboboxSearchMulti";
+import ComboboxSearchMulti, { useComboboxMultiStates } from "@comps/ui/comboboxes/comboboxSearchMulti";
 
-type ResearchProps<T extends string | undefined> = {
-    initialOptions: OptionComboType<T | undefined>[];
+type SearchProps = {
+    initialOptions: MultiComboOptionType[];
 };
 
-export default function Search<T extends string | undefined>(props: ResearchProps<T>) {
+export default function Search(props: SearchProps) {
     const { initialOptions } = props;
 
     // ======= State ======= //
@@ -81,10 +86,10 @@ export default function Search<T extends string | undefined>(props: ResearchProp
         const selectedOptions = selected.flatMap((slug) => createSelectedOptions(slug, options));
 
         // Create formatted options from the fetched data
-        const productOptions = createOptions(productData, "product");
-        const categoryOptions = createOptions(categoryData, "category");
-        const articleOptions = createOptions(articleData, "article");
-        const diyOptions = createOptions(diyData, "diy");
+        const productOptions = createComboOptions(productData, { slug: "slug", name: "name", type: "product" });
+        const categoryOptions = createComboOptions(categoryData, { slug: "slug", name: "name", type: "category" });
+        const articleOptions = createComboOptions(articleData, { slug: "slug", name: "title", type: "article" });
+        const diyOptions = createComboOptions(diyData, { slug: "slug", name: "title", type: "diy" });
 
         // Merge options
         const mergedOptions = [
@@ -93,13 +98,10 @@ export default function Search<T extends string | undefined>(props: ResearchProp
             ...categoryOptions,
             ...articleOptions,
             ...diyOptions,
-        ] as OptionComboType<T>[];
+        ];
 
         // Add selected length to get 10 options more
-        const newOptions = deduplicateOptions<T>({
-            mergedOptions,
-            limit: 10 + selected.length,
-        });
+        const newOptions = deduplicateOptions(mergedOptions, 10 + selected.length);
 
         // Update options if different
         const areDifferent = !isEqual(newOptions, options);

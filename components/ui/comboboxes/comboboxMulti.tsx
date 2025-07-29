@@ -14,20 +14,20 @@ import isEqual from "lodash/isEqual";
 import { Check, ChevronDown, X } from "lucide-react";
 import { ChangeEvent, KeyboardEvent, MouseEvent, useEffect, useRef, useState } from "react";
 import Popover from "../popover";
-import { OptionComboType } from "./utils";
+import { MultiComboOptionType } from "./utils";
 
 type ComboboxMultiProps = {
     label?: string;
     placeholder?: string;
     classComponent?: string;
-    initialOptions: OptionComboType[];
+    initialOptions: MultiComboOptionType[];
     states: {
         query: string;
         setQuery: (value: string) => void;
         selected: string[];
         setSelected: (value: string[]) => void;
-        options: OptionComboType[];
-        setOptions: (value: OptionComboType[]) => void;
+        options: MultiComboOptionType[];
+        setOptions: (value: MultiComboOptionType[]) => void;
     };
 };
 
@@ -42,10 +42,10 @@ type ComboboxMultiProps = {
  * const { query, setQuery, selected, setSelected, options, setOptions } = comboboxMultiStates;
  * ```
  */
-export const useComboboxMultiStates = (initialSelections: string[], initialOptions: OptionComboType[]) => {
+export const useComboboxMultiStates = (initialSelections: string[], initialOptions: MultiComboOptionType[]) => {
     const [query, setQuery] = useState<string>("");
     const [selected, setSelected] = useState<string[]>(initialSelections);
-    const [options, setOptions] = useState<OptionComboType[]>(initialOptions);
+    const [options, setOptions] = useState<MultiComboOptionType[]>(initialOptions);
     return { query, setQuery, selected, setSelected, options, setOptions };
 };
 
@@ -144,7 +144,7 @@ export default function ComboboxMulti(props: ComboboxMultiProps) {
                     {options.map((option, index) => (
                         <ComboboxOption
                             key={index}
-                            value={option.slug}
+                            value={option.slug} // TODO: change that to the option object
                             className={combo(
                                 "group bg-white data-focus:bg-blue-100",
                                 "flex items-center gap-2",
@@ -213,7 +213,7 @@ export const ComboboxIcon = (props: ComboboxIconProps) => {
 
 type ComboboxDisplayProps = {
     selected: string[];
-    initialOptions: OptionComboType[];
+    initialOptions: MultiComboOptionType[];
     maxLength?: number;
     handleRemove: (slug: string) => void;
     className?: string;

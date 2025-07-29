@@ -2,16 +2,21 @@
 
 import Button from "@comps/ui/button";
 import ComboboxSearch, { useComboboxStates } from "@comps/ui/comboboxes/comboboxSearch";
-import { createOptions, createSelectedOptions, deduplicateOptions, OptionComboType } from "@comps/ui/comboboxes/utils";
+import {
+    ComboOptionType,
+    createComboOptions,
+    createSelectedOptions,
+    deduplicateOptions,
+} from "@comps/ui/comboboxes/utils";
 import { useFetchV2 } from "@utils/FetchV2/FetchHookV2";
 import { isEqual } from "lodash";
 import { FormEvent, useEffect } from "react";
 
-type ResearchProps = {
-    initialOptions: OptionComboType[];
+type SearchProps = {
+    initialOptions: ComboOptionType[];
 };
 
-export default function Search(props: ResearchProps) {
+export default function Search(props: SearchProps) {
     const { initialOptions } = props;
 
     // ======= State ======= //
@@ -38,11 +43,11 @@ export default function Search(props: ResearchProps) {
         const selectedOptions = createSelectedOptions(selected, options);
 
         // Create formatted options from the fetched data
-        const productOptions = createOptions(productData);
+        const productOptions = createComboOptions(productData, { slug: "slug", name: "name" });
 
         // Merge options
         const mergedOptions = [...selectedOptions, ...productOptions];
-        const newOptions = deduplicateOptions({ mergedOptions, limit: 10 });
+        const newOptions = deduplicateOptions(mergedOptions, 10);
 
         // Update options if different
         const areDifferent = !isEqual(newOptions, options);
@@ -63,6 +68,7 @@ export default function Search(props: ResearchProps) {
                 label="Recherchez et sélectionnez"
                 placeholder="Un produit, une catégorie ou un article..."
                 classComponent="w-full"
+                initialOption={initialOptions}
                 states={comboboxStates}
                 isLoading={isLoading}
             />

@@ -1,14 +1,19 @@
 "use client";
 
 import Button from "@comps/ui/button";
-import { createOptions, createSelectedOptions, deduplicateOptions, OptionComboType } from "@comps/ui/comboboxes/utils";
+import ComboboxSearchMulti, { useComboboxMultiStates } from "@comps/ui/comboboxes/comboboxSearchMulti";
+import {
+    ComboOptionType,
+    createComboOptions,
+    createSelectedOptions,
+    deduplicateOptions,
+} from "@comps/ui/comboboxes/utils";
 import { useFetchV2 } from "@utils/FetchV2/FetchHookV2";
 import { isEqual } from "lodash";
 import { FormEvent, useEffect } from "react";
-import ComboboxSearchMulti, { useComboboxMultiStates } from "../../../../components/ui/comboboxes/comboboxSearchMulti";
 
 type ResearchProps = {
-    initialOptions: OptionComboType[];
+    initialOptions: ComboOptionType[];
 };
 
 export default function Search(props: ResearchProps) {
@@ -42,13 +47,13 @@ export default function Search(props: ResearchProps) {
         const selectedOptions = selected.flatMap((slug) => createSelectedOptions(slug, options));
 
         // Create formatted options from the fetched data
-        const productOptions = createOptions(productData);
+        const productOptions = createComboOptions(productData, { slug: "slug", name: "name", type: "product" });
 
         // Merge options
         const mergedOptions = [...selectedOptions, ...productOptions];
 
         // Add selected length to get 10 options more
-        const newOptions = deduplicateOptions({ mergedOptions, limit: 10 + selected.length });
+        const newOptions = deduplicateOptions(mergedOptions, 10 + selected.length);
 
         // Update options if different
         const areDifferent = !isEqual(newOptions, options);

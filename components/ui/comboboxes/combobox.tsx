@@ -12,20 +12,20 @@ import { StringToSlug } from "@utils/StringToSlug";
 import isEqual from "lodash/isEqual";
 import { Check, ChevronDown, X } from "lucide-react";
 import { ChangeEvent, KeyboardEvent, MouseEvent, useEffect, useState } from "react";
-import { getOptionFromSlug, OptionComboType } from "./utils";
+import { getOptionFromSlug, ComboOptionType } from "./utils";
 
 type ComboboxProps = {
     label?: string;
     placeholder?: string;
     classComponent?: string;
-    initialOption: OptionComboType[];
+    initialOption: ComboOptionType[];
     states: {
         query: string;
         setQuery: (value: string) => void;
         selected: string | null;
         setSelected: (value: string | null) => void;
-        options: OptionComboType[];
-        setOptions: (value: OptionComboType[]) => void;
+        options: ComboOptionType[];
+        setOptions: (value: ComboOptionType[]) => void;
     };
 };
 
@@ -40,10 +40,10 @@ type ComboboxProps = {
  * const { query, setQuery, selected, setSelected, options, setOptions } = comboboxStates;
  * ```
  */
-export const useComboboxStates = (initialSelection: string | null, initialOption: OptionComboType[]) => {
+export const useComboboxStates = (initialSelection: string | null, initialOption: ComboOptionType[]) => {
     const [query, setQuery] = useState<string>("");
     const [selected, setSelected] = useState<string | null>(initialSelection);
-    const [options, setOptions] = useState<OptionComboType[]>(initialOption);
+    const [options, setOptions] = useState<ComboOptionType[]>(initialOption);
     return { query, setQuery, selected, setSelected, options, setOptions };
 };
 
@@ -137,7 +137,7 @@ export default function Combobox(props: ComboboxProps) {
                     {options.map((option, index) => (
                         <ComboboxOption
                             key={index}
-                            value={option.slug}
+                            value={option.slug} // TODO: change that to the option object
                             className={combo(
                                 "group bg-white data-focus:bg-gray-100",
                                 "flex items-center gap-2",

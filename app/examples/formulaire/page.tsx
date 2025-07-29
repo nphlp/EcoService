@@ -1,5 +1,5 @@
 import Card from "@comps/server/card";
-import { createOptions } from "@comps/ui/comboboxes/utils";
+import { createComboOptions } from "@comps/ui/comboboxes/utils";
 import { createSelectOptions } from "@comps/ui/select/utils";
 import { ArticleFindManyServer, CategoryFindManyServer, ProductFindManyServer } from "@services/server";
 import Form from "./form";
@@ -17,9 +17,9 @@ export default async function Page() {
     });
 
     // Format the options
-    const categoryOptions = createSelectOptions(categoryList, { label: "name", slug: "slug" });
-    const articleOptions = createOptions(articleList);
-    const productOptions = createOptions(productList);
+    const categoryOptions = createSelectOptions(categoryList, { slug: "slug", label: "name" });
+    const articleOptions = createComboOptions(articleList, { slug: "slug", name: "title" });
+    const productOptions = createComboOptions(productList, { slug: "slug", name: "name", type: "product" });
 
     return (
         <div className="p-7">
