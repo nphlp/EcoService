@@ -92,11 +92,6 @@ export default function ComboboxMulti(props: ComboboxMultiProps) {
         setQuery("");
     };
 
-    const handleRemove = (optionToRemove: MultiComboOptionType) => {
-        const optionsLeft = selected.filter((selectedOption) => selectedOption.slug !== optionToRemove.slug);
-        setSelected(optionsLeft);
-    };
-
     return (
         <div className={combo(classComponent)}>
             <label className="text-sm font-medium text-black">{label}</label>
@@ -111,8 +106,8 @@ export default function ComboboxMulti(props: ComboboxMultiProps) {
                 <ComboboxDisplay
                     className="mt-1"
                     selected={selected}
+                    setSelected={setSelected}
                     initialOptions={initialOptions}
-                    handleRemove={handleRemove}
                 />
                 <div className={combo("relative", selected.length > 0 ? "mt-2.5" : "mt-0")}>
                     <ComboboxInput
@@ -208,14 +203,14 @@ export const ComboboxIcon = (props: ComboboxIconProps) => {
 
 type ComboboxDisplayProps = {
     selected: MultiComboOptionType[];
+    setSelected: (value: MultiComboOptionType[]) => void;
     initialOptions: MultiComboOptionType[];
     maxLength?: number;
-    handleRemove: (option: MultiComboOptionType) => void;
     className?: string;
 };
 
 const ComboboxDisplay = (props: ComboboxDisplayProps) => {
-    const { selected, initialOptions, maxLength = 12, handleRemove, className } = props;
+    const { selected, setSelected, initialOptions, maxLength = 12, className } = props;
 
     const needsEllipsis = (name: string) => name.length > maxLength;
     const ellipsis = (name: string) => (needsEllipsis(name) ? name.slice(0, maxLength) : name);
@@ -223,6 +218,11 @@ const ComboboxDisplay = (props: ComboboxDisplayProps) => {
     const selectedOptions = initialOptions.filter((option) =>
         selected.some((selectedOption) => selectedOption.slug === option.slug),
     );
+
+    const handleRemove = (optionToRemove: MultiComboOptionType) => {
+        const optionsLeft = selected.filter((selectedOption) => selectedOption.slug !== optionToRemove.slug);
+        setSelected(optionsLeft);
+    };
 
     // Current container height
     const [currentHeight, setCurrentHeight] = useState("auto");

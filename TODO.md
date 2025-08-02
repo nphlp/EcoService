@@ -2,34 +2,56 @@
 
 Complete auth and user management
 
-## Code quality
+## Rework
 
-- [] Sonar Cube
-- [] Test coverage
-- [] Dependabot -> Safely update dependencies
-- [] Dependency Track -> Search for vulnerabilities in dependencies
+- [] Revoir et décompléxifier le système Fetch interne/externe, hook useFetch et génération de Services
+- [] Revoir les composants UI et l'architecture premitive/surcouche
+- [] Revoir les Docker Compose environnements depuis le chagement de paradigme `export dynamic = "auto"`
+- [] Améliorer la gestion des autorisations et permissions
 
-## Priority
+## User Experience
 
-- [] Gérer les suspenses
-- [] Gérer les erreurs
+- [] Suspenses et skeletons
+- [] Image profile
+- [] Double authentification (OTP, Passkey, Magic link)
+- [] Auth Provider (Google, Github, etc.)
+- [] Reset password
 
-- [] Snippet pour créer un composant React ?????
+## Testing
 
-- Add test with :
-    - Vitest for API, Components, Hooks, Services
-    - Playwright for e2e (login, register...)
-- Image profile
-- Reset password
+Écrire et mettre en place des suivis de tests pour les différentes couches de l'application.
 
-- Move Shadcn CSS Theme to a dedicated file
-- Autorization / Permissions
-- Rework Fetch Parallelized V2
-- Make API Fetch props "Exact< Schema, S >"
-- API and Zod -> Page per page
-- Rework frontend
-    - Components
-    - Theme and styles
+- [] Test Coverage et Static Analysis
+- [] Sentry (reporting et logging)
+
+### Automatisé
+
+- [] Unitaire
+- [] Intégration
+- [] Fonctionnel
+- [] E2E (Playwright)
+
+### Sécurité
+
+- [] SonarQube -> Analyse de la qualité et sécurité du code
+- [] Dependabot -> Mettre à jour les dépendances en toute sécurité
+- [] Dependency Track -> Tracker les vulnérabilités de sécurité dans les dépendances
+
+### Manuel
+
+- [] SEO
+- [] Security
+- [] Performance
+- [] Accessibility
+
+### En ligne
+
+- [] Lighthouse
+- [] Google Search Console
+- [] PageSpeed Insights
+- [] GTmetrix
+- [] WebPageTest
+- [] Etc.
 
 ## API and Zod -> Page per page
 
@@ -38,27 +60,27 @@ Complete auth and user management
 - Server and Client components use `external api`, that use `internal api`, that use `class`
 - `Json Web Token` protection on `internal API` ?
 
-## Vrac
+## Plus tard
 
+- [] Accessibility
+    - Tester un lecteur d'écran
+    - Ajouter des attributs ARIA et semantiques HTML
+    - Vérifier la navigation au clavier
+    - Vérifier le contraste des couleurs
+    - Désactiver les animations
+    - Scrolling fonctionnel avec doigt, pavé tactile, molette, barre de défilement
+
+- [] AI Search
+    - Meilisearch
+    - Moteur semantic de recherche
+
+- Mobile first UI and UX
 - Theme and dark mode
-- Cursor rules
-- Header disapearing issue ??
-- Add a logging system
-- Testing for classes
-- View Transition ??
-- Eslint and Prettier
+- View Transition
 - Internationalization
-
-## User Experience
-
-- [ ] Header mobile
-- [ ] Search: make request and zod validation
-- [ ] Accessibility: header menu `enter` key to open menu
-- [ ] Filters ring and UI
-- [ ] Perspective on catalog page ?
-
-- [ ] Issue: if user is on `/catalog`, header categories link does not refresh the categories list
-- [ ] Issue: footer links or scrollbar not clickable
+- Progressive Web App (PWA)
+- React Native (Expo)
+- Desktop (Tauri)
 
 ## Stripe
 
@@ -79,21 +101,3 @@ Complete auth and user management
     - [ ] Send confirmation mail...
         - [ ] An user bought a product: payment succesfuly or failed
         - [ ] An user become a vendor after admin validation
-
-## Authentification
-
-- [ ] Auth
-    - [ ] Reset passowrd
-    - [ ] OTP / 2FA
-    - [ ] Magic link / Passkey
-
-- [ ] Edit profile
-    - [ ] Image
-    - [ ] Firstname
-    - [ ] Lastname
-    - [ ] Email
-    - [ ] Password
-
-- [ ] Session
-    - [ ] See all session: `Browser` / `IP` / `OS` / `Last activity`
-    - [ ] Disconnect: `only one` / `all others` / `all sessions`
