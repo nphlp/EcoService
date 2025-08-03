@@ -3,6 +3,8 @@ import { CornerRightDown, ListTodo, Shuffle, SquareCheckBig } from "lucide-react
 import { cloneElement, ReactNode } from "react";
 
 type LayoutProps = {
+    singleCombo: ReactNode;
+    multiCombo: ReactNode;
     singleSelectSingleSource: ReactNode;
     singleSelectMultiSource: ReactNode;
     multiSelectSingleSource: ReactNode;
@@ -10,8 +12,14 @@ type LayoutProps = {
 };
 
 export default function Layout(props: LayoutProps) {
-    const { singleSelectSingleSource, singleSelectMultiSource, multiSelectSingleSource, multiSelectMultiSource } =
-        props;
+    const {
+        singleCombo,
+        multiCombo,
+        singleSelectSingleSource,
+        singleSelectMultiSource,
+        multiSelectSingleSource,
+        multiSelectMultiSource,
+    } = props;
 
     return (
         <div className="mb-[300px] space-y-6 p-7">
@@ -22,6 +30,18 @@ export default function Layout(props: LayoutProps) {
                 </div>
             </div>
             <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+                <Card className="h-full w-[450px]">
+                    <div className="text-2xl font-bold">Single Combobox</div>
+                    <div className="mt-1 mb-4 text-sm text-gray-500">Rechercher et sélectionner un seul élément.</div>
+                    {singleCombo}
+                </Card>
+                <Card className="h-full w-[450px]">
+                    <div className="text-2xl font-bold">Multi Combobox</div>
+                    <div className="mt-1 mb-4 text-sm text-gray-500">
+                        Rechercher et sélectionner plusieurs éléments.
+                    </div>
+                    {multiCombo}
+                </Card>
                 <ComboCard
                     title="SSe-SSo"
                     description="Rechercher et sélectionner un seul élément parmis un seul type d'élément."

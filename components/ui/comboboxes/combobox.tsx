@@ -13,8 +13,12 @@ import { Check, ChevronDown, X } from "lucide-react";
 import { ChangeEvent, KeyboardEvent, MouseEvent, useState } from "react";
 import { ComboOptionType } from "./utils";
 
+// TODO
+// Documentation
+// Multi source support
+
 type ComboboxProps = {
-    label?: string;
+    label: string;
     placeholder?: string;
     classComponent?: string;
     initialOptions: ComboOptionType[];
@@ -105,9 +109,10 @@ export default function Combobox(props: ComboboxProps) {
             >
                 <div className="relative">
                     <ComboboxInput
-                        aria-label={label ?? "Search"}
+                        aria-label={label}
                         displayValue={handleDisplayValue}
                         onChange={handleQueryChange}
+                        // value={query} // Disable query value to allow "displayValue" to work properly
                         placeholder={placeholder ?? "Search and select an option..."}
                         className={combo(
                             "w-full rounded-lg border border-black/20 bg-white px-4 py-1.5",
@@ -138,7 +143,7 @@ export default function Combobox(props: ComboboxProps) {
                             )}
                         >
                             <Check className="invisible size-5 stroke-[2.5px] group-data-selected:visible" />
-                            <ComboboxLabel optionName={option.name} query={query} />
+                            <ComboboxLabel option={option} query={query} />
                         </ComboboxOption>
                     ))}
                 </ComboboxOptions>
@@ -188,7 +193,11 @@ export const ComboboxIcon = (props: ComboboxIconProps) => {
             type="button"
             onClick={handleClick}
             onKeyDown={handleKeyDown}
-            className={combo("absolute top-1/2 right-1 -translate-y-1/2 cursor-pointer rounded-full p-1")}
+            className={combo(
+                "absolute top-1/2 right-1 -translate-y-1/2 cursor-pointer rounded-full p-1",
+                "ring-0 outline-none focus:ring-2 focus:ring-teal-300",
+                "transition-all duration-150",
+            )}
         >
             <X className="size-5 fill-white" />
         </button>
@@ -196,25 +205,31 @@ export const ComboboxIcon = (props: ComboboxIconProps) => {
 };
 
 type ComboboxLabelProps = {
-    optionName: string;
+    option: ComboOptionType;
     query: string;
 };
 
 const ComboboxLabel = (props: ComboboxLabelProps) => {
-    const { optionName, query } = props;
+    const { option, query } = props;
 
-    // Slugify the option name and the query
-    const nameSlug = StringToSlug(optionName);
-    const querySlug = StringToSlug(query);
+    const highlightQuery = (optionName: string, query: string) => {
+        // Slugify the option name and the query
+        const nameSlug = StringToSlug(optionName);
+        const querySlug = StringToSlug(query);
 
-    // Find the index of the query in the option name
-    const queryStartIndex = nameSlug.indexOf(querySlug);
-    const queryEndIndex = queryStartIndex + querySlug.length;
+        // Find the index of the query in the option name
+        const queryStartIndex = nameSlug.indexOf(querySlug);
+        const queryEndIndex = queryStartIndex + querySlug.length;
 
-    // Slice the option name into before, highlighted and after
-    const before = optionName.slice(0, queryStartIndex);
-    const highlighted = optionName.slice(queryStartIndex, queryEndIndex);
-    const after = optionName.slice(queryEndIndex);
+        // Slice the option name into before, highlighted and after
+        return {
+            before: optionName.slice(0, queryStartIndex),
+            highlighted: optionName.slice(queryStartIndex, queryEndIndex),
+            after: optionName.slice(queryEndIndex),
+        };
+    };
+
+    const { before, highlighted, after } = highlightQuery(option.name, query);
 
     return (
         <span>

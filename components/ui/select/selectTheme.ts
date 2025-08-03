@@ -152,10 +152,11 @@ const styles: StylesType = {
             // Border and radius
             "rounded",
             // Background
-            "bg-white hover:bg-gray-100",
+            "bg-white hover:bg-gray-300",
             // Outline
-            "outline-none focus:ring-2 ring-teal-300",
-            "transition-all duration-150",
+            "outline-none focus:bg-gray-100",
+            // "outline-none focus:ring-2 ring-teal-300",
+            // "transition-all duration-150",
             // Accessibility
             "cursor-pointer",
         ),

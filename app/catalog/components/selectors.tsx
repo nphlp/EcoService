@@ -21,7 +21,7 @@ export default function Selectors(props: SelectorsProps) {
         <div className="bg-primary grid grid-cols-2 gap-5 p-6 md:grid-cols-4">
             <Select
                 label="Catégorie"
-                classLabel="text-white"
+                className={{ label: "text-white" }}
                 options={createSelectOptions(categoryList, { label: "name", slug: "slug" })}
                 setSelected={(value) => {
                     setCategory(value);
@@ -32,7 +32,7 @@ export default function Selectors(props: SelectorsProps) {
             <Select
                 label="Trier par prix"
                 placeholder="Non trié"
-                classLabel="text-white"
+                className={{ label: "text-white" }}
                 options={[
                     { label: "Prix croissant", slug: "asc" },
                     { label: "Prix décroissant", slug: "desc" },
@@ -44,7 +44,7 @@ export default function Selectors(props: SelectorsProps) {
             />
             <Select
                 label="Produits par page"
-                classLabel="text-white"
+                className={{ label: "text-white" }}
                 options={[
                     { label: "10", slug: "10" },
                     { label: "20", slug: "20" },

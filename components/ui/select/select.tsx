@@ -29,25 +29,27 @@ type CommonProps = {
     required?: boolean;
 
     // Styles
-    classComponent?: string;
-    classLabel?: string;
+    className?: {
+        component?: string;
+        label?: string;
 
-    classDisplayedValue?: string;
-    classPlaceholder?: string;
+        displayedValue?: string;
+        placeholder?: string;
 
-    classButtonGroup?: string;
-    classButton?: string;
+        buttonGroup?: string;
+        button?: string;
 
-    classSubButton?: string;
-    classSubCross?: string;
+        subButton?: string;
+        subCross?: string;
 
-    classSubDiv?: string;
-    classSubChevron?: string;
+        subDiv?: string;
+        subChevron?: string;
 
-    classOptionList?: string;
-    classOptionButton?: string;
-    classOptionIcon?: string;
-    classOptionLabel?: string;
+        optionList?: string;
+        optionButton?: string;
+        optionIcon?: string;
+        optionLabel?: string;
+    };
 
     // External States
     options: SelectOptionType[];
@@ -126,7 +128,7 @@ type SelectComponentProps = {
 const SelectComponent = (props: SelectComponentProps) => {
     const { children } = props;
 
-    const { variant, classComponent } = useContext(Context);
+    const { variant, className } = useContext(Context);
 
     const preventDefault = (e: MouseEvent<HTMLLabelElement>) => {
         e.preventDefault();
@@ -134,7 +136,7 @@ const SelectComponent = (props: SelectComponentProps) => {
     };
 
     return (
-        <label className={combo(theme[variant].component, classComponent)} onClick={preventDefault}>
+        <label className={combo(theme[variant].component, className?.component)} onClick={preventDefault}>
             {children}
         </label>
     );
@@ -143,9 +145,9 @@ const SelectComponent = (props: SelectComponentProps) => {
 // ========== Select Label ========== //
 
 const SelectLabel = () => {
-    const { variant, classLabel, label } = useContext(Context);
+    const { variant, className, label } = useContext(Context);
 
-    return <div className={combo(theme[variant].label, classLabel)}>{label}</div>;
+    return <div className={combo(theme[variant].label, className?.label)}>{label}</div>;
 };
 
 // ========== Select Button ========== //
@@ -153,14 +155,7 @@ const SelectLabel = () => {
 const SelectButton = () => {
     const {
         variant,
-        classButton,
-        classButtonGroup,
-        classSubButton,
-        classSubCross,
-        classSubDiv,
-        classSubChevron,
-        classDisplayedValue,
-        classPlaceholder,
+        className,
         selected,
         options,
         placeholder,
@@ -245,34 +240,36 @@ const SelectButton = () => {
     };
 
     return (
-        <div className={combo(theme[variant].buttonGroup, classButtonGroup)}>
+        <div className={combo(theme[variant].buttonGroup, className?.buttonGroup)}>
             <button
                 ref={buttonRef} // Used to position the SelectOptions through the portal
                 type="button"
                 onFocus={handleFocus}
                 onBlur={handleBlur}
                 onKeyDown={handleKeyDown}
-                className={combo(theme[variant].button, classButton)}
+                className={combo(theme[variant].button, className?.button)}
             >
                 {hasSelection ? (
-                    <span className={combo(theme[variant].displayedValue, classDisplayedValue)}>
+                    <span className={combo(theme[variant].displayedValue, className?.displayedValue)}>
                         {selectedOption.label}
                     </span>
                 ) : (
-                    <span className={combo(theme[variant].placeholder, classPlaceholder)}>{placeholder ?? label}</span>
+                    <span className={combo(theme[variant].placeholder, className?.placeholder)}>
+                        {placeholder ?? label}
+                    </span>
                 )}
             </button>
             {!canNotBeEmpty && hasSelection ? (
                 <button
                     type="button"
-                    className={combo(theme[variant].subButton, classSubButton)}
+                    className={combo(theme[variant].subButton, className?.subButton)}
                     onClick={handleClickSubButton}
                 >
-                    <X className={combo(theme[variant].subCross, classSubCross)} />
+                    <X className={combo(theme[variant].subCross, className?.subCross)} />
                 </button>
             ) : (
-                <div className={combo(theme[variant].subDiv, classSubDiv)}>
-                    <ChevronDown className={combo(theme[variant].subChevron, classSubChevron)} />
+                <div className={combo(theme[variant].subDiv, className?.subDiv)}>
+                    <ChevronDown className={combo(theme[variant].subChevron, className?.subChevron)} />
                 </div>
             )}
         </div>
@@ -311,19 +308,7 @@ const SelectOptions = () => {
 type SelectOptionsPortalProps = ContextType;
 
 const SelectOptionsPortal = (props: SelectOptionsPortalProps) => {
-    const {
-        selected,
-        variant,
-        classOptionList,
-        classOptionButton,
-        classOptionIcon,
-        classOptionLabel,
-        options,
-        optionListRef,
-        buttonRef,
-        setSelected,
-        setIsOpen,
-    } = props;
+    const { selected, variant, className, options, optionListRef, buttonRef, setSelected, setIsOpen } = props;
 
     // Get the selected option
     const selectedOption = getOptionFromSlug(selected, options);
@@ -380,7 +365,7 @@ const SelectOptionsPortal = (props: SelectOptionsPortalProps) => {
     };
 
     return (
-        <div ref={optionListRef} className={combo(theme[variant].optionList, classOptionList)}>
+        <div ref={optionListRef} className={combo(theme[variant].optionList, className?.optionList)}>
             {options?.map((option, index) => (
                 <button
                     key={index}
@@ -388,17 +373,17 @@ const SelectOptionsPortal = (props: SelectOptionsPortalProps) => {
                     data-slug={option.slug}
                     onClick={handleClick}
                     onKeyDown={handleKeyDown}
-                    className={combo(theme[variant].optionButton, classOptionButton)}
+                    className={combo(theme[variant].optionButton, className?.optionButton)}
                 >
                     <Check
                         className={combo(
                             theme[variant].optionIcon,
-                            classOptionIcon,
+                            className?.optionIcon,
                             selectedOption?.slug !== option.slug && "invisible",
                         )}
                     />
 
-                    <span className={combo(theme[variant].optionLabel, classOptionLabel)}>{option.label}</span>
+                    <span className={combo(theme[variant].optionLabel, className?.optionLabel)}>{option.label}</span>
                 </button>
             ))}
         </div>

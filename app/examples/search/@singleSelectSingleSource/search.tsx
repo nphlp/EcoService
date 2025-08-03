@@ -40,7 +40,7 @@ export default function Search(props: SearchProps) {
         if (!productData) return;
 
         // Create an options with the selected state
-        const selectedOptions = createSelectedOptions(selected, options);
+        const selectedOptions = createSelectedOptions(selected);
 
         // Create formatted options from the fetched data
         const productOptions = createComboOptions(productData, { slug: "slug", name: "name" });

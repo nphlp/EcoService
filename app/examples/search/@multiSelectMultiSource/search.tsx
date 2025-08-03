@@ -5,7 +5,7 @@ import {
     createComboOptions,
     createSelectedOptions,
     deduplicateOptions,
-    MultiComboOptionType,
+    MultiSourceComboOptionType,
 } from "@comps/ui/comboboxes/utils";
 import { useFetchV2 } from "@utils/FetchV2/FetchHookV2";
 import { isEqual } from "lodash";
@@ -13,7 +13,7 @@ import { FormEvent, useEffect } from "react";
 import ComboboxSearchMulti, { useComboboxMultiStates } from "@comps/ui/comboboxes/comboboxSearchMulti";
 
 type SearchProps = {
-    initialOptions: MultiComboOptionType[];
+    initialOptions: MultiSourceComboOptionType[];
 };
 
 export default function Search(props: SearchProps) {
@@ -31,7 +31,7 @@ export default function Search(props: SearchProps) {
             where: {
                 name: { contains: query },
                 // Exclude already selected options from the search
-                slug: { notIn: selected.map((slug) => slug) },
+                slug: { notIn: selected.map((option) => option.slug) },
             },
             take: 10,
         },
@@ -44,7 +44,7 @@ export default function Search(props: SearchProps) {
             where: {
                 name: { contains: query },
                 // Exclude already selected options from the search
-                slug: { notIn: selected.map((slug) => slug) },
+                slug: { notIn: selected.map((option) => option.slug) },
             },
             take: 10,
         },
@@ -57,7 +57,7 @@ export default function Search(props: SearchProps) {
             where: {
                 title: { contains: query },
                 // Exclude already selected options from the search
-                slug: { notIn: selected.map((slug) => slug) },
+                slug: { notIn: selected.map((option) => option.slug) },
             },
             take: 10,
         },
@@ -70,7 +70,7 @@ export default function Search(props: SearchProps) {
             where: {
                 title: { contains: query },
                 // Exclude already selected options from the search
-                slug: { notIn: selected.map((slug) => slug) },
+                slug: { notIn: selected.map((option) => option.slug) },
             },
             take: 10,
         },
@@ -82,9 +82,6 @@ export default function Search(props: SearchProps) {
         // and to keep initial options
         if (!productData) return;
 
-        // Create an options with the selected state
-        const selectedOptions = selected.flatMap((slug) => createSelectedOptions(slug, options));
-
         // Create formatted options from the fetched data
         const productOptions = createComboOptions(productData, { slug: "slug", name: "name", type: "product" });
         const categoryOptions = createComboOptions(categoryData, { slug: "slug", name: "name", type: "category" });
@@ -92,13 +89,7 @@ export default function Search(props: SearchProps) {
         const diyOptions = createComboOptions(diyData, { slug: "slug", name: "title", type: "diy" });
 
         // Merge options
-        const mergedOptions = [
-            ...selectedOptions,
-            ...productOptions,
-            ...categoryOptions,
-            ...articleOptions,
-            ...diyOptions,
-        ];
+        const mergedOptions = [...selected, ...productOptions, ...categoryOptions, ...articleOptions, ...diyOptions];
 
         // Add selected length to get 10 options more
         const newOptions = deduplicateOptions(mergedOptions, 10 + selected.length);
@@ -122,6 +113,7 @@ export default function Search(props: SearchProps) {
                 label="Recherchez et sélectionnez"
                 placeholder="Un produit, une catégorie ou un article..."
                 classComponent="w-full"
+                initialOptions={initialOptions}
                 states={comboboxStates}
                 isLoading={isLoading}
             />

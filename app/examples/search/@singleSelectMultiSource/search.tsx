@@ -6,14 +6,14 @@ import {
     createComboOptions,
     createSelectedOptions,
     deduplicateOptions,
-    MultiComboOptionType,
+    MultiSourceComboOptionType,
 } from "@comps/ui/comboboxes/utils";
 import { useFetchV2 } from "@utils/FetchV2/FetchHookV2";
 import { isEqual } from "lodash";
 import { FormEvent, useEffect } from "react";
 
 type SearchProps = {
-    initialOptions: MultiComboOptionType[];
+    initialOptions: MultiSourceComboOptionType[];
 };
 
 export default function Search(props: SearchProps) {
@@ -67,7 +67,7 @@ export default function Search(props: SearchProps) {
         if (!articleData && !categoryData && !productData) return;
 
         // Create an options with the selected state
-        const selectedOptions = createSelectedOptions(selected, options);
+        const selectedOptions = createSelectedOptions(selected);
 
         // Create formatted options from the fetched data
         const productOptions = createComboOptions(productData, { slug: "slug", name: "name", type: "product" });
@@ -82,9 +82,9 @@ export default function Search(props: SearchProps) {
             ...categoryOptions,
             ...articleOptions,
             ...diyOptions,
-        ] as MultiComboOptionType[];
+        ];
 
-        const newOptions: MultiComboOptionType[] = deduplicateOptions(mergedOptions, 10);
+        const newOptions = deduplicateOptions(mergedOptions, 10);
 
         // Update options if different
         const areDifferent = !isEqual(newOptions, options);

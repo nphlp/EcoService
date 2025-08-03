@@ -4,7 +4,7 @@ import Button from "@comps/ui/button";
 import Combobox, { useComboboxStates } from "@comps/ui/comboboxes/combobox";
 import ComboboxMulti, { useComboboxMultiStates } from "@comps/ui/comboboxes/comboboxMulti";
 // import ComboboxSearch, { useComboboxStates } from "@comps/ui/comboboxes/comboboxSearch";
-import { ComboOptionType, MultiComboOptionType } from "@comps/ui/comboboxes/utils";
+import { ComboOptionType, MultiSourceComboOptionType } from "@comps/ui/comboboxes/utils";
 import Feedback, { FeedbackMode } from "@comps/ui/feedback";
 import Input, { useInputState } from "@comps/ui/input";
 import InputImage from "@comps/ui/inputImage";
@@ -15,7 +15,7 @@ import { FormEvent, useState } from "react";
 type FormProps = {
     categoryOptions: SelectOptionType[];
     articleOptions: ComboOptionType[];
-    productOptions: MultiComboOptionType[];
+    productOptions: MultiSourceComboOptionType[];
 };
 
 export default function Form(props: FormProps) {
@@ -83,7 +83,7 @@ export default function Form(props: FormProps) {
                 options={categoryOptions}
                 setSelected={setCategory}
                 selected={category}
-                classComponent="w-full"
+                className={{ component: "w-full" }}
                 canNotBeEmpty
             />
             <Combobox

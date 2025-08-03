@@ -2,12 +2,7 @@
 
 import Button from "@comps/ui/button";
 import ComboboxSearchMulti, { useComboboxMultiStates } from "@comps/ui/comboboxes/comboboxSearchMulti";
-import {
-    ComboOptionType,
-    createComboOptions,
-    createSelectedOptions,
-    deduplicateOptions,
-} from "@comps/ui/comboboxes/utils";
+import { ComboOptionType, createComboOptions, deduplicateOptions } from "@comps/ui/comboboxes/utils";
 import { useFetchV2 } from "@utils/FetchV2/FetchHookV2";
 import { isEqual } from "lodash";
 import { FormEvent, useEffect } from "react";
@@ -31,7 +26,7 @@ export default function Search(props: ResearchProps) {
             where: {
                 name: { contains: query },
                 // Exclude already selected options from the search
-                slug: { notIn: selected.map((slug) => slug) },
+                slug: { notIn: selected.map((option) => option.slug) },
             },
             take: 10,
         },
@@ -43,14 +38,11 @@ export default function Search(props: ResearchProps) {
         // and to keep initial options
         if (!productData) return;
 
-        // Create an options with the selected state
-        const selectedOptions = selected.flatMap((slug) => createSelectedOptions(slug, options));
-
         // Create formatted options from the fetched data
-        const productOptions = createComboOptions(productData, { slug: "slug", name: "name", type: "product" });
+        const productOptions = createComboOptions(productData, { slug: "slug", name: "name" });
 
         // Merge options
-        const mergedOptions = [...selectedOptions, ...productOptions];
+        const mergedOptions = [...selected, ...productOptions];
 
         // Add selected length to get 10 options more
         const newOptions = deduplicateOptions(mergedOptions, 10 + selected.length);
@@ -74,6 +66,7 @@ export default function Search(props: ResearchProps) {
                 label="Recherchez et sélectionnez"
                 placeholder="Un produit, une catégorie ou un article..."
                 classComponent="w-full"
+                initialOptions={initialOptions}
                 states={comboboxStates}
                 isLoading={isLoading}
             />

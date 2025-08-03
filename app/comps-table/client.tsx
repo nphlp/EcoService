@@ -61,7 +61,7 @@ export default function Client(props: ClientProps) {
                 <Select
                     label="Categorie"
                     placeholder="Select a category"
-                    classLabel="sr-only"
+                    className={{ label: "sr-only" }}
                     options={selectOptions}
                     setSelected={setSelectValue}
                     selected={selectValue}
