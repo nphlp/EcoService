@@ -39,7 +39,7 @@ export const useFetchV2 = <Input, R extends Route<Input>, P extends Params<Input
             setIsLoading(true);
 
             if (process.env.NODE_ENV === "development") {
-                console.log("FETCH TRIGGERED: ", memoizedProps);
+                // console.log("FETCH TRIGGERED: ", memoizedProps);
             }
 
             try {

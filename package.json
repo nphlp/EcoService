@@ -43,7 +43,7 @@
         "@prisma/client": "^6.12.0",
         "@stripe/react-stripe-js": "^3.7.0",
         "dotenv": "^17.2.0",
-        "next": "15.4.2-canary.10",
+        "next": "15.4.2-canary.51",
         "prettier": "3.6.2",
         "react": "^19.1.0",
         "react-dom": "^19.1.0",

@@ -25,6 +25,8 @@ import { BackgroundCloseButton } from "./SearchPortal";
 import ResultsList from "./SearchResult";
 import SearchSkeleton from "./SearchSkeleton";
 import { useHeaderStore } from "../header/headerStore";
+import { useRouter } from "next/navigation";
+import { urlSerializer } from "@app/catalog/components/queryParamsConfig";
 
 export type SearchModalProps = {
     initialResults: {
@@ -46,6 +48,8 @@ export type SearchModalProps = {
 export default function SearchModal(props: SearchModalProps) {
     const { initialResults, className } = props;
 
+    const router = useRouter();
+
     // Search state
     const [search, setSearch] = useState("");
 
@@ -53,7 +57,11 @@ export default function SearchModal(props: SearchModalProps) {
 
     const handleClick = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        console.log(search);
+
+        const urlSearch = urlSerializer("catalog", { search });
+        router.push(urlSearch);
+
+        setSearchOpen(false);
     };
 
     const takeAmount = 3;
@@ -183,6 +191,7 @@ export default function SearchModal(props: SearchModalProps) {
                         articleCount={articleCount ?? 0}
                         diyList={diyList ?? []}
                         diyCount={diyCount ?? 0}
+                        search={search}
                     />
                 )}
             </div>

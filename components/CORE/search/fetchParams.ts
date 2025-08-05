@@ -26,14 +26,14 @@ const productFetchParams = (search?: string, take: number = 3) =>
         },
         take,
         where: {
-            name: { contains: search },
+            OR: [{ name: { contains: search } }, { slug: { contains: search } }, { description: { contains: search } }],
         },
     }) satisfies ProductFindManyProps;
 
 const productCountParams = (search?: string) =>
     ({
         where: {
-            name: { contains: search },
+            OR: [{ name: { contains: search } }, { slug: { contains: search } }, { description: { contains: search } }],
         },
     }) satisfies ProductCountProps;
 
@@ -50,14 +50,14 @@ const categoryFetchParams = (search?: string, take: number = 3) =>
         },
         take,
         where: {
-            name: { contains: search },
+            OR: [{ name: { contains: search } }, { slug: { contains: search } }, { description: { contains: search } }],
         },
     }) satisfies CategoryFindManyProps;
 
 const categoryCountParams = (search?: string) =>
     ({
         where: {
-            name: { contains: search },
+            OR: [{ name: { contains: search } }, { slug: { contains: search } }, { description: { contains: search } }],
         },
     }) satisfies CategoryCountProps;
 
@@ -79,14 +79,44 @@ const articleFetchParams = (search?: string, take: number = 3) =>
         },
         take,
         where: {
-            title: { contains: search },
+            OR: [
+                { title: { contains: search } },
+                { slug: { contains: search } },
+                {
+                    Content: {
+                        some: {
+                            content: { contains: search },
+                        },
+                    },
+                },
+                {
+                    Author: {
+                        name: { contains: search },
+                    },
+                },
+            ],
         },
     }) satisfies ArticleFindManyProps;
 
 const articleCountParams = (search?: string) =>
     ({
         where: {
-            title: { contains: search },
+            OR: [
+                { title: { contains: search } },
+                { slug: { contains: search } },
+                {
+                    Content: {
+                        some: {
+                            content: { contains: search },
+                        },
+                    },
+                },
+                {
+                    Author: {
+                        name: { contains: search },
+                    },
+                },
+            ],
         },
     }) satisfies ArticleCountProps;
 
@@ -108,14 +138,44 @@ const diyFetchParams = (search?: string, take: number = 3) =>
         },
         take,
         where: {
-            title: { contains: search },
+            OR: [
+                { title: { contains: search } },
+                { slug: { contains: search } },
+                {
+                    Content: {
+                        some: {
+                            content: { contains: search },
+                        },
+                    },
+                },
+                {
+                    Author: {
+                        name: { contains: search },
+                    },
+                },
+            ],
         },
     }) satisfies DiyFindManyProps;
 
 const diyCountParams = (search?: string) =>
     ({
         where: {
-            title: { contains: search },
+            OR: [
+                { title: { contains: search } },
+                { slug: { contains: search } },
+                {
+                    Content: {
+                        some: {
+                            content: { contains: search },
+                        },
+                    },
+                },
+                {
+                    Author: {
+                        name: { contains: search },
+                    },
+                },
+            ],
         },
     }) satisfies DiyCountProps;
 

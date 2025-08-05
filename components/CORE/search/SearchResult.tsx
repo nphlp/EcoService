@@ -1,8 +1,7 @@
 "use client";
 
+import { urlSerializer } from "@app/catalog/components/queryParamsConfig";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { MouseEvent } from "react";
 import { useHeaderStore } from "../header/headerStore";
 import { ArticleSearchType, CategorySearchType, CountType, DiySearchType, ProductSearchType } from "./fetchParams";
 import ItemList from "./SearchItem";
@@ -19,11 +18,22 @@ type ResultsListProps = {
 
     diyList: DiySearchType[];
     diyCount: CountType;
+
+    search: string;
 };
 
 export default function ResultsList(props: ResultsListProps) {
-    const { productList, productCount, categoryList, categoryCount, articleList, articleCount, diyList, diyCount } =
-        props;
+    const {
+        productList,
+        productCount,
+        categoryList,
+        categoryCount,
+        articleList,
+        articleCount,
+        diyList,
+        diyCount,
+        search,
+    } = props;
 
     if (productCount + categoryCount + articleCount + diyCount === 0) {
         return (
@@ -35,10 +45,25 @@ export default function ResultsList(props: ResultsListProps) {
 
     return (
         <>
-            <Results title="Produits" items={{ type: "product", data: productList ?? [] }} count={productCount} />
-            <Results title="Catégories" items={{ type: "category", data: categoryList ?? [] }} count={categoryCount} />
-            <Results title="Articles" items={{ type: "article", data: articleList ?? [] }} count={articleCount} />
-            <Results title="DIY" items={{ type: "diy", data: diyList ?? [] }} count={diyCount} />
+            <Results
+                title="Produits"
+                items={{ type: "product", data: productList ?? [] }}
+                count={productCount}
+                search={search}
+            />
+            <Results
+                title="Catégories"
+                items={{ type: "category", data: categoryList ?? [] }}
+                count={categoryCount}
+                search={search}
+            />
+            <Results
+                title="Articles"
+                items={{ type: "article", data: articleList ?? [] }}
+                count={articleCount}
+                search={search}
+            />
+            <Results title="DIY" items={{ type: "diy", data: diyList ?? [] }} count={diyCount} search={search} />
         </>
     );
 }
@@ -51,15 +76,15 @@ type ResultsProps = {
         | { type: "category"; data: CategorySearchType[] }
         | { type: "article"; data: ArticleSearchType[] }
         | { type: "diy"; data: DiySearchType[] };
+    search: string;
 };
 
 const Results = (props: ResultsProps) => {
-    const { title, count, items } = props;
+    const { title, count, items, search } = props;
 
-    const router = useRouter();
     const { setSearchOpen } = useHeaderStore();
 
-    const getLink = () => {
+    const getPagePath = () => {
         switch (items.type) {
             case "product":
                 return `/catalog`;
@@ -72,12 +97,11 @@ const Results = (props: ResultsProps) => {
         }
     };
 
-    const link = getLink();
+    const pagePath = getPagePath();
+    const urlSearch = urlSerializer(pagePath, { search });
 
-    const handleClick = (e: MouseEvent<HTMLAnchorElement>) => {
-        e.preventDefault();
+    const handleClick = () => {
         setSearchOpen(false);
-        router.push(link);
     };
 
     if (!items.data.length) {
@@ -88,13 +112,15 @@ const Results = (props: ResultsProps) => {
         <div className="space-y-2">
             <div className="flex items-baseline justify-between">
                 <h4 className="text-lg font-medium text-gray-500">{title}</h4>
-                <Link href={link} onClick={handleClick} className="text-sm text-gray-500">
-                    Voir plus {count ? `(${count})` : ""}
-                </Link>
+                {items.type !== "category" && (
+                    <Link href={urlSearch} onClick={handleClick} className="text-sm text-gray-500">
+                        Voir plus {count ? `(${count})` : ""}
+                    </Link>
+                )}
             </div>
             <hr className="border-gray-300" />
             <div className="space-y-1">
-                <ItemList items={items} />
+                <ItemList items={items} search={search} />
             </div>
         </div>
     );
