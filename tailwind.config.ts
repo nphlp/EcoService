@@ -5,8 +5,8 @@ export default {
     theme: {
         extend: {
             colors: {
-                eco: "#0E073B",
-                ecoco: "#00C2CB",
+                primary: "hsl(248, 79%, 13%)",
+                secondary: "hsl(183, 100%, 40%)",
             },
             fontSize: {
                 "2xs": ["0.625rem", { lineHeight: "0.75rem" }],

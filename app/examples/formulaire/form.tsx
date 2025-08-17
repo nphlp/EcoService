@@ -3,17 +3,19 @@
 import Button from "@comps/ui/button";
 import Combobox, { useComboboxStates } from "@comps/ui/comboboxes/combobox";
 import ComboboxMulti, { useComboboxMultiStates } from "@comps/ui/comboboxes/comboboxMulti";
-import { OptionComboType } from "@comps/ui/comboboxes/utils";
+// import ComboboxSearch, { useComboboxStates } from "@comps/ui/comboboxes/comboboxSearch";
+import { ComboOptionType, MultiSourceComboOptionType } from "@comps/ui/comboboxes/utils";
 import Feedback, { FeedbackMode } from "@comps/ui/feedback";
 import Input, { useInputState } from "@comps/ui/input";
 import InputImage from "@comps/ui/inputImage";
-import Select, { OptionSelectType } from "@comps/ui/select";
+import Select from "@comps/ui/select/select";
+import { SelectOptionType } from "@comps/ui/select/utils";
 import { FormEvent, useState } from "react";
 
 type FormProps = {
-    categoryOptions: OptionSelectType[];
-    articleOptions: OptionComboType[];
-    productOptions: OptionComboType[];
+    categoryOptions: SelectOptionType[];
+    articleOptions: ComboOptionType[];
+    productOptions: MultiSourceComboOptionType[];
 };
 
 export default function Form(props: FormProps) {
@@ -45,8 +47,8 @@ export default function Form(props: FormProps) {
         console.log({
             input: name,
             select: category,
-            combobox: comboboxStates.selected,
-            comboboxMulti: comboboxMultiStates.selected,
+            combobox: comboboxStates.selected?.slug,
+            comboboxMulti: comboboxMultiStates.selected.map((option) => option.slug),
             inputImage: image?.name,
         });
 
@@ -79,21 +81,21 @@ export default function Form(props: FormProps) {
                 label="Catégorie"
                 placeholder="Sélectionnez une catégorie"
                 options={categoryOptions}
-                onChange={(e) => setCategory(e.target.value)}
-                value={category}
-                classComponent="w-full"
-                required={false}
+                setSelected={setCategory}
+                selected={category}
+                className={{ component: "w-full" }}
+                canNotBeEmpty
             />
             <Combobox
                 label="Article"
                 placeholder="Sélectionnez un article"
                 classComponent="w-full"
-                initialOption={articleOptions}
+                initialOptions={articleOptions}
                 states={comboboxStates}
             />
             <ComboboxMulti
                 label="Produits"
-                placeholder="Sélectionnez des produits"
+                placeholder="Sélectionnez plusieurs produits"
                 classComponent="w-full"
                 initialOptions={productOptions}
                 states={comboboxMultiStates}

@@ -53,6 +53,8 @@ export const auth = betterAuth({
         //     maxAge: 60 * 5
         // }
     },
+    // TODO: Add rate limit
+    // rateLimit: {},
     plugins: [
         customSession(async ({ session, user }) => {
             const userData = await UserFindUniqueAction({ where: { id: user.id } }, true);

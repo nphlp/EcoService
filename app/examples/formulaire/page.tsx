@@ -1,7 +1,8 @@
 import Card from "@comps/server/card";
+import { createComboOptions } from "@comps/ui/comboboxes/utils";
+import { createSelectOptions } from "@comps/ui/select/utils";
 import { ArticleFindManyServer, CategoryFindManyServer, ProductFindManyServer } from "@services/server";
 import Form from "./form";
-import { createOptions } from "@comps/ui/comboboxes/utils";
 
 export default async function Page() {
     // Fetch the data
@@ -16,12 +17,12 @@ export default async function Page() {
     });
 
     // Format the options
-    const categoryOptions = categoryList.map(({ slug, name }) => ({ label: name, value: slug }));
-    const articleOptions = createOptions(articleList);
-    const productOptions = createOptions(productList);
+    const categoryOptions = createSelectOptions(categoryList, { slug: "slug", label: "name" });
+    const articleOptions = createComboOptions(articleList, { slug: "slug", name: "title" });
+    const productOptions = createComboOptions(productList, { slug: "slug", name: "name", type: "product" });
 
     return (
-        <div className="flex h-full flex-col items-center justify-center">
+        <div className="p-7">
             <Card className="h-fit w-[450px] space-y-4">
                 <div className="text-2xl font-bold">Formulaire</div>
                 <div className="text-sm text-gray-500">

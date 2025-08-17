@@ -60,7 +60,9 @@ export const useFetch = <Key extends keyof Routes>(props: FetchHookProps<Key>) =
             // Reset loading state when params change
             setIsLoading(true);
 
-            console.log("FETCH TRIGGERED");
+            if (process.env.NODE_ENV === "development") {
+                console.log("FETCH TRIGGERED: ", memoizedProps);
+            }
 
             try {
                 const { route, params } = memoizedProps;

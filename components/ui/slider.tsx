@@ -128,63 +128,65 @@ export default function Slider(props: SliderProps) {
     return (
         <div className={combo("relative w-full", className)}>
             {/* Slider container */}
-            <motion.div
-                // Enable keyboard navigation
-                aria-label="Slider"
-                role="button"
-                tabIndex={0}
-                // Control the slider
-                ref={sliderRef}
-                // Drag
-                drag="x"
-                dragConstraints={{ left: 50, right: 50 }}
-                onDragStart={() => setIsDragging(true)}
-                onDragEnd={handleDrag}
-                // Style
-                initial={{ transform: `translateX(${translateX}px)` }}
-                animate={{ transform: `translateX(${translateX}px)` }}
-                transition={{
-                    duration: 0.4,
-                    ease: "easeInOut",
-                    type: "spring",
-                    bounce: 0.2,
-                }}
-                style={{
-                    gap: `${gap}px`,
-                    paddingInline: `${paddingX}px`,
-                    paddingBlock: `${paddingY}px`,
-                    // target children to apply style ?
-                }}
-                className={combo(
-                    "flex flex-row items-stretch justify-start outline-none",
-                    overflow && "overflow-hidden",
-                    isDragging ? "cursor-grabbing" : "cursor-grab",
-                )}
-                // Events
-                onKeyDown={(e) => {
-                    if (e.key === "ArrowLeft") {
-                        handlePrevious();
-                    } else if (e.key === "ArrowRight") {
-                        handleNext();
-                    }
-                }}
-            >
-                {Children.map(children, (child, index) => (
-                    <DivOrLink
-                        key={index}
-                        linkList={linkList?.[index]}
-                        isDragging={isDragging}
-                        style={{
-                            width: `calc(100% / ${itemNumber} - (${gap}px / (${itemNumber} / ${itemNumber - 1}) ) )`,
-                            minHeight: "100%",
-                            flexShrink: 0,
-                            flexGrow: 0,
-                        }}
-                    >
-                        {child}
-                    </DivOrLink>
-                ))}
-            </motion.div>
+            <div className="overflow-hidden">
+                <motion.div
+                    // Enable keyboard navigation
+                    aria-label="Slider"
+                    role="button"
+                    tabIndex={0}
+                    // Control the slider
+                    ref={sliderRef}
+                    // Drag
+                    drag="x"
+                    dragConstraints={{ left: 50, right: 50 }}
+                    onDragStart={() => setIsDragging(true)}
+                    onDragEnd={handleDrag}
+                    // Style
+                    initial={{ transform: `translateX(${translateX}px)` }}
+                    animate={{ transform: `translateX(${translateX}px)` }}
+                    transition={{
+                        duration: 0.4,
+                        ease: "easeInOut",
+                        type: "spring",
+                        bounce: 0.2,
+                    }}
+                    style={{
+                        gap: `${gap}px`,
+                        paddingInline: `${paddingX}px`,
+                        paddingBlock: `${paddingY}px`,
+                        // target children to apply style ?
+                    }}
+                    className={combo(
+                        "flex flex-row items-stretch justify-start outline-none",
+                        overflow && "overflow-hidden",
+                        isDragging ? "cursor-grabbing" : "cursor-grab",
+                    )}
+                    // Events
+                    onKeyDown={(e) => {
+                        if (e.key === "ArrowLeft") {
+                            handlePrevious();
+                        } else if (e.key === "ArrowRight") {
+                            handleNext();
+                        }
+                    }}
+                >
+                    {Children.map(children, (child, index) => (
+                        <DivOrLink
+                            key={index}
+                            linkList={linkList?.[index]}
+                            isDragging={isDragging}
+                            style={{
+                                width: `calc(100% / ${itemNumber} - (${gap}px / (${itemNumber} / ${itemNumber - 1}) ) )`,
+                                minHeight: "100%",
+                                flexShrink: 0,
+                                flexGrow: 0,
+                            }}
+                        >
+                            {child}
+                        </DivOrLink>
+                    ))}
+                </motion.div>
+            </div>
 
             {/* Swipe buttons */}
             <NavButtons

@@ -1,9 +1,9 @@
 "use client";
 
 import Card from "@comps/server/card";
-import ImageRatio from "@comps/server/imageRatio";
 import Button from "@comps/ui/button";
 import Feedback, { FeedbackMode } from "@comps/ui/feedback";
+import ImageRatio from "@comps/ui/imageRatio";
 import Input from "@comps/ui/input";
 import InputFile from "@comps/ui/inputImage";
 import { useState } from "react";
