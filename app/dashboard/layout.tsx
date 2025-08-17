@@ -21,7 +21,7 @@ export default async function Layout(props: LayoutProps) {
     }
 
     return (
-        <div className="flex h-full w-full flex-row border-t-1 border-gray-300">
+        <div className="flex w-full flex-1 flex-row border-t-1 border-gray-300">
             <SideBarProvider>
                 <SideBar className="bg-gray-100">
                     <LinkList />

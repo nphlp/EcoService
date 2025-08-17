@@ -1,77 +1,150 @@
-export type OptionComboType<T extends string | undefined = undefined> = {
+// --- Types --- //
+
+export type ComboOptionType = {
     slug: string;
     name: string;
-    type?: T;
 };
 
-// --- Get option from slug --- //
-
-export const getOptionFromSlug = <T extends string | undefined>(
-    slug: string | null,
-    options: OptionComboType<T>[],
-): OptionComboType<T> | undefined => options.find((option) => option.slug === slug);
+export type MultiSourceComboOptionType = ComboOptionType & {
+    type: string;
+};
 
 // --- Create selected options --- //
 
-export const createSelectedOptions = <T extends string | undefined>(
-    selected: string | null,
-    options: OptionComboType<T>[],
-): OptionComboType<T>[] => {
-    const selectedOption = getOptionFromSlug(selected, options);
-    return selectedOption ? [{ slug: selectedOption.slug, name: selectedOption.name, type: selectedOption.type }] : [];
-};
+/**
+ * Create a list of options from a selected option
+ * @example
+ * ```tsx
+ * // Input
+ * const selected = "option-1";
+ * const options = [
+ *     { slug: "option-1", name: "Option 1" },
+ *     { slug: "option-2", name: "Option 2" },
+ * ];
+ *
+ * // Usage
+ * const selectedOptions = createSelectedOptions(selected, options);
+ *
+ * // Output
+ * selectedOptions = [
+ *     { slug: "option-1", name: "Option 1" },
+ * ];
+ * ```
+ */
+
+function createSelectedOptions<T extends ComboOptionType | MultiSourceComboOptionType>(selected: T | null): T[] {
+    if (!selected) return [];
+
+    const hasType = "type" in selected;
+
+    const option = hasType
+        ? {
+              slug: selected.slug,
+              name: selected.name,
+              type: selected.type,
+          }
+        : {
+              slug: selected.slug,
+              name: selected.name,
+          };
+
+    return [option as T];
+}
 
 // --- Create options --- //
+/**
+ * Parse any array of data to a list of options
+ * @example
+ * ```tsx
+ * // Input
+ * const data = [
+ *     { id: "option-1", name: "Option 1" },
+ *     { id: "option-2", name: "Option 2" },
+ * ];
+ *
+ * // Usage
+ * const options = createSelectOptions(data, { slug: "id", name: "name" });
+ *
+ * // Output
+ * options = [
+ *      { slug: "option-1", name: "Option 1" },
+ *      { slug: "option-2", name: "Option 2" },
+ *  ]
+ * ```
+ */
 
-type OptionDataType<T> =
-    | {
-          slug: string;
-          name: string;
-          title?: undefined;
-          type?: T;
-      }
-    | {
-          slug: string;
-          name?: undefined;
-          title: string;
-          type?: T;
-      };
+// Overload for ComboOptionType
+function createComboOptions<T>(
+    data: T[] | undefined,
+    { slug, name }: { slug: keyof T; name: keyof T },
+): ComboOptionType[];
 
-export const createOptions = <T extends string | undefined = undefined>(
-    data: OptionDataType<T>[] | undefined,
-    type?: T,
-): OptionComboType<T>[] =>
-    data?.map((option) => ({
-        slug: option.slug,
-        name: option.title ?? option.name,
-        type: type,
-    })) ?? [];
+// Overload for MultiComboOptionType
+function createComboOptions<T>(
+    data: T[] | undefined,
+    { slug, name, type }: { slug: keyof T; name: keyof T; type: string },
+): MultiSourceComboOptionType[];
 
-// --- Merge and deduplicate options --- //
+// Implementation
+function createComboOptions<T>(
+    data: T[] | undefined,
+    { slug, name, type }: { slug: keyof T; name: keyof T; type?: string },
+): ComboOptionType[] | MultiSourceComboOptionType[] {
+    return (
+        data?.map((option) => ({
+            slug: String(option[slug]),
+            name: String(option[name]),
+            ...(type && { type }),
+        })) ?? []
+    );
+}
 
-type MergeAndDeduplicateOptionsProps<T extends string | undefined> = {
-    optionsToMerge: OptionComboType<T>[];
-    limit: number;
-};
+// --- Deduplicate options --- //
 
-export const mergeAndDeduplicateOptions = <T extends string | undefined>(
-    props: MergeAndDeduplicateOptionsProps<T>,
-): OptionComboType<T>[] => {
-    const { optionsToMerge, limit } = props;
+/**
+ * Remove duplicates from a list of options
+ * @example
+ * ```tsx
+ * // Input
+ * const options = [
+ *     { slug: "option-1", name: "Option 1" },
+ *     { slug: "option-1", name: "Option 1" },
+ *     { slug: "option-2", name: "Option 2" },
+ * ];
+ *
+ * // Usage
+ * const deduplicatedOptions = deduplicateOptions(options);
+ *
+ * // Output
+ * deduplicatedOptions = [
+ *     { slug: "option-1", name: "Option 1" },
+ *     { slug: "option-2", name: "Option 2" },
+ * ];
+ */
+
+function deduplicateOptions<T extends ComboOptionType | MultiSourceComboOptionType>(
+    mergedOptions: T[],
+    limit: number,
+): T[] {
+    // Already seen options
+    const seenOptions = new Set<string>();
 
     // Remove duplicates
-    const seenSlugs = new Set<string>();
-    const cleanedOptions = optionsToMerge.filter((option) => {
-        // If the slug does not exist yet, add it
-        if (!seenSlugs.has(option.slug)) {
-            seenSlugs.add(option.slug);
-            return true;
+    const cleanedOptions = mergedOptions.filter((option) => {
+        if (seenOptions.has(option.slug)) {
+            // If the slug already exists, do not add it
+            return false;
         }
 
-        // If the slug already exists, do not add it
-        return false;
+        // If the slug does not exist yet, add it
+        seenOptions.add(option.slug);
+        return true;
     });
 
     // Return options
     return cleanedOptions.slice(0, limit);
-};
+}
+
+// --- Exports --- //
+
+export { createComboOptions, createSelectedOptions, deduplicateOptions };

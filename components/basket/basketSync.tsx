@@ -2,11 +2,11 @@
 
 import Modal from "@comps/ui/modal";
 import { useSession } from "@lib/authClient";
+import { combo } from "@lib/combo";
 import { useEffect, useState } from "react";
+import { updateCookieExpiration } from "../../lib/zustandCookieStorage";
 import { useBasketStore } from "./basketStore";
 import { LocalBasket, ServerBasket } from "./basketType";
-import { updateCookieExpiration } from "./zustandCookieStorage";
-import { combo } from "@lib/combo";
 
 export default function BasketSync() {
     const { data: session } = useSession();

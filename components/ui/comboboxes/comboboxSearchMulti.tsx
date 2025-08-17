@@ -1,6 +1,6 @@
 "use client";
 
-import { OptionComboType } from "@comps/ui/comboboxes/utils";
+import { ComboOptionType, MultiSourceComboOptionType } from "@comps/ui/comboboxes/utils";
 import Loader from "@comps/ui/loader";
 import Popover from "@comps/ui/popover";
 import {
@@ -11,21 +11,28 @@ import {
     ComboboxOptions,
 } from "@headlessui/react";
 import { combo } from "@lib/combo";
+import { StringToSlug } from "@utils/StringToSlug";
 import { motion } from "framer-motion";
 import { Check, ChevronDown, X } from "lucide-react";
 import { ChangeEvent, KeyboardEvent, MouseEvent, useEffect, useRef, useState } from "react";
 
-type ComboboxMultiProps<T extends string | undefined> = {
-    label?: string;
+// TODO
+// Keyboard accessibility
+// Highlight selected option
+// Documentation
+
+type ComboboxMultiProps<T extends ComboOptionType | MultiSourceComboOptionType> = {
+    label: string;
     placeholder?: string;
     classComponent?: string;
+    initialOptions: T[];
     states: {
         query: string;
         setQuery: (value: string) => void;
-        selected: string[];
-        setSelected: (value: string[]) => void;
-        options: OptionComboType<T>[];
-        setOptions: (value: OptionComboType<T>[]) => void;
+        selected: T[];
+        setSelected: (value: T[]) => void;
+        options: T[];
+        setOptions: (value: T[]) => void;
     };
     isLoading?: boolean;
     displaySelectedValuesInDropdown?: boolean;
@@ -42,13 +49,13 @@ type ComboboxMultiProps<T extends string | undefined> = {
  * const { query, setQuery, selected, setSelected, options, setOptions } = comboboxMultiStates;
  * ```
  */
-export const useComboboxMultiStates = <T extends string | undefined>(
-    initialSelections: string[],
-    initialOptions: OptionComboType<T | undefined>[],
+export const useComboboxMultiStates = <T extends ComboOptionType | MultiSourceComboOptionType>(
+    initialSelections: T[],
+    initialOptions: T[],
 ) => {
     const [query, setQuery] = useState<string>("");
-    const [selected, setSelected] = useState<string[]>(initialSelections);
-    const [options, setOptions] = useState<OptionComboType<T | undefined>[]>(initialOptions);
+    const [selected, setSelected] = useState<T[]>(initialSelections);
+    const [options, setOptions] = useState<T[]>(initialOptions);
     return { query, setQuery, selected, setSelected, options, setOptions };
 };
 
@@ -72,26 +79,39 @@ export const useComboboxMultiStates = <T extends string | undefined>(
  * />
  * ```
  */
-export default function ComboboxSearchMulti<T extends string | undefined>(props: ComboboxMultiProps<T>) {
-    const { label, placeholder, classComponent, states, isLoading, displaySelectedValuesInDropdown = false } = props;
-    const { setQuery, selected, setSelected, options } = states;
+export default function ComboboxSearchMulti<T extends ComboOptionType | MultiSourceComboOptionType>(
+    props: ComboboxMultiProps<T>,
+) {
+    const {
+        label,
+        placeholder,
+        classComponent,
+        initialOptions,
+        states,
+        isLoading,
+        displaySelectedValuesInDropdown = false,
+    } = props;
+    const { query, setQuery, selected, setSelected, options, setOptions } = states;
+
+    const displayedOptions = options.filter((option) => {
+        // If true, show all options
+        if (displaySelectedValuesInDropdown) return true;
+        // If false, filter out already selected options
+        return !selected.some((selectedOption) => selectedOption.slug === option.slug);
+    });
 
     const handleQueryChange = (event: ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value;
         setQuery(value);
     };
 
-    const handleSelectionChange = (value: string[]) => {
+    const handleSelectionChange = (value: T[]) => {
         setSelected(value);
     };
 
     const handleDropdownClosing = () => {
+        setOptions(initialOptions);
         setQuery("");
-    };
-
-    const handleRemove = (slug: string) => {
-        const optionToRemove = selected.filter((selectedSlug) => selectedSlug !== slug);
-        setSelected(optionToRemove);
     };
 
     return (
@@ -105,11 +125,12 @@ export default function ComboboxSearchMulti<T extends string | undefined>(props:
                 multiple
                 immediate
             >
-                <ComboboxDisplay className="mt-1" selected={selected} options={options} handleRemove={handleRemove} />
+                <ComboboxDisplay className="mt-1" selected={selected} setSelected={setSelected} options={options} />
                 <div className={combo("relative", selected.length > 0 ? "mt-2.5" : "mt-0")}>
                     <ComboboxInput
-                        aria-label={label ?? "Search"}
+                        aria-label={label}
                         onChange={handleQueryChange}
+                        value={query}
                         placeholder={placeholder ?? "Search and select multiple options..."}
                         className={combo(
                             "w-full rounded-lg border border-black/20 bg-white px-4 py-1.5",
@@ -127,51 +148,41 @@ export default function ComboboxSearchMulti<T extends string | undefined>(props:
                 <ComboboxOptions
                     anchor="bottom"
                     className={combo(
-                        "w-(--input-width) empty:invisible",
-                        "rounded-lg border bg-white p-1",
-                        "[--anchor-gap:6px]",
+                        "rounded-lg border border-gray-300 bg-white p-1",
+                        // HeadlessUI styles
+                        "w-(--input-width) [--anchor-gap:6px] empty:invisible",
                     )}
                 >
-                    {options
-                        // If displaySelectedValuesInDropdown is enabled, filter out
-                        .filter((option) => displaySelectedValuesInDropdown || !selected.includes(option.slug))
-                        .map((option, index) => (
-                            <ComboboxOption
-                                key={index}
-                                value={option.slug}
-                                className={combo(
-                                    "group bg-white data-focus:bg-blue-100",
-                                    "flex items-center gap-2",
-                                    "rounded-sm px-2 py-1",
-                                    "cursor-pointer text-sm",
-                                    selected.includes(option.slug) && "font-semibold",
-                                )}
-                            >
-                                <Check className="invisible size-5 stroke-[2.5px] group-data-selected:visible" />
-                                <div className="flex w-full items-center justify-start gap-2">
-                                    <span>{option.name}</span>
-                                    {option.type && (
-                                        <span className="text-3xs rounded-full bg-gray-500 px-1.5 pt-[3px] pb-[2px] font-semibold text-white uppercase">
-                                            {option.type}
-                                        </span>
-                                    )}
-                                </div>
-                            </ComboboxOption>
-                        ))}
+                    {displayedOptions.map((option, index) => (
+                        <ComboboxOption
+                            key={index}
+                            value={option}
+                            className={combo(
+                                "group bg-white data-focus:bg-gray-100",
+                                "flex items-center gap-2",
+                                "rounded-sm px-2 py-1",
+                                "cursor-pointer text-sm",
+                                selected.includes(option) && "font-semibold",
+                            )}
+                        >
+                            <Check className="invisible size-5 stroke-[2.5px] group-data-selected:visible" />
+                            <ComboboxLabel option={option} query={query} />
+                        </ComboboxOption>
+                    ))}
                 </ComboboxOptions>
             </ComboboxHeadlessUI>
         </div>
     );
 }
 
-type ComboboxIconProps = {
-    selected: string[];
-    setSelected: (value: string[]) => void;
+type ComboboxIconProps<T extends ComboOptionType | MultiSourceComboOptionType> = {
+    selected: T[];
+    setSelected: (value: T[]) => void;
     setQuery: (value: string) => void;
     isLoading?: boolean;
 };
 
-export const ComboboxIcon = (props: ComboboxIconProps) => {
+export const ComboboxIcon = <T extends ComboOptionType | MultiSourceComboOptionType>(props: ComboboxIconProps<T>) => {
     const { selected, setSelected, setQuery, isLoading } = props;
 
     const handleRemoveAll = () => {
@@ -214,28 +225,35 @@ export const ComboboxIcon = (props: ComboboxIconProps) => {
             type="button"
             onClick={handleClick}
             onKeyDown={handleKeyDown}
-            className={combo("absolute top-1/2 right-1 -translate-y-1/2 cursor-pointer rounded-full p-1")}
+            className={combo(
+                "absolute top-1/2 right-1 -translate-y-1/2 cursor-pointer rounded-full p-1",
+                "ring-0 outline-none focus:ring-2 focus:ring-teal-300",
+                "transition-all duration-150",
+            )}
         >
             <X className="size-5 fill-white" />
         </button>
     );
 };
 
-type ComboboxDisplayProps<T extends string | undefined> = {
-    selected: string[];
-    options: OptionComboType<T>[];
+type ComboboxDisplayProps<T extends ComboOptionType | MultiSourceComboOptionType> = {
+    selected: T[];
+    setSelected: (value: T[]) => void;
+    options: T[];
     maxLength?: number;
-    handleRemove: (slug: string) => void;
     className?: string;
 };
 
-const ComboboxDisplay = <T extends string | undefined>(props: ComboboxDisplayProps<T>) => {
-    const { selected, options, maxLength = 12, handleRemove, className } = props;
+const ComboboxDisplay = <T extends ComboOptionType | MultiSourceComboOptionType>(props: ComboboxDisplayProps<T>) => {
+    const { selected, setSelected, maxLength = 12, className } = props;
 
     const needsEllipsis = (name: string) => name.length > maxLength;
     const ellipsis = (name: string) => (needsEllipsis(name) ? name.slice(0, maxLength) : name);
 
-    const selectedOptions = options.filter((option) => selected.includes(option.slug));
+    const handleRemove = (slug: string) => {
+        const optionToRemove = selected.filter((selectedOption) => selectedOption.slug !== slug);
+        setSelected(optionToRemove);
+    };
 
     // Current container height
     const [currentHeight, setCurrentHeight] = useState("auto");
@@ -270,12 +288,12 @@ const ComboboxDisplay = <T extends string | undefined>(props: ComboboxDisplayPro
             animate={{ height: currentHeight }}
             transition={{
                 duration: 0.15,
-                animate: "easeInOut",
+                ease: "easeInOut",
             }}
             className={className}
         >
             <div ref={heightRef} className="flex flex-row flex-wrap gap-1">
-                {selectedOptions.map((option, index) => (
+                {selected.map((option, index) => (
                     <div
                         key={index}
                         id={`tag-${option.slug}-${index}`}
@@ -315,5 +333,48 @@ const ComboboxDisplay = <T extends string | undefined>(props: ComboboxDisplayPro
                 ))}
             </div>
         </motion.div>
+    );
+};
+
+type ComboboxLabelProps<T extends ComboOptionType | MultiSourceComboOptionType> = {
+    option: T;
+    query: string;
+};
+
+const ComboboxLabel = <T extends ComboOptionType | MultiSourceComboOptionType>(props: ComboboxLabelProps<T>) => {
+    const { option, query } = props;
+
+    const highlightQuery = (optionName: string, query: string) => {
+        // Slugify the option name and the query
+        const nameSlug = StringToSlug(optionName);
+        const querySlug = StringToSlug(query);
+
+        // Find the index of the query in the option name
+        const queryStartIndex = nameSlug.indexOf(querySlug);
+        const queryEndIndex = queryStartIndex + querySlug.length;
+
+        // Slice the option name into before, highlighted and after
+        return {
+            before: optionName.slice(0, queryStartIndex),
+            highlighted: optionName.slice(queryStartIndex, queryEndIndex),
+            after: optionName.slice(queryEndIndex),
+        };
+    };
+
+    const { before, highlighted, after } = highlightQuery(option.name, query);
+
+    return (
+        <div className="flex w-full items-center justify-start gap-2">
+            <span>
+                <span>{before}</span>
+                <span className="rounded-sm bg-teal-200 font-bold">{highlighted}</span>
+                <span>{after}</span>
+            </span>
+            {"type" in option && (
+                <span className="text-3xs rounded-full bg-gray-500 px-1.5 pt-[3px] pb-[2px] font-semibold text-white uppercase">
+                    {option.type}
+                </span>
+            )}
+        </div>
     );
 };

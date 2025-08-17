@@ -2,7 +2,7 @@
 
 import { useBasketStore } from "@comps/basket/basketStore";
 import { LocalBasketItem } from "@comps/basket/basketType";
-import ImageRatio from "@comps/server/imageRatio";
+import ImageRatio from "@comps/ui/imageRatio";
 import { combo } from "@lib/combo";
 import QuantityManager from "./quantityManager";
 
@@ -11,7 +11,9 @@ export default function CheckoutProductList() {
 
     return (
         <div className="flex w-[600px] flex-col gap-4">
-            {basket?.items.map((product, index) => <CheckoutProductItem key={index} index={index} product={product} />)}
+            {basket?.items.map((product, index) => (
+                <CheckoutProductItem key={index} index={index} product={product} />
+            ))}
         </div>
     );
 }

@@ -33,13 +33,11 @@ When a Pull Request to `test` or `main` is created, or when a commit is pushed a
 
 1. Commit message check (conventional commits)
 2. Code quality checks:
-
     - Lint check
     - Format check
     - Type check
 
 3. Build and test check:
-
     - Build check
     - Start server for tests (in background)
     - Unit tests

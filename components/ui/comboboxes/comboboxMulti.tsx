@@ -10,24 +10,27 @@ import {
 import { combo } from "@lib/combo";
 import { StringToSlug } from "@utils/StringToSlug";
 import { motion } from "framer-motion";
-import isEqual from "lodash/isEqual";
 import { Check, ChevronDown, X } from "lucide-react";
 import { ChangeEvent, KeyboardEvent, MouseEvent, useEffect, useRef, useState } from "react";
 import Popover from "../popover";
-import { OptionComboType } from "./utils";
+import { ComboOptionType } from "./utils";
+
+// TODO
+// Documentation
+// Multi source support
 
 type ComboboxMultiProps = {
-    label?: string;
+    label: string;
     placeholder?: string;
     classComponent?: string;
-    initialOptions: OptionComboType[];
+    initialOptions: ComboOptionType[];
     states: {
         query: string;
         setQuery: (value: string) => void;
-        selected: string[];
-        setSelected: (value: string[]) => void;
-        options: OptionComboType[];
-        setOptions: (value: OptionComboType[]) => void;
+        selected: ComboOptionType[];
+        setSelected: (value: ComboOptionType[]) => void;
+        options: ComboOptionType[];
+        setOptions: (value: ComboOptionType[]) => void;
     };
 };
 
@@ -42,10 +45,10 @@ type ComboboxMultiProps = {
  * const { query, setQuery, selected, setSelected, options, setOptions } = comboboxMultiStates;
  * ```
  */
-export const useComboboxMultiStates = (initialSelections: string[], initialOptions: OptionComboType[]) => {
+export const useComboboxMultiStates = (initialSelections: ComboOptionType[], initialOptions: ComboOptionType[]) => {
     const [query, setQuery] = useState<string>("");
-    const [selected, setSelected] = useState<string[]>(initialSelections);
-    const [options, setOptions] = useState<OptionComboType[]>(initialOptions);
+    const [selected, setSelected] = useState<ComboOptionType[]>(initialSelections);
+    const [options, setOptions] = useState<ComboOptionType[]>(initialOptions);
     return { query, setQuery, selected, setSelected, options, setOptions };
 };
 
@@ -73,35 +76,22 @@ export default function ComboboxMulti(props: ComboboxMultiProps) {
     const { label, placeholder, classComponent, initialOptions, states } = props;
     const { query, setQuery, selected, setSelected, options, setOptions } = states;
 
+    const displayedOptions = options.filter((option) => option.slug.includes(StringToSlug(query)));
+
     const handleQueryChange = (event: ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value;
         setQuery(value);
     };
 
-    const handleSelectionChange = (value: string[]) => {
-        setSelected(value);
+    const handleSelectionChange = (options: ComboOptionType[]) => {
+        setSelected(options);
         setQuery("");
     };
 
     const handleDropdownClosing = () => {
-        setQuery("");
         setOptions(initialOptions);
+        setQuery("");
     };
-
-    const handleRemove = (slug: string) => {
-        const optionToRemove = selected.filter((selectedSlug) => selectedSlug !== slug);
-        setSelected(optionToRemove);
-    };
-
-    useEffect(() => {
-        if (query.length > 0) {
-            const querySlug = StringToSlug(query);
-            const newOptions = initialOptions.filter((option) => option.slug.includes(querySlug));
-            if (!isEqual(newOptions, options)) setOptions(newOptions);
-        } else {
-            if (!isEqual(initialOptions, options)) setOptions(initialOptions);
-        }
-    }, [query, options, initialOptions, setOptions]);
 
     return (
         <div className={combo(classComponent)}>
@@ -117,13 +107,14 @@ export default function ComboboxMulti(props: ComboboxMultiProps) {
                 <ComboboxDisplay
                     className="mt-1"
                     selected={selected}
+                    setSelected={setSelected}
                     initialOptions={initialOptions}
-                    handleRemove={handleRemove}
                 />
                 <div className={combo("relative", selected.length > 0 ? "mt-2.5" : "mt-0")}>
                     <ComboboxInput
-                        aria-label={label ?? "Search"}
+                        aria-label={label}
                         onChange={handleQueryChange}
+                        value={query}
                         placeholder={placeholder ?? "Search and select multiple options..."}
                         className={combo(
                             "w-full rounded-lg border border-black/20 bg-white px-4 py-1.5",
@@ -136,25 +127,26 @@ export default function ComboboxMulti(props: ComboboxMultiProps) {
                 <ComboboxOptions
                     anchor="bottom"
                     className={combo(
-                        "w-(--input-width) empty:invisible",
-                        "rounded-lg border bg-white p-1",
-                        "[--anchor-gap:6px]",
+                        "rounded-lg border border-gray-300 bg-white p-1",
+                        // HeadlessUI styles
+                        "w-(--input-width) [--anchor-gap:6px] empty:invisible",
                     )}
                 >
-                    {options.map((option, index) => (
+                    {displayedOptions.map((option, index) => (
                         <ComboboxOption
                             key={index}
-                            value={option.slug}
+                            value={option}
                             className={combo(
-                                "group bg-white data-focus:bg-blue-100",
+                                "group bg-white data-focus:bg-gray-100",
                                 "flex items-center gap-2",
                                 "rounded-sm px-2 py-1",
                                 "cursor-pointer text-sm",
-                                selected.includes(option.slug) && "font-semibold",
+                                selected.some((selectedOption) => selectedOption.slug === option.slug) &&
+                                    "font-semibold",
                             )}
                         >
                             <Check className="invisible size-5 stroke-[2.5px] group-data-selected:visible" />
-                            {option.name}
+                            <ComboboxLabel option={option} query={query} />
                         </ComboboxOption>
                     ))}
                 </ComboboxOptions>
@@ -164,8 +156,8 @@ export default function ComboboxMulti(props: ComboboxMultiProps) {
 }
 
 type ComboboxIconProps = {
-    selected: string[];
-    setSelected: (value: string[]) => void;
+    selected: ComboOptionType[];
+    setSelected: (value: ComboOptionType[]) => void;
     setQuery: (value: string) => void;
 };
 
@@ -204,7 +196,11 @@ export const ComboboxIcon = (props: ComboboxIconProps) => {
             type="button"
             onClick={handleClick}
             onKeyDown={handleKeyDown}
-            className={combo("absolute top-1/2 right-1 -translate-y-1/2 cursor-pointer rounded-full p-1")}
+            className={combo(
+                "absolute top-1/2 right-1 -translate-y-1/2 cursor-pointer rounded-full p-1",
+                "ring-0 outline-none focus:ring-2 focus:ring-teal-300",
+                "transition-all duration-150",
+            )}
         >
             <X className="size-5 fill-white" />
         </button>
@@ -212,20 +208,27 @@ export const ComboboxIcon = (props: ComboboxIconProps) => {
 };
 
 type ComboboxDisplayProps = {
-    selected: string[];
-    initialOptions: OptionComboType[];
+    selected: ComboOptionType[];
+    setSelected: (value: ComboOptionType[]) => void;
+    initialOptions: ComboOptionType[];
     maxLength?: number;
-    handleRemove: (slug: string) => void;
     className?: string;
 };
 
 const ComboboxDisplay = (props: ComboboxDisplayProps) => {
-    const { selected, initialOptions, maxLength = 12, handleRemove, className } = props;
+    const { selected, setSelected, initialOptions, maxLength = 12, className } = props;
 
     const needsEllipsis = (name: string) => name.length > maxLength;
     const ellipsis = (name: string) => (needsEllipsis(name) ? name.slice(0, maxLength) : name);
 
-    const selectedOptions = initialOptions.filter((option) => selected.includes(option.slug));
+    const selectedOptions = initialOptions.filter((option) =>
+        selected.some((selectedOption) => selectedOption.slug === option.slug),
+    );
+
+    const handleRemove = (optionToRemove: ComboOptionType) => {
+        const optionsLeft = selected.filter((selectedOption) => selectedOption.slug !== optionToRemove.slug);
+        setSelected(optionsLeft);
+    };
 
     // Current container height
     const [currentHeight, setCurrentHeight] = useState("auto");
@@ -260,7 +263,7 @@ const ComboboxDisplay = (props: ComboboxDisplayProps) => {
             animate={{ height: currentHeight }}
             transition={{
                 duration: 0.15,
-                animate: "easeInOut",
+                ease: "easeInOut",
             }}
             className={className}
         >
@@ -296,7 +299,7 @@ const ComboboxDisplay = (props: ComboboxDisplayProps) => {
                         </div>
                         <button
                             type="button"
-                            onClick={() => handleRemove(option.slug)}
+                            onClick={() => handleRemove(option)}
                             className="cursor-pointer rounded-full p-1 hover:bg-gray-100"
                         >
                             <X className="size-4" />
@@ -305,5 +308,41 @@ const ComboboxDisplay = (props: ComboboxDisplayProps) => {
                 ))}
             </div>
         </motion.div>
+    );
+};
+
+type ComboboxLabelProps = {
+    option: ComboOptionType;
+    query: string;
+};
+
+const ComboboxLabel = (props: ComboboxLabelProps) => {
+    const { option, query } = props;
+
+    const highlightQuery = (optionName: string, query: string) => {
+        // Slugify the option name and the query
+        const nameSlug = StringToSlug(optionName);
+        const querySlug = StringToSlug(query);
+
+        // Find the index of the query in the option name
+        const queryStartIndex = nameSlug.indexOf(querySlug);
+        const queryEndIndex = queryStartIndex + querySlug.length;
+
+        // Slice the option name into before, highlighted and after
+        return {
+            before: optionName.slice(0, queryStartIndex),
+            highlighted: optionName.slice(queryStartIndex, queryEndIndex),
+            after: optionName.slice(queryEndIndex),
+        };
+    };
+
+    const { before, highlighted, after } = highlightQuery(option.name, query);
+
+    return (
+        <span>
+            <span>{before}</span>
+            <span className="rounded-sm bg-teal-200 font-bold">{highlighted}</span>
+            <span>{after}</span>
+        </span>
     );
 };

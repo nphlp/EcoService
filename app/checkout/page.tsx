@@ -1,9 +1,9 @@
-import CheckoutProductList from "@app/checkout/components/checkoutProductList";
 import CheckoutGenerator from "@app/checkout/components/checkoutGenerator";
+import CheckoutProductList from "@app/checkout/components/checkoutProductList";
 import { LocalBasket, localBasketSchema } from "@comps/basket/basketType";
-import { getZustandCookie } from "@comps/basket/zustandServer";
 import Link from "@comps/ui/link";
 import { GetSession } from "@lib/authServer";
+import { getZustandCookie } from "@lib/zustandServer";
 
 export default async function Page() {
     const session = await GetSession();

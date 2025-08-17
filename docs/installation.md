@@ -83,7 +83,6 @@ For hybrid and docker environments:
     | Docker prod | `.env.example.prod`   | `.env.prod`      |
 
 - Choose your setup guide:
-
     - [Local](./installation-guides/local.md)
     - [Hybrid](./installation-guides/hybrid.md)
     - [Docker Dev](./installation-guides/docker-dev.md)

@@ -12,7 +12,7 @@ export default async function Page() {
     if (!session) unauthorized();
 
     return (
-        <div className="h-full overflow-y-auto border-t-1 border-gray-300 bg-gray-50 p-6">
+        <div className="flex w-full flex-1 flex-col justify-center overflow-y-auto border-t-1 border-gray-300 bg-gray-50 p-6">
             <AccordionGroup openByDefaultIndex={0}>
                 <div className="flex min-h-full flex-col items-center justify-center">
                     <div className="flex w-full flex-col items-center space-y-5 sm:w-2/3 lg:w-1/2">
