@@ -1,14 +1,15 @@
-# .github/actions/setup-node-pnpm/action.yml
-name: Setup node, pnpm and dependencies
+# .github/actions/setup-base/action.yml
+name: Setup base environment  
+description: Setup Node.js, pnpm and install dependencies with optimized caching
 runs:
     using: "composite"
     steps:
-        - uses: actions/checkout@v4
         - name: Install pnpm
-          uses: pnpm/action-setup@v3
+          uses: pnpm/action-setup@v4
           with:
             version: 10
-        - name: Install nodejs
+            run_install: false
+        - name: Install Node.js with cache
           uses: actions/setup-node@v4
           with:
             node-version: 23

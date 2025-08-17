@@ -1,4 +1,6 @@
-name: Setup database and build application
+# .github/actions/setup-database/action.yml
+name: Setup database
+description: Setup MySQL database, generate Prisma client, deploy migrations and load fixtures
 runs:
     using: "composite"
     steps:
@@ -13,7 +15,4 @@ runs:
           shell: bash
         - name: Install fixtures
           run: pnpm fixtures:setup
-          shell: bash
-        - name: Build check
-          run: pnpm run build
           shell: bash
