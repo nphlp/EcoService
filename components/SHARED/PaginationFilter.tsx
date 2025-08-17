@@ -3,9 +3,16 @@
 import ButtonClient from "@comps/client/button";
 import { combo } from "@lib/combo";
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
+import { useQueryState } from "nuqs";
 import { useContext } from "react";
-import { Context } from "./context";
-import { useCatalogParams } from "./queryParamsHook";
+import { Context } from "../../app/catalog/components/context";
+import { useTakeQueryParams } from "./TakeFilter";
+import { pageQueryParser } from "./serverQueryParsers";
+
+export const usePageQueryParams = () => {
+    const [page, setPage] = useQueryState("page", pageQueryParser);
+    return { page, setPage };
+};
 
 type PaginationProps = {
     className?: string;
@@ -14,14 +21,29 @@ type PaginationProps = {
 export default function Pagination(props: PaginationProps) {
     const { className } = props;
 
-    const { setPage } = useCatalogParams();
-    const { page, take } = useCatalogParams();
+    const { page, setPage } = usePageQueryParams();
+    const { take } = useTakeQueryParams();
 
     const { productAmount } = useContext(Context);
 
+    const onlyOnePage = page >= Math.ceil((productAmount ?? 1) / take);
+
+    if (productAmount === 0 || onlyOnePage) return <></>;
+
     const triggerScroll = () => {
-        const scrollableTarget = document.getElementById("scrollable-target");
-        if (scrollableTarget) setTimeout(() => scrollableTarget.scrollTo({ top: 0, behavior: "smooth" }), 100);
+        const headerEl = document.querySelector("header");
+        const mainEl = headerEl?.nextElementSibling;
+        setTimeout(() => mainEl?.scrollTo({ top: 0, behavior: "smooth" }), 100);
+    };
+
+    const handleBack = () => {
+        setPage(page - 1);
+        triggerScroll();
+    };
+
+    const handleNext = () => {
+        setPage(page + 1);
+        triggerScroll();
     };
 
     return (
@@ -33,10 +55,7 @@ export default function Pagination(props: PaginationProps) {
                 padding="none"
                 className="scale-100 rounded-full p-2 transition-all duration-150 hover:scale-105 hover:bg-white disabled:hover:scale-100"
                 disabled={page === 1}
-                onClick={() => {
-                    setPage(page - 1);
-                    triggerScroll();
-                }}
+                onClick={handleBack}
             >
                 <ChevronLeftIcon />
             </ButtonClient>
@@ -47,11 +66,8 @@ export default function Pagination(props: PaginationProps) {
                 variant="outline"
                 padding="none"
                 className="scale-100 rounded-full p-2 transition-all duration-150 hover:scale-105 hover:bg-white disabled:hover:scale-100"
-                disabled={page >= Math.ceil((productAmount ?? 1) / take)}
-                onClick={() => {
-                    setPage(page + 1);
-                    triggerScroll();
-                }}
+                disabled={onlyOnePage}
+                onClick={handleNext}
             >
                 <ChevronRightIcon />
             </ButtonClient>

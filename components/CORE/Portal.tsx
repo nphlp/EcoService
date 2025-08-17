@@ -56,7 +56,7 @@ export const Portal = () => {
     return (
         <div
             id="portal"
-            className={combo("absolute", !isOpen && "pointer-events-none")}
+            className={combo("absolute z-50", !isOpen && "pointer-events-none")}
             style={{ top: box.y, left: box.x, width: box.w, height: box.h }}
         >
             {content}

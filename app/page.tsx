@@ -37,11 +37,11 @@ export default async function Page() {
             <section
                 className="flex flex-row items-center justify-between gap-12 p-8 backdrop-blur-md md:p-16"
                 style={{
-                    backgroundImage: "url('/illustration/produit 4.webp')",
+                    backgroundImage: "url('/home.webp')",
                     backgroundSize: "cover",
                     backgroundPosition: "center",
                     backgroundBlendMode: "multiply",
-                    backgroundColor: "rgba(0, 0, 0, 0.5)",
+                    backgroundColor: "rgba(0, 0, 0, 0.4)",
                 }}
             >
                 <div className="w-full text-4xl font-bold text-nowrap sm:text-5xl md:text-4xl lg:text-5xl xl:text-6xl">

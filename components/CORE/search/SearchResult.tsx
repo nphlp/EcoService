@@ -1,10 +1,12 @@
 "use client";
 
-import { urlSerializer } from "@app/catalog/components/queryParamsConfig";
+import { catalogUrlSerializer } from "@app/catalog/components/queryParams";
 import Link from "next/link";
 import { useHeaderStore } from "../header/headerStore";
 import { ArticleSearchType, CategorySearchType, CountType, DiySearchType, ProductSearchType } from "./fetchParams";
 import ItemList from "./SearchItem";
+import { diyUrlSerializer } from "@app/diy/queryParams";
+import { articleUrlSerializer } from "@app/article/queryParams";
 
 type ResultsListProps = {
     productList: ProductSearchType[];
@@ -87,18 +89,15 @@ const Results = (props: ResultsProps) => {
     const getPagePath = () => {
         switch (items.type) {
             case "product":
-                return `/catalog`;
+                return catalogUrlSerializer("/catalog", { search });
             case "category":
-                return `/catalog`;
+                return catalogUrlSerializer("/catalog", { search });
             case "article":
-                return `/article`;
+                return articleUrlSerializer("/article", { search });
             case "diy":
-                return `/diy`;
+                return diyUrlSerializer("/diy", { search });
         }
     };
-
-    const pagePath = getPagePath();
-    const urlSearch = urlSerializer(pagePath, { search });
 
     const handleClick = () => {
         setSearchOpen(false);
@@ -113,7 +112,7 @@ const Results = (props: ResultsProps) => {
             <div className="flex items-baseline justify-between">
                 <h4 className="text-lg font-medium text-gray-500">{title}</h4>
                 {items.type !== "category" && (
-                    <Link href={urlSearch} onClick={handleClick} className="text-sm text-gray-500">
+                    <Link href={getPagePath()} onClick={handleClick} className="text-sm text-gray-500">
                         Voir plus {count ? `(${count})` : ""}
                     </Link>
                 )}

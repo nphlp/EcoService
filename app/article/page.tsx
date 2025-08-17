@@ -1,10 +1,9 @@
-"use cache";
-
 import ImageRatio from "@comps/ui/imageRatio";
 import { ArticleFindManyServer } from "@services/server";
 import { Metadata } from "next";
-import { unstable_cacheLife as cacheLife, unstable_cacheTag as cacheTag } from "next/cache";
 import Link from "next/link";
+import { SearchParams } from "nuqs/server";
+import { articleQueryParamsCached } from "./queryParams";
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 if (!baseUrl) throw new Error("NEXT_PUBLIC_BASE_URL environment variable is not defined");
@@ -18,9 +17,13 @@ export const metadata: Metadata = {
     },
 };
 
-export default async function Page() {
-    cacheLife("hours");
-    cacheTag("articles");
+type PageProps = {
+    searchParams: Promise<SearchParams>;
+};
+
+export default async function Page(props: PageProps) {
+    const { searchParams } = props;
+    const { search } = await articleQueryParamsCached.parse(searchParams);
 
     const articleList = await ArticleFindManyServer({
         select: {
@@ -41,6 +44,24 @@ export default async function Page() {
         },
         orderBy: {
             createdAt: "desc",
+        },
+        where: {
+            OR: [
+                { title: { contains: search } },
+                { slug: { contains: search } },
+                {
+                    Content: {
+                        some: {
+                            content: { contains: search },
+                        },
+                    },
+                },
+                {
+                    Author: {
+                        name: { contains: search },
+                    },
+                },
+            ],
         },
     });
 

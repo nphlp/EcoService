@@ -1,11 +1,14 @@
 "use client";
 
+import { catalogUrlSerializer } from "@app/catalog/components/queryParams";
 import Button from "@comps/ui/button";
 import Input from "@comps/ui/input";
 import { combo } from "@lib/combo";
 import { useFetchV2 } from "@utils/FetchV2/FetchHookV2";
 import { SearchIcon } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
+import { useHeaderStore } from "../header/headerStore";
 import {
     articleCountParams,
     articleFetchParams,
@@ -24,9 +27,6 @@ import {
 import { BackgroundCloseButton } from "./SearchPortal";
 import ResultsList from "./SearchResult";
 import SearchSkeleton from "./SearchSkeleton";
-import { useHeaderStore } from "../header/headerStore";
-import { useRouter } from "next/navigation";
-import { urlSerializer } from "@app/catalog/components/queryParamsConfig";
 
 export type SearchModalProps = {
     initialResults: {
@@ -55,10 +55,10 @@ export default function SearchModal(props: SearchModalProps) {
 
     const { setSearchOpen } = useHeaderStore();
 
-    const handleClick = (e: FormEvent<HTMLFormElement>) => {
+    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        const urlSearch = urlSerializer("catalog", { search });
+        const urlSearch = catalogUrlSerializer("catalog", { search });
         router.push(urlSearch);
 
         setSearchOpen(false);
@@ -153,7 +153,7 @@ export default function SearchModal(props: SearchModalProps) {
                             Rechercher dans les produits, catégories, articles et DIY...
                         </div>
                     </div>
-                    <form onSubmit={handleClick} className="flex flex-row items-center justify-center gap-2">
+                    <form onSubmit={handleSubmit} className="flex flex-row items-center justify-center gap-2">
                         <Input
                             label="search"
                             classComponent="w-full"

@@ -9,9 +9,13 @@ import { useFetchV2 } from "@utils/FetchV2/FetchHookV2";
 import { PackageSearch } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { MouseEvent, useContext } from "react";
+import { useCategoryQueryParams } from "@comps/SHARED/CategoryFilter";
+import { usePageQueryParams } from "@comps/SHARED/PaginationFilter";
+import { usePriceOrderQueryParams } from "@comps/SHARED/PriceOrderFilter";
+import { useSearchQueryParams } from "@comps/SHARED/SearchFilter";
+import { useTakeQueryParams } from "@comps/SHARED/TakeFilter";
 import { Context } from "./context";
 import { productFetchParams, ProductSearchType } from "./fetchParams";
-import { useCatalogParams } from "./queryParamsHook";
 
 type CatalogProps = {
     className?: string;
@@ -25,11 +29,15 @@ export default function Catalog(props: CatalogProps) {
 
     const { isLoading: isLoadingProductAmount } = useContext(Context);
 
-    const catalogContext = useCatalogParams();
+    const { page } = usePageQueryParams();
+    const { take } = useTakeQueryParams();
+    const { priceOrder } = usePriceOrderQueryParams();
+    const { search } = useSearchQueryParams();
+    const { category } = useCategoryQueryParams();
 
     const { data: productList, isLoading: isLoadingProductList } = useFetchV2({
         route: "/product/findMany",
-        params: productFetchParams(catalogContext),
+        params: productFetchParams({ page, take, priceOrder, search, category }),
         initialData: initialProductList,
     });
 
@@ -49,17 +57,19 @@ export default function Catalog(props: CatalogProps) {
 
     if (isLoadingProductList || isLoadingProductAmount) {
         return (
-            <div className={combo("grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4", className)}>
-                {Array.from({ length: 7 }).map((_, index) => (
-                    <ProductCardSkeleton key={index} />
-                ))}
+            <div className="flex-1">
+                <div className={combo("grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4", className)}>
+                    {Array.from({ length: 7 }).map((_, index) => (
+                        <ProductCardSkeleton key={index} />
+                    ))}
+                </div>
             </div>
         );
     }
 
     if (!productList?.length) {
         return (
-            <div className={combo("flex h-full flex-col items-center justify-center gap-8", className)}>
+            <div className={combo("flex flex-1 flex-col items-center justify-center gap-8", className)}>
                 <PackageSearch className="size-24 stroke-1" />
                 <div className="flex flex-col items-center text-xl">
                     <div className="font-semibold">Aucun produit n&apos;a été trouvé</div>
@@ -70,20 +80,22 @@ export default function Catalog(props: CatalogProps) {
     }
 
     return (
-        <div className={combo("grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4", className)}>
-            {productList.map((product, index) => (
-                <Link
-                    key={index}
-                    id={`product-${product.slug}`}
-                    label={product.name}
-                    href={`/product/${product.slug}`}
-                    variant="none"
-                    baseStyle={false}
-                    onClick={(e) => handleClick(e, product.slug)}
-                >
-                    <ProductCard product={product} />
-                </Link>
-            ))}
+        <div className="flex-1">
+            <div className={combo("grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4", className)}>
+                {productList.map((product, index) => (
+                    <Link
+                        key={index}
+                        id={`product-${product.slug}`}
+                        label={product.name}
+                        href={`/product/${product.slug}`}
+                        variant="none"
+                        baseStyle={false}
+                        onClick={(e) => handleClick(e, product.slug)}
+                    >
+                        <ProductCard product={product} />
+                    </Link>
+                ))}
+            </div>
         </div>
     );
 }

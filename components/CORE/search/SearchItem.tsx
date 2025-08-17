@@ -1,15 +1,15 @@
 "use client";
 
-import { urlSerializer } from "@app/catalog/components/queryParamsConfig";
+import { catalogUrlSerializer } from "@app/catalog/components/queryParams";
 import ImageRatio from "@comps/ui/imageRatio";
 import { combo } from "@lib/combo";
+import { StringToSlug } from "@utils/StringToSlug";
 import { ArrowRightIcon } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { MouseEvent } from "react";
 import { useHeaderStore } from "../header/headerStore";
 import { ArticleSearchType, CategorySearchType, DiySearchType, ProductSearchType } from "./fetchParams";
-import { StringToSlug } from "@utils/StringToSlug";
 
 type ItemListProps = {
     items:
@@ -96,7 +96,7 @@ const Item = (props: ItemProps) => {
                 };
             case "category":
                 return {
-                    href: urlSerializer("/catalog", { category: data.slug }),
+                    href: catalogUrlSerializer("/catalog", { category: data.slug }),
                     title: highlightQuery(data.name, search, 30),
                     description: highlightQuery(data.description ?? "", search, 70),
                 };

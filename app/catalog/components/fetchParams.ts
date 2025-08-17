@@ -1,7 +1,7 @@
 import { Prisma } from "@prisma/client";
 import { CategoryCountProps, CategoryFindManyProps } from "@services/types/CategoryType";
 import { ProductCountProps, ProductFindManyProps } from "@services/types/ProductType";
-import { SearchParamsType } from "./queryParamsConfig";
+import { CatalogQueryParamsCachedType } from "./queryParams";
 
 type CountType = number;
 
@@ -9,19 +9,7 @@ type CountType = number;
 
 type ProductSearchType = Prisma.ProductGetPayload<ReturnType<typeof productFetchParams>>;
 
-const productFetchParams = ({
-    priceOrder,
-    page,
-    take,
-    category,
-    search,
-}: {
-    priceOrder: SearchParamsType["priceOrder"];
-    page: SearchParamsType["page"];
-    take: SearchParamsType["take"];
-    category: SearchParamsType["category"];
-    search: SearchParamsType["search"];
-}) =>
+const productFetchParams = ({ priceOrder, page, take, category, search }: CatalogQueryParamsCachedType) =>
     ({
         select: {
             id: true,

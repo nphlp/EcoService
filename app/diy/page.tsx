@@ -1,10 +1,9 @@
-"use cache";
-
 import ImageRatio from "@comps/ui/imageRatio";
 import { DiyFindManyServer } from "@services/server";
 import { Metadata } from "next";
-import { unstable_cacheLife as cacheLife, unstable_cacheTag as cacheTag } from "next/cache";
 import Link from "next/link";
+import { SearchParams } from "nuqs/server";
+import { diyQueryParamsCached } from "./queryParams";
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 if (!baseUrl) throw new Error("NEXT_PUBLIC_BASE_URL environment variable is not defined");
@@ -12,15 +11,19 @@ if (!baseUrl) throw new Error("NEXT_PUBLIC_BASE_URL environment variable is not 
 export const metadata: Metadata = {
     title: "Nos tutoriels DIY",
     description: "Découvrez nos tutoriels DIY et nos conseils pour améliorer votre maison.",
-    // metadataBase: new URL(`${baseUrl}/diy`),
+    metadataBase: new URL(`${baseUrl}/diy`),
     alternates: {
         canonical: `${baseUrl}/diy`,
     },
 };
 
-export default async function Page() {
-    cacheLife("hours");
-    cacheTag("diys");
+type PageProps = {
+    searchParams: Promise<SearchParams>;
+};
+
+export default async function Page(props: PageProps) {
+    const { searchParams } = props;
+    const { search } = await diyQueryParamsCached.parse(searchParams);
 
     const diyList = await DiyFindManyServer({
         select: {
@@ -41,6 +44,24 @@ export default async function Page() {
         },
         orderBy: {
             createdAt: "desc",
+        },
+        where: {
+            OR: [
+                { title: { contains: search } },
+                { slug: { contains: search } },
+                {
+                    Content: {
+                        some: {
+                            content: { contains: search },
+                        },
+                    },
+                },
+                {
+                    Author: {
+                        name: { contains: search },
+                    },
+                },
+            ],
         },
     });
 

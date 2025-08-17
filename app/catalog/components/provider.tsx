@@ -2,9 +2,10 @@
 
 import { useFetchV2 } from "@utils/FetchV2/FetchHookV2";
 import { ReactNode } from "react";
+import { useCategoryQueryParams } from "../../../components/SHARED/CategoryFilter";
+import { useSearchQueryParams } from "../../../components/SHARED/SearchFilter";
 import { Context } from "./context";
 import { productCountParams } from "./fetchParams";
-import { useCatalogParams } from "./queryParamsHook";
 
 type ContextProviderProps = {
     initialProductAmount: number;
@@ -14,7 +15,8 @@ type ContextProviderProps = {
 export default function Provider(props: ContextProviderProps) {
     const { initialProductAmount, children } = props;
 
-    const { category, search } = useCatalogParams();
+    const { search } = useSearchQueryParams();
+    const { category } = useCategoryQueryParams();
 
     const { data: productAmount, isLoading } = useFetchV2({
         route: "/product/count",

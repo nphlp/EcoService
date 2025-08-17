@@ -9,6 +9,8 @@ export type InputProps = {
     label: string;
     variant?: InputVariant;
     setValue: (value: string) => void;
+    /** Custom execution after input change */
+    afterChange?: () => void;
     required?: boolean;
     classComponent?: string;
     classLabel?: string;
@@ -45,6 +47,7 @@ export default function Input(props: InputProps) {
         label,
         variant = "default",
         setValue,
+        afterChange,
         required = true,
         classComponent,
         classLabel,
@@ -54,6 +57,7 @@ export default function Input(props: InputProps) {
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         setValue(e.target.value);
+        afterChange?.();
     };
 
     /** Prevent a clic on the label to focus the input */

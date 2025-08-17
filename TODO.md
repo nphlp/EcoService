@@ -2,6 +2,10 @@
 
 Complete auth and user management
 
+## CURRENT
+
+- [] Déployer
+
 ## Rework
 
 - [] Revoir et décompléxifier le système Fetch interne/externe, hook useFetch et génération de Services

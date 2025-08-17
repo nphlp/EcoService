@@ -1,4 +1,6 @@
 import "@/globals.scss";
+import Basket from "@comps/basket/basket";
+import BasketSync from "@comps/basket/basketSync";
 import Footer from "@comps/CORE/Footer";
 import Header from "@comps/CORE/Header";
 import { Portal, PortalProvider } from "@comps/CORE/Portal";
@@ -50,8 +52,8 @@ export default async function Layout(props: LayoutProps) {
                         <Header />
                         {/* <Theme /> */}
                         <Search />
-                        {/* <Basket /> */}
-                        {/* <BasketSync /> */}
+                        <Basket />
+                        <BasketSync />
                         <div className="flex-1 overflow-y-auto">
                             <main className="flex min-h-full flex-col items-center justify-center">{children}</main>
                             <Footer />
