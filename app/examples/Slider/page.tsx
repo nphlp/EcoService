@@ -6,7 +6,7 @@ export default async function Page() {
     const productList = await ProductFindManyServer({ take: 15 });
 
     return (
-        <div className="flex h-full flex-col items-start justify-start p-5">
+        <div className="flex w-full flex-1 flex-col items-start justify-start p-7">
             <h1 className="text-2xl font-bold">Incredible slider</h1>
             <p className="text-sm text-gray-500">A custom slider made with framer motion</p>
             <Slider dataListLength={productList.length}>

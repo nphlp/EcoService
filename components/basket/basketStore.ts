@@ -9,8 +9,8 @@ import { UpdateProductOnServerBasket } from "@process/basket/UpdateProductOnServ
 import { OrderModel } from "@services/types";
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
+import { zustandCookieStorage } from "../../lib/zustandCookieStorage";
 import { BasketProduct, LocalBasket, LocalBasketItem, ServerBasket } from "./basketType";
-import { zustandCookieStorage } from "./zustandCookieStorage";
 
 type Store = {
     // State

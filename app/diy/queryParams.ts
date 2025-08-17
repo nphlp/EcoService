@@ -1,0 +1,22 @@
+import { searchQueryParser } from "@comps/SHARED/serverQueryParsers";
+import { createSearchParamsCache, createSerializer } from "nuqs/server";
+
+/**
+ * Server parsers structure for query parameters for the catalog
+ */
+export const diyQueryParams = {
+    /** Search (default value: `""`) */
+    search: searchQueryParser,
+};
+
+/**
+ * Utility function to parse and cache catalog query parameters server side
+ */
+export const diyQueryParamsCached = createSearchParamsCache(diyQueryParams);
+
+export type DiyQueryParamsCachedType = Awaited<ReturnType<typeof diyQueryParamsCached.parse>>;
+
+/**
+ * Serializer to construct an URL with query params
+ */
+export const diyUrlSerializer = createSerializer(diyQueryParams);

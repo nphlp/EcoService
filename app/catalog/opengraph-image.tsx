@@ -2,7 +2,8 @@ import PrismaInstance from "@lib/prisma";
 import { ImageResponse } from "next/og";
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
-import { SearchParamsCached, SearchParamsType } from "./components/searchParams";
+import { SearchParams } from "nuqs/server";
+import { catalogQueryParamsCached } from "./components/queryParams";
 
 // Image metadata
 export const alt = "Eco Service Icon";
@@ -10,13 +11,13 @@ export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
 type ImageProps = {
-    searchParams: Promise<SearchParamsType>;
+    searchParams: Promise<SearchParams>;
 };
 
 // Image generation
 export default async function Image(props: ImageProps) {
     const { searchParams } = props;
-    const { category } = await SearchParamsCached.parse(searchParams);
+    const { category } = await catalogQueryParamsCached.parse(searchParams);
 
     const categoryData = await PrismaInstance.category.findUnique({
         where: { slug: category },

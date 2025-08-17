@@ -1,0 +1,59 @@
+# === CONFIGURATION ===
+TARGET_DIR := ./public/illustration
+IMG_EXTENSIONS := jpg jpeg png
+QUALITY := 80
+WIDTH := 900
+HEIGHT := 600
+
+# === VARIABLES INTERNES ===
+IMG_LIST := .image_list.txt
+IMG_RAW := .image_paths.txt
+
+# === COMMANDES ===
+
+find:
+	@echo "🔍 Recherche des images dans $(TARGET_DIR)..."
+	@find $(TARGET_DIR) \( $(foreach ext,$(IMG_EXTENSIONS), -iname '*.$(ext)' -o) -false \) -type f > $(IMG_RAW)
+	@echo "🧾 $$(wc -l < $(IMG_RAW)) image(s) trouvée(s)."
+
+compress:
+	@echo "🛠️ Compression en cours..."
+	@cat $(IMG_RAW) | while read -r f; do \
+		out="$${f%.*}.webp"; \
+		magick "$$f" -resize $(WIDTH)x$(HEIGHT) -quality $(QUALITY) "$$out"; \
+	done
+	@echo "✅ Compression terminée."
+
+remove:
+	@echo "🗑️ Suppression des fichiers originaux..."
+	@cat $(IMG_RAW) | while read -r f; do rm "$$f"; done
+	@echo "🧹 Nettoyage terminé."
+
+stats:
+	@echo "📊 Statistiques de compression..."
+	@echo "Original;WebP;SizeBefore(Bytes);SizeAfter(Bytes);Compression(%)" > $(IMG_LIST); \
+	total_before=0; total_after=0; \
+	while read -r f; do \
+		out="$${f%.*}.webp"; \
+		size_before=$$(stat -f%z "$$f" 2>/dev/null || echo 0); \
+		size_after=$$(stat -f%z "$$out" 2>/dev/null || echo 0); \
+		if [ "$$size_before" -gt 0 ]; then \
+			ratio=$$((100 - (100 * size_after / size_before))); \
+			printf "%s;%s;%d;%d;-%d%%\n" "$$f" "$$out" "$$size_before" "$$size_after" "$$ratio" >> $(IMG_LIST); \
+			echo "$$f → $$out : -$$ratio%"; \
+			total_before=$$((total_before + size_before)); \
+			total_after=$$((total_after + size_after)); \
+		fi; \
+	done < $(IMG_RAW); \
+	if [ "$$total_before" -gt 0 ]; then \
+		total_ratio=$$((100 - (100 * total_after / total_before))); \
+		printf "📦 Compression globale : %'.0f → %'.0f bytes (-%d%%)\n" "$$total_before" "$$total_after" "$$total_ratio"; \
+	else \
+		echo "📦 Aucune donnée mesurable pour la compression globale."; \
+	fi
+
+auto-compress: find compress stats remove
+	@rm -f $(IMG_RAW) $(IMG_LIST)
+	@echo "🎉 Auto-compression terminée !"
+
+.PHONY: find compress remove stats auto-compress

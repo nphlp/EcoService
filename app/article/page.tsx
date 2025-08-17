@@ -1,10 +1,9 @@
-"use cache";
-
-import ImageRatio from "@comps/server/imageRatio";
+import ImageRatio from "@comps/ui/imageRatio";
 import { ArticleFindManyServer } from "@services/server";
 import { Metadata } from "next";
-import { unstable_cacheLife as cacheLife, unstable_cacheTag as cacheTag } from "next/cache";
 import Link from "next/link";
+import { SearchParams } from "nuqs/server";
+import { articleQueryParamsCached } from "./queryParams";
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 if (!baseUrl) throw new Error("NEXT_PUBLIC_BASE_URL environment variable is not defined");
@@ -18,9 +17,13 @@ export const metadata: Metadata = {
     },
 };
 
-export default async function Page() {
-    cacheLife("hours");
-    cacheTag("articles");
+type PageProps = {
+    searchParams: Promise<SearchParams>;
+};
+
+export default async function Page(props: PageProps) {
+    const { searchParams } = props;
+    const { search } = await articleQueryParamsCached.parse(searchParams);
 
     const articleList = await ArticleFindManyServer({
         select: {
@@ -42,6 +45,24 @@ export default async function Page() {
         orderBy: {
             createdAt: "desc",
         },
+        where: {
+            OR: [
+                { title: { contains: search } },
+                { slug: { contains: search } },
+                {
+                    Content: {
+                        some: {
+                            content: { contains: search },
+                        },
+                    },
+                },
+                {
+                    Author: {
+                        name: { contains: search },
+                    },
+                },
+            ],
+        },
     });
 
     if (!articleList) {
@@ -52,7 +73,7 @@ export default async function Page() {
         <div className="container mx-auto px-4 py-10">
             <h1 className="mb-10 text-center text-3xl font-bold md:text-4xl">Nos articles</h1>
 
-            <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+            <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                 {articleList.map((article, index) => (
                     <Link
                         key={index}
@@ -60,15 +81,7 @@ export default async function Page() {
                         className="group flex flex-col overflow-hidden rounded-xl border border-gray-300 bg-white shadow-md transition-shadow duration-300 hover:shadow-lg"
                     >
                         {/* Image */}
-                        {article.Content && article.Content[0] && (
-                            <div className="h-48 overflow-hidden">
-                                <ImageRatio
-                                    src={`/illustration/${article.Content[0].image}`}
-                                    alt={article.title}
-                                    className="size-full transition-transform duration-300 group-hover:scale-105"
-                                />
-                            </div>
-                        )}
+                        {article.Content[0] && <ImageRatio src={article.Content[0].image} alt={article.title} />}
 
                         {/* Contenu */}
                         <div className="flex flex-1 flex-col p-4">

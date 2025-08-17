@@ -6,14 +6,14 @@ import { hasPermission } from "@permissions/hasPermissions";
 import { ProcessDevError } from "@process/Error";
 import { OrderModel } from "@services/types";
 import { revalidatePath } from "next/cache";
-import { z, ZodSchema } from "zod";
+import { z, ZodType } from "zod";
 import { GetServerBasket } from "./GetServerBasket";
 
 type ClearServerBasketProps = {
     orderId: OrderModel["id"];
 };
 
-const clearServerBasketSchema: ZodSchema<ClearServerBasketProps> = z.object({
+const clearServerBasketSchema: ZodType<ClearServerBasketProps> = z.object({
     orderId: z.string(),
 });
 

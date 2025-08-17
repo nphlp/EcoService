@@ -1,4 +1,4 @@
-import ImageRatio from "@comps/server/imageRatio";
+import ImageRatio from "@comps/ui/imageRatio";
 import Link from "@comps/ui/link";
 import { ProductFindUniqueServer } from "@services/server";
 import { unstable_ViewTransition as ViewTransition } from "react";
@@ -18,7 +18,7 @@ export default async function Page(props: PageProps) {
     }
 
     return (
-        <div className="flex h-full flex-col items-center justify-center gap-4">
+        <div className="flex w-full flex-1 flex-col items-center justify-center gap-4">
             <ViewTransition name={`product-${slug}`}>
                 <ImageRatio src={product.image} alt={product.name} className="w-1/2 rounded-xl" />
             </ViewTransition>

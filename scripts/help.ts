@@ -1,7 +1,7 @@
 import dotenv from "dotenv";
 
 // Charger les variables d'environnement du fichier .env
-dotenv.config();
+dotenv.config({ quiet: true });
 
 type CommandCategory = {
     color: string;

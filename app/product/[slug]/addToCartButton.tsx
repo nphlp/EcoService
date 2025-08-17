@@ -2,15 +2,17 @@
 
 import { ProductType } from "@app/product/[slug]/fetchParams";
 import { useBasketStore } from "@comps/basket/basketStore";
-import ButtonClient from "@comps/client/button";
+import Button from "@comps/ui/button";
+import { combo } from "@lib/combo";
 
 type AddToCartButtonProps = {
     product: ProductType;
     stock: number;
+    className?: string;
 };
 
 export default function AddToCartButton(props: AddToCartButtonProps) {
-    const { product, stock } = props;
+    const { product, stock, className } = props;
 
     const { isInBasket, addProductToBasket, removeProductFromBasket } = useBasketStore();
 
@@ -29,14 +31,14 @@ export default function AddToCartButton(props: AddToCartButtonProps) {
     };
 
     return (
-        <ButtonClient
+        <Button
             type="button"
             disabled={stock === 0}
-            className="w-full"
+            className={combo("w-full", className)}
             label={stock === 0 ? "Indisponible" : isInBasket(product.id) ? "Retirer du panier" : "Ajouter au panier"}
             onClick={handleClick}
         >
             {stock === 0 ? "Indisponible" : isInBasket(product.id) ? "Retirer du panier" : "Ajouter au panier"}
-        </ButtonClient>
+        </Button>
     );
 }

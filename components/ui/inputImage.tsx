@@ -1,6 +1,6 @@
 "use client";
 
-import ImageRatio from "@comps/server/imageRatio";
+import ImageRatio from "@comps/ui/imageRatio";
 import { combo } from "@lib/combo";
 import { Image as ImageTemplate, X } from "lucide-react";
 import { ChangeEvent, DragEvent, InputHTMLAttributes, MouseEvent, useRef } from "react";

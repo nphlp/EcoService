@@ -22,7 +22,7 @@ export default function Loader(props: LoaderProps) {
         white: "stroke-gray-300",
         gray: "stroke-gray-500",
         black: "stroke-gray-700",
-        primary: "stroke-eco",
+        primary: "stroke-primary",
     };
 
     return <LoaderCircle className={combo(colorMap[color], "size-6 animate-spin stroke-2", className)} />;

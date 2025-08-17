@@ -6,13 +6,14 @@ import Button from "@comps/ui/button";
 import Feedback, { FeedbackMode } from "@comps/ui/feedback";
 import Input from "@comps/ui/input";
 import InputImage from "@comps/ui/inputImage";
-import Select from "@comps/ui/select";
-import { CategoryFindManyProps, CategoryFindManyResponse } from "@services/types/CategoryType";
+import Select from "@comps/ui/select/select";
+import { createSelectOptions } from "@comps/ui/select/utils";
+import { Prisma } from "@prisma/client";
 import { authorizedFileSize, authorizedFormats } from "@utils/ImageValidation";
 import { useState } from "react";
 
 type ProductCreationFormPros = {
-    categoryList: CategoryFindManyResponse<CategoryFindManyProps>;
+    categoryList: Prisma.CategoryGetPayload<{ select: { id: true; name: true } }>[];
 };
 
 export default function ProductCreationForm(props: ProductCreationFormPros) {
@@ -112,12 +113,9 @@ export default function ProductCreationForm(props: ProductCreationFormPros) {
                 <Select
                     label="Catégorie"
                     placeholder="Sélectionnez une catégorie"
-                    options={categoryList.map((category) => ({
-                        label: category.name,
-                        value: category.id,
-                    }))}
-                    onChange={(e) => setCategoryId(e.target.value)}
-                    value={categoryId}
+                    options={createSelectOptions(categoryList, { label: "name", slug: "id" })}
+                    setSelected={setCategoryId}
+                    selected={categoryId}
                 />
 
                 <InputImage label="Image" onChange={handleImageChange} imagePreview={image} />

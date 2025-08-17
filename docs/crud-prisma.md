@@ -184,7 +184,6 @@ Each `Server Action` names are following the naming convention : `{model}{action
 For the `model User { ... }` in the [Schema Prisma](../prisma/schema.prisma), the following Server Actions will be generated :
 
 1. Mutation functions
-
     - `UserCreate`
     - `UserCreateMany`
     - `UserUpsert`

@@ -37,7 +37,6 @@
     ```
 
 - Create a MySQL user and password and grant privileges
-
     - Automatic method
 
     ```bash

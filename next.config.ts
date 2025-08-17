@@ -21,10 +21,10 @@ const nextConfig: NextConfig = {
     },
 
     experimental: {
-        nodeMiddleware: true, // enable node middleware
         viewTransition: true, // enable view transition API
         authInterrupts: true, // enable unauthorized()
         useCache: true, // enable useCache, cacheLife and cacheTag
+        // turbopackPersistentCaching: true, // enable turbopack persistent caching
     },
 };
 
