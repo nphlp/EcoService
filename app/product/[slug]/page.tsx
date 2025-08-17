@@ -1,7 +1,9 @@
+import ProductCard from "@comps/productCard";
 import Card from "@comps/server/card";
 import ImageRatio from "@comps/ui/imageRatio";
+import Slider, { LinkInfoType } from "@comps/ui/slider";
 import PrismaInstance from "@lib/prisma";
-import { ProductFindUniqueServer } from "@services/server";
+import { ProductFindManyServer, ProductFindUniqueServer } from "@services/server";
 import { ArrowLeft, Package2, ShieldCheck, Truck, User } from "lucide-react";
 import { Metadata } from "next";
 import { unstable_cacheLife as cacheLife, unstable_cacheTag as cacheTag } from "next/cache";
@@ -9,7 +11,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { cloneElement, JSX } from "react";
 import AddToCartButton from "./addToCartButton";
-import { ProductFetchParams } from "./fetchParams";
+import { ProductFetchParams, RecommendedProductListFetchParams } from "./fetchParams";
 
 export const generateStaticParams = async () => {
     const products = await PrismaInstance.product.findMany({
@@ -68,10 +70,17 @@ export default async function Page(props: PageProps) {
 
     if (!product) notFound();
 
+    const recommendedProductList = await ProductFindManyServer(RecommendedProductListFetchParams(slug));
+
+    const linkList: LinkInfoType[] = recommendedProductList.map((product) => ({
+        label: product.name,
+        href: `/product/${product.slug}`,
+    }));
+
     const { name, image, price, description, stock, Category } = product;
 
     return (
-        <div className="w-full flex-1 p-7">
+        <div className="w-full max-w-[1200px] flex-1 p-7">
             <Link href="/catalog" className="text-primary mb-8 inline-flex items-center hover:underline">
                 <ArrowLeft className="mr-2 size-4" />
                 Retour aux produits
@@ -122,6 +131,19 @@ export default async function Page(props: PageProps) {
                     </div>
                 </div>
             </div>
+
+            {recommendedProductList.length ? (
+                <section className="space-y-6 py-8 md:py-16">
+                    <h2 className="text-center text-4xl font-bold">Nos recommandations</h2>
+                    <Slider dataListLength={recommendedProductList.length} linkList={linkList}>
+                        {recommendedProductList.map((product, index) => (
+                            <ProductCard key={index} product={product} />
+                        ))}
+                    </Slider>
+                </section>
+            ) : (
+                <></>
+            )}
         </div>
     );
 }

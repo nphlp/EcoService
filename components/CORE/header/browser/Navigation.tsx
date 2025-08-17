@@ -43,7 +43,7 @@ export default function Navigation() {
                 baseStyleOnly={["padding", "rounded"]}
                 className={combo(path.includes("/examples") && "font-bold")}
             />
-            <Link
+            {/* <Link
                 label="Comps Table"
                 href="/comps-table"
                 variant="ghost"
@@ -56,7 +56,7 @@ export default function Navigation() {
                 variant="ghost"
                 baseStyleOnly={["padding", "rounded"]}
                 className={combo(path.includes("/ai-search") && "font-bold")}
-            />
+            /> */}
         </div>
     );
 }
