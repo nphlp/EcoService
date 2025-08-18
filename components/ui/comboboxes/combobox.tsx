@@ -1,5 +1,6 @@
 "use client";
 
+import Loader from "@comps/ui/loader";
 import {
     ComboboxButton,
     Combobox as ComboboxHeadlessUI,
@@ -29,6 +30,7 @@ type ComboboxProps<T extends ComboOptionType | MultiSourceComboOptionType> = {
         options: T[];
         setOptions: (value: T[]) => void;
     };
+    isLoading?: boolean;
 };
 
 /**
@@ -52,7 +54,7 @@ type ComboboxProps<T extends ComboOptionType | MultiSourceComboOptionType> = {
  * ```
  */
 export default function Combobox<T extends ComboOptionType | MultiSourceComboOptionType>(props: ComboboxProps<T>) {
-    const { label, placeholder, classComponent, initialOptions, states } = props;
+    const { label, placeholder, classComponent, initialOptions, states, isLoading } = props;
     const { query, setQuery, selected, setSelected, options, setOptions } = states;
 
     const displayedOptions = options.filter((option) => option.slug.includes(StringToSlug(query)));
@@ -101,7 +103,12 @@ export default function Combobox<T extends ComboOptionType | MultiSourceComboOpt
                             "transition-all duration-150",
                         )}
                     />
-                    <ComboboxIcon selected={selected} setSelected={setSelected} setQuery={setQuery} />
+                    <ComboboxIcon
+                        selected={selected}
+                        setSelected={setSelected}
+                        setQuery={setQuery}
+                        isLoading={isLoading}
+                    />
                 </div>
                 <ComboboxOptions
                     anchor="bottom"
@@ -137,10 +144,11 @@ type ComboboxIconProps<T extends ComboOptionType | MultiSourceComboOptionType> =
     selected: T | null;
     setSelected: (value: T | null) => void;
     setQuery: (value: string) => void;
+    isLoading?: boolean;
 };
 
 export const ComboboxIcon = <T extends ComboOptionType | MultiSourceComboOptionType>(props: ComboboxIconProps<T>) => {
-    const { selected, setSelected, setQuery } = props;
+    const { selected, setSelected, setQuery, isLoading } = props;
 
     const handleRemoveAll = () => {
         setSelected(null);
@@ -158,6 +166,14 @@ export const ComboboxIcon = <T extends ComboOptionType | MultiSourceComboOptionT
         e.stopPropagation();
         handleRemoveAll();
     };
+
+    if (isLoading) {
+        return (
+            <div className={combo("absolute top-1/2 right-1 -translate-y-1/2 cursor-pointer rounded-full p-1")}>
+                <Loader />
+            </div>
+        );
+    }
 
     if (!selected) {
         return (
