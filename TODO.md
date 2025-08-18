@@ -4,7 +4,18 @@ Complete auth and user management
 
 ## CURRENT
 
-- [] Déployer
+- [] Fusionner les composants combobox
+- [] Revoir la modals avec le Portal
+- [] Rendre réactif au scroll le drop down du select
+- [] Supprimer les anciens composants
+
+## Docker
+
+- [] Analyser l'état actuel très complexe de l'environnement docker
+  Système de double conteneurisation "builder + runner" à cause de : - l'anti-pattern "export const dynamic = "force" sur le layout - l'utilisation de l'API côté server
+- [] Refaire un environnement production docker-compose nextjs avec les bonnes pratiques
+- [] Intégrer dans le workflow CI/CD un push de l'image docker buildée sur un registery github
+- [] Permettre un déploiement rapide sur coolify à partir de cette image sur le registery
 
 ## Rework
 
