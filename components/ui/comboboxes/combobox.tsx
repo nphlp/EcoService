@@ -1,17 +1,11 @@
 "use client";
 
-import Loader from "@comps/ui/loader";
-import {
-    ComboboxButton,
-    Combobox as ComboboxHeadlessUI,
-    ComboboxInput,
-    ComboboxOption,
-    ComboboxOptions,
-} from "@headlessui/react";
+import { Combobox as ComboboxHeadlessUI, ComboboxInput, ComboboxOption, ComboboxOptions } from "@headlessui/react";
 import { combo } from "@lib/combo";
 import { StringToSlug } from "@utils/StringToSlug";
-import { Check, ChevronDown, X } from "lucide-react";
-import { ChangeEvent, KeyboardEvent, MouseEvent } from "react";
+import { Check } from "lucide-react";
+import { ChangeEvent } from "react";
+import ComboboxIcon from "./sub-components/comboboxIcon";
 import ComboboxLabel from "./sub-components/comboboxLabel";
 import { ComboOptionType, MultiSourceComboOptionType } from "./utils";
 
@@ -58,8 +52,9 @@ export default function Combobox<T extends ComboOptionType | MultiSourceComboOpt
     const { label, placeholder, classComponent, initialOptions, states, isLoading } = props;
     const { query, setQuery, selected, setSelected, options, setOptions } = states;
 
-    // TODO: add a condition for "static" or "dynamic" options
-    // The following line is only required when options are fixed (not connected to an API)
+    // The following line is usefull when options are static (not connected to an API)
+    // When options are dynamic (connected to the API), this filter is done for nothing
+    // But the code and usage is easier and cleaner with more conditions
     const displayedOptions = options.filter((option) => option.slug.includes(StringToSlug(query)));
 
     const handleQueryChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -106,7 +101,7 @@ export default function Combobox<T extends ComboOptionType | MultiSourceComboOpt
                             "transition-all duration-150",
                         )}
                     />
-                    <ComboboxIcon
+                    <ComboboxIcon<T>
                         selected={selected}
                         setSelected={setSelected}
                         setQuery={setQuery}
@@ -142,64 +137,3 @@ export default function Combobox<T extends ComboOptionType | MultiSourceComboOpt
         </div>
     );
 }
-
-type ComboboxIconProps<T extends ComboOptionType | MultiSourceComboOptionType> = {
-    selected: T | null;
-    setSelected: (value: T | null) => void;
-    setQuery: (value: string) => void;
-    isLoading?: boolean;
-};
-
-export const ComboboxIcon = <T extends ComboOptionType | MultiSourceComboOptionType>(props: ComboboxIconProps<T>) => {
-    const { selected, setSelected, setQuery, isLoading } = props;
-
-    const handleRemoveAll = () => {
-        setSelected(null);
-        setQuery("");
-    };
-
-    const handleClick = (e: MouseEvent<HTMLButtonElement>) => {
-        e.preventDefault();
-        e.stopPropagation();
-        handleRemoveAll();
-    };
-
-    const handleKeyDown = (e: KeyboardEvent<HTMLButtonElement>) => {
-        e.preventDefault();
-        e.stopPropagation();
-        handleRemoveAll();
-    };
-
-    if (isLoading) {
-        return (
-            <div className={combo("absolute top-1/2 right-1 -translate-y-1/2 cursor-pointer rounded-full p-1")}>
-                <Loader />
-            </div>
-        );
-    }
-
-    if (!selected) {
-        return (
-            <ComboboxButton
-                className={combo("absolute top-1/2 right-1 -translate-y-1/2 cursor-pointer rounded-full p-1")}
-            >
-                <ChevronDown className="size-5 fill-white" />
-            </ComboboxButton>
-        );
-    }
-
-    return (
-        <button
-            type="button"
-            onClick={handleClick}
-            onKeyDown={handleKeyDown}
-            className={combo(
-                "absolute top-1/2 right-1 -translate-y-1/2 cursor-pointer rounded-full p-1",
-                "ring-0 outline-none focus:ring-2 focus:ring-teal-300",
-                "transition-all duration-150",
-            )}
-        >
-            <X className="size-5 fill-white" />
-        </button>
-    );
-};
