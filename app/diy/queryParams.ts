@@ -1,4 +1,4 @@
-import { searchQueryParser } from "@comps/SHARED/serverQueryParsers";
+import { searchQueryParser } from "@comps/SHARED/queryParamsServerParsers";
 import { createSearchParamsCache, createSerializer } from "nuqs/server";
 
 /**

@@ -2,14 +2,7 @@
 
 import Select from "@comps/ui/select/select";
 import { SelectOptionType } from "@comps/ui/select/utils";
-import { useQueryState } from "nuqs";
-import { usePageQueryParams } from "./PaginationFilter";
-import { categoryQueryParser } from "./serverQueryParsers";
-
-export const useCategoryQueryParams = () => {
-    const [category, setCategory] = useQueryState("category", categoryQueryParser);
-    return { category, setCategory };
-};
+import { useCategoryQueryParams, usePageQueryParams } from "./queryParamsClientHooks";
 
 type CategoryFilterProps = {
     categoryOptions: SelectOptionType[];

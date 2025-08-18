@@ -3,16 +3,9 @@
 import ButtonClient from "@comps/client/button";
 import { combo } from "@lib/combo";
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
-import { useQueryState } from "nuqs";
 import { useContext } from "react";
 import { Context } from "../../app/catalog/components/context";
-import { useTakeQueryParams } from "./TakeFilter";
-import { pageQueryParser } from "./serverQueryParsers";
-
-export const usePageQueryParams = () => {
-    const [page, setPage] = useQueryState("page", pageQueryParser);
-    return { page, setPage };
-};
+import { usePageQueryParams, useTakeQueryParams } from "./queryParamsClientHooks";
 
 type PaginationProps = {
     className?: string;

@@ -1,13 +1,7 @@
 "use client";
 
-import { priceOrderQueryParser } from "@comps/SHARED/serverQueryParsers";
 import Select from "@comps/ui/select/select";
-import { useQueryState } from "nuqs";
-
-export const usePriceOrderQueryParams = () => {
-    const [priceOrder, setPriceOrder] = useQueryState("priceOrder", priceOrderQueryParser);
-    return { priceOrder, setPriceOrder };
-};
+import { usePriceOrderQueryParams } from "./queryParamsClientHooks";
 
 export default function PriceOrderFilter() {
     const { priceOrder, setPriceOrder } = usePriceOrderQueryParams();
