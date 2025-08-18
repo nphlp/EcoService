@@ -4,7 +4,7 @@ import {
     priceOrderQueryParser,
     searchQueryParser,
     takeQueryParser,
-} from "@comps/SHARED/serverQueryParsers";
+} from "@comps/SHARED/queryParamsServerParsers";
 import { createSearchParamsCache, createSerializer } from "nuqs/server";
 
 /**

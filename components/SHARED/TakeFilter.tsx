@@ -1,14 +1,7 @@
 "use client";
 
 import Select from "@comps/ui/select/select";
-import { useQueryState } from "nuqs";
-import { usePageQueryParams } from "./PaginationFilter";
-import { takeQueryParser } from "./serverQueryParsers";
-
-export const useTakeQueryParams = () => {
-    const [take, setTake] = useQueryState("take", takeQueryParser);
-    return { take, setTake };
-};
+import { usePageQueryParams, useTakeQueryParams } from "./queryParamsClientHooks";
 
 export default function TakeFilter() {
     const { take, setTake } = useTakeQueryParams();

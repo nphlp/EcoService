@@ -1,14 +1,7 @@
 "use client";
 
 import Input from "@comps/ui/input";
-import { useQueryState } from "nuqs";
-import { usePageQueryParams } from "./PaginationFilter";
-import { searchQueryParser } from "./serverQueryParsers";
-
-export const useSearchQueryParams = () => {
-    const [search, setSearch] = useQueryState("search", searchQueryParser);
-    return { search, setSearch };
-};
+import { usePageQueryParams, useSearchQueryParams } from "./queryParamsClientHooks";
 
 export default function SearchFilter() {
     const { search, setSearch } = useSearchQueryParams();
