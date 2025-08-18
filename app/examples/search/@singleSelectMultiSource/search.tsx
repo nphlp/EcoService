@@ -2,7 +2,7 @@
 
 import Button from "@comps/ui/button";
 import { useComboboxSearchStates } from "@comps/ui/comboboxes/comboHookStates";
-import ComboboxSearch from "@comps/ui/comboboxes/comboboxSearch";
+import Combobox from "@comps/ui/comboboxes/combobox";
 import {
     MultiSourceComboOptionType,
     createComboOptions,
@@ -102,7 +102,7 @@ export default function Search(props: SearchProps) {
 
     return (
         <form className="flex flex-col items-center justify-center gap-4" onSubmit={handleSubmit}>
-            <ComboboxSearch
+            <Combobox
                 label="Recherchez et sélectionnez"
                 placeholder="Un produit, une catégorie ou un article..."
                 classComponent="w-full"
