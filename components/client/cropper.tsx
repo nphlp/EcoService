@@ -1,9 +1,9 @@
 "use client";
 
+import ButtonClient from "@comps/client/button";
 import { useEffect, useState } from "react";
 import Cropper, { Area } from "react-easy-crop";
 import { getCroppedImg } from "../../lib/cropper";
-import ButtonClient from "@comps/client/button";
 
 type ImageCropperModalClientProps = {
     imageFile: File | undefined;

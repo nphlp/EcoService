@@ -1,8 +1,8 @@
 "use client";
 
 import Card from "@comps/server/card";
-import Content from "./content";
 import { combo } from "@lib/combo";
+import Content from "./content";
 
 /**
  * ## Auto-Layout pattern

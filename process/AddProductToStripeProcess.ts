@@ -5,7 +5,7 @@ import { ProductFindUniqueAction } from "@actions/ProductAction";
 import { hasRole } from "@permissions/hasRole";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { Fetch } from "@utils/Fetch/Fetch";
-import { strictObject, z, ZodError, ZodType } from "zod";
+import { ZodError, ZodType, strictObject, z } from "zod";
 
 export type AddProductToStripeProcessProps = {
     name: string;

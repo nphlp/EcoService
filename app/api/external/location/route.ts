@@ -1,7 +1,7 @@
-import { cacheLifeApi, parseAndDecodeParams, ResponseFormat } from "@utils/FetchConfig";
+import { ResponseFormat, cacheLifeApi, parseAndDecodeParams } from "@utils/FetchConfig";
 import { unstable_cacheLife as cacheLife, unstable_cacheTag as cacheTag } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
-import { strictObject, z, ZodError, ZodType } from "zod";
+import { ZodError, ZodType, strictObject, z } from "zod";
 
 export type LocationProps = {
     ipAddress: string;

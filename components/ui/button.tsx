@@ -3,7 +3,7 @@
 import Loader, { LoaderColor } from "@comps/ui/loader";
 import { combo } from "@lib/combo";
 import { ButtonHTMLAttributes, ReactNode } from "react";
-import { ButtonBaseKeys, buttonBaseTheme, buttonTheme, ButtonVariant } from "./themes/buttonTheme";
+import { ButtonBaseKeys, ButtonVariant, buttonBaseTheme, buttonTheme } from "./themes/buttonTheme";
 import { getBaseStyle } from "./themes/utils";
 
 /** Button variant */

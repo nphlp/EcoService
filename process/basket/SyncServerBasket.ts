@@ -7,7 +7,7 @@ import { hasPermission } from "@permissions/hasPermissions";
 import { ProcessDevError } from "@process/Error";
 import { OrderModel } from "@services/types";
 import { revalidatePath } from "next/cache";
-import { z, ZodType } from "zod";
+import { ZodType, z } from "zod";
 import { GetServerBasket } from "./GetServerBasket";
 
 type SyncServerBasketProps = {

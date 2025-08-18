@@ -1,6 +1,6 @@
 import { useBasketStore } from "@comps/basket/basketStore";
 import * as updateApi from "@process/basket/UpdateProductOnServerBasket";
-import { beforeEach, describe, expect, it, Mock, vi } from "vitest";
+import { Mock, beforeEach, describe, expect, it, vi } from "vitest";
 
 describe("updateProductInBasket", () => {
     // Initial state(s)

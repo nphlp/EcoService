@@ -1,6 +1,6 @@
 import Card from "@comps/server/card";
 import { CornerRightDown, ListTodo, Shuffle, SquareCheckBig } from "lucide-react";
-import { cloneElement, ReactNode } from "react";
+import { ReactNode, cloneElement } from "react";
 
 type LayoutProps = {
     singleCombo: ReactNode;

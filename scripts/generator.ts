@@ -1,5 +1,4 @@
 #!/usr/bin/env tsx
-
 /**
  * Générateur de fichiers backend basé sur le schéma Prisma
  *
@@ -16,7 +15,6 @@
  * - fileGenerator.ts: traite les templates et génère le contenu
  * - commands.ts: implémente les commandes CLI disponibles
  */
-
 import { clearModels, generateModels, listModels } from "./generator/commands";
 
 /**

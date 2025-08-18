@@ -1,5 +1,5 @@
 import { OrderModel, ProductModel, QuantityModel } from "@services/types";
-import { z, ZodType } from "zod";
+import { ZodType, z } from "zod";
 
 /** Basket product */
 export type BasketProduct = {

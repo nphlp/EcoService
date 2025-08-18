@@ -1,11 +1,11 @@
 "use client";
 
 import { LocationResponse } from "@app/api/external/location/route";
+import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { MapPin } from "lucide-react";
 import { renderToStaticMarkup } from "react-dom/server";
-import L from "leaflet";
-import { MapContainer, TileLayer, Marker } from "react-leaflet";
+import { MapContainer, Marker, TileLayer } from "react-leaflet";
 
 type LocationMapProps = {
     location: LocationResponse | null;

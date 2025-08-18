@@ -6,7 +6,7 @@ import { GetSession } from "@lib/authServer";
 import { hasPermission } from "@permissions/hasPermissions";
 import { Order } from "@prisma/client";
 import { ProcessDevError } from "@process/Error";
-import { z, ZodType } from "zod";
+import { ZodType, z } from "zod";
 
 export type GetServerBasketProps = {
     orderId: string;

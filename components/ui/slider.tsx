@@ -4,10 +4,10 @@ import Button from "@comps/ui/button";
 import Loader from "@comps/ui/loader";
 import { combo } from "@lib/combo";
 import { useWidth } from "@utils/useWidth";
-import { motion, PanInfo } from "framer-motion";
+import { PanInfo, motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { Children, CSSProperties, ReactNode, useEffect, useMemo, useRef, useState } from "react";
+import { CSSProperties, Children, ReactNode, useEffect, useMemo, useRef, useState } from "react";
 import Link from "./link";
 
 type ItemNumberType = { minWidth: number; itemAmount: number }[];
