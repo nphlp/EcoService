@@ -2,31 +2,31 @@
 
 import { catalogUrlSerializer } from "@app/catalog/components/queryParams";
 import Button from "@comps/ui/button";
-import Input from "@comps/ui/input";
+import Input from "@comps/ui/input/input";
 import { combo } from "@lib/combo";
 import { useFetchV2 } from "@utils/FetchV2/FetchHookV2";
 import { SearchIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
 import { useHeaderStore } from "../header/headerStore";
-import {
-    articleCountParams,
-    articleFetchParams,
-    ArticleSearchType,
-    categoryCountParams,
-    categoryFetchParams,
-    CategorySearchType,
-    CountType,
-    diyCountParams,
-    diyFetchParams,
-    DiySearchType,
-    productCountParams,
-    productFetchParams,
-    ProductSearchType,
-} from "./fetchParams";
 import { BackgroundCloseButton } from "./SearchPortal";
 import ResultsList from "./SearchResult";
 import SearchSkeleton from "./SearchSkeleton";
+import {
+    ArticleSearchType,
+    CategorySearchType,
+    CountType,
+    DiySearchType,
+    ProductSearchType,
+    articleCountParams,
+    articleFetchParams,
+    categoryCountParams,
+    categoryFetchParams,
+    diyCountParams,
+    diyFetchParams,
+    productCountParams,
+    productFetchParams,
+} from "./fetchParams";
 
 export type SearchModalProps = {
     initialResults: {

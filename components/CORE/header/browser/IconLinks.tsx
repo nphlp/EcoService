@@ -1,15 +1,14 @@
 "use client";
 
+import { useHeaderStore } from "@comps/CORE/header/headerStore";
 import { useBasketStore } from "@comps/basket/basketStore";
 import Logout from "@comps/client/logout";
-import { useHeaderStore } from "@comps/CORE/header/headerStore";
-import { useThemeStore } from "@comps/CORE/themeStore";
 import Button from "@comps/ui/button";
 import ImageProfile from "@comps/ui/imageProfile";
 import Link from "@comps/ui/link";
 import { useSession } from "@lib/authClient";
 import { combo } from "@lib/combo";
-import { LogOut, Monitor, Moon, PanelsTopLeft, Search, ShoppingCart, Sun, UserRound } from "lucide-react";
+import { LogOut, PanelsTopLeft, Search, ShoppingCart, UserRound } from "lucide-react";
 
 export default function IconLinks() {
     const { data: session } = useSession();

@@ -1,15 +1,16 @@
-import "@/globals.scss";
-import Basket from "@comps/basket/basket";
-import BasketSync from "@comps/basket/basketSync";
 import Footer from "@comps/CORE/Footer";
 import Header from "@comps/CORE/Header";
-import { Portal, PortalProvider } from "@comps/CORE/Portal";
+import Portal from "@comps/CORE/Portal";
 import Search from "@comps/CORE/Search";
+import { PortalProvider } from "@comps/CORE/portal/PortalProvider";
+import Basket from "@comps/basket/basket";
+import BasketSync from "@comps/basket/basketSync";
 import { combo } from "@lib/combo";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
 import { ReactNode } from "react";
+import "@/globals.scss";
 
 const inter = Inter({ subsets: ["latin"], weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"] });
 

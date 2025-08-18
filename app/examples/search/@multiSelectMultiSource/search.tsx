@@ -1,16 +1,12 @@
 "use client";
 
 import Button from "@comps/ui/button";
-import {
-    createComboOptions,
-    createSelectedOptions,
-    deduplicateOptions,
-    MultiSourceComboOptionType,
-} from "@comps/ui/comboboxes/utils";
+import { useComboboxSearchMultiStates } from "@comps/ui/comboboxes/comboHookStates";
+import ComboboxSearchMulti from "@comps/ui/comboboxes/comboboxSearchMulti";
+import { MultiSourceComboOptionType, createComboOptions, deduplicateOptions } from "@comps/ui/comboboxes/utils";
 import { useFetchV2 } from "@utils/FetchV2/FetchHookV2";
 import { isEqual } from "lodash";
 import { FormEvent, useEffect } from "react";
-import ComboboxSearchMulti, { useComboboxMultiStates } from "@comps/ui/comboboxes/comboboxSearchMulti";
 
 type SearchProps = {
     initialOptions: MultiSourceComboOptionType[];
@@ -20,7 +16,7 @@ export default function Search(props: SearchProps) {
     const { initialOptions } = props;
 
     // ======= State ======= //
-    const comboboxStates = useComboboxMultiStates([], initialOptions);
+    const comboboxStates = useComboboxSearchMultiStates([], initialOptions);
     const { selected, query, options, setOptions } = comboboxStates;
 
     // ======= Fetch ======= //

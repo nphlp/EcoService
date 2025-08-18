@@ -1,12 +1,14 @@
 "use client";
 
 import Button from "@comps/ui/button";
-import Combobox, { useComboboxStates } from "@comps/ui/comboboxes/combobox";
-import ComboboxMulti, { useComboboxMultiStates } from "@comps/ui/comboboxes/comboboxMulti";
-// import ComboboxSearch, { useComboboxStates } from "@comps/ui/comboboxes/comboboxSearch";
+import { useComboboxMultiStates, useComboboxStates } from "@comps/ui/comboboxes/comboHookStates";
+import Combobox from "@comps/ui/comboboxes/combobox";
+import ComboboxMulti from "@comps/ui/comboboxes/comboboxMulti";
+// import ComboboxSearch from "@comps/ui/comboboxes/comboboxSearch";
 import { ComboOptionType, MultiSourceComboOptionType } from "@comps/ui/comboboxes/utils";
 import Feedback, { FeedbackMode } from "@comps/ui/feedback";
-import Input, { useInputState } from "@comps/ui/input";
+import Input from "@comps/ui/input/input";
+import { useInputState } from "@comps/ui/input/inputHookStates";
 import InputImage from "@comps/ui/inputImage";
 import Select from "@comps/ui/select/select";
 import { SelectOptionType } from "@comps/ui/select/utils";

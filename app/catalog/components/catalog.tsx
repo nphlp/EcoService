@@ -1,5 +1,12 @@
 "use client";
 
+import {
+    useCategoryQueryParams,
+    usePageQueryParams,
+    usePriceOrderQueryParams,
+    useSearchQueryParams,
+    useTakeQueryParams,
+} from "@comps/SHARED/queryParamsClientHooks";
 import ProductCard from "@comps/productCard";
 import Card from "@comps/server/card";
 import Link from "@comps/ui/link";
@@ -9,13 +16,8 @@ import { useFetchV2 } from "@utils/FetchV2/FetchHookV2";
 import { PackageSearch } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { MouseEvent, useContext } from "react";
-import { useCategoryQueryParams } from "@comps/SHARED/CategoryFilter";
-import { usePageQueryParams } from "@comps/SHARED/PaginationFilter";
-import { usePriceOrderQueryParams } from "@comps/SHARED/PriceOrderFilter";
-import { useSearchQueryParams } from "@comps/SHARED/SearchFilter";
-import { useTakeQueryParams } from "@comps/SHARED/TakeFilter";
 import { Context } from "./context";
-import { productFetchParams, ProductSearchType } from "./fetchParams";
+import { ProductSearchType, productFetchParams } from "./fetchParams";
 
 type CatalogProps = {
     className?: string;

@@ -10,7 +10,7 @@ import {
 import { combo } from "@lib/combo";
 import { StringToSlug } from "@utils/StringToSlug";
 import { Check, ChevronDown, X } from "lucide-react";
-import { ChangeEvent, KeyboardEvent, MouseEvent, useState } from "react";
+import { ChangeEvent, KeyboardEvent, MouseEvent } from "react";
 import { ComboOptionType } from "./utils";
 
 // TODO
@@ -30,24 +30,6 @@ type ComboboxProps = {
         options: ComboOptionType[];
         setOptions: (value: ComboOptionType[]) => void;
     };
-};
-
-/**
- * Typed hook to manage combobox state
- * @example
- * ```tsx
- * // Import hook states
- * const comboboxStates = useComboboxStates(null, articleOptions);
- *
- * // Extract any state you need in the following properties
- * const { query, setQuery, selected, setSelected, options, setOptions } = comboboxStates;
- * ```
- */
-export const useComboboxStates = (initialSelection: ComboOptionType | null, initialOptions: ComboOptionType[]) => {
-    const [query, setQuery] = useState<string>("");
-    const [selected, setSelected] = useState<ComboOptionType | null>(initialSelection);
-    const [options, setOptions] = useState<ComboOptionType[]>(initialOptions);
-    return { query, setQuery, selected, setSelected, options, setOptions };
 };
 
 /**

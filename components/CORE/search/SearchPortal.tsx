@@ -1,11 +1,11 @@
 "use client";
 
+import { combo } from "@lib/combo";
 import { motion } from "framer-motion";
 import { useContext, useEffect, useRef, useState } from "react";
-import { PortalContext } from "../Portal";
 import { useHeaderStore } from "../header/headerStore";
+import { PortalContext } from "../portal/PortalContext";
 import SearchModal, { SearchModalProps } from "./SearchModal";
-import { combo } from "@lib/combo";
 
 const DURATION = 0.3;
 

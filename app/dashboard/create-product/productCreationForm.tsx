@@ -1,16 +1,16 @@
 "use client";
 
-import { AddProductToStripeProcess } from "@/process/AddProductToStripeProcess";
 import Card from "@comps/server/card";
 import Button from "@comps/ui/button";
 import Feedback, { FeedbackMode } from "@comps/ui/feedback";
-import Input from "@comps/ui/input";
+import Input from "@comps/ui/input/input";
 import InputImage from "@comps/ui/inputImage";
 import Select from "@comps/ui/select/select";
 import { createSelectOptions } from "@comps/ui/select/utils";
 import { Prisma } from "@prisma/client";
 import { authorizedFileSize, authorizedFormats } from "@utils/ImageValidation";
 import { useState } from "react";
+import { AddProductToStripeProcess } from "@/process/AddProductToStripeProcess";
 
 type ProductCreationFormPros = {
     categoryList: Prisma.CategoryGetPayload<{ select: { id: true; name: true } }>[];

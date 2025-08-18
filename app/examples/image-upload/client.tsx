@@ -4,11 +4,12 @@ import Card from "@comps/server/card";
 import Button from "@comps/ui/button";
 import Feedback, { FeedbackMode } from "@comps/ui/feedback";
 import ImageRatio from "@comps/ui/imageRatio";
-import Input from "@comps/ui/input";
+import Input from "@comps/ui/input/input";
 import InputFile from "@comps/ui/inputImage";
 import { useState } from "react";
 import { CreateFruit } from "./utils/FruitActions";
 import { ImageValidation } from "./utils/ImageUploads";
+
 export default function AddFruitClient() {
     const [isLoading, setIsLoading] = useState(false);
 

@@ -1,7 +1,8 @@
 "use client";
 
 import Button from "@comps/ui/button";
-import Combobox, { useComboboxStates } from "@comps/ui/comboboxes/combobox";
+import { useComboboxStates } from "@comps/ui/comboboxes/comboHookStates";
+import Combobox from "@comps/ui/comboboxes/combobox";
 import { ComboOptionType } from "@comps/ui/comboboxes/utils";
 import { FormEvent } from "react";
 
