@@ -1,12 +1,13 @@
 "use client";
 
 import Button from "@comps/ui/button";
-import ComboboxSearch, { useComboboxStates } from "@comps/ui/comboboxes/comboboxSearch";
+import { useComboboxSearchStates } from "@comps/ui/comboboxes/comboHookStates";
+import ComboboxSearch from "@comps/ui/comboboxes/comboboxSearch";
 import {
+    MultiSourceComboOptionType,
     createComboOptions,
     createSelectedOptions,
     deduplicateOptions,
-    MultiSourceComboOptionType,
 } from "@comps/ui/comboboxes/utils";
 import { useFetchV2 } from "@utils/FetchV2/FetchHookV2";
 import { isEqual } from "lodash";
@@ -20,7 +21,7 @@ export default function Search(props: SearchProps) {
     const { initialOptions } = props;
 
     // ======= State ======= //
-    const comboboxStates = useComboboxStates(null, initialOptions);
+    const comboboxStates = useComboboxSearchStates(null, initialOptions);
     const { selected, query, options, setOptions } = comboboxStates;
 
     // ======= Fetch ======= //

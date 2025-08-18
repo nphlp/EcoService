@@ -39,27 +39,6 @@ type ComboboxMultiProps<T extends ComboOptionType | MultiSourceComboOptionType> 
 };
 
 /**
- * Typed hook to manage combobox multi-selection state
- * @example
- * ```tsx
- * // Import hook states
- * const comboboxMultiStates = useComboboxMultiStates([], productOptions);
- *
- * // Extract any state you need in the following properties
- * const { query, setQuery, selected, setSelected, options, setOptions } = comboboxMultiStates;
- * ```
- */
-export const useComboboxMultiStates = <T extends ComboOptionType | MultiSourceComboOptionType>(
-    initialSelections: T[],
-    initialOptions: T[],
-) => {
-    const [query, setQuery] = useState<string>("");
-    const [selected, setSelected] = useState<T[]>(initialSelections);
-    const [options, setOptions] = useState<T[]>(initialOptions);
-    return { query, setQuery, selected, setSelected, options, setOptions };
-};
-
-/**
  * Combobox multi-selection component
  * @example
  * ```tsx

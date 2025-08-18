@@ -1,9 +1,8 @@
 "use client";
 
+import { useCategoryQueryParams, useSearchQueryParams } from "@comps/SHARED/queryParamsClientHooks";
 import { useFetchV2 } from "@utils/FetchV2/FetchHookV2";
 import { ReactNode } from "react";
-import { useCategoryQueryParams } from "../../../components/SHARED/CategoryFilter";
-import { useSearchQueryParams } from "../../../components/SHARED/SearchFilter";
 import { Context } from "./context";
 import { productCountParams } from "./fetchParams";
 

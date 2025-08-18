@@ -2,7 +2,7 @@
 
 import { useThemeStore } from "@comps/CORE/themeStore";
 import Button from "@comps/ui/button";
-import Input from "@comps/ui/input";
+import Input from "@comps/ui/input/input";
 import Select from "@comps/ui/select/select";
 import { createSelectOptions } from "@comps/ui/select/utils";
 import { combo } from "@lib/combo";

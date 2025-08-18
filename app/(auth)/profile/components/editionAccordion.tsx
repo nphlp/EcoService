@@ -2,7 +2,7 @@
 
 import { Accordion, AccordionButton, AccordionContent } from "@comps/ui/accordion";
 import Button from "@comps/ui/button";
-import Input from "@comps/ui/input";
+import Input from "@comps/ui/input/input";
 import InputImage from "@comps/ui/inputImage";
 import InputPassword from "@comps/ui/inputPassword";
 import { changeEmail, changePassword, updateUser, useSession } from "@lib/authClient";

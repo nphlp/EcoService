@@ -11,7 +11,7 @@ import {
 import { combo } from "@lib/combo";
 import { StringToSlug } from "@utils/StringToSlug";
 import { Check, ChevronDown, X } from "lucide-react";
-import { ChangeEvent, KeyboardEvent, MouseEvent, useState } from "react";
+import { ChangeEvent, KeyboardEvent, MouseEvent } from "react";
 import { ComboOptionType, MultiSourceComboOptionType } from "./utils";
 
 // TODO
@@ -34,16 +34,6 @@ type ComboboxProps<T extends ComboOptionType | MultiSourceComboOptionType> = {
         setOptions: (value: T[]) => void;
     };
     isLoading?: boolean;
-};
-
-export const useComboboxStates = <T extends ComboOptionType | MultiSourceComboOptionType>(
-    initialSelection: T | null,
-    initialOptions: T[],
-) => {
-    const [query, setQuery] = useState<string>("");
-    const [selected, setSelected] = useState<T | null>(initialSelection);
-    const [options, setOptions] = useState<T[]>(initialOptions);
-    return { query, setQuery, selected, setSelected, options, setOptions };
 };
 
 export default function ComboboxSearch<T extends ComboOptionType | MultiSourceComboOptionType>(

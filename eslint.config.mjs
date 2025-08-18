@@ -19,11 +19,28 @@ const eslintConfig = [
             "unused-imports": unusedImports,
         },
         rules: {
-            "react-refresh/only-export-components": "warn",
+            "react-refresh/only-export-components": [
+                "warn",
+                {
+                    allowConstantExport: true,
+                    allowExportNames: [
+                        // Page authorized exports
+                        "metadata",
+                        "generateMetadata", 
+                        "generateStaticParams",
+                        "generateViewport",
+                        "generateImageMetadata",
+                        // OpenGraph image authorized exports
+                        "alt",
+                        "size", 
+                        "contentType"
+                    ],
+                },
+            ],
             "unused-imports/no-unused-imports": "error",
             "unused-imports/no-unused-vars": "warn",
         },
-    },
+    }
 ];
 
 export default eslintConfig;
