@@ -3,11 +3,11 @@
 import Button from "@comps/ui/button";
 import { useComboboxMultiStates } from "@comps/ui/comboboxes/comboHookStates";
 import ComboboxMulti from "@comps/ui/comboboxes/comboboxMulti";
-import { ComboOptionType } from "@comps/ui/comboboxes/utils";
+import { MultiSourceComboOptionType } from "@comps/ui/comboboxes/utils";
 import { FormEvent } from "react";
 
 type SearchProps = {
-    initialOptions: ComboOptionType[];
+    initialOptions: MultiSourceComboOptionType[];
 };
 
 export default function Search(props: SearchProps) {
@@ -23,8 +23,8 @@ export default function Search(props: SearchProps) {
     return (
         <form className="flex flex-col items-center justify-center gap-4" onSubmit={handleSubmit}>
             <ComboboxMulti
-                label="Produit"
-                placeholder="Sélectionnez un produit"
+                label="Multi Source"
+                placeholder="Sélectionnez plusieurs éléments"
                 classComponent="w-full"
                 initialOptions={initialOptions}
                 states={comboboxStates}

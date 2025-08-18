@@ -8,26 +8,25 @@ import {
 import Search from "./search";
 
 export default async function Page() {
-    // Fetch
-    const productList = await ProductFindManyServer({
-        select: { slug: true, name: true },
-        take: 3,
-    });
-
-    const categoryList = await CategoryFindManyServer({
-        select: { slug: true, name: true },
-        take: 2,
-    });
-
-    const articleList = await ArticleFindManyServer({
-        select: { slug: true, title: true },
-        take: 3,
-    });
-
-    const diyList = await DiyFindManyServer({
-        select: { slug: true, title: true },
-        take: 2,
-    });
+    // Fetch multiple sources in parallel
+    const [productList, categoryList, articleList, diyList] = await Promise.all([
+        ProductFindManyServer({
+            select: { slug: true, name: true },
+            take: 3,
+        }),
+        CategoryFindManyServer({
+            select: { slug: true, name: true },
+            take: 2,
+        }),
+        ArticleFindManyServer({
+            select: { slug: true, title: true },
+            take: 3,
+        }),
+        DiyFindManyServer({
+            select: { slug: true, title: true },
+            take: 2,
+        }),
+    ]);
 
     // Format options
     const productOptions = createComboOptions(productList, { slug: "slug", name: "name", type: "product" });

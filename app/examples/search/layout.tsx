@@ -5,6 +5,8 @@ import { ReactNode } from "react";
 type LayoutProps = {
     singleCombo: ReactNode;
     multiCombo: ReactNode;
+    singleMultiSource: ReactNode;
+    multiMultiSource: ReactNode;
     singleSelectSingleSource: ReactNode;
     singleSelectMultiSource: ReactNode;
     multiSelectSingleSource: ReactNode;
@@ -15,6 +17,8 @@ export default function Layout(props: LayoutProps) {
     const {
         singleCombo,
         multiCombo,
+        singleMultiSource,
+        multiMultiSource,
         singleSelectSingleSource,
         singleSelectMultiSource,
         multiSelectSingleSource,
@@ -50,7 +54,7 @@ export default function Layout(props: LayoutProps) {
                 ]}
             />
 
-            {/* <Section
+            <Section
                 title="Liste fixe"
                 BadgeIcon={Shuffle}
                 badgeText="Multi Source"
@@ -59,16 +63,16 @@ export default function Layout(props: LayoutProps) {
                         title: "Multi Combobox",
                         description: "Sélectionner un seul élément parmis plusieurs types d'éléments.",
                         badge: { Icon: SquareCheckBig, text: "Single Select" },
-                        // children: singleCombo,
+                        children: singleMultiSource,
                     },
                     {
                         title: "Multi Combobox",
                         description: "Sélectionner plusieurs éléments parmis plusieurs types d'éléments.",
                         badge: { Icon: ListTodo, text: "Multi Select" },
-                        // children: multiCombo,
+                        children: multiMultiSource,
                     },
                 ]}
-            /> */}
+            />
 
             <Section
                 title="Liste dynamique"
