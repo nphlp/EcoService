@@ -11,24 +11,23 @@ import { combo } from "@lib/combo";
 import { StringToSlug } from "@utils/StringToSlug";
 import { Check, ChevronDown, X } from "lucide-react";
 import { ChangeEvent, KeyboardEvent, MouseEvent } from "react";
-import { ComboOptionType } from "./utils";
+import { ComboOptionType, MultiSourceComboOptionType } from "./utils";
 
 // TODO
 // Documentation
-// Multi source support
 
-type ComboboxProps = {
+type ComboboxProps<T extends ComboOptionType | MultiSourceComboOptionType> = {
     label: string;
     placeholder?: string;
     classComponent?: string;
-    initialOptions: ComboOptionType[];
+    initialOptions: T[];
     states: {
         query: string;
         setQuery: (value: string) => void;
-        selected: ComboOptionType | null;
-        setSelected: (value: ComboOptionType | null) => void;
-        options: ComboOptionType[];
-        setOptions: (value: ComboOptionType[]) => void;
+        selected: T | null;
+        setSelected: (value: T | null) => void;
+        options: T[];
+        setOptions: (value: T[]) => void;
     };
 };
 
@@ -52,7 +51,7 @@ type ComboboxProps = {
  * />
  * ```
  */
-export default function Combobox(props: ComboboxProps) {
+export default function Combobox<T extends ComboOptionType | MultiSourceComboOptionType>(props: ComboboxProps<T>) {
     const { label, placeholder, classComponent, initialOptions, states } = props;
     const { query, setQuery, selected, setSelected, options, setOptions } = states;
 
@@ -63,7 +62,7 @@ export default function Combobox(props: ComboboxProps) {
         setQuery(value);
     };
 
-    const handleSelectionChange = (option: ComboOptionType | null) => {
+    const handleSelectionChange = (option: T | null) => {
         if (!option) return;
         setSelected(option);
     };
@@ -73,7 +72,7 @@ export default function Combobox(props: ComboboxProps) {
         setQuery("");
     };
 
-    const handleDisplayValue = (option: ComboOptionType | null) => {
+    const handleDisplayValue = (option: T | null) => {
         if (!option) return "";
         return option.name;
     };
@@ -134,13 +133,13 @@ export default function Combobox(props: ComboboxProps) {
     );
 }
 
-type ComboboxIconProps = {
-    selected: ComboOptionType | null;
-    setSelected: (value: ComboOptionType | null) => void;
+type ComboboxIconProps<T extends ComboOptionType | MultiSourceComboOptionType> = {
+    selected: T | null;
+    setSelected: (value: T | null) => void;
     setQuery: (value: string) => void;
 };
 
-export const ComboboxIcon = (props: ComboboxIconProps) => {
+export const ComboboxIcon = <T extends ComboOptionType | MultiSourceComboOptionType>(props: ComboboxIconProps<T>) => {
     const { selected, setSelected, setQuery } = props;
 
     const handleRemoveAll = () => {
@@ -186,12 +185,12 @@ export const ComboboxIcon = (props: ComboboxIconProps) => {
     );
 };
 
-type ComboboxLabelProps = {
-    option: ComboOptionType;
+type ComboboxLabelProps<T extends ComboOptionType | MultiSourceComboOptionType> = {
+    option: T;
     query: string;
 };
 
-const ComboboxLabel = (props: ComboboxLabelProps) => {
+const ComboboxLabel = <T extends ComboOptionType | MultiSourceComboOptionType>(props: ComboboxLabelProps<T>) => {
     const { option, query } = props;
 
     const highlightQuery = (optionName: string, query: string) => {
@@ -214,10 +213,17 @@ const ComboboxLabel = (props: ComboboxLabelProps) => {
     const { before, highlighted, after } = highlightQuery(option.name, query);
 
     return (
-        <span>
-            <span>{before}</span>
-            <span className="rounded-sm bg-teal-200 font-bold">{highlighted}</span>
-            <span>{after}</span>
-        </span>
+        <div className="flex w-full items-center justify-start gap-2">
+            <span>
+                <span>{before}</span>
+                <span className="rounded-sm bg-teal-200 font-bold">{highlighted}</span>
+                <span>{after}</span>
+            </span>
+            {"type" in option && (
+                <span className="text-3xs rounded-full bg-gray-500 px-1.5 pt-[3px] pb-[2px] font-semibold text-white uppercase">
+                    {option.type}
+                </span>
+            )}
+        </div>
     );
 };

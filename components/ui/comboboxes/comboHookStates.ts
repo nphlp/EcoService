@@ -6,16 +6,19 @@ import { ComboOptionType, MultiSourceComboOptionType } from "./utils";
  * @example
  * ```tsx
  * // Import hook states
- * const comboboxStates = useComboboxStates(null, articleOptions);
+ * const comboboxStates = useComboboxStates<ComboOptionType>(null, articleOptions);
  *
  * // Extract any state you need in the following properties
  * const { query, setQuery, selected, setSelected, options, setOptions } = comboboxStates;
  * ```
  */
-export const useComboboxStates = (initialSelection: ComboOptionType | null, initialOptions: ComboOptionType[]) => {
+export const useComboboxStates = <T extends ComboOptionType | MultiSourceComboOptionType>(
+    initialSelection: T | null,
+    initialOptions: T[],
+) => {
     const [query, setQuery] = useState<string>("");
-    const [selected, setSelected] = useState<ComboOptionType | null>(initialSelection);
-    const [options, setOptions] = useState<ComboOptionType[]>(initialOptions);
+    const [selected, setSelected] = useState<T | null>(initialSelection);
+    const [options, setOptions] = useState<T[]>(initialOptions);
     return { query, setQuery, selected, setSelected, options, setOptions };
 };
 
@@ -24,16 +27,19 @@ export const useComboboxStates = (initialSelection: ComboOptionType | null, init
  * @example
  * ```tsx
  * // Import hook states
- * const comboboxMultiStates = useComboboxMultiStates([], productOptions);
+ * const comboboxMultiStates = useComboboxMultiStates<ComboOptionType>([], productOptions);
  *
  * // Extract any state you need in the following properties
  * const { query, setQuery, selected, setSelected, options, setOptions } = comboboxMultiStates;
  * ```
  */
-export const useComboboxMultiStates = (initialSelections: ComboOptionType[], initialOptions: ComboOptionType[]) => {
+export const useComboboxMultiStates = <T extends ComboOptionType | MultiSourceComboOptionType>(
+    initialSelections: T[],
+    initialOptions: T[],
+) => {
     const [query, setQuery] = useState<string>("");
-    const [selected, setSelected] = useState<ComboOptionType[]>(initialSelections);
-    const [options, setOptions] = useState<ComboOptionType[]>(initialOptions);
+    const [selected, setSelected] = useState<T[]>(initialSelections);
+    const [options, setOptions] = useState<T[]>(initialOptions);
     return { query, setQuery, selected, setSelected, options, setOptions };
 };
 

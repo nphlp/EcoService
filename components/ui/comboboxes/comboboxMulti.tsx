@@ -13,24 +13,23 @@ import { motion } from "framer-motion";
 import { Check, ChevronDown, X } from "lucide-react";
 import { ChangeEvent, KeyboardEvent, MouseEvent, useEffect, useRef, useState } from "react";
 import Popover from "../popover";
-import { ComboOptionType } from "./utils";
+import { ComboOptionType, MultiSourceComboOptionType } from "./utils";
 
 // TODO
 // Documentation
-// Multi source support
 
-type ComboboxMultiProps = {
+type ComboboxMultiProps<T extends ComboOptionType | MultiSourceComboOptionType> = {
     label: string;
     placeholder?: string;
     classComponent?: string;
-    initialOptions: ComboOptionType[];
+    initialOptions: T[];
     states: {
         query: string;
         setQuery: (value: string) => void;
-        selected: ComboOptionType[];
-        setSelected: (value: ComboOptionType[]) => void;
-        options: ComboOptionType[];
-        setOptions: (value: ComboOptionType[]) => void;
+        selected: T[];
+        setSelected: (value: T[]) => void;
+        options: T[];
+        setOptions: (value: T[]) => void;
     };
 };
 
@@ -54,7 +53,9 @@ type ComboboxMultiProps = {
  * />
  * ```
  */
-export default function ComboboxMulti(props: ComboboxMultiProps) {
+export default function ComboboxMulti<T extends ComboOptionType | MultiSourceComboOptionType>(
+    props: ComboboxMultiProps<T>,
+) {
     const { label, placeholder, classComponent, initialOptions, states } = props;
     const { query, setQuery, selected, setSelected, options, setOptions } = states;
 
@@ -65,7 +66,7 @@ export default function ComboboxMulti(props: ComboboxMultiProps) {
         setQuery(value);
     };
 
-    const handleSelectionChange = (options: ComboOptionType[]) => {
+    const handleSelectionChange = (options: T[]) => {
         setSelected(options);
         setQuery("");
     };
@@ -137,13 +138,13 @@ export default function ComboboxMulti(props: ComboboxMultiProps) {
     );
 }
 
-type ComboboxIconProps = {
-    selected: ComboOptionType[];
-    setSelected: (value: ComboOptionType[]) => void;
+type ComboboxIconProps<T extends ComboOptionType | MultiSourceComboOptionType> = {
+    selected: T[];
+    setSelected: (value: T[]) => void;
     setQuery: (value: string) => void;
 };
 
-export const ComboboxIcon = (props: ComboboxIconProps) => {
+export const ComboboxIcon = <T extends ComboOptionType | MultiSourceComboOptionType>(props: ComboboxIconProps<T>) => {
     const { selected, setSelected, setQuery } = props;
 
     const handleRemoveAll = () => {
@@ -189,15 +190,15 @@ export const ComboboxIcon = (props: ComboboxIconProps) => {
     );
 };
 
-type ComboboxDisplayProps = {
-    selected: ComboOptionType[];
-    setSelected: (value: ComboOptionType[]) => void;
-    initialOptions: ComboOptionType[];
+type ComboboxDisplayProps<T extends ComboOptionType | MultiSourceComboOptionType> = {
+    selected: T[];
+    setSelected: (value: T[]) => void;
+    initialOptions: T[];
     maxLength?: number;
     className?: string;
 };
 
-const ComboboxDisplay = (props: ComboboxDisplayProps) => {
+const ComboboxDisplay = <T extends ComboOptionType | MultiSourceComboOptionType>(props: ComboboxDisplayProps<T>) => {
     const { selected, setSelected, initialOptions, maxLength = 12, className } = props;
 
     const needsEllipsis = (name: string) => name.length > maxLength;
@@ -207,7 +208,7 @@ const ComboboxDisplay = (props: ComboboxDisplayProps) => {
         selected.some((selectedOption) => selectedOption.slug === option.slug),
     );
 
-    const handleRemove = (optionToRemove: ComboOptionType) => {
+    const handleRemove = (optionToRemove: T) => {
         const optionsLeft = selected.filter((selectedOption) => selectedOption.slug !== optionToRemove.slug);
         setSelected(optionsLeft);
     };
@@ -293,12 +294,12 @@ const ComboboxDisplay = (props: ComboboxDisplayProps) => {
     );
 };
 
-type ComboboxLabelProps = {
-    option: ComboOptionType;
+type ComboboxLabelProps<T extends ComboOptionType | MultiSourceComboOptionType> = {
+    option: T;
     query: string;
 };
 
-const ComboboxLabel = (props: ComboboxLabelProps) => {
+const ComboboxLabel = <T extends ComboOptionType | MultiSourceComboOptionType>(props: ComboboxLabelProps<T>) => {
     const { option, query } = props;
 
     const highlightQuery = (optionName: string, query: string) => {
@@ -321,10 +322,17 @@ const ComboboxLabel = (props: ComboboxLabelProps) => {
     const { before, highlighted, after } = highlightQuery(option.name, query);
 
     return (
-        <span>
-            <span>{before}</span>
-            <span className="rounded-sm bg-teal-200 font-bold">{highlighted}</span>
-            <span>{after}</span>
-        </span>
+        <div className="flex w-full items-center justify-start gap-2">
+            <span>
+                <span>{before}</span>
+                <span className="rounded-sm bg-teal-200 font-bold">{highlighted}</span>
+                <span>{after}</span>
+            </span>
+            {"type" in option && (
+                <span className="text-3xs rounded-full bg-gray-500 px-1.5 pt-[3px] pb-[2px] font-semibold text-white uppercase">
+                    {option.type}
+                </span>
+            )}
+        </div>
     );
 };
