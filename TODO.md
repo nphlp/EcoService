@@ -23,6 +23,7 @@ Complete auth and user management
 - [] Revoir les composants UI et l'architecture premitive/surcouche
 - [] Revoir les Docker Compose environnements depuis le chagement de paradigme `export dynamic = "auto"`
 - [] Améliorer la gestion des autorisations et permissions
+- [] Gérer les TODOs
 
 ## User Experience
 

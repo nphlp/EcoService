@@ -1,19 +1,13 @@
 "use client";
 
-import {
-    ComboboxButton,
-    Combobox as ComboboxHeadlessUI,
-    ComboboxInput,
-    ComboboxOption,
-    ComboboxOptions,
-} from "@headlessui/react";
+import { Combobox as ComboboxHeadlessUI, ComboboxInput, ComboboxOption, ComboboxOptions } from "@headlessui/react";
 import { combo } from "@lib/combo";
 import { StringToSlug } from "@utils/StringToSlug";
 import { motion } from "framer-motion";
-import { Check, ChevronDown, X } from "lucide-react";
-import { ChangeEvent, KeyboardEvent, MouseEvent, useEffect, useRef, useState } from "react";
-import Loader from "../loader";
+import { Check, X } from "lucide-react";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
 import Popover from "../popover";
+import ComboboxIcon from "./sub-components/comboboxIcon";
 import ComboboxLabel from "./sub-components/comboboxLabel";
 import { ComboOptionType, MultiSourceComboOptionType } from "./utils";
 
@@ -72,9 +66,11 @@ export default function ComboboxMulti<T extends ComboOptionType | MultiSourceCom
     const { query, setQuery, selected, setSelected, options, setOptions } = states;
 
     const displayedOptions = options
-        // TODO: add a condition for "static" or "dynamic" options
-        // The following line is only required when options are fixed (not connected to an API)
+        // The following line is usefull when options are static (not connected to an API)
+        // When options are dynamic (connected to the API), this filter is done for nothing
+        // But the code and usage is easier and cleaner with more conditions
         .filter((option) => option.slug.includes(StringToSlug(query)))
+        // Include or exclude the selected options from the dropdown options
         .filter((option) => {
             // If true, show all options
             if (displaySelectedValuesInDropdown) return true;
@@ -121,7 +117,7 @@ export default function ComboboxMulti<T extends ComboOptionType | MultiSourceCom
                             "transition-all duration-150",
                         )}
                     />
-                    <ComboboxIcon
+                    <ComboboxIcon<T>
                         selected={selected}
                         setSelected={setSelected}
                         setQuery={setQuery}
@@ -158,67 +154,6 @@ export default function ComboboxMulti<T extends ComboOptionType | MultiSourceCom
         </div>
     );
 }
-
-type ComboboxIconProps<T extends ComboOptionType | MultiSourceComboOptionType> = {
-    selected: T[];
-    setSelected: (value: T[]) => void;
-    setQuery: (value: string) => void;
-    isLoading?: boolean;
-};
-
-export const ComboboxIcon = <T extends ComboOptionType | MultiSourceComboOptionType>(props: ComboboxIconProps<T>) => {
-    const { selected, setSelected, setQuery, isLoading } = props;
-
-    const handleRemoveAll = () => {
-        setSelected([]);
-        setQuery("");
-    };
-
-    const handleClick = (e: MouseEvent<HTMLButtonElement>) => {
-        e.preventDefault();
-        e.stopPropagation();
-        handleRemoveAll();
-    };
-
-    const handleKeyDown = (e: KeyboardEvent<HTMLButtonElement>) => {
-        e.preventDefault();
-        e.stopPropagation();
-        handleRemoveAll();
-    };
-
-    if (isLoading) {
-        return (
-            <div className={combo("absolute top-1/2 right-1 -translate-y-1/2 cursor-pointer rounded-full p-1")}>
-                <Loader />
-            </div>
-        );
-    }
-
-    if (selected.length === 0) {
-        return (
-            <ComboboxButton
-                className={combo("absolute top-1/2 right-1 -translate-y-1/2 cursor-pointer rounded-full p-1")}
-            >
-                <ChevronDown className="size-5 fill-white" />
-            </ComboboxButton>
-        );
-    }
-
-    return (
-        <button
-            type="button"
-            onClick={handleClick}
-            onKeyDown={handleKeyDown}
-            className={combo(
-                "absolute top-1/2 right-1 -translate-y-1/2 cursor-pointer rounded-full p-1",
-                "ring-0 outline-none focus:ring-2 focus:ring-teal-300",
-                "transition-all duration-150",
-            )}
-        >
-            <X className="size-5 fill-white" />
-        </button>
-    );
-};
 
 type ComboboxDisplayProps<T extends ComboOptionType | MultiSourceComboOptionType> = {
     selected: T[];
