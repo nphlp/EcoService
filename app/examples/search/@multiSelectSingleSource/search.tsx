@@ -1,8 +1,8 @@
 "use client";
 
 import Button from "@comps/ui/button";
-import { useComboboxSearchMultiStates } from "@comps/ui/comboboxes/comboHookStates";
-import ComboboxSearchMulti from "@comps/ui/comboboxes/comboboxSearchMulti";
+import { useComboboxMultiStates } from "@comps/ui/comboboxes/comboHookStates";
+import ComboboxMulti from "@comps/ui/comboboxes/comboboxMulti";
 import { ComboOptionType, createComboOptions, deduplicateOptions } from "@comps/ui/comboboxes/utils";
 import { useFetchV2 } from "@utils/FetchV2/FetchHookV2";
 import { isEqual } from "lodash";
@@ -16,7 +16,7 @@ export default function Search(props: ResearchProps) {
     const { initialOptions } = props;
 
     // ======= State ======= //
-    const comboboxStates = useComboboxSearchMultiStates([], initialOptions);
+    const comboboxStates = useComboboxMultiStates([], initialOptions);
     const { selected, query, options, setOptions } = comboboxStates;
 
     // ======= Fetch ======= //
@@ -63,7 +63,7 @@ export default function Search(props: ResearchProps) {
 
     return (
         <form className="flex flex-col items-center justify-center gap-4" onSubmit={handleSubmit}>
-            <ComboboxSearchMulti
+            <ComboboxMulti
                 label="Recherchez et sélectionnez"
                 placeholder="Un produit, une catégorie ou un article..."
                 classComponent="w-full"

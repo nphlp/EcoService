@@ -57,6 +57,8 @@ export default function Combobox<T extends ComboOptionType | MultiSourceComboOpt
     const { label, placeholder, classComponent, initialOptions, states, isLoading } = props;
     const { query, setQuery, selected, setSelected, options, setOptions } = states;
 
+    // TODO: add a condition for "static" or "dynamic" options
+    // The following line is only required when options are fixed (not connected to an API)
     const displayedOptions = options.filter((option) => option.slug.includes(StringToSlug(query)));
 
     const handleQueryChange = (event: ChangeEvent<HTMLInputElement>) => {
