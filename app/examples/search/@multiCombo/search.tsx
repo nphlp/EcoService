@@ -3,11 +3,11 @@
 import Button from "@comps/ui/button";
 import { useComboboxMultiStates } from "@comps/ui/comboboxes/comboHookStates";
 import ComboboxMulti from "@comps/ui/comboboxes/comboboxMulti";
-import { MultiSourceComboOptionType } from "@comps/ui/comboboxes/utils";
+import { ComboOptionType } from "@comps/ui/comboboxes/utils";
 import { FormEvent } from "react";
 
 type SearchProps = {
-    initialOptions: MultiSourceComboOptionType[];
+    initialOptions: ComboOptionType[];
 };
 
 export default function Search(props: SearchProps) {

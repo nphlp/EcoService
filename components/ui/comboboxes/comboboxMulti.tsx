@@ -12,6 +12,7 @@ import { StringToSlug } from "@utils/StringToSlug";
 import { motion } from "framer-motion";
 import { Check, ChevronDown, X } from "lucide-react";
 import { ChangeEvent, KeyboardEvent, MouseEvent, useEffect, useRef, useState } from "react";
+import Loader from "../loader";
 import Popover from "../popover";
 import { ComboOptionType, MultiSourceComboOptionType } from "./utils";
 
@@ -31,6 +32,8 @@ type ComboboxMultiProps<T extends ComboOptionType | MultiSourceComboOptionType> 
         options: T[];
         setOptions: (value: T[]) => void;
     };
+    isLoading?: boolean;
+    displaySelectedValuesInDropdown?: boolean;
 };
 
 /**
@@ -56,10 +59,27 @@ type ComboboxMultiProps<T extends ComboOptionType | MultiSourceComboOptionType> 
 export default function ComboboxMulti<T extends ComboOptionType | MultiSourceComboOptionType>(
     props: ComboboxMultiProps<T>,
 ) {
-    const { label, placeholder, classComponent, initialOptions, states } = props;
+    const {
+        label,
+        placeholder,
+        classComponent,
+        initialOptions,
+        states,
+        isLoading,
+        displaySelectedValuesInDropdown = false,
+    } = props;
     const { query, setQuery, selected, setSelected, options, setOptions } = states;
 
-    const displayedOptions = options.filter((option) => option.slug.includes(StringToSlug(query)));
+    const displayedOptions = options
+        // TODO: add a condition for "static" or "dynamic" options
+        // The following line is only required when options are fixed (not connected to an API)
+        .filter((option) => option.slug.includes(StringToSlug(query)))
+        .filter((option) => {
+            // If true, show all options
+            if (displaySelectedValuesInDropdown) return true;
+            // If false, filter out already selected options
+            return !selected.some((selectedOption) => selectedOption.slug === option.slug);
+        });
 
     const handleQueryChange = (event: ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value;
@@ -87,12 +107,7 @@ export default function ComboboxMulti<T extends ComboOptionType | MultiSourceCom
                 multiple
                 immediate
             >
-                <ComboboxDisplay
-                    className="mt-1"
-                    selected={selected}
-                    setSelected={setSelected}
-                    initialOptions={initialOptions}
-                />
+                <ComboboxDisplay className="mt-1" selected={selected} setSelected={setSelected} />
                 <div className={combo("relative", selected.length > 0 ? "mt-2.5" : "mt-0")}>
                     <ComboboxInput
                         aria-label={label}
@@ -105,7 +120,12 @@ export default function ComboboxMulti<T extends ComboOptionType | MultiSourceCom
                             "transition-all duration-150",
                         )}
                     />
-                    <ComboboxIcon selected={selected} setSelected={setSelected} setQuery={setQuery} />
+                    <ComboboxIcon
+                        selected={selected}
+                        setSelected={setSelected}
+                        setQuery={setQuery}
+                        isLoading={isLoading}
+                    />
                 </div>
                 <ComboboxOptions
                     anchor="bottom"
@@ -142,10 +162,11 @@ type ComboboxIconProps<T extends ComboOptionType | MultiSourceComboOptionType> =
     selected: T[];
     setSelected: (value: T[]) => void;
     setQuery: (value: string) => void;
+    isLoading?: boolean;
 };
 
 export const ComboboxIcon = <T extends ComboOptionType | MultiSourceComboOptionType>(props: ComboboxIconProps<T>) => {
-    const { selected, setSelected, setQuery } = props;
+    const { selected, setSelected, setQuery, isLoading } = props;
 
     const handleRemoveAll = () => {
         setSelected([]);
@@ -163,6 +184,14 @@ export const ComboboxIcon = <T extends ComboOptionType | MultiSourceComboOptionT
         e.stopPropagation();
         handleRemoveAll();
     };
+
+    if (isLoading) {
+        return (
+            <div className={combo("absolute top-1/2 right-1 -translate-y-1/2 cursor-pointer rounded-full p-1")}>
+                <Loader />
+            </div>
+        );
+    }
 
     if (selected.length === 0) {
         return (
@@ -193,20 +222,15 @@ export const ComboboxIcon = <T extends ComboOptionType | MultiSourceComboOptionT
 type ComboboxDisplayProps<T extends ComboOptionType | MultiSourceComboOptionType> = {
     selected: T[];
     setSelected: (value: T[]) => void;
-    initialOptions: T[];
     maxLength?: number;
     className?: string;
 };
 
 const ComboboxDisplay = <T extends ComboOptionType | MultiSourceComboOptionType>(props: ComboboxDisplayProps<T>) => {
-    const { selected, setSelected, initialOptions, maxLength = 12, className } = props;
+    const { selected, setSelected, maxLength = 12, className } = props;
 
     const needsEllipsis = (name: string) => name.length > maxLength;
     const ellipsis = (name: string) => (needsEllipsis(name) ? name.slice(0, maxLength) : name);
-
-    const selectedOptions = initialOptions.filter((option) =>
-        selected.some((selectedOption) => selectedOption.slug === option.slug),
-    );
 
     const handleRemove = (optionToRemove: T) => {
         const optionsLeft = selected.filter((selectedOption) => selectedOption.slug !== optionToRemove.slug);
@@ -251,7 +275,7 @@ const ComboboxDisplay = <T extends ComboOptionType | MultiSourceComboOptionType>
             className={className}
         >
             <div ref={heightRef} className="flex flex-row flex-wrap gap-1">
-                {selectedOptions.map((option, index) => (
+                {selected.map((option, index) => (
                     <div
                         key={index}
                         id={`tag-${option.slug}-${index}`}

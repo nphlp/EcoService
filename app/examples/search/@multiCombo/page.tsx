@@ -10,7 +10,7 @@ export default async function Page() {
     });
 
     // Format options
-    const initialOptions = createComboOptions(productList, { slug: "slug", name: "name", type: "product" });
+    const initialOptions = createComboOptions(productList, { slug: "slug", name: "name" });
 
     // Render
     return <Search initialOptions={initialOptions} />;

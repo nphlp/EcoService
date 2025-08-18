@@ -1,7 +1,7 @@
 "use client";
 
 import Button from "@comps/ui/button";
-import { useComboboxSearchStates } from "@comps/ui/comboboxes/comboHookStates";
+import { useComboboxStates } from "@comps/ui/comboboxes/comboHookStates";
 import Combobox from "@comps/ui/comboboxes/combobox";
 import {
     MultiSourceComboOptionType,
@@ -21,7 +21,7 @@ export default function Search(props: SearchProps) {
     const { initialOptions } = props;
 
     // ======= State ======= //
-    const comboboxStates = useComboboxSearchStates(null, initialOptions);
+    const comboboxStates = useComboboxStates(null, initialOptions);
     const { selected, query, options, setOptions } = comboboxStates;
 
     // ======= Fetch ======= //
