@@ -3,10 +3,10 @@
 import { UserUpdateAction } from "@actions/UserAction";
 import { GetSession } from "@lib/authServer";
 import { hasPermission } from "@permissions/hasPermissions";
-import { strictObject, z, ZodType } from "zod";
+import { revalidatePath } from "next/cache";
+import { ZodType, strictObject, z } from "zod";
 import { ProcessDevError } from "./Error";
 import { ProcessResponse } from "./Type";
-import { revalidatePath } from "next/cache";
 
 type UpdateLastnameProcessProps = {
     lastname: string;

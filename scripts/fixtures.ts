@@ -1,5 +1,4 @@
 #!/usr/bin/env tsx
-
 /**
  * Gestion des données de test (fixtures)
  *
@@ -12,7 +11,6 @@
  * - data.ts: définit les données à charger dans la base
  * - commands.ts: implémente les commandes pour manipuler les données
  */
-
 import { fixtures, reload, reset } from "./fixtures/commands";
 
 /**

@@ -1,12 +1,12 @@
 "use client";
 
+import { articleUrlSerializer } from "@app/article/queryParams";
 import { catalogUrlSerializer } from "@app/catalog/components/queryParams";
+import { diyUrlSerializer } from "@app/diy/queryParams";
 import Link from "next/link";
 import { useHeaderStore } from "../header/headerStore";
-import { ArticleSearchType, CategorySearchType, CountType, DiySearchType, ProductSearchType } from "./fetchParams";
 import ItemList from "./SearchItem";
-import { diyUrlSerializer } from "@app/diy/queryParams";
-import { articleUrlSerializer } from "@app/article/queryParams";
+import { ArticleSearchType, CategorySearchType, CountType, DiySearchType, ProductSearchType } from "./fetchParams";
 
 type ResultsListProps = {
     productList: ProductSearchType[];

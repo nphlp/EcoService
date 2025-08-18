@@ -10,7 +10,7 @@ import {
 import { FileText, Hammer, Package, ShoppingCart, Users } from "lucide-react";
 import { Metadata } from "next";
 import { unauthorized } from "next/navigation";
-import { cloneElement, JSX } from "react";
+import { JSX, cloneElement } from "react";
 import { SideBarToggleTitle } from "./sideBar";
 
 export const metadata: Metadata = {

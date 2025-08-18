@@ -3,7 +3,7 @@
 import { useBasketStore } from "@comps/basket/basketStore";
 import Button from "@comps/ui/button";
 import { Elements, PaymentElement, useElements, useStripe } from "@stripe/react-stripe-js";
-import { Appearance, loadStripe, StripePaymentElementOptions } from "@stripe/stripe-js";
+import { Appearance, StripePaymentElementOptions, loadStripe } from "@stripe/stripe-js";
 import { FormEvent, useState } from "react";
 import AddressForm from "./adressForm";
 import { totalPriceInCents } from "./totalPriceInCents";

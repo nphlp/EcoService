@@ -1,9 +1,9 @@
 "use server";
 
 import { promises as fs } from "fs";
+import { StringToSlug } from "@/utils/StringToSlug";
 import { FileExists } from "./FileExists";
 import { ImageUploadsProps, ImageValidationProps, ImageValidationReturn } from "./ImageType";
-import { StringToSlug } from "@/utils/StringToSlug";
 
 export const ImageValidation = async (props: ImageValidationProps): Promise<ImageValidationReturn> => {
     try {

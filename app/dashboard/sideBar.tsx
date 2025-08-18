@@ -4,7 +4,7 @@ import Button from "@comps/ui/button";
 import { combo } from "@lib/combo";
 import { motion } from "framer-motion";
 import { PanelLeftClose, PanelLeftOpen } from "lucide-react";
-import { createContext, ReactNode, useContext, useState } from "react";
+import { ReactNode, createContext, useContext, useState } from "react";
 
 // Types
 type SideBarContextType = {

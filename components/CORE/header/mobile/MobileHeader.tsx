@@ -1,11 +1,11 @@
 "use client";
 
+import ButtonClient from "@comps/client/button";
+import LogoutClient from "@comps/client/logout";
 import { useSession } from "@lib/authClient";
 import { combo } from "@lib/combo";
 import { Leaf } from "lucide-react";
 import { useState } from "react";
-import ButtonClient from "@comps/client/button";
-import LogoutClient from "@comps/client/logout";
 
 type MobileHeaderProps = {
     className?: string;

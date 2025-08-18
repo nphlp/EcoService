@@ -11,6 +11,8 @@
 name: CI/CD Pipeline
 
 on:
+  # push:
+  #   branches: [main]
   pull_request:
     branches: [main]
 
@@ -23,7 +25,7 @@ jobs:
       - uses: wagoid/commitlint-github-action@v6
 
   setup-base:
-    name: Setup Base Environment
+    name: Setup dependencies
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

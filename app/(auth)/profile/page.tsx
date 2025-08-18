@@ -3,9 +3,9 @@ import { GetSession } from "@lib/authServer";
 import { unauthorized } from "next/navigation";
 import EditionAccordion from "./components/editionAccordion";
 import EmailConfirmModal from "./components/emailConfirmModal";
+import OrdersAccordion from "./components/ordersAccordion";
 import ProfileAccordion from "./components/profileAccordion";
 import SessionAccordion from "./components/sessionAccordion";
-import OrdersAccordion from "./components/ordersAccordion";
 
 export default async function Page() {
     const session = await GetSession();

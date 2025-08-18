@@ -1,5 +1,5 @@
 import { combo } from "@lib/combo";
-import { Html, Container, Tailwind, Button, Body, Section } from "@react-email/components";
+import { Body, Button, Container, Html, Section, Tailwind } from "@react-email/components";
 
 type EmailTemplateProps = {
     buttonUrl: string;

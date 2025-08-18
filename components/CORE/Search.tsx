@@ -8,22 +8,22 @@ import {
     ProductCountServer,
     ProductFindManyServer,
 } from "@services/server";
+import SearchPortal from "./search/SearchPortal";
 import {
-    articleCountParams,
-    articleFetchParams,
     ArticleSearchType,
-    categoryCountParams,
-    categoryFetchParams,
     CategorySearchType,
     CountType,
+    DiySearchType,
+    ProductSearchType,
+    articleCountParams,
+    articleFetchParams,
+    categoryCountParams,
+    categoryFetchParams,
     diyCountParams,
     diyFetchParams,
-    DiySearchType,
     productCountParams,
     productFetchParams,
-    ProductSearchType,
 } from "./search/fetchParams";
-import SearchPortal from "./search/SearchPortal";
 
 export default async function Search() {
     // Fetch data

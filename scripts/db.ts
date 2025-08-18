@@ -1,5 +1,4 @@
 #!/usr/bin/env tsx
-
 /**
  * Gestion de base de données pour l'application EcoService
  *
@@ -30,7 +29,6 @@
  * - utils.ts: fonctions utilitaires (readline, vérification de DB)
  * - commands.ts: implémentation des commandes disponibles
  */
-
 import { customSqlFile, reloadDb, resetDb, setupDb } from "./db/commands";
 import { closeReadline, getMySqlPassword } from "./db/utils";
 

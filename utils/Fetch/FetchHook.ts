@@ -1,8 +1,8 @@
 "use client";
 
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Routes } from "./Fetch";
 import { Fetch, FetchProps, FetchResponse } from "./Fetch";
-import { useEffect, useMemo, useRef, useState } from "react";
 
 /**
  * Props for the useFetch hook

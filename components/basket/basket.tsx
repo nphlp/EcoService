@@ -1,8 +1,8 @@
 "use client";
 
 import QuantityManager from "@app/checkout/components/quantityManager";
-import ButtonClient from "@comps/client/button";
 import { useHeaderStore } from "@comps/CORE/header/headerStore";
+import ButtonClient from "@comps/client/button";
 import ImageRatio from "@comps/ui/imageRatio";
 import Link from "@comps/ui/link";
 import { combo } from "@lib/combo";

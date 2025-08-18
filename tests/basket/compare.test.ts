@@ -2,14 +2,14 @@ import { useBasketStore } from "@comps/basket/basketStore";
 import * as createApi from "@process/basket/CreateServerBasket";
 import * as findApi from "@process/basket/FindPendingServerBasket";
 import * as getApi from "@process/basket/GetServerBasket";
-import { beforeEach, describe, expect, it, Mock, vi } from "vitest";
+import { Mock, beforeEach, describe, expect, it, vi } from "vitest";
 import {
+    emptyLocalBasketOrderId,
+    emptyServerBasket,
     localBasketOrderId,
-    serverBasketStatusAccepted,
     serverBasket,
     serverBasketLessItems,
-    emptyServerBasket,
-    emptyLocalBasketOrderId,
+    serverBasketStatusAccepted,
 } from "./compare-mock";
 
 describe("compareAndSyncBasket", () => {

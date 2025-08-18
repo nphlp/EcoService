@@ -9,7 +9,7 @@ import { Metadata } from "next";
 import { unstable_cacheLife as cacheLife, unstable_cacheTag as cacheTag } from "next/cache";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { cloneElement, JSX } from "react";
+import { JSX, cloneElement } from "react";
 import AddToCartButton from "./addToCartButton";
 import { ProductFetchParams, RecommendedProductListFetchParams } from "./fetchParams";
 

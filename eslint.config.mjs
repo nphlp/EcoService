@@ -26,21 +26,21 @@ const eslintConfig = [
                     allowExportNames: [
                         // Page authorized exports
                         "metadata",
-                        "generateMetadata", 
+                        "generateMetadata",
                         "generateStaticParams",
                         "generateViewport",
                         "generateImageMetadata",
                         // OpenGraph image authorized exports
                         "alt",
-                        "size", 
-                        "contentType"
+                        "size",
+                        "contentType",
                     ],
                 },
             ],
             "unused-imports/no-unused-imports": "error",
             "unused-imports/no-unused-vars": "warn",
         },
-    }
+    },
 ];
 
 export default eslintConfig;

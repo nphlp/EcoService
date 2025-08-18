@@ -1,6 +1,6 @@
 import { useBasketStore } from "@comps/basket/basketStore";
 import * as removeApi from "@process/basket/RemoveProductFromServerBasket";
-import { beforeEach, describe, expect, it, Mock, vi } from "vitest";
+import { Mock, beforeEach, describe, expect, it, vi } from "vitest";
 
 describe("removeProductInBasket", () => {
     // Initial state(s)
