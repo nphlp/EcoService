@@ -13,8 +13,10 @@ type SearchProps = {
 export default function Search(props: SearchProps) {
     const { initialOptions } = props;
 
+    // States
     const comboboxStates = useComboboxStates(null, initialOptions);
 
+    // Form submission
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
         console.log({ selected: comboboxStates.selected });

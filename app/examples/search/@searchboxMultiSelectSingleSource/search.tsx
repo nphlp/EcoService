@@ -15,11 +15,11 @@ type ResearchProps = {
 export default function Search(props: ResearchProps) {
     const { initialOptions } = props;
 
-    // ======= State ======= //
+    // States
     const comboboxStates = useComboboxMultiStates([], initialOptions);
     const { selected, query, options, setOptions } = comboboxStates;
 
-    // ======= Fetch ======= //
+    // Reactive fetch
     const { data: productData, isLoading: isLoadingProduct } = useFetchV2({
         route: "/product/findMany",
         params: {
@@ -29,11 +29,11 @@ export default function Search(props: ResearchProps) {
                 // Exclude already selected options from the search
                 slug: { notIn: selected.map((option) => option.slug) },
             },
-            take: 10,
+            take: 6,
         },
     });
 
-    // ======= Updates ======= //
+    // Options updates
     useEffect(() => {
         // Required to avoid useEffect execution on initial render
         // and to keep initial options
@@ -45,8 +45,9 @@ export default function Search(props: ResearchProps) {
         // Merge options
         const mergedOptions = [...selected, ...productOptions];
 
-        // Add selected length to get 10 options more
-        const newOptions = deduplicateOptions(mergedOptions, 10 + selected.length);
+        // Add "selected.length" to get selected options and 6 options more
+        // Useful only if "displaySelectedValuesInDropdown" is enabled
+        const newOptions = deduplicateOptions(mergedOptions, 6 + selected.length);
 
         // Update options if different
         const areDifferent = !isEqual(newOptions, options);
@@ -55,7 +56,7 @@ export default function Search(props: ResearchProps) {
 
     const isLoading = isLoadingProduct;
 
-    // ======= Form ======= //
+    // Form submission
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
         console.log({ selected });
@@ -70,6 +71,7 @@ export default function Search(props: ResearchProps) {
                 initialOptions={initialOptions}
                 states={comboboxStates}
                 isLoading={isLoading}
+                displaySelectedValuesInDropdown
             />
             <div className="flex justify-center">
                 <Button type="submit" label="Envoyer" />

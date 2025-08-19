@@ -3,15 +3,14 @@ import { ProductFindManyServer } from "@services/server";
 import Search from "./search";
 
 export default async function Page() {
-    // Fetch
+    // Fetch single source
     const productList = await ProductFindManyServer({
         select: { slug: true, name: true },
-        take: 5,
+        take: 6,
     });
 
     // Format options
     const initialOptions = createComboOptions(productList, { slug: "slug", name: "name" });
 
-    // Render
     return <Search initialOptions={initialOptions} />;
 }

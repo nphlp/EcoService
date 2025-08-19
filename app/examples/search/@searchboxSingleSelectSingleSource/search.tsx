@@ -3,12 +3,7 @@
 import Button from "@comps/ui/button";
 import { useComboboxStates } from "@comps/ui/comboboxes/comboHookStates";
 import Combobox from "@comps/ui/comboboxes/combobox";
-import {
-    ComboOptionType,
-    createComboOptions,
-    createSelectedOptions,
-    deduplicateOptions,
-} from "@comps/ui/comboboxes/utils";
+import { ComboOptionType, createComboOptions, createSelectedOptions } from "@comps/ui/comboboxes/utils";
 import { useFetchV2 } from "@utils/FetchV2/FetchHookV2";
 import { isEqual } from "lodash";
 import { FormEvent, useEffect } from "react";
@@ -20,35 +15,38 @@ type SearchProps = {
 export default function Search(props: SearchProps) {
     const { initialOptions } = props;
 
-    // ======= State ======= //
+    // States
     const comboboxStates = useComboboxStates(null, initialOptions);
     const { selected, query, options, setOptions } = comboboxStates;
 
-    // ======= Fetch ======= //
+    // Reactive fetch
     const { data: productData, isLoading: isLoadingProduct } = useFetchV2({
         route: "/product/findMany",
         params: {
             select: { slug: true, name: true },
-            where: { name: { contains: query } },
-            take: 10,
+            where: {
+                name: { contains: query },
+                // Exclude already selected option from the search
+                ...(selected && { slug: selected.slug }),
+            },
+            take: 6,
         },
     });
 
-    // ======= Updates ======= //
+    // Options updates
     useEffect(() => {
         // Required to avoid useEffect execution on initial render
         // and to keep initial options
         if (!productData) return;
 
-        // Create an options with the selected state
+        // Create an options array from the selected state
         const selectedOptions = createSelectedOptions(selected);
 
         // Create formatted options from the fetched data
         const productOptions = createComboOptions(productData, { slug: "slug", name: "name" });
 
         // Merge options
-        const mergedOptions = [...selectedOptions, ...productOptions];
-        const newOptions = deduplicateOptions(mergedOptions, 10);
+        const newOptions = [...selectedOptions, ...productOptions];
 
         // Update options if different
         const areDifferent = !isEqual(newOptions, options);
@@ -57,7 +55,7 @@ export default function Search(props: SearchProps) {
 
     const isLoading = isLoadingProduct;
 
-    // ======= Form ======= //
+    // Form submission
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
         console.log({ selected });

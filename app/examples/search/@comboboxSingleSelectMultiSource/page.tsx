@@ -7,15 +7,15 @@ export default async function Page() {
     const [productList, categoryList, articleList] = await Promise.all([
         ProductFindManyServer({
             select: { slug: true, name: true },
-            take: 3,
+            take: 2,
         }),
         CategoryFindManyServer({
             select: { slug: true, name: true },
-            take: 3,
+            take: 2,
         }),
         ArticleFindManyServer({
             select: { slug: true, title: true },
-            take: 3,
+            take: 2,
         }),
     ]);
 
@@ -24,9 +24,8 @@ export default async function Page() {
     const categoryOptions = createComboOptions(categoryList, { slug: "slug", name: "name", type: "category" });
     const articleOptions = createComboOptions(articleList, { slug: "slug", name: "title", type: "article" });
 
-    // Merge all options
+    // Merge options
     const initialOptions = [...productOptions, ...categoryOptions, ...articleOptions];
 
-    // Render
     return <Search initialOptions={initialOptions} />;
 }
