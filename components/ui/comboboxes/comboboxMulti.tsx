@@ -11,9 +11,6 @@ import ComboboxIcon from "./sub-components/comboboxIcon";
 import ComboboxLabel from "./sub-components/comboboxLabel";
 import { ComboOptionType, MultiSourceComboOptionType } from "./utils";
 
-// TODO
-// Documentation
-
 type ComboboxMultiProps<T extends ComboOptionType | MultiSourceComboOptionType> = {
     label: string;
     placeholder?: string;

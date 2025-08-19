@@ -3,26 +3,26 @@ import { CornerRightDown, ListTodo, Shuffle, SquareCheckBig } from "lucide-react
 import { ReactNode } from "react";
 
 type LayoutProps = {
-    singleCombo: ReactNode;
-    multiCombo: ReactNode;
-    singleMultiSource: ReactNode;
-    multiMultiSource: ReactNode;
-    singleSelectSingleSource: ReactNode;
-    singleSelectMultiSource: ReactNode;
-    multiSelectSingleSource: ReactNode;
-    multiSelectMultiSource: ReactNode;
+    comboboxSingleSelectSingleSource: ReactNode;
+    comboboxMultiSelectSingleSource: ReactNode;
+    comboboxSingleSelectMultiSource: ReactNode;
+    comboboxMultiSelectMultiSource: ReactNode;
+    searchboxSingleSelectSingleSource: ReactNode;
+    searchboxSingleSelectMultiSource: ReactNode;
+    searchboxMultiSelectSingleSource: ReactNode;
+    searchboxMultiSelectMultiSource: ReactNode;
 };
 
 export default function Layout(props: LayoutProps) {
     const {
-        singleCombo,
-        multiCombo,
-        singleMultiSource,
-        multiMultiSource,
-        singleSelectSingleSource,
-        singleSelectMultiSource,
-        multiSelectSingleSource,
-        multiSelectMultiSource,
+        comboboxSingleSelectSingleSource,
+        comboboxMultiSelectSingleSource,
+        comboboxSingleSelectMultiSource,
+        comboboxMultiSelectMultiSource,
+        searchboxSingleSelectSingleSource,
+        searchboxSingleSelectMultiSource,
+        searchboxMultiSelectSingleSource,
+        searchboxMultiSelectMultiSource,
     } = props;
 
     return (
@@ -43,13 +43,13 @@ export default function Layout(props: LayoutProps) {
                         title: "Combobox",
                         description: "Sélectionner un seul élément parmis un seul type d'élément.",
                         badge: { Icon: SquareCheckBig, text: "Single Select" },
-                        children: singleCombo,
+                        children: comboboxSingleSelectSingleSource,
                     },
                     {
                         title: "Combobox",
                         description: "Sélectionner plusieurs éléments parmis un seul type d'élément.",
                         badge: { Icon: ListTodo, text: "Multi Select" },
-                        children: multiCombo,
+                        children: comboboxMultiSelectSingleSource,
                     },
                 ]}
             />
@@ -63,13 +63,13 @@ export default function Layout(props: LayoutProps) {
                         title: "Multi Combobox",
                         description: "Sélectionner un seul élément parmis plusieurs types d'éléments.",
                         badge: { Icon: SquareCheckBig, text: "Single Select" },
-                        children: singleMultiSource,
+                        children: comboboxSingleSelectMultiSource,
                     },
                     {
                         title: "Multi Combobox",
                         description: "Sélectionner plusieurs éléments parmis plusieurs types d'éléments.",
                         badge: { Icon: ListTodo, text: "Multi Select" },
-                        children: multiMultiSource,
+                        children: comboboxMultiSelectMultiSource,
                     },
                 ]}
             />
@@ -83,13 +83,13 @@ export default function Layout(props: LayoutProps) {
                         title: "Searchbox",
                         description: "Rechercher et sélectionner un seul élément parmis un seul type d'élément.",
                         badge: { Icon: SquareCheckBig, text: "Single Select" },
-                        children: singleSelectSingleSource,
+                        children: searchboxSingleSelectSingleSource,
                     },
                     {
                         title: "Searchbox",
                         description: "Rechercher et sélectionner plusieurs éléments parmis un seul type d'élément.",
                         badge: { Icon: ListTodo, text: "Multi Select" },
-                        children: multiSelectSingleSource,
+                        children: searchboxMultiSelectSingleSource,
                     },
                 ]}
             />
@@ -103,13 +103,13 @@ export default function Layout(props: LayoutProps) {
                         title: "Multi Searchbox",
                         description: "Rechercher et sélectionner un seul élément parmis plusieurs types d'éléments.",
                         badge: { Icon: SquareCheckBig, text: "Single Select" },
-                        children: singleSelectMultiSource,
+                        children: searchboxSingleSelectMultiSource,
                     },
                     {
                         title: "Multi Searchbox",
                         description: "Rechercher et sélectionner plusieurs éléments parmis plusieurs types d'éléments.",
                         badge: { Icon: ListTodo, text: "Multi Select" },
-                        children: multiSelectMultiSource,
+                        children: searchboxMultiSelectMultiSource,
                     },
                 ]}
             />
