@@ -15,9 +15,9 @@ export default function Page() {
             text: "How to create a form with input, select...",
         },
         {
-            label: "Search Comboboxes",
-            href: "/examples/search",
-            text: "How to create a search combobox",
+            label: "Comboboxes and Searchboxes",
+            href: "/examples/combobox-and-searchbox",
+            text: "How to create a combobox and searchbox",
         },
         {
             label: "Auto-Layout",

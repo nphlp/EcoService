@@ -71,7 +71,6 @@ export default function Search(props: ResearchProps) {
                 initialOptions={initialOptions}
                 states={comboboxStates}
                 isLoading={isLoading}
-                displaySelectedValuesInDropdown
             />
             <div className="flex justify-center">
                 <Button type="submit" label="Envoyer" />
