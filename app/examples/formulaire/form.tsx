@@ -4,11 +4,9 @@ import Button from "@comps/ui/button";
 import { useComboboxMultiStates, useComboboxStates } from "@comps/ui/comboboxes/comboHookStates";
 import Combobox from "@comps/ui/comboboxes/combobox";
 import ComboboxMulti from "@comps/ui/comboboxes/comboboxMulti";
-// import ComboboxSearch from "@comps/ui/comboboxes/comboboxSearch";
 import { ComboOptionType, MultiSourceComboOptionType } from "@comps/ui/comboboxes/utils";
 import Feedback, { FeedbackMode } from "@comps/ui/feedback";
-import Input from "@comps/ui/input/input";
-import { useInputState } from "@comps/ui/input/inputHookStates";
+import Input from "@comps/ui/input";
 import InputImage from "@comps/ui/inputImage";
 import Select from "@comps/ui/select/select";
 import { SelectOptionType } from "@comps/ui/select/utils";
@@ -24,7 +22,7 @@ export default function Form(props: FormProps) {
     const { categoryOptions, articleOptions, productOptions } = props;
 
     // State
-    const [name, setName] = useInputState();
+    const [name, setName] = useState("");
     const [category, setCategory] = useState<string>("");
     const [image, setImage] = useState<File | null>(null);
     const comboboxStates = useComboboxStates(null, articleOptions);

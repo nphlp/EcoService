@@ -6,7 +6,7 @@ import { ComboOptionType, MultiSourceComboOptionType } from "./utils";
  * @example
  * ```tsx
  * // Import hook states
- * const comboboxStates = useComboboxStates<ComboOptionType>(null, articleOptions);
+ * const comboboxStates = useComboboxStates(null, articleOptions);
  *
  * // Extract any state you need in the following properties
  * const { query, setQuery, selected, setSelected, options, setOptions } = comboboxStates;
@@ -27,7 +27,7 @@ export const useComboboxStates = <T extends ComboOptionType | MultiSourceComboOp
  * @example
  * ```tsx
  * // Import hook states
- * const comboboxMultiStates = useComboboxMultiStates<ComboOptionType>([], productOptions);
+ * const comboboxMultiStates = useComboboxMultiStates([], productOptions);
  *
  * // Extract any state you need in the following properties
  * const { query, setQuery, selected, setSelected, options, setOptions } = comboboxMultiStates;

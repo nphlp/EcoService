@@ -2,7 +2,7 @@
 
 import Button from "@comps/ui/button";
 import Feedback, { FeedbackMode } from "@comps/ui/feedback";
-import Input from "@comps/ui/input/input";
+import Input from "@comps/ui/input";
 import InputPassword from "@comps/ui/inputPassword";
 import Link from "@comps/ui/link";
 import { signUp } from "@lib/authClient";
