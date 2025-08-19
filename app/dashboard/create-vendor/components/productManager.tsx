@@ -1,7 +1,7 @@
 "use client";
 
 import ButtonClient from "@comps/client/button";
-import Card from "@comps/server/card";
+import Card from "@comps/ui/card";
 import { combo } from "@lib/combo";
 import { Filter } from "lucide-react";
 import Image from "next/image";

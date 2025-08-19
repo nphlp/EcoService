@@ -2,10 +2,10 @@
 
 import { useHeaderStore } from "@comps/CORE/header/headerStore";
 import { useBasketStore } from "@comps/basket/basketStore";
-import Logout from "@comps/client/logout";
 import Button from "@comps/ui/button";
 import ImageProfile from "@comps/ui/imageProfile";
 import Link from "@comps/ui/link";
+import Logout from "@comps/ui/logout";
 import { useSession } from "@lib/authClient";
 import { combo } from "@lib/combo";
 import { LogOut, PanelsTopLeft, Search, ShoppingCart, UserRound } from "lucide-react";

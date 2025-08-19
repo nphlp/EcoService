@@ -1,5 +1,5 @@
 import ProductCard from "@comps/productCard";
-import Card from "@comps/server/card";
+import Card from "@comps/ui/card";
 import ImageRatio from "@comps/ui/imageRatio";
 import Slider, { LinkInfoType } from "@comps/ui/slider";
 import PrismaInstance from "@lib/prisma";

@@ -1,4 +1,4 @@
-import Card from "@comps/server/card";
+import Card from "@comps/ui/card";
 import { LucideIcon } from "lucide-react";
 import { ReactNode } from "react";
 

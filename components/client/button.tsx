@@ -4,7 +4,7 @@ import Loader from "@comps/ui/loader";
 import { combo } from "@lib/combo";
 import Link, { LinkProps } from "next/link";
 import { ButtonHTMLAttributes, LinkHTMLAttributes, ReactNode } from "react";
-import { TransitionLink } from "./transitionLink";
+import { TransitionLink } from "../ui/transitionLink";
 
 type ButtonType = Exclude<ButtonHTMLAttributes<HTMLButtonElement>["type"], undefined>;
 

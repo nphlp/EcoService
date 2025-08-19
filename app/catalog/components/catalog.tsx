@@ -8,7 +8,7 @@ import {
     useTakeQueryParams,
 } from "@comps/SHARED/queryParamsClientHooks";
 import ProductCard from "@comps/productCard";
-import Card from "@comps/server/card";
+import Card from "@comps/ui/card";
 import Link from "@comps/ui/link";
 import { combo } from "@lib/combo";
 import { ProductModel } from "@services/types";

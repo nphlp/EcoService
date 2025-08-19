@@ -1,5 +1,5 @@
-import Logout from "@comps/client/logout";
 import { Accordion, AccordionButton, AccordionContent } from "@comps/ui/accordion";
+import Logout from "@comps/ui/logout";
 import { BetterSessionListServer, BetterSessionServer, GetSessionList } from "@lib/authServer";
 import { Fetch } from "@utils/Fetch/Fetch";
 import { FetchParallelized } from "@utils/Fetch/FetchParallelized";
