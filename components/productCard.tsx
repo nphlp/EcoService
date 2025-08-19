@@ -1,8 +1,8 @@
 "use client";
 
 import { ProductSearchType } from "@app/catalog/components/fetchParams";
-import Card, { CardProps } from "@comps/ui/card";
-import ImageRatio from "@comps/ui/imageRatio";
+import Card, { CardProps } from "@comps/UI/card";
+import ImageRatio from "@comps/UI/imageRatio";
 import AddToCartIcon from "./addToCartIcon";
 
 type ProductCardProps = {

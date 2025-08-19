@@ -1,6 +1,6 @@
 "use client";
 
-import Link, { LinkProps } from "@comps/ui/link";
+import Link, { LinkProps } from "@comps/UI/link";
 import { useTransitionRouter } from "next-view-transitions";
 import { MouseEvent } from "react";
 

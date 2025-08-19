@@ -1,6 +1,6 @@
 "use client";
 
-import ButtonClient from "@comps/client/button";
+import Button from "@comps/UI/button";
 import { useState } from "react";
 
 interface SellerOnboardProps {
@@ -62,7 +62,7 @@ SellerOnboardProps) {
                     </p>
                 ) : (
                     <div className="flex justify-center">
-                        <ButtonClient
+                        <Button
                             type="button"
                             label="Devenir vendeur"
                             onClick={startOnboarding}
@@ -70,7 +70,7 @@ SellerOnboardProps) {
                             loadingLabel="Chargement..."
                         >
                             Devenir vendeur
-                        </ButtonClient>
+                        </Button>
                     </div>
                 )}
             </div>

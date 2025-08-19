@@ -1,6 +1,6 @@
 "use client";
 
-import Input from "@comps/ui/input";
+import Input from "@comps/UI/input";
 import { usePageQueryParams, useSearchQueryParams } from "./queryParamsClientHooks";
 
 export default function SearchFilter() {

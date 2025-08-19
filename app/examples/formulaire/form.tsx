@@ -1,15 +1,15 @@
 "use client";
 
-import Button from "@comps/ui/button";
-import { useComboboxMultiStates, useComboboxStates } from "@comps/ui/comboboxes/comboHookStates";
-import Combobox from "@comps/ui/comboboxes/combobox";
-import ComboboxMulti from "@comps/ui/comboboxes/comboboxMulti";
-import { ComboOptionType, MultiSourceComboOptionType } from "@comps/ui/comboboxes/utils";
-import Feedback, { FeedbackMode } from "@comps/ui/feedback";
-import Input from "@comps/ui/input";
-import InputImage from "@comps/ui/inputImage";
-import Select from "@comps/ui/select/select";
-import { SelectOptionType } from "@comps/ui/select/utils";
+import Button from "@comps/UI/button";
+import { useComboboxMultiStates, useComboboxStates } from "@comps/UI/comboboxes/comboHookStates";
+import Combobox from "@comps/UI/comboboxes/combobox";
+import ComboboxMulti from "@comps/UI/comboboxes/comboboxMulti";
+import { ComboOptionType, MultiSourceComboOptionType } from "@comps/UI/comboboxes/utils";
+import Feedback, { FeedbackMode } from "@comps/UI/feedback";
+import Input from "@comps/UI/input";
+import InputImage from "@comps/UI/inputImage";
+import Select from "@comps/UI/select/select";
+import { SelectOptionType } from "@comps/UI/select/utils";
 import { FormEvent, useState } from "react";
 
 type FormProps = {

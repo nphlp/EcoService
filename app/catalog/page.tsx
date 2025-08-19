@@ -3,7 +3,7 @@ import Pagination from "@comps/SHARED/PaginationFilter";
 import PriceOrderFilter from "@comps/SHARED/PriceOrderFilter";
 import SearchFilter from "@comps/SHARED/SearchFilter";
 import TakeFilter from "@comps/SHARED/TakeFilter";
-import { createSelectOptions } from "@comps/ui/select/utils";
+import { createSelectOptions } from "@comps/UI/select/utils";
 import {
     CategoryFindManyServer,
     CategoryFindUniqueServer,

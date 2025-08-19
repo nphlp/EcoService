@@ -1,7 +1,7 @@
+import Card from "@comps/UI/card";
+import ImageRatio from "@comps/UI/imageRatio";
+import Slider, { LinkInfoType } from "@comps/UI/slider";
 import ProductCard from "@comps/productCard";
-import Card from "@comps/ui/card";
-import ImageRatio from "@comps/ui/imageRatio";
-import Slider, { LinkInfoType } from "@comps/ui/slider";
 import PrismaInstance from "@lib/prisma";
 import { ProductFindManyServer, ProductFindUniqueServer } from "@services/server";
 import { ArrowLeft, Package2, ShieldCheck, Truck, User } from "lucide-react";

@@ -1,5 +1,5 @@
+import Slider from "@comps/UI/slider";
 import ProductCard from "@comps/productCard";
-import Slider from "@comps/ui/slider";
 import { ProductFindManyServer } from "@services/server";
 
 export default async function Page() {

@@ -1,7 +1,7 @@
 "use client";
 
-import Button from "@comps/ui/button";
-import Loader from "@comps/ui/loader";
+import Button from "@comps/UI/button";
+import Loader from "@comps/UI/loader";
 import { combo } from "@lib/combo";
 import { useWidth } from "@utils/useWidth";
 import { PanInfo, motion } from "framer-motion";

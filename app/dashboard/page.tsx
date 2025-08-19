@@ -1,4 +1,4 @@
-import Card from "@comps/ui/card";
+import Card from "@comps/UI/card";
 import { hasRole } from "@permissions/hasRole";
 import {
     ArticleCountServer,

@@ -1,7 +1,7 @@
 "use server";
 
 import { OrderFindUniqueAction } from "@actions/OrderAction";
-import { ServerBasket } from "@comps/basket/basketType";
+import { ServerBasket } from "@comps/CORE/basket/basketType";
 import { GetSession } from "@lib/authServer";
 import { hasPermission } from "@permissions/hasPermissions";
 import { Order } from "@prisma/client";

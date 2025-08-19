@@ -1,10 +1,10 @@
 "use client";
 
-import Modal from "@comps/ui/modal";
+import Modal from "@comps/UI/modal";
 import { useSession } from "@lib/authClient";
 import { combo } from "@lib/combo";
+import { updateCookieExpiration } from "@lib/zustandCookieStorage";
 import { useEffect, useState } from "react";
-import { updateCookieExpiration } from "../../lib/zustandCookieStorage";
 import { useBasketStore } from "./basketStore";
 import { LocalBasket, ServerBasket } from "./basketType";
 

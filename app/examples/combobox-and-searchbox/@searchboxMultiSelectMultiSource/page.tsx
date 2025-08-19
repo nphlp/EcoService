@@ -1,4 +1,4 @@
-import { createComboOptions } from "@comps/ui/comboboxes/utils";
+import { createComboOptions } from "@comps/UI/comboboxes/utils";
 import { ArticleFindManyServer, CategoryFindManyServer, ProductFindManyServer } from "@services/server";
 import Search from "./search";
 

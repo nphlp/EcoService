@@ -30,7 +30,7 @@
             "@permissions/*": ["./permissions/*"],
             "@prisma/*": ["./prisma/*"],
             "@public/*": ["./public/*"],
-            "@ui/*": ["./components/ui/*"],
+            "@ui/*": ["./components/UI/*"],
             "@utils/*": ["./utils/*"],
             "@services/*": ["./services/*"],
             "@process/*": ["./process/*"],

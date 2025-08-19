@@ -1,6 +1,6 @@
-import Card from "@comps/ui/card";
-import { createComboOptions } from "@comps/ui/comboboxes/utils";
-import { createSelectOptions } from "@comps/ui/select/utils";
+import Card from "@comps/UI/card";
+import { createComboOptions } from "@comps/UI/comboboxes/utils";
+import { createSelectOptions } from "@comps/UI/select/utils";
 import { ArticleFindManyServer, CategoryFindManyServer, ProductFindManyServer } from "@services/server";
 import Form from "./form";
 

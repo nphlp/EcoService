@@ -1,9 +1,9 @@
 "use client";
 
-import Button from "@comps/ui/button";
-import { useComboboxMultiStates } from "@comps/ui/comboboxes/comboHookStates";
-import ComboboxMulti from "@comps/ui/comboboxes/comboboxMulti";
-import { ComboOptionType } from "@comps/ui/comboboxes/utils";
+import Button from "@comps/UI/button";
+import { useComboboxMultiStates } from "@comps/UI/comboboxes/comboHookStates";
+import ComboboxMulti from "@comps/UI/comboboxes/comboboxMulti";
+import { ComboOptionType } from "@comps/UI/comboboxes/utils";
 import { FormEvent } from "react";
 
 type SearchProps = {

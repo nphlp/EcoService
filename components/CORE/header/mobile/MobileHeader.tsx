@@ -1,7 +1,8 @@
 "use client";
 
-import ButtonClient from "@comps/client/button";
-import LogoutClient from "@comps/ui/logout";
+import Button from "@comps/UI/button";
+import Link from "@comps/UI/link";
+import LogoutClient from "@comps/UI/logout";
 import { useSession } from "@lib/authClient";
 import { combo } from "@lib/combo";
 import { Leaf } from "lucide-react";
@@ -21,11 +22,10 @@ export default function MobileHeader(props: MobileHeaderProps) {
 
     return (
         <div className={className}>
-            <ButtonClient
+            <Button
                 type="button"
                 label="show-menu"
                 variant="none"
-                padding="none"
                 className={combo(
                     "absolute right-5 bottom-5 z-50 rounded-full border border-gray-500 bg-white p-3 shadow-md",
                     visibilityMenu && "hidden",
@@ -33,22 +33,19 @@ export default function MobileHeader(props: MobileHeaderProps) {
                 onClick={() => setVisibilityMenu(true)}
             >
                 <Leaf />
-            </ButtonClient>
-            <ButtonClient
+            </Button>
+            <Button
                 type="button"
                 label="cancel-menu"
                 variant="none"
-                padding="none"
-                ring={false}
                 className={combo("absolute inset-0 z-40 rounded-none bg-black opacity-10", !visibilityMenu && "hidden")}
                 onClick={() => setVisibilityMenu(false)}
             >
                 {""}
-            </ButtonClient>
+            </Button>
             <nav className={combo("absolute bottom-0 left-0 z-50 w-full px-4 pb-4", !visibilityMenu && "hidden")}>
                 <div className="flex w-full flex-col items-center justify-center gap-2 rounded-2xl border border-gray-300 bg-white p-4 shadow-md">
-                    <ButtonClient
-                        type="link"
+                    <Link
                         href="/"
                         label="home"
                         variant="outline"
@@ -56,9 +53,8 @@ export default function MobileHeader(props: MobileHeaderProps) {
                         onClick={() => setVisibilityMenu(false)}
                     >
                         Accueil
-                    </ButtonClient>
-                    <ButtonClient
-                        type="link"
+                    </Link>
+                    <Link
                         href="/catalog"
                         label="catalog"
                         variant="outline"
@@ -66,9 +62,8 @@ export default function MobileHeader(props: MobileHeaderProps) {
                         onClick={() => setVisibilityMenu(false)}
                     >
                         Catalogue
-                    </ButtonClient>
-                    <ButtonClient
-                        type="link"
+                    </Link>
+                    <Link
                         href="/article"
                         label="articles"
                         variant="outline"
@@ -76,9 +71,8 @@ export default function MobileHeader(props: MobileHeaderProps) {
                         onClick={() => setVisibilityMenu(false)}
                     >
                         Articles
-                    </ButtonClient>
-                    <ButtonClient
-                        type="link"
+                    </Link>
+                    <Link
                         href="/diy"
                         label="diy"
                         variant="outline"
@@ -86,9 +80,8 @@ export default function MobileHeader(props: MobileHeaderProps) {
                         onClick={() => setVisibilityMenu(false)}
                     >
                         DIY
-                    </ButtonClient>
-                    <ButtonClient
-                        type="link"
+                    </Link>
+                    <Link
                         href="/examples"
                         label="examples"
                         variant="outline"
@@ -96,11 +89,10 @@ export default function MobileHeader(props: MobileHeaderProps) {
                         onClick={() => setVisibilityMenu(false)}
                     >
                         Exemples
-                    </ButtonClient>
+                    </Link>
                     {!session && (
                         <>
-                            <ButtonClient
-                                type="link"
+                            <Link
                                 href="/auth"
                                 label="auth"
                                 variant="outline"
@@ -108,13 +100,12 @@ export default function MobileHeader(props: MobileHeaderProps) {
                                 onClick={() => setVisibilityMenu(false)}
                             >
                                 Authentification
-                            </ButtonClient>
+                            </Link>
                         </>
                     )}
                     {session && (
                         <>
-                            <ButtonClient
-                                type="link"
+                            <Link
                                 href="/profile"
                                 label="profile"
                                 variant="outline"
@@ -122,7 +113,7 @@ export default function MobileHeader(props: MobileHeaderProps) {
                                 onClick={() => setVisibilityMenu(false)}
                             >
                                 Profile
-                            </ButtonClient>
+                            </Link>
                             <LogoutClient
                                 variant="outline"
                                 onClick={() => setVisibilityMenu(false)}
@@ -134,7 +125,7 @@ export default function MobileHeader(props: MobileHeaderProps) {
                     )}
 
                     {/* Close button */}
-                    <ButtonClient
+                    <Button
                         className={combo(buttonClass)}
                         type="button"
                         label="hide-menu"
@@ -142,7 +133,7 @@ export default function MobileHeader(props: MobileHeaderProps) {
                         onClick={() => setVisibilityMenu(false)}
                     >
                         Fermer
-                    </ButtonClient>
+                    </Button>
                 </div>
             </nav>
         </div>

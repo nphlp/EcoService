@@ -1,7 +1,7 @@
 "use client";
 
 import { catalogUrlSerializer } from "@app/catalog/components/queryParams";
-import ImageRatio from "@comps/ui/imageRatio";
+import ImageRatio from "@comps/UI/imageRatio";
 import { combo } from "@lib/combo";
 import { StringToSlug } from "@utils/StringToSlug";
 import { ArrowRightIcon } from "lucide-react";

@@ -1,6 +1,6 @@
 "use client";
 
-import Loader from "@comps/ui/loader";
+import Loader from "@comps/UI/loader";
 import { ComboboxButton } from "@headlessui/react";
 import { combo } from "@lib/combo";
 import { ChevronDown, X } from "lucide-react";

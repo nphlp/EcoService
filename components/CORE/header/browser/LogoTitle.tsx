@@ -1,7 +1,7 @@
 "use client";
 
-import Link from "@comps/ui/link";
-import Logo from "@comps/ui/logo";
+import Link from "@comps/UI/link";
+import Logo from "@comps/UI/logo";
 import { motion } from "framer-motion";
 import { useState } from "react";
 

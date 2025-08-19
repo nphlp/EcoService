@@ -1,4 +1,4 @@
-import { useBasketStore } from "@comps/basket/basketStore";
+import { useBasketStore } from "@comps/CORE/basket/basketStore";
 import * as clearApi from "@process/basket/ClearServerBasket";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 

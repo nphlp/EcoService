@@ -1,8 +1,8 @@
 "use client";
 
 import { LocationResponse } from "@app/api/external/location/route";
-import Button from "@comps/ui/button";
-import Modal from "@comps/ui/modal";
+import Button from "@comps/UI/button";
+import Modal from "@comps/UI/modal";
 import { revokeOtherSessions, revokeSession } from "@lib/authClient";
 import { BetterSessionListServer } from "@lib/authServer";
 import { X } from "lucide-react";

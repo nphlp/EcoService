@@ -7,9 +7,9 @@ import {
     useSearchQueryParams,
     useTakeQueryParams,
 } from "@comps/SHARED/queryParamsClientHooks";
+import Card from "@comps/UI/card";
+import Link from "@comps/UI/link";
 import ProductCard from "@comps/productCard";
-import Card from "@comps/ui/card";
-import Link from "@comps/ui/link";
 import { combo } from "@lib/combo";
 import { ProductModel } from "@services/types";
 import { useFetchV2 } from "@utils/FetchV2/FetchHookV2";

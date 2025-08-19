@@ -1,4 +1,4 @@
-import { LocalBasket } from "@comps/basket/basketType";
+import { LocalBasket } from "@comps/CORE/basket/basketType";
 
 /**
  * A safe javascript function to calculate the total price of a basket in cents

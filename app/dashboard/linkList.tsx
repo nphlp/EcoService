@@ -1,7 +1,7 @@
 "use client";
 
-import Link from "@comps/ui/link";
-import Modal from "@comps/ui/modal";
+import Link from "@comps/UI/link";
+import Modal from "@comps/UI/modal";
 import { combo } from "@lib/combo";
 import { Hammer } from "lucide-react";
 import { usePathname } from "next/navigation";

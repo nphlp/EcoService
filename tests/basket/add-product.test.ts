@@ -1,4 +1,4 @@
-import { useBasketStore } from "@comps/basket/basketStore";
+import { useBasketStore } from "@comps/CORE/basket/basketStore";
 import * as addApi from "@process/basket/AddProductToServerBasket";
 import * as createApi from "@process/basket/CreateServerBasket";
 import { Mock, beforeEach, describe, expect, it, vi } from "vitest";
