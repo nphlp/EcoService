@@ -2,7 +2,7 @@
 
 import { combo } from "@lib/combo";
 import { ChangeEvent, InputHTMLAttributes, MouseEvent } from "react";
-import { InputVariant, theme } from "../themes/inputTheme";
+import { InputVariant, theme } from "./themes/inputTheme";
 
 /** Input props */
 export type InputProps = {

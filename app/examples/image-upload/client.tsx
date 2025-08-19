@@ -4,7 +4,7 @@ import Card from "@comps/server/card";
 import Button from "@comps/ui/button";
 import Feedback, { FeedbackMode } from "@comps/ui/feedback";
 import ImageRatio from "@comps/ui/imageRatio";
-import Input from "@comps/ui/input/input";
+import Input from "@comps/ui/input";
 import InputFile from "@comps/ui/inputImage";
 import { useState } from "react";
 import { CreateFruit } from "./utils/FruitActions";

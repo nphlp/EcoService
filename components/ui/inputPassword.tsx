@@ -4,7 +4,7 @@ import { combo } from "@lib/combo";
 import { Eye, EyeClosed } from "lucide-react";
 import { useState } from "react";
 import Button from "./button";
-import Input, { InputProps } from "./input/input";
+import Input, { InputProps } from "./input";
 
 type InputPasswordProps = {
     classPasswordComponent?: string;

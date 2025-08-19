@@ -3,7 +3,7 @@
 import Card from "@comps/server/card";
 import Button from "@comps/ui/button";
 import Feedback, { FeedbackMode } from "@comps/ui/feedback";
-import Input from "@comps/ui/input/input";
+import Input from "@comps/ui/input";
 import InputImage from "@comps/ui/inputImage";
 import Select from "@comps/ui/select/select";
 import { createSelectOptions } from "@comps/ui/select/utils";

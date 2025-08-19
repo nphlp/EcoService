@@ -2,7 +2,7 @@
 
 import { catalogUrlSerializer } from "@app/catalog/components/queryParams";
 import Button from "@comps/ui/button";
-import Input from "@comps/ui/input/input";
+import Input from "@comps/ui/input";
 import { combo } from "@lib/combo";
 import { useFetchV2 } from "@utils/FetchV2/FetchHookV2";
 import { SearchIcon } from "lucide-react";
