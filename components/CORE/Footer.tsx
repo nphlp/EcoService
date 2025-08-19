@@ -1,7 +1,7 @@
 import { combo } from "@lib/combo";
 import { ArticleFindManyServer, DiyFindManyServer, ProductFindManyServer } from "@services/server";
 import Link from "next/link";
-import Logo from "../server/logo";
+import Logo from "../ui/logo";
 
 type FooterProps = {
     className?: string;

@@ -1,7 +1,7 @@
 "use client";
 
 import ButtonClient from "@comps/client/button";
-import LogoutClient from "@comps/client/logout";
+import LogoutClient from "@comps/ui/logout";
 import { useSession } from "@lib/authClient";
 import { combo } from "@lib/combo";
 import { Leaf } from "lucide-react";

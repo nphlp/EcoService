@@ -1,4 +1,4 @@
-import Card from "@comps/server/card";
+import Card from "@comps/ui/card";
 import Link from "@comps/ui/link";
 import { BetterSessionServer, GetSession } from "@lib/authServer";
 import { UserFindManyServer } from "@services/server";

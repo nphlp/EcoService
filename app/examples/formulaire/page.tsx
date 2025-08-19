@@ -1,4 +1,4 @@
-import Card from "@comps/server/card";
+import Card from "@comps/ui/card";
 import { createComboOptions } from "@comps/ui/comboboxes/utils";
 import { createSelectOptions } from "@comps/ui/select/utils";
 import { ArticleFindManyServer, CategoryFindManyServer, ProductFindManyServer } from "@services/server";
