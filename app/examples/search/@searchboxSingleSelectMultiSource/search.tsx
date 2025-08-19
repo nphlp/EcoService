@@ -3,12 +3,7 @@
 import Button from "@comps/ui/button";
 import { useComboboxStates } from "@comps/ui/comboboxes/comboHookStates";
 import Combobox from "@comps/ui/comboboxes/combobox";
-import {
-    MultiSourceComboOptionType,
-    createComboOptions,
-    createSelectedOptions,
-    deduplicateOptions,
-} from "@comps/ui/comboboxes/utils";
+import { MultiSourceComboOptionType, createComboOptions, createSelectedOptions } from "@comps/ui/comboboxes/utils";
 import { useFetchV2 } from "@utils/FetchV2/FetchHookV2";
 import { isEqual } from "lodash";
 import { FormEvent, useEffect } from "react";
@@ -20,17 +15,21 @@ type SearchProps = {
 export default function Search(props: SearchProps) {
     const { initialOptions } = props;
 
-    // ======= State ======= //
+    // States
     const comboboxStates = useComboboxStates(null, initialOptions);
     const { selected, query, options, setOptions } = comboboxStates;
 
-    // ======= Fetch ======= //
+    // Reactive fetches
     const { data: productData, isLoading: isLoadingProduct } = useFetchV2({
         route: "/product/findMany",
         params: {
             select: { slug: true, name: true },
-            where: { name: { contains: query } },
-            take: 5,
+            where: {
+                name: { contains: query },
+                // Exclude already selected option from the search
+                ...(selected && { slug: selected.slug }),
+            },
+            take: 2,
         },
     });
 
@@ -38,8 +37,12 @@ export default function Search(props: SearchProps) {
         route: "/category/findMany",
         params: {
             select: { slug: true, name: true },
-            where: { name: { contains: query } },
-            take: 5,
+            where: {
+                name: { contains: query },
+                // Exclude already selected option from the search
+                ...(selected && { slug: selected.slug }),
+            },
+            take: 2,
         },
     });
 
@@ -47,21 +50,16 @@ export default function Search(props: SearchProps) {
         route: "/article/findMany",
         params: {
             select: { slug: true, title: true },
-            where: { title: { contains: query } },
-            take: 5,
+            where: {
+                title: { contains: query },
+                // Exclude already selected option from the search
+                ...(selected && { slug: selected.slug }),
+            },
+            take: 2,
         },
     });
 
-    const { data: diyData, isLoading: isLoadingDiy } = useFetchV2({
-        route: "/diy/findMany",
-        params: {
-            select: { slug: true, title: true },
-            where: { title: { contains: query } },
-            take: 5,
-        },
-    });
-
-    // ======= Updates ======= //
+    // Options updates
     useEffect(() => {
         // Required to avoid useEffect execution on initial render
         // and to keep initial options
@@ -74,27 +72,18 @@ export default function Search(props: SearchProps) {
         const productOptions = createComboOptions(productData, { slug: "slug", name: "name", type: "product" });
         const categoryOptions = createComboOptions(categoryData, { slug: "slug", name: "name", type: "category" });
         const articleOptions = createComboOptions(articleData, { slug: "slug", name: "title", type: "article" });
-        const diyOptions = createComboOptions(diyData, { slug: "slug", name: "title", type: "diy" });
 
         // Merge options
-        const mergedOptions = [
-            ...selectedOptions,
-            ...productOptions,
-            ...categoryOptions,
-            ...articleOptions,
-            ...diyOptions,
-        ];
-
-        const newOptions = deduplicateOptions(mergedOptions, 10);
+        const newOptions = [...selectedOptions, ...productOptions, ...categoryOptions, ...articleOptions];
 
         // Update options if different
         const areDifferent = !isEqual(newOptions, options);
         if (areDifferent) setOptions(newOptions);
-    }, [productData, categoryData, articleData, diyData, options, setOptions, selected]);
+    }, [productData, categoryData, articleData, options, setOptions, selected]);
 
-    const isLoading = isLoadingProduct || isLoadingCategory || isLoadingArticle || isLoadingDiy;
+    const isLoading = isLoadingProduct || isLoadingCategory || isLoadingArticle;
 
-    // ======= Form ======= //
+    // Form submission
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
         console.log({ selected });

@@ -4,7 +4,7 @@ Complete auth and user management
 
 ## CURRENT
 
-- [] Fusionner les composants combobox
+- [x] Fusionner les composants combobox
 - [] Revoir la modals avec le Portal
 - [] Rendre réactif au scroll le drop down du select
 - [] Supprimer les anciens composants
