@@ -1,7 +1,7 @@
 "use client";
 
 import { PortalContext } from "@comps/CORE/portal/PortalContext";
-import Button from "@comps/ui/button";
+import Button from "@comps/UI/button";
 import { combo } from "@lib/combo";
 import { X } from "lucide-react";
 import { ReactNode, useContext, useEffect } from "react";

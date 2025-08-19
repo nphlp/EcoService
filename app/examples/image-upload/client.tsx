@@ -1,11 +1,11 @@
 "use client";
 
-import Button from "@comps/ui/button";
-import Card from "@comps/ui/card";
-import Feedback, { FeedbackMode } from "@comps/ui/feedback";
-import ImageRatio from "@comps/ui/imageRatio";
-import Input from "@comps/ui/input";
-import InputFile from "@comps/ui/inputImage";
+import Button from "@comps/UI/button";
+import Card from "@comps/UI/card";
+import Feedback, { FeedbackMode } from "@comps/UI/feedback";
+import ImageRatio from "@comps/UI/imageRatio";
+import Input from "@comps/UI/input";
+import InputFile from "@comps/UI/inputImage";
 import { useState } from "react";
 import { CreateFruit } from "./utils/FruitActions";
 import { ImageValidation } from "./utils/ImageUploads";

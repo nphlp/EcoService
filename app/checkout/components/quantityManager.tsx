@@ -1,8 +1,8 @@
 "use client";
 
-import { useBasketStore } from "@comps/basket/basketStore";
-import { LocalBasketItem } from "@comps/basket/basketType";
-import Button from "@comps/ui/button";
+import { useBasketStore } from "@comps/CORE/basket/basketStore";
+import { LocalBasketItem } from "@comps/CORE/basket/basketType";
+import Button from "@comps/UI/button";
 import { Minus, Plus, Trash } from "lucide-react";
 
 type QuantityManagerProps = {

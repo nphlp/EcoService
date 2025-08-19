@@ -1,9 +1,9 @@
 "use cache";
 
+import ImageRatio from "@comps/UI/imageRatio";
 import { ArticleOrDiySlider } from "@comps/articleOrDiySlider";
 import ProductSlider from "@comps/productSlider";
 import { ArticleOrDiyFetchParams, ProductFetchParams } from "@comps/sliderFetchParams";
-import ImageRatio from "@comps/ui/imageRatio";
 import { combo } from "@lib/combo";
 import { ArticleFindManyServer, DiyFindManyServer, ProductFindManyServer } from "@services/server";
 import { Metadata } from "next";

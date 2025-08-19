@@ -1,4 +1,4 @@
-import ImageRatio from "@comps/ui/imageRatio";
+import ImageRatio from "@comps/UI/imageRatio";
 import { DiyFindManyServer } from "@services/server";
 import { Metadata } from "next";
 import Link from "next/link";

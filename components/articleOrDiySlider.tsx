@@ -1,8 +1,8 @@
 "use client";
 
+import Slider, { LinkInfoType } from "./UI/slider";
 import ArticleOrDiyCard from "./articleOrDiyCard";
 import { ArticleOrDiyListType } from "./sliderFetchParams";
-import Slider, { LinkInfoType } from "./ui/slider";
 
 type SliderClientProps = {
     className?: string;

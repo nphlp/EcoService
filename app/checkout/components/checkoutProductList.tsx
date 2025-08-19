@@ -1,8 +1,8 @@
 "use client";
 
-import { useBasketStore } from "@comps/basket/basketStore";
-import { LocalBasketItem } from "@comps/basket/basketType";
-import ImageRatio from "@comps/ui/imageRatio";
+import { useBasketStore } from "@comps/CORE/basket/basketStore";
+import { LocalBasketItem } from "@comps/CORE/basket/basketType";
+import ImageRatio from "@comps/UI/imageRatio";
 import { combo } from "@lib/combo";
 import QuantityManager from "./quantityManager";
 

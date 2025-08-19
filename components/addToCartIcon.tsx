@@ -1,9 +1,9 @@
 "use client";
 
 import { ProductSearchType } from "@app/catalog/components/fetchParams";
-import Button from "@comps/ui/button";
+import { useBasketStore } from "@comps/CORE/basket/basketStore";
+import Button from "@comps/UI/button";
 import { CircleCheck, CirclePlus, CircleX, ShoppingCart } from "lucide-react";
-import { useBasketStore } from "./basket/basketStore";
 
 type AddToCartIconProps = {
     product: ProductSearchType;

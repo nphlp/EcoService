@@ -1,7 +1,7 @@
 "use client";
 
-import ButtonClient from "@comps/client/button";
-import Card from "@comps/ui/card";
+import Button from "@comps/UI/button";
+import Card from "@comps/UI/card";
 import { combo } from "@lib/combo";
 import { Filter } from "lucide-react";
 import Image from "next/image";
@@ -263,14 +263,14 @@ export default function ProductManager() {
                 {/* Filter Section */}
                 <div className="mb-12 flex items-center justify-between">
                     <h2 className="text-3xl font-bold text-gray-900">Nos Services</h2>
-                    <ButtonClient
+                    <Button
                         type="button"
                         label="Filtrer"
                         className="flex items-center gap-2 rounded-full border border-gray-200 bg-white px-4 py-2 text-gray-700 shadow-sm transition-all hover:shadow-md"
                     >
                         <Filter className="size-5" />
                         <span className="font-medium">Filtrer</span>
-                    </ButtonClient>
+                    </Button>
                 </div>
 
                 {/* Product Grid */}
@@ -445,7 +445,7 @@ export default function ProductManager() {
                                                 />
                                             </div>
                                             <div className="flex justify-end">
-                                                <ButtonClient
+                                                <Button
                                                     type="submit"
                                                     label="Créer la catégorie"
                                                     loadingLabel="Création..."
@@ -453,7 +453,7 @@ export default function ProductManager() {
                                                     className="bg-[#5CEBDF] px-4 py-2 text-sm font-medium text-[#0A0A2C]"
                                                 >
                                                     Créer la catégorie
-                                                </ButtonClient>
+                                                </Button>
                                             </div>
                                         </form>
                                     </div>
@@ -529,7 +529,7 @@ export default function ProductManager() {
                             </div>
 
                             <div className="flex gap-4 pt-4">
-                                <ButtonClient
+                                <Button
                                     type="submit"
                                     label={editingProduct ? "Mettre à jour" : "Créer"}
                                     loadingLabel="Enregistrement..."
@@ -541,9 +541,9 @@ export default function ProductManager() {
                                     // )}
                                 >
                                     {editingProduct ? "Mettre à jour" : "Créer"}
-                                </ButtonClient>
+                                </Button>
                                 {editingProduct && (
-                                    <ButtonClient
+                                    <Button
                                         type="button"
                                         label="Annuler"
                                         onClick={() => {
@@ -565,7 +565,7 @@ export default function ProductManager() {
                                         // )}
                                     >
                                         Annuler
-                                    </ButtonClient>
+                                    </Button>
                                 )}
                             </div>
                         </form>

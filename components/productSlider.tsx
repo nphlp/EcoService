@@ -1,5 +1,5 @@
+import Slider, { LinkInfoType } from "@comps/UI/slider";
 import ProductCard from "@comps/productCard";
-import Slider, { LinkInfoType } from "@comps/ui/slider";
 import { ProductListType } from "./sliderFetchParams";
 
 type ProductSliderProps = {

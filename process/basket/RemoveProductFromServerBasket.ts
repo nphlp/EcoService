@@ -2,7 +2,7 @@
 
 import { OrderDeleteAction } from "@actions/OrderAction";
 import { QuantityDeleteAction } from "@actions/QuantityAction";
-import { LocalBasketItem } from "@comps/basket/basketType";
+import { LocalBasketItem } from "@comps/CORE/basket/basketType";
 import { GetSession } from "@lib/authServer";
 import { hasPermission } from "@permissions/hasPermissions";
 import { ProcessDevError } from "@process/Error";

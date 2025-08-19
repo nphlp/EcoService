@@ -1,3 +1,4 @@
+import { zustandCookieStorage } from "@lib/zustandCookieStorage";
 import { AddProductToServerBasket } from "@process/basket/AddProductToServerBasket";
 import { ClearServerBasket } from "@process/basket/ClearServerBasket";
 import { CreateServerBasket } from "@process/basket/CreateServerBasket";
@@ -9,7 +10,6 @@ import { UpdateProductOnServerBasket } from "@process/basket/UpdateProductOnServ
 import { OrderModel } from "@services/types";
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
-import { zustandCookieStorage } from "../../lib/zustandCookieStorage";
 import { BasketProduct, LocalBasket, LocalBasketItem, ServerBasket } from "./basketType";
 
 type Store = {

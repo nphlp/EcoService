@@ -101,7 +101,7 @@ Key models and relationships:
 - **Next.js 15** with App Router and RSC
 - **SSR Strategy**: Pages pre-load data server-side, inject into context providers
 - **Component Structure**:
-    - `components/ui/` - Reusable UI components
+    - `components/UI/` - Reusable UI components
     - `components/CORE/` - Layout and core functionality
     - `app/` - Next.js App Router pages
 - **Styling**: Tailwind CSS with custom theme configuration

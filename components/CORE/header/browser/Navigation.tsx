@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "@comps/ui/link";
+import Link from "@comps/UI/link";
 import { combo } from "@lib/combo";
 import { usePathname } from "next/navigation";
 import { useHeaderStore } from "../headerStore";

@@ -1,7 +1,7 @@
 "use client";
 
-import Button from "@comps/ui/button";
-import Modal from "@comps/ui/modal";
+import Button from "@comps/UI/button";
+import Modal from "@comps/UI/modal";
 import { BetterSessionServer } from "@lib/authServer";
 import { useState } from "react";
 

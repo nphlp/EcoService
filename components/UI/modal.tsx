@@ -1,6 +1,6 @@
 "use client";
 
-import Button from "@comps/ui/button";
+import Button from "@comps/UI/button";
 import { combo } from "@lib/combo";
 import { X } from "lucide-react";
 import { ReactNode } from "react";

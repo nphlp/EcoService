@@ -1,5 +1,5 @@
-import Card from "@comps/ui/card";
-import Link from "@comps/ui/link";
+import Card from "@comps/UI/card";
+import Link from "@comps/UI/link";
 import Client from "./client";
 
 type LinkProps = {
@@ -29,6 +29,11 @@ export default function Page() {
             label: "Bouncy Height Resizer",
             href: "/examples/bouncy-height-resize",
             text: "How to create a bouncy height resize",
+        },
+        {
+            label: "Cropper",
+            href: "/examples/cropper",
+            text: "How to create a cropper",
         },
         {
             label: "User permissions",

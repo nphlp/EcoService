@@ -1,9 +1,9 @@
 "use client";
 
-import { useBasketStore } from "@comps/basket/basketStore";
-import Button, { ButtonProps } from "@comps/ui/button";
-import Loader from "@comps/ui/loader";
-import { ButtonBaseKeys } from "@comps/ui/themes/buttonTheme";
+import { useBasketStore } from "@comps/CORE/basket/basketStore";
+import Button, { ButtonProps } from "@comps/UI/button";
+import Loader from "@comps/UI/loader";
+import { ButtonBaseKeys } from "@comps/UI/themes/buttonTheme";
 import { signOut } from "@lib/authClient";
 import { useRouter } from "next/navigation";
 import { ReactNode, useState } from "react";

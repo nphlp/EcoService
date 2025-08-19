@@ -1,5 +1,5 @@
-import ImageRatio from "@comps/ui/imageRatio";
-import Link from "@comps/ui/link";
+import ImageRatio from "@comps/UI/imageRatio";
+import Link from "@comps/UI/link";
 import { ProductFindManyServer } from "@services/server";
 import { unstable_ViewTransition as ViewTransition } from "react";
 

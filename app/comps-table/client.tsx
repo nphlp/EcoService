@@ -1,10 +1,10 @@
 "use client";
 
 import { useThemeStore } from "@comps/CORE/themeStore";
-import Button from "@comps/ui/button";
-import Input from "@comps/ui/input";
-import Select from "@comps/ui/select/select";
-import { createSelectOptions } from "@comps/ui/select/utils";
+import Button from "@comps/UI/button";
+import Input from "@comps/UI/input";
+import Select from "@comps/UI/select/select";
+import { createSelectOptions } from "@comps/UI/select/utils";
 import { combo } from "@lib/combo";
 import { useState } from "react";
 import { CategorySearchType } from "./fetchParams";

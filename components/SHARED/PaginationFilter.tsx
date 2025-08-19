@@ -1,6 +1,6 @@
 "use client";
 
-import ButtonClient from "@comps/client/button";
+import Button from "@comps/UI/button";
 import { combo } from "@lib/combo";
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 import { useContext } from "react";
@@ -19,14 +19,15 @@ export default function Pagination(props: PaginationProps) {
 
     const { productAmount } = useContext(Context);
 
-    const onlyOnePage = page >= Math.ceil((productAmount ?? 1) / take);
+    const lastPageNumber = Math.ceil((productAmount ?? 1) / take);
+
+    const onlyOnePage = lastPageNumber === 1;
 
     if (productAmount === 0 || onlyOnePage) return <></>;
 
     const triggerScroll = () => {
-        const headerEl = document.querySelector("header");
-        const mainEl = headerEl?.nextElementSibling;
-        setTimeout(() => mainEl?.scrollTo({ top: 0, behavior: "smooth" }), 100);
+        const mainEl = document.getElementById("main");
+        setTimeout(() => mainEl?.scrollTo({ top: 0, behavior: "smooth" }), 50);
     };
 
     const handleBack = () => {
@@ -41,29 +42,27 @@ export default function Pagination(props: PaginationProps) {
 
     return (
         <div className={combo("flex h-12 items-center justify-center gap-3", className)}>
-            <ButtonClient
+            <Button
                 type="button"
                 label="previous"
                 variant="outline"
-                padding="none"
-                className="scale-100 rounded-full p-2 transition-all duration-150 hover:scale-105 hover:bg-white disabled:hover:scale-100"
+                className="scale-100 rounded-full p-2 hover:scale-105 hover:bg-white disabled:hover:scale-100"
                 disabled={page === 1}
                 onClick={handleBack}
             >
                 <ChevronLeftIcon />
-            </ButtonClient>
+            </Button>
             <div className="font-semibold">Page {page}</div>
-            <ButtonClient
+            <Button
                 type="button"
                 label="next"
                 variant="outline"
-                padding="none"
-                className="scale-100 rounded-full p-2 transition-all duration-150 hover:scale-105 hover:bg-white disabled:hover:scale-100"
-                disabled={onlyOnePage}
+                className="scale-100 rounded-full p-2 hover:scale-105 hover:bg-white disabled:hover:scale-100"
+                disabled={page >= lastPageNumber}
                 onClick={handleNext}
             >
                 <ChevronRightIcon />
-            </ButtonClient>
+            </Button>
         </div>
     );
 }

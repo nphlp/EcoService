@@ -1,10 +1,10 @@
 "use client";
 
-import { Accordion, AccordionButton, AccordionContent } from "@comps/ui/accordion";
-import Button from "@comps/ui/button";
-import Input from "@comps/ui/input";
-import InputImage from "@comps/ui/inputImage";
-import InputPassword from "@comps/ui/inputPassword";
+import { Accordion, AccordionButton, AccordionContent } from "@comps/UI/accordion";
+import Button from "@comps/UI/button";
+import Input from "@comps/UI/input";
+import InputImage from "@comps/UI/inputImage";
+import InputPassword from "@comps/UI/inputPassword";
 import { changeEmail, changePassword, updateUser, useSession } from "@lib/authClient";
 import { BetterSessionServer } from "@lib/authServer";
 import { UpdateLastnameProcess } from "@process/ProfileUpdate";

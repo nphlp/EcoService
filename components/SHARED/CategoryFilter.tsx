@@ -1,7 +1,7 @@
 "use client";
 
-import Select from "@comps/ui/select/select";
-import { SelectOptionType } from "@comps/ui/select/utils";
+import Select from "@comps/UI/select/select";
+import { SelectOptionType } from "@comps/UI/select/utils";
 import { useCategoryQueryParams, usePageQueryParams } from "./queryParamsClientHooks";
 
 type CategoryFilterProps = {

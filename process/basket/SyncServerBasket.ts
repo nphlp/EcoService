@@ -1,7 +1,7 @@
 "use server";
 
 import { QuantityCreateManyAction, QuantityDeleteManyAction } from "@actions/QuantityAction";
-import { LocalBasket, localBasketSchema } from "@comps/basket/basketType";
+import { LocalBasket, localBasketSchema } from "@comps/CORE/basket/basketType";
 import { GetSession } from "@lib/authServer";
 import { hasPermission } from "@permissions/hasPermissions";
 import { ProcessDevError } from "@process/Error";

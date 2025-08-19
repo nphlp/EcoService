@@ -1,4 +1,4 @@
-import { useBasketStore } from "@comps/basket/basketStore";
+import { useBasketStore } from "@comps/CORE/basket/basketStore";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 describe("isInBasket", () => {

@@ -2,13 +2,13 @@
 
 import QuantityManager from "@app/checkout/components/quantityManager";
 import { useHeaderStore } from "@comps/CORE/header/headerStore";
-import ButtonClient from "@comps/client/button";
-import ImageRatio from "@comps/ui/imageRatio";
-import Link from "@comps/ui/link";
+import Button from "@comps/UI/button";
+import ImageRatio from "@comps/UI/imageRatio";
+import Link from "@comps/UI/link";
 import { combo } from "@lib/combo";
 import { motion } from "framer-motion";
-import { useBasketStore } from "./basketStore";
-import { LocalBasketItem } from "./basketType";
+import { useBasketStore } from "./basket/basketStore";
+import { LocalBasketItem } from "./basket/basketType";
 
 export default function Basket() {
     const { basketOpen, setBasketOpen } = useHeaderStore();
@@ -61,15 +61,15 @@ export default function Basket() {
                             Acheter maintenant !
                         </Link>
                         <div className="flex justify-center">
-                            <ButtonClient
+                            <Button
                                 type="button"
                                 label="paiement"
                                 variant="ghost"
-                                className="rounded-full px-8 py-1 font-semibold"
+                                className="bg-transprent rounded-full px-8 py-1 font-semibold"
                                 onClick={() => clearBothBasket()}
                             >
                                 Vider le panier
-                            </ButtonClient>
+                            </Button>
                         </div>
                     </div>
                 </div>

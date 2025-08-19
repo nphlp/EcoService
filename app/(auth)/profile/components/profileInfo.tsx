@@ -1,6 +1,6 @@
 "use client";
 
-import ImageProfile from "@comps/ui/imageProfile";
+import ImageProfile from "@comps/UI/imageProfile";
 import { BetterSessionClient, useSession } from "@lib/authClient";
 import { CircleCheck, CircleX } from "lucide-react";
 

@@ -1,6 +1,6 @@
 "use client";
 
-import Loader, { LoaderColor } from "@comps/ui/loader";
+import Loader, { LoaderColor } from "@comps/UI/loader";
 import { combo } from "@lib/combo";
 import { ButtonHTMLAttributes, ReactNode } from "react";
 import { ButtonBaseKeys, ButtonVariant, buttonBaseTheme, buttonTheme } from "./themes/buttonTheme";

@@ -1,6 +1,6 @@
 "use client";
 
-import Card from "@comps/ui/card";
+import Card from "@comps/UI/card";
 import { combo } from "@lib/combo";
 import Content from "./content";
 
