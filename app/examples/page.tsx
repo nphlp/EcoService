@@ -1,5 +1,6 @@
 import Card from "@comps/server/card";
 import Link from "@comps/ui/link";
+import Client from "./client";
 
 type LinkProps = {
     label: string;
@@ -60,6 +61,7 @@ export default function Page() {
         <div className="p-7">
             <Card className="flex flex-col items-center gap-4 pl-10">
                 <h1 className="text-2xl font-bold">Examples</h1>
+                <Client />
                 <ul className="space-y-2">
                     {links.map((link, index) => (
                         <UnderlinedLink key={index} {...link} />

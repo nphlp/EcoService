@@ -92,7 +92,7 @@ const BasketChoice = (props: BasketChoiceProps) => {
             onClick={onClick}
             className={combo(
                 "flex flex-col gap-3",
-                "rounded-xl border p-6",
+                "rounded-xl border border-gray-400 p-6",
                 "shadow-sm hover:shadow-lg",
                 "cursor-pointer",
                 "scale-100 hover:scale-[1.02]",
