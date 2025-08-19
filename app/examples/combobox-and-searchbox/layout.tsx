@@ -1,4 +1,4 @@
-import Section from "@app/examples/search/section";
+import Section from "@app/examples/combobox-and-searchbox/section";
 import { CornerRightDown, ListTodo, Shuffle, SquareCheckBig } from "lucide-react";
 import { ReactNode } from "react";
 
