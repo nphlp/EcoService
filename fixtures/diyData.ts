@@ -163,4 +163,264 @@ export const diyData: Prisma.DiyCreateInput[] = [
             },
         },
     },
+    {
+        title: "Fabriquer un sac à vrac",
+        slug: StringToSlug("Fabriquer un sac à vrac"),
+        Author: { connect: { email: "user@example.com" } },
+        Content: {
+            createMany: {
+                data: [
+                    {
+                        content:
+                            "Découpez un rectangle de 30×40 cm dans un coton serré (chute de chemise ou drap). Surfilez ou surjetez les bords pour éviter l'effilochage et marquez les repères de couture au fer pour un montage net et durable.",
+                        image: "/illustration/coton 1.webp",
+                    },
+                    {
+                        content:
+                            "Pliez le haut sur 2 cm pour former une coulisse, piquez au point droit en laissant une ouverture latérale. Renforcez les extrémités par un aller‑retour afin que la traction du cordon ne déchire pas la couture.",
+                        image: "/illustration/coton 2.webp",
+                    },
+                    {
+                        content:
+                            "Passez une cordelette à l'aide d'une épingle à nourrice, puis faites un nœud plat ou ajoutez un bloque‑cordon récupéré. Étiquetez le poids à vide pour faciliter la tare au rayon vrac.",
+                        image: "/illustration/coton 3.webp",
+                    },
+                ],
+            },
+        },
+    },
+    {
+        title: "Bee wrap maison",
+        slug: StringToSlug("Bee wrap maison"),
+        Author: { connect: { email: "admin@example.com" } },
+        Content: {
+            createMany: {
+                data: [
+                    {
+                        content:
+                            "Découpez un carré de coton fin et prélavé. Disposez‑le sur une plaque recouverte de papier cuisson et répartissez délicatement de la cire d'abeille râpée ou en pastilles sur toute la surface.",
+                        image: "/illustration/produit 1.webp",
+                    },
+                    {
+                        content:
+                            "Enfournez à 80°C jusqu'à fusion, puis étalez la cire au pinceau pour bien imprégner les fibres. Ajoutez une pointe de résine de pin et d'huile pour un meilleur pouvoir adhésif et une souplesse accrue.",
+                        image: "/illustration/produit 2.webp",
+                    },
+                    {
+                        content:
+                            "Saisissez le tissu aux coins, laissez s'égoutter l'excédent et faites sécher quelques minutes. Utilisez pour couvrir des bols ou emballer des aliments, en évitant la chaleur directe et les viandes crues.",
+                        image: "/illustration/produit 3.webp",
+                    },
+                ],
+            },
+        },
+    },
+    {
+        title: "Spray multi-usage maison",
+        slug: StringToSlug("Spray multi-usage maison"),
+        Author: { connect: { email: "vendor@example.com" } },
+        Content: {
+            createMany: {
+                data: [
+                    {
+                        content:
+                            "Dans une bouteille propre, mélangez 400 ml d'eau, 100 ml de vinaigre blanc et une cuillère à soupe d'alcool ménager. Cette base dégraisse, désodorise et sèche rapidement sans laisser de film gras.",
+                        image: "/illustration/pshit 1.webp",
+                    },
+                    {
+                        content:
+                            "Pour l'effet antibactérien et le parfum, ajoutez 10 gouttes d'huile essentielle de citron ou tea tree (facultatif). Étiquetez le flacon et agitez avant chaque utilisation pour homogénéiser la solution.",
+                        image: "/illustration/pshit 2.webp",
+                    },
+                    {
+                        content:
+                            "Pulvérisez sur plans de travail, inox et vitres, puis essuyez avec un chiffon microfibre. Évitez la pierre naturelle (marbre, granite non traité) et testez sur une zone discrète si doute.",
+                        image: "/illustration/lessive 2.webp",
+                    },
+                ],
+            },
+        },
+    },
+    {
+        title: "Composteur bokashi maison",
+        slug: StringToSlug("Composteur bokashi maison"),
+        Author: { connect: { email: "employee@example.com" } },
+        Content: {
+            createMany: {
+                data: [
+                    {
+                        content:
+                            "Percez un seau équipé d'un robinet au bas pour drainer le jus, et insérez un panier perforé servant de faux‑fond. Nettoyez soigneusement l'ensemble pour garantir une fermentation optimale.",
+                        image: "/illustration/produit 5.webp",
+                    },
+                    {
+                        content:
+                            "Ajoutez vos biodéchets en fines couches en saupoudrant de son inoculé (EM) à chaque ajout. Tassez légèrement pour limiter l'air et favoriser la fermentation anaérobie caractéristique du bokashi.",
+                        image: "/illustration/feuille.webp",
+                    },
+                    {
+                        content:
+                            "Fermez hermétiquement entre chaque apport. Récupérez régulièrement le jus (à diluer avant arrosage) et, après fermentation, enterrez la matière pour une maturation achevée directement au sol.",
+                        image: "/illustration/terre-main.webp",
+                    },
+                ],
+            },
+        },
+    },
+    {
+        title: "Filtre à café réutilisable",
+        slug: StringToSlug("Filtre à café réutilisable"),
+        Author: { connect: { email: "user@example.com" } },
+        Content: {
+            createMany: {
+                data: [
+                    {
+                        content:
+                            "Tracez un cône sur une toile de coton non blanchie (grammage moyen) et ajoutez 1 cm de marge de couture. Coupez dans le droit‑fil pour conserver la tenue au lavage.",
+                        image: "/illustration/cafe.webp",
+                    },
+                    {
+                        content:
+                            "Assemblez endroit contre endroit, piquez au point droit puis surfilez la couture pour éviter l'effilochage. Retournez, repassez et surpiquez le bord supérieur pour gagner en rigidité.",
+                        image: "/illustration/produit 4.webp",
+                    },
+                    {
+                        content:
+                            "Rincez avant la première utilisation et après chaque café. Lavez régulièrement sans assouplissant afin de préserver la perméabilité et le goût neutre.",
+                        image: "/illustration/produit 3.webp",
+                    },
+                ],
+            },
+        },
+    },
+    {
+        title: "Huile de finition bois naturelle",
+        slug: StringToSlug("Huile de finition bois naturelle"),
+        Author: { connect: { email: "admin@example.com" } },
+        Content: {
+            createMany: {
+                data: [
+                    {
+                        content:
+                            "Mélangez 2 parts d'huile de lin avec 1 part d'huile de tung et une part d'essence d'orange pour fluidifier. Ce mélange nourrit en profondeur, relève le veinage et offre une protection respirante.",
+                        image: "/illustration/produit 2.webp",
+                    },
+                    {
+                        content:
+                            "Appliquez au chiffon non pelucheux sur un bois propre et parfaitement sec, en suivant le fil. Laissez pénétrer une vingtaine de minutes puis essuyez soigneusement l'excédent.",
+                        image: "/illustration/terre-main.webp",
+                    },
+                    {
+                        content:
+                            "Laissez sécher 24 h entre chaque couche et appliquez 2 à 3 passes selon l'exposition. Lustrez légèrement après séchage complet; un entretien semestriel préservera l'éclat et la résistance aux taches.",
+                        image: "/illustration/produit 1.webp",
+                    },
+                ],
+            },
+        },
+    },
+    {
+        title: "Bougies à la cire d'abeille",
+        slug: StringToSlug("Bougies à la cire d'abeille"),
+        Author: { connect: { email: "vendor@example.com" } },
+        Content: {
+            createMany: {
+                data: [
+                    {
+                        content:
+                            "Faites fondre la cire d'abeille au bain‑marie autour de 70°C et préparez des mèches en coton pré‑cirées adaptées au diamètre du contenant. Travaillez avec précaution et protégez le plan de travail.",
+                        image: "/illustration/produit 3.webp",
+                    },
+                    {
+                        content:
+                            "Versez la cire dans des contenants résistants à la chaleur et centrez la mèche avec un support. Tapotez pour libérer les bulles d'air et assurer une surface homogène.",
+                        image: "/illustration/pots.webp",
+                    },
+                    {
+                        content:
+                            "Laissez refroidir 24 h sans déplacement. Recoupez la mèche à 5–7 mm avant chaque allumage pour une combustion régulière et propre.",
+                        image: "/illustration/produit 5.webp",
+                    },
+                ],
+            },
+        },
+    },
+    {
+        title: "Démaquillant biphasé maison",
+        slug: StringToSlug("Démaquillant biphasé maison"),
+        Author: { connect: { email: "employee@example.com" } },
+        Content: {
+            createMany: {
+                data: [
+                    {
+                        content:
+                            "Mélangez 40 ml d'hydrolat apaisant (bleuet ou camomille) avec 60 ml d'huile végétale douce (amande, jojoba) dans un flacon propre. Cette formule dissout efficacement le maquillage tout en respectant la peau.",
+                        image: "/illustration/produit 2.webp",
+                    },
+                    {
+                        content:
+                            "Ajoutez quelques gouttes de vitamine E comme antioxydant naturel et étiquetez la date de préparation. Agitez avant emploi pour réunir les deux phases et faciliter l'application.",
+                        image: "/illustration/coton 2.webp",
+                    },
+                    {
+                        content:
+                            "Appliquez sur un coton lavable en gestes doux, puis rincez si nécessaire. Conservez à l'abri de la chaleur et utilisez idéalement sous deux mois.",
+                        image: "/illustration/coton 1.webp",
+                    },
+                ],
+            },
+        },
+    },
+    {
+        title: "Cendrier de poche DIY",
+        slug: StringToSlug("Cendrier de poche DIY"),
+        Author: { connect: { email: "user@example.com" } },
+        Content: {
+            createMany: {
+                data: [
+                    {
+                        content:
+                            "Récupérez une boîte métallique plate (type pastilles) et nettoyez‑la soigneusement. Vérifiez la fermeture pour éviter toute ouverture accidentelle en poche.",
+                        image: "/illustration/produit 4.webp",
+                    },
+                    {
+                        content:
+                            "Tapissez le fond de sable fin pour absorber et éteindre rapidement. Ajoutez un petit galet parfumé ou une pastille désodorisante pour limiter les odeurs.",
+                        image: "/illustration/pshit 1.webp",
+                    },
+                    {
+                        content:
+                            "Personnalisez l'extérieur et emportez toujours le cendrier lors de vos sorties. Ce simple geste évite la dispersion des mégots dans l'environnement.",
+                        image: "/illustration/pshit 2.webp",
+                    },
+                ],
+            },
+        },
+    },
+    {
+        title: "Poudre lave-vaisselle maison",
+        slug: StringToSlug("Poudre lave-vaisselle maison"),
+        Author: { connect: { email: "admin@example.com" } },
+        Content: {
+            createMany: {
+                data: [
+                    {
+                        content:
+                            "Mélangez 2 parts de cristaux de soude, 2 parts d'acide citrique et 1 part de bicarbonate dans un grand bol. Travaillez à l'abri de l'humidité et portez des gants si nécessaire.",
+                        image: "/illustration/lessive 1.webp",
+                    },
+                    {
+                        content:
+                            "Ajoutez une part de sel fin pour l'effet adoucissant et transférez dans un bocal hermétique étiqueté. Conservez au sec, à l'abri des projections d'eau.",
+                        image: "/illustration/pots.webp",
+                    },
+                    {
+                        content:
+                            "Dosez environ 1 cuillère à soupe par cycle selon la dureté de l'eau. Utilisez du vinaigre blanc comme liquide de rinçage pour une vaisselle brillante et sans traces.",
+                        image: "/illustration/lessive 2.webp",
+                    },
+                ],
+            },
+        },
+    },
 ];

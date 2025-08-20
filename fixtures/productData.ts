@@ -572,4 +572,382 @@ export const productData: Prisma.ProductCreateInput[] = [
             },
         },
     },
+    {
+        name: "Tomates anciennes bio",
+        slug: StringToSlug("Tomates anciennes bio"),
+        description: "Variétés anciennes, goût authentique et sucré",
+        image: "/illustration/produit 1.webp",
+        price: 3.99,
+        stock: 80,
+        Category: {
+            connect: {
+                name: "Fruits & Légumes",
+            },
+        },
+        Vendor: {
+            connect: {
+                email: "vendor@example.com",
+            },
+        },
+    },
+    {
+        name: "Paniers d'herbes fraîches",
+        slug: StringToSlug("Paniers d'herbes fraîches"),
+        description: "Menthe, basilic, persil – prêt à cuisiner",
+        image: "/illustration/produit 2.webp",
+        price: 5.5,
+        stock: 60,
+        Category: {
+            connect: {
+                name: "Fruits & Légumes",
+            },
+        },
+        Vendor: {
+            connect: {
+                email: "vendor@example.com",
+            },
+        },
+    },
+
+    // Produits Laitiers
+    {
+        name: "Lait fermier entier",
+        slug: StringToSlug("Lait fermier entier"),
+        description: "Lait entier pasteurisé issu de fermes locales",
+        image: "/illustration/produit 3.webp",
+        price: 1.6,
+        stock: 120,
+        Category: {
+            connect: {
+                name: "Produits Laitiers",
+            },
+        },
+        Vendor: {
+            connect: {
+                email: "vendor@example.com",
+            },
+        },
+    },
+    {
+        name: "Fromage de chèvre frais",
+        slug: StringToSlug("Fromage de chèvre frais"),
+        description: "Petit chèvre crémeux et parfumé",
+        image: "/illustration/produit 4.webp",
+        price: 4.2,
+        stock: 50,
+        Category: {
+            connect: {
+                name: "Produits Laitiers",
+            },
+        },
+        Vendor: {
+            connect: {
+                email: "vendor@example.com",
+            },
+        },
+    },
+
+    // Boulangerie
+    {
+        name: "Pain complet bio",
+        slug: StringToSlug("Pain complet bio"),
+        description: "Pain complet aux farines bio moulues sur pierre",
+        image: "/illustration/cafe.webp",
+        price: 3.2,
+        stock: 70,
+        Category: {
+            connect: {
+                name: "Boulangerie",
+            },
+        },
+        Vendor: {
+            connect: {
+                email: "vendor@example.com",
+            },
+        },
+    },
+    {
+        name: "Cookies artisanaux",
+        slug: StringToSlug("Cookies artisanaux"),
+        description: "Cookies pépites de chocolat et farine locale",
+        image: "/illustration/coton 3.webp",
+        price: 4.99,
+        stock: 90,
+        Category: {
+            connect: {
+                name: "Boulangerie",
+            },
+        },
+        Vendor: {
+            connect: {
+                email: "vendor@example.com",
+            },
+        },
+    },
+
+    // Viandes & Poissons
+    {
+        name: "Saucisses de volaille",
+        slug: StringToSlug("Saucisses de volaille"),
+        description: "Saucisses 100% volaille élevées en plein air",
+        image: "/illustration/eolienne.webp",
+        price: 8.99,
+        stock: 45,
+        Category: {
+            connect: {
+                name: "Viandes & Poissons",
+            },
+        },
+        Vendor: {
+            connect: {
+                email: "vendor@example.com",
+            },
+        },
+    },
+    {
+        name: "Truite fumée artisanale",
+        slug: StringToSlug("Truite fumée artisanale"),
+        description: "Truite fumée au bois de hêtre",
+        image: "/illustration/espace 1.webp",
+        price: 9.5,
+        stock: 35,
+        Category: {
+            connect: {
+                name: "Viandes & Poissons",
+            },
+        },
+        Vendor: {
+            connect: {
+                email: "vendor@example.com",
+            },
+        },
+    },
+
+    // Épicerie
+    {
+        name: "Riz complet bio",
+        slug: StringToSlug("Riz complet bio"),
+        description: "Riz long complet issu de l'agriculture biologique",
+        image: "/illustration/pshit 1.webp",
+        price: 3.49,
+        stock: 110,
+        Category: {
+            connect: {
+                name: "Épicerie",
+            },
+        },
+        Vendor: {
+            connect: {
+                email: "vendor@example.com",
+            },
+        },
+    },
+    {
+        name: "Pois chiches en bocal",
+        slug: StringToSlug("Pois chiches en bocal"),
+        description: "Pois chiches cuits, prêts à consommer",
+        image: "/illustration/pshit 2.webp",
+        price: 2.3,
+        stock: 140,
+        Category: {
+            connect: {
+                name: "Épicerie",
+            },
+        },
+        Vendor: {
+            connect: {
+                email: "vendor@example.com",
+            },
+        },
+    },
+
+    // Boissons
+    {
+        name: "Kombucha artisanal",
+        slug: StringToSlug("Kombucha artisanal"),
+        description: "Boisson fermentée rafraîchissante au thé",
+        image: "/illustration/produit 3.webp",
+        price: 2.99,
+        stock: 100,
+        Category: {
+            connect: {
+                name: "Boissons",
+            },
+        },
+        Vendor: {
+            connect: {
+                email: "vendor@example.com",
+            },
+        },
+    },
+    {
+        name: "Tisane relaxante",
+        slug: StringToSlug("Tisane relaxante"),
+        description: "Mélange de plantes bio pour le soir",
+        image: "/illustration/produit 5.webp",
+        price: 4.2,
+        stock: 80,
+        Category: {
+            connect: {
+                name: "Boissons",
+            },
+        },
+        Vendor: {
+            connect: {
+                email: "vendor@example.com",
+            },
+        },
+    },
+
+    // Bio & Sans Gluten
+    {
+        name: "Pain sans gluten",
+        slug: StringToSlug("Pain sans gluten"),
+        description: "Pain au sarrasin et riz, moelleux",
+        image: "/illustration/coton 2.webp",
+        price: 5.2,
+        stock: 55,
+        Category: {
+            connect: {
+                name: "Bio & Sans Gluten",
+            },
+        },
+        Vendor: {
+            connect: {
+                email: "vendor@example.com",
+            },
+        },
+    },
+    {
+        name: "Farine de pois chiche",
+        slug: StringToSlug("Farine de pois chiche"),
+        description: "Farine riche en protéines pour socca et falafels",
+        image: "/illustration/coton 1.webp",
+        price: 3.8,
+        stock: 75,
+        Category: {
+            connect: {
+                name: "Bio & Sans Gluten",
+            },
+        },
+        Vendor: {
+            connect: {
+                email: "vendor@example.com",
+            },
+        },
+    },
+
+    // Surgelés
+    {
+        name: "Myrtilles surgelées",
+        slug: StringToSlug("Myrtilles surgelées"),
+        description: "Myrtilles sélectionnées et surgelées flash",
+        image: "/illustration/cafe.webp",
+        price: 6.2,
+        stock: 65,
+        Category: {
+            connect: {
+                name: "Surgelés",
+            },
+        },
+        Vendor: {
+            connect: {
+                email: "vendor@example.com",
+            },
+        },
+    },
+    {
+        name: "Soupe de légumes surgelée",
+        slug: StringToSlug("Soupe de légumes surgelée"),
+        description: "Soupe prête à réchauffer, recettes maison",
+        image: "/illustration/eolienne.webp",
+        price: 3.9,
+        stock: 90,
+        Category: {
+            connect: {
+                name: "Surgelés",
+            },
+        },
+        Vendor: {
+            connect: {
+                email: "vendor@example.com",
+            },
+        },
+    },
+
+    // Hygiène & Beauté
+    {
+        name: "Déodorant solide",
+        slug: StringToSlug("Déodorant solide"),
+        description: "Déodorant naturel au bicarbonate et karité",
+        image: "/illustration/produit 2.webp",
+        price: 7.5,
+        stock: 70,
+        Category: {
+            connect: {
+                name: "Hygiène & Beauté",
+            },
+        },
+        Vendor: {
+            connect: {
+                email: "vendor@example.com",
+            },
+        },
+    },
+    {
+        name: "Baume à lèvres bio",
+        slug: StringToSlug("Baume à lèvres bio"),
+        description: "Baume nourrissant aux huiles végétales",
+        image: "/illustration/produit 1.webp",
+        price: 3.2,
+        stock: 120,
+        Category: {
+            connect: {
+                name: "Hygiène & Beauté",
+            },
+        },
+        Vendor: {
+            connect: {
+                email: "vendor@example.com",
+            },
+        },
+    },
+
+    // Maison & Entretien
+    {
+        name: "Liquide vaisselle éco",
+        slug: StringToSlug("Liquide vaisselle éco"),
+        description: "Liquide vaisselle concentré d'origine végétale",
+        image: "/illustration/lessive 1.webp",
+        price: 2.9,
+        stock: 150,
+        Category: {
+            connect: {
+                name: "Maison & Entretien",
+            },
+        },
+        Vendor: {
+            connect: {
+                email: "vendor@example.com",
+            },
+        },
+    },
+    {
+        name: "Brosse vaisselle bois",
+        slug: StringToSlug("Brosse vaisselle bois"),
+        description: "Brosse tête remplaçable en fibres naturelles",
+        image: "/illustration/brosse-a-dent.webp",
+        price: 4.1,
+        stock: 85,
+        Category: {
+            connect: {
+                name: "Maison & Entretien",
+            },
+        },
+        Vendor: {
+            connect: {
+                email: "vendor@example.com",
+            },
+        },
+    },
 ];

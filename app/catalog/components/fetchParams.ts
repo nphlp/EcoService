@@ -1,5 +1,5 @@
 import { Prisma } from "@prisma/client";
-import { CategoryCountProps, CategoryFindManyProps } from "@services/types/CategoryType";
+import { CategoryFindManyProps } from "@services/types/CategoryType";
 import { ProductCountProps, ProductFindManyProps } from "@services/types/ProductType";
 import { CatalogQueryParamsCachedType } from "./queryParams";
 
@@ -24,7 +24,13 @@ const productFetchParams = ({ priceOrder, page, take, category, search }: Catalo
         take,
         where: {
             ...(category && { Category: { slug: category } }),
-            ...(search && { name: { contains: search } }),
+            ...(search && {
+                OR: [
+                    { name: { contains: search } },
+                    { slug: { contains: search } },
+                    { description: { contains: search } },
+                ],
+            }),
         },
     }) satisfies ProductFindManyProps;
 
@@ -32,7 +38,13 @@ const productCountParams = ({ category, search }: { category: string; search: st
     ({
         where: {
             ...(category && { Category: { slug: category } }),
-            ...(search && { name: { contains: search } }),
+            ...(search && {
+                OR: [
+                    { name: { contains: search } },
+                    { slug: { contains: search } },
+                    { description: { contains: search } },
+                ],
+            }),
         },
     }) satisfies ProductCountProps;
 
@@ -49,15 +61,8 @@ const categoryFetchParams = () =>
         orderBy: { name: "asc" as const },
     }) satisfies CategoryFindManyProps;
 
-const categoryCountParams = (search?: string) =>
-    ({
-        where: {
-            name: { contains: search },
-        },
-    }) satisfies CategoryCountProps;
-
 // ============== Exports ============== //
 
 export type { CategorySearchType, CountType, ProductSearchType };
 
-export { categoryCountParams, categoryFetchParams, productCountParams, productFetchParams };
+export { categoryFetchParams, productCountParams, productFetchParams };
