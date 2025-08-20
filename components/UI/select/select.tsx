@@ -57,8 +57,7 @@ type CommonProps = {
     selected: SelectOptionType["slug"];
 };
 
-// ========== Context ========== //
-
+// Context
 type ContextType = CommonProps & {
     // Internal States
     isOpen: boolean;
@@ -70,8 +69,7 @@ type ContextType = CommonProps & {
 
 const Context = createContext<ContextType>({} as ContextType);
 
-// ========== Provider ========== //
-
+// Provider
 type ProviderProps = CommonProps & {
     children: ReactNode;
 };
@@ -90,8 +88,7 @@ const Provider = (props: ProviderProps) => {
     return <Context.Provider value={value}>{children}</Context.Provider>;
 };
 
-// ========== Select ========== //
-
+// Select
 type SelectProps = Omit<CommonProps, "variant" | "dropdownGap"> & {
     // Override this props to set a default value
     variant?: VariantType;
@@ -107,25 +104,24 @@ export default function Select(props: SelectProps) {
 
     return (
         <Provider {...{ variant, dropdownGap, ...others }}>
-            <SelectComponent>
+            <Component>
                 {/* Label */}
-                <SelectLabel />
+                <Label />
                 {/* Button */}
-                <SelectButton />
+                <Button />
                 {/* Options */}
-                <SelectOptions />
-            </SelectComponent>
+                <OptionsThroughPortal />
+            </Component>
         </Provider>
     );
 }
 
-// ========== Select Component ========== //
-
-type SelectComponentProps = {
+// Component
+type ComponentProps = {
     children: ReactNode;
 };
 
-const SelectComponent = (props: SelectComponentProps) => {
+const Component = (props: ComponentProps) => {
     const { children } = props;
 
     const { variant, className } = useContext(Context);
@@ -142,17 +138,15 @@ const SelectComponent = (props: SelectComponentProps) => {
     );
 };
 
-// ========== Select Label ========== //
-
-const SelectLabel = () => {
+// Label
+const Label = () => {
     const { variant, className, label } = useContext(Context);
 
     return <div className={combo(theme[variant].label, className?.label)}>{label}</div>;
 };
 
-// ========== Select Button ========== //
-
-const SelectButton = () => {
+// Button
+const Button = () => {
     const {
         variant,
         className,
@@ -276,9 +270,8 @@ const SelectButton = () => {
     );
 };
 
-// ========== Select Options ========== //
-
-const SelectOptions = () => {
+// Options Through Portal
+const OptionsThroughPortal = () => {
     const selectContext = useContext(Context);
     const { isOpen: isSelectOpen, buttonRef, dropdownGap } = selectContext;
 
@@ -294,7 +287,7 @@ const SelectOptions = () => {
         if (isSelectOpen) {
             setIsOpen(true);
             setBox({ x: left, y: top, w: width });
-            setContent(<SelectOptionsPortal {...selectContext} />);
+            setContent(<Options {...selectContext} />);
         } else {
             setIsOpen(false);
             setBox({});
@@ -305,9 +298,10 @@ const SelectOptions = () => {
     return <></>;
 };
 
-type SelectOptionsPortalProps = ContextType;
+// Options
+type OptionsProps = ContextType;
 
-const SelectOptionsPortal = (props: SelectOptionsPortalProps) => {
+const Options = (props: OptionsProps) => {
     const { selected, variant, className, options, optionListRef, buttonRef, setSelected, setIsOpen } = props;
 
     // Get the selected option
