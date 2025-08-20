@@ -1,16 +1,15 @@
 import { combo } from "@lib/combo";
 import { mergeStylesAndStructure } from "../themes/utils";
+import { InputClassName } from "./input";
 
 export type InputVariant = "default" | "none";
 
-export type StructureType = {
-    component: string;
-    label: string;
-    input: string;
+type StructureType = {
+    [key in keyof InputClassName]-?: InputClassName[key];
 };
 
 export type StylesType = {
-    [key in InputVariant]: StructureType;
+    [key in InputVariant]: InputClassName;
 };
 
 const structure: StructureType = {

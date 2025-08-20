@@ -9,37 +9,40 @@ import Provider from "./provider";
 import { VariantType } from "./theme";
 import { SelectOptionType } from "./utils";
 
+export type SelectClassName = {
+    component?: string;
+    label?: string;
+
+    displayedValue?: string;
+    placeholder?: string;
+
+    buttonGroup?: string;
+    button?: string;
+
+    subButton?: string;
+    subCross?: string;
+
+    subDiv?: string;
+    subChevron?: string;
+
+    optionList?: string;
+    optionButton?: string;
+    optionIcon?: string;
+    optionLabel?: string;
+};
+
 export type CommonProps = {
     // Props
     label: string;
     placeholder?: string;
-    variant: VariantType;
-    dropdownGap: number;
-    canNotBeEmpty?: boolean;
-    required?: boolean;
 
     // Styles
-    className?: {
-        component?: string;
-        label?: string;
+    variant: VariantType;
+    className?: SelectClassName;
+    dropdownGap: number;
 
-        displayedValue?: string;
-        placeholder?: string;
-
-        buttonGroup?: string;
-        button?: string;
-
-        subButton?: string;
-        subCross?: string;
-
-        subDiv?: string;
-        subChevron?: string;
-
-        optionList?: string;
-        optionButton?: string;
-        optionIcon?: string;
-        optionLabel?: string;
-    };
+    canNotBeEmpty?: boolean;
+    required?: boolean;
 
     // External States
     options: SelectOptionType[];

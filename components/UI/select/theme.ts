@@ -1,28 +1,11 @@
 import { combo } from "@lib/combo";
 import { mergeStylesAndStructure } from "../themes/utils";
+import { SelectClassName } from "./select";
 
 export type VariantType = "default" | "dark" | "none";
 
 type StructureType = {
-    component: string;
-    label: string;
-
-    displayedValue: string;
-    placeholder: string;
-
-    buttonGroup: string;
-    button: string;
-
-    subButton: string;
-    subCross: string;
-
-    subDiv: string;
-    subChevron: string;
-
-    optionList: string;
-    optionButton: string;
-    optionIcon: string;
-    optionLabel: string;
+    [key in keyof SelectClassName]-?: SelectClassName[key];
 };
 
 export type StylesType = {
