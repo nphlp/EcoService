@@ -1,0 +1,16 @@
+{
+    "permissions": {
+        "allow": [
+            "Bash(mkdir:*)",
+            "Bash(pnpm lint:*)",
+            "Bash(pnpm type:*)",
+            "Bash(pnpm run lint:*)",
+            "Bash(pnpm run type:*)",
+            "WebSearch"
+        ],
+        "deny": [],
+        "ask": []
+    },
+    "enabledMcpjsonServers": ["context7"],
+    "enableAllProjectMcpServers": true
+}

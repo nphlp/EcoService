@@ -1,4 +1,5 @@
 import { FlatCompat } from "@eslint/eslintrc";
+import tsParser from "@typescript-eslint/parser";
 import reactRefresh from "eslint-plugin-react-refresh";
 import unusedImports from "eslint-plugin-unused-imports";
 import { dirname } from "path";
@@ -14,6 +15,10 @@ const compat = new FlatCompat({
 const eslintConfig = [
     ...compat.extends("next/core-web-vitals", "next/typescript"),
     {
+        languageOptions: {
+            parser: tsParser,
+            parserOptions: { project: true },
+        },
         plugins: {
             "react-refresh": reactRefresh,
             "unused-imports": unusedImports,
@@ -39,6 +44,7 @@ const eslintConfig = [
             ],
             "unused-imports/no-unused-imports": "error",
             "unused-imports/no-unused-vars": "warn",
+            "@typescript-eslint/no-deprecated": "error",
         },
     },
 ];

@@ -7,6 +7,7 @@ export type ContextType = CommonProps & {
     isOpen: boolean;
     setIsOpen: (isOpen: boolean) => void;
 
+    // Internal Refs
     buttonRef: RefObject<HTMLButtonElement | null>;
     optionListRef: RefObject<HTMLDivElement | null>;
 };
