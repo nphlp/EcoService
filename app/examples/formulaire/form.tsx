@@ -6,7 +6,7 @@ import Combobox from "@comps/UI/comboboxes/combobox";
 import ComboboxMulti from "@comps/UI/comboboxes/comboboxMulti";
 import { ComboOptionType, MultiSourceComboOptionType } from "@comps/UI/comboboxes/utils";
 import Feedback, { FeedbackMode } from "@comps/UI/feedback";
-import Input from "@comps/UI/input";
+import Input from "@comps/UI/input/input";
 import InputImage from "@comps/UI/inputImage";
 import Select from "@comps/UI/select/select";
 import { SelectOptionType } from "@comps/UI/select/utils";
@@ -74,7 +74,7 @@ export default function Form(props: FormProps) {
                 placeholder="Entrez votre nom"
                 setValue={setName}
                 value={name}
-                classComponent="w-full"
+                className={{ component: "w-full" }}
                 required={false}
             />
             <Select

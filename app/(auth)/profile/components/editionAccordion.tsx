@@ -2,7 +2,7 @@
 
 import { Accordion, AccordionButton, AccordionContent } from "@comps/UI/accordion";
 import Button from "@comps/UI/button";
-import Input from "@comps/UI/input";
+import Input from "@comps/UI/input/input";
 import InputImage from "@comps/UI/inputImage";
 import InputPassword from "@comps/UI/inputPassword";
 import { changeEmail, changePassword, updateUser, useSession } from "@lib/authClient";
@@ -79,7 +79,7 @@ const UpdateLastnameForm = (props: UpdateFormProps) => {
                 setValue={setLastname}
                 value={lastname}
                 required={false}
-                classComponent="w-full"
+                className={{ component: "w-full" }}
             />
             <Button label="Modifier" isLoading={isLoading} type="submit" />
         </form>
@@ -120,7 +120,7 @@ const UpdateFirstnameForm = (props: UpdateFormProps) => {
                 setValue={setName}
                 value={name}
                 required={false}
-                classComponent="w-full"
+                className={{ component: "w-full" }}
             />
             <Button label="Modifier" isLoading={isLoading} type="submit" />
         </form>
@@ -161,7 +161,7 @@ const UpdateEmailForm = (props: UpdateFormProps) => {
                 setValue={setEmail}
                 value={email}
                 required={false}
-                classComponent="w-full"
+                className={{ component: "w-full" }}
             />
             <Button label="Modifier" isLoading={isLoading} type="submit" />
         </form>

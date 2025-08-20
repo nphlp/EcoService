@@ -4,7 +4,7 @@ import { combo } from "@lib/combo";
 import { Eye, EyeClosed } from "lucide-react";
 import { useState } from "react";
 import Button from "./button";
-import Input, { InputProps } from "./input";
+import Input, { InputProps } from "./input/input";
 
 type InputPasswordProps = {
     classPasswordComponent?: string;
@@ -20,7 +20,7 @@ export default function InputPassword(props: InputPasswordProps) {
         <div className={combo("flex flex-row items-end gap-1.5", classPasswordComponent)}>
             <Input
                 type={toggleVisibility ? "text" : "password"}
-                classComponent="w-full"
+                className={{ component: "w-full" }}
                 setValue={setValue}
                 value={value}
                 {...others}

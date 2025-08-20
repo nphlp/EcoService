@@ -2,7 +2,7 @@
 
 import { combo } from "@lib/combo";
 import { ChangeEvent, InputHTMLAttributes, MouseEvent } from "react";
-import { InputVariant, theme } from "./themes/inputTheme";
+import { InputVariant, theme } from "./theme";
 
 /** Input props */
 export type InputProps = {
@@ -12,9 +12,11 @@ export type InputProps = {
     /** Custom execution after input change */
     afterChange?: () => void;
     required?: boolean;
-    classComponent?: string;
-    classLabel?: string;
-    classInput?: string;
+    className?: {
+        component?: string;
+        label?: string;
+        input?: string;
+    };
 } & Omit<InputHTMLAttributes<HTMLInputElement>, "className" | "label" | "onChange" | "required">;
 
 /**
@@ -34,17 +36,7 @@ export type InputProps = {
  * ```
  */
 export default function Input(props: InputProps) {
-    const {
-        label,
-        variant = "default",
-        setValue,
-        afterChange,
-        required = true,
-        classComponent,
-        classLabel,
-        classInput,
-        ...others
-    } = props;
+    const { label, variant = "default", setValue, afterChange, required = true, className, ...others } = props;
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         setValue(e.target.value);
@@ -58,14 +50,14 @@ export default function Input(props: InputProps) {
     };
 
     return (
-        <label onClick={preventDefault} className={combo(theme[variant].component, classComponent)}>
+        <label onClick={preventDefault} className={combo(theme[variant].component, className?.component)}>
             {/* Label */}
-            <div className={combo(theme[variant].label, classLabel)}>{label}</div>
+            <div className={combo(theme[variant].label, className?.label)}>{label}</div>
 
             {/* Input */}
             <input
                 onChange={handleChange}
-                className={combo(theme[variant].input, classInput)}
+                className={combo(theme[variant].input, className?.input)}
                 required={required}
                 {...others}
             />

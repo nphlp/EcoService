@@ -4,7 +4,7 @@ import Button from "@comps/UI/button";
 import Card from "@comps/UI/card";
 import Feedback, { FeedbackMode } from "@comps/UI/feedback";
 import ImageRatio from "@comps/UI/imageRatio";
-import Input from "@comps/UI/input";
+import Input from "@comps/UI/input/input";
 import InputFile from "@comps/UI/inputImage";
 import { useState } from "react";
 import { CreateFruit } from "./utils/FruitActions";
@@ -95,8 +95,13 @@ export default function AddFruitClient() {
                         Fill the fields to add a new fruit.
                     </div>
                 </div>
-                <Input label="Name" classComponent="w-full" setValue={setName} value={name} />
-                <Input label="Description" classComponent="w-full" setValue={setDescription} value={description} />
+                <Input label="Name" className={{ component: "w-full" }} setValue={setName} value={name} />
+                <Input
+                    label="Description"
+                    className={{ component: "w-full" }}
+                    setValue={setDescription}
+                    value={description}
+                />
                 <InputFile label="Image" onChange={handleImageChange} imagePreview={image} classComponent="w-full" />
                 <Feedback message={message} mode={mode} isFeedbackOpen={isFeedbackOpen} />
                 <Button label="add-fruit" onClick={handleSubmit} isLoading={isLoading}>

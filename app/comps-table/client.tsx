@@ -2,7 +2,7 @@
 
 import { useThemeStore } from "@comps/CORE/themeStore";
 import Button from "@comps/UI/button";
-import Input from "@comps/UI/input";
+import Input from "@comps/UI/input/input";
 import Select from "@comps/UI/select/select";
 import { createSelectOptions } from "@comps/UI/select/utils";
 import { combo } from "@lib/combo";
@@ -50,7 +50,7 @@ export default function Client(props: ClientProps) {
                 <Input
                     label="Input"
                     placeholder="Type here..."
-                    classLabel="sr-only"
+                    className={{ label: "sr-only" }}
                     setValue={setInputValue}
                     value={inputValue}
                     variant={"default"}

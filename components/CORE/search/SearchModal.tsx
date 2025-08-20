@@ -2,7 +2,7 @@
 
 import { catalogUrlSerializer } from "@app/catalog/components/queryParams";
 import Button from "@comps/UI/button";
-import Input from "@comps/UI/input";
+import Input from "@comps/UI/input/input";
 import { combo } from "@lib/combo";
 import { useFetchV2 } from "@utils/FetchV2/FetchHookV2";
 import { SearchIcon } from "lucide-react";
@@ -156,8 +156,7 @@ export default function SearchModal(props: SearchModalProps) {
                     <form onSubmit={handleSubmit} className="flex flex-row items-center justify-center gap-2">
                         <Input
                             label="search"
-                            classComponent="w-full"
-                            classLabel="sr-only"
+                            className={{ component: "w-full", label: "sr-only" }}
                             placeholder="Produit, catégorie, article, DIY..."
                             onKeyDown={(e) => {
                                 if (e.key === "Escape") {

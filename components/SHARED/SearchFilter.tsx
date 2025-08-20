@@ -1,6 +1,6 @@
 "use client";
 
-import Input from "@comps/UI/input";
+import Input from "@comps/UI/input/input";
 import { usePageQueryParams, useSearchQueryParams } from "./queryParamsClientHooks";
 
 export default function SearchFilter() {
@@ -16,7 +16,7 @@ export default function SearchFilter() {
         <Input
             label="Rechercher"
             placeholder="Rechercher"
-            classLabel="text-white"
+            className={{ label: "text-white" }}
             afterChange={handleChange}
             setValue={setSearch}
             value={search}
