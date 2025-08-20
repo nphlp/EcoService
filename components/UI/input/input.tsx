@@ -4,19 +4,26 @@ import { combo } from "@lib/combo";
 import { ChangeEvent, InputHTMLAttributes, MouseEvent } from "react";
 import { InputVariant, theme } from "./theme";
 
+export type InputClassName = {
+    component?: string;
+    label?: string;
+    input?: string;
+};
+
 /** Input props */
 export type InputProps = {
     label: string;
+
+    // Styles
     variant?: InputVariant;
+    className?: InputClassName;
+
+    // States
     setValue: (value: string) => void;
+
     /** Custom execution after input change */
     afterChange?: () => void;
     required?: boolean;
-    className?: {
-        component?: string;
-        label?: string;
-        input?: string;
-    };
 } & Omit<InputHTMLAttributes<HTMLInputElement>, "className" | "label" | "onChange" | "required">;
 
 /**
