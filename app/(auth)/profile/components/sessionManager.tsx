@@ -2,7 +2,7 @@
 
 import { LocationResponse } from "@app/api/external/location/route";
 import Button from "@comps/UI/button";
-import Modal from "@comps/UI/modal";
+import Modal from "@comps/UI/modal/modal";
 import { revokeOtherSessions, revokeSession } from "@lib/authClient";
 import { BetterSessionListServer } from "@lib/authServer";
 import { X } from "lucide-react";
