@@ -47,7 +47,6 @@ export type CommonProps = {
     selected: SelectOptionType["slug"];
 };
 
-// Select
 type SelectProps = Omit<CommonProps, "variant" | "dropdownGap"> & {
     // Override this props to set a default value
     variant?: VariantType;
@@ -57,6 +56,38 @@ type SelectProps = Omit<CommonProps, "variant" | "dropdownGap"> & {
         "label" | "placeholder" | "required" | "className" | "options" | "value"
     >;
 
+/**
+ * Select component
+ * 
+ * @example
+ * #### Server side
+ * ```tsx
+    // Fetch data
+    const categoryList = await CategoryFindManyServer({
+        select: { slug: true, name: true },
+    });
+
+    // Format options
+    const categoryOptions = createSelectOptions(categoryList, { slug: "slug", label: "name" });
+ * ```
+ * 
+ * #### Client side
+ * ```tsx
+    const [category, setCategory] = useState("");
+    
+    return (
+        <Select
+            label="Catégorie"
+            placeholder="Sélectionnez une catégorie"
+            options={categoryOptions}
+            setSelected={setCategory}
+            selected={category}
+            className={{ component: "w-full" }}
+            canNotBeEmpty
+        />
+    )
+ * ```
+ */
 export default function Select(props: SelectProps) {
     // Define default values
     const { variant = "default", dropdownGap = 8, ...others } = props;
