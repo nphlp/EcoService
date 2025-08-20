@@ -23,7 +23,7 @@ export default function Form(props: FormProps) {
 
     // State
     const [name, setName] = useState("");
-    const [category, setCategory] = useState<string>("");
+    const [category, setCategory] = useState("");
     const [image, setImage] = useState<File | null>(null);
     const comboboxStates = useComboboxStates(null, articleOptions);
     const comboboxMultiStates = useComboboxMultiStates([], productOptions);

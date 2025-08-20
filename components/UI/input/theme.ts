@@ -3,17 +3,17 @@ import { mergeStylesAndStructure } from "../themes/utils";
 
 export type InputVariant = "default" | "none";
 
-export type InputStructureType = {
+export type StructureType = {
     component: string;
     label: string;
     input: string;
 };
 
 export type StylesType = {
-    [key in InputVariant]: InputStructureType;
+    [key in InputVariant]: StructureType;
 };
 
-const structure: InputStructureType = {
+const structure: StructureType = {
     component: combo("block space-y-1"),
     label: combo("text-sm font-medium"),
     input: combo(
