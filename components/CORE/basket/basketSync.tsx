@@ -1,6 +1,6 @@
 "use client";
 
-import Modal from "@comps/UI/modal";
+import Modal from "@comps/UI/modal/modal";
 import { useSession } from "@lib/authClient";
 import { combo } from "@lib/combo";
 import { updateCookieExpiration } from "@lib/zustandCookieStorage";
