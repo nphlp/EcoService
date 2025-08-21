@@ -9,6 +9,8 @@ Complete auth and user management
 - [] Revoir la modals avec le Portal
 - [] Rendre réactif au scroll le drop down du select
 - [] Supprimer les anciens composants
+- [] Cards perspectives
+- [] Layout scroll issue
 
 ## Docker
 

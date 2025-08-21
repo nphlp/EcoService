@@ -69,9 +69,9 @@ export default function Popover(props: PopoverProps) {
         <div
             className={combo(
                 "absolute left-1/2 -translate-x-1/2",
-                "rounded px-2 py-1",
+                "rounded-full px-3 py-1",
                 "shadow-[1px_1px_3px_rgba(0,0,0,0.25)]",
-                "border border-gray-400 bg-gray-100",
+                "border border-gray-400 bg-white",
                 "pointer-events-none",
                 "text-sm",
                 isVisible ? "translate-y-0" : "translate-y-[3px]",
@@ -81,13 +81,13 @@ export default function Popover(props: PopoverProps) {
             style={{ top: `calc(-100% - ${popoverDistance}px)` }}
         >
             {/* Text */}
-            <div className={combo("relative z-10", "text-nowrap")}>{name}</div>
+            <div className={combo("relative z-10 text-gray-700", "text-nowrap")}>{name}</div>
 
             {/* Rotated square with border (green) */}
             <div
                 className={combo(
                     "absolute left-1/2 -translate-x-1/2",
-                    "rotate-45 border border-gray-400 bg-gray-100",
+                    "rotate-45 border border-gray-400 bg-white",
                     debug && "border-green-700 bg-green-400", // for debugging
                 )}
                 style={{
@@ -99,8 +99,8 @@ export default function Popover(props: PopoverProps) {
             {/* Offsetted rotated square to hide border (red) */}
             <div
                 className={combo(
-                    "absolute left-1/2 -translate-x-1/2 -translate-y-[1px]",
-                    "rotate-45 bg-gray-100",
+                    "absolute left-1/2 -translate-x-1/2 -translate-y-[1.5px]",
+                    "rotate-45 bg-white",
                     debug && "bg-red-500", // for debugging
                 )}
                 style={{
@@ -113,7 +113,7 @@ export default function Popover(props: PopoverProps) {
             <div
                 className={combo(
                     "absolute bottom-0 left-1/2 -translate-x-1/2",
-                    "h-1 w-[calc(100%-20px)] bg-gray-100",
+                    "h-1 w-[calc(100%-30px)] bg-white",
                     debug && "bg-blue-500", // for debugging
                 )}
             />

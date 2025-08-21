@@ -1,4 +1,4 @@
-import ImageRatio from "@comps/UI/imageRatio";
+import ArticleOrDiyCard from "@comps/PROJECT/cards/articleOrDiyCard";
 import { ArticleFindManyServer } from "@services/server";
 import { Metadata } from "next";
 import Link from "next/link";
@@ -78,28 +78,9 @@ export default async function Page(props: PageProps) {
                     <Link
                         key={index}
                         href={`/article/${article.slug}`}
-                        className="group flex flex-col overflow-hidden rounded-xl border border-gray-300 bg-white shadow-md transition-shadow duration-300 hover:shadow-lg"
+                        className="transition-scale duration-300 hover:scale-101"
                     >
-                        {/* Image */}
-                        {article.Content[0] && <ImageRatio src={article.Content[0].image} alt={article.title} />}
-
-                        {/* Contenu */}
-                        <div className="flex flex-1 flex-col p-4">
-                            <h2 className="mb-2 text-xl font-semibold transition-colors duration-300 group-hover:text-teal-600">
-                                {article.title}
-                            </h2>
-
-                            {article.Content[0] && (
-                                <p className="mb-4 line-clamp-3 text-gray-600">{article.Content[0].content}</p>
-                            )}
-
-                            <div className="mt-auto flex items-center justify-between">
-                                <span className="text-sm text-gray-500">Par {article.Author.name}</span>
-                                <span className="text-sm text-gray-500">
-                                    {new Date(article.createdAt).toLocaleDateString("fr-FR")}
-                                </span>
-                            </div>
-                        </div>
+                        <ArticleOrDiyCard articleOrDiy={article} />
                     </Link>
                 ))}
             </div>

@@ -1,4 +1,4 @@
-import ImageRatio from "@comps/UI/imageRatio";
+import ArticleOrDiyCard from "@comps/PROJECT/cards/articleOrDiyCard";
 import { DiyFindManyServer } from "@services/server";
 import { Metadata } from "next";
 import Link from "next/link";
@@ -77,29 +77,10 @@ export default async function Page(props: PageProps) {
                 {diyList.map((diy, index) => (
                     <Link
                         key={index}
-                        href={`/diy/${diy.slug}`}
-                        className="group flex flex-col overflow-hidden rounded-xl border border-gray-300 bg-white shadow-md transition-shadow duration-300 hover:shadow-lg"
+                        href={`/article/${diy.slug}`}
+                        className="transition-scale duration-300 hover:scale-101"
                     >
-                        {/* Image */}
-                        {diy.Content[0] && <ImageRatio src={diy.Content[0].image} alt={diy.title} />}
-
-                        {/* Contenu */}
-                        <div className="flex flex-1 flex-col p-4">
-                            <h2 className="mb-2 text-xl font-semibold transition-colors duration-300 group-hover:text-teal-600">
-                                {diy.title}
-                            </h2>
-
-                            {diy.Content[0] && (
-                                <p className="mb-4 line-clamp-3 text-gray-600">{diy.Content[0].content}</p>
-                            )}
-
-                            <div className="mt-auto flex items-center justify-between">
-                                <span className="text-sm text-gray-500">Par {diy.Author.name}</span>
-                                <span className="text-sm text-gray-500">
-                                    {new Date(diy.createdAt).toLocaleDateString("fr-FR")}
-                                </span>
-                            </div>
-                        </div>
+                        <ArticleOrDiyCard articleOrDiy={diy} />
                     </Link>
                 ))}
             </div>
