@@ -34,7 +34,7 @@ export default function BasketSync() {
     }, [session, compareAndSyncBasket, syncServerBasket]);
 
     return (
-        <Modal setIsModalOpen={setIsModalOpen} isModalOpen={isModalOpen} withCross={false} className="rounded-3xl py-8">
+        <Modal setIsModalOpen={setIsModalOpen} isModalOpen={isModalOpen} className={{ card: "rounded-3xl py-8" }}>
             <div className="size-full space-y-6 text-center">
                 <div className="text-4xl font-bold">Mon panier</div>
                 <div className="text-sm text-gray-700">

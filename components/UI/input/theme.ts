@@ -9,7 +9,7 @@ type StructureType = {
 };
 
 export type StylesType = {
-    [key in InputVariant]: InputClassName;
+    [key in InputVariant]: StructureType;
 };
 
 const structure: StructureType = {

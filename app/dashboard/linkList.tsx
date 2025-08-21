@@ -22,7 +22,8 @@ export default function LinkList() {
             <Modal
                 setIsModalOpen={setIsModalOpen}
                 isModalOpen={isModalOpen}
-                className="flex w-1/2 items-center gap-5 py-6"
+                className={{ card: "flex w-1/2 items-center gap-5 py-6" }}
+                withCross
             >
                 <Hammer className="size-18 stroke-[1.3px] text-gray-700" />
                 <div className="space-y-2">

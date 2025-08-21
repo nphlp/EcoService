@@ -9,7 +9,7 @@ export default function Client() {
 
     return (
         <div>
-            <Modal setIsModalOpen={setIsModalOpen} isModalOpen={isModalOpen}>
+            <Modal setIsModalOpen={setIsModalOpen} isModalOpen={isModalOpen} withCross>
                 <h2 className="text-lg font-semibold">Modal Title</h2>
                 <div className="mt-1">This is an awesome modal content.</div>
             </Modal>

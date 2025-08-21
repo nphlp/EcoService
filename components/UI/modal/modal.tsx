@@ -1,15 +1,34 @@
 "use client";
 
-import Button from "@comps/UI/button";
 import { combo } from "@lib/combo";
 import { X } from "lucide-react";
 import { ReactNode } from "react";
+import { ModalVariant, theme } from "./theme";
+
+export type ModalClassName = {
+    component?: string;
+    backgroundButton?: string;
+    backgroundBlur?: string;
+    backgroundDark?: string;
+    card?: string;
+    crossButton?: string;
+    crossIcon?: string;
+};
 
 type ModalClientProps = {
     setIsModalOpen: (visible: boolean) => void;
     isModalOpen: boolean;
+
+    // Config
+    noBackgroundBlur?: boolean;
+    noBackgroundDark?: boolean;
+    noBackgroundButton?: boolean;
     withCross?: boolean;
-    className?: string;
+
+    // Styles
+    variant?: ModalVariant;
+    className?: ModalClassName;
+
     children: ReactNode;
 };
 
@@ -36,38 +55,75 @@ type ModalClientProps = {
  * ```
  */
 export default function Modal(props: ModalClientProps) {
-    const { isModalOpen, setIsModalOpen, className, children, withCross = true } = props;
+    const {
+        isModalOpen,
+        setIsModalOpen,
+        noBackgroundBlur = false,
+        noBackgroundButton = false,
+        noBackgroundDark = false,
+        withCross = false,
+        className,
+        children,
+        variant = "default",
+    } = props;
 
     if (!isModalOpen) return null;
 
     return (
-        <div className="absolute top-0 left-0 z-50 flex h-screen w-screen flex-col items-center justify-center">
-            <button
-                type="button"
-                aria-label="close-modal"
-                onClick={() => setIsModalOpen(false)}
-                className="absolute top-0 left-0 z-50 h-screen w-screen bg-black/50 backdrop-blur-[1.5px]"
-            />
-            <div
-                className={combo(
-                    "rounded-xl border border-gray-300 bg-white px-12 py-5 shadow-md",
-                    "relative z-50 bg-white",
-                    className,
-                )}
-            >
-                {withCross && (
-                    <Button
-                        label="Close modal"
-                        variant="ghost"
-                        baseStyleWithout={["font", "padding"]}
-                        onClick={() => setIsModalOpen(false)}
-                        className="absolute top-2 right-2 p-0.5"
-                    >
-                        <X className="stroke-[2.2px] text-black" />
-                    </Button>
-                )}
+        <div className={combo(theme[variant].component, className?.component)}>
+            {/* Background Button */}
+            {!noBackgroundButton && (
+                <button
+                    type="button"
+                    aria-label="close-modal"
+                    onClick={() => setIsModalOpen(false)}
+                    className={combo(theme[variant].backgroundButton, className?.backgroundButton)}
+                />
+            )}
+
+            {/* Background Blur */}
+            {!noBackgroundBlur && <div className={combo(theme[variant].backgroundBlur, className?.backgroundBlur)} />}
+
+            {/* Background Dark */}
+            {!noBackgroundDark && <div className={combo(theme[variant].backgroundDark, className?.backgroundDark)} />}
+
+            {/* Card */}
+            <div className={combo(theme[variant].card, className?.card)}>
+                <CrossButton
+                    setIsModalOpen={setIsModalOpen}
+                    withCross={withCross}
+                    className={className}
+                    variant={variant}
+                />
                 {children}
             </div>
         </div>
     );
 }
+
+type CrossButtonProps = {
+    setIsModalOpen: (visible: boolean) => void;
+    withCross: boolean;
+    variant: ModalVariant;
+    className?: {
+        crossButton?: string;
+        crossIcon?: string;
+    };
+};
+
+const CrossButton = (props: CrossButtonProps) => {
+    const { className, setIsModalOpen, withCross, variant } = props;
+
+    if (!withCross) return null;
+
+    return (
+        <button
+            type="button"
+            aria-label="Close modal"
+            onClick={() => setIsModalOpen(false)}
+            className={combo(theme[variant].crossButton, className?.crossButton)}
+        >
+            <X className={combo(theme[variant].crossIcon, className?.crossIcon)} />
+        </button>
+    );
+};
