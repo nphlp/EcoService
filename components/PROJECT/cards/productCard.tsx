@@ -3,7 +3,7 @@
 import { ProductSearchType } from "@app/catalog/components/fetchParams";
 import Card, { CardProps } from "@comps/UI/card";
 import ImageRatio from "@comps/UI/imageRatio";
-import AddToCartIcon from "./addToCartIcon";
+import AddToCartIcon from "../buttons/addToCartIcon";
 
 type ProductCardProps = {
     product: ProductSearchType;
