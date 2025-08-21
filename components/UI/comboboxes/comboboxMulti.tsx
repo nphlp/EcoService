@@ -3,8 +3,8 @@
 import { Combobox as ComboboxHeadlessUI, ComboboxInput, ComboboxOption, ComboboxOptions } from "@headlessui/react";
 import { combo } from "@lib/combo";
 import { StringToSlug } from "@utils/StringToSlug";
-import { motion } from "framer-motion";
 import { Check, X } from "lucide-react";
+import { motion } from "motion/react";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import Popover from "../popover";
 import ComboboxIcon from "./sub-components/comboboxIcon";

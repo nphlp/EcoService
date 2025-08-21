@@ -2,7 +2,7 @@
 
 import Button from "@comps/UI/button";
 import { combo } from "@lib/combo";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { parseAsStringEnum, useQueryState } from "nuqs";
 import { ReactNode, useEffect, useRef, useState } from "react";
 

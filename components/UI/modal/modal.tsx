@@ -2,14 +2,17 @@
 
 import { combo } from "@lib/combo";
 import { X } from "lucide-react";
+import { motion } from "motion/react";
 import { ReactNode } from "react";
 import { ModalVariant, theme } from "./theme";
 
 export type ModalClassName = {
     component?: string;
-    backgroundButton?: string;
+
     backgroundBlur?: string;
-    backgroundDark?: string;
+    backgroundColor?: string;
+    backgroundButton?: string;
+
     card?: string;
     crossButton?: string;
     crossIcon?: string;
@@ -21,9 +24,13 @@ type ModalClientProps = {
 
     // Config
     noBackgroundBlur?: boolean;
-    noBackgroundDark?: boolean;
+    noBackgroundColor?: boolean;
     noBackgroundButton?: boolean;
     withCross?: boolean;
+
+    // Animation
+    noAnimation?: boolean;
+    duration?: number;
 
     // Styles
     variant?: ModalVariant;
@@ -60,20 +67,44 @@ export default function Modal(props: ModalClientProps) {
         setIsModalOpen,
         noBackgroundBlur = false,
         noBackgroundButton = false,
-        noBackgroundDark = false,
+        noBackgroundColor = false,
         withCross = false,
+        noAnimation = false,
+        duration = 0.3,
         className,
         children,
         variant = "default",
     } = props;
 
-    if (!isModalOpen) return null;
+    const animationDuration = noAnimation ? 0 : duration;
 
     return (
-        <div className={combo(theme[variant].component, className?.component)}>
+        <div className={combo(!isModalOpen && "pointer-events-none", theme[variant].component, className?.component)}>
+            {/* Background Blur */}
+            {!noBackgroundBlur && (
+                <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{
+                        opacity: isModalOpen ? 1 : 0,
+                        transition: { duration: animationDuration / 6 },
+                    }}
+                    className={combo(theme[variant].backgroundBlur, className?.backgroundBlur)}
+                />
+            )}
+            {/* Background Color */}
+            {!noBackgroundColor && (
+                <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{
+                        opacity: isModalOpen ? 1 : 0,
+                        transition: { duration: animationDuration / 2 },
+                    }}
+                    className={combo(theme[variant].backgroundColor, className?.backgroundColor)}
+                />
+            )}
             {/* Background Button */}
             {!noBackgroundButton && (
-                <button
+                <motion.button
                     type="button"
                     aria-label="close-modal"
                     onClick={() => setIsModalOpen(false)}
@@ -81,14 +112,19 @@ export default function Modal(props: ModalClientProps) {
                 />
             )}
 
-            {/* Background Blur */}
-            {!noBackgroundBlur && <div className={combo(theme[variant].backgroundBlur, className?.backgroundBlur)} />}
-
-            {/* Background Dark */}
-            {!noBackgroundDark && <div className={combo(theme[variant].backgroundDark, className?.backgroundDark)} />}
-
             {/* Card */}
-            <div className={combo(theme[variant].card, className?.card)}>
+            <motion.div
+                initial={{ scale: 0 }}
+                animate={{
+                    scale: isModalOpen ? 1 : 0,
+                }}
+                transition={{
+                    duration: animationDuration,
+                    ease: "easeInOut",
+                    type: "spring",
+                }}
+                className={combo(theme[variant].card, className?.card)}
+            >
                 <CrossButton
                     setIsModalOpen={setIsModalOpen}
                     withCross={withCross}
@@ -96,7 +132,7 @@ export default function Modal(props: ModalClientProps) {
                     variant={variant}
                 />
                 {children}
-            </div>
+            </motion.div>
         </div>
     );
 }

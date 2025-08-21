@@ -2,7 +2,7 @@
 
 import Link from "@comps/UI/link";
 import Logo from "@comps/UI/logo";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { useState } from "react";
 
 export default function LogoTitle() {

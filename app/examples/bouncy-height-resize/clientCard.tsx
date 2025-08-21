@@ -1,7 +1,7 @@
 "use client";
 
 import { useFetchV2 } from "@utils/FetchV2/FetchHookV2";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { ReactNode, useEffect, useRef, useState } from "react";
 import { ProductResponse, selectProductFetch } from "./fetch";
 import Toggle from "./toogle";
