@@ -19,18 +19,9 @@ const structure: StructureType = {
         // Layout
         "flex flex-col items-center justify-center",
     ),
-    backgroundButton: combo(
-        // Position
-        "absolute h-screen w-screen",
-    ),
-    backgroundBlur: combo(
-        // Position
-        "absolute h-screen w-screen",
-    ),
-    backgroundDark: combo(
-        // Position
-        "absolute h-screen w-screen",
-    ),
+    backgroundButton: combo("absolute h-screen w-screen"),
+    backgroundBlur: combo("absolute h-screen w-screen"),
+    backgroundColor: combo("absolute h-screen w-screen"),
     card: combo(
         // Position
         "relative z-50",
@@ -57,14 +48,8 @@ export const styles: StylesType = {
     default: {
         component: combo(""),
         backgroundButton: combo(""),
-        backgroundBlur: combo(
-            // Background and backdrop
-            "backdrop-blur-[1.5px]",
-        ),
-        backgroundDark: combo(
-            // Background and backdrop
-            "bg-black/50",
-        ),
+        backgroundBlur: combo("backdrop-blur-[1.5px]"),
+        backgroundColor: combo("bg-black/50"),
         card: combo(
             // Background and backdrop
             "bg-white text-black shadow-md",
@@ -77,14 +62,8 @@ export const styles: StylesType = {
     dark: {
         component: combo(""),
         backgroundButton: combo(""),
-        backgroundBlur: combo(
-            // Background and backdrop
-            "backdrop-blur-[1.5px]",
-        ),
-        backgroundDark: combo(
-            // Background and backdrop
-            "bg-black/50",
-        ),
+        backgroundBlur: combo("backdrop-blur-[1.5px]"),
+        backgroundColor: combo("bg-black/50"),
         card: combo(
             // Background and backdrop
             "bg-black text-white shadow-md",
@@ -98,7 +77,7 @@ export const styles: StylesType = {
         component: combo(""),
         backgroundButton: combo(""),
         backgroundBlur: combo(""),
-        backgroundDark: combo(""),
+        backgroundColor: combo(""),
         card: combo(""),
         crossButton: combo(""),
         crossIcon: combo(""),

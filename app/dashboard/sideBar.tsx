@@ -2,8 +2,8 @@
 
 import Button from "@comps/UI/button";
 import { combo } from "@lib/combo";
-import { motion } from "framer-motion";
 import { PanelLeftClose, PanelLeftOpen } from "lucide-react";
+import { motion } from "motion/react";
 import { ReactNode, createContext, useContext, useState } from "react";
 
 // Types

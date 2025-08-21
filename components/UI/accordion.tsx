@@ -1,8 +1,8 @@
 "use client";
 
 import { combo } from "@lib/combo";
-import { motion } from "framer-motion";
 import { ChevronUp } from "lucide-react";
+import { motion } from "motion/react";
 import { nanoid } from "nanoid";
 import {
     Dispatch,

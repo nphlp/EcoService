@@ -1,8 +1,8 @@
 "use client";
 
 import { combo } from "@lib/combo";
-import { motion } from "framer-motion";
 import { CircleAlert, CircleCheck, CircleHelp, CircleX } from "lucide-react";
+import { motion } from "motion/react";
 
 export type FeedbackMode = "success" | "info" | "warning" | "error" | "none";
 

@@ -1,7 +1,7 @@
 "use client";
 
 import { combo } from "@lib/combo";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { useContext, useEffect, useRef, useState } from "react";
 import { useHeaderStore } from "../header/headerStore";
 import { PortalContext } from "../portal/PortalContext";

@@ -84,7 +84,6 @@
         "eslint-plugin-react-hooks": "^5.2.0",
         "eslint-plugin-react-refresh": "^0.4.20",
         "eslint-plugin-unused-imports": "^4.2.0",
-        "framer-motion": "^12.23.6",
         "handlebars": "^4.7.8",
         "husky": "^9.1.7",
         "jsdom": "^26.1.0",

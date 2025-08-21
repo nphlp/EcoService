@@ -6,7 +6,7 @@ import Button from "@comps/UI/button";
 import ImageRatio from "@comps/UI/imageRatio";
 import Link from "@comps/UI/link";
 import { combo } from "@lib/combo";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { useBasketStore } from "./basket/basketStore";
 import { LocalBasketItem } from "./basket/basketType";
 
