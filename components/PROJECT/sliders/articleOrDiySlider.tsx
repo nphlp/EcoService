@@ -1,7 +1,7 @@
 "use client";
 
-import Slider, { LinkInfoType } from "./UI/slider";
-import ArticleOrDiyCard from "./articleOrDiyCard";
+import Slider, { LinkInfoType } from "../../UI/slider";
+import ArticleOrDiyCard from "../cards/articleOrDiyCard";
 import { ArticleOrDiyListType } from "./sliderFetchParams";
 
 type SliderClientProps = {
@@ -14,9 +14,7 @@ type SliderClientProps = {
 export const ArticleOrDiySlider = (props: SliderClientProps) => {
     const { articleOrDiy, link, title } = props;
 
-    if (!articleOrDiy.length) {
-        return <></>;
-    }
+    if (!articleOrDiy.length) return null;
 
     const linkList: LinkInfoType[] = articleOrDiy.map((articleOrDiy) => ({
         label: articleOrDiy.title,

@@ -34,7 +34,7 @@ export default function ImageRatio(props: ImageRatioProps) {
                 fill
                 loading={loading}
                 onMouseDown={(e) => e.preventDefault()}
-                priority={priority ? true : false}
+                priority={priority}
             />
         </div>
     );

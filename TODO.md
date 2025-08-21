@@ -26,6 +26,19 @@ Complete auth and user management
 - [] Améliorer la gestion des autorisations et permissions
 - [] Gérer les TODOs
 
+## Fusionner Article / DIY
+
+## Système de stock
+
+## Système de notation
+
+## Système de commentaires
+
+## Système de ranking
+
+- Ajouter un `vue` produit à chaque clic
+- Calcul rank = `nombre vue` / `nombre achat`
+
 ## User Experience
 
 - [] Suspenses et skeletons

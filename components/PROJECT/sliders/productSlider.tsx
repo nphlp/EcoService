@@ -1,6 +1,6 @@
+import ProductCard from "@comps/PROJECT/cards/productCard";
+import { ProductListType } from "@comps/PROJECT/sliders/sliderFetchParams";
 import Slider, { LinkInfoType } from "@comps/UI/slider";
-import ProductCard from "@comps/productCard";
-import { ProductListType } from "./sliderFetchParams";
 
 type ProductSliderProps = {
     productList: ProductListType;
@@ -10,9 +10,7 @@ type ProductSliderProps = {
 export default function ProductSlider(props: ProductSliderProps) {
     const { productList, title } = props;
 
-    if (!productList.length) {
-        return <></>;
-    }
+    if (!productList.length) return null;
 
     const linkList: LinkInfoType[] = productList.map((product) => ({
         label: product.name,

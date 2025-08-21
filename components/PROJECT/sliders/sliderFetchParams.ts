@@ -15,11 +15,6 @@ export const ArticleOrDiyFetchParams = {
                 image: true,
             },
         },
-        Author: {
-            select: {
-                name: true,
-            },
-        },
     },
     orderBy: {
         createdAt: "desc" as const,

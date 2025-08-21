@@ -1,7 +1,7 @@
+import ArticleOrDiyCard from "@comps/PROJECT/cards/articleOrDiyCard";
 import ImageRatio from "@comps/UI/imageRatio";
 import Link from "@comps/UI/link";
 import Slider from "@comps/UI/slider";
-import ArticleOrDiyCard from "@comps/articleOrDiyCard";
 import { combo } from "@lib/combo";
 import PrismaInstance from "@lib/prisma";
 import { ArticleFindManyServer, ArticleFindUniqueServer } from "@services/server";

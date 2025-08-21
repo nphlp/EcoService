@@ -1,5 +1,6 @@
 "use client";
 
+import ProductCard from "@comps/PROJECT/cards/productCard";
 import {
     useCategoryQueryParams,
     usePageQueryParams,
@@ -9,7 +10,6 @@ import {
 } from "@comps/SHARED/queryParamsClientHooks";
 import Card from "@comps/UI/card";
 import Link from "@comps/UI/link";
-import ProductCard from "@comps/productCard";
 import { combo } from "@lib/combo";
 import { ProductModel } from "@services/types";
 import { useFetchV2 } from "@utils/FetchV2/FetchHookV2";
