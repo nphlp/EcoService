@@ -15,7 +15,12 @@ export default function EmailConfirmModal(props: EmailConfirmModalProps) {
     const [isModalOpen, setIsModalOpen] = useState(!session.user.emailVerified);
 
     return (
-        <Modal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} className="max-w-[600px] space-y-3">
+        <Modal
+            isModalOpen={isModalOpen}
+            setIsModalOpen={setIsModalOpen}
+            className={{ card: "max-w-[600px] space-y-3" }}
+            withCross
+        >
             <h2 className="text-center text-xl font-bold">Confirmation d&apos;email</h2>
             <div className="text-sm">Veuillez vérifier votre adresse email.</div>
             <div className="flex flex-col items-center">

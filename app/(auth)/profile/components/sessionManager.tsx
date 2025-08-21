@@ -66,7 +66,7 @@ const SessionList = () => {
                     <></>
                 )}
                 {/* Revoke other sessions modal */}
-                <Modal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen}>
+                <Modal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} withCross>
                     <div className="flex flex-col gap-4">
                         <div className="text-xl font-bold">Déconnexion globale</div>
                         <div className="text-sm">Souhaitez-vous vraiment déconnecter toutes vos autres sessions ?</div>
@@ -156,7 +156,7 @@ const SessionItem = (props: SessionItemProps) => {
                 <X className="size-4" />
             </Button>
             {/* Revoke this session modal */}
-            <Modal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen}>
+            <Modal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} withCross>
                 <div className="flex flex-col gap-4">
                     <div className="text-xl font-bold">Déconnexion</div>
                     <div className="flex flex-row justify-center">
