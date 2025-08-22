@@ -3,7 +3,7 @@
 import { articleUrlSerializer } from "@app/article/queryParams";
 import { catalogUrlSerializer } from "@app/catalog/components/queryParams";
 import { diyUrlSerializer } from "@app/diy/queryParams";
-import Link from "next/link";
+import Link from "@comps/UI/button/link";
 import { useHeaderStore } from "../header/headerStore";
 import ItemList from "./SearchItem";
 import { ArticleSearchType, CategorySearchType, CountType, DiySearchType, ProductSearchType } from "./fetchParams";
@@ -112,8 +112,14 @@ const Results = (props: ResultsProps) => {
             <div className="flex items-baseline justify-between">
                 <h4 className="text-lg font-medium text-gray-500">{title}</h4>
                 {items.type !== "category" && (
-                    <Link href={getPagePath()} onClick={handleClick} className="text-sm text-gray-500">
-                        Voir plus {count ? `(${count})` : ""}
+                    <Link
+                        label={`Voir plus de catégories ${count ? `(${count})` : ""}`}
+                        variant="underline"
+                        href={getPagePath()}
+                        onClick={handleClick}
+                        className="text-sm text-gray-500"
+                    >
+                        {`Voir plus ${count ? `(${count})` : ""}`}
                     </Link>
                 )}
             </div>

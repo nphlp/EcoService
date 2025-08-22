@@ -37,7 +37,7 @@ export default function Logout(props: LogoutProps) {
     };
 
     return (
-        <Button label="logout" onClick={handleClick} {...others}>
+        <Button label="logout" onClick={handleClick} focusVisible {...others}>
             {isLoading ? <Loader /> : children}
         </Button>
     );

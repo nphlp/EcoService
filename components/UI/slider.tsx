@@ -226,6 +226,7 @@ const DivOrLink = (props: DivOrLinkProps) => {
                 href={href}
                 style={style}
                 variant="none"
+                className="rounded-xl"
                 noPadding
                 // Prevent clicking while swiping
                 onClick={(e) => {

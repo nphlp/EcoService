@@ -1,11 +1,11 @@
 "use client";
 
 import { catalogUrlSerializer } from "@app/catalog/components/queryParams";
+import Link from "@comps/UI/button/link";
 import ImageRatio from "@comps/UI/imageRatio";
 import { combo } from "@lib/combo";
 import { StringToSlug } from "@utils/StringToSlug";
 import { ArrowRightIcon } from "lucide-react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { MouseEvent } from "react";
 import { useHeaderStore } from "../header/headerStore";
@@ -129,15 +129,11 @@ const Item = (props: ItemProps) => {
 
     return (
         <Link
+            label={title.complete}
+            variant="none"
             href={href}
             onClick={handleClick}
-            className={combo(
-                "flex flex-row items-center justify-center gap-3",
-                "bg-gray-100 hover:bg-gray-200",
-                "rounded-md px-4 py-1.5",
-                "transition-all duration-150",
-                "group",
-            )}
+            className={combo("group", "w-full gap-4", "bg-gray-100 hover:bg-gray-200", "rounded-md px-4 py-1.5")}
         >
             {imageUrl ? <ImageRatio src={imageUrl} alt={title.complete} className="h-16 shrink-0 rounded" /> : null}
             <div className="flex w-full flex-col">

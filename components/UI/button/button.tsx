@@ -22,6 +22,7 @@ export type ButtonProps = {
     className?: ButtonClassName;
     noPointer?: boolean;
     noRing?: boolean;
+    focusVisible?: boolean;
 
     isLoading?: boolean;
     isDisabled?: boolean;
@@ -55,6 +56,7 @@ export default function Button(props: ButtonProps) {
         variant = "default",
         noPointer = false,
         noRing = false,
+        focusVisible = false,
         isLoading,
         isDisabled,
         className,
@@ -69,7 +71,8 @@ export default function Button(props: ButtonProps) {
             className={combo(
                 // Pointer events, ring, padding
                 !noPointer && "cursor-pointer disabled:cursor-not-allowed",
-                !noRing && "ring-teal-300 transition-all duration-150 outline-none focus:ring-2",
+                !noRing && "ring-teal-300 transition-all duration-150 outline-none",
+                !focusVisible ? "focus:ring-2" : "focus-visible:ring-2",
                 // Variant styles
                 theme[variant].button,
                 // Is loading or disabled styles

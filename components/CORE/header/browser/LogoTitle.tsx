@@ -10,7 +10,7 @@ export default function LogoTitle() {
 
     return (
         <motion.div onHoverStart={() => setIsHomeHovered(true)} onHoverEnd={() => setIsHomeHovered(false)}>
-            <Link type="link" href="/" label="home" variant="none" noRing>
+            <Link type="link" href="/" label="home" variant="none" className="rounded-lg p-0.5">
                 <Logo className="size-9" />
                 <span className="relative">
                     <div className="text-2xl font-semibold text-black uppercase">Circle</div>

@@ -1,7 +1,7 @@
 import ArticleOrDiyCard from "@comps/PROJECT/cards/articleOrDiyCard";
+import Link from "@comps/UI/button/link";
 import { DiyFindManyServer } from "@services/server";
 import { Metadata } from "next";
-import Link from "next/link";
 import { SearchParams } from "nuqs/server";
 import { diyQueryParamsCached } from "./queryParams";
 
@@ -77,8 +77,9 @@ export default async function Page(props: PageProps) {
                 {diyList.map((diy, index) => (
                     <Link
                         key={index}
+                        label={diy.title}
                         href={`/article/${diy.slug}`}
-                        className="transition-scale duration-300 hover:scale-101"
+                        className="transition-scale rounded-xl duration-300 hover:scale-101"
                     >
                         <ArticleOrDiyCard articleOrDiy={diy} />
                     </Link>

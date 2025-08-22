@@ -48,7 +48,7 @@ const Link = forwardRef<HTMLAnchorElement, LinkProps>((props, ref) => {
             className={combo(
                 // Pointer events, ring, padding
                 !noPointer && "cursor-pointer disabled:cursor-not-allowed",
-                !noRing && "ring-teal-300 transition-all duration-150 outline-none focus:ring-2",
+                !noRing && "ring-teal-300 transition-all duration-150 outline-none focus-visible:ring-2", // Focus visible
                 noPadding && "p-0",
                 // Variant styles
                 theme[variant].button,

@@ -1,4 +1,5 @@
 import ProductCard from "@comps/PROJECT/cards/productCard";
+import Link from "@comps/UI/button/link";
 import Card from "@comps/UI/card";
 import ImageRatio from "@comps/UI/imageRatio";
 import Slider, { LinkInfoType } from "@comps/UI/slider";
@@ -7,7 +8,6 @@ import { ProductFindManyServer, ProductFindUniqueServer } from "@services/server
 import { ArrowLeft, Package2, ShieldCheck, Truck, User } from "lucide-react";
 import { Metadata } from "next";
 import { unstable_cacheLife as cacheLife, unstable_cacheTag as cacheTag } from "next/cache";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import { JSX, cloneElement } from "react";
 import AddToCartButton from "./addToCartButton";
@@ -81,7 +81,11 @@ export default async function Page(props: PageProps) {
 
     return (
         <div className="w-full max-w-[1200px] flex-1 p-7">
-            <Link href="/catalog" className="text-primary mb-8 inline-flex items-center hover:underline">
+            <Link
+                label="Retour aux produits"
+                href="/catalog"
+                className="text-primary mb-8 inline-flex items-center hover:underline"
+            >
                 <ArrowLeft className="mr-2 size-4" />
                 Retour aux produits
             </Link>

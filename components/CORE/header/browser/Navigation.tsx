@@ -15,7 +15,6 @@ export default function Navigation() {
                 href="/catalog"
                 label="Catalogue"
                 variant="ghost"
-                noRing
                 className={combo(path.includes("/catalog") && "font-bold")}
                 onClick={() => {
                     setSearchOpen(false);
@@ -26,35 +25,25 @@ export default function Navigation() {
                 href="/article"
                 label="Articles"
                 variant="ghost"
-                noRing
                 className={combo(path.includes("/article") && "font-bold")}
             />
-            <Link
-                href="/diy"
-                label="DIYs"
-                variant="ghost"
-                noRing
-                className={combo(path.includes("/diy") && "font-bold")}
-            />
+            <Link href="/diy" label="DIYs" variant="ghost" className={combo(path.includes("/diy") && "font-bold")} />
             <Link
                 label="Exemples"
                 href="/examples"
                 variant="ghost"
-                noRing
                 className={combo(path.includes("/examples") && "font-bold")}
             />
             {/* <Link
                 label="Comps Table"
                 href="/comps-table"
                 variant="ghost"
-                noRing
                 className={combo(path.includes("/comps-table") && "font-bold")}
             />
             <Link
                 label="AI Search"
                 href="/ai-search"
                 variant="ghost"
-                noRing
                 className={combo(path.includes("/ai-search") && "font-bold")}
             /> */}
         </div>

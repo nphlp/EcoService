@@ -31,8 +31,8 @@ export default function IconLinks() {
             <Button
                 label="toggle-search-section-visibility"
                 variant="ghost"
-                noRing
                 className={{ button: "p-2" }}
+                focusVisible
                 onClick={() => {
                     setSearchOpen(!searchOpen);
                     setBasketOpen(false);
@@ -45,6 +45,7 @@ export default function IconLinks() {
             {/* <Button
                 label="toggle-mode"
                 variant="ghost"
+                focusVisible
                 onClick={handleSwitchTheme}
                 className="w-10 overflow-hidden p-2"
             >
@@ -60,7 +61,6 @@ export default function IconLinks() {
                     href="/profile"
                     variant="ghost"
                     className={combo(session.user.image ? "p-1.5" : "p-2")}
-                    noRing
                     onClick={() => {
                         setSearchOpen(false);
                         setBasketOpen(false);
@@ -78,7 +78,6 @@ export default function IconLinks() {
                     href="/auth"
                     variant="ghost"
                     className="p-2"
-                    noRing
                     onClick={() => {
                         setSearchOpen(false);
                         setBasketOpen(false);
@@ -95,7 +94,6 @@ export default function IconLinks() {
                     href="/dashboard"
                     variant="ghost"
                     className="p-2"
-                    noRing
                     onClick={() => {
                         setSearchOpen(false);
                         setBasketOpen(false);
@@ -110,7 +108,7 @@ export default function IconLinks() {
                 label="toggle-basket-section-visibility"
                 variant="ghost"
                 className={{ button: "relative p-2" }}
-                noRing
+                focusVisible
                 onClick={() => {
                     setSearchOpen(false);
                     setBasketOpen(!basketOpen);
@@ -127,7 +125,6 @@ export default function IconLinks() {
                 <Logout
                     variant="ghost"
                     className={{ button: "p-2" }}
-                    noRing
                     onClick={() => {
                         setSearchOpen(false);
                         setBasketOpen(false);

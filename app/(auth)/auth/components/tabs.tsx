@@ -86,11 +86,11 @@ export default function TabClient(props: TabClientProps) {
                         className={{
                             button: combo(
                                 "border border-transparent", // to get the same size for buttons and indicator
-                                "relative z-20 w-full py-1",
+                                "relative z-20 w-full rounded-lg py-1",
                                 index !== activeTab && "hover:bg-gray-100",
                             ),
                         }}
-                        noRing
+                        focusVisible
                         onClick={() => setTab(cardList[index].searchParams)}
                     >
                         {label}
