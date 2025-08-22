@@ -1,6 +1,6 @@
 "use client";
 
-import Button from "@comps/UI/button";
+import Button from "@comps/UI/button/button";
 import Card from "@comps/UI/card";
 import Feedback, { FeedbackMode } from "@comps/UI/feedback";
 import ImageRatio from "@comps/UI/imageRatio";

@@ -3,21 +3,20 @@
 import { combo } from "@lib/combo";
 import NextLink, { LinkProps as NextLinkProps } from "next/link";
 import { AnchorHTMLAttributes, ReactNode, forwardRef } from "react";
-import { ButtonBaseKeys, ButtonVariant, buttonBaseTheme, buttonTheme } from "./themes/buttonTheme";
-import { getBaseStyle } from "./themes/utils";
+import { ButtonVariant, theme } from "./theme";
 
-/** Link variant */
 export type LinkProps = {
     label: string;
+
+    // Styles
     variant?: ButtonVariant;
     className?: string;
+    noPointer?: boolean;
+    noRing?: boolean;
+    noPadding?: boolean;
+
     children?: ReactNode;
-} & (
-    | { baseStyle?: boolean; baseStyleOnly?: never; baseStyleWithout?: never }
-    | { baseStyle?: never; baseStyleOnly?: ButtonBaseKeys[]; baseStyleWithout?: never }
-    | { baseStyle?: never; baseStyleOnly?: never; baseStyleWithout?: ButtonBaseKeys[] }
-) &
-    Omit<AnchorHTMLAttributes<HTMLAnchorElement> & NextLinkProps, "className" | "children">;
+} & Omit<AnchorHTMLAttributes<HTMLAnchorElement> & NextLinkProps, "className" | "children">;
 
 /**
  * Button component
@@ -34,9 +33,9 @@ const Link = forwardRef<HTMLAnchorElement, LinkProps>((props, ref) => {
     const {
         label,
         variant = "default",
-        baseStyle = true,
-        baseStyleOnly,
-        baseStyleWithout,
+        noPointer = false,
+        noRing = false,
+        noPadding = false,
         className,
         children,
         ...others
@@ -47,12 +46,12 @@ const Link = forwardRef<HTMLAnchorElement, LinkProps>((props, ref) => {
             ref={ref}
             aria-label={label}
             className={combo(
-                "cursor-pointer disabled:cursor-not-allowed",
-                // Base styles
-                getBaseStyle({ baseTheme: buttonBaseTheme, baseStyle, baseStyleOnly, baseStyleWithout }),
+                // Pointer events, ring, padding
+                !noPointer && "cursor-pointer disabled:cursor-not-allowed",
+                !noRing && "ring-teal-300 transition-all duration-150 outline-none focus:ring-2",
+                noPadding && "p-0",
                 // Variant styles
-                buttonTheme[variant].button,
-                buttonTheme[variant].disabled,
+                theme[variant].button,
                 className,
             )}
             {...others}

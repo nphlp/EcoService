@@ -1,7 +1,7 @@
 "use client";
 
 import { catalogUrlSerializer } from "@app/catalog/components/queryParams";
-import Button from "@comps/UI/button";
+import Button from "@comps/UI/button/button";
 import Input from "@comps/UI/input/input";
 import { combo } from "@lib/combo";
 import { useFetchV2 } from "@utils/FetchV2/FetchHookV2";
@@ -167,13 +167,7 @@ export default function SearchModal(props: SearchModalProps) {
                             value={search}
                             autoFocus
                         />
-                        <Button
-                            type="submit"
-                            label="search"
-                            variant="outline"
-                            className="p-1.5"
-                            baseStyleOnly={["flex", "rounded"]}
-                        >
+                        <Button type="submit" label="search" variant="outline" className={{ button: "p-1.5" }}>
                             <SearchIcon />
                         </Button>
                     </form>

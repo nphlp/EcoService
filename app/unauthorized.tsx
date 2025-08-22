@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "@comps/UI/link";
+import Link from "@comps/UI/button/link";
 
 export default function Unauthorized() {
     return (

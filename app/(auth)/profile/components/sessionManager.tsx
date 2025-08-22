@@ -1,7 +1,7 @@
 "use client";
 
 import { LocationResponse } from "@app/api/external/location/route";
-import Button from "@comps/UI/button";
+import Button from "@comps/UI/button/button";
 import Modal from "@comps/UI/modal/modal";
 import { revokeOtherSessions, revokeSession } from "@lib/authClient";
 import { BetterSessionListServer } from "@lib/authServer";
@@ -58,8 +58,7 @@ const SessionList = () => {
                     <Button
                         label="Revoquer les sessions"
                         variant="underline"
-                        className="rounded text-sm"
-                        baseStyleOnly={["pointer", "outline"]}
+                        className={{ button: "rounded text-sm" }}
                         onClick={() => setIsModalOpen(true)}
                     />
                 ) : (
@@ -149,15 +148,14 @@ const SessionItem = (props: SessionItemProps) => {
             <Button
                 label={`Déconnecter la session du ${formattedDate} à ${formattedTime}`}
                 variant="outline"
-                className="rounded-md p-1.5"
-                baseStyleWithout={["padding", "rounded"]}
+                className={{ button: "rounded-md p-1.5" }}
                 onClick={() => setIsModalOpen(true)}
             >
                 <X className="size-4" />
             </Button>
             {/* Revoke this session modal */}
             <Modal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} withCross>
-                <div className="flex flex-col gap-4">
+                <div className="flex flex-col items-center gap-4">
                     <div className="text-xl font-bold">Déconnexion</div>
                     <div className="flex flex-row justify-center">
                         <div className="w-fit rounded-lg border border-gray-300 px-7 py-2 text-center">

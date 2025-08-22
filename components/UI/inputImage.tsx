@@ -4,7 +4,7 @@ import ImageRatio from "@comps/UI/imageRatio";
 import { combo } from "@lib/combo";
 import { Image as ImageTemplate, X } from "lucide-react";
 import { ChangeEvent, DragEvent, InputHTMLAttributes, MouseEvent, useRef } from "react";
-import Button from "./button";
+import Button from "./button/button";
 
 type InputFileProps = {
     label: string;
@@ -147,8 +147,9 @@ export default function InputFile(props: InputFileProps) {
                         />
                         <Button
                             label="Retirer l'image"
-                            baseStyleOnly={["outline", "rounded", "transition"]}
                             variant="none"
+                            className={{ button: combo(imagePreview && "cursor-pointer", "absolute top-2 right-2") }}
+                            noPadding
                             onClick={handleReset}
                             onKeyDown={(e) => {
                                 if (e.key === "Enter" || e.key === " " || e.key === "Delete" || e.key === "Backspace") {
@@ -157,7 +158,6 @@ export default function InputFile(props: InputFileProps) {
                                     handleReset();
                                 }
                             }}
-                            className={combo(imagePreview && "cursor-pointer", "absolute top-2 right-2")}
                         >
                             <X className="size-8 text-white drop-shadow-[0_0_2px_rgba(0,0,0,0.7)]" />
                         </Button>

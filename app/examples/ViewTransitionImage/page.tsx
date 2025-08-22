@@ -1,5 +1,5 @@
+import Link from "@comps/UI/button/link";
 import ImageRatio from "@comps/UI/imageRatio";
-import Link from "@comps/UI/link";
 import { ProductFindManyServer } from "@services/server";
 import { unstable_ViewTransition as ViewTransition } from "react";
 
@@ -18,12 +18,11 @@ export default async function Page() {
                         key={index}
                         label={name}
                         variant="none"
-                        baseStyle={false}
                         className="w-full"
                         href={`/examples/ViewTransitionImage/product/${slug}`}
                     >
                         <ViewTransition name={`product-${slug}`}>
-                            <ImageRatio src={image} alt={name} className="rounded-xl" />
+                            <ImageRatio src={image} alt={name} className="w-full rounded-xl" />
                         </ViewTransition>
                     </Link>
                 ))}

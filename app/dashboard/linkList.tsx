@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "@comps/UI/link";
+import Link from "@comps/UI/button/link";
 import Modal from "@comps/UI/modal/modal";
 import { combo } from "@lib/combo";
 import { Hammer } from "lucide-react";

@@ -1,5 +1,5 @@
+import Link from "@comps/UI/button/link";
 import Card from "@comps/UI/card";
-import Link from "@comps/UI/link";
 import Client from "./client";
 
 type LinkProps = {
@@ -83,13 +83,7 @@ const UnderlinedLink = (props: UnderlinedLinkProps) => {
     const { href, label, text } = props;
     return (
         <li className="list-disc">
-            <Link
-                href={href}
-                variant="underline"
-                label={label}
-                baseStyleWithout={["outline", "padding", "flex", "font"]}
-                className="decoration-gray-600"
-            />
+            <Link href={href} variant="underline" label={label} className="decoration-gray-600" />
             <p className="text-xs text-gray-500">{text}</p>
         </li>
     );

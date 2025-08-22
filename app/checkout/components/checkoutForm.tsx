@@ -1,7 +1,7 @@
 "use client";
 
 import { useBasketStore } from "@comps/CORE/basket/basketStore";
-import Button from "@comps/UI/button";
+import Button from "@comps/UI/button/button";
 import { Elements, PaymentElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import { Appearance, StripePaymentElementOptions, loadStripe } from "@stripe/stripe-js";
 import { FormEvent, useState } from "react";
@@ -116,7 +116,13 @@ const CheckoutButton = (props: CheckoutButtonProps) => {
                     <div className="text-base">.{cents} €</div>
                 </div>
             </div>
-            <Button id="submit" type="submit" label="Commander" className="px-12 text-lg" isLoading={isLoading} />
+            <Button
+                id="submit"
+                type="submit"
+                label="Commander"
+                className={{ button: "px-12 text-lg" }}
+                isLoading={isLoading}
+            />
         </div>
     );
 };

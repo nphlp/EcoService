@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Cropper, { Area } from "react-easy-crop";
 import { getCroppedImg } from "../../lib/cropper";
-import Button from "./button";
+import Button from "./button/button";
 
 type ImageCropperModalClientProps = {
     imageFile: File | undefined;
@@ -107,13 +107,13 @@ export default function ImageCropperModalClient(props: ImageCropperModalClientPr
                     <Button
                         type="button"
                         label="cancel-crop"
-                        className="w-1/2"
+                        className={{ button: "w-1/2" }}
                         variant="outline"
                         onClick={() => setImageFile(undefined)}
                     >
                         Cancel
                     </Button>
-                    <Button type="button" label="crop-image" className="w-1/2" onClick={saveImage}>
+                    <Button type="button" label="crop-image" className={{ button: "w-1/2" }} onClick={saveImage}>
                         Crop image
                     </Button>
                 </div>

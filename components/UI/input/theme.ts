@@ -1,5 +1,5 @@
 import { combo } from "@lib/combo";
-import { mergeStylesAndStructure } from "../themes/utils";
+import { mergeStylesAndStructure } from "../../../lib/mergeStyles";
 import { InputClassName } from "./input";
 
 export type InputVariant = "default" | "none";

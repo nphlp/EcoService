@@ -8,8 +8,8 @@ import {
     useSearchQueryParams,
     useTakeQueryParams,
 } from "@comps/SHARED/queryParamsClientHooks";
+import Link from "@comps/UI/button/link";
 import Card from "@comps/UI/card";
-import Link from "@comps/UI/link";
 import { combo } from "@lib/combo";
 import { ProductModel } from "@services/types";
 import { useFetchV2 } from "@utils/FetchV2/FetchHookV2";
@@ -91,7 +91,6 @@ export default function Catalog(props: CatalogProps) {
                         label={product.name}
                         href={`/product/${product.slug}`}
                         variant="none"
-                        baseStyle={false}
                         onClick={(e) => handleClick(e, product.slug)}
                     >
                         <ProductCard product={product} />

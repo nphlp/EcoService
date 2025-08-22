@@ -1,7 +1,7 @@
 "use client";
 
 import { useThemeStore } from "@comps/CORE/themeStore";
-import Button from "@comps/UI/button";
+import Button from "@comps/UI/button/button";
 import Input from "@comps/UI/input/input";
 import Select from "@comps/UI/select/select";
 import { createSelectOptions } from "@comps/UI/select/utils";

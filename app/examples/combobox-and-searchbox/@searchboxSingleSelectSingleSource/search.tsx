@@ -1,6 +1,6 @@
 "use client";
 
-import Button from "@comps/UI/button";
+import Button from "@comps/UI/button/button";
 import { useComboboxStates } from "@comps/UI/comboboxes/comboHookStates";
 import Combobox from "@comps/UI/comboboxes/combobox";
 import { ComboOptionType, createComboOptions, createSelectedOptions } from "@comps/UI/comboboxes/utils";

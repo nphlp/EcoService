@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "@comps/UI/link";
+import Link from "@comps/UI/button/link";
 import { combo } from "@lib/combo";
 import { usePathname } from "next/navigation";
 import { useHeaderStore } from "../headerStore";
@@ -15,7 +15,7 @@ export default function Navigation() {
                 href="/catalog"
                 label="Catalogue"
                 variant="ghost"
-                baseStyleOnly={["padding", "rounded"]}
+                noRing
                 className={combo(path.includes("/catalog") && "font-bold")}
                 onClick={() => {
                     setSearchOpen(false);
@@ -26,35 +26,35 @@ export default function Navigation() {
                 href="/article"
                 label="Articles"
                 variant="ghost"
-                baseStyleOnly={["padding", "rounded"]}
+                noRing
                 className={combo(path.includes("/article") && "font-bold")}
             />
             <Link
                 href="/diy"
                 label="DIYs"
                 variant="ghost"
-                baseStyleOnly={["padding", "rounded"]}
+                noRing
                 className={combo(path.includes("/diy") && "font-bold")}
             />
             <Link
                 label="Exemples"
                 href="/examples"
                 variant="ghost"
-                baseStyleOnly={["padding", "rounded"]}
+                noRing
                 className={combo(path.includes("/examples") && "font-bold")}
             />
             {/* <Link
                 label="Comps Table"
                 href="/comps-table"
                 variant="ghost"
-                baseStyleOnly={["padding", "rounded"]}
+                noRing
                 className={combo(path.includes("/comps-table") && "font-bold")}
             />
             <Link
                 label="AI Search"
                 href="/ai-search"
                 variant="ghost"
-                baseStyleOnly={["padding", "rounded"]}
+                noRing
                 className={combo(path.includes("/ai-search") && "font-bold")}
             /> */}
         </div>

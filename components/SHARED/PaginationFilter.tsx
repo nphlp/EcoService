@@ -1,6 +1,6 @@
 "use client";
 
-import Button from "@comps/UI/button";
+import Button from "@comps/UI/button/button";
 import { combo } from "@lib/combo";
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 import { useContext } from "react";
@@ -46,7 +46,9 @@ export default function Pagination(props: PaginationProps) {
                 type="button"
                 label="previous"
                 variant="outline"
-                className="scale-100 rounded-full p-2 hover:scale-105 hover:bg-white disabled:hover:scale-100"
+                className={{
+                    button: "scale-100 rounded-full p-2 hover:scale-105 hover:bg-white disabled:hover:scale-100",
+                }}
                 disabled={page === 1}
                 onClick={handleBack}
             >
@@ -57,7 +59,9 @@ export default function Pagination(props: PaginationProps) {
                 type="button"
                 label="next"
                 variant="outline"
-                className="scale-100 rounded-full p-2 hover:scale-105 hover:bg-white disabled:hover:scale-100"
+                className={{
+                    button: "scale-100 rounded-full p-2 hover:scale-105 hover:bg-white disabled:hover:scale-100",
+                }}
                 disabled={page >= lastPageNumber}
                 onClick={handleNext}
             >
