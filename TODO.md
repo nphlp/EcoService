@@ -2,6 +2,15 @@
 
 Complete auth and user management
 
+## AI
+
+- Ajouter le MCP Context7
+- Ajouter le MCP Linear
+- Utiliser Conductor:
+    - Créer des Issue Linear
+    - Résoudre une Issue Linear
+    - Faire la PR
+
 ## CURRENT
 
 - [x] Fusionner les composants combobox
