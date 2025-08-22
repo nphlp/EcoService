@@ -130,9 +130,15 @@ jobs:
     needs: [build-and-tests]
     environment: preview
     steps:
+      - name: Update source commit SHA in Coolify
+        run: |
+          curl -X PATCH "${{ secrets.COOLIFY_API_URL }}/api/v1/applications/${{ secrets.COOLIFY_ECO_SERVICE_PREVIEW_UUID }}" \
+            -H "Authorization: Bearer ${{ secrets.COOLIFY_API_TOKEN }}" \
+            -H "Content-Type: application/json" \
+            -d '{"git_commit_sha": "${{ github.event.pull_request.head.sha }}"}'
       - name: Trigger Coolify Deploy Preview
         run: |
-          curl -X GET "${{ secrets.COOLIFY_API_URL }}/api/v1/deploy?uuid=${{ secrets.COOLIFY_ECO_SERVICE_PREVIEW_UUID }}&force=false&branch=${{ github.head_ref }}" \
+          curl -X GET "${{ secrets.COOLIFY_API_URL }}/api/v1/deploy?uuid=${{ secrets.COOLIFY_ECO_SERVICE_PREVIEW_UUID }}&force=false" \
             -H "Authorization: Bearer ${{ secrets.COOLIFY_API_TOKEN }}"
 
   deploy-production:
