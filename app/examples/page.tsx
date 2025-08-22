@@ -1,6 +1,5 @@
 import Link from "@comps/UI/button/link";
 import Card from "@comps/UI/card";
-import Client from "./client";
 
 type LinkProps = {
     label: string;
@@ -10,6 +9,11 @@ type LinkProps = {
 
 export default function Page() {
     const links: LinkProps[] = [
+        {
+            label: "Comps Table",
+            href: "/examples/comps-table",
+            text: "All components",
+        },
         {
             label: "Formulaire",
             href: "/examples/formulaire",
@@ -66,7 +70,6 @@ export default function Page() {
         <div className="p-7">
             <Card className="flex flex-col items-center gap-4 pl-10">
                 <h1 className="text-2xl font-bold">Examples</h1>
-                <Client />
                 <ul className="space-y-2">
                     {links.map((link, index) => (
                         <UnderlinedLink key={index} {...link} />
@@ -83,7 +86,7 @@ const UnderlinedLink = (props: UnderlinedLinkProps) => {
     const { href, label, text } = props;
     return (
         <li className="list-disc">
-            <Link href={href} variant="underline" label={label} className="decoration-gray-600" />
+            <Link href={href} variant="underline" label={label} className="px-1 decoration-gray-600" />
             <p className="text-xs text-gray-500">{text}</p>
         </li>
     );

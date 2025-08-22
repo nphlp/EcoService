@@ -148,8 +148,9 @@ export default function InputFile(props: InputFileProps) {
                         <Button
                             label="Retirer l'image"
                             variant="none"
-                            className={{ button: combo(imagePreview && "cursor-pointer", "absolute top-2 right-2") }}
-                            noPadding
+                            className={{
+                                button: combo(imagePreview && "cursor-pointer", "absolute top-2 right-2 rounded-lg"),
+                            }}
                             onClick={handleReset}
                             onKeyDown={(e) => {
                                 if (e.key === "Enter" || e.key === " " || e.key === "Delete" || e.key === "Backspace") {

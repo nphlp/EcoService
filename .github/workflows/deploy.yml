@@ -132,7 +132,7 @@ jobs:
     steps:
       - name: Trigger Coolify Deploy Preview
         run: |
-          curl -X GET "${{ secrets.COOLIFY_API_URL }}/api/v1/deploy?uuid=${{ secrets.COOLIFY_ECO_SERVICE_PREVIEW_UUID }}&force=false&branch=test" \
+          curl -X GET "${{ secrets.COOLIFY_API_URL }}/api/v1/deploy?uuid=${{ secrets.COOLIFY_ECO_SERVICE_PREVIEW_UUID }}&force=false&branch=${{ github.head_ref }}" \
             -H "Authorization: Bearer ${{ secrets.COOLIFY_API_TOKEN }}"
 
   deploy-production:
