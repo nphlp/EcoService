@@ -58,7 +58,7 @@ const SessionList = () => {
                     <Button
                         label="Revoquer les sessions"
                         variant="underline"
-                        className={{ button: "rounded text-sm" }}
+                        className={{ button: "text-sm" }}
                         onClick={() => setIsModalOpen(true)}
                     />
                 ) : (

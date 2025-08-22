@@ -3,6 +3,7 @@
 import { useThemeStore } from "@comps/CORE/themeStore";
 import Button from "@comps/UI/button/button";
 import Input from "@comps/UI/input/input";
+import Modal from "@comps/UI/modal/modal";
 import Select from "@comps/UI/select/select";
 import { createSelectOptions } from "@comps/UI/select/utils";
 import { combo } from "@lib/combo";
@@ -33,6 +34,9 @@ export default function Client(props: ClientProps) {
     const { categoryList } = initialData;
     const selectOptions = createSelectOptions(categoryList, { label: "name", slug: "slug" });
     const [selectValue, setSelectValue] = useState("");
+
+    // Modal
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     return (
         <div className={combo("w-full flex-1", "grid grid-cols-4 grid-rows-4 gap-6", "p-7")}>
@@ -67,6 +71,14 @@ export default function Client(props: ClientProps) {
                     selected={selectValue}
                     variant={"default"}
                 />
+            </div>
+            <div className={combo(common)}>
+                <h2 className="text-2xl font-bold">Select</h2>
+                <Modal setIsModalOpen={setIsModalOpen} isModalOpen={isModalOpen} withCross>
+                    <h2 className="text-lg font-semibold">Modal Title</h2>
+                    <div className="mt-1">This is an awesome modal content.</div>
+                </Modal>
+                <Button label="Open Modal" type="button" onClick={() => setIsModalOpen(true)} />
             </div>
             <div className={combo(common)}>
                 <h2 className="text-2xl font-bold text-[var(--foreground)]">Theme Info</h2>
