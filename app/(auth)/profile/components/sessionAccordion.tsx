@@ -4,7 +4,7 @@ import { BetterSessionListServer, BetterSessionServer, GetSessionList } from "@l
 import { Fetch } from "@utils/Fetch/Fetch";
 import { FetchParallelized } from "@utils/Fetch/FetchParallelized";
 import { LogOut } from "lucide-react";
-import LocationWrapper from "../../../../components/wrapper/locationWrapper";
+import LocationMap from "./locationMap";
 import SessionManager, { SessionAndLocation } from "./sessionManager";
 import { getBrowser, getOs, locationString } from "./utils";
 
@@ -48,7 +48,7 @@ const CurrentSession = async (props: CurrentSessionProps) => {
     const userAgent = session.session.userAgent ?? "";
     const ipAddress = session.session.ipAddress ?? "";
 
-    const location = ipAddress ? await Fetch({ route: "/external/location", params: { ipAddress } }) : null;
+    const location = await Fetch({ route: "/external/location", params: { ipAddress } });
 
     return (
         <div className="space-y-2 rounded-lg border border-gray-300 px-5 py-3">
@@ -73,7 +73,7 @@ const CurrentSession = async (props: CurrentSessionProps) => {
                     <LogOut className="size-4" />
                 </Logout>
             </div>
-            <LocationWrapper location={location} />
+            <LocationMap location={location} />
         </div>
     );
 };

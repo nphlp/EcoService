@@ -14,7 +14,7 @@ export default async function Page() {
     return (
         <div className="flex w-full flex-1 flex-col justify-center overflow-y-auto border-t-1 border-gray-300 bg-gray-50 p-6">
             <EmailConfirmModal session={session} />
-            <AccordionGroup openByDefaultIndex={0}>
+            <AccordionGroup openByDefaultIndex={1}>
                 <div className="flex min-h-full flex-col items-center justify-center">
                     <div className="flex w-full flex-col items-center space-y-5 sm:w-2/3 lg:w-1/2">
                         <OrdersAccordion session={session} />

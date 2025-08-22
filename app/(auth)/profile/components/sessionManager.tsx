@@ -90,7 +90,7 @@ const SessionList = () => {
                 {data.length ? (
                     data.map((sessionAndLocation, index) => (
                         <Fragment key={index}>
-                            {index > 0 && <hr />}
+                            {index > 0 && <hr className="border-gray-300" />}
                             <SessionItem sessionAndLocation={sessionAndLocation} />
                         </Fragment>
                     ))
