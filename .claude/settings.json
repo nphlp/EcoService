@@ -1,12 +1,15 @@
 {
     "permissions": {
         "allow": [
-            "Bash(mkdir:*)",
-            "Bash(pnpm lint:*)",
-            "Bash(pnpm type:*)",
             "Bash(pnpm run lint:*)",
             "Bash(pnpm run type:*)",
-            "WebSearch"
+            "Bash(rm:*)",
+            "Bash(sed:*)",
+            "Bash(mkdir:*)",
+            "Bash(find:*)",
+            "Bash(grep:*)",
+            "WebSearch",
+            "mcp__context7:*"
         ],
         "deny": [],
         "ask": []

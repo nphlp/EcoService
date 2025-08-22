@@ -169,4 +169,7 @@ Required environment variables for development:
 - Comprehensive error boundaries and validation
 - Standard API response format: `{data: T} | {error: string}`
 
+### Memory
+
 - N'hesite pas à faire "pnpm run type" ou "pnpm run lint" pour voir les erreurs de typage provoqués par des modifications
+- Ne fais pas de "Fetch" pour aller sur internet car ça me demande une confirmation. Utilise ton tool "Web Search" car tu y es autorisé sans ma permission.
