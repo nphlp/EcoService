@@ -4,12 +4,36 @@ Complete auth and user management
 
 ## AI
 
-- Ajouter le MCP Context7
-- Ajouter le MCP Linear
-- Utiliser Conductor:
-    - Créer des Issue Linear
-    - Résoudre une Issue Linear
-    - Faire la PR
+- Ajouter le MCP `Context7`
+- Ajouter le MCP `Linear`
+- Ajouter le MCP `Github`
+
+### Workflow automatique
+
+- Je créer des Issue `Linear`
+
+- J'utilise Conductor pour mettre un agent IA dans un worktree
+    1. **Prise d'information**
+        - Lire une Issue `Linear`
+        - Créer la branche avec le nom fournit par `Linear`
+
+    2. **Boucle de code**
+        - Coder la feature
+        - Lancer les checks : `pnpm run lint`, `pnpm run type` et `pnpm run format`
+        - Corriger les erreurs et recommencer
+
+    3. **Validation et envoie**
+        - Git add, commit et push
+        - Faire la PR sur `Github`
+
+- Je relis la PR et merge les modifs
+
+### Workflow manuel
+
+En cas de problèmes complexes
+
+- Créer un script "/add-debug-logs
+- Créer un script "/rm-debug-logs
 
 ## CURRENT
 

@@ -5,6 +5,16 @@
             "command": "npx",
             "args": ["@upstash/context7-mcp@latest"],
             "env": {}
+        },
+        "github": {
+            "type": "stdio",
+            "command": "npx",
+            "args": ["-y", "@modelcontextprotocol/server-github"],
+            "env": {}
+        },
+        "linear": {
+            "command": "npx",
+            "args": ["-y", "mcp-remote", "https://mcp.linear.app/sse"]
         }
     }
 }
