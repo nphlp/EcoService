@@ -169,6 +169,21 @@ Required environment variables for development:
 - Comprehensive error boundaries and validation
 - Standard API response format: `{data: T} | {error: string}`
 
+### MCP Integration
+
+Les serveurs MCP GitHub et Linear sont configurés et disponibles pour automatiser le workflow de développement :
+
+- **Linear** : Lecture des issues, récupération des branches, statuts et commentaires
+- **GitHub** : Lecture des repos, issues, PRs, commits et fichiers
+- **Workflow complet disponible** :
+    1. Lire une issue Linear avec `mcp__linear__get_issue`
+    2. Récupérer le nom de branche depuis Linear
+    3. Créer et checkout la branche localement avec les commandes git
+    4. Coder les modifications demandées
+    5. Git add, commit, push via le terminal
+    6. Créer une PR sur GitHub (nécessite autorisation)
+    7. Synchroniser les statuts entre Linear et GitHub
+
 ### Memory
 
 - N'hesite pas à faire "pnpm run type" ou "pnpm run lint" pour voir les erreurs de typage provoqués par des modifications
