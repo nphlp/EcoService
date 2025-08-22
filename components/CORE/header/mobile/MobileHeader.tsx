@@ -1,7 +1,7 @@
 "use client";
 
-import Button from "@comps/UI/button";
-import Link from "@comps/UI/link";
+import Button from "@comps/UI/button/button";
+import Link from "@comps/UI/button/link";
 import LogoutClient from "@comps/UI/logout";
 import { useSession } from "@lib/authClient";
 import { combo } from "@lib/combo";
@@ -26,10 +26,12 @@ export default function MobileHeader(props: MobileHeaderProps) {
                 type="button"
                 label="show-menu"
                 variant="none"
-                className={combo(
-                    "absolute right-5 bottom-5 z-50 rounded-full border border-gray-500 bg-white p-3 shadow-md",
-                    visibilityMenu && "hidden",
-                )}
+                className={{
+                    button: combo(
+                        "absolute right-5 bottom-5 z-50 rounded-full border border-gray-500 bg-white p-3 shadow-md",
+                        visibilityMenu && "hidden",
+                    ),
+                }}
                 onClick={() => setVisibilityMenu(true)}
             >
                 <Leaf />
@@ -38,7 +40,12 @@ export default function MobileHeader(props: MobileHeaderProps) {
                 type="button"
                 label="cancel-menu"
                 variant="none"
-                className={combo("absolute inset-0 z-40 rounded-none bg-black opacity-10", !visibilityMenu && "hidden")}
+                className={{
+                    button: combo(
+                        "absolute inset-0 z-40 rounded-none bg-black opacity-10",
+                        !visibilityMenu && "hidden",
+                    ),
+                }}
                 onClick={() => setVisibilityMenu(false)}
             >
                 {""}
@@ -49,7 +56,7 @@ export default function MobileHeader(props: MobileHeaderProps) {
                         href="/"
                         label="home"
                         variant="outline"
-                        className={combo(buttonClass)}
+                        className={buttonClass}
                         onClick={() => setVisibilityMenu(false)}
                     >
                         Accueil
@@ -58,7 +65,7 @@ export default function MobileHeader(props: MobileHeaderProps) {
                         href="/catalog"
                         label="catalog"
                         variant="outline"
-                        className={combo(buttonClass)}
+                        className={buttonClass}
                         onClick={() => setVisibilityMenu(false)}
                     >
                         Catalogue
@@ -67,7 +74,7 @@ export default function MobileHeader(props: MobileHeaderProps) {
                         href="/article"
                         label="articles"
                         variant="outline"
-                        className={combo(buttonClass)}
+                        className={buttonClass}
                         onClick={() => setVisibilityMenu(false)}
                     >
                         Articles
@@ -76,7 +83,7 @@ export default function MobileHeader(props: MobileHeaderProps) {
                         href="/diy"
                         label="diy"
                         variant="outline"
-                        className={combo(buttonClass)}
+                        className={buttonClass}
                         onClick={() => setVisibilityMenu(false)}
                     >
                         DIY
@@ -85,7 +92,7 @@ export default function MobileHeader(props: MobileHeaderProps) {
                         href="/examples"
                         label="examples"
                         variant="outline"
-                        className={combo(buttonClass)}
+                        className={buttonClass}
                         onClick={() => setVisibilityMenu(false)}
                     >
                         Exemples
@@ -96,7 +103,7 @@ export default function MobileHeader(props: MobileHeaderProps) {
                                 href="/auth"
                                 label="auth"
                                 variant="outline"
-                                className={combo(buttonClass)}
+                                className={buttonClass}
                                 onClick={() => setVisibilityMenu(false)}
                             >
                                 Authentification
@@ -109,7 +116,7 @@ export default function MobileHeader(props: MobileHeaderProps) {
                                 href="/profile"
                                 label="profile"
                                 variant="outline"
-                                className={combo(buttonClass)}
+                                className={buttonClass}
                                 onClick={() => setVisibilityMenu(false)}
                             >
                                 Profile
@@ -117,7 +124,7 @@ export default function MobileHeader(props: MobileHeaderProps) {
                             <LogoutClient
                                 variant="outline"
                                 onClick={() => setVisibilityMenu(false)}
-                                className={combo(buttonClass)}
+                                className={{ button: buttonClass }}
                             >
                                 Déconnexion
                             </LogoutClient>
@@ -126,7 +133,7 @@ export default function MobileHeader(props: MobileHeaderProps) {
 
                     {/* Close button */}
                     <Button
-                        className={combo(buttonClass)}
+                        className={{ button: buttonClass }}
                         type="button"
                         label="hide-menu"
                         variant="default"

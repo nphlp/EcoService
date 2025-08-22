@@ -1,5 +1,5 @@
+import Link from "@comps/UI/button/link";
 import Card from "@comps/UI/card";
-import Link from "@comps/UI/link";
 import { BetterSessionServer, GetSession } from "@lib/authServer";
 import { UserFindManyServer } from "@services/server";
 import { UserModel } from "@services/types";

@@ -64,11 +64,7 @@ const CurrentSession = async (props: CurrentSessionProps) => {
                         <div className="text-2xs line-clamp-1 text-gray-500">{locationString(location)}</div>
                     </div>
                 </div>
-                <Logout
-                    variant="outline"
-                    className="rounded-md px-3 py-1.5 text-xs"
-                    baseStyleOnly={["flex", "outline"]}
-                >
+                <Logout variant="outline" className={{ button: "rounded-md px-3 py-1.5 text-xs" }}>
                     <span>Déconnexion</span>
                     <LogOut className="size-4" />
                 </Logout>

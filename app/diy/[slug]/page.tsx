@@ -1,6 +1,6 @@
 import ArticleOrDiyCard from "@comps/PROJECT/cards/articleOrDiyCard";
+import Link from "@comps/UI/button/link";
 import ImageRatio from "@comps/UI/imageRatio";
-import Link from "@comps/UI/link";
 import Slider from "@comps/UI/slider";
 import { combo } from "@lib/combo";
 import PrismaInstance from "@lib/prisma";

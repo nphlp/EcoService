@@ -1,9 +1,8 @@
 "use client";
 
 import { useBasketStore } from "@comps/CORE/basket/basketStore";
-import Button, { ButtonProps } from "@comps/UI/button";
+import Button, { ButtonProps } from "@comps/UI/button/button";
 import Loader from "@comps/UI/loader";
-import { ButtonBaseKeys } from "@comps/UI/themes/buttonTheme";
 import { signOut } from "@lib/authClient";
 import { useRouter } from "next/navigation";
 import { ReactNode, useState } from "react";
@@ -11,12 +10,7 @@ import { ReactNode, useState } from "react";
 type LogoutProps = {
     children: ReactNode;
     onClick?: () => void;
-} & (
-    | { baseStyle?: boolean; baseStyleOnly?: never; baseStyleWithout?: never }
-    | { baseStyle?: never; baseStyleOnly?: ButtonBaseKeys[]; baseStyleWithout?: never }
-    | { baseStyle?: never; baseStyleOnly?: never; baseStyleWithout?: ButtonBaseKeys[] }
-) &
-    Omit<ButtonProps, "onClick" | "label" | "children">;
+} & Omit<ButtonProps, "onClick" | "label" | "children">;
 
 export default function Logout(props: LogoutProps) {
     const { children, onClick, ...others } = props;

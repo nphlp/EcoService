@@ -1,7 +1,7 @@
 import CheckoutGenerator from "@app/checkout/components/checkoutGenerator";
 import CheckoutProductList from "@app/checkout/components/checkoutProductList";
 import { LocalBasket, localBasketSchema } from "@comps/CORE/basket/basketType";
-import Link from "@comps/UI/link";
+import Link from "@comps/UI/button/link";
 import { GetSession } from "@lib/authServer";
 import { getZustandCookie } from "@lib/zustandServer";
 

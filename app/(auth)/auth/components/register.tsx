@@ -1,10 +1,10 @@
 "use client";
 
-import Button from "@comps/UI/button";
+import Button from "@comps/UI/button/button";
+import Link from "@comps/UI/button/link";
 import Feedback, { FeedbackMode } from "@comps/UI/feedback";
 import Input from "@comps/UI/input/input";
 import InputPassword from "@comps/UI/inputPassword";
-import Link from "@comps/UI/link";
 import { signUp } from "@lib/authClient";
 import { UpdateLastnameProcess } from "@process/ProfileUpdate";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -93,12 +93,11 @@ export default function RegisterClient() {
                     className="rounded px-1 text-sm text-gray-500"
                     label="already-registered"
                     variant="underline"
-                    baseStyleWithout={["padding", "font", "rounded"]}
                 >
                     Déjà inscrit?
                 </Link>
                 <Feedback message={message} mode={mode} isFeedbackOpen={isFeedbackOpen} />
-                <Button type="button" onClick={handleSubmit} label="register" isLoading={isLoading}>
+                <Button type="button" label="register" onClick={handleSubmit} isLoading={isLoading}>
                     S&apos;inscrire
                 </Button>
             </form>

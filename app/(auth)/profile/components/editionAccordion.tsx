@@ -1,7 +1,7 @@
 "use client";
 
 import { Accordion, AccordionButton, AccordionContent } from "@comps/UI/accordion";
-import Button from "@comps/UI/button";
+import Button from "@comps/UI/button/button";
 import Input from "@comps/UI/input/input";
 import InputImage from "@comps/UI/inputImage";
 import InputPassword from "@comps/UI/inputPassword";

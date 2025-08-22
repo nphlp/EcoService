@@ -1,10 +1,10 @@
 "use client";
 
-import Link, { LinkProps } from "@comps/UI/link";
+import Link, { LinkProps } from "@comps/UI/button/link";
 import { useTransitionRouter } from "next-view-transitions";
 import { MouseEvent } from "react";
 
-type TransitionLinkProps = Omit<LinkProps, "href" | "onClick" | "baseStyle" | "baseStyleOnly" | "baseStyleWithout"> & {
+type TransitionLinkProps = Omit<LinkProps, "href" | "onClick"> & {
     label: string;
     href: string;
     animation: keyof typeof cssAnimation;

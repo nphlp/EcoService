@@ -1,6 +1,6 @@
 "use client";
 
-import Button from "@comps/UI/button";
+import Button from "@comps/UI/button/button";
 import { combo } from "@lib/combo";
 import { PanelLeftClose, PanelLeftOpen } from "lucide-react";
 import { motion } from "motion/react";
@@ -63,8 +63,7 @@ const SideBarToggleTitle = (props: SideBarToggleTitleProps) => {
             <Button
                 label="Ouvrir"
                 variant="outline"
-                className="p-1.5"
-                baseStyleWithout={["padding", "font"]}
+                className={{ button: "w-full p-1.5" }}
                 onClick={() => setIsOpen(!isOpen)}
             >
                 {isOpen ? <PanelLeftClose /> : <PanelLeftOpen />}

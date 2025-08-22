@@ -117,7 +117,7 @@ export default async function Page(props: PageProps) {
                         </div>
 
                         <AddToCartButton
-                            className="py-3 text-xl lg:py-1.5 lg:text-base"
+                            className="w-full py-3 text-xl lg:py-1.5 lg:text-base"
                             product={product}
                             stock={stock}
                         />

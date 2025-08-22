@@ -2,9 +2,9 @@
 
 import QuantityManager from "@app/checkout/components/quantityManager";
 import { useHeaderStore } from "@comps/CORE/header/headerStore";
-import Button from "@comps/UI/button";
+import Button from "@comps/UI/button/button";
+import Link from "@comps/UI/button/link";
 import ImageRatio from "@comps/UI/imageRatio";
-import Link from "@comps/UI/link";
 import { combo } from "@lib/combo";
 import { motion } from "motion/react";
 import { useBasketStore } from "./basket/basketStore";
@@ -65,7 +65,7 @@ export default function Basket() {
                                 type="button"
                                 label="paiement"
                                 variant="ghost"
-                                className="bg-transprent rounded-full px-8 py-1 font-semibold"
+                                className={{ button: "bg-transprent rounded-full px-8 py-1 font-semibold" }}
                                 onClick={() => clearBothBasket()}
                             >
                                 Vider le panier

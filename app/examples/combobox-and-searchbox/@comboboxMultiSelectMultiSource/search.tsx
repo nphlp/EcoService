@@ -1,6 +1,6 @@
 "use client";
 
-import Button from "@comps/UI/button";
+import Button from "@comps/UI/button/button";
 import { useComboboxMultiStates } from "@comps/UI/comboboxes/comboHookStates";
 import ComboboxMulti from "@comps/UI/comboboxes/comboboxMulti";
 import { MultiSourceComboOptionType } from "@comps/UI/comboboxes/utils";

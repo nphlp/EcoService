@@ -3,7 +3,7 @@
 import { combo } from "@lib/combo";
 import { Eye, EyeClosed } from "lucide-react";
 import { useState } from "react";
-import Button from "./button";
+import Button from "./button/button";
 import Input, { InputProps } from "./input/input";
 
 type InputPasswordProps = {
@@ -28,9 +28,8 @@ export default function InputPassword(props: InputPasswordProps) {
             <Button
                 type="button"
                 label="toggle-password-visibility"
-                className="p-2 hover:border-gray-300"
+                className={{ button: "p-2 hover:border-gray-300" }}
                 variant="outline"
-                baseStyleWithout={["padding", "font"]}
                 onClick={() => setToggleVisibility(!toggleVisibility)}
             >
                 {toggleVisibility && <Eye className="size-5" />}

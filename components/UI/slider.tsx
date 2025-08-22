@@ -1,6 +1,6 @@
 "use client";
 
-import Button from "@comps/UI/button";
+import Button from "@comps/UI/button/button";
 import Loader from "@comps/UI/loader";
 import { combo } from "@lib/combo";
 import { useWidth } from "@utils/useWidth";
@@ -8,7 +8,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { PanInfo, motion } from "motion/react";
 import { useRouter } from "next/navigation";
 import { CSSProperties, Children, ReactNode, useEffect, useMemo, useRef, useState } from "react";
-import Link from "./link";
+import Link from "./button/link";
 
 type ItemNumberType = { minWidth: number; itemAmount: number }[];
 export type LinkInfoType = { label: string; href: string };
@@ -226,7 +226,7 @@ const DivOrLink = (props: DivOrLinkProps) => {
                 href={href}
                 style={style}
                 variant="none"
-                baseStyle={false}
+                noPadding
                 // Prevent clicking while swiping
                 onClick={(e) => {
                     e.preventDefault();
@@ -268,24 +268,26 @@ const NavButtons = (props: NavButtonsProps) => {
             <Button
                 label="Previous"
                 onClick={handlePrevious}
-                className={combo(
-                    "absolute top-1/2 -left-1.5 -translate-y-1/2 rounded-full p-1",
-                    currentIndex === 0 && "opacity-50 hover:opacity-50",
-                )}
+                className={{
+                    button: combo(
+                        "absolute top-1/2 -left-1.5 -translate-y-1/2 rounded-full p-1",
+                        currentIndex === 0 && "opacity-50 hover:opacity-50",
+                    ),
+                }}
                 disabled={currentIndex === 0}
-                baseStyleWithout={["padding"]}
             >
                 <ChevronLeft className="size-10 -translate-x-px" />
             </Button>
             <Button
                 label="Next"
                 onClick={handleNext}
-                className={combo(
-                    "absolute top-1/2 -right-1.5 -translate-y-1/2 rounded-full p-1",
-                    currentIndex === dataListLength - itemNumber && "opacity-50 hover:opacity-50",
-                )}
+                className={{
+                    button: combo(
+                        "absolute top-1/2 -right-1.5 -translate-y-1/2 rounded-full p-1",
+                        currentIndex === dataListLength - itemNumber && "opacity-50 hover:opacity-50",
+                    ),
+                }}
                 disabled={currentIndex === dataListLength - itemNumber}
-                baseStyleWithout={["padding"]}
             >
                 <ChevronRight className="size-10 translate-x-px" />
             </Button>

@@ -1,6 +1,6 @@
 "use client";
 
-import Button from "@comps/UI/button";
+import Button from "@comps/UI/button/button";
 import Card from "@comps/UI/card";
 import { combo } from "@lib/combo";
 import { Filter } from "lucide-react";
@@ -266,7 +266,7 @@ export default function ProductManager() {
                     <Button
                         type="button"
                         label="Filtrer"
-                        className="flex items-center gap-2 rounded-full border border-gray-200 bg-white px-4 py-2 text-gray-700 shadow-sm transition-all hover:shadow-md"
+                        // className="flex items-center gap-2 rounded-full border border-gray-200 bg-white px-4 py-2 text-gray-700 shadow-sm transition-all hover:shadow-md"
                     >
                         <Filter className="size-5" />
                         <span className="font-medium">Filtrer</span>
@@ -450,7 +450,7 @@ export default function ProductManager() {
                                                     label="Créer la catégorie"
                                                     loadingLabel="Création..."
                                                     isLoading={categoryLoading}
-                                                    className="bg-[#5CEBDF] px-4 py-2 text-sm font-medium text-[#0A0A2C]"
+                                                    // className="bg-[#5CEBDF] px-4 py-2 text-sm font-medium text-[#0A0A2C]"
                                                 >
                                                     Créer la catégorie
                                                 </Button>
