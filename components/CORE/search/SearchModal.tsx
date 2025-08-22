@@ -16,14 +16,11 @@ import {
     ArticleSearchType,
     CategorySearchType,
     CountType,
-    DiySearchType,
     ProductSearchType,
     articleCountParams,
     articleFetchParams,
     categoryCountParams,
     categoryFetchParams,
-    diyCountParams,
-    diyFetchParams,
     productCountParams,
     productFetchParams,
 } from "./fetchParams";
@@ -38,9 +35,6 @@ export type SearchModalProps = {
 
         articleList: ArticleSearchType[];
         articleCount: CountType;
-
-        diyList: DiySearchType[];
-        diyCount: CountType;
     };
     className?: string;
 };
@@ -100,26 +94,13 @@ export default function SearchModal(props: SearchModalProps) {
         initialData: initialResults.articleCount,
     });
 
-    const { data: diyList, isLoading: isLoadingDiyList } = useFetchV2({
-        route: "/diy/findMany",
-        params: diyFetchParams(search, takeAmount),
-        initialData: initialResults.diyList,
-    });
-    const { data: diyCount, isLoading: isLoadingDiyCount } = useFetchV2({
-        route: "/diy/count",
-        params: diyCountParams(search),
-        initialData: initialResults.diyCount,
-    });
-
     const isLoading =
         isLoadingProductList ||
         isLoadingProductCount ||
         isLoadingCategoryList ||
         isLoadingCategoryCount ||
         isLoadingArticleList ||
-        isLoadingArticleCount ||
-        isLoadingDiyList ||
-        isLoadingDiyCount;
+        isLoadingArticleCount;
 
     return (
         <div
@@ -150,14 +131,14 @@ export default function SearchModal(props: SearchModalProps) {
                     <div>
                         <h3 className="text-2xl font-bold">Search</h3>
                         <div className="text-sm text-gray-500">
-                            Rechercher dans les produits, catégories, articles et DIY...
+                            Rechercher dans les produits, catégories et articles...
                         </div>
                     </div>
                     <form onSubmit={handleSubmit} className="flex flex-row items-center justify-center gap-2">
                         <Input
                             label="search"
                             className={{ component: "w-full", label: "sr-only" }}
-                            placeholder="Produit, catégorie, article, DIY..."
+                            placeholder="Produit, catégorie, article..."
                             onKeyDown={(e) => {
                                 if (e.key === "Escape") {
                                     setSearchOpen(false);
@@ -182,8 +163,6 @@ export default function SearchModal(props: SearchModalProps) {
                         categoryCount={categoryCount ?? 0}
                         articleList={articleList ?? []}
                         articleCount={articleCount ?? 0}
-                        diyList={diyList ?? []}
-                        diyCount={diyCount ?? 0}
                         search={search}
                     />
                 )}

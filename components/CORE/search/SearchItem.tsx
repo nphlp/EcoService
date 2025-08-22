@@ -9,14 +9,13 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { MouseEvent } from "react";
 import { useHeaderStore } from "../header/headerStore";
-import { ArticleSearchType, CategorySearchType, DiySearchType, ProductSearchType } from "./fetchParams";
+import { ArticleSearchType, CategorySearchType, ProductSearchType } from "./fetchParams";
 
 type ItemListProps = {
     items:
         | { type: "product"; data: ProductSearchType[] }
         | { type: "category"; data: CategorySearchType[] }
-        | { type: "article"; data: ArticleSearchType[] }
-        | { type: "diy"; data: DiySearchType[] };
+        | { type: "article"; data: ArticleSearchType[] };
     search: string;
 };
 
@@ -32,8 +31,7 @@ type ItemProps = {
     item:
         | { type: "product"; data: ProductSearchType }
         | { type: "category"; data: CategorySearchType }
-        | { type: "article"; data: ArticleSearchType }
-        | { type: "diy"; data: DiySearchType };
+        | { type: "article"; data: ArticleSearchType };
     search: string;
 };
 
@@ -107,14 +105,6 @@ const Item = (props: ItemProps) => {
                     imageUrl: data.Content[0].image,
                     title: highlightQuery(data.title, search, 30),
                     description: highlightQuery(joinedArticleContent, search, 70),
-                };
-            case "diy":
-                const joinedDiyContent = data.Content.map((item) => item.content).join(" ");
-                return {
-                    href: `/diy/${data.slug}`,
-                    imageUrl: data.Content[0].image,
-                    title: highlightQuery(data.title, search, 30),
-                    description: highlightQuery(joinedDiyContent, search, 70),
                 };
         }
     };

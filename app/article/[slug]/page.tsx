@@ -1,4 +1,4 @@
-import ArticleOrDiyCard from "@comps/PROJECT/cards/articleOrDiyCard";
+import ArticleCard from "@comps/PROJECT/cards/articleCard";
 import Link from "@comps/UI/button/link";
 import ImageRatio from "@comps/UI/imageRatio";
 import Slider from "@comps/UI/slider";
@@ -145,13 +145,13 @@ export default async function Page(props: PageProps) {
                 <h2 className="text-center text-4xl font-bold">À lire aussi</h2>
                 <Slider
                     dataListLength={otherArticleList.length}
-                    linkList={otherArticleList.map((articleOrDiy) => ({
-                        label: articleOrDiy.title,
-                        href: `/article/${articleOrDiy.slug}`,
+                    linkList={otherArticleList.map((article) => ({
+                        label: article.title,
+                        href: `/article/${article.slug}`,
                     }))}
                 >
-                    {otherArticleList.map((articleOrDiy, index) => (
-                        <ArticleOrDiyCard key={index} articleOrDiy={articleOrDiy} />
+                    {otherArticleList.map((article, index) => (
+                        <ArticleCard key={index} article={article} />
                     ))}
                 </Slider>
             </section>

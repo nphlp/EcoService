@@ -7,7 +7,6 @@ const NON_LOGGED: RolePermissions = {
     Article: ["findMany", "findUnique", "count"],
     Category: ["findMany", "findUnique", "count"],
     Content: ["findMany", "findUnique", "count"],
-    Diy: ["findMany", "findUnique", "count"],
     Fruit: [],
     Order: [],
     Product: ["findMany", "findUnique", "count"],

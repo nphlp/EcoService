@@ -1,13 +1,7 @@
 import Card from "@comps/UI/card";
 import { hasRole } from "@permissions/hasRole";
-import {
-    ArticleCountServer,
-    DiyCountServer,
-    OrderCountServer,
-    ProductCountServer,
-    UserCountServer,
-} from "@services/server";
-import { FileText, Hammer, Package, ShoppingCart, Users } from "lucide-react";
+import { ArticleCountServer, OrderCountServer, ProductCountServer, UserCountServer } from "@services/server";
+import { FileText, Package, ShoppingCart, Users } from "lucide-react";
 import { Metadata } from "next";
 import { unauthorized } from "next/navigation";
 import { JSX, cloneElement } from "react";
@@ -23,7 +17,6 @@ export default async function Page() {
     if (!session) unauthorized();
 
     const articleCount = await ArticleCountServer({});
-    const diyCount = await DiyCountServer({});
     const productCount = await ProductCountServer({});
     const orderCount = await OrderCountServer({});
     const userCount = await UserCountServer({});
@@ -35,7 +28,6 @@ export default async function Page() {
                 <div className="space-y-4">
                     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                         <StatsCard count={articleCount} title="Articles" icon={<FileText />} />
-                        <StatsCard count={diyCount} title="DIY" icon={<Hammer />} />
                         <StatsCard count={productCount} title="Products" icon={<Package />} />
                         <StatsCard count={orderCount} title="Orders" icon={<ShoppingCart />} />
                         <StatsCard count={userCount} title="Users" icon={<Users />} />

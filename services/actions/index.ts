@@ -4,7 +4,6 @@ export * from './AccountAction';
 export * from './VerificationAction';
 export * from './AddressAction';
 export * from './ArticleAction';
-export * from './DiyAction';
 export * from './ContentAction';
 export * from './CategoryAction';
 export * from './ProductAction';

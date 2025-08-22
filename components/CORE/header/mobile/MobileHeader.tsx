@@ -80,15 +80,6 @@ export default function MobileHeader(props: MobileHeaderProps) {
                         Articles
                     </Link>
                     <Link
-                        href="/diy"
-                        label="diy"
-                        variant="outline"
-                        className={buttonClass}
-                        onClick={() => setVisibilityMenu(false)}
-                    >
-                        DIY
-                    </Link>
-                    <Link
                         href="/examples"
                         label="examples"
                         variant="outline"

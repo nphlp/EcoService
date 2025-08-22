@@ -3,8 +3,6 @@ import {
     ArticleFindManyServer,
     CategoryCountServer,
     CategoryFindManyServer,
-    DiyCountServer,
-    DiyFindManyServer,
     ProductCountServer,
     ProductFindManyServer,
 } from "@services/server";
@@ -13,14 +11,11 @@ import {
     ArticleSearchType,
     CategorySearchType,
     CountType,
-    DiySearchType,
     ProductSearchType,
     articleCountParams,
     articleFetchParams,
     categoryCountParams,
     categoryFetchParams,
-    diyCountParams,
-    diyFetchParams,
     productCountParams,
     productFetchParams,
 } from "./search/fetchParams";
@@ -36,9 +31,6 @@ export default async function Search() {
     const articleList: ArticleSearchType[] = await ArticleFindManyServer(articleFetchParams());
     const articleCount: CountType = await ArticleCountServer(articleCountParams());
 
-    const diyList: DiySearchType[] = await DiyFindManyServer(diyFetchParams());
-    const diyCount: CountType = await DiyCountServer(diyCountParams());
-
     const initialResults = {
         productList,
         productCount,
@@ -46,8 +38,6 @@ export default async function Search() {
         categoryCount,
         articleList,
         articleCount,
-        diyList,
-        diyCount,
     };
 
     return <SearchPortal initialResults={initialResults} />;

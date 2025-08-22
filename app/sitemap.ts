@@ -26,12 +26,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         // TODO: Get only the top 100 articles
     });
 
-    const diyIdList = await PrismaInstance.diy.findMany({
-        select: { id: true, updatedAt: true },
-        take: 100,
-        // TODO: Get only the top 100 DIYs
-    });
-
     return [
         // Home page
         {
@@ -72,20 +66,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         ...articleIdList.map((article) => ({
             url: `${baseUrl}/article/${article.id}`,
             lastModified: new Date(article.updatedAt),
-            changeFrequency: "monthly" as const,
-            priority: 0.5,
-        })),
-        // DIY list page
-        {
-            url: `${baseUrl}/diy`,
-            lastModified: new Date(),
-            changeFrequency: "weekly",
-            priority: 0.5,
-        },
-        // Individual DIY pages
-        ...diyIdList.map((diy) => ({
-            url: `${baseUrl}/diy/${diy.id}`,
-            lastModified: new Date(diy.updatedAt),
             changeFrequency: "monthly" as const,
             priority: 0.5,
         })),

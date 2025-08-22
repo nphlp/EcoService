@@ -1,10 +1,9 @@
 import { ArticleFindManyProps, ArticleFindManyResponse } from "@services/types/ArticleType";
-import { DiyFindManyProps, DiyFindManyResponse } from "@services/types/DiyType";
 import { ProductFindManyProps, ProductFindManyResponse } from "@services/types/ProductType";
 
-// Article or diy fetch params
+// Article fetch params
 
-export const ArticleOrDiyFetchParams = {
+export const ArticleFetchParams = {
     select: {
         title: true,
         slug: true,
@@ -19,14 +18,9 @@ export const ArticleOrDiyFetchParams = {
     orderBy: {
         createdAt: "desc" as const,
     },
-} satisfies ArticleFindManyProps | DiyFindManyProps;
+} satisfies ArticleFindManyProps;
 
-export const ArticleFetchParams = ArticleOrDiyFetchParams satisfies ArticleFindManyProps;
-export const DiyFetchParams = ArticleOrDiyFetchParams satisfies DiyFindManyProps;
-
-export type ArticleOrDiyListType =
-    | ArticleFindManyResponse<typeof ArticleOrDiyFetchParams>
-    | DiyFindManyResponse<typeof ArticleOrDiyFetchParams>;
+export type ArticleListType = ArticleFindManyResponse<typeof ArticleFetchParams>;
 
 // Product list fetch params
 

@@ -4,7 +4,6 @@ export { AccountCountServer, AccountFindFirstServer, AccountFindManyServer, Acco
 export { VerificationCountServer, VerificationFindFirstServer, VerificationFindManyServer, VerificationFindUniqueServer } from './VerificationServer';
 export { AddressCountServer, AddressFindFirstServer, AddressFindManyServer, AddressFindUniqueServer } from './AddressServer';
 export { ArticleCountServer, ArticleFindFirstServer, ArticleFindManyServer, ArticleFindUniqueServer } from './ArticleServer';
-export { DiyCountServer, DiyFindFirstServer, DiyFindManyServer, DiyFindUniqueServer } from './DiyServer';
 export { ContentCountServer, ContentFindFirstServer, ContentFindManyServer, ContentFindUniqueServer } from './ContentServer';
 export { CategoryCountServer, CategoryFindFirstServer, CategoryFindManyServer, CategoryFindUniqueServer } from './CategoryServer';
 export { ProductCountServer, ProductFindFirstServer, ProductFindManyServer, ProductFindUniqueServer } from './ProductServer';

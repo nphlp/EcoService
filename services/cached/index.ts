@@ -4,7 +4,6 @@ export { AccountCountCached, AccountFindFirstCached, AccountFindManyCached, Acco
 export { VerificationCountCached, VerificationFindFirstCached, VerificationFindManyCached, VerificationFindUniqueCached } from './VerificationCached';
 export { AddressCountCached, AddressFindFirstCached, AddressFindManyCached, AddressFindUniqueCached } from './AddressCached';
 export { ArticleCountCached, ArticleFindFirstCached, ArticleFindManyCached, ArticleFindUniqueCached } from './ArticleCached';
-export { DiyCountCached, DiyFindFirstCached, DiyFindManyCached, DiyFindUniqueCached } from './DiyCached';
 export { ContentCountCached, ContentFindFirstCached, ContentFindManyCached, ContentFindUniqueCached } from './ContentCached';
 export { CategoryCountCached, CategoryFindFirstCached, CategoryFindManyCached, CategoryFindUniqueCached } from './CategoryCached';
 export { ProductCountCached, ProductFindFirstCached, ProductFindManyCached, ProductFindUniqueCached } from './ProductCached';

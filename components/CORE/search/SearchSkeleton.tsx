@@ -6,13 +6,12 @@ export default function SearchSkeleton() {
             <ItemSkeletonList type="product" />
             <ItemSkeletonList type="category" />
             <ItemSkeletonList type="article" />
-            <ItemSkeletonList type="diy" />
         </>
     );
 }
 
 type SkeletonType = {
-    type: "product" | "category" | "article" | "diy";
+    type: "product" | "category" | "article";
 };
 
 export const ItemSkeletonList = (props: SkeletonType) => {
@@ -40,7 +39,7 @@ const ItemSkeleton = (props: SkeletonType) => {
     const { type } = props;
 
     const isNotCategory = type !== "category";
-    const isArticleOrDiy = type === "article" || type === "diy";
+    const isArticle = type === "article";
 
     return (
         <div className="flex flex-row items-center justify-center gap-3 rounded-md bg-gray-100 px-4 py-1.5">
@@ -50,7 +49,7 @@ const ItemSkeleton = (props: SkeletonType) => {
                     Lorem ipsum dolor sit amet...
                 </div>
                 <div className="animate-shimmer-second h-3 w-fit rounded text-transparent">Lorem ipsum dolor...</div>
-                {isArticleOrDiy ? (
+                {isArticle ? (
                     <div className="animate-shimmer-second h-3 w-fit rounded text-transparent">
                         Lorem ipsum dolor...
                     </div>

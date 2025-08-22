@@ -4,8 +4,6 @@ import {
     ArticleFindManyProps,
     CategoryCountProps,
     CategoryFindManyProps,
-    DiyCountProps,
-    DiyFindManyProps,
     ProductCountProps,
     ProductFindManyProps,
 } from "@services/types";
@@ -120,76 +118,15 @@ const articleCountParams = (search?: string) =>
         },
     }) satisfies ArticleCountProps;
 
-// ============== Diy ============== //
-
-type DiySearchType = Prisma.DiyGetPayload<ReturnType<typeof diyFetchParams>>;
-
-const diyFetchParams = (search?: string, take: number = 3) =>
-    ({
-        select: {
-            title: true,
-            slug: true,
-            Content: {
-                select: {
-                    image: true,
-                    content: true,
-                },
-            },
-        },
-        take,
-        where: {
-            OR: [
-                { title: { contains: search } },
-                { slug: { contains: search } },
-                {
-                    Content: {
-                        some: {
-                            content: { contains: search },
-                        },
-                    },
-                },
-                {
-                    Author: {
-                        name: { contains: search },
-                    },
-                },
-            ],
-        },
-    }) satisfies DiyFindManyProps;
-
-const diyCountParams = (search?: string) =>
-    ({
-        where: {
-            OR: [
-                { title: { contains: search } },
-                { slug: { contains: search } },
-                {
-                    Content: {
-                        some: {
-                            content: { contains: search },
-                        },
-                    },
-                },
-                {
-                    Author: {
-                        name: { contains: search },
-                    },
-                },
-            ],
-        },
-    }) satisfies DiyCountProps;
-
 // ============== Exports ============== //
 
-export type { ArticleSearchType, CategorySearchType, DiySearchType, ProductSearchType, CountType };
+export type { ArticleSearchType, CategorySearchType, ProductSearchType, CountType };
 
 export {
     articleCountParams,
     articleFetchParams,
     categoryCountParams,
     categoryFetchParams,
-    diyCountParams,
-    diyFetchParams,
     productCountParams,
     productFetchParams,
 };

@@ -4,7 +4,6 @@ export * from './AccountClass';
 export * from './VerificationClass';
 export * from './AddressClass';
 export * from './ArticleClass';
-export * from './DiyClass';
 export * from './ContentClass';
 export * from './CategoryClass';
 export * from './ProductClass';

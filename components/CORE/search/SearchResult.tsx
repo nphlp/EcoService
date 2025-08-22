@@ -2,11 +2,10 @@
 
 import { articleUrlSerializer } from "@app/article/queryParams";
 import { catalogUrlSerializer } from "@app/catalog/components/queryParams";
-import { diyUrlSerializer } from "@app/diy/queryParams";
 import Link from "next/link";
 import { useHeaderStore } from "../header/headerStore";
 import ItemList from "./SearchItem";
-import { ArticleSearchType, CategorySearchType, CountType, DiySearchType, ProductSearchType } from "./fetchParams";
+import { ArticleSearchType, CategorySearchType, CountType, ProductSearchType } from "./fetchParams";
 
 type ResultsListProps = {
     productList: ProductSearchType[];
@@ -18,26 +17,13 @@ type ResultsListProps = {
     articleList: ArticleSearchType[];
     articleCount: CountType;
 
-    diyList: DiySearchType[];
-    diyCount: CountType;
-
     search: string;
 };
 
 export default function ResultsList(props: ResultsListProps) {
-    const {
-        productList,
-        productCount,
-        categoryList,
-        categoryCount,
-        articleList,
-        articleCount,
-        diyList,
-        diyCount,
-        search,
-    } = props;
+    const { productList, productCount, categoryList, categoryCount, articleList, articleCount, search } = props;
 
-    if (productCount + categoryCount + articleCount + diyCount === 0) {
+    if (productCount + categoryCount + articleCount === 0) {
         return (
             <div className="flex items-center justify-center">
                 <div className="text-md py-5 text-gray-500">Aucun résultat trouvé pour votre recherche...</div>
@@ -65,7 +51,6 @@ export default function ResultsList(props: ResultsListProps) {
                 count={articleCount}
                 search={search}
             />
-            <Results title="DIY" items={{ type: "diy", data: diyList ?? [] }} count={diyCount} search={search} />
         </>
     );
 }
@@ -76,8 +61,7 @@ type ResultsProps = {
     items:
         | { type: "product"; data: ProductSearchType[] }
         | { type: "category"; data: CategorySearchType[] }
-        | { type: "article"; data: ArticleSearchType[] }
-        | { type: "diy"; data: DiySearchType[] };
+        | { type: "article"; data: ArticleSearchType[] };
     search: string;
 };
 
@@ -94,8 +78,6 @@ const Results = (props: ResultsProps) => {
                 return catalogUrlSerializer("/catalog", { search });
             case "article":
                 return articleUrlSerializer("/article", { search });
-            case "diy":
-                return diyUrlSerializer("/diy", { search });
         }
     };
 

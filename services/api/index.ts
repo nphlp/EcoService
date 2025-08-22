@@ -4,7 +4,6 @@ export { AccountCountApi, AccountFindFirstApi, AccountFindManyApi, AccountFindUn
 export { VerificationCountApi, VerificationFindFirstApi, VerificationFindManyApi, VerificationFindUniqueApi } from './VerificationApi';
 export { AddressCountApi, AddressFindFirstApi, AddressFindManyApi, AddressFindUniqueApi } from './AddressApi';
 export { ArticleCountApi, ArticleFindFirstApi, ArticleFindManyApi, ArticleFindUniqueApi } from './ArticleApi';
-export { DiyCountApi, DiyFindFirstApi, DiyFindManyApi, DiyFindUniqueApi } from './DiyApi';
 export { ContentCountApi, ContentFindFirstApi, ContentFindManyApi, ContentFindUniqueApi } from './ContentApi';
 export { CategoryCountApi, CategoryFindFirstApi, CategoryFindManyApi, CategoryFindUniqueApi } from './CategoryApi';
 export { ProductCountApi, ProductFindFirstApi, ProductFindManyApi, ProductFindUniqueApi } from './ProductApi';

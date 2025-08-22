@@ -1,4 +1,4 @@
-import ArticleOrDiyCard from "@comps/PROJECT/cards/articleOrDiyCard";
+import ArticleCard from "@comps/PROJECT/cards/articleCard";
 import { ArticleFindManyServer } from "@services/server";
 import { Metadata } from "next";
 import Link from "next/link";
@@ -80,7 +80,7 @@ export default async function Page(props: PageProps) {
                         href={`/article/${article.slug}`}
                         className="transition-scale duration-300 hover:scale-101"
                     >
-                        <ArticleOrDiyCard articleOrDiy={article} />
+                        <ArticleCard article={article} />
                     </Link>
                 ))}
             </div>

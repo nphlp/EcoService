@@ -1,5 +1,5 @@
 import { combo } from "@lib/combo";
-import { ArticleFindManyServer, DiyFindManyServer, ProductFindManyServer } from "@services/server";
+import { ArticleFindManyServer, ProductFindManyServer } from "@services/server";
 import Link from "next/link";
 import Logo from "../UI/logo";
 
@@ -28,10 +28,6 @@ export default async function Footer(props: FooterProps) {
             slug: "/article",
         },
         {
-            name: "Do it yourself",
-            slug: "/do-it-yourself",
-        },
-        {
             name: "Authentication",
             slug: "/auth",
         },
@@ -47,16 +43,10 @@ export default async function Footer(props: FooterProps) {
         take: linksAmount,
     });
 
-    const topDiys = await DiyFindManyServer({
-        select: { title: true, slug: true },
-        take: linksAmount,
-    });
-
     const linksList = {
         topNavigation,
         topProducts,
         topArticles: topArticles.map(formatTitleToName),
-        topDiys: topDiys.map(formatTitleToName),
     };
 
     return (
@@ -123,7 +113,6 @@ type LinksList = {
     topNavigation: LinksItem[];
     topProducts: LinksItem[];
     topArticles: LinksItem[];
-    topDiys: LinksItem[];
 };
 
 type TopLinksListProps = {
@@ -134,14 +123,13 @@ type TopLinksListProps = {
 const TopLinksList = (props: TopLinksListProps) => {
     const { className, linksList } = props;
 
-    const { topNavigation, topProducts, topArticles, topDiys } = linksList;
+    const { topNavigation, topProducts, topArticles } = linksList;
 
     return (
         <div className={className}>
             <TopLinks title="Navigation" url="" items={topNavigation} />
             <TopLinks title="Produits" url="/product/" items={topProducts} />
             <TopLinks title="Articles" url="/article/" items={topArticles} />
-            <TopLinks title="DIYs" url="/diy/" items={topDiys} />
         </div>
     );
 };

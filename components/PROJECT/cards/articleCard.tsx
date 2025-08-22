@@ -1,14 +1,14 @@
 import Card, { CardProps } from "@comps/UI/card";
 import ImageRatio from "@comps/UI/imageRatio";
-import { ArticleOrDiyListType } from "../sliders/sliderFetchParams";
+import { ArticleListType } from "../sliders/sliderFetchParams";
 
-type ArticleOrDiyCardProps = {
-    articleOrDiy: ArticleOrDiyListType[number];
+type ArticleCardProps = {
+    article: ArticleListType[number];
 } & CardProps;
 
-export default function ArticleOrDiyCard(props: ArticleOrDiyCardProps) {
-    const { articleOrDiy, ...others } = props;
-    const { title, createdAt, Content } = articleOrDiy;
+export default function ArticleCard(props: ArticleCardProps) {
+    const { article, ...others } = props;
+    const { title, createdAt, Content } = article;
 
     return (
         <Card className="flex h-full flex-col overflow-hidden p-0" {...others}>

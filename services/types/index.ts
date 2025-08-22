@@ -4,7 +4,6 @@ export * from './AccountType';
 export * from './VerificationType';
 export * from './AddressType';
 export * from './ArticleType';
-export * from './DiyType';
 export * from './ContentType';
 export * from './CategoryType';
 export * from './ProductType';

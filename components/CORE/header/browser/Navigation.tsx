@@ -30,13 +30,6 @@ export default function Navigation() {
                 className={combo(path.includes("/article") && "font-bold")}
             />
             <Link
-                href="/diy"
-                label="DIYs"
-                variant="ghost"
-                noRing
-                className={combo(path.includes("/diy") && "font-bold")}
-            />
-            <Link
                 label="Exemples"
                 href="/examples"
                 variant="ghost"

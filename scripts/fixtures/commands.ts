@@ -1,6 +1,6 @@
 import { insertUsers } from "@fixtures/userData";
 import PrismaInstance from "@lib/prisma";
-import { insertArticles, insertCategories, insertDIYs, insertFruits, insertProducts } from "./index";
+import { insertArticles, insertCategories, insertFruits, insertProducts } from "./index";
 
 /**
  * Commandes pour la gestion des données de test (fixtures)
@@ -72,7 +72,6 @@ const checkExistingData = async () => {
  * 3. Catégories
  * 4. Produits (liés aux vendeurs et catégories)
  * 5. Articles et leur contenu
- * 6. DIY (Do It Yourself) et leur contenu
  *
  * @returns true si les données ont été chargées avec succès, false sinon
  */
@@ -96,7 +95,6 @@ export const fixtures = async () => {
         await insertCategories();
         await insertProducts();
         await insertArticles();
-        await insertDIYs();
         await insertFruits();
 
         // Show summary of created data
@@ -123,7 +121,6 @@ export const reset = async () => {
     try {
         // Supprimer d'abord les tables avec des clés étrangères
         await PrismaInstance.content.deleteMany({});
-        await PrismaInstance.diy.deleteMany({});
         await PrismaInstance.article.deleteMany({});
         await PrismaInstance.product.deleteMany({});
 

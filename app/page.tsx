@@ -1,11 +1,11 @@
 "use cache";
 
-import { ArticleOrDiySlider } from "@comps/PROJECT/sliders/articleOrDiySlider";
+import { ArticleSlider } from "@comps/PROJECT/sliders/articleSlider";
 import ProductSlider from "@comps/PROJECT/sliders/productSlider";
-import { ArticleOrDiyFetchParams, ProductFetchParams } from "@comps/PROJECT/sliders/sliderFetchParams";
+import { ArticleFetchParams, ProductFetchParams } from "@comps/PROJECT/sliders/sliderFetchParams";
 import ImageRatio from "@comps/UI/imageRatio";
 import { combo } from "@lib/combo";
-import { ArticleFindManyServer, DiyFindManyServer, ProductFindManyServer } from "@services/server";
+import { ArticleFindManyServer, ProductFindManyServer } from "@services/server";
 import { Metadata } from "next";
 import { unstable_cacheLife as cacheLife, unstable_cacheTag as cacheTag } from "next/cache";
 
@@ -28,8 +28,7 @@ export default async function Page() {
     const imageClass = "h-[100px] sm:h-[150px] md:h-[120px] lg:h-[160px] xl:h-[220px] rounded shadow-lg";
 
     // Data fetching
-    const articleList = await ArticleFindManyServer(ArticleOrDiyFetchParams);
-    const diyList = await DiyFindManyServer(ArticleOrDiyFetchParams);
+    const articleList = await ArticleFindManyServer(ArticleFetchParams);
     const productList = await ProductFindManyServer(ProductFetchParams);
 
     return (
@@ -90,8 +89,7 @@ export default async function Page() {
                 />
             </section>
             <ProductSlider productList={productList} title="Nos produits vedettes" />
-            <ArticleOrDiySlider articleOrDiy={diyList} link="/diy" title="Nos Do It Yourself" />
-            <ArticleOrDiySlider articleOrDiy={articleList} link="/article" title="Nos articles" />
+            <ArticleSlider articles={articleList} link="/article" title="Nos articles" />
         </div>
     );
 }

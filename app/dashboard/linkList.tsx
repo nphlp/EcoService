@@ -57,13 +57,6 @@ export default function LinkList() {
                 onClick={handleDisabledLink}
             />
             <Link
-                label="Créer un DIY"
-                variant="outline"
-                className={combo("text-sm", path === "/dashboard/create-diy" && "font-bold")}
-                href="/dashboard/create-diy"
-                onClick={handleDisabledLink}
-            />
-            <Link
                 label="Créer un vendeur"
                 variant="outline"
                 className={combo("text-sm", path === "/dashboard/create-vendor" && "font-bold")}
