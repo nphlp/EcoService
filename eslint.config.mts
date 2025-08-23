@@ -22,7 +22,7 @@ const eslintConfig = [
             "prettier.config.mts",
             "eslint.config.mts",
             "vitest.config.mts",
-            "postcss.config.mts",
+            "postcss.config.mjs",
             "prisma/client/**",
             "prisma/zod/**",
             "node_modules/**",
