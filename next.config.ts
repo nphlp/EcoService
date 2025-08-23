@@ -4,8 +4,8 @@ import type { NextConfig } from "next";
 // const isProduction = process.env.NODE_ENV === "production";
 
 const nextConfig: NextConfig = {
-    // Docker production optimization
-    // output: isDocker && isProduction ? "standalone" : undefined,
+    // Docker production optimization with environment variable control
+    output: process.env.NEXTJS_STANDALONE === "true" ? "standalone" : undefined,
 
     // Redis cache handler
     // cacheHandler: require.resolve("./cache-handler.cjs"),

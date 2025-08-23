@@ -22,7 +22,7 @@
         "test:server:dev": "tsx scripts/run-test-on-bg-server.ts",
         "test:server:prod": "tsx scripts/run-test-on-bg-server.ts --prod",
         "auto": "pnpm install && pnpm db:reload && pnpm prisma:generate && pnpm prisma:deploy && pnpm fixtures:reload && pnpm run dev",
-        "auto:hybrid": "dotenv -e .env.hybrid -- sh -c 'pnpm install && pnpm db:reload --docker && pnpm prisma:generate && pnpm prisma:deploy && pnpm fixtures:reload && pnpm run dev'",
+        "auto:hybrid": "dotenv -e docker/.env.override.hybrid -- sh -c 'pnpm install && pnpm db:reload --docker && pnpm prisma:generate && pnpm prisma:deploy && pnpm fixtures:reload && pnpm run dev'",
         "db:setup": "tsx scripts/db.ts setup",
         "db:reset": "tsx scripts/db.ts reset",
         "db:reload": "tsx scripts/db.ts reload",

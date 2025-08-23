@@ -6,39 +6,6 @@ Complete auth and user management
 
 - Build : The Next.js plugin was not detected in your ESLint configuration. See https://nextjs.org/docs/app/api-reference/config/eslint#migrating-existing-config
 
-## AI
-
-- Ajouter le MCP `Context7`
-- Ajouter le MCP `Linear`
-- Ajouter le MCP `Github`
-
-### Workflow automatique
-
-- Je créer des Issue `Linear`
-
-- J'utilise Conductor pour mettre un agent IA dans un worktree
-    1. **Prise d'information**
-        - Lire une Issue `Linear`
-        - Créer la branche avec le nom fournit par `Linear`
-
-    2. **Boucle de code**
-        - Coder la feature
-        - Lancer les checks : `pnpm run lint`, `pnpm run type` et `pnpm run format`
-        - Corriger les erreurs et recommencer
-
-    3. **Validation et envoie**
-        - Git add, commit et push
-        - Faire la PR sur `Github`
-
-- Je relis la PR et merge les modifs
-
-### Workflow manuel
-
-En cas de problèmes complexes
-
-- Créer un script "/add-debug-logs
-- Créer un script "/rm-debug-logs
-
 ## CURRENT
 
 - [x] Fusionner les composants combobox
@@ -147,6 +114,7 @@ En cas de problèmes complexes
 - Theme and dark mode
 - View Transition
 - Internationalization
+- Redis Cache
 - Progressive Web App (PWA)
 - React Native (Expo)
 - Desktop (Tauri)

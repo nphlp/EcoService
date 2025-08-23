@@ -8,6 +8,8 @@
             "Bash(pnpm run test:server:dev)",
             "Bash(pnpm run test:server:prod)",
 
+            "Bash(make:*)",
+
             "Bash(rm:*)",
             "Bash(sed:*)",
             "Bash(mkdir:*)",

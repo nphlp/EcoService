@@ -1,0 +1,49 @@
+services:
+    mysql:
+        command:
+            [
+                "mysqld",
+                "--ssl-ca=/etc/mysql/certs/ca.pem",
+                "--ssl-cert=/etc/mysql/certs/server-cert.pem",
+                "--ssl-key=/etc/mysql/certs/server-key.pem",
+            ]
+        volumes:
+            # SSL server certs (read-only)
+            - ./docker/certs:/etc/mysql/certs:ro
+        healthcheck:
+            test:
+                [
+                    "CMD",
+                    "mysqladmin",
+                    "ping",
+                    "-h",
+                    "localhost",
+                    "-u",
+                    "root",
+                    "-p${MYSQL_ROOT_PASSWORD}",
+                    "--ssl-ca=/etc/mysql/certs/ca.pem",
+                ]
+            interval: 2s
+            timeout: 1s
+            retries: 30
+            start_period: 10s
+
+    nextjs:
+        build:
+            context: ./
+            dockerfile: docker/Dockerfile
+            target: dev
+        ports:
+            - "3000:3000"
+        volumes:
+            # Hot reloading
+            # - .:/app
+            - /app/node_modules
+            # SSL client certs (read-only)
+            - ./docker/certs:/app/docker/certs:ro
+        depends_on:
+            mysql:
+                condition: service_healthy
+        restart: unless-stopped
+        networks:
+            - app-network

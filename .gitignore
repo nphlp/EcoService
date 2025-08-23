@@ -12,9 +12,6 @@
 
 # env files
 .env
-.env.hybrid
-.env.dev
-.env.prod
 
 # vercel
 .vercel

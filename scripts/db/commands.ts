@@ -65,14 +65,8 @@ export async function reloadDb(isDocker: boolean = false, isSSL: boolean = false
             console.log("❌ Mot de passe MySQL incorrect");
             return;
         } else if (typeof dbExistsResult === "string") {
-            if (dbExistsResult.includes("TLS/SSL")) {
-                console.log(
-                    "❌ It's looks like you're in a Docker container...",
-                    "\n   Try adding the --docker and --ssl flags to use SSL :",
-                    `\n   ➡️  \x1b[1mpnpm run db:${process.argv[2]} --docker --ssl\x1b[0m`,
-                );
-                console.log("");
-                return;
+            if (dbExistsResult.includes("TLS/SSL") || dbExistsResult.includes("SSL connection error")) {
+                console.log("❌ Erreur de connexion SSL à MySQL");
             } else if (dbExistsResult.startsWith("ERROR:")) {
                 console.log(`❌ ${dbExistsResult}`);
                 return;

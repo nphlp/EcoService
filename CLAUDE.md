@@ -6,9 +6,16 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ### Auto Setup
 
-- `pnpm auto` - Sable. Complete setup: install deps, reload DB, generate Prisma, deploy migrations, load fixtures, start dev server
-- `pnpm auto:hybrid` - Not stable yet. Next.js server in the terminal, other services in Docker: excellent for compiling performances
-- `pnpm auto:docker` - Not available yet. All services in Docker: useful for production-like environment, but bad for compiling performances
+- `pnpm auto` - Complete native setup: install deps, reload DB, generate Prisma, deploy migrations, load fixtures, start dev server
+- `pnpm auto:hybrid` - Hybrid setup: setup for Next.js locally with MySQL in Docker (use with `make hybrid`)
+
+### Docker Commands
+
+- `make hybrid` - MySQL in Docker (port 3307) + Next.js locally (use with `pnpm auto:hybrid`)
+- `make dev` - Full Docker development environment (MySQL + Next.js in Docker)
+- `make prod` - Full Docker production environment (MySQL + Next.js in Docker)
+- `make stop` - Stop all Docker containers
+- `make clean` - Remove all containers and volumes
 
 ### Core Development
 
@@ -132,10 +139,10 @@ Required environment variables for development:
 
 ### Development Environment Options
 
-- **Local**: Node.js + MySQL locally (best performance, requires MySQL install)
-- **Hybrid**: Node.js locally + MySQL in Docker (`pnpm auto:hybrid`)
-- **Docker Dev**: Full containerization (slower compilation)
-- **Docker Prod**: Production containerization
+- **Native**: Node.js + MySQL locally (best performance, requires MySQL install) - Use `pnpm auto`
+- **Hybrid**: Node.js locally + MySQL in Docker (good performance) - Use `make hybrid` + `pnpm auto:hybrid`
+- **Dev**: Full Docker development (slower compilation) - Use `make dev`
+- **Prod**: Full Docker production (production-like) - Use `make prod`
 
 ### Code Quality & Conventions
 

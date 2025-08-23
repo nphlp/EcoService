@@ -1,0 +1,67 @@
+# Docker Compose Production Override
+# Usage: docker compose -f compose.yml -f compose.prod.yml up -d
+
+services:
+    mysql:
+        command:
+            [
+                "mysqld",
+                "--ssl-ca=/etc/mysql/certs/ca.pem",
+                "--ssl-cert=/etc/mysql/certs/server-cert.pem",
+                "--ssl-key=/etc/mysql/certs/server-key.pem",
+            ]
+        volumes:
+            # SSL server certs (read-only)
+            - ../certs:/etc/mysql/certs:ro
+        healthcheck:
+            test:
+                [
+                    "CMD",
+                    "mysqladmin",
+                    "ping",
+                    "-h",
+                    "localhost",
+                    "-u",
+                    "root",
+                    "-p${MYSQL_ROOT_PASSWORD}",
+                    "--ssl-ca=/etc/mysql/certs/ca.pem",
+                ]
+            interval: 2s
+            timeout: 1s
+            retries: 30
+            start_period: 10s
+
+    nextjs:
+        build:
+            context: ../
+            dockerfile: docker/Dockerfile
+            target: runner
+            args:
+                - NEXTJS_STANDALONE=true
+        image: eco-service:latest
+        container_name: nextjs
+        ports:
+            - "3000:3000"
+        env_file:
+            - path: .env
+              required: true
+            - path: .env.prod
+              required: false
+        environment:
+            - NODE_ENV=production
+            - NEXTJS_STANDALONE=true
+        volumes:
+            # SSL client certs (read-only)
+            - ./docker/certs:/app/docker/certs:ro
+        depends_on:
+            mysql:
+                condition: service_healthy
+        restart: unless-stopped
+        networks:
+            - app-network
+
+volumes:
+    mysql-data:
+
+networks:
+    app-network:
