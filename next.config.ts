@@ -10,6 +10,9 @@ const nextConfig: NextConfig = {
     // Redis cache handler
     // cacheHandler: require.resolve("./cache-handler.cjs"),
 
+    // Fix workspace root warning
+    outputFileTracingRoot: __dirname,
+
     images: {
         remotePatterns: [
             {

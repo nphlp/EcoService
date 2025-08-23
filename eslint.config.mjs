@@ -13,6 +13,18 @@ const compat = new FlatCompat({
 });
 
 const eslintConfig = [
+    {
+        ignores: [
+            ".conductor/**",
+            ".next/**",
+            ".github/**",
+            "prettier.config.mjs",
+            "eslint.config.mjs",
+            "prisma/client/**",
+            "prisma/zod/**",
+            "node_modules/**",
+        ],
+    },
     ...compat.extends("next/core-web-vitals", "next/typescript"),
     {
         languageOptions: {

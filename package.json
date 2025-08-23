@@ -15,6 +15,7 @@
         "format:fix": "pnpm exec prettier . --write --ignore-path .prettierignore",
         "format:file": "prettier --write --ignore-path .prettierignore",
         "type": "tsc --noEmit",
+        "checks": "pnpm run type && pnpm run lint && pnpm run format",
         "prepare": "husky || true",
         "test:watch": "vitest",
         "test:run": "vitest run",
