@@ -4,6 +4,7 @@
 
 # next.js
 .next/
+.next-test/
 
 # misc
 .DS_Store

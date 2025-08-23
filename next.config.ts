@@ -10,8 +10,12 @@ const nextConfig: NextConfig = {
     // Redis cache handler
     // cacheHandler: require.resolve("./cache-handler.cjs"),
 
-    // Fix workspace root warning
+    // Fix workspace eslint root warning
     outputFileTracingRoot: __dirname,
+
+    // Classic server compile in .next
+    // Test server compile in .next-test
+    distDir: process.env.NEXT_TEST_MODE ? ".next-test" : ".next",
 
     images: {
         remotePatterns: [
@@ -27,7 +31,7 @@ const nextConfig: NextConfig = {
         viewTransition: true, // enable view transition API
         authInterrupts: true, // enable unauthorized()
         useCache: true, // enable useCache, cacheLife and cacheTag
-        turbopackPersistentCaching: true, // enable turbopack persistent caching
+        // turbopackPersistentCaching: true, // enable turbopack persistent caching
         // typedRoutes: true, // enable typed routes for links
         // typedEnv: true, // enable typed environment variables
     },

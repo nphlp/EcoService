@@ -17,12 +17,16 @@ const eslintConfig = [
         ignores: [
             ".conductor/**",
             ".next/**",
+            ".next-test/**",
             ".github/**",
-            "prettier.config.mjs",
-            "eslint.config.mjs",
+            "prettier.config.mts",
+            "eslint.config.mts",
+            "vitest.config.mts",
+            "postcss.config.mts",
             "prisma/client/**",
             "prisma/zod/**",
             "node_modules/**",
+            "next-env.d.ts"
         ],
     },
     ...compat.extends("next/core-web-vitals", "next/typescript"),

@@ -1,9 +1,12 @@
 {
     "permissions": {
         "allow": [
-            "Bash(pnpm run type:*)",
+            "Bash(pnpm run type)",
             "Bash(pnpm run lint:*)",
             "Bash(pnpm run format:*)",
+            "Bash(pnpm run checks)",
+            "Bash(pnpm run test:server:dev)",
+            "Bash(pnpm run test:server:prod)",
 
             "Bash(rm:*)",
             "Bash(sed:*)",

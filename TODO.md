@@ -2,6 +2,10 @@
 
 Complete auth and user management
 
+## Erreur
+
+- Build : The Next.js plugin was not detected in your ESLint configuration. See https://nextjs.org/docs/app/api-reference/config/eslint#migrating-existing-config
+
 ## AI
 
 - Ajouter le MCP `Context7`

@@ -1,5 +1,6 @@
 .conductor/
 .next/
+.next-test/
 .github/
 templates/
 services/
