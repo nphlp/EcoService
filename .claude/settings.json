@@ -15,6 +15,17 @@
             "Bash(mkdir:*)",
             "Bash(find:*)",
             "Bash(grep:*)",
+            "Bash(xargs:*)",
+            "Bash(head:*)",
+            "Bash(tail:*)",
+            "Bash(sort:*)",
+            "Bash(uniq:*)",
+            "Bash(awk:*)",
+            "Bash(cut:*)",
+            "Bash(wc:*)",
+            "Bash(ls:*)",
+            "Bash(cat:*)",
+            "Bash(less:*)",
 
             "Bash(git status:*)",
             "Bash(git diff:*)",
@@ -23,6 +34,10 @@
             "Bash(git commit:*)",
             "Bash(git push:*)",
 
+            "Read",
+            "LS",
+            "Glob",
+            "Grep",
             "WebSearch",
             "WebFetch",
 

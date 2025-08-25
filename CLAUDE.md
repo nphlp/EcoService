@@ -191,7 +191,13 @@ Les serveurs MCP GitHub et Linear sont configurés et disponibles pour automatis
     6. Créer une PR sur GitHub (nécessite autorisation)
     7. Synchroniser les statuts entre Linear et GitHub
 
-### Memory
+### Tool Usage Policy
 
-- N'hesite pas à faire "pnpm run type" ou "pnpm run lint" pour voir les erreurs de typage provoqués par des modifications
-- Ne fais pas de "Fetch" pour aller sur internet car ça me demande une confirmation. Utilise ton tool "Web Search" car tu y es autorisé sans ma permission.
+- **ALWAYS prefer dedicated tools over bash commands** for file operations:
+    - Use `Read` instead of `cat` or `head`
+    - Use `LS` instead of `ls`
+    - Use `Grep` instead of `grep` or `rg`
+    - Use `Glob` instead of `find`
+- **Batch tool calls** when possible for better performance
+- **Use Task tool** for complex searches requiring multiple rounds
+- Dedicated tools are faster, consume fewer tokens, and don't require permissions

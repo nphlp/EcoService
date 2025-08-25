@@ -2,13 +2,13 @@ import { databaseExists, executeSqlFile } from "./utils";
 
 /**
  * Configure la base de données en exécutant le fichier setup.sql
- * Test si la DB existe et la crée que si nécessaire
+ * Vérifie d'abord l'existence de la DB et ne la crée que si nécessaire
  */
 export async function setupDb(isDocker: boolean = false, isSSL: boolean = false, password: string): Promise<void> {
     try {
         const sqlFileName = isDocker ? "setup-docker.sql" : "setup.sql";
 
-        // Vérifier si la base de données existe déjà
+        // Vérifier l'existence de la base de données
         const dbExistsResult = await databaseExists(password, "eco-service-db", isSSL);
 
         if (dbExistsResult === true) {
@@ -28,13 +28,13 @@ export async function setupDb(isDocker: boolean = false, isSSL: boolean = false,
 
 /**
  * Réinitialise la base de données en exécutant le fichier reset.sql
- * Vérifie si la DB existe et la supprime si nécessaire
+ * Supprime la base existante (aucune action si elle n'existe pas)
  */
 export async function resetDb(isDocker: boolean = false, isSSL: boolean = false, password: string): Promise<void> {
     try {
         const sqlFileName = isDocker ? "reset-docker.sql" : "reset.sql";
 
-        // Vérifier si la base de données existe
+        // Vérifier l'existence de la base de données
         const dbExistsResult = await databaseExists(password, "eco-service-db", isSSL);
 
         if (dbExistsResult !== true) {
@@ -53,51 +53,51 @@ export async function resetDb(isDocker: boolean = false, isSSL: boolean = false,
 }
 
 /**
- * Recharge la base de données en exécutant reset.sql puis setup.sql
- * Reset si besoin puis crée la DB
+ * Recharge complètement la base de données
+ * Exécute reset.sql (si la DB existe) puis setup.sql dans tous les cas
  */
 export async function reloadDb(isDocker: boolean = false, isSSL: boolean = false, password: string): Promise<void> {
     try {
-        // Vérifier si la base de données existe
+        // Vérifier l'existence et l'accessibilité de la base de données
         const dbExistsResult = await databaseExists(password, "eco-service-db", isSSL);
 
+        // Gestion des erreurs d'accès
         if (dbExistsResult === "ACCESS_DENIED") {
             console.log("❌ Mot de passe MySQL incorrect");
             return;
-        } else if (typeof dbExistsResult === "string") {
+        }
+
+        if (typeof dbExistsResult === "string") {
             if (dbExistsResult.includes("TLS/SSL") || dbExistsResult.includes("SSL connection error")) {
                 console.log("❌ Erreur de connexion SSL à MySQL");
-            } else if (dbExistsResult.startsWith("ERROR:")) {
+                return;
+            }
+            if (dbExistsResult.startsWith("ERROR:")) {
                 console.log(`❌ ${dbExistsResult}`);
                 return;
             }
         }
 
-        // Si la base n'existe pas, exécuter uniquement setup.sql
-        if (dbExistsResult === false) {
-            console.log("ℹ️ Base de données inexistante, création directe sans reset");
-            const setupFile = isDocker ? "setup-docker.sql" : "setup.sql";
-            const success = await executeSqlFile(setupFile, password, isSSL);
-            if (success) {
-                console.log(`✅ ${setupFile}`);
-            }
-            return;
-        }
-
-        // Si la base existe, exécuter reset.sql puis setup.sql
-        const resetFile = isDocker ? "reset-docker.sql" : "reset.sql";
-        const resetSuccess = await executeSqlFile(resetFile, password, isSSL);
-
-        if (!resetSuccess) {
-            console.log("❌ Échec de la réinitialisation de la base de données");
-            return;
-        }
-
-        console.log(`✅ ${resetFile}`);
-
+        // Sélectionner les fichiers SQL selon l'environnement (Docker ou natif)
         const setupFile = isDocker ? "setup-docker.sql" : "setup.sql";
-        const setupSuccess = await executeSqlFile(setupFile, password, isSSL);
+        const resetFile = isDocker ? "reset-docker.sql" : "reset.sql";
 
+        // Réinitialiser uniquement si la base de données existe
+        if (dbExistsResult === true) {
+            const resetSuccess = await executeSqlFile(resetFile, password, isSSL);
+            if (!resetSuccess) {
+                console.log("❌ Échec de la réinitialisation de la base de données");
+                return;
+            }
+            console.log(`✅ ${resetFile}`);
+        }
+
+        if (dbExistsResult === false) {
+            console.log("ℹ️  Base de données inexistante, création directe");
+        }
+
+        // Créer/configurer la base de données (toujours exécuté)
+        const setupSuccess = await executeSqlFile(setupFile, password, isSSL);
         if (setupSuccess) {
             console.log(`✅ ${setupFile}`);
             console.log("✅ Base de données rechargée");
@@ -108,11 +108,13 @@ export async function reloadDb(isDocker: boolean = false, isSSL: boolean = false
 }
 
 /**
- * Exécute un fichier SQL personnalisé
- * Teste si la DB existe et exécute le script
+ * Exécute un fichier SQL personnalisé sur la base de données existante
+ * Vérifie d'abord que la base existe avant d'exécuter le script
+ *
  * @param sqlFilePath Le nom du fichier SQL ou le chemin relatif à prisma/sql
- * @param isDocker Indique si on est en mode Docker
- * @param password Le mot de passe MySQL
+ * @param isDocker Mode Docker (ajoute le suffixe -docker.sql si nécessaire)
+ * @param isSSL Active la connexion SSL
+ * @param password Le mot de passe MySQL root
  */
 export async function customSqlFile(
     sqlFilePath: string,
@@ -121,7 +123,7 @@ export async function customSqlFile(
     password: string,
 ): Promise<void> {
     try {
-        // Vérifier si la base de données existe
+        // S'assurer que la base de données est accessible
         const dbExistsResult = await databaseExists(password, "eco-service-db", isSSL);
 
         if (dbExistsResult !== true) {
@@ -129,16 +131,16 @@ export async function customSqlFile(
             return;
         }
 
-        // Si c'est un chemin avec des dossiers (contient '/')
+        // Chemin complet fourni (avec sous-dossiers)
         if (sqlFilePath.includes("/")) {
-            // Utiliser le chemin tel quel (toujours relatif à prisma/sql)
+            // Utiliser le chemin exact (relatif à prisma/sql)
             const success = await executeSqlFile(sqlFilePath, password, isSSL);
 
             if (success) {
                 console.log(`✅ ${sqlFilePath}`);
             }
         } else {
-            // C'est juste un nom de fichier, appliquer la logique Docker si nécessaire
+            // Nom de fichier simple, appliquer le suffixe Docker si nécessaire
             const sqlFileName = isDocker ? sqlFilePath.replace(".sql", "-docker.sql") : sqlFilePath;
             const success = await executeSqlFile(sqlFileName, password, isSSL);
 
