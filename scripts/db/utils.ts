@@ -59,7 +59,8 @@ export async function databaseExists(
     dbName: string,
     isSSL: boolean = false,
 ): Promise<boolean | string> {
-    const host = process.env.MYSQL_HOST ?? "localhost";
+    const host = process.env.MYSQL_HOST;
+    if (!host) throw new Error("MYSQL_HOST environment variable is not defined");
 
     // Configuration de base de la connexion MySQL
     const args = ["-u", "root", `-p${password}`, "-h", host];
@@ -119,7 +120,9 @@ export async function executeSqlFile(filename: string, password: string, isSSL: 
     const filePath = join(process.cwd(), "prisma", "sql", filename);
 
     try {
-        const host = process.env.MYSQL_HOST ?? "localhost";
+        const host = process.env.MYSQL_HOST;
+        if (!host) throw new Error("MYSQL_HOST environment variable is not defined");
+
         const fileContent = readFileSync(filePath, "utf-8");
 
         // Configuration de base de la connexion MySQL

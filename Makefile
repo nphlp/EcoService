@@ -48,18 +48,19 @@ dev:
 	@ $(DC) -f docker/compose.dev.yml up -d --build
 	@echo ""
 	@echo "🔥 DEV MODE"
+	@echo "⚠️ Warning: Compilation performances are slow in docker environments. Prefer using HYBRID MODE."
 	@echo "✅ Nextjs and MySQL containers are running"
 	@echo "✏️ MySQL container is exposed on internal network (3306)"
 	@echo "📝 Access Next.js at http://localhost:3000"
 
 hybrid:
-	@ $(DC) up -d --build
+	@ $(DC) -f docker/compose.hybrid.yml up -d --build
 	@echo ""
 	@echo "🔥 HYBRID MODE"
 	@echo "✅ Only MySQL container is running"
 	@echo "✏️ MySQL container is exposed on local network (3307)"
 	@echo ""
-	@echo "➡️ Now, run 'pnpm auto:hybrid' to start Next.js locally with overridden .env file"
+	@echo "➡️ Now, run 'pnpm hybrid' to start Next.js locally with overridden .env file"
 	@echo "📝 Access Next.js at http://localhost:3000"
 
 prod:
