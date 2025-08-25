@@ -1,6 +1,3 @@
-# Docker Compose Production Override
-# Usage: docker compose -f compose.yml -f compose.prod.yml up -d
-
 services:
     mysql:
         command:
@@ -12,7 +9,7 @@ services:
             ]
         volumes:
             # SSL server certs (read-only)
-            - ../certs:/etc/mysql/certs:ro
+            - ./docker/certs:/etc/mysql/certs:ro
         healthcheck:
             test:
                 [
@@ -33,23 +30,11 @@ services:
 
     nextjs:
         build:
-            context: ../
+            context: ./
             dockerfile: docker/Dockerfile
             target: runner
-            args:
-                - NEXTJS_STANDALONE=true
-        image: eco-service:latest
-        container_name: nextjs
         ports:
             - "3000:3000"
-        env_file:
-            - path: .env
-              required: true
-            - path: .env.prod
-              required: false
-        environment:
-            - NODE_ENV=production
-            - NEXTJS_STANDALONE=true
         volumes:
             # SSL client certs (read-only)
             - ./docker/certs:/app/docker/certs:ro
@@ -59,9 +44,3 @@ services:
         restart: unless-stopped
         networks:
             - app-network
-
-volumes:
-    mysql-data:
-
-networks:
-    app-network:

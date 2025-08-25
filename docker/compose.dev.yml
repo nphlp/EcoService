@@ -36,9 +36,12 @@ services:
         ports:
             - "3000:3000"
         volumes:
-            # Hot reloading
-            # - .:/app
+            # Hot reloading (read-write)
+            - .:/app:rw
+            # Exclude generated files (no sync)
             - /app/node_modules
+            - /app/prisma/client
+            - /app/prisma/zod
             # SSL client certs (read-only)
             - ./docker/certs:/app/docker/certs:ro
         depends_on:
