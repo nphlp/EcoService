@@ -27,6 +27,8 @@
             "Bash(ls:*)",
             "Bash(cat:*)",
             "Bash(less:*)",
+            "Bash(curl:*)",
+            "Bash(wait:*)",
 
             "Bash(git status:*)",
             "Bash(git diff:*)",

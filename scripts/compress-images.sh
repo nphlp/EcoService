@@ -3,7 +3,7 @@
 # === CONFIGURATION ===
 TARGET_DIR="./public/illustration"
 IMG_EXTENSIONS=("jpg" "jpeg" "png")
-QUALITY=60
+QUALITY=50
 
 # === VARIABLES INTERNES ===
 IMG_LIST=".image_list.txt"
