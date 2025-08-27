@@ -78,7 +78,7 @@ export default function AddFruitClient() {
     return (
         <div className="flex flex-col gap-4 lg:flex-row">
             <Card className="h-fit w-[400px] overflow-hidden p-0">
-                <ImageRatio src={image ? URL.createObjectURL(image) : null} alt="Preview" />
+                <ImageRatio src={image ? URL.createObjectURL(image) : null} alt="Preview" mode="onPageLoad" />
                 <div className="space-y-2 p-7">
                     <div className="text-xl font-bold">{name !== "" ? name : "Fruit Preview"}</div>
                     <div className="line-clamp-3 text-sm text-wrap">

@@ -136,6 +136,7 @@ export default async function Page(props: PageProps) {
                             src={content.image}
                             alt={`Illustration pour ${diy.title}`}
                             className="w-2/3 rounded-lg shadow-md md:w-1/3"
+                            mode="preloaded"
                         />
                     </div>
                 ))}

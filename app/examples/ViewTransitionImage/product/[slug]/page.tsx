@@ -20,7 +20,7 @@ export default async function Page(props: PageProps) {
     return (
         <div className="flex w-full flex-1 flex-col items-center justify-center gap-4">
             <ViewTransition name={`product-${slug}`}>
-                <ImageRatio src={product.image} alt={product.name} className="w-1/2 rounded-xl" />
+                <ImageRatio src={product.image} alt={product.name} className="w-1/2 rounded-xl" mode="preloaded" />
             </ViewTransition>
             <Link label="Retour" href="/examples/ViewTransitionImage" />
         </div>

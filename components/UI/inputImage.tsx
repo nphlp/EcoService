@@ -144,6 +144,7 @@ export default function InputFile(props: InputFileProps) {
                             src={URL.createObjectURL(imagePreview)}
                             alt="Preview"
                             className="w-full rounded-xl"
+                            mode="onPageLoad"
                         />
                         <Button
                             label="Retirer l'image"

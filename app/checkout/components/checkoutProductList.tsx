@@ -35,7 +35,7 @@ const CheckoutProductItem = (props: CheckoutProductProps) => {
                 index % 2 === 0 && "bg-gray-50",
             )}
         >
-            <ImageRatio src={product.image} alt={product.name} className="w-1/3 rounded-lg" priority />
+            <ImageRatio src={product.image} alt={product.name} className="w-1/3 rounded-lg" mode="preloaded" />
             <div className="flex w-2/3 flex-col items-end gap-2 py-2 pr-4">
                 <div className="text-right">
                     <div className="text-2xl font-semibold">{product.name}</div>

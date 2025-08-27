@@ -91,7 +91,13 @@ export default async function Page(props: PageProps) {
             </Link>
 
             <div className="flex items-start justify-start gap-8">
-                <ImageRatio src={image} alt={name} className="hidden h-[420px] shrink-0 grow-0 rounded-lg lg:block" />
+                {/* Image for large screen */}
+                <ImageRatio
+                    src={image}
+                    alt={name}
+                    className="hidden h-[420px] shrink-0 grow-0 rounded-lg lg:block"
+                    mode="preloaded"
+                />
 
                 <div className="w-full space-y-6">
                     <div>
@@ -104,7 +110,8 @@ export default async function Page(props: PageProps) {
                         <p className="text-gray-600">{description}</p>
                     </div>
 
-                    <ImageRatio src={image} alt={name} className="rounded-lg lg:hidden" />
+                    {/* Image for small screen */}
+                    <ImageRatio src={image} alt={name} className="rounded-lg lg:hidden" mode="preloaded" />
 
                     <div className="w-full space-y-4">
                         <div className="flex items-end justify-between">

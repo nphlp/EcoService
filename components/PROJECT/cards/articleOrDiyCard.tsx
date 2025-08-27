@@ -12,7 +12,7 @@ export default function ArticleOrDiyCard(props: ArticleOrDiyCardProps) {
 
     return (
         <Card className="flex h-full flex-col overflow-hidden p-0" {...others}>
-            <ImageRatio src={Content[0].image} alt={title} />
+            <ImageRatio src={Content[0].image} alt={title} mode="whenIsVisible" />
             <div className="space-y-2 p-4">
                 <h2 className="line-clamp-1 text-xl font-semibold">{title}</h2>
                 <p className="line-clamp-3 text-sm text-gray-600">{Content[0].content}</p>

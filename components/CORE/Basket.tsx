@@ -91,7 +91,7 @@ const BasketItem = (props: BasketItemProps) => {
 
     return (
         <div className="flex w-full flex-row gap-4">
-            <ImageRatio className="w-1/3 rounded" src={image} alt="Product" />
+            <ImageRatio className="w-1/3 rounded" src={image} alt="Product" mode="onPageLoad" />
             <div className="text-left">
                 <div className="text-lg font-bold">{name}</div>
                 <QuantityManager product={product} />
