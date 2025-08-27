@@ -50,16 +50,16 @@ export default async function Page() {
                 </div>
                 <div className="flex flex-row items-center justify-center gap-8">
                     <ImageRatio
-                        src="/illustration/produit 2.webp"
+                        src="/illustration/BRVqq2uak4E.webp"
                         alt="produit"
                         className={combo("max-md:hidden", imageClass)}
-                        priority
+                        mode="preloaded"
                     />
                     <ImageRatio
-                        src="/illustration/produit 3.webp"
+                        src="/illustration/cTmJbqysgV8.webp"
                         alt="produit"
                         className={combo("max-md:hidden", imageClass)}
-                        priority
+                        mode="preloaded"
                     />
                 </div>
             </section>
@@ -83,10 +83,10 @@ export default async function Page() {
                     </p>
                 </div>
                 <ImageRatio
-                    src="/illustration/produit 5.webp"
+                    src="/illustration/gtdSDl5IkKw.webp"
                     alt="produit"
                     className="rounded-lg shadow-md max-lg:w-full lg:h-80"
-                    priority
+                    mode="preloaded"
                 />
             </section>
             <ProductSlider productList={productList} title="Nos produits vedettes" />

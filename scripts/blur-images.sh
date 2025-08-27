@@ -2,9 +2,9 @@
 
 # === CONFIGURATION ===
 SOURCE_DIR="./public/illustration"
-BLUR_DIR="./public/illustration-blur"
-BLUR_QUALITY=5  # Qualité très basse pour des placeholders
-BLUR_SCALE=50   # Réduire à 50% de la taille originale
+PLACEHOLDER_DIR="./public/illustration-blur"
+QUALITY=5   # Compression très basse pour des placeholders
+SCALE=5    # Réduire à 5% de la taille originale
 
 # === VARIABLES INTERNES ===
 IMG_LIST=".blur_list.txt"
@@ -27,8 +27,8 @@ find_images() {
 # Créer le dossier de destination
 create_directory() {
     echo "📁 Création du dossier de destination..."
-    mkdir -p "$BLUR_DIR"
-    echo "✅ Dossier $BLUR_DIR créé"
+    mkdir -p "$PLACEHOLDER_DIR"
+    echo "✅ Dossier $PLACEHOLDER_DIR créé"
 }
 
 # Générer les images floues
@@ -48,17 +48,22 @@ generate_blur() {
     while IFS= read -r image_file; do
         if [ -f "$image_file" ]; then
             filename=$(basename "$image_file")
-            blur_file="$BLUR_DIR/$filename"
+            placeholder_file="$PLACEHOLDER_DIR/$filename"
             
             # Utiliser cwebp si disponible, sinon ImageMagick
             if command -v cwebp &> /dev/null; then
-                cwebp -q $BLUR_QUALITY -resize 0 $BLUR_SCALE "$image_file" -o "$blur_file" 2>/dev/null
+                # Pour cwebp, on calcule les dimensions à 50%
+                width=$(magick identify -format "%w" "$image_file")
+                height=$(magick identify -format "%h" "$image_file")
+                new_width=$((width * SCALE / 100))
+                new_height=$((height * SCALE / 100))
+                cwebp -q $QUALITY -resize $new_width $new_height "$image_file" -o "$placeholder_file" 2>/dev/null
             else
-                magick "$image_file" -resize ${BLUR_SCALE}% -blur 0x8 -quality $BLUR_QUALITY "$blur_file" 2>/dev/null
+                magick "$image_file" -resize ${SCALE}% -quality $QUALITY "$placeholder_file" 2>/dev/null
             fi
             
             if [ $? -eq 0 ]; then
-                echo "$image_file → $blur_file"
+                echo "$image_file → $placeholder_file"
                 ((processed++))
             else
                 echo "❌ Erreur avec $filename"
@@ -75,18 +80,18 @@ generate_blur() {
 show_stats() {
     echo "📊 Statistiques de compression..."
     
-    if [ ! -d "$BLUR_DIR" ]; then
-        echo "❌ Dossier blur introuvable"
+    if [ ! -d "$PLACEHOLDER_DIR" ]; then
+        echo "❌ Dossier placeholder introuvable"
         return
     fi
     
     original_size=$(du -sh "$SOURCE_DIR" 2>/dev/null | cut -f1)
-    blur_size=$(du -sh "$BLUR_DIR" 2>/dev/null | cut -f1)
+    placeholder_size=$(du -sh "$PLACEHOLDER_DIR" 2>/dev/null | cut -f1)
     
     echo "   • Dossier original: $original_size"
-    echo "   • Dossier blur: $blur_size"
-    echo "   • Qualité: $BLUR_QUALITY%"
-    echo "   • Redimensionnement: $BLUR_SCALE%"
+    echo "   • Dossier placeholder: $placeholder_size"
+    echo "   • Qualité: $QUALITY%"
+    echo "   • Redimensionnement: $SCALE%"
 }
 
 # Pipeline complet : trouve → crée dossier → génère → statistiques → nettoie
