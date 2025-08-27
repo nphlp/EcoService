@@ -11,10 +11,21 @@ type ImageRatioProps = {
     className?: string;
     loading?: "eager" | "lazy";
     priority?: boolean;
+    /** Disable blur placeholder */
+    noBlur?: boolean;
+};
+
+/**
+ * Helper pour générer l'URL de blur automatiquement
+ * Les images blur sont générées automatiquement à partir des WebP
+ * en exécutant le script: ./scripts/blur-images.sh auto
+ */
+const getBlurDataURL = (imagePath: string): string => {
+    return imagePath.replace("/illustration/", "/illustration-blur/");
 };
 
 export default function ImageRatio(props: ImageRatioProps) {
-    const { src, alt, className, loading = "eager", priority = false } = props;
+    const { src, alt, className, loading = "eager", priority = false, noBlur = false } = props;
 
     if (!src) {
         return (
@@ -35,6 +46,10 @@ export default function ImageRatio(props: ImageRatioProps) {
                 loading={loading}
                 onMouseDown={(e) => e.preventDefault()}
                 priority={priority}
+                {...(!noBlur && {
+                    placeholder: "blur" as const,
+                    blurDataURL: getBlurDataURL(src),
+                })}
             />
         </div>
     );
