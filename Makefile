@@ -2,10 +2,22 @@
 #    Image Compression      #
 #############################
 
-.PHONY: compress
+.PHONY: compress-find compress-images compress-remove compress-stats compress-auto
 
-compress:
-	@make -f Makefile.compress auto-compress
+compress-find:
+	@./scripts/compress-images.sh find
+
+compress-images:
+	@./scripts/compress-images.sh compress
+
+compress-remove:
+	@./scripts/compress-images.sh remove
+
+compress-stats:
+	@./scripts/compress-images.sh stats
+
+compress-auto:
+	@./scripts/compress-images.sh auto
 
 ####################
 #    Certificates  #
@@ -15,18 +27,15 @@ compress:
 
 # Generate SSL certificates if needed
 certs-setup:
-	@ ./docker/generate-mysql-ssl-certs.bash
+	@./scripts/ssl-certs.sh setup
 
 # Reset the certs
 certs-reset:
-	@ echo "🧹 Resetting certs..."
-	@ rm -rf ./docker/certs
-	@ echo "🫧 Certs reset"
+	@./scripts/ssl-certs.sh reset
 
 # Reload the certs
 certs-reload:
-	@ $(MAKE) certs-reset
-	@ $(MAKE) certs-setup
+	@./scripts/ssl-certs.sh reload
 
 ####################
 #      Docker      #
