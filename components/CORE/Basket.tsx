@@ -52,7 +52,6 @@ export default function Basket() {
 
                     <div className="space-y-3">
                         <Link
-                            type="button"
                             label="paiement"
                             href="/checkout"
                             onClick={() => setBasketOpen(false)}

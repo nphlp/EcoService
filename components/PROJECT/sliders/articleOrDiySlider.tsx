@@ -26,7 +26,7 @@ export const ArticleOrDiySlider = (props: SliderClientProps) => {
             <h2 className="text-center text-4xl font-bold">{title}</h2>
             <Slider dataListLength={articleOrDiy.length} linkList={linkList}>
                 {articleOrDiy.map((articleOrDiy, index) => (
-                    <ArticleOrDiyCard key={index} articleOrDiy={articleOrDiy} />
+                    <ArticleOrDiyCard key={index} articleOrDiy={articleOrDiy} mode="whenIsVisible" />
                 ))}
             </Slider>
         </section>

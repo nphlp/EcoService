@@ -29,14 +29,9 @@ const CheckoutProductItem = (props: CheckoutProductProps) => {
     const totalPrice = Number((product.price * product.quantity).toFixed(2));
 
     return (
-        <div
-            className={combo(
-                "flex flex-row items-start justify-between gap-8 rounded-xl",
-                index % 2 === 0 && "bg-gray-50",
-            )}
-        >
-            <ImageRatio src={product.image} alt={product.name} className="w-1/3 rounded-lg" mode="preloaded" />
-            <div className="flex w-2/3 flex-col items-end gap-2 py-2 pr-4">
+        <div className={combo("flex justify-between gap-8 rounded-xl", index % 2 === 0 && "bg-gray-50")}>
+            <ImageRatio src={product.image} alt={product.name} className="h-[132px] rounded-lg" mode="preloaded" />
+            <div className="flex flex-col items-end gap-2 py-2 pr-4">
                 <div className="text-right">
                     <div className="text-2xl font-semibold">{product.name}</div>
                     <div className="line-clamp-2 text-xs text-gray-500">{product.description}</div>

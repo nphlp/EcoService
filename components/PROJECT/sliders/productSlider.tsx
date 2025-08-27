@@ -22,7 +22,7 @@ export default function ProductSlider(props: ProductSliderProps) {
             <h2 className="text-center text-4xl font-bold">{title}</h2>
             <Slider dataListLength={productList.length} linkList={linkList}>
                 {productList.map((product, index) => (
-                    <ProductCard key={index} product={product} />
+                    <ProductCard key={index} product={product} mode="whenIsVisible" />
                 ))}
             </Slider>
         </section>

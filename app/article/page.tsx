@@ -82,7 +82,7 @@ export default async function Page(props: PageProps) {
                         variant="none"
                         className="transition-scale rounded-xl duration-300 hover:scale-101"
                     >
-                        <ArticleOrDiyCard articleOrDiy={article} />
+                        <ArticleOrDiyCard articleOrDiy={article} mode="preloaded" />
                     </Link>
                 ))}
             </div>

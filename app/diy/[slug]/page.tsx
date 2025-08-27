@@ -152,7 +152,7 @@ export default async function Page(props: PageProps) {
                     }))}
                 >
                     {otherDiyList.map((diy, index) => (
-                        <ArticleOrDiyCard key={index} articleOrDiy={diy} />
+                        <ArticleOrDiyCard key={index} articleOrDiy={diy} mode="whenIsVisible" />
                     ))}
                 </Slider>
             </section>

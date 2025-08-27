@@ -7,6 +7,7 @@ import { ButtonVariant, theme } from "./theme";
 
 export type LinkProps = {
     label: string;
+    href: string;
 
     // Styles
     variant?: ButtonVariant;
@@ -16,7 +17,10 @@ export type LinkProps = {
     noPadding?: boolean;
 
     children?: ReactNode;
-} & Omit<AnchorHTMLAttributes<HTMLAnchorElement> & NextLinkProps, "className" | "children">;
+} & Pick<
+    AnchorHTMLAttributes<HTMLAnchorElement> & NextLinkProps,
+    "id" | "href" | "style" | "target" | "onClick" | "onMouseDown"
+>;
 
 /**
  * Button component

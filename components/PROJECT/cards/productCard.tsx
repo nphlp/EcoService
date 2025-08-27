@@ -1,21 +1,22 @@
 "use client";
 
 import { ProductSearchType } from "@app/catalog/components/fetchParams";
-import Card, { CardProps } from "@comps/UI/card";
-import ImageRatio from "@comps/UI/imageRatio";
+import Card from "@comps/UI/card";
+import ImageRatio, { ImageRatioProps } from "@comps/UI/imageRatio";
 import AddToCartIcon from "../buttons/addToCartIcon";
 
 type ProductCardProps = {
     product: ProductSearchType;
-} & CardProps;
+    mode: ImageRatioProps["mode"];
+};
 
 export default function ProductCard(props: ProductCardProps) {
-    const { product, ...others } = props;
+    const { product, mode } = props;
     const { name, description, image, price } = product;
 
     return (
-        <Card className="h-full overflow-hidden p-0" {...others}>
-            <ImageRatio src={image} alt={name} mode="onPageLoad" />
+        <Card className="size-full overflow-hidden p-0">
+            <ImageRatio src={image} alt={name} mode={mode} />
             <div className="flex flex-row items-end justify-between gap-1 p-5">
                 <div className="space-y-2">
                     <div>

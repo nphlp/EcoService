@@ -11,7 +11,7 @@ export default async function Page() {
             <p className="text-sm text-gray-500">A custom slider made with framer motion</p>
             <Slider dataListLength={productList.length}>
                 {productList.map((product, index) => (
-                    <ProductCard key={index} product={product} />
+                    <ProductCard key={index} product={product} mode="preloaded" />
                 ))}
             </Slider>
         </div>

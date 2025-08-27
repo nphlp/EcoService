@@ -26,7 +26,7 @@ const eslintConfig = [
             "prisma/client/**",
             "prisma/zod/**",
             "node_modules/**",
-            "next-env.d.ts"
+            "next-env.d.ts",
         ],
     },
     ...compat.extends("next/core-web-vitals", "next/typescript"),

@@ -91,10 +91,10 @@ export default function Catalog(props: CatalogProps) {
                         label={product.name}
                         href={`/product/${product.slug}`}
                         variant="none"
-                        className="rounded-xl"
+                        className="w-full rounded-xl"
                         onClick={(e) => handleClick(e, product.slug)}
                     >
-                        <ProductCard product={product} />
+                        <ProductCard product={product} mode="preloaded" />
                     </Link>
                 ))}
             </div>

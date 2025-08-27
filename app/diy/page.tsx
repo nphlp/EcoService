@@ -78,10 +78,11 @@ export default async function Page(props: PageProps) {
                     <Link
                         key={index}
                         label={diy.title}
-                        href={`/article/${diy.slug}`}
+                        href={`/diy/${diy.slug}`}
+                        variant="none"
                         className="transition-scale rounded-xl duration-300 hover:scale-101"
                     >
-                        <ArticleOrDiyCard articleOrDiy={diy} />
+                        <ArticleOrDiyCard articleOrDiy={diy} mode="preloaded" />
                     </Link>
                 ))}
             </div>

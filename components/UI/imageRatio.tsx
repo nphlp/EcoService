@@ -5,7 +5,7 @@ import { Image as ImageTemplate } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
 
-type ImageRatioProps = {
+export type ImageRatioProps = {
     src: string | null;
     alt: string;
     /** Define width or height */
@@ -58,6 +58,8 @@ export default function ImageRatio(props: ImageRatioProps) {
         }
     })();
 
+    const hasBlurEffect = !noBlur && mode === "whenIsVisible";
+
     return (
         <div className={combo("relative aspect-[3/2] overflow-hidden", className)}>
             {/* Image nette en arrière-plan */}
@@ -65,8 +67,8 @@ export default function ImageRatio(props: ImageRatioProps) {
                 src={src}
                 alt={alt}
                 className={combo(
-                    "object-cover transition-all duration-300",
-                    !noBlur && isLoaded ? "blur-[0px]" : "blur-[10px]",
+                    "object-cover blur-[0px] transition-all duration-150",
+                    hasBlurEffect && !isLoaded && "blur-[10px]",
                 )}
                 // Size based on parent
                 sizes="100%"
@@ -81,7 +83,7 @@ export default function ImageRatio(props: ImageRatioProps) {
             />
 
             {/* Image blur au premier plan qui disparaît */}
-            {!noBlur && (
+            {hasBlurEffect ? (
                 <Image
                     src={getBlurDataURL(src)}
                     alt={alt + " (loading)"}
@@ -94,7 +96,7 @@ export default function ImageRatio(props: ImageRatioProps) {
                     // Disable drag and drop
                     onMouseDown={(e) => e.preventDefault()}
                 />
-            )}
+            ) : null}
         </div>
     );
 }

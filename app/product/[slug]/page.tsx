@@ -81,11 +81,7 @@ export default async function Page(props: PageProps) {
 
     return (
         <div className="w-full max-w-[1200px] flex-1 p-7">
-            <Link
-                label="Retour aux produits"
-                href="/catalog"
-                className="text-primary mb-8 inline-flex items-center hover:underline"
-            >
+            <Link label="Retour aux produits" href="/catalog" variant="ghost" className="mb-4">
                 <ArrowLeft className="mr-2 size-4" />
                 Retour aux produits
             </Link>
@@ -148,7 +144,7 @@ export default async function Page(props: PageProps) {
                     <h2 className="text-center text-4xl font-bold">Nos recommandations</h2>
                     <Slider dataListLength={recommendedProductList.length} linkList={linkList}>
                         {recommendedProductList.map((product, index) => (
-                            <ProductCard key={index} product={product} />
+                            <ProductCard key={index} product={product} mode="whenIsVisible" />
                         ))}
                     </Slider>
                 </section>
