@@ -1,8 +1,9 @@
 #!/bin/bash
 
 # === CONFIGURATION ===
+SOURCE_DIR="./public/illustration-raw"
 TARGET_DIR="./public/illustration"
-IMG_EXTENSIONS=("jpg" "jpeg" "png")
+IMG_EXTENSIONS=("jpg" "jpeg" "png" "webp")
 QUALITY=50
 
 # === VARIABLES INTERNES ===
@@ -11,12 +12,17 @@ IMG_RAW=".image_paths.txt"
 
 # === FONCTIONS ===
 
-# Recherche toutes les images dans le dossier cible et sauvegarde la liste
+# Recherche toutes les images dans le dossier source et sauvegarde la liste
 find_images() {
-    echo "🔍 Recherche des images dans $TARGET_DIR..."
+    echo "🔍 Recherche des images dans $SOURCE_DIR..."
+    
+    if [ ! -d "$SOURCE_DIR" ]; then
+        echo "❌ Erreur: Le dossier $SOURCE_DIR n'existe pas"
+        exit 1
+    fi
     
     # Construire dynamiquement la commande find pour toutes les extensions supportées
-    find_cmd="find $TARGET_DIR"
+    find_cmd="find $SOURCE_DIR"
     for ext in "${IMG_EXTENSIONS[@]}"; do
         find_cmd="$find_cmd -iname '*.$ext' -o"
     done
@@ -26,14 +32,47 @@ find_images() {
     echo "🧾 $(wc -l < "$IMG_RAW") image(s) trouvée(s)."
 }
 
+# Crée le dossier de destination
+create_target_dir() {
+    if [ ! -d "$TARGET_DIR" ]; then
+        echo "📁 Création du dossier de destination..."
+        mkdir -p "$TARGET_DIR"
+        echo "✅ Dossier $TARGET_DIR créé"
+    fi
+}
+
 # Convertit chaque image trouvée en WebP avec compression (garde la résolution originale)
 compress_images() {
     echo "🛠️ Compression en cours..."
+    
+    processed=0
+    errors=0
+    
     while IFS= read -r f; do
-        out="${f%.*}.webp"  # Remplace l'extension par .webp
-        magick "$f" -quality $QUALITY "$out"  # Conversion WebP avec compression
+        if [ -f "$f" ]; then
+            filename=$(basename "$f")
+            out="$TARGET_DIR/${filename%.*}.webp"  # Sauvegarde dans TARGET_DIR avec extension .webp
+            
+            # Vérifier si le fichier WebP existe déjà
+            if [ -f "$out" ]; then
+                echo "⚠️  $out existe déjà, ignoré"
+                continue
+            fi
+            
+            magick "$f" -quality $QUALITY "$out"  # Conversion WebP avec compression
+            
+            if [ $? -eq 0 ]; then
+                echo "$f → $out"
+                ((processed++))
+            else
+                echo "❌ Erreur avec $filename"
+                ((errors++))
+            fi
+        fi
     done < "$IMG_RAW"
+    
     echo "✅ Compression terminée."
+    echo "📊 Images traitées: $processed, Erreurs: $errors"
 }
 
 # Supprime les fichiers d'origine après compression
@@ -54,11 +93,12 @@ show_stats() {
     total_after=0   # Taille totale après compression
     
     while IFS= read -r f; do
-        out="${f%.*}.webp"
+        filename=$(basename "$f")
+        out="$TARGET_DIR/${filename%.*}.webp"
         size_before=$(stat -f%z "$f" 2>/dev/null || echo 0)    # Taille fichier original
         size_after=$(stat -f%z "$out" 2>/dev/null || echo 0)  # Taille fichier WebP
         
-        if [ "$size_before" -gt 0 ]; then
+        if [ "$size_before" -gt 0 ] && [ "$size_after" -gt 0 ]; then
             ratio=$((100 - (100 * size_after / size_before)))  # Calcul du pourcentage de compression
             printf "%s;%s;%d;%d;-%d%%\n" "$f" "$out" "$size_before" "$size_after" "$ratio" >> "$IMG_LIST"
             echo "$f → $out : -$ratio%"
@@ -75,9 +115,10 @@ show_stats() {
     fi
 }
 
-# Pipeline complet : trouve → compresse → statistiques → supprime → nettoie
+# Pipeline complet : trouve → crée dossier → compresse → statistiques → supprime → nettoie
 auto_compress() {
     find_images
+    create_target_dir
     compress_images
     show_stats
     remove_originals
@@ -106,7 +147,7 @@ case "$1" in
     *)
         echo "Usage: $0 {find|compress|remove|stats|auto}"
         echo ""
-        echo "  find     - Recherche des images dans $TARGET_DIR"
+        echo "  find     - Recherche des images dans $SOURCE_DIR"
         echo "  compress - Compresse les images trouvées en WebP"
         echo "  remove   - Supprime les fichiers originaux"
         echo "  stats    - Affiche les statistiques de compression"
