@@ -50,13 +50,13 @@ export default async function Page() {
                 </div>
                 <div className="flex flex-row items-center justify-center gap-8">
                     <ImageRatio
-                        src="/illustration/BRVqq2uak4E.webp"
+                        src="/images/illustrations/BRVqq2uak4E.webp"
                         alt="produit"
                         className={combo("max-md:hidden", imageClass)}
                         mode="preloaded"
                     />
                     <ImageRatio
-                        src="/illustration/cTmJbqysgV8.webp"
+                        src="/images/illustrations/cTmJbqysgV8.webp"
                         alt="produit"
                         className={combo("max-md:hidden", imageClass)}
                         mode="preloaded"
@@ -83,7 +83,7 @@ export default async function Page() {
                     </p>
                 </div>
                 <ImageRatio
-                    src="/illustration/gtdSDl5IkKw.webp"
+                    src="/images/illustrations/gtdSDl5IkKw.webp"
                     alt="produit"
                     className="rounded-lg shadow-md max-lg:w-full lg:h-80"
                     mode="preloaded"

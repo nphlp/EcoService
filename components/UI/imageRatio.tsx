@@ -24,10 +24,17 @@ export type ImageRatioProps = {
 /**
  * Helper pour générer l'URL de blur automatiquement
  * Les images blur sont générées automatiquement à partir des WebP
- * en exécutant le script: ./scripts/blur-images.sh auto
+ * en exécutant le script: ./scripts/blur-images.sh
  */
 const getBlurDataURL = (imagePath: string): string => {
-    return imagePath.replace("/illustration/", "/illustration-blur/");
+    const segments = imagePath.split("/");
+
+    const filename = segments.pop();
+    const directory = segments.pop();
+    const path = segments.join("/");
+    const blurUrl = `${path}/${directory}/.blur/${filename}`;
+
+    return blurUrl;
 };
 
 export default function ImageRatio(props: ImageRatioProps) {
@@ -77,7 +84,7 @@ export default function ImageRatio(props: ImageRatioProps) {
                 loading={loadingStrategy?.loading}
                 priority={loadingStrategy?.priority}
                 // Blur effect management
-                onLoadingComplete={() => setIsLoaded(true)}
+                onLoad={() => setIsLoaded(true)}
                 // Disable drag and drop
                 onMouseDown={(e) => e.preventDefault()}
             />
