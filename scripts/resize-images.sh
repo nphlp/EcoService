@@ -1,11 +1,58 @@
 #!/bin/bash
 
 # === CONFIGURATION ===
-SOURCE_DIR="./public/illustration-raw"
-TARGET_DIR="./public/illustration-resized"
+# Paramètres de ligne de commande et flags
+DELETE_ORIGINALS=false
+
+# Analyse des paramètres
+while [[ $# -gt 0 ]]; do
+    case $1 in
+        --delete)
+            DELETE_ORIGINALS=true
+            shift
+            ;;
+        -*)
+            echo "Flag inconnu: $1"
+            exit 1
+            ;;
+        *)
+            if [ -z "$SOURCE_DIR" ]; then
+                SOURCE_DIR="$1"
+            elif [ -z "$TARGET_DIR" ]; then
+                TARGET_DIR="$1"
+            fi
+            shift
+            ;;
+    esac
+done
+
+# Vérification des paramètres
+if [ -z "$SOURCE_DIR" ]; then
+    echo ""
+    echo "Usage: $0 {source} [target] [--delete]"
+    echo ""
+    echo "  source   - Dossier source contenant les images à redimensionner"
+    echo "  target   - Dossier de destination (optionnel)"
+    echo "             Par défaut: {source}-resized"
+    echo "  --delete - Supprime les images originales après traitement"
+    echo ""
+    echo "Exemples:"
+    echo "  $0 ./public/images/uploads"
+    echo "  $0 ./public/images/uploads ./public/images/articles"
+    echo "  $0 ./public/images/uploads --delete"
+    echo ""
+    echo "Redimensionnement intelligent (max ${MAX_WIDTH}x${MAX_HEIGHT}px, ratios préservés)"
+    exit 0
+fi
+
+# Si pas de dossier cible, générer automatiquement
+if [ -z "$TARGET_DIR" ]; then
+    TARGET_DIR="${SOURCE_DIR}-resized"
+fi
+
 IMG_EXTENSIONS=("jpg" "jpeg" "png" "webp")
-MAX_WIDTH=1200
-MAX_HEIGHT=800
+MAX_WIDTH=2100
+MAX_HEIGHT=1400
 
 # === VARIABLES INTERNES ===
 IMG_LIST=".resize_list.txt"
@@ -42,7 +89,7 @@ create_target_dir() {
     fi
 }
 
-# Redimensionne les images selon la logique intelligente
+# Redimensionne les images selon la logique intelligente avec stats intégrées
 resize_images() {
     echo "🛠️ Redimensionnement en cours..."
     
@@ -56,6 +103,11 @@ resize_images() {
     processed=0
     errors=0
     skipped=0
+    total_before=0
+    total_after=0
+    
+    # Créer l'en-tête du fichier stats
+    echo "Original;Resized;WidthBefore;HeightBefore;WidthAfter;HeightAfter;SizeBefore(Bytes);SizeAfter(Bytes)" > "$IMG_LIST"
     
     while IFS= read -r image_file; do
         if [ -f "$image_file" ]; then
@@ -69,9 +121,10 @@ resize_images() {
                 continue
             fi
             
-            # Obtenir les dimensions actuelles
+            # Obtenir les dimensions et taille actuelles
             width=$(magick identify -format "%w" "$image_file" 2>/dev/null)
             height=$(magick identify -format "%h" "$image_file" 2>/dev/null)
+            size_before=$(stat -f%z "$image_file" 2>/dev/null || echo 0)
             
             if [ -z "$width" ] || [ -z "$height" ]; then
                 echo "❌ Impossible de lire les dimensions de $filename"
@@ -82,36 +135,51 @@ resize_images() {
             # Calculer les ratios de dépassement
             width_ratio=$(echo "scale=6; $width / $MAX_WIDTH" | bc 2>/dev/null || echo "1")
             height_ratio=$(echo "scale=6; $height / $MAX_HEIGHT" | bc 2>/dev/null || echo "1")
-            
-            # Prendre le plus grand ratio (côté qui dépasse le plus)
             max_ratio=$(echo "if ($width_ratio > $height_ratio) $width_ratio else $height_ratio" | bc 2>/dev/null || echo "1")
             
-            # Si pas de dépassement, copier simplement
+            # Traitement selon dépassement
             if (( $(echo "$max_ratio <= 1" | bc -l) )); then
                 cp "$image_file" "$resized_file"
-                echo "$image_file → $resized_file (pas de redimensionnement nécessaire)"
-                ((processed++))
+                new_width=$width
+                new_height=$height
             else
-                # Calculer les nouvelles dimensions
                 new_width=$(echo "scale=0; $width / $max_ratio" | bc)
                 new_height=$(echo "scale=0; $height / $max_ratio" | bc)
-                
-                # Redimensionner l'image
                 magick "$image_file" -resize "${new_width}x${new_height}" "$resized_file" 2>/dev/null
                 
-                if [ $? -eq 0 ]; then
-                    echo "$image_file → $resized_file (${width}x${height} → ${new_width}x${new_height})"
-                    ((processed++))
-                else
+                if [ $? -ne 0 ]; then
                     echo "❌ Erreur lors du redimensionnement de $filename"
                     ((errors++))
+                    continue
                 fi
             fi
+            
+            # Calculer stats immédiatement et affichage détaillé
+            size_after=$(stat -f%z "$resized_file" 2>/dev/null || echo 0)
+            if [ "$size_before" -gt 0 ] && [ "$size_after" -gt 0 ]; then
+                # Calculs des ratios et affichage
+                size_ratio=$((100 - (100 * size_after / size_before)))
+                printf "%s: %dx%d -> %dx%d (-%d%%)\n" \
+                    "$filename" "$width" "$height" "$new_width" "$new_height" "$size_ratio"
+                
+                printf "%s;%s;%s;%s;%s;%s;%d;%d\n" "$image_file" "$resized_file" "$width" "$height" "$new_width" "$new_height" "$size_before" "$size_after" >> "$IMG_LIST"
+                total_before=$((total_before + size_before))
+                total_after=$((total_after + size_after))
+            fi
+            
+            ((processed++))
         fi
     done < "$IMG_RAW"
     
+    # Affichage final
     echo "✅ Redimensionnement terminé."
     echo "📊 Images traitées: $processed, Ignorées: $skipped, Erreurs: $errors"
+    
+    # Stats globales
+    if [ "$total_before" -gt 0 ]; then
+        size_ratio=$((100 - (100 * total_after / total_before)))
+        printf "📦 Optimisation globale : %'.0f → %'.0f bytes (-%d%%)\n" "$total_before" "$total_after" "$size_ratio"
+    fi
 }
 
 # Supprime les fichiers originaux après redimensionnement
@@ -173,47 +241,19 @@ show_stats() {
     fi
 }
 
-# Pipeline complet : trouve → crée dossier → redimensionne → statistiques → supprime → nettoie
+# Pipeline complet : trouve → crée dossier → redimensionne+stats → supprime (si flag) → nettoie
 auto_resize() {
     find_images
     create_target_dir
-    resize_images
-    show_stats
-    remove_originals
+    resize_images  # Maintenant inclut les stats
+    if [ "$DELETE_ORIGINALS" = true ]; then
+        remove_originals
+    fi
     rm -f "$IMG_RAW" "$IMG_LIST"  # Nettoyage des fichiers temporaires
     echo "🎉 Auto-redimensionnement terminé !"
 }
 
 # === MAIN ===
 
-case "$1" in
-    find)
-        find_images
-        ;;
-    create)
-        create_target_dir
-        ;;
-    resize)
-        resize_images
-        ;;
-    remove)
-        remove_originals
-        ;;
-    stats)
-        show_stats
-        ;;
-    auto)
-        auto_resize
-        ;;
-    *)
-        echo "Usage: $0 {find|create|resize|remove|stats|auto}"
-        echo ""
-        echo "  find     - Recherche des images dans $SOURCE_DIR"
-        echo "  create   - Crée le dossier de destination"
-        echo "  resize   - Redimensionne les images (max ${MAX_WIDTH}x${MAX_HEIGHT})"
-        echo "  remove   - Supprime les fichiers originaux"
-        echo "  stats    - Affiche les statistiques de redimensionnement"
-        echo "  auto     - Pipeline complet (find → create → resize → stats → remove)"
-        exit 1
-        ;;
-esac
+# Démarrer le pipeline automatiquement
+auto_resize

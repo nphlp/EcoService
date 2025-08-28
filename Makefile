@@ -1,23 +1,17 @@
 #############################
-#    Image Compression      #
+#    Image Processing       #
 #############################
 
-.PHONY: compress-find compress-images compress-remove compress-stats compress-auto
+.PHONY: image-resize image-compress image-blur
 
-compress-find:
-	@./scripts/compress-images.sh find
+image-resize:
+	@./scripts/resize-images.sh
 
-compress-images:
-	@./scripts/compress-images.sh compress
+image-compress:
+	@./scripts/compress-images.sh
 
-compress-remove:
-	@./scripts/compress-images.sh remove
-
-compress-stats:
-	@./scripts/compress-images.sh stats
-
-compress-auto:
-	@./scripts/compress-images.sh auto
+image-blur:
+	@./scripts/blur-images.sh
 
 ####################
 #    Certificates  #

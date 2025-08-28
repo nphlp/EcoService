@@ -1,8 +1,55 @@
 #!/bin/bash
 
 # === CONFIGURATION ===
-SOURCE_DIR="./public/illustration-raw"
-TARGET_DIR="./public/illustration"
+# Paramètres de ligne de commande et flags
+DELETE_ORIGINALS=false
+
+# Analyse des paramètres
+while [[ $# -gt 0 ]]; do
+    case $1 in
+        --delete)
+            DELETE_ORIGINALS=true
+            shift
+            ;;
+        -*)
+            echo "Flag inconnu: $1"
+            exit 1
+            ;;
+        *)
+            if [ -z "$SOURCE_DIR" ]; then
+                SOURCE_DIR="$1"
+            elif [ -z "$TARGET_DIR" ]; then
+                TARGET_DIR="$1"
+            fi
+            shift
+            ;;
+    esac
+done
+
+# Vérification des paramètres
+if [ -z "$SOURCE_DIR" ]; then
+    echo ""
+    echo "Usage: $0 {source} [target] [--delete]"
+    echo ""
+    echo "  source   - Dossier source contenant les images à comprimer"
+    echo "  target   - Dossier de destination (optionnel)"
+    echo "             Par défaut: {source}-compressed"
+    echo "  --delete - Supprime les images originales après traitement"
+    echo ""
+    echo "Exemples:"
+    echo "  $0 ./public/images/uploads-resized"
+    echo "  $0 ./public/images/uploads-resized ./public/images/articles"
+    echo "  $0 ./public/images/uploads-resized --delete"
+    echo ""
+    echo "Compression WebP (qualité ${QUALITY}%, conversion automatique en .webp)"
+    exit 0
+fi
+
+# Si pas de dossier cible, générer automatiquement
+if [ -z "$TARGET_DIR" ]; then
+    TARGET_DIR="${SOURCE_DIR}-compressed"
+fi
+
 IMG_EXTENSIONS=("jpg" "jpeg" "png" "webp")
 QUALITY=50
 
@@ -41,12 +88,18 @@ create_target_dir() {
     fi
 }
 
-# Convertit chaque image trouvée en WebP avec compression (garde la résolution originale)
+# Convertit chaque image trouvée en WebP avec compression et stats intégrées
 compress_images() {
     echo "🛠️ Compression en cours..."
     
     processed=0
     errors=0
+    skipped=0
+    total_before=0
+    total_after=0
+    
+    # Créer l'en-tête du fichier stats
+    echo "Original;WebP;SizeBefore(Bytes);SizeAfter(Bytes);Compression(%)" > "$IMG_LIST"
     
     while IFS= read -r f; do
         if [ -f "$f" ]; then
@@ -56,13 +109,35 @@ compress_images() {
             # Vérifier si le fichier WebP existe déjà
             if [ -f "$out" ]; then
                 echo "⚠️  $out existe déjà, ignoré"
+                ((skipped++))
                 continue
             fi
             
-            magick "$f" -quality $QUALITY "$out"  # Conversion WebP avec compression
+            # Obtenir la taille avant compression
+            size_before=$(stat -f%z "$f" 2>/dev/null || echo 0)
+            
+            # Compression WebP
+            magick "$f" -quality $QUALITY "$out" 2>/dev/null
             
             if [ $? -eq 0 ]; then
-                echo "$f → $out"
+                # Calculer stats immédiatement et affichage détaillé
+                size_after=$(stat -f%z "$out" 2>/dev/null || echo 0)
+                if [ "$size_before" -gt 0 ] && [ "$size_after" -gt 0 ]; then
+                    ratio=$((100 - (100 * size_after / size_before)))
+                    
+                    # Formatage des tailles en Ko
+                    size_before_kb=$(echo "scale=0; $size_before / 1024" | bc 2>/dev/null || echo "0")
+                    size_after_kb=$(echo "scale=0; $size_after / 1024" | bc 2>/dev/null || echo "0")
+                    
+                    # Affichage simplifié : poids et pourcentage
+                    printf "%s: %dKo -> %dKo (-%d%%)\n" \
+                        "$filename" "$size_before_kb" "$size_after_kb" "$ratio"
+                    
+                    printf "%s;%s;%d;%d;-%d%%\n" "$f" "$out" "$size_before" "$size_after" "$ratio" >> "$IMG_LIST"
+                    total_before=$((total_before + size_before))
+                    total_after=$((total_after + size_after))
+                fi
+                
                 ((processed++))
             else
                 echo "❌ Erreur avec $filename"
@@ -71,8 +146,15 @@ compress_images() {
         fi
     done < "$IMG_RAW"
     
+    # Affichage final
     echo "✅ Compression terminée."
-    echo "📊 Images traitées: $processed, Erreurs: $errors"
+    echo "📊 Images traitées: $processed, Ignorées: $skipped, Erreurs: $errors"
+    
+    # Stats globales
+    if [ "$total_before" -gt 0 ]; then
+        total_ratio=$((100 - (100 * total_after / total_before)))
+        printf "📦 Compression globale : %'.0f → %'.0f bytes (-%d%%)\n" "$total_before" "$total_after" "$total_ratio"
+    fi
 }
 
 # Supprime les fichiers d'origine après compression
@@ -115,43 +197,19 @@ show_stats() {
     fi
 }
 
-# Pipeline complet : trouve → crée dossier → compresse → statistiques → supprime → nettoie
+# Pipeline complet : trouve → crée dossier → compresse+stats → supprime (si flag) → nettoie
 auto_compress() {
     find_images
     create_target_dir
-    compress_images
-    show_stats
-    remove_originals
+    compress_images  # Maintenant inclut les stats
+    if [ "$DELETE_ORIGINALS" = true ]; then
+        remove_originals
+    fi
     rm -f "$IMG_RAW" "$IMG_LIST"  # Nettoyage des fichiers temporaires
     echo "🎉 Auto-compression terminée !"
 }
 
 # === MAIN ===
 
-case "$1" in
-    find)
-        find_images
-        ;;
-    compress)
-        compress_images
-        ;;
-    remove)
-        remove_originals
-        ;;
-    stats)
-        show_stats
-        ;;
-    auto)
-        auto_compress
-        ;;
-    *)
-        echo "Usage: $0 {find|compress|remove|stats|auto}"
-        echo ""
-        echo "  find     - Recherche des images dans $SOURCE_DIR"
-        echo "  compress - Compresse les images trouvées en WebP"
-        echo "  remove   - Supprime les fichiers originaux"
-        echo "  stats    - Affiche les statistiques de compression"
-        echo "  auto     - Pipeline complet (find → compress → stats → remove)"
-        exit 1
-        ;;
-esac
+# Démarrer le pipeline automatiquement
+auto_compress

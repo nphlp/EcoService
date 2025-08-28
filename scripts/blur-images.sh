@@ -1,8 +1,56 @@
 #!/bin/bash
 
 # === CONFIGURATION ===
-SOURCE_DIR="./public/illustration"
-PLACEHOLDER_DIR="./public/illustration-blur"
+# Paramètres de ligne de commande et flags
+DELETE_ORIGINALS=false
+
+# Analyse des paramètres
+while [[ $# -gt 0 ]]; do
+    case $1 in
+        --delete)
+            DELETE_ORIGINALS=true
+            shift
+            ;;
+        -*)
+            echo "Flag inconnu: $1"
+            exit 1
+            ;;
+        *)
+            if [ -z "$SOURCE_DIR" ]; then
+                SOURCE_DIR="$1"
+            elif [ -z "$TARGET_DIR" ]; then
+                TARGET_DIR="$1"
+            fi
+            shift
+            ;;
+    esac
+done
+
+# Vérification des paramètres
+if [ -z "$SOURCE_DIR" ]; then
+    echo ""
+    echo "Usage: $0 {source} [target] [--delete]"
+    echo ""
+    echo "  source   - Dossier source contenant les images WebP à flouter"
+    echo "  target   - Dossier de destination (optionnel)"
+    echo "             Par défaut: {source}-blur"
+    echo "  --delete - Supprime les images originales après traitement"
+    echo ""
+    echo "Exemples:"
+    echo "  $0 ./public/images/articles"
+    echo "  $0 ./public/images/articles ./public/images/articles-blur"
+    echo "  $0 ./public/images/articles --delete"
+    echo ""
+    echo "Génération placeholders blur (${SCALE}% taille, qualité ${QUALITY}%)"
+    exit 0
+fi
+
+# Si pas de dossier cible, générer automatiquement
+if [ -z "$TARGET_DIR" ]; then
+    TARGET_DIR="${SOURCE_DIR}-blur"
+fi
+
+PLACEHOLDER_DIR="$TARGET_DIR"
 QUALITY=5   # Compression très basse pour des placeholders
 SCALE=5    # Réduire à 5% de la taille originale
 
@@ -94,42 +142,26 @@ show_stats() {
     echo "   • Redimensionnement: $SCALE%"
 }
 
-# Pipeline complet : trouve → crée dossier → génère → statistiques → nettoie
+# Pipeline complet : trouve → crée dossier → génère → statistiques → supprime (si flag) → nettoie
 auto_blur() {
     find_images
     create_directory
     generate_blur
     show_stats
+    if [ "$DELETE_ORIGINALS" = true ]; then
+        echo "🗑️ Suppression des fichiers originaux..."
+        while IFS= read -r f; do
+            if [ -f "$f" ]; then
+                rm "$f"
+            fi
+        done < "$IMG_LIST"
+        echo "🧹 Nettoyage terminé."
+    fi
     rm -f "$IMG_LIST"  # Nettoyage des fichiers temporaires
     echo "🎉 Auto-génération terminée !"
 }
 
 # === MAIN ===
 
-case "$1" in
-    find)
-        find_images
-        ;;
-    create)
-        create_directory
-        ;;
-    generate)
-        generate_blur
-        ;;
-    stats)
-        show_stats
-        ;;
-    auto)
-        auto_blur
-        ;;
-    *)
-        echo "Usage: $0 {find|create|generate|stats|auto}"
-        echo ""
-        echo "  find     - Recherche des images dans $SOURCE_DIR"
-        echo "  create   - Crée le dossier de destination"
-        echo "  generate - Génère les images floues"
-        echo "  stats    - Affiche les statistiques"
-        echo "  auto     - Pipeline complet (find → create → generate → stats)"
-        exit 1
-        ;;
-esac
+# Démarrer le pipeline automatiquement
+auto_blur
