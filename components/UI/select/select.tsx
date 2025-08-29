@@ -4,7 +4,7 @@ import { type ButtonHTMLAttributes } from "react";
 import Button from "./button";
 import Component from "./component";
 import Label from "./label";
-import OptionsThroughPortal from "./optionsThroughPortal";
+import Options from "./options";
 import Provider from "./provider";
 import { VariantType } from "./theme";
 import { SelectOptionType } from "./utils";
@@ -100,7 +100,7 @@ export default function Select(props: SelectProps) {
             <Component>
                 <Label />
                 <Button />
-                <OptionsThroughPortal />
+                <Options />
             </Component>
         </Provider>
     );

@@ -13,8 +13,8 @@ export type StylesType = {
 };
 
 const structure: StructureType = {
-    component: combo("space-y-1"),
-    label: combo(""),
+    component: combo(""),
+    label: combo("mb-1"),
 
     displayedValue: combo(""),
     placeholder: combo(""),
@@ -25,6 +25,9 @@ const structure: StructureType = {
         "text-black text-left",
         // Size and padding
         "w-full",
+        // Outline
+        "outline-none focus:ring-2 ring-teal-300",
+        "transition-all duration-150",
         // Accessibility
         "cursor-pointer",
     ),
@@ -32,6 +35,9 @@ const structure: StructureType = {
     subButton: combo(
         // Position
         "absolute right-2 top-1/2 -translate-y-1/2",
+        // Outline
+        "outline-none focus:ring-2 ring-teal-300",
+        "transition-all duration-150",
         // Accessibility
         "cursor-pointer",
     ),
@@ -47,7 +53,7 @@ const structure: StructureType = {
 
     optionList: combo(
         // Position
-        "absolute",
+        "absolute z-50",
         // Spacing
         "space-y-0.5",
         // Size and padding
@@ -69,13 +75,13 @@ const structure: StructureType = {
 
 const styles: StylesType = {
     default: {
-        component: combo("space-y-1"),
+        component: combo(""),
         label: combo("text-gray-700 text-sm font-semibold"),
 
         displayedValue: combo("text-black"),
         placeholder: combo("text-gray-400"),
 
-        buttonGroup: combo("relative"),
+        buttonGroup: combo(""),
         button: combo(
             // Text
             "text-left",
@@ -85,11 +91,6 @@ const styles: StylesType = {
             "border border-gray-300 focus:border-gray-500 rounded-lg",
             // Background
             "bg-white",
-            // Outline
-            "outline-none focus:ring-2 ring-teal-300",
-            "transition-all duration-150",
-            // Accessibility
-            "cursor-pointer",
         ),
 
         subButton: combo(
@@ -97,11 +98,6 @@ const styles: StylesType = {
             "absolute right-2 top-1/2 -translate-y-1/2",
             // Border and radius
             "rounded",
-            // Outline
-            "outline-none focus:ring-2 ring-teal-300",
-            "transition-all duration-150",
-            // Accessibility
-            "cursor-pointer",
         ),
         subCross: combo("stroke-gray-600"),
 
@@ -135,25 +131,21 @@ const styles: StylesType = {
             // Border and radius
             "rounded",
             // Background
-            "bg-white hover:bg-gray-300",
+            "bg-white hover:bg-gray-200",
             // Outline
-            "outline-none focus:bg-gray-100",
-            // "outline-none focus:ring-2 ring-teal-300",
-            // "transition-all duration-150",
-            // Accessibility
-            "cursor-pointer",
+            "outline-none focus:bg-gray-200",
         ),
         optionIcon: combo("stroke-gray-600"),
         optionLabel: combo(""),
     },
     dark: {
-        component: combo("space-y-1"),
+        component: combo(""),
         label: combo("text-gray-200 text-sm font-semibold"),
 
         displayedValue: combo("text-white"),
         placeholder: combo("text-gray-400"),
 
-        buttonGroup: combo("relative"),
+        buttonGroup: combo(""),
         button: combo(
             // Text
             "text-white text-left",
@@ -163,11 +155,6 @@ const styles: StylesType = {
             "border border-gray-500 focus:border-gray-300 rounded-lg",
             // Background
             "bg-black",
-            // Outline
-            "outline-none focus:ring-2 ring-teal-500",
-            "transition-all duration-150",
-            // Accessibility
-            "cursor-pointer",
         ),
 
         subButton: combo(
@@ -175,11 +162,6 @@ const styles: StylesType = {
             "absolute right-2 top-1/2 -translate-y-1/2",
             // Border and radius
             "rounded",
-            // Outline
-            "outline-none focus:ring-2 ring-teal-500",
-            "transition-all duration-150",
-            // Accessibility
-            "cursor-pointer",
         ),
         subCross: combo("stroke-gray-300"),
 
@@ -214,11 +196,6 @@ const styles: StylesType = {
             "rounded",
             // Background
             "bg-black hover:bg-gray-700",
-            // Outline
-            "outline-none focus:ring-2 ring-teal-500",
-            "transition-all duration-150",
-            // Accessibility
-            "cursor-pointer",
         ),
         optionIcon: combo("stroke-gray-300"),
         optionLabel: combo(""),

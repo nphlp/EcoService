@@ -1,14 +1,36 @@
+"use client";
+
 import { combo } from "@lib/combo";
 import { Check } from "lucide-react";
-import { KeyboardEvent, MouseEvent } from "react";
-import { ContextType } from "./context";
+import { KeyboardEvent, MouseEvent, useContext } from "react";
+import { Context } from "./context";
 import { theme } from "./theme";
 import { getOptionFromSlug } from "./utils";
 
-type OptionsProps = ContextType;
+const Options = () => {
+    const {
+        isOpen,
+        setIsOpen,
+        buttonRef,
+        optionListRef,
+        options,
+        dropdownGap,
+        selected,
+        setSelected,
+        variant,
+        className,
+    } = useContext(Context);
 
-const Options = (props: OptionsProps) => {
-    const { selected, variant, className, options, optionListRef, buttonRef, setSelected, setIsOpen } = props;
+    if (!isOpen) return null;
+
+    // Select button position
+    const buttonRect = buttonRef.current?.getBoundingClientRect();
+    const buttonBottom = buttonRect?.bottom ?? 0;
+
+    // Options dropdown position
+    const top = buttonBottom + dropdownGap;
+    const left = buttonRect?.left;
+    const width = buttonRect?.width;
 
     // Get the selected option
     const selectedOption = getOptionFromSlug(selected, options);
@@ -65,7 +87,11 @@ const Options = (props: OptionsProps) => {
     };
 
     return (
-        <div ref={optionListRef} className={combo(theme[variant].optionList, className?.optionList)}>
+        <div
+            ref={optionListRef}
+            className={combo(theme[variant].optionList, className?.optionList)}
+            style={{ top, left, width }}
+        >
             {options?.map((option, index) => (
                 <button
                     key={index}
