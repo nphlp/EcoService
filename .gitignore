@@ -38,3 +38,6 @@ run/
 
 # Sonar
 .scannerwork/
+
+# Mcp
+.mcp*
