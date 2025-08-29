@@ -17,7 +17,4 @@ const categoryFetchParams = () =>
 // ============== Exports ============== //
 
 export type { CategorySearchType };
-
-export const indexFetchParams = {
-    categoryFetchParams,
-};
+export { categoryFetchParams };

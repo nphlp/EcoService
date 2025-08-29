@@ -1,4 +1,4 @@
-import { categoryFetchParams } from "@comps/CORE/search/fetchParams";
+import { categoryFetchParams } from "@app/catalog/components/fetchParams";
 import { CategoryFindManyServer } from "@services/server";
 import Client from "./client";
 
