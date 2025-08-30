@@ -50,6 +50,11 @@ export default function Page() {
             text: "How to upload an image",
         },
         {
+            label: "Perspective card",
+            href: "/examples/perspective-card",
+            text: "How to create a perspective card",
+        },
+        {
             label: "Slider",
             href: "/examples/Slider",
             text: "How to create a slider",
