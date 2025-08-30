@@ -8,6 +8,7 @@ import Select from "@comps/UI/select/select";
 import { createSelectOptions } from "@comps/UI/select/utils";
 import { combo } from "@lib/combo";
 import { useState } from "react";
+import Content from "../auto-layout/content";
 import { CategorySearchType } from "./fetchParams";
 
 type ClientProps = {
@@ -73,10 +74,21 @@ export default function Client(props: ClientProps) {
                 />
             </div>
             <div className={combo(common)}>
-                <h2 className="text-2xl font-bold">Select</h2>
-                <Modal setIsModalOpen={setIsModalOpen} isModalOpen={isModalOpen} withCross>
-                    <h2 className="text-lg font-semibold">Modal Title</h2>
-                    <div className="mt-1">This is an awesome modal content.</div>
+                <h2 className="text-2xl font-bold">Modal</h2>
+                <Modal
+                    className={{
+                        cardContainer: "px-5 py-16",
+                        card: "max-w-[400px] space-y-4",
+                    }}
+                    setIsModalOpen={setIsModalOpen}
+                    isModalOpen={isModalOpen}
+                    withCross
+                >
+                    <div>
+                        <h2 className="text-lg font-semibold">Modal Title</h2>
+                        <div className="mt-1">This is an awesome modal content.</div>
+                    </div>
+                    <Content />
                 </Modal>
                 <Button label="Open Modal" type="button" onClick={() => setIsModalOpen(true)} />
             </div>

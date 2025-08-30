@@ -42,7 +42,8 @@ export default async function Layout(props: LayoutProps) {
         <html
             lang={lang}
             className={combo(
-                "h-full overflow-hidden",
+                "h-full",
+                "overflow-hidden",
                 inter.className,
                 // isDarkMode === true && "dark",
                 // isDarkMode === false && "light",

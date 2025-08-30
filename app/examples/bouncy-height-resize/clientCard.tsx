@@ -3,8 +3,8 @@
 import { useFetchV2 } from "@utils/FetchV2/FetchHookV2";
 import { motion } from "motion/react";
 import { ReactNode, useEffect, useRef, useState } from "react";
+import Toggle from "../../../components/UI/toogle";
 import { ProductResponse, selectProductFetch } from "./fetch";
-import Toggle from "./toogle";
 
 type ClientCardProps = {
     initialProductList: ProductResponse[];

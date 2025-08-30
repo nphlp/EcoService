@@ -71,7 +71,8 @@ export default function Page() {
                 // "w-full"
             )}
         >
-            <Card className="flex max-w-[300px] flex-col gap-8">
+            <Card className="flex max-w-[400px] flex-col items-center gap-6">
+                <h1 className="text-2xl font-bold">Auto-Layout</h1>
                 <Content />
             </Card>
         </div>

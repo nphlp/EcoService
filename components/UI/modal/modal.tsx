@@ -8,12 +8,15 @@ import { ModalVariant, theme } from "./theme";
 
 export type ModalClassName = {
     component?: string;
+    subComponent?: string;
+
+    cardContainer?: string;
+    card?: string;
 
     backgroundBlur?: string;
     backgroundColor?: string;
     backgroundButton?: string;
 
-    card?: string;
     crossButton?: string;
     crossIcon?: string;
 };
@@ -27,6 +30,7 @@ type ModalClientProps = {
     noBackgroundColor?: boolean;
     noBackgroundButton?: boolean;
     withCross?: boolean;
+    fixedToTop?: boolean;
 
     // Animation
     noAnimation?: boolean;
@@ -48,10 +52,13 @@ type ModalClientProps = {
  *
  * // Use the component
  * <Modal
+ *     className={{
+ *         cardContainer: "px-5 py-16",
+ *         card: "max-w-[400px] space-y-4"
+ *     }}
  *     setIsModalOpen={setIsModalOpen}
  *     isModalOpen={isModalOpen}
- *     className="w-1/2"
- *     withCross={false}
+ *     withCross
  * >
  *     <div>
  *         <h1>Title</h1>
@@ -69,6 +76,7 @@ export default function Modal(props: ModalClientProps) {
         noBackgroundButton = false,
         noBackgroundColor = false,
         withCross = false,
+        fixedToTop = false,
         noAnimation = false,
         duration = 0.3,
         className,
@@ -80,59 +88,67 @@ export default function Modal(props: ModalClientProps) {
 
     return (
         <div className={combo(!isModalOpen && "pointer-events-none", theme[variant].component, className?.component)}>
-            {/* Background Blur */}
-            {!noBackgroundBlur && (
-                <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{
-                        opacity: isModalOpen ? 1 : 0,
-                        transition: { duration: animationDuration / 6 },
-                    }}
-                    className={combo(theme[variant].backgroundBlur, className?.backgroundBlur)}
-                />
-            )}
-            {/* Background Color */}
-            {!noBackgroundColor && (
-                <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{
-                        opacity: isModalOpen ? 1 : 0,
-                        transition: { duration: animationDuration / 2 },
-                    }}
-                    className={combo(theme[variant].backgroundColor, className?.backgroundColor)}
-                />
-            )}
-            {/* Background Button */}
-            {!noBackgroundButton && (
-                <motion.button
-                    type="button"
-                    aria-label="close-modal"
-                    onClick={() => setIsModalOpen(false)}
-                    className={combo(theme[variant].backgroundButton, className?.backgroundButton)}
-                />
-            )}
+            {/* Sub Component */}
+            <div className={combo(theme[variant].subComponent, className?.subComponent)}>
+                {/* Background Blur */}
+                {!noBackgroundBlur && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{
+                            opacity: isModalOpen ? 1 : 0,
+                            transition: { duration: animationDuration / 6 },
+                        }}
+                        className={combo(theme[variant].backgroundBlur, className?.backgroundBlur)}
+                    />
+                )}
 
-            {/* Card */}
-            <motion.div
-                initial={{ scale: 0 }}
-                animate={{
-                    scale: isModalOpen ? 1 : 0,
-                }}
-                transition={{
-                    duration: animationDuration,
-                    ease: "easeInOut",
-                    type: "spring",
-                }}
-                className={combo(theme[variant].card, className?.card)}
-            >
-                <CrossButton
-                    setIsModalOpen={setIsModalOpen}
-                    withCross={withCross}
-                    className={className}
-                    variant={variant}
-                />
-                {children}
-            </motion.div>
+                {/* Background Color */}
+                {!noBackgroundColor && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{
+                            opacity: isModalOpen ? 1 : 0,
+                            transition: { duration: animationDuration / 2 },
+                        }}
+                        className={combo(theme[variant].backgroundColor, className?.backgroundColor)}
+                    />
+                )}
+
+                {/* Background Button */}
+                {!noBackgroundButton && (
+                    <motion.button
+                        type="button"
+                        aria-label="close-modal"
+                        onClick={() => setIsModalOpen(false)}
+                        className={combo(theme[variant].backgroundButton, className?.backgroundButton)}
+                    />
+                )}
+
+                {/* Card Container */}
+                <div className={combo(fixedToTop && "flex-1", theme[variant].cardContainer, className?.cardContainer)}>
+                    {/* Card */}
+                    <motion.div
+                        initial={{ scale: 0 }}
+                        animate={{
+                            scale: isModalOpen ? 1 : 0,
+                        }}
+                        transition={{
+                            duration: animationDuration,
+                            ease: "easeInOut",
+                            type: "spring",
+                        }}
+                        className={combo(theme[variant].card, className?.card)}
+                    >
+                        <CrossButton
+                            setIsModalOpen={setIsModalOpen}
+                            withCross={withCross}
+                            className={className}
+                            variant={variant}
+                        />
+                        {children}
+                    </motion.div>
+                </div>
+            </div>
         </div>
     );
 }

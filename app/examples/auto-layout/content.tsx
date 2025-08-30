@@ -1,27 +1,19 @@
 "use client";
 
-import Select from "@comps/UI/select/select";
 import { useState } from "react";
+import Toggle from "../../../components/UI/toogle";
 
 export default function Content() {
-    const [toggle, setToggle] = useState<boolean>(true);
+    const [toggle, setToggle] = useState<boolean>(false);
 
     return (
         <>
-            <div className="space-y-2">
-                <h1 className="text-2xl font-bold">Auto-Layout</h1>
-                <Select
-                    label="Toggle"
-                    setSelected={(value) => setToggle(value === "true")}
-                    selected={toggle.toString()}
-                    options={[
-                        { label: "Short text", slug: "true" },
-                        { label: "Long text", slug: "false" },
-                    ]}
-                    canNotBeEmpty
-                />
+            <div className="flex items-center justify-center gap-5">
+                <div className="text-md font-semibold text-gray-500">Short text</div>
+                <Toggle setValue={setToggle} value={toggle} config={{ height: 26, width: 52, padding: 3 }} />
+                <div className="text-md font-semibold text-gray-500">Long text</div>
             </div>
-            <div>{toggle ? <Text /> : Array.from({ length: 10 }).map((_, index) => <Text key={index} />)}</div>
+            <div>{toggle ? Array.from({ length: 10 }).map((_, index) => <Text key={index} />) : <Text />}</div>
         </>
     );
 }
