@@ -8,7 +8,7 @@ import {
     ProductCountServer,
     ProductFindManyServer,
 } from "@services/server";
-import SearchPortal from "./search/SearchPortal";
+import SearchModal from "./search/SearchModal";
 import {
     ArticleSearchType,
     CategorySearchType,
@@ -50,5 +50,5 @@ export default async function Search() {
         diyCount,
     };
 
-    return <SearchPortal initialResults={initialResults} />;
+    return <SearchModal initialResults={initialResults} />;
 }

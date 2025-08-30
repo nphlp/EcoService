@@ -1,7 +1,7 @@
 "use client";
 
 import { combo } from "@lib/combo";
-import { ChangeEvent, InputHTMLAttributes, MouseEvent } from "react";
+import { ChangeEvent, InputHTMLAttributes, MouseEvent, RefObject } from "react";
 import { InputVariant, theme } from "./theme";
 
 export type InputClassName = {
@@ -20,6 +20,9 @@ export type InputProps = {
 
     // States
     setValue: (value: string) => void;
+
+    // Ref
+    ref?: RefObject<HTMLInputElement | null>;
 
     /** Custom execution after input change */
     afterChange?: () => void;

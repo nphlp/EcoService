@@ -48,8 +48,7 @@ const Dropdown = (props: DropdownProps) => {
         };
     }, [buttonRef]);
 
-    // Hide dropdown if not open
-    if (!isOpen) return null;
+    if (!isOpen || !buttonRect) return null;
 
     return (
         <div
