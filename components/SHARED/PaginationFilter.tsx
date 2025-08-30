@@ -1,21 +1,24 @@
 "use client";
 
-import Button from "@comps/UI/button/button";
+import Link from "@comps/UI/button/link";
 import { combo } from "@lib/combo";
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
-import { useContext } from "react";
+import { useSearchParams } from "next/navigation";
+import { MouseEvent, useContext } from "react";
 import { Context } from "../../app/catalog/components/context";
 import { usePageQueryParams, useTakeQueryParams } from "./queryParamsClientHooks";
 
 type PaginationProps = {
+    path: string;
     className?: string;
 };
 
 export default function Pagination(props: PaginationProps) {
-    const { className } = props;
+    const { className, path } = props;
 
     const { page, setPage } = usePageQueryParams();
     const { take } = useTakeQueryParams();
+    const searchParams = useSearchParams();
 
     const { productAmount } = useContext(Context);
 
@@ -25,48 +28,70 @@ export default function Pagination(props: PaginationProps) {
 
     if (productAmount === 0 || onlyOnePage) return <></>;
 
+    const paginationUrl = (pageNumber: number) => {
+        // eslint-disable-next-line
+        const { page, ...paramsWithoutPage } = Object.fromEntries(searchParams.entries());
+        const numberOfParams = Object.keys(paramsWithoutPage).length;
+
+        let newParams;
+
+        if (pageNumber === 1 && numberOfParams === 0) return path;
+        if (pageNumber === 1 && numberOfParams > 0) newParams = new URLSearchParams({ ...paramsWithoutPage });
+        if (pageNumber > 1) newParams = new URLSearchParams({ ...paramsWithoutPage, page: String(pageNumber) });
+
+        return `${path}?${newParams}`;
+    };
+
     const triggerScroll = () => {
         const mainEl = document.getElementById("main");
         setTimeout(() => mainEl?.scrollTo({ top: 0, behavior: "smooth" }), 50);
     };
 
-    const handleBack = () => {
+    const handleBack = (e: MouseEvent<HTMLAnchorElement>) => {
+        e.preventDefault();
+        e.stopPropagation();
         setPage(page - 1);
         triggerScroll();
     };
 
-    const handleNext = () => {
+    const handleNext = (e: MouseEvent<HTMLAnchorElement>) => {
+        e.preventDefault();
+        e.stopPropagation();
         setPage(page + 1);
         triggerScroll();
     };
 
     return (
         <div className={combo("flex h-12 items-center justify-center gap-3", className)}>
-            <Button
-                type="button"
+            <Link
                 label="previous"
+                href={paginationUrl(page - 1)}
                 variant="outline"
-                className={{
-                    button: "scale-100 rounded-full p-2 hover:scale-105 hover:bg-white disabled:hover:scale-100",
-                }}
-                disabled={page === 1}
+                className={combo(
+                    "scale-100 rounded-full p-2 hover:scale-105 hover:bg-white",
+                    // Is disabled
+                    page === 1 && "text-gray-300 hover:scale-100 hover:border-gray-300",
+                )}
+                isDisabled={page === 1}
                 onClick={handleBack}
             >
                 <ChevronLeftIcon />
-            </Button>
+            </Link>
             <div className="font-semibold">Page {page}</div>
-            <Button
-                type="button"
+            <Link
                 label="next"
+                href={paginationUrl(page + 1)}
                 variant="outline"
-                className={{
-                    button: "scale-100 rounded-full p-2 hover:scale-105 hover:bg-white disabled:hover:scale-100",
-                }}
-                disabled={page >= lastPageNumber}
+                className={combo(
+                    "scale-100 rounded-full p-2 hover:scale-105 hover:bg-white",
+                    // Is disabled
+                    page >= lastPageNumber && "text-gray-300 hover:scale-100 hover:border-gray-300",
+                )}
+                isDisabled={page >= lastPageNumber}
                 onClick={handleNext}
             >
                 <ChevronRightIcon />
-            </Button>
+            </Link>
         </div>
     );
 }

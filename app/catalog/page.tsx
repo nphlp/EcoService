@@ -82,7 +82,7 @@ export default async function Page(props: PageProps) {
                     </div>
                     <div className="flex flex-1 flex-col justify-start">
                         <Catalog className="p-6" initialProductList={initialProductList} />
-                        <Pagination className="mb-6" />
+                        <Pagination className="mb-6" path="/catalog" />
                     </div>
                 </Provider>
             </div>
