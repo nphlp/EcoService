@@ -2,6 +2,7 @@ import Basket from "@comps/CORE/Basket";
 import Footer from "@comps/CORE/Footer";
 import Header from "@comps/CORE/Header";
 import Portal from "@comps/CORE/Portal";
+import ScrollReset from "@comps/CORE/ScrollReset";
 import Search from "@comps/CORE/Search";
 import BasketSync from "@comps/CORE/basket/basketSync";
 import { PortalProvider } from "@comps/CORE/portal/PortalProvider";
@@ -62,6 +63,7 @@ export default async function Layout(props: LayoutProps) {
                         <Portal />
                     </PortalProvider>
                 </NuqsAdapter>
+                <ScrollReset />
             </body>
         </html>
     );
