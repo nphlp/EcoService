@@ -41,7 +41,7 @@ const Button = () => {
         e.stopPropagation();
 
         // On click outside, not on an option
-        if (!e.relatedTarget?.hasAttribute("data-slug")) {
+        if (!e.relatedTarget?.hasAttribute("data-options-slug")) {
             setIsOpen(false);
         }
     };
@@ -60,7 +60,7 @@ const Button = () => {
 
             // Focus the first option
             const firstOption: HTMLElement | null =
-                optionListRef.current?.querySelector("[data-slug]:first-child") ?? null;
+                optionListRef.current?.querySelector("[data-options-slug]:first-child") ?? null;
             if (firstOption) firstOption.focus();
         }
 
@@ -73,8 +73,12 @@ const Button = () => {
 
             // Focus the last option
             const lastOption: HTMLElement | null =
-                optionListRef.current?.querySelector("[data-slug]:last-child") ?? null;
+                optionListRef.current?.querySelector("[data-options-slug]:last-child") ?? null;
             if (lastOption) lastOption.focus();
+        }
+
+        if (key === "Tab") {
+            setIsOpen(false);
         }
 
         if (key === "Escape") {

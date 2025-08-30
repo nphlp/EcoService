@@ -3,8 +3,9 @@
 import { type ButtonHTMLAttributes } from "react";
 import Button from "./button";
 import Component from "./component";
+import Dropdown from "./dropdown";
 import Label from "./label";
-import Options from "./options";
+import Option from "./options";
 import Provider from "./provider";
 import { VariantType } from "./theme";
 import { SelectOptionType } from "./utils";
@@ -93,14 +94,18 @@ type SelectProps = Omit<CommonProps, "variant" | "dropdownGap"> & {
  */
 export default function Select(props: SelectProps) {
     // Define default values
-    const { variant = "default", dropdownGap = 8, ...others } = props;
+    const { options, variant = "default", dropdownGap = 8, ...others } = props;
 
     return (
-        <Provider {...{ variant, dropdownGap, ...others }}>
+        <Provider {...{ options, variant, dropdownGap, ...others }}>
             <Component>
                 <Label />
                 <Button />
-                <Options />
+                <Dropdown>
+                    {options?.map((option, index) => (
+                        <Option key={index} option={option} />
+                    ))}
+                </Dropdown>
             </Component>
         </Provider>
     );
