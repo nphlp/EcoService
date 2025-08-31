@@ -105,7 +105,7 @@ export default function IconLinks() {
 
             {/* Basket button */}
             <Button
-                label="toggle-basket-section-visibility"
+                label="basket"
                 variant="ghost"
                 className={{ button: "relative p-2" }}
                 focusVisible

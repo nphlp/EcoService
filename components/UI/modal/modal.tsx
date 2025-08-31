@@ -21,7 +21,7 @@ export type ModalClassName = {
     crossIcon?: string;
 };
 
-type ModalClientProps = {
+type ModalProps = {
     setIsModalOpen: (visible: boolean) => void;
     isModalOpen: boolean;
 
@@ -68,7 +68,7 @@ type ModalClientProps = {
  * </Modal>
  * ```
  */
-export default function Modal(props: ModalClientProps) {
+export default function Modal(props: ModalProps) {
     const {
         isModalOpen,
         setIsModalOpen,

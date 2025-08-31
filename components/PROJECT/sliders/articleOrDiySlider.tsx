@@ -22,7 +22,7 @@ export const ArticleOrDiySlider = (props: SliderClientProps) => {
     }));
 
     return (
-        <section className="space-y-6 px-6 py-8 md:px-12 md:py-16">
+        <section className="space-y-6">
             <h2 className="text-center text-4xl font-bold">{title}</h2>
             <Slider dataListLength={articleOrDiy.length} linkList={linkList}>
                 {articleOrDiy.map((articleOrDiy, index) => (

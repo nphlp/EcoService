@@ -9,6 +9,8 @@ Complete auth and user management
 ## CURRENT
 
 - [] Homogénéhiser tous les composants
+- [] Revoir le panier
+- [] Caler toutes les pages sur une largeur max
 
 ## Docker
 
