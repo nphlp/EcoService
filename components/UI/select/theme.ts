@@ -54,22 +54,22 @@ const structure: StructureType = {
     optionList: combo(
         // Position
         "absolute z-50",
-        // Spacing
-        "space-y-0.5",
         // Size and padding
         "w-full",
     ),
     optionButton: combo(
         // Display
-        "flex gap-2",
+        "flex items-center gap-2",
+        // Border and radius
+        "rounded",
         // Text
-        "text-black text-left",
+        "text-black text-sm",
         // Size and padding
-        "w-full",
+        "w-full px-2 py-1",
         // Accessibility
         "cursor-pointer",
     ),
-    optionIcon: combo(""),
+    optionIcon: combo("size-5 stroke-[2.5px]"),
     optionLabel: combo(""),
 };
 
@@ -112,8 +112,6 @@ const styles: StylesType = {
         optionList: combo(
             // Position
             "absolute",
-            // Spacing
-            "space-y-0.5",
             // Size and padding
             "w-full p-1",
             // Border and radius
@@ -122,20 +120,14 @@ const styles: StylesType = {
             "bg-white",
         ),
         optionButton: combo(
-            // Display
-            "flex gap-2",
             // Text
-            "text-left",
-            // Size and padding
-            "w-full px-2 py-0.5",
-            // Border and radius
-            "rounded",
+            "text-black",
             // Background
             "bg-white hover:bg-gray-200",
             // Outline
             "outline-none focus:bg-gray-200",
         ),
-        optionIcon: combo("stroke-gray-600"),
+        optionIcon: combo(""),
         optionLabel: combo(""),
     },
     dark: {
@@ -176,8 +168,6 @@ const styles: StylesType = {
         optionList: combo(
             // Position
             "absolute",
-            // Spacing
-            "space-y-0.5",
             // Size and padding
             "w-full p-1",
             // Border and radius
@@ -186,18 +176,14 @@ const styles: StylesType = {
             "bg-black",
         ),
         optionButton: combo(
-            // Display
-            "flex gap-2",
             // Text
-            "text-white text-left",
-            // Size and padding
-            "w-full px-2 py-0.5",
-            // Border and radius
-            "rounded",
+            "text-white",
             // Background
             "bg-black hover:bg-gray-700",
+            // Outline
+            "outline-none focus:bg-gray-700",
         ),
-        optionIcon: combo("stroke-gray-300"),
+        optionIcon: combo(""),
         optionLabel: combo(""),
     },
     none: {

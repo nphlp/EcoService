@@ -80,7 +80,11 @@ const Option = (props: OptionProps) => {
             data-options-slug={option.slug}
             onClick={handleClick}
             onKeyDown={handleKeyDown}
-            className={combo(theme[variant].optionButton, className?.optionButton)}
+            className={combo(
+                theme[variant].optionButton,
+                className?.optionButton,
+                selectedOption?.slug === option.slug && "font-semibold",
+            )}
         >
             <Check
                 className={combo(

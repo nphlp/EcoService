@@ -84,18 +84,18 @@ export default function Form(props: FormProps) {
                 setSelected={setCategory}
                 selected={category}
                 className={{ component: "w-full" }}
-                canNotBeEmpty
+                // canNotBeEmpty
             />
             <Combobox
-                label="Article"
-                placeholder="Sélectionnez un article"
+                label="Un seul article"
+                placeholder="Recherchez un article"
                 classComponent="w-full"
                 initialOptions={articleOptions}
                 states={comboboxStates}
             />
             <ComboboxMulti
-                label="Produits"
-                placeholder="Sélectionnez plusieurs produits"
+                label="Liste de produits"
+                placeholder="Recherchez plusieurs produits"
                 classComponent="w-full"
                 initialOptions={productOptions}
                 states={comboboxMultiStates}

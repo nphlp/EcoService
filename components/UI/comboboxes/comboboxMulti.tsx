@@ -298,7 +298,13 @@ export default function ComboboxMulti<T extends ComboOptionType | MultiSourceCom
                         value={query}
                         placeholder={placeholder ?? "Search and select multiple options..."}
                         className={combo(
-                            "w-full rounded-lg border border-black/20 bg-white px-4 py-1.5",
+                            // Size and padding
+                            "w-full px-4 py-1.5",
+                            // Border and radius
+                            "rounded-lg border border-gray-300 focus:border-gray-500",
+                            // Backgrounde
+                            "bg-white",
+                            // Accessibility
                             "ring-0 outline-none focus:ring-2 focus:ring-teal-300",
                             "transition-all duration-150",
                         )}

@@ -60,7 +60,7 @@ export default function ComboboxIcon<T extends ComboOptionType | MultiSourceComb
 
     if (isLoading) {
         return (
-            <div className={combo("absolute top-1/2 right-1 -translate-y-1/2 cursor-pointer rounded-full p-1")}>
+            <div className={combo("absolute top-1/2 right-2 -translate-y-1/2 rounded p-1")}>
                 <Loader />
             </div>
         );
@@ -69,9 +69,19 @@ export default function ComboboxIcon<T extends ComboOptionType | MultiSourceComb
     if (!hasSelection) {
         return (
             <ComboboxButton
-                className={combo("absolute top-1/2 right-1 -translate-y-1/2 cursor-pointer rounded-full p-1")}
+                className={combo(
+                    // Position
+                    "absolute top-1/2 right-2 -translate-y-1/2",
+                    // Border and radius
+                    "rounded",
+                    // Outline
+                    "ring-teal-300 outline-none focus:ring-2",
+                    "transition-all duration-150",
+                    // Accessibility
+                    "cursor-pointer",
+                )}
             >
-                <ChevronDown className="size-5 fill-white" />
+                <ChevronDown className="translate-y-px stroke-gray-600" />
             </ComboboxButton>
         );
     }
@@ -82,12 +92,18 @@ export default function ComboboxIcon<T extends ComboOptionType | MultiSourceComb
             onClick={handleClick}
             onKeyDown={handleKeyDown}
             className={combo(
-                "absolute top-1/2 right-1 -translate-y-1/2 cursor-pointer rounded-full p-1",
-                "ring-0 outline-none focus:ring-2 focus:ring-teal-300",
+                // Position
+                "absolute top-1/2 right-2 -translate-y-1/2",
+                // Border and radius
+                "rounded",
+                // Outline
+                "ring-teal-300 outline-none focus:ring-2",
                 "transition-all duration-150",
+                // Accessibility
+                "cursor-pointer",
             )}
         >
-            <X className="size-5 fill-white" />
+            <X className="stroke-gray-600" />
         </button>
     );
 }

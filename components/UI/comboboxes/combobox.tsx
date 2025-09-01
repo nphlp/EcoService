@@ -277,7 +277,13 @@ export default function Combobox<T extends ComboOptionType | MultiSourceComboOpt
                         // value={query} // Disable query value to allow "displayValue" to work properly
                         placeholder={placeholder ?? "Search and select an option..."}
                         className={combo(
-                            "w-full rounded-lg border border-black/20 bg-white px-4 py-1.5",
+                            // Size and padding
+                            "w-full px-4 py-1.5",
+                            // Border and radius
+                            "rounded-lg border border-gray-300 focus:border-gray-500",
+                            // Backgrounde
+                            "bg-white",
+                            // Accessibility
                             "ring-0 outline-none focus:ring-2 focus:ring-teal-300",
                             "transition-all duration-150",
                         )}
