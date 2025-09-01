@@ -128,8 +128,12 @@ export default function Modal(props: ModalProps) {
                 <div className={combo(fixedToTop && "flex-1", theme[variant].cardContainer, className?.cardContainer)}>
                     {/* Card */}
                     <motion.div
-                        initial={{ scale: 0 }}
+                        initial={{
+                            display: "none",
+                            scale: 0,
+                        }}
                         animate={{
+                            display: isModalOpen ? "block" : "none",
                             scale: isModalOpen ? 1 : 0,
                         }}
                         transition={{
