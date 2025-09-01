@@ -23,7 +23,7 @@ export default function Provider(props: ContextProviderProps) {
         initialData: initialProductAmount,
     });
 
-    const value = { productAmount, isLoading };
+    const value = { itemsAmount: productAmount, isLoading };
 
     return <Context.Provider value={value}>{children}</Context.Provider>;
 }

@@ -14,7 +14,7 @@ export type StylesType = {
 
 const structure: StructureType = {
     component: combo("block space-y-1"),
-    label: combo("text-sm font-medium"),
+    label: combo("text-sm font-semibold"),
     input: combo(
         "w-full rounded-lg border px-4 py-1.5",
         // Ring and focus

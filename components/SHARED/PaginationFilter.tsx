@@ -4,29 +4,35 @@ import Link from "@comps/UI/button/link";
 import { combo } from "@lib/combo";
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 import { useSearchParams } from "next/navigation";
-import { MouseEvent, useContext } from "react";
-import { Context } from "../../app/catalog/components/context";
+import { Context, MouseEvent, useContext } from "react";
 import { usePageQueryParams, useTakeQueryParams } from "./queryParamsClientHooks";
+
+type ContextType = {
+    itemsAmount: number | undefined;
+    isLoading: boolean;
+};
 
 type PaginationProps = {
     path: string;
+    context: Context<ContextType>;
+    takeOverride?: number;
     className?: string;
 };
 
 export default function Pagination(props: PaginationProps) {
-    const { className, path } = props;
+    const { className, path, takeOverride, context } = props;
 
     const { page, setPage } = usePageQueryParams();
     const { take } = useTakeQueryParams();
     const searchParams = useSearchParams();
 
-    const { productAmount } = useContext(Context);
+    const { itemsAmount } = useContext(context);
 
-    const lastPageNumber = Math.ceil((productAmount ?? 1) / take);
+    const lastPageNumber = Math.ceil((itemsAmount ?? 1) / (takeOverride ?? take));
 
     const onlyOnePage = lastPageNumber === 1;
 
-    if (productAmount === 0 || onlyOnePage) return <></>;
+    if (itemsAmount === 0 || onlyOnePage) return <></>;
 
     const paginationUrl = (pageNumber: number) => {
         // eslint-disable-next-line

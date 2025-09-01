@@ -17,6 +17,7 @@ export type InputProps = {
     // Styles
     variant?: InputVariant;
     className?: InputClassName;
+    noLabel?: boolean;
 
     // States
     setValue: (value: string) => void;
@@ -46,7 +47,16 @@ export type InputProps = {
  * ```
  */
 export default function Input(props: InputProps) {
-    const { label, variant = "default", setValue, afterChange, required = true, className, ...others } = props;
+    const {
+        label,
+        variant = "default",
+        noLabel = false,
+        setValue,
+        afterChange,
+        required = true,
+        className,
+        ...others
+    } = props;
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         setValue(e.target.value);
@@ -62,7 +72,7 @@ export default function Input(props: InputProps) {
     return (
         <label onClick={preventDefault} className={combo(theme[variant].component, className?.component)}>
             {/* Label */}
-            <div className={combo(theme[variant].label, className?.label)}>{label}</div>
+            <div className={combo(theme[variant].label, className?.label, noLabel && "sr-only")}>{label}</div>
 
             {/* Input */}
             <input

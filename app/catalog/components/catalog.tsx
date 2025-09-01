@@ -1,6 +1,6 @@
 "use client";
 
-import ProductCard from "@comps/PROJECT/cards/productCard";
+import ProductCard, { ProductCardSkeleton } from "@comps/PROJECT/cards/productCard";
 import {
     useCategoryQueryParams,
     usePageQueryParams,
@@ -9,7 +9,6 @@ import {
     useTakeQueryParams,
 } from "@comps/SHARED/queryParamsClientHooks";
 import Link from "@comps/UI/button/link";
-import Card from "@comps/UI/card";
 import { combo } from "@lib/combo";
 import { ProductModel } from "@services/types";
 import { useFetchV2 } from "@utils/FetchV2/FetchHookV2";
@@ -101,21 +100,3 @@ export default function Catalog(props: CatalogProps) {
         </div>
     );
 }
-
-const ProductCardSkeleton = () => {
-    return (
-        <Card className="h-full overflow-hidden p-0">
-            <div className="animate-shimmer aspect-[3/2]" />
-            <div className="flex flex-row items-end justify-between p-5">
-                <div className="w-full space-y-3">
-                    <div className="w-full space-y-2">
-                        <div className="animate-shimmer h-[24px] w-[50%] rounded" />
-                        <div className="animate-shimmer h-[18px] w-[70%] rounded" />
-                    </div>
-                    <div className="animate-shimmer h-[18px] w-[20%] rounded" />
-                </div>
-                <div className="animate-shimmer size-[44px] shrink-0 rounded-xl" />
-            </div>
-        </Card>
-    );
-};

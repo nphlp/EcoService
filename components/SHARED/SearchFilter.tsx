@@ -1,9 +1,16 @@
 "use client";
 
-import Input from "@comps/UI/input/input";
+import Input, { InputClassName } from "@comps/UI/input/input";
 import { usePageQueryParams, useSearchQueryParams } from "./queryParamsClientHooks";
 
-export default function SearchFilter() {
+type SearchFilterProps = {
+    className?: InputClassName;
+    noLabel?: boolean;
+};
+
+export default function SearchFilter(props: SearchFilterProps) {
+    const { noLabel, className } = props;
+
     const { search, setSearch } = useSearchQueryParams();
 
     const { setPage } = usePageQueryParams();
@@ -16,10 +23,11 @@ export default function SearchFilter() {
         <Input
             label="Rechercher"
             placeholder="Rechercher"
-            className={{ label: "text-white" }}
+            className={className}
             afterChange={handleChange}
             setValue={setSearch}
             value={search}
+            noLabel={noLabel}
         />
     );
 }

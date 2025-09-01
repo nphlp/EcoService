@@ -30,3 +30,21 @@ export default function ProductCard(props: ProductCardProps) {
         </Card>
     );
 }
+
+export const ProductCardSkeleton = () => {
+    return (
+        <Card className="size-full overflow-hidden p-0">
+            <div className="animate-shimmer aspect-[3/2]" />
+            <div className="flex flex-row items-end justify-between gap-1 p-5">
+                <div className="w-full space-y-2">
+                    <div className="w-full space-y-1">
+                        <div className="animate-shimmer h-[26px] w-[70%] rounded" />
+                        <div className="animate-shimmer h-[18px] w-[80%] rounded" />
+                    </div>
+                    <div className="animate-shimmer h-[24px] w-[30%] rounded" />
+                </div>
+                <div className="animate-shimmer size-[44px] shrink-0 rounded-xl" />
+            </div>
+        </Card>
+    );
+};
