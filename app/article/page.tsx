@@ -1,8 +1,14 @@
-import ArticleOrDiyCard from "@comps/PROJECT/cards/articleOrDiyCard";
-import Link from "@comps/UI/button/link";
-import { ArticleFindManyServer } from "@services/server";
+import Pagination from "@comps/SHARED/PaginationFilter";
+import SearchFilter from "@comps/SHARED/SearchFilter";
+import { combo } from "@lib/combo";
+import { ArticleCountServer, ArticleFindManyServer } from "@services/server";
+import { Search } from "lucide-react";
 import { Metadata } from "next";
 import { SearchParams } from "nuqs/server";
+import ArticleResults from "./articleResults";
+import { Context } from "./context";
+import { articleCountParams, articleFetchParams } from "./fetchParams";
+import Provider from "./provider";
 import { articleQueryParamsCached } from "./queryParams";
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
@@ -11,7 +17,7 @@ if (!baseUrl) throw new Error("NEXT_PUBLIC_BASE_URL environment variable is not 
 export const metadata: Metadata = {
     title: "Nos articles",
     description: "Découvrez nos articles et nos conseils pour améliorer votre maison.",
-    // metadataBase: new URL(`${baseUrl}/article`),
+    metadataBase: new URL(`${baseUrl}/article`),
     alternates: {
         canonical: `${baseUrl}/article`,
     },
@@ -23,69 +29,38 @@ type PageProps = {
 
 export default async function Page(props: PageProps) {
     const { searchParams } = props;
-    const { search } = await articleQueryParamsCached.parse(searchParams);
 
-    const articleList = await ArticleFindManyServer({
-        select: {
-            title: true,
-            slug: true,
-            createdAt: true,
-            Content: {
-                select: {
-                    content: true,
-                    image: true,
-                },
-            },
-            Author: {
-                select: {
-                    name: true,
-                },
-            },
-        },
-        orderBy: {
-            createdAt: "desc",
-        },
-        where: {
-            OR: [
-                { title: { contains: search } },
-                { slug: { contains: search } },
-                {
-                    Content: {
-                        some: {
-                            content: { contains: search },
-                        },
-                    },
-                },
-                {
-                    Author: {
-                        name: { contains: search },
-                    },
-                },
-            ],
-        },
-    });
+    // Get search params
+    const { page, search } = await articleQueryParamsCached.parse(searchParams);
 
-    if (!articleList) {
-        return <div className="container mx-auto px-4 py-10">Aucun article disponible pour le moment.</div>;
-    }
+    // Fetch data
+    const initialArticleAmount = await ArticleCountServer(articleCountParams({ search }));
+
+    const initialArticleList = await ArticleFindManyServer(articleFetchParams({ page, search }));
 
     return (
-        <div className="container mx-auto px-4 py-10">
-            <h1 className="mb-10 text-center text-3xl font-bold md:text-4xl">Nos articles</h1>
-
-            <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                {articleList.map((article, index) => (
-                    <Link
-                        key={index}
-                        label={article.title}
-                        href={`/article/${article.slug}`}
-                        variant="none"
-                        className="transition-scale rounded-xl duration-300 hover:scale-101"
-                    >
-                        <ArticleOrDiyCard articleOrDiy={article} mode="preloaded" />
-                    </Link>
-                ))}
-            </div>
+        <div className="container mx-auto flex flex-1 flex-col space-y-6 px-5 py-10">
+            <Provider initialArticleAmount={initialArticleAmount}>
+                <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
+                    <h1 className="text-center text-3xl font-bold md:text-4xl">Nos articles</h1>
+                    <div className={combo("group flex flex-row items-center justify-center gap-4")}>
+                        <Search
+                            className={combo(
+                                "text-gray-400 group-focus-within:text-gray-700",
+                                "transition-all duration-150",
+                            )}
+                        />
+                        <SearchFilter
+                            className={{
+                                input: "rounded-none border-x-0 border-t-0 border-b-gray-300 px-0 py-0.5 ring-transparent",
+                            }}
+                            noLabel
+                        />
+                    </div>
+                </div>
+                <ArticleResults initialArticleList={initialArticleList} />
+                <Pagination path="/article" takeOverride={6} context={Context} />
+            </Provider>
         </div>
     );
 }
