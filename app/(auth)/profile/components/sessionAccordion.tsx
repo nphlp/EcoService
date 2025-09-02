@@ -2,7 +2,6 @@ import { Accordion, AccordionButton, AccordionContent } from "@comps/UI/accordio
 import Logout from "@comps/UI/logout";
 import { BetterSessionListServer, BetterSessionServer, GetSessionList } from "@lib/authServer";
 import { Fetch } from "@utils/Fetch/Fetch";
-import { FetchParallelized } from "@utils/Fetch/FetchParallelized";
 import { LogOut } from "lucide-react";
 import LocationMap from "./locationMap";
 import SessionManager, { SessionAndLocation } from "./sessionManager";
@@ -85,11 +84,13 @@ const OtherSessions = async (props: OtherSessionsProps) => {
         (a, b) => new Date(b.expiresAt).getTime() - new Date(a.expiresAt).getTime(),
     );
 
-    const location = await FetchParallelized(
-        orderedSessionList.map(({ ipAddress }) => ({
-            route: "/external/location",
-            params: { ipAddress: ipAddress ?? "" },
-        })),
+    const location = await Promise.all(
+        orderedSessionList.map(({ ipAddress }) =>
+            Fetch({
+                route: "/external/location",
+                params: { ipAddress: ipAddress ?? "" },
+            }),
+        ),
     );
 
     const sessionAndLocationList: SessionAndLocation[] = orderedSessionList.map((session, index) => ({

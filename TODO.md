@@ -6,6 +6,16 @@ Complete auth and user management
 
 - Build : The Next.js plugin was not detected in your ESLint configuration. See https://nextjs.org/docs/app/api-reference/config/eslint#migrating-existing-config
 
+## FetchV3
+
+- [ ] Template Server n'utilise pas le cache ?
+
+- [ ] Réduire le nombre de couches
+    - [ ] Supprimer Zod
+
+- [ ] Fusionner Fetch et FetchV2 en FetchV3
+    - [ ] Ajouter au template API en `/external/...`
+
 ## CURRENT
 
 - [] Homogénéhiser tous les composants
@@ -24,21 +34,19 @@ Complete auth and user management
 ## Rework
 
 - [] Revoir et décompléxifier le système Fetch interne/externe, hook useFetch et génération de Services
-- [] Revoir les composants UI et l'architecture premitive/surcouche
-- [] Revoir les Docker Compose environnements depuis le chagement de paradigme `export dynamic = "auto"`
 - [] Améliorer la gestion des autorisations et permissions
 - [] Gérer les TODOs
 
-## Système de stock
+## Base de donnée
 
-## Système de notation
+- [] Gestion du stock
+- [] Système de notation
+- [] Système de favoris
+- [] Système de commentaires
 
-## Système de commentaires
-
-## Système de ranking
-
-- Ajouter un `vue` produit à chaque clic
-- Calcul rank = `nombre vue` / `nombre achat`
+- [] Système de hits / rank
+    - Ajouter un `vue` produit à chaque clic
+    - Calcul rank = `nombre vue` / `nombre achat`
 
 ## User Experience
 
