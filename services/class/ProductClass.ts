@@ -1,8 +1,7 @@
 import PrismaInstance from "@lib/prisma";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
-import { ProductCount, ProductCountProps, ProductCountResponse, ProductCountSchema, ProductCreateManyProps, ProductCreateManyResponse, ProductCreateManySchema, ProductCreateProps, ProductCreateResponse, ProductCreateSchema, ProductDeleteManyProps, ProductDeleteManyResponse, ProductDeleteManySchema, ProductDeleteProps, ProductDeleteResponse, ProductDeleteSchema, ProductFindFirstProps, ProductFindFirstResponse, ProductFindFirstSchema, ProductFindManyProps, ProductFindManyResponse, ProductFindManySchema, ProductFindUniqueProps, ProductFindUniqueResponse, ProductFindUniqueSchema, ProductUpdateManyProps, ProductUpdateManyResponse, ProductUpdateManySchema, ProductUpdateProps, ProductUpdateResponse, ProductUpdateSchema, ProductUpsertProps, ProductUpsertResponse, ProductUpsertSchema } from "@services/types/ProductType";
+import { ProductCount, ProductCountProps, ProductCountResponse, ProductCreateManyProps, ProductCreateManyResponse, ProductCreateProps, ProductCreateResponse, ProductDeleteManyProps, ProductDeleteManyResponse, ProductDeleteProps, ProductDeleteResponse, ProductFindFirstProps, ProductFindFirstResponse, ProductFindManyProps, ProductFindManyResponse, ProductFindUniqueProps, ProductFindUniqueResponse, ProductUpdateManyProps, ProductUpdateManyResponse, ProductUpdateProps, ProductUpdateResponse, ProductUpsertProps, ProductUpsertResponse } from "@services/types/ProductType";
 import { ResponseFormat } from "@utils/FetchConfig";
-import { ZodError } from "zod";
 
 export default class ProductService {
 
@@ -10,8 +9,7 @@ export default class ProductService {
 
     static async create<T extends ProductCreateProps>(props: T): Promise<ResponseFormat<ProductCreateResponse<T>>> {
         try {
-            const parsedProps = ProductCreateSchema.parse(props);
-            const product = await PrismaInstance.product.create(parsedProps);
+            const product = await PrismaInstance.product.create(props);
             return { data: product as ProductCreateResponse<T> };
         } catch (error) {
             return ProductService.error("create", error);
@@ -20,8 +18,7 @@ export default class ProductService {
 
     static async upsert<T extends ProductUpsertProps>(props: T): Promise<ResponseFormat<ProductUpsertResponse<T>>> {
         try {
-            const parsedProps = ProductUpsertSchema.parse(props);
-            const product = await PrismaInstance.product.upsert(parsedProps);
+            const product = await PrismaInstance.product.upsert(props);
             return { data: product as ProductUpsertResponse<T> };
         } catch (error) {
             return ProductService.error("upsert", error);
@@ -30,8 +27,7 @@ export default class ProductService {
 
     static async update<T extends ProductUpdateProps>(props: T): Promise<ResponseFormat<ProductUpdateResponse<T>>> {
         try {
-            const parsedProps = ProductUpdateSchema.parse(props);
-            const product = await PrismaInstance.product.update(parsedProps);
+            const product = await PrismaInstance.product.update(props);
             return { data: product as ProductUpdateResponse<T> };
         } catch (error) {
             return ProductService.error("update", error);
@@ -40,8 +36,7 @@ export default class ProductService {
 
     static async delete<T extends ProductDeleteProps>(props: T): Promise<ResponseFormat<ProductDeleteResponse<T>>> {
         try {
-            const parsedProps = ProductDeleteSchema.parse(props);
-            const product = await PrismaInstance.product.delete(parsedProps);
+            const product = await PrismaInstance.product.delete(props);
             return { data: product as ProductDeleteResponse<T> };
         } catch (error) {
             return ProductService.error("delete", error);
@@ -52,8 +47,7 @@ export default class ProductService {
 
     static async createMany(props: ProductCreateManyProps): Promise<ResponseFormat<ProductCreateManyResponse>> {
         try {
-            const parsedProps = ProductCreateManySchema.parse(props);
-            const result = await PrismaInstance.product.createMany(parsedProps);
+            const result = await PrismaInstance.product.createMany(props);
             return { data: result };
         } catch (error) {
             return ProductService.error("createMany", error);
@@ -62,8 +56,7 @@ export default class ProductService {
 
     static async updateMany(props: ProductUpdateManyProps): Promise<ResponseFormat<ProductUpdateManyResponse>> {
         try {
-            const parsedProps = ProductUpdateManySchema.parse(props);
-            const result = await PrismaInstance.product.updateMany(parsedProps);
+            const result = await PrismaInstance.product.updateMany(props);
             return { data: result };
         } catch (error) {
             return ProductService.error("updateMany", error);
@@ -72,8 +65,7 @@ export default class ProductService {
 
     static async deleteMany(props: ProductDeleteManyProps): Promise<ResponseFormat<ProductDeleteManyResponse>> {
         try {
-            const parsedProps = ProductDeleteManySchema.parse(props);
-            const result = await PrismaInstance.product.deleteMany(parsedProps);
+            const result = await PrismaInstance.product.deleteMany(props);
             return { data: result };
         } catch (error) {
             return ProductService.error("deleteMany", error);
@@ -84,8 +76,7 @@ export default class ProductService {
 
     static async findFirst<T extends ProductFindFirstProps>(props: T): Promise<ResponseFormat<ProductFindFirstResponse<T>>> {
         try {
-            const parsedProps = ProductFindFirstSchema.parse(props);
-            const product = await PrismaInstance.product.findFirst(parsedProps);
+            const product = await PrismaInstance.product.findFirst(props);
             return { data: product as ProductFindFirstResponse<T> };
         } catch (error) {
             return ProductService.error("findFirst", error);
@@ -94,8 +85,7 @@ export default class ProductService {
 
     static async findUnique<T extends ProductFindUniqueProps>(props: T): Promise<ResponseFormat<ProductFindUniqueResponse<T>>> {
         try {
-            const parsedProps = ProductFindUniqueSchema.parse(props);
-            const product = await PrismaInstance.product.findUnique(parsedProps);
+            const product = await PrismaInstance.product.findUnique(props);
             return { data: product as ProductFindUniqueResponse<T> };
         } catch (error) {
             return ProductService.error("findUnique", error);
@@ -104,9 +94,7 @@ export default class ProductService {
 
     static async findMany<T extends ProductFindManyProps>(props: T): Promise<ResponseFormat<ProductFindManyResponse<T>>> {
         try {
-            const parsedProps = ProductFindManySchema.parse(props);
-            const { skip = 0, take = 10 } = parsedProps;
-            const productList = await PrismaInstance.product.findMany({ skip, take, ...parsedProps });
+            const productList = await PrismaInstance.product.findMany(props);
             return { data: productList as ProductFindManyResponse<T> };
         } catch (error) {
             return ProductService.error("findMany", error);
@@ -117,8 +105,7 @@ export default class ProductService {
 
     static async count(props: ProductCountProps): Promise<ResponseFormat<ProductCountResponse>> {
         try {
-            const parsedProps = ProductCountSchema.parse(props);
-            const productAmount: ProductCount = await PrismaInstance.product.count(parsedProps);
+            const productAmount: ProductCount = await PrismaInstance.product.count(props);
             return { data: productAmount };
         } catch (error) {
             return ProductService.error("count", error);
@@ -131,11 +118,7 @@ export default class ProductService {
         if (process.env.NODE_ENV === "development") {
             const serviceName = this.constructor.name;
             const message = (error as Error).message;
-            if (error instanceof ZodError){
-                const zodMessage = serviceName + " -> " + methodName + " -> Invalid Zod params -> " + error.message;
-                console.error(zodMessage);
-                throw new Error(zodMessage);
-            } else if (error instanceof PrismaClientKnownRequestError){
+            if (error instanceof PrismaClientKnownRequestError){
                 const prismaMessage = serviceName + " -> " + methodName + " -> Prisma error -> " + error.message;
                 console.error(prismaMessage);
                 throw new Error(prismaMessage);

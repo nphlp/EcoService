@@ -41,7 +41,6 @@ services:
             # Exclude generated files (no sync)
             - /app/node_modules
             - /app/prisma/client
-            - /app/prisma/zod
             # SSL client certs (read-only)
             - ./docker/certs:/app/docker/certs:ro
         depends_on:

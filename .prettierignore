@@ -5,6 +5,5 @@
 templates/
 services/
 prisma/client/
-prisma/zod/
 node_modules/
 pnpm-lock.yaml

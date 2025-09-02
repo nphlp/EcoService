@@ -1,19 +1,10 @@
 // ============== Types ============== //
 
-import { Prisma } from "@prisma/client";
-import { {{modelName}}CreateArgsSchema, {{modelName}}CreateManyArgsSchema, {{modelName}}DeleteArgsSchema, {{modelName}}DeleteManyArgsSchema, {{modelName}}FindFirstArgsSchema, {{modelName}}FindManyArgsSchema, {{modelName}}FindUniqueArgsSchema, {{modelName}}OrderByWithRelationInputSchema, {{modelName}}Schema, {{modelName}}UpdateArgsSchema, {{modelName}}UpdateManyArgsSchema, {{modelName}}UpsertArgsSchema, {{modelName}}WhereInputSchema, {{modelName}}WhereUniqueInputSchema, {{#if hasRelations}}{{modelName}}WithRelationsSchema{{/if}} } from "@prisma/zod";
-{{#if hasRelations}}
-import {{modelName}}IncludeSchema from "@prisma/zod/inputTypeSchemas/{{modelName}}IncludeSchema";
-{{/if}}
-import { z, ZodType } from "zod";
+import { {{modelName}}, Prisma } from "@prisma/client";
 
 // ============== Model Types ============== //
 
-export type {{modelName}}Model = z.infer<typeof {{modelName}}Schema>;
-{{#if hasRelations}}
-export type {{modelName}}RelationsOptional = z.infer<typeof {{modelName}}Schema> & z.infer<typeof {{modelName}}IncludeSchema>;
-export type {{modelName}}RelationsComplete = z.infer<typeof {{modelName}}WithRelationsSchema>;
-{{/if}}
+export type {{modelName}}Model = {{modelName}};
 export type {{modelName}}Count = number;
 
 // ============== Props Types ============== //
@@ -36,37 +27,6 @@ export type {{modelName}}FindManyProps = Prisma.{{modelName}}FindManyArgs;
 
 // Multiple queries
 export type {{modelName}}CountProps = Prisma.{{modelName}}CountArgs;
-
-// ============== Schema Types ============== //
-
-// Single mutations
-export const {{modelName}}CreateSchema: ZodType<{{modelName}}CreateProps> = {{modelName}}CreateArgsSchema;
-export const {{modelName}}UpsertSchema: ZodType<{{modelName}}UpsertProps> = {{modelName}}UpsertArgsSchema;
-export const {{modelName}}UpdateSchema: ZodType<{{modelName}}UpdateProps> = {{modelName}}UpdateArgsSchema;
-export const {{modelName}}DeleteSchema: ZodType<{{modelName}}DeleteProps> = {{modelName}}DeleteArgsSchema;
-
-// Multiple mutations
-export const {{modelName}}CreateManySchema: ZodType<{{modelName}}CreateManyProps> = {{modelName}}CreateManyArgsSchema;
-export const {{modelName}}UpdateManySchema: ZodType<{{modelName}}UpdateManyProps> = {{modelName}}UpdateManyArgsSchema;
-export const {{modelName}}DeleteManySchema: ZodType<{{modelName}}DeleteManyProps> = {{modelName}}DeleteManyArgsSchema;
-
-// Single queries
-export const {{modelName}}FindFirstSchema: ZodType<{{modelName}}FindFirstProps> = {{modelName}}FindFirstArgsSchema;
-export const {{modelName}}FindUniqueSchema: ZodType<{{modelName}}FindUniqueProps> = {{modelName}}FindUniqueArgsSchema;
-export const {{modelName}}FindManySchema: ZodType<{{modelName}}FindManyProps> = {{modelName}}FindManyArgsSchema;
-
-// Aggregate queries
-export const {{modelName}}CountSchema: ZodType<{{modelName}}CountProps> =  z.object({
-    where: z.lazy(() => {{modelName}}WhereInputSchema).optional(),
-    orderBy: z.union([
-        z.lazy(() => {{modelName}}OrderByWithRelationInputSchema),
-        z.array(z.lazy(() => {{modelName}}OrderByWithRelationInputSchema))
-    ]).optional(),
-    cursor: z.lazy(() => {{modelName}}WhereUniqueInputSchema).optional(),
-    take: z.number().optional(),
-    skip: z.number().optional(),
-    select: z.union([z.literal(true), z.record(z.string(), z.boolean())]).optional()
-});
 
 // ============== Response Types ============== //
 

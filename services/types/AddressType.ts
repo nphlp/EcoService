@@ -1,12 +1,10 @@
 // ============== Types ============== //
 
-import { Prisma } from "@prisma/client";
-import { AddressCreateArgsSchema, AddressCreateManyArgsSchema, AddressDeleteArgsSchema, AddressDeleteManyArgsSchema, AddressFindFirstArgsSchema, AddressFindManyArgsSchema, AddressFindUniqueArgsSchema, AddressOrderByWithRelationInputSchema, AddressSchema, AddressUpdateArgsSchema, AddressUpdateManyArgsSchema, AddressUpsertArgsSchema, AddressWhereInputSchema, AddressWhereUniqueInputSchema,  } from "@prisma/zod";
-import { z, ZodType } from "zod";
+import { Address, Prisma } from "@prisma/client";
 
 // ============== Model Types ============== //
 
-export type AddressModel = z.infer<typeof AddressSchema>;
+export type AddressModel = Address;
 export type AddressCount = number;
 
 // ============== Props Types ============== //
@@ -29,37 +27,6 @@ export type AddressFindManyProps = Prisma.AddressFindManyArgs;
 
 // Multiple queries
 export type AddressCountProps = Prisma.AddressCountArgs;
-
-// ============== Schema Types ============== //
-
-// Single mutations
-export const AddressCreateSchema: ZodType<AddressCreateProps> = AddressCreateArgsSchema;
-export const AddressUpsertSchema: ZodType<AddressUpsertProps> = AddressUpsertArgsSchema;
-export const AddressUpdateSchema: ZodType<AddressUpdateProps> = AddressUpdateArgsSchema;
-export const AddressDeleteSchema: ZodType<AddressDeleteProps> = AddressDeleteArgsSchema;
-
-// Multiple mutations
-export const AddressCreateManySchema: ZodType<AddressCreateManyProps> = AddressCreateManyArgsSchema;
-export const AddressUpdateManySchema: ZodType<AddressUpdateManyProps> = AddressUpdateManyArgsSchema;
-export const AddressDeleteManySchema: ZodType<AddressDeleteManyProps> = AddressDeleteManyArgsSchema;
-
-// Single queries
-export const AddressFindFirstSchema: ZodType<AddressFindFirstProps> = AddressFindFirstArgsSchema;
-export const AddressFindUniqueSchema: ZodType<AddressFindUniqueProps> = AddressFindUniqueArgsSchema;
-export const AddressFindManySchema: ZodType<AddressFindManyProps> = AddressFindManyArgsSchema;
-
-// Aggregate queries
-export const AddressCountSchema: ZodType<AddressCountProps> =  z.object({
-    where: z.lazy(() => AddressWhereInputSchema).optional(),
-    orderBy: z.union([
-        z.lazy(() => AddressOrderByWithRelationInputSchema),
-        z.array(z.lazy(() => AddressOrderByWithRelationInputSchema))
-    ]).optional(),
-    cursor: z.lazy(() => AddressWhereUniqueInputSchema).optional(),
-    take: z.number().optional(),
-    skip: z.number().optional(),
-    select: z.union([z.literal(true), z.record(z.string(), z.boolean())]).optional()
-});
 
 // ============== Response Types ============== //
 

@@ -28,7 +28,6 @@ docker/certs/
 
 # prisma
 prisma/client
-prisma/zod
 
 # Test
 run/

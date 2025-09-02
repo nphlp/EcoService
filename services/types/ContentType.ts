@@ -1,12 +1,10 @@
 // ============== Types ============== //
 
-import { Prisma } from "@prisma/client";
-import { ContentCreateArgsSchema, ContentCreateManyArgsSchema, ContentDeleteArgsSchema, ContentDeleteManyArgsSchema, ContentFindFirstArgsSchema, ContentFindManyArgsSchema, ContentFindUniqueArgsSchema, ContentOrderByWithRelationInputSchema, ContentSchema, ContentUpdateArgsSchema, ContentUpdateManyArgsSchema, ContentUpsertArgsSchema, ContentWhereInputSchema, ContentWhereUniqueInputSchema,  } from "@prisma/zod";
-import { z, ZodType } from "zod";
+import { Content, Prisma } from "@prisma/client";
 
 // ============== Model Types ============== //
 
-export type ContentModel = z.infer<typeof ContentSchema>;
+export type ContentModel = Content;
 export type ContentCount = number;
 
 // ============== Props Types ============== //
@@ -29,37 +27,6 @@ export type ContentFindManyProps = Prisma.ContentFindManyArgs;
 
 // Multiple queries
 export type ContentCountProps = Prisma.ContentCountArgs;
-
-// ============== Schema Types ============== //
-
-// Single mutations
-export const ContentCreateSchema: ZodType<ContentCreateProps> = ContentCreateArgsSchema;
-export const ContentUpsertSchema: ZodType<ContentUpsertProps> = ContentUpsertArgsSchema;
-export const ContentUpdateSchema: ZodType<ContentUpdateProps> = ContentUpdateArgsSchema;
-export const ContentDeleteSchema: ZodType<ContentDeleteProps> = ContentDeleteArgsSchema;
-
-// Multiple mutations
-export const ContentCreateManySchema: ZodType<ContentCreateManyProps> = ContentCreateManyArgsSchema;
-export const ContentUpdateManySchema: ZodType<ContentUpdateManyProps> = ContentUpdateManyArgsSchema;
-export const ContentDeleteManySchema: ZodType<ContentDeleteManyProps> = ContentDeleteManyArgsSchema;
-
-// Single queries
-export const ContentFindFirstSchema: ZodType<ContentFindFirstProps> = ContentFindFirstArgsSchema;
-export const ContentFindUniqueSchema: ZodType<ContentFindUniqueProps> = ContentFindUniqueArgsSchema;
-export const ContentFindManySchema: ZodType<ContentFindManyProps> = ContentFindManyArgsSchema;
-
-// Aggregate queries
-export const ContentCountSchema: ZodType<ContentCountProps> =  z.object({
-    where: z.lazy(() => ContentWhereInputSchema).optional(),
-    orderBy: z.union([
-        z.lazy(() => ContentOrderByWithRelationInputSchema),
-        z.array(z.lazy(() => ContentOrderByWithRelationInputSchema))
-    ]).optional(),
-    cursor: z.lazy(() => ContentWhereUniqueInputSchema).optional(),
-    take: z.number().optional(),
-    skip: z.number().optional(),
-    select: z.union([z.literal(true), z.record(z.string(), z.boolean())]).optional()
-});
 
 // ============== Response Types ============== //
 

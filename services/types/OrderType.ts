@@ -1,12 +1,10 @@
 // ============== Types ============== //
 
-import { Prisma } from "@prisma/client";
-import { OrderCreateArgsSchema, OrderCreateManyArgsSchema, OrderDeleteArgsSchema, OrderDeleteManyArgsSchema, OrderFindFirstArgsSchema, OrderFindManyArgsSchema, OrderFindUniqueArgsSchema, OrderOrderByWithRelationInputSchema, OrderSchema, OrderUpdateArgsSchema, OrderUpdateManyArgsSchema, OrderUpsertArgsSchema, OrderWhereInputSchema, OrderWhereUniqueInputSchema,  } from "@prisma/zod";
-import { z, ZodType } from "zod";
+import { Order, Prisma } from "@prisma/client";
 
 // ============== Model Types ============== //
 
-export type OrderModel = z.infer<typeof OrderSchema>;
+export type OrderModel = Order;
 export type OrderCount = number;
 
 // ============== Props Types ============== //
@@ -29,37 +27,6 @@ export type OrderFindManyProps = Prisma.OrderFindManyArgs;
 
 // Multiple queries
 export type OrderCountProps = Prisma.OrderCountArgs;
-
-// ============== Schema Types ============== //
-
-// Single mutations
-export const OrderCreateSchema: ZodType<OrderCreateProps> = OrderCreateArgsSchema;
-export const OrderUpsertSchema: ZodType<OrderUpsertProps> = OrderUpsertArgsSchema;
-export const OrderUpdateSchema: ZodType<OrderUpdateProps> = OrderUpdateArgsSchema;
-export const OrderDeleteSchema: ZodType<OrderDeleteProps> = OrderDeleteArgsSchema;
-
-// Multiple mutations
-export const OrderCreateManySchema: ZodType<OrderCreateManyProps> = OrderCreateManyArgsSchema;
-export const OrderUpdateManySchema: ZodType<OrderUpdateManyProps> = OrderUpdateManyArgsSchema;
-export const OrderDeleteManySchema: ZodType<OrderDeleteManyProps> = OrderDeleteManyArgsSchema;
-
-// Single queries
-export const OrderFindFirstSchema: ZodType<OrderFindFirstProps> = OrderFindFirstArgsSchema;
-export const OrderFindUniqueSchema: ZodType<OrderFindUniqueProps> = OrderFindUniqueArgsSchema;
-export const OrderFindManySchema: ZodType<OrderFindManyProps> = OrderFindManyArgsSchema;
-
-// Aggregate queries
-export const OrderCountSchema: ZodType<OrderCountProps> =  z.object({
-    where: z.lazy(() => OrderWhereInputSchema).optional(),
-    orderBy: z.union([
-        z.lazy(() => OrderOrderByWithRelationInputSchema),
-        z.array(z.lazy(() => OrderOrderByWithRelationInputSchema))
-    ]).optional(),
-    cursor: z.lazy(() => OrderWhereUniqueInputSchema).optional(),
-    take: z.number().optional(),
-    skip: z.number().optional(),
-    select: z.union([z.literal(true), z.record(z.string(), z.boolean())]).optional()
-});
 
 // ============== Response Types ============== //
 

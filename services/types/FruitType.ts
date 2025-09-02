@@ -1,12 +1,10 @@
 // ============== Types ============== //
 
-import { Prisma } from "@prisma/client";
-import { FruitCreateArgsSchema, FruitCreateManyArgsSchema, FruitDeleteArgsSchema, FruitDeleteManyArgsSchema, FruitFindFirstArgsSchema, FruitFindManyArgsSchema, FruitFindUniqueArgsSchema, FruitOrderByWithRelationInputSchema, FruitSchema, FruitUpdateArgsSchema, FruitUpdateManyArgsSchema, FruitUpsertArgsSchema, FruitWhereInputSchema, FruitWhereUniqueInputSchema,  } from "@prisma/zod";
-import { z, ZodType } from "zod";
+import { Fruit, Prisma } from "@prisma/client";
 
 // ============== Model Types ============== //
 
-export type FruitModel = z.infer<typeof FruitSchema>;
+export type FruitModel = Fruit;
 export type FruitCount = number;
 
 // ============== Props Types ============== //
@@ -29,37 +27,6 @@ export type FruitFindManyProps = Prisma.FruitFindManyArgs;
 
 // Multiple queries
 export type FruitCountProps = Prisma.FruitCountArgs;
-
-// ============== Schema Types ============== //
-
-// Single mutations
-export const FruitCreateSchema: ZodType<FruitCreateProps> = FruitCreateArgsSchema;
-export const FruitUpsertSchema: ZodType<FruitUpsertProps> = FruitUpsertArgsSchema;
-export const FruitUpdateSchema: ZodType<FruitUpdateProps> = FruitUpdateArgsSchema;
-export const FruitDeleteSchema: ZodType<FruitDeleteProps> = FruitDeleteArgsSchema;
-
-// Multiple mutations
-export const FruitCreateManySchema: ZodType<FruitCreateManyProps> = FruitCreateManyArgsSchema;
-export const FruitUpdateManySchema: ZodType<FruitUpdateManyProps> = FruitUpdateManyArgsSchema;
-export const FruitDeleteManySchema: ZodType<FruitDeleteManyProps> = FruitDeleteManyArgsSchema;
-
-// Single queries
-export const FruitFindFirstSchema: ZodType<FruitFindFirstProps> = FruitFindFirstArgsSchema;
-export const FruitFindUniqueSchema: ZodType<FruitFindUniqueProps> = FruitFindUniqueArgsSchema;
-export const FruitFindManySchema: ZodType<FruitFindManyProps> = FruitFindManyArgsSchema;
-
-// Aggregate queries
-export const FruitCountSchema: ZodType<FruitCountProps> =  z.object({
-    where: z.lazy(() => FruitWhereInputSchema).optional(),
-    orderBy: z.union([
-        z.lazy(() => FruitOrderByWithRelationInputSchema),
-        z.array(z.lazy(() => FruitOrderByWithRelationInputSchema))
-    ]).optional(),
-    cursor: z.lazy(() => FruitWhereUniqueInputSchema).optional(),
-    take: z.number().optional(),
-    skip: z.number().optional(),
-    select: z.union([z.literal(true), z.record(z.string(), z.boolean())]).optional()
-});
 
 // ============== Response Types ============== //
 

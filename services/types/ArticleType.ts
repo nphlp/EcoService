@@ -1,12 +1,10 @@
 // ============== Types ============== //
 
-import { Prisma } from "@prisma/client";
-import { ArticleCreateArgsSchema, ArticleCreateManyArgsSchema, ArticleDeleteArgsSchema, ArticleDeleteManyArgsSchema, ArticleFindFirstArgsSchema, ArticleFindManyArgsSchema, ArticleFindUniqueArgsSchema, ArticleOrderByWithRelationInputSchema, ArticleSchema, ArticleUpdateArgsSchema, ArticleUpdateManyArgsSchema, ArticleUpsertArgsSchema, ArticleWhereInputSchema, ArticleWhereUniqueInputSchema,  } from "@prisma/zod";
-import { z, ZodType } from "zod";
+import { Article, Prisma } from "@prisma/client";
 
 // ============== Model Types ============== //
 
-export type ArticleModel = z.infer<typeof ArticleSchema>;
+export type ArticleModel = Article;
 export type ArticleCount = number;
 
 // ============== Props Types ============== //
@@ -29,37 +27,6 @@ export type ArticleFindManyProps = Prisma.ArticleFindManyArgs;
 
 // Multiple queries
 export type ArticleCountProps = Prisma.ArticleCountArgs;
-
-// ============== Schema Types ============== //
-
-// Single mutations
-export const ArticleCreateSchema: ZodType<ArticleCreateProps> = ArticleCreateArgsSchema;
-export const ArticleUpsertSchema: ZodType<ArticleUpsertProps> = ArticleUpsertArgsSchema;
-export const ArticleUpdateSchema: ZodType<ArticleUpdateProps> = ArticleUpdateArgsSchema;
-export const ArticleDeleteSchema: ZodType<ArticleDeleteProps> = ArticleDeleteArgsSchema;
-
-// Multiple mutations
-export const ArticleCreateManySchema: ZodType<ArticleCreateManyProps> = ArticleCreateManyArgsSchema;
-export const ArticleUpdateManySchema: ZodType<ArticleUpdateManyProps> = ArticleUpdateManyArgsSchema;
-export const ArticleDeleteManySchema: ZodType<ArticleDeleteManyProps> = ArticleDeleteManyArgsSchema;
-
-// Single queries
-export const ArticleFindFirstSchema: ZodType<ArticleFindFirstProps> = ArticleFindFirstArgsSchema;
-export const ArticleFindUniqueSchema: ZodType<ArticleFindUniqueProps> = ArticleFindUniqueArgsSchema;
-export const ArticleFindManySchema: ZodType<ArticleFindManyProps> = ArticleFindManyArgsSchema;
-
-// Aggregate queries
-export const ArticleCountSchema: ZodType<ArticleCountProps> =  z.object({
-    where: z.lazy(() => ArticleWhereInputSchema).optional(),
-    orderBy: z.union([
-        z.lazy(() => ArticleOrderByWithRelationInputSchema),
-        z.array(z.lazy(() => ArticleOrderByWithRelationInputSchema))
-    ]).optional(),
-    cursor: z.lazy(() => ArticleWhereUniqueInputSchema).optional(),
-    take: z.number().optional(),
-    skip: z.number().optional(),
-    select: z.union([z.literal(true), z.record(z.string(), z.boolean())]).optional()
-});
 
 // ============== Response Types ============== //
 

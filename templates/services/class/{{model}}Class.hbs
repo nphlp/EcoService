@@ -1,8 +1,7 @@
 import PrismaInstance from "@lib/prisma";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
-import { {{modelName}}Count, {{modelName}}CountProps, {{modelName}}CountResponse, {{modelName}}CountSchema, {{modelName}}CreateManyProps, {{modelName}}CreateManyResponse, {{modelName}}CreateManySchema, {{modelName}}CreateProps, {{modelName}}CreateResponse, {{modelName}}CreateSchema, {{modelName}}DeleteManyProps, {{modelName}}DeleteManyResponse, {{modelName}}DeleteManySchema, {{modelName}}DeleteProps, {{modelName}}DeleteResponse, {{modelName}}DeleteSchema, {{modelName}}FindFirstProps, {{modelName}}FindFirstResponse, {{modelName}}FindFirstSchema, {{modelName}}FindManyProps, {{modelName}}FindManyResponse, {{modelName}}FindManySchema, {{modelName}}FindUniqueProps, {{modelName}}FindUniqueResponse, {{modelName}}FindUniqueSchema, {{modelName}}UpdateManyProps, {{modelName}}UpdateManyResponse, {{modelName}}UpdateManySchema, {{modelName}}UpdateProps, {{modelName}}UpdateResponse, {{modelName}}UpdateSchema, {{modelName}}UpsertProps, {{modelName}}UpsertResponse, {{modelName}}UpsertSchema } from "@services/types/{{modelName}}Type";
+import { {{modelName}}Count, {{modelName}}CountProps, {{modelName}}CountResponse, {{modelName}}CreateManyProps, {{modelName}}CreateManyResponse, {{modelName}}CreateProps, {{modelName}}CreateResponse, {{modelName}}DeleteManyProps, {{modelName}}DeleteManyResponse, {{modelName}}DeleteProps, {{modelName}}DeleteResponse, {{modelName}}FindFirstProps, {{modelName}}FindFirstResponse, {{modelName}}FindManyProps, {{modelName}}FindManyResponse, {{modelName}}FindUniqueProps, {{modelName}}FindUniqueResponse, {{modelName}}UpdateManyProps, {{modelName}}UpdateManyResponse, {{modelName}}UpdateProps, {{modelName}}UpdateResponse, {{modelName}}UpsertProps, {{modelName}}UpsertResponse } from "@services/types/{{modelName}}Type";
 import { ResponseFormat } from "@utils/FetchConfig";
-import { ZodError } from "zod";
 
 export default class {{modelName}}Service {
 
@@ -10,8 +9,7 @@ export default class {{modelName}}Service {
 
     static async create<T extends {{modelName}}CreateProps>(props: T): Promise<ResponseFormat<{{modelName}}CreateResponse<T>>> {
         try {
-            const parsedProps = {{modelName}}CreateSchema.parse(props);
-            const {{modelNameLower}} = await PrismaInstance.{{modelNameLower}}.create(parsedProps);
+            const {{modelNameLower}} = await PrismaInstance.{{modelNameLower}}.create(props);
             return { data: {{modelNameLower}} as {{modelName}}CreateResponse<T> };
         } catch (error) {
             return {{modelName}}Service.error("create", error);
@@ -20,8 +18,7 @@ export default class {{modelName}}Service {
 
     static async upsert<T extends {{modelName}}UpsertProps>(props: T): Promise<ResponseFormat<{{modelName}}UpsertResponse<T>>> {
         try {
-            const parsedProps = {{modelName}}UpsertSchema.parse(props);
-            const {{modelNameLower}} = await PrismaInstance.{{modelNameLower}}.upsert(parsedProps);
+            const {{modelNameLower}} = await PrismaInstance.{{modelNameLower}}.upsert(props);
             return { data: {{modelNameLower}} as {{modelName}}UpsertResponse<T> };
         } catch (error) {
             return {{modelName}}Service.error("upsert", error);
@@ -30,8 +27,7 @@ export default class {{modelName}}Service {
 
     static async update<T extends {{modelName}}UpdateProps>(props: T): Promise<ResponseFormat<{{modelName}}UpdateResponse<T>>> {
         try {
-            const parsedProps = {{modelName}}UpdateSchema.parse(props);
-            const {{modelNameLower}} = await PrismaInstance.{{modelNameLower}}.update(parsedProps);
+            const {{modelNameLower}} = await PrismaInstance.{{modelNameLower}}.update(props);
             return { data: {{modelNameLower}} as {{modelName}}UpdateResponse<T> };
         } catch (error) {
             return {{modelName}}Service.error("update", error);
@@ -40,8 +36,7 @@ export default class {{modelName}}Service {
 
     static async delete<T extends {{modelName}}DeleteProps>(props: T): Promise<ResponseFormat<{{modelName}}DeleteResponse<T>>> {
         try {
-            const parsedProps = {{modelName}}DeleteSchema.parse(props);
-            const {{modelNameLower}} = await PrismaInstance.{{modelNameLower}}.delete(parsedProps);
+            const {{modelNameLower}} = await PrismaInstance.{{modelNameLower}}.delete(props);
             return { data: {{modelNameLower}} as {{modelName}}DeleteResponse<T> };
         } catch (error) {
             return {{modelName}}Service.error("delete", error);
@@ -52,8 +47,7 @@ export default class {{modelName}}Service {
 
     static async createMany(props: {{modelName}}CreateManyProps): Promise<ResponseFormat<{{modelName}}CreateManyResponse>> {
         try {
-            const parsedProps = {{modelName}}CreateManySchema.parse(props);
-            const result = await PrismaInstance.{{modelNameLower}}.createMany(parsedProps);
+            const result = await PrismaInstance.{{modelNameLower}}.createMany(props);
             return { data: result };
         } catch (error) {
             return {{modelName}}Service.error("createMany", error);
@@ -62,8 +56,7 @@ export default class {{modelName}}Service {
 
     static async updateMany(props: {{modelName}}UpdateManyProps): Promise<ResponseFormat<{{modelName}}UpdateManyResponse>> {
         try {
-            const parsedProps = {{modelName}}UpdateManySchema.parse(props);
-            const result = await PrismaInstance.{{modelNameLower}}.updateMany(parsedProps);
+            const result = await PrismaInstance.{{modelNameLower}}.updateMany(props);
             return { data: result };
         } catch (error) {
             return {{modelName}}Service.error("updateMany", error);
@@ -72,8 +65,7 @@ export default class {{modelName}}Service {
 
     static async deleteMany(props: {{modelName}}DeleteManyProps): Promise<ResponseFormat<{{modelName}}DeleteManyResponse>> {
         try {
-            const parsedProps = {{modelName}}DeleteManySchema.parse(props);
-            const result = await PrismaInstance.{{modelNameLower}}.deleteMany(parsedProps);
+            const result = await PrismaInstance.{{modelNameLower}}.deleteMany(props);
             return { data: result };
         } catch (error) {
             return {{modelName}}Service.error("deleteMany", error);
@@ -84,8 +76,7 @@ export default class {{modelName}}Service {
 
     static async findFirst<T extends {{modelName}}FindFirstProps>(props: T): Promise<ResponseFormat<{{modelName}}FindFirstResponse<T>>> {
         try {
-            const parsedProps = {{modelName}}FindFirstSchema.parse(props);
-            const {{modelNameLower}} = await PrismaInstance.{{modelNameLower}}.findFirst(parsedProps);
+            const {{modelNameLower}} = await PrismaInstance.{{modelNameLower}}.findFirst(props);
             return { data: {{modelNameLower}} as {{modelName}}FindFirstResponse<T> };
         } catch (error) {
             return {{modelName}}Service.error("findFirst", error);
@@ -94,8 +85,7 @@ export default class {{modelName}}Service {
 
     static async findUnique<T extends {{modelName}}FindUniqueProps>(props: T): Promise<ResponseFormat<{{modelName}}FindUniqueResponse<T>>> {
         try {
-            const parsedProps = {{modelName}}FindUniqueSchema.parse(props);
-            const {{modelNameLower}} = await PrismaInstance.{{modelNameLower}}.findUnique(parsedProps);
+            const {{modelNameLower}} = await PrismaInstance.{{modelNameLower}}.findUnique(props);
             return { data: {{modelNameLower}} as {{modelName}}FindUniqueResponse<T> };
         } catch (error) {
             return {{modelName}}Service.error("findUnique", error);
@@ -104,9 +94,7 @@ export default class {{modelName}}Service {
 
     static async findMany<T extends {{modelName}}FindManyProps>(props: T): Promise<ResponseFormat<{{modelName}}FindManyResponse<T>>> {
         try {
-            const parsedProps = {{modelName}}FindManySchema.parse(props);
-            const { skip = 0, take = 10 } = parsedProps;
-            const {{modelNameLower}}List = await PrismaInstance.{{modelNameLower}}.findMany({ skip, take, ...parsedProps });
+            const {{modelNameLower}}List = await PrismaInstance.{{modelNameLower}}.findMany(props);
             return { data: {{modelNameLower}}List as {{modelName}}FindManyResponse<T> };
         } catch (error) {
             return {{modelName}}Service.error("findMany", error);
@@ -117,8 +105,7 @@ export default class {{modelName}}Service {
 
     static async count(props: {{modelName}}CountProps): Promise<ResponseFormat<{{modelName}}CountResponse>> {
         try {
-            const parsedProps = {{modelName}}CountSchema.parse(props);
-            const {{modelNameLower}}Amount: {{modelName}}Count = await PrismaInstance.{{modelNameLower}}.count(parsedProps);
+            const {{modelNameLower}}Amount: {{modelName}}Count = await PrismaInstance.{{modelNameLower}}.count(props);
             return { data: {{modelNameLower}}Amount };
         } catch (error) {
             return {{modelName}}Service.error("count", error);
@@ -131,11 +118,7 @@ export default class {{modelName}}Service {
         if (process.env.NODE_ENV === "development") {
             const serviceName = this.constructor.name;
             const message = (error as Error).message;
-            if (error instanceof ZodError){
-                const zodMessage = serviceName + " -> " + methodName + " -> Invalid Zod params -> " + error.message;
-                console.error(zodMessage);
-                throw new Error(zodMessage);
-            } else if (error instanceof PrismaClientKnownRequestError){
+            if (error instanceof PrismaClientKnownRequestError){
                 const prismaMessage = serviceName + " -> " + methodName + " -> Prisma error -> " + error.message;
                 console.error(prismaMessage);
                 throw new Error(prismaMessage);

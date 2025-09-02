@@ -1,12 +1,10 @@
 // ============== Types ============== //
 
-import { Prisma } from "@prisma/client";
-import { UserCreateArgsSchema, UserCreateManyArgsSchema, UserDeleteArgsSchema, UserDeleteManyArgsSchema, UserFindFirstArgsSchema, UserFindManyArgsSchema, UserFindUniqueArgsSchema, UserOrderByWithRelationInputSchema, UserSchema, UserUpdateArgsSchema, UserUpdateManyArgsSchema, UserUpsertArgsSchema, UserWhereInputSchema, UserWhereUniqueInputSchema,  } from "@prisma/zod";
-import { z, ZodType } from "zod";
+import { User, Prisma } from "@prisma/client";
 
 // ============== Model Types ============== //
 
-export type UserModel = z.infer<typeof UserSchema>;
+export type UserModel = User;
 export type UserCount = number;
 
 // ============== Props Types ============== //
@@ -29,37 +27,6 @@ export type UserFindManyProps = Prisma.UserFindManyArgs;
 
 // Multiple queries
 export type UserCountProps = Prisma.UserCountArgs;
-
-// ============== Schema Types ============== //
-
-// Single mutations
-export const UserCreateSchema: ZodType<UserCreateProps> = UserCreateArgsSchema;
-export const UserUpsertSchema: ZodType<UserUpsertProps> = UserUpsertArgsSchema;
-export const UserUpdateSchema: ZodType<UserUpdateProps> = UserUpdateArgsSchema;
-export const UserDeleteSchema: ZodType<UserDeleteProps> = UserDeleteArgsSchema;
-
-// Multiple mutations
-export const UserCreateManySchema: ZodType<UserCreateManyProps> = UserCreateManyArgsSchema;
-export const UserUpdateManySchema: ZodType<UserUpdateManyProps> = UserUpdateManyArgsSchema;
-export const UserDeleteManySchema: ZodType<UserDeleteManyProps> = UserDeleteManyArgsSchema;
-
-// Single queries
-export const UserFindFirstSchema: ZodType<UserFindFirstProps> = UserFindFirstArgsSchema;
-export const UserFindUniqueSchema: ZodType<UserFindUniqueProps> = UserFindUniqueArgsSchema;
-export const UserFindManySchema: ZodType<UserFindManyProps> = UserFindManyArgsSchema;
-
-// Aggregate queries
-export const UserCountSchema: ZodType<UserCountProps> =  z.object({
-    where: z.lazy(() => UserWhereInputSchema).optional(),
-    orderBy: z.union([
-        z.lazy(() => UserOrderByWithRelationInputSchema),
-        z.array(z.lazy(() => UserOrderByWithRelationInputSchema))
-    ]).optional(),
-    cursor: z.lazy(() => UserWhereUniqueInputSchema).optional(),
-    take: z.number().optional(),
-    skip: z.number().optional(),
-    select: z.union([z.literal(true), z.record(z.string(), z.boolean())]).optional()
-});
 
 // ============== Response Types ============== //
 

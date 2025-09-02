@@ -3,13 +3,6 @@ generator client {
     output   = "./client"
 }
 
-generator zod {
-    provider                  = "zod-prisma-types"
-    useMultipleFiles          = true
-    createRelationValuesTypes = true
-    output                    = "./zod"
-}
-
 datasource db {
     provider = "mysql"
     url      = env("DATABASE_URL")

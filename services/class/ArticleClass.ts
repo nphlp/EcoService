@@ -1,8 +1,7 @@
 import PrismaInstance from "@lib/prisma";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
-import { ArticleCount, ArticleCountProps, ArticleCountResponse, ArticleCountSchema, ArticleCreateManyProps, ArticleCreateManyResponse, ArticleCreateManySchema, ArticleCreateProps, ArticleCreateResponse, ArticleCreateSchema, ArticleDeleteManyProps, ArticleDeleteManyResponse, ArticleDeleteManySchema, ArticleDeleteProps, ArticleDeleteResponse, ArticleDeleteSchema, ArticleFindFirstProps, ArticleFindFirstResponse, ArticleFindFirstSchema, ArticleFindManyProps, ArticleFindManyResponse, ArticleFindManySchema, ArticleFindUniqueProps, ArticleFindUniqueResponse, ArticleFindUniqueSchema, ArticleUpdateManyProps, ArticleUpdateManyResponse, ArticleUpdateManySchema, ArticleUpdateProps, ArticleUpdateResponse, ArticleUpdateSchema, ArticleUpsertProps, ArticleUpsertResponse, ArticleUpsertSchema } from "@services/types/ArticleType";
+import { ArticleCount, ArticleCountProps, ArticleCountResponse, ArticleCreateManyProps, ArticleCreateManyResponse, ArticleCreateProps, ArticleCreateResponse, ArticleDeleteManyProps, ArticleDeleteManyResponse, ArticleDeleteProps, ArticleDeleteResponse, ArticleFindFirstProps, ArticleFindFirstResponse, ArticleFindManyProps, ArticleFindManyResponse, ArticleFindUniqueProps, ArticleFindUniqueResponse, ArticleUpdateManyProps, ArticleUpdateManyResponse, ArticleUpdateProps, ArticleUpdateResponse, ArticleUpsertProps, ArticleUpsertResponse } from "@services/types/ArticleType";
 import { ResponseFormat } from "@utils/FetchConfig";
-import { ZodError } from "zod";
 
 export default class ArticleService {
 
@@ -10,8 +9,7 @@ export default class ArticleService {
 
     static async create<T extends ArticleCreateProps>(props: T): Promise<ResponseFormat<ArticleCreateResponse<T>>> {
         try {
-            const parsedProps = ArticleCreateSchema.parse(props);
-            const article = await PrismaInstance.article.create(parsedProps);
+            const article = await PrismaInstance.article.create(props);
             return { data: article as ArticleCreateResponse<T> };
         } catch (error) {
             return ArticleService.error("create", error);
@@ -20,8 +18,7 @@ export default class ArticleService {
 
     static async upsert<T extends ArticleUpsertProps>(props: T): Promise<ResponseFormat<ArticleUpsertResponse<T>>> {
         try {
-            const parsedProps = ArticleUpsertSchema.parse(props);
-            const article = await PrismaInstance.article.upsert(parsedProps);
+            const article = await PrismaInstance.article.upsert(props);
             return { data: article as ArticleUpsertResponse<T> };
         } catch (error) {
             return ArticleService.error("upsert", error);
@@ -30,8 +27,7 @@ export default class ArticleService {
 
     static async update<T extends ArticleUpdateProps>(props: T): Promise<ResponseFormat<ArticleUpdateResponse<T>>> {
         try {
-            const parsedProps = ArticleUpdateSchema.parse(props);
-            const article = await PrismaInstance.article.update(parsedProps);
+            const article = await PrismaInstance.article.update(props);
             return { data: article as ArticleUpdateResponse<T> };
         } catch (error) {
             return ArticleService.error("update", error);
@@ -40,8 +36,7 @@ export default class ArticleService {
 
     static async delete<T extends ArticleDeleteProps>(props: T): Promise<ResponseFormat<ArticleDeleteResponse<T>>> {
         try {
-            const parsedProps = ArticleDeleteSchema.parse(props);
-            const article = await PrismaInstance.article.delete(parsedProps);
+            const article = await PrismaInstance.article.delete(props);
             return { data: article as ArticleDeleteResponse<T> };
         } catch (error) {
             return ArticleService.error("delete", error);
@@ -52,8 +47,7 @@ export default class ArticleService {
 
     static async createMany(props: ArticleCreateManyProps): Promise<ResponseFormat<ArticleCreateManyResponse>> {
         try {
-            const parsedProps = ArticleCreateManySchema.parse(props);
-            const result = await PrismaInstance.article.createMany(parsedProps);
+            const result = await PrismaInstance.article.createMany(props);
             return { data: result };
         } catch (error) {
             return ArticleService.error("createMany", error);
@@ -62,8 +56,7 @@ export default class ArticleService {
 
     static async updateMany(props: ArticleUpdateManyProps): Promise<ResponseFormat<ArticleUpdateManyResponse>> {
         try {
-            const parsedProps = ArticleUpdateManySchema.parse(props);
-            const result = await PrismaInstance.article.updateMany(parsedProps);
+            const result = await PrismaInstance.article.updateMany(props);
             return { data: result };
         } catch (error) {
             return ArticleService.error("updateMany", error);
@@ -72,8 +65,7 @@ export default class ArticleService {
 
     static async deleteMany(props: ArticleDeleteManyProps): Promise<ResponseFormat<ArticleDeleteManyResponse>> {
         try {
-            const parsedProps = ArticleDeleteManySchema.parse(props);
-            const result = await PrismaInstance.article.deleteMany(parsedProps);
+            const result = await PrismaInstance.article.deleteMany(props);
             return { data: result };
         } catch (error) {
             return ArticleService.error("deleteMany", error);
@@ -84,8 +76,7 @@ export default class ArticleService {
 
     static async findFirst<T extends ArticleFindFirstProps>(props: T): Promise<ResponseFormat<ArticleFindFirstResponse<T>>> {
         try {
-            const parsedProps = ArticleFindFirstSchema.parse(props);
-            const article = await PrismaInstance.article.findFirst(parsedProps);
+            const article = await PrismaInstance.article.findFirst(props);
             return { data: article as ArticleFindFirstResponse<T> };
         } catch (error) {
             return ArticleService.error("findFirst", error);
@@ -94,8 +85,7 @@ export default class ArticleService {
 
     static async findUnique<T extends ArticleFindUniqueProps>(props: T): Promise<ResponseFormat<ArticleFindUniqueResponse<T>>> {
         try {
-            const parsedProps = ArticleFindUniqueSchema.parse(props);
-            const article = await PrismaInstance.article.findUnique(parsedProps);
+            const article = await PrismaInstance.article.findUnique(props);
             return { data: article as ArticleFindUniqueResponse<T> };
         } catch (error) {
             return ArticleService.error("findUnique", error);
@@ -104,9 +94,7 @@ export default class ArticleService {
 
     static async findMany<T extends ArticleFindManyProps>(props: T): Promise<ResponseFormat<ArticleFindManyResponse<T>>> {
         try {
-            const parsedProps = ArticleFindManySchema.parse(props);
-            const { skip = 0, take = 10 } = parsedProps;
-            const articleList = await PrismaInstance.article.findMany({ skip, take, ...parsedProps });
+            const articleList = await PrismaInstance.article.findMany(props);
             return { data: articleList as ArticleFindManyResponse<T> };
         } catch (error) {
             return ArticleService.error("findMany", error);
@@ -117,8 +105,7 @@ export default class ArticleService {
 
     static async count(props: ArticleCountProps): Promise<ResponseFormat<ArticleCountResponse>> {
         try {
-            const parsedProps = ArticleCountSchema.parse(props);
-            const articleAmount: ArticleCount = await PrismaInstance.article.count(parsedProps);
+            const articleAmount: ArticleCount = await PrismaInstance.article.count(props);
             return { data: articleAmount };
         } catch (error) {
             return ArticleService.error("count", error);
@@ -131,11 +118,7 @@ export default class ArticleService {
         if (process.env.NODE_ENV === "development") {
             const serviceName = this.constructor.name;
             const message = (error as Error).message;
-            if (error instanceof ZodError){
-                const zodMessage = serviceName + " -> " + methodName + " -> Invalid Zod params -> " + error.message;
-                console.error(zodMessage);
-                throw new Error(zodMessage);
-            } else if (error instanceof PrismaClientKnownRequestError){
+            if (error instanceof PrismaClientKnownRequestError){
                 const prismaMessage = serviceName + " -> " + methodName + " -> Prisma error -> " + error.message;
                 console.error(prismaMessage);
                 throw new Error(prismaMessage);

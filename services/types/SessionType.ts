@@ -1,12 +1,10 @@
 // ============== Types ============== //
 
-import { Prisma } from "@prisma/client";
-import { SessionCreateArgsSchema, SessionCreateManyArgsSchema, SessionDeleteArgsSchema, SessionDeleteManyArgsSchema, SessionFindFirstArgsSchema, SessionFindManyArgsSchema, SessionFindUniqueArgsSchema, SessionOrderByWithRelationInputSchema, SessionSchema, SessionUpdateArgsSchema, SessionUpdateManyArgsSchema, SessionUpsertArgsSchema, SessionWhereInputSchema, SessionWhereUniqueInputSchema,  } from "@prisma/zod";
-import { z, ZodType } from "zod";
+import { Session, Prisma } from "@prisma/client";
 
 // ============== Model Types ============== //
 
-export type SessionModel = z.infer<typeof SessionSchema>;
+export type SessionModel = Session;
 export type SessionCount = number;
 
 // ============== Props Types ============== //
@@ -29,37 +27,6 @@ export type SessionFindManyProps = Prisma.SessionFindManyArgs;
 
 // Multiple queries
 export type SessionCountProps = Prisma.SessionCountArgs;
-
-// ============== Schema Types ============== //
-
-// Single mutations
-export const SessionCreateSchema: ZodType<SessionCreateProps> = SessionCreateArgsSchema;
-export const SessionUpsertSchema: ZodType<SessionUpsertProps> = SessionUpsertArgsSchema;
-export const SessionUpdateSchema: ZodType<SessionUpdateProps> = SessionUpdateArgsSchema;
-export const SessionDeleteSchema: ZodType<SessionDeleteProps> = SessionDeleteArgsSchema;
-
-// Multiple mutations
-export const SessionCreateManySchema: ZodType<SessionCreateManyProps> = SessionCreateManyArgsSchema;
-export const SessionUpdateManySchema: ZodType<SessionUpdateManyProps> = SessionUpdateManyArgsSchema;
-export const SessionDeleteManySchema: ZodType<SessionDeleteManyProps> = SessionDeleteManyArgsSchema;
-
-// Single queries
-export const SessionFindFirstSchema: ZodType<SessionFindFirstProps> = SessionFindFirstArgsSchema;
-export const SessionFindUniqueSchema: ZodType<SessionFindUniqueProps> = SessionFindUniqueArgsSchema;
-export const SessionFindManySchema: ZodType<SessionFindManyProps> = SessionFindManyArgsSchema;
-
-// Aggregate queries
-export const SessionCountSchema: ZodType<SessionCountProps> =  z.object({
-    where: z.lazy(() => SessionWhereInputSchema).optional(),
-    orderBy: z.union([
-        z.lazy(() => SessionOrderByWithRelationInputSchema),
-        z.array(z.lazy(() => SessionOrderByWithRelationInputSchema))
-    ]).optional(),
-    cursor: z.lazy(() => SessionWhereUniqueInputSchema).optional(),
-    take: z.number().optional(),
-    skip: z.number().optional(),
-    select: z.union([z.literal(true), z.record(z.string(), z.boolean())]).optional()
-});
 
 // ============== Response Types ============== //
 

@@ -1,12 +1,10 @@
 // ============== Types ============== //
 
-import { Prisma } from "@prisma/client";
-import { ProductCreateArgsSchema, ProductCreateManyArgsSchema, ProductDeleteArgsSchema, ProductDeleteManyArgsSchema, ProductFindFirstArgsSchema, ProductFindManyArgsSchema, ProductFindUniqueArgsSchema, ProductOrderByWithRelationInputSchema, ProductSchema, ProductUpdateArgsSchema, ProductUpdateManyArgsSchema, ProductUpsertArgsSchema, ProductWhereInputSchema, ProductWhereUniqueInputSchema,  } from "@prisma/zod";
-import { z, ZodType } from "zod";
+import { Product, Prisma } from "@prisma/client";
 
 // ============== Model Types ============== //
 
-export type ProductModel = z.infer<typeof ProductSchema>;
+export type ProductModel = Product;
 export type ProductCount = number;
 
 // ============== Props Types ============== //
@@ -29,37 +27,6 @@ export type ProductFindManyProps = Prisma.ProductFindManyArgs;
 
 // Multiple queries
 export type ProductCountProps = Prisma.ProductCountArgs;
-
-// ============== Schema Types ============== //
-
-// Single mutations
-export const ProductCreateSchema: ZodType<ProductCreateProps> = ProductCreateArgsSchema;
-export const ProductUpsertSchema: ZodType<ProductUpsertProps> = ProductUpsertArgsSchema;
-export const ProductUpdateSchema: ZodType<ProductUpdateProps> = ProductUpdateArgsSchema;
-export const ProductDeleteSchema: ZodType<ProductDeleteProps> = ProductDeleteArgsSchema;
-
-// Multiple mutations
-export const ProductCreateManySchema: ZodType<ProductCreateManyProps> = ProductCreateManyArgsSchema;
-export const ProductUpdateManySchema: ZodType<ProductUpdateManyProps> = ProductUpdateManyArgsSchema;
-export const ProductDeleteManySchema: ZodType<ProductDeleteManyProps> = ProductDeleteManyArgsSchema;
-
-// Single queries
-export const ProductFindFirstSchema: ZodType<ProductFindFirstProps> = ProductFindFirstArgsSchema;
-export const ProductFindUniqueSchema: ZodType<ProductFindUniqueProps> = ProductFindUniqueArgsSchema;
-export const ProductFindManySchema: ZodType<ProductFindManyProps> = ProductFindManyArgsSchema;
-
-// Aggregate queries
-export const ProductCountSchema: ZodType<ProductCountProps> =  z.object({
-    where: z.lazy(() => ProductWhereInputSchema).optional(),
-    orderBy: z.union([
-        z.lazy(() => ProductOrderByWithRelationInputSchema),
-        z.array(z.lazy(() => ProductOrderByWithRelationInputSchema))
-    ]).optional(),
-    cursor: z.lazy(() => ProductWhereUniqueInputSchema).optional(),
-    take: z.number().optional(),
-    skip: z.number().optional(),
-    select: z.union([z.literal(true), z.record(z.string(), z.boolean())]).optional()
-});
 
 // ============== Response Types ============== //
 

@@ -1,8 +1,7 @@
 import PrismaInstance from "@lib/prisma";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
-import { CategoryCount, CategoryCountProps, CategoryCountResponse, CategoryCountSchema, CategoryCreateManyProps, CategoryCreateManyResponse, CategoryCreateManySchema, CategoryCreateProps, CategoryCreateResponse, CategoryCreateSchema, CategoryDeleteManyProps, CategoryDeleteManyResponse, CategoryDeleteManySchema, CategoryDeleteProps, CategoryDeleteResponse, CategoryDeleteSchema, CategoryFindFirstProps, CategoryFindFirstResponse, CategoryFindFirstSchema, CategoryFindManyProps, CategoryFindManyResponse, CategoryFindManySchema, CategoryFindUniqueProps, CategoryFindUniqueResponse, CategoryFindUniqueSchema, CategoryUpdateManyProps, CategoryUpdateManyResponse, CategoryUpdateManySchema, CategoryUpdateProps, CategoryUpdateResponse, CategoryUpdateSchema, CategoryUpsertProps, CategoryUpsertResponse, CategoryUpsertSchema } from "@services/types/CategoryType";
+import { CategoryCount, CategoryCountProps, CategoryCountResponse, CategoryCreateManyProps, CategoryCreateManyResponse, CategoryCreateProps, CategoryCreateResponse, CategoryDeleteManyProps, CategoryDeleteManyResponse, CategoryDeleteProps, CategoryDeleteResponse, CategoryFindFirstProps, CategoryFindFirstResponse, CategoryFindManyProps, CategoryFindManyResponse, CategoryFindUniqueProps, CategoryFindUniqueResponse, CategoryUpdateManyProps, CategoryUpdateManyResponse, CategoryUpdateProps, CategoryUpdateResponse, CategoryUpsertProps, CategoryUpsertResponse } from "@services/types/CategoryType";
 import { ResponseFormat } from "@utils/FetchConfig";
-import { ZodError } from "zod";
 
 export default class CategoryService {
 
@@ -10,8 +9,7 @@ export default class CategoryService {
 
     static async create<T extends CategoryCreateProps>(props: T): Promise<ResponseFormat<CategoryCreateResponse<T>>> {
         try {
-            const parsedProps = CategoryCreateSchema.parse(props);
-            const category = await PrismaInstance.category.create(parsedProps);
+            const category = await PrismaInstance.category.create(props);
             return { data: category as CategoryCreateResponse<T> };
         } catch (error) {
             return CategoryService.error("create", error);
@@ -20,8 +18,7 @@ export default class CategoryService {
 
     static async upsert<T extends CategoryUpsertProps>(props: T): Promise<ResponseFormat<CategoryUpsertResponse<T>>> {
         try {
-            const parsedProps = CategoryUpsertSchema.parse(props);
-            const category = await PrismaInstance.category.upsert(parsedProps);
+            const category = await PrismaInstance.category.upsert(props);
             return { data: category as CategoryUpsertResponse<T> };
         } catch (error) {
             return CategoryService.error("upsert", error);
@@ -30,8 +27,7 @@ export default class CategoryService {
 
     static async update<T extends CategoryUpdateProps>(props: T): Promise<ResponseFormat<CategoryUpdateResponse<T>>> {
         try {
-            const parsedProps = CategoryUpdateSchema.parse(props);
-            const category = await PrismaInstance.category.update(parsedProps);
+            const category = await PrismaInstance.category.update(props);
             return { data: category as CategoryUpdateResponse<T> };
         } catch (error) {
             return CategoryService.error("update", error);
@@ -40,8 +36,7 @@ export default class CategoryService {
 
     static async delete<T extends CategoryDeleteProps>(props: T): Promise<ResponseFormat<CategoryDeleteResponse<T>>> {
         try {
-            const parsedProps = CategoryDeleteSchema.parse(props);
-            const category = await PrismaInstance.category.delete(parsedProps);
+            const category = await PrismaInstance.category.delete(props);
             return { data: category as CategoryDeleteResponse<T> };
         } catch (error) {
             return CategoryService.error("delete", error);
@@ -52,8 +47,7 @@ export default class CategoryService {
 
     static async createMany(props: CategoryCreateManyProps): Promise<ResponseFormat<CategoryCreateManyResponse>> {
         try {
-            const parsedProps = CategoryCreateManySchema.parse(props);
-            const result = await PrismaInstance.category.createMany(parsedProps);
+            const result = await PrismaInstance.category.createMany(props);
             return { data: result };
         } catch (error) {
             return CategoryService.error("createMany", error);
@@ -62,8 +56,7 @@ export default class CategoryService {
 
     static async updateMany(props: CategoryUpdateManyProps): Promise<ResponseFormat<CategoryUpdateManyResponse>> {
         try {
-            const parsedProps = CategoryUpdateManySchema.parse(props);
-            const result = await PrismaInstance.category.updateMany(parsedProps);
+            const result = await PrismaInstance.category.updateMany(props);
             return { data: result };
         } catch (error) {
             return CategoryService.error("updateMany", error);
@@ -72,8 +65,7 @@ export default class CategoryService {
 
     static async deleteMany(props: CategoryDeleteManyProps): Promise<ResponseFormat<CategoryDeleteManyResponse>> {
         try {
-            const parsedProps = CategoryDeleteManySchema.parse(props);
-            const result = await PrismaInstance.category.deleteMany(parsedProps);
+            const result = await PrismaInstance.category.deleteMany(props);
             return { data: result };
         } catch (error) {
             return CategoryService.error("deleteMany", error);
@@ -84,8 +76,7 @@ export default class CategoryService {
 
     static async findFirst<T extends CategoryFindFirstProps>(props: T): Promise<ResponseFormat<CategoryFindFirstResponse<T>>> {
         try {
-            const parsedProps = CategoryFindFirstSchema.parse(props);
-            const category = await PrismaInstance.category.findFirst(parsedProps);
+            const category = await PrismaInstance.category.findFirst(props);
             return { data: category as CategoryFindFirstResponse<T> };
         } catch (error) {
             return CategoryService.error("findFirst", error);
@@ -94,8 +85,7 @@ export default class CategoryService {
 
     static async findUnique<T extends CategoryFindUniqueProps>(props: T): Promise<ResponseFormat<CategoryFindUniqueResponse<T>>> {
         try {
-            const parsedProps = CategoryFindUniqueSchema.parse(props);
-            const category = await PrismaInstance.category.findUnique(parsedProps);
+            const category = await PrismaInstance.category.findUnique(props);
             return { data: category as CategoryFindUniqueResponse<T> };
         } catch (error) {
             return CategoryService.error("findUnique", error);
@@ -104,9 +94,7 @@ export default class CategoryService {
 
     static async findMany<T extends CategoryFindManyProps>(props: T): Promise<ResponseFormat<CategoryFindManyResponse<T>>> {
         try {
-            const parsedProps = CategoryFindManySchema.parse(props);
-            const { skip = 0, take = 10 } = parsedProps;
-            const categoryList = await PrismaInstance.category.findMany({ skip, take, ...parsedProps });
+            const categoryList = await PrismaInstance.category.findMany(props);
             return { data: categoryList as CategoryFindManyResponse<T> };
         } catch (error) {
             return CategoryService.error("findMany", error);
@@ -117,8 +105,7 @@ export default class CategoryService {
 
     static async count(props: CategoryCountProps): Promise<ResponseFormat<CategoryCountResponse>> {
         try {
-            const parsedProps = CategoryCountSchema.parse(props);
-            const categoryAmount: CategoryCount = await PrismaInstance.category.count(parsedProps);
+            const categoryAmount: CategoryCount = await PrismaInstance.category.count(props);
             return { data: categoryAmount };
         } catch (error) {
             return CategoryService.error("count", error);
@@ -131,11 +118,7 @@ export default class CategoryService {
         if (process.env.NODE_ENV === "development") {
             const serviceName = this.constructor.name;
             const message = (error as Error).message;
-            if (error instanceof ZodError){
-                const zodMessage = serviceName + " -> " + methodName + " -> Invalid Zod params -> " + error.message;
-                console.error(zodMessage);
-                throw new Error(zodMessage);
-            } else if (error instanceof PrismaClientKnownRequestError){
+            if (error instanceof PrismaClientKnownRequestError){
                 const prismaMessage = serviceName + " -> " + methodName + " -> Prisma error -> " + error.message;
                 console.error(prismaMessage);
                 throw new Error(prismaMessage);

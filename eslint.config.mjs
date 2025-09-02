@@ -24,7 +24,6 @@ const eslintConfig = [
             "vitest.config.mjs",
             "postcss.config.mjs",
             "prisma/client/**",
-            "prisma/zod/**",
             "node_modules/**",
             "next-env.d.ts",
         ],

@@ -39,7 +39,7 @@
         "generate:list": "tsx scripts/generator.ts list",
         "generate:clear": "tsx scripts/generator.ts clear",
         "generate:all": "tsx scripts/generator.ts all",
-        "clear": "rm -rf next-env.d.ts prisma/zod prisma/client node_modules .next .husky/_"
+        "clear": "rm -rf next-env.d.ts prisma/client node_modules .next .husky/_"
     },
     "dependencies": {
         "@headlessui/react": "^2.2.4",
@@ -114,7 +114,6 @@
         "vite-tsconfig-paths": "^5.1.4",
         "vitest": "^3.2.4",
         "zod": "^4.0.5",
-        "zod-prisma-types": "^3.2.4",
         "zustand": "^5.0.6"
     },
     "lint-staged": {
