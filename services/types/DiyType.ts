@@ -134,7 +134,7 @@ export type DiyCreateManyProps<T extends Prisma.DiyCreateManyArgs = Prisma.DiyCr
 /**
  * Diy Create Many response
  */
-export type DiyCreateManyResponse = Prisma.PrismaPromise<Prisma.BatchPayload>;
+export type DiyCreateManyResponse = Prisma.BatchPayload;
 
 /**
  * Diy Update Many props
@@ -147,7 +147,7 @@ export type DiyUpdateManyProps<T extends Prisma.DiyUpdateManyArgs = Prisma.DiyUp
 /**
  * Diy Update Many response
  */
-export type DiyUpdateManyResponse = Prisma.PrismaPromise<Prisma.BatchPayload>;
+export type DiyUpdateManyResponse = Prisma.BatchPayload;
 
 /**
  * Diy Delete Many props
@@ -160,7 +160,7 @@ export type DiyDeleteManyProps<T extends Prisma.DiyDeleteManyArgs = Prisma.DiyDe
 /**
  * Diy Delete Many response
  */
-export type DiyDeleteManyResponse = Prisma.PrismaPromise<Prisma.BatchPayload>;
+export type DiyDeleteManyResponse = Prisma.BatchPayload;
 
 /**
  * Diy Find First props

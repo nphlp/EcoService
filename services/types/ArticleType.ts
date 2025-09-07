@@ -132,7 +132,7 @@ export type ArticleCreateManyProps<T extends Prisma.ArticleCreateManyArgs = Pris
 /**
  * Article Create Many response
  */
-export type ArticleCreateManyResponse = Prisma.PrismaPromise<Prisma.BatchPayload>;
+export type ArticleCreateManyResponse = Prisma.BatchPayload;
 
 /**
  * Article Update Many props
@@ -143,7 +143,7 @@ export type ArticleUpdateManyProps<T extends Prisma.ArticleUpdateManyArgs = Pris
 /**
  * Article Update Many response
  */
-export type ArticleUpdateManyResponse = Prisma.PrismaPromise<Prisma.BatchPayload>;
+export type ArticleUpdateManyResponse = Prisma.BatchPayload;
 
 /**
  * Article Delete Many props
@@ -154,7 +154,7 @@ export type ArticleDeleteManyProps<T extends Prisma.ArticleDeleteManyArgs = Pris
 /**
  * Article Delete Many response
  */
-export type ArticleDeleteManyResponse = Prisma.PrismaPromise<Prisma.BatchPayload>;
+export type ArticleDeleteManyResponse = Prisma.BatchPayload;
 
 /**
  * Article Find First props

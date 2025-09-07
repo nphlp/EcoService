@@ -114,49 +114,41 @@ export type {{modelName}}DeleteResponse<T extends Prisma.{{modelName}}DeleteArgs
 /**
  * {{modelName}} Create Many props
  */
-export type {{modelName}}CreateManyProps<T extends Prisma.{{modelName}}CreateManyArgs = Prisma.{{modelName}}CreateManyArgs> = Prisma.SelectSubset<
-    T,
-    Prisma.{{modelName}}CreateManyArgs
->;
+export type {{modelName}}CreateManyProps<T extends Prisma.{{modelName}}CreateManyArgs = Prisma.{{modelName}}CreateManyArgs> =
+    Prisma.SelectSubset<T, Prisma.{{modelName}}CreateManyArgs>;
 
 /**
  * {{modelName}} Create Many response
  */
-export type {{modelName}}CreateManyResponse = Prisma.PrismaPromise<Prisma.BatchPayload>;
+export type {{modelName}}CreateManyResponse = Prisma.BatchPayload;
 
 /**
  * {{modelName}} Update Many props
  */
-export type {{modelName}}UpdateManyProps<T extends Prisma.{{modelName}}UpdateManyArgs = Prisma.{{modelName}}UpdateManyArgs> = Prisma.SelectSubset<
-    T,
-    Prisma.{{modelName}}UpdateManyArgs
->;
+export type {{modelName}}UpdateManyProps<T extends Prisma.{{modelName}}UpdateManyArgs = Prisma.{{modelName}}UpdateManyArgs> =
+    Prisma.SelectSubset<T, Prisma.{{modelName}}UpdateManyArgs>;
 
 /**
  * {{modelName}} Update Many response
  */
-export type {{modelName}}UpdateManyResponse = Prisma.PrismaPromise<Prisma.BatchPayload>;
+export type {{modelName}}UpdateManyResponse = Prisma.BatchPayload;
 
 /**
  * {{modelName}} Delete Many props
  */
-export type {{modelName}}DeleteManyProps<T extends Prisma.{{modelName}}DeleteManyArgs = Prisma.{{modelName}}DeleteManyArgs> = Prisma.SelectSubset<
-    T,
-    Prisma.{{modelName}}DeleteManyArgs
->;
+export type {{modelName}}DeleteManyProps<T extends Prisma.{{modelName}}DeleteManyArgs = Prisma.{{modelName}}DeleteManyArgs> =
+    Prisma.SelectSubset<T, Prisma.{{modelName}}DeleteManyArgs>;
 
 /**
  * {{modelName}} Delete Many response
  */
-export type {{modelName}}DeleteManyResponse = Prisma.PrismaPromise<Prisma.BatchPayload>;
+export type {{modelName}}DeleteManyResponse = Prisma.BatchPayload;
 
 /**
  * {{modelName}} Find First props
  */
-export type {{modelName}}FindFirstProps<T extends Prisma.{{modelName}}FindFirstArgs = Prisma.{{modelName}}FindFirstArgs> = Prisma.SelectSubset<
-    T,
-    Prisma.{{modelName}}FindFirstArgs
->;
+export type {{modelName}}FindFirstProps<T extends Prisma.{{modelName}}FindFirstArgs = Prisma.{{modelName}}FindFirstArgs> =
+    Prisma.SelectSubset<T, Prisma.{{modelName}}FindFirstArgs>;
 
 /**
  * {{modelName}} Find First response
@@ -171,28 +163,20 @@ export type {{modelName}}FindFirstResponse<T extends Prisma.{{modelName}}FindFir
 /**
  * {{modelName}} Find Unique props
  */
-export type {{modelName}}FindUniqueProps<T extends Prisma.{{modelName}}FindUniqueArgs = Prisma.{{modelName}}FindUniqueArgs> = Prisma.SelectSubset<
-    T,
-    Prisma.{{modelName}}FindUniqueArgs
->;
+export type {{modelName}}FindUniqueProps<T extends Prisma.{{modelName}}FindUniqueArgs = Prisma.{{modelName}}FindUniqueArgs> =
+    Prisma.SelectSubset<T, Prisma.{{modelName}}FindUniqueArgs>;
 
 /**
  * {{modelName}} Find Unique response
  */
-export type {{modelName}}FindUniqueResponse<T extends Prisma.{{modelName}}FindUniqueArgs = Prisma.{{modelName}}FindUniqueArgs> = GetResult<
-    Prisma.${{modelName}}Payload<InternalArgs>,
-    T,
-    "findUnique",
-    PrismaClientOptions
->;
+export type {{modelName}}FindUniqueResponse<T extends Prisma.{{modelName}}FindUniqueArgs = Prisma.{{modelName}}FindUniqueArgs> =
+    GetResult<Prisma.${{modelName}}Payload<InternalArgs>, T, "findUnique", PrismaClientOptions>;
 
 /**
  * {{modelName}} Find Many props
  */
-export type {{modelName}}FindManyProps<T extends Prisma.{{modelName}}FindManyArgs = Prisma.{{modelName}}FindManyArgs> = Prisma.SelectSubset<
-    T,
-    Prisma.{{modelName}}FindManyArgs
->;
+export type {{modelName}}FindManyProps<T extends Prisma.{{modelName}}FindManyArgs = Prisma.{{modelName}}FindManyArgs> =
+    Prisma.SelectSubset<T, Prisma.{{modelName}}FindManyArgs>;
 
 /**
  * {{modelName}} Find Many response
@@ -207,7 +191,10 @@ export type {{modelName}}FindManyResponse<T extends Prisma.{{modelName}}FindMany
 /**
  * {{modelName}} Count props
  */
-export type {{modelName}}CountProps<T extends Prisma.{{modelName}}CountArgs = Prisma.{{modelName}}CountArgs> = Prisma.SelectSubset<T, Prisma.{{modelName}}CountArgs>;
+export type {{modelName}}CountProps<T extends Prisma.{{modelName}}CountArgs = Prisma.{{modelName}}CountArgs> = Prisma.SelectSubset<
+    T,
+    Prisma.{{modelName}}CountArgs
+>;
 
 /**
  * {{modelName}} Count response

@@ -60,30 +60,18 @@ type DiyCountResponse<T extends Prisma.DiyCountArgs> =
 type RouteResponse<T> = Promise<NextResponse<ResponseFormat<T>>>;
 
 export type DiyRoutes<Input> = {
-    /**
-     * ## Diy Find First (API)
-     */
     "/diy/findFirst": <T extends Prisma.DiyFindFirstArgs>() => {
         params: DiyFindFirstProps<T>;
         response: DiyFindFirstResponse<Input extends DiyFindFirstProps<T> ? Input : never>;
     };
-    /**
-     * ## Diy Find Unique (API)
-     */
     "/diy/findUnique": <T extends Prisma.DiyFindUniqueArgs>() => {
         params: DiyFindUniqueProps<T>;
         response: DiyFindUniqueResponse<Input extends DiyFindUniqueProps<T> ? Input : never>;
     };
-    /**
-     * ## Diy Find Many (API)
-     */
     "/diy/findMany": <T extends Prisma.DiyFindManyArgs>() => {
         params: DiyFindManyProps<T>;
         response: DiyFindManyResponse<Input extends DiyFindManyProps<T> ? Input : never>;
     };
-    /**
-     * ## Diy Count (API)
-     */
     "/diy/count": <T extends Prisma.DiyCountArgs>() => {
         params: DiyCountProps<T>;
         response: DiyCountResponse<Input extends DiyCountProps<T> ? Input : never>;
@@ -100,7 +88,7 @@ export const DiyFindFirstApi = async <T extends Prisma.DiyFindFirstArgs>(
         const response: DiyFindFirstResponse<T> = await DiyFindFirstCached(params);
         return NextResponse.json({ data: response }, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ error: "DiyFindFirstApi -> " + (error as Error).message }, { status: 500 });
+        return NextResponse.json({ error: (error as Error).message }, { status: 500 });
     }
 };
 
@@ -112,7 +100,7 @@ export const DiyFindUniqueApi = async <T extends Prisma.DiyFindUniqueArgs>(
         const response: DiyFindUniqueResponse<T> = await DiyFindUniqueCached(params);
         return NextResponse.json({ data: response }, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ error: "DiyFindUniqueApi -> " + (error as Error).message }, { status: 500 });
+        return NextResponse.json({ error: (error as Error).message }, { status: 500 });
     }
 };
 
@@ -124,7 +112,7 @@ export const DiyFindManyApi = async <T extends Prisma.DiyFindManyArgs>(
         const response: DiyFindManyResponse<T> = await DiyFindManyCached(params);
         return NextResponse.json({ data: response }, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ error: "DiyFindManyApi -> " + (error as Error).message }, { status: 500 });
+        return NextResponse.json({ error: (error as Error).message }, { status: 500 });
     }
 };
 
@@ -136,6 +124,6 @@ export const DiyCountApi = async <T extends Prisma.DiyCountArgs>(
         const response: DiyCountResponse<T> = await DiyCountCached(params);
         return NextResponse.json({ data: response }, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ error: "DiyCountApi -> " + (error as Error).message }, { status: 500 });
+        return NextResponse.json({ error: (error as Error).message }, { status: 500 });
     }
 };

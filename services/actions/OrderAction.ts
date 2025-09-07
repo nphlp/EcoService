@@ -1,6 +1,6 @@
 "use server";
 
-import PrismaInstance from "@lib/prisma";
+import OrderService from "@class/OrderClass";
 import { requiresSafeMessage } from "@permissions/requiresSafeMessage";
 import { Prisma } from "@prisma/client";
 import { GetResult, InternalArgs, PrismaClientOptions } from "@prisma/client/runtime/library";
@@ -108,188 +108,184 @@ type OrderCountResponse<T extends Prisma.OrderCountArgs> =
 
 /**
  * ## Order Create (Server Action)
+ *
+ * - optimized for mutations
+ * - serial execution without cache
+ *
+ * **Note**: function generated from template.
  */
 export const OrderCreateAction = async <T extends Prisma.OrderCreateArgs>(
     props: OrderCreateProps<T>,
     disableSafeMessage: boolean = false,
 ): Promise<OrderCreateResponse<T>> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "OrderCreateAction", "Order", "create");
-        const response = await PrismaInstance.order.create(props);
-        return response;
-    } catch (error) {
-        throw new Error("OrderCreateAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "OrderCreateAction", "Order", "create");
+    return await OrderService.create(props);
 };
 
 /**
  * ## Order Upsert (Server Action)
+ *
+ * - optimized for mutations
+ * - serial execution without cache
+ *
+ * **Note**: function generated from template.
  */
 export const OrderUpsertAction = async <T extends Prisma.OrderUpsertArgs>(
     props: OrderUpsertProps<T>,
     disableSafeMessage: boolean = false,
 ): Promise<OrderUpsertResponse<T>> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "OrderUpsertAction", "Order", "upsert");
-        const response = await PrismaInstance.order.upsert(props);
-        return response;
-    } catch (error) {
-        throw new Error("OrderUpsertAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "OrderUpsertAction", "Order", "upsert");
+    return await OrderService.upsert(props);
 };
 
 /**
  * ## Order Update (Server Action)
+ *
+ * - optimized for mutations
+ * - serial execution without cache
+ *
+ * **Note**: function generated from template.
  */
 export const OrderUpdateAction = async <T extends Prisma.OrderUpdateArgs>(
     props: OrderUpdateProps<T>,
     disableSafeMessage: boolean = false,
 ): Promise<OrderUpdateResponse<T>> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "OrderUpdateAction", "Order", "update");
-        const response = await PrismaInstance.order.update(props);
-        return response;
-    } catch (error) {
-        throw new Error("OrderUpdateAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "OrderUpdateAction", "Order", "update");
+    return await OrderService.update(props);
 };
 
 /**
  * ## Order Delete (Server Action)
+ *
+ * - optimized for mutations
+ * - serial execution without cache
+ *
+ * **Note**: function generated from template.
  */
 export const OrderDeleteAction = async <T extends Prisma.OrderDeleteArgs>(
     props: OrderDeleteProps<T>,
     disableSafeMessage: boolean = false,
 ): Promise<OrderDeleteResponse<T>> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "OrderDeleteAction", "Order", "delete");
-        const response = await PrismaInstance.order.delete(props);
-        return response;
-    } catch (error) {
-        throw new Error("OrderDeleteAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "OrderDeleteAction", "Order", "delete");
+    return await OrderService.delete(props);
 };
 
 /**
  * ## Order Create Many (Server Action)
+ *
+ * - optimized for mutations
+ * - serial execution without cache
+ *
+ * **Note**: function generated from template.
  */
 export const OrderCreateManyAction = async <T extends Prisma.OrderCreateManyArgs>(
     props: OrderCreateManyProps<T>,
     disableSafeMessage: boolean = false,
 ): Promise<OrderCreateManyResponse> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "OrderCreateManyAction", "Order", "createMany");
-        const response = await PrismaInstance.order.createMany(props);
-        return response;
-    } catch (error) {
-        throw new Error("OrderCreateManyAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "OrderCreateManyAction", "Order", "createMany");
+    return await OrderService.createMany(props);
 };
 
 /**
  * ## Order Update Many (Server Action)
+ *
+ * - optimized for mutations
+ * - serial execution without cache
+ *
+ * **Note**: function generated from template.
  */
 export const OrderUpdateManyAction = async <T extends Prisma.OrderUpdateManyArgs>(
     props: OrderUpdateManyProps<T>,
     disableSafeMessage: boolean = false,
 ): Promise<OrderUpdateManyResponse> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "OrderUpdateManyAction", "Order", "updateMany");
-        const response = await PrismaInstance.order.updateMany(props);
-        return response;
-    } catch (error) {
-        throw new Error("OrderUpdateManyAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "OrderUpdateManyAction", "Order", "updateMany");
+    return await OrderService.updateMany(props);
 };
 
 /**
  * ## Order Delete Many (Server Action)
+ *
+ * - optimized for mutations
+ * - serial execution without cache
+ *
+ * **Note**: function generated from template.
  */
 export const OrderDeleteManyAction = async <T extends Prisma.OrderDeleteManyArgs>(
     props: OrderDeleteManyProps<T>,
     disableSafeMessage: boolean = false,
 ): Promise<OrderDeleteManyResponse> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "OrderDeleteManyAction", "Order", "deleteMany");
-        const response = await PrismaInstance.order.deleteMany(props);
-        return response;
-    } catch (error) {
-        throw new Error("OrderDeleteManyAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "OrderDeleteManyAction", "Order", "deleteMany");
+    return await OrderService.deleteMany(props);
 };
 
 /**
  * ## Order Find First (Server Action)
+ *
  * **WARNING**: Server actions can't be cached and parallelized
+ *
  * - Do not use this for fetching data, use API routes with caching instead
- * - But you can use it to get fresh data, without any cache
+ * - Use it to get fresh data, without any cache
+ *
+ *  **Note**: function generated from template.
  */
 export const OrderFindFirstAction = async <T extends Prisma.OrderFindFirstArgs>(
     props: OrderFindFirstProps<T>,
     disableSafeMessage: boolean = false,
 ): Promise<OrderFindFirstResponse<T>> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "OrderFindFirstAction", "Order", "findFirst");
-        const response = await PrismaInstance.order.findFirst(props);
-        return response;
-    } catch (error) {
-        throw new Error("OrderFindFirstAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "OrderFindFirstAction", "Order", "findFirst");
+    return await OrderService.findFirst(props);
 };
 
 /**
  * ## Order Find Unique (Server Action)
+ *
  * **WARNING**: Server actions can't be cached and parallelized
+ *
  * - Do not use this for fetching data, use API routes with caching instead
- * - But you can use it to get fresh data, without any cache
+ * - Use it to get fresh data, without any cache
+ *
+ *  **Note**: function generated from template.
  */
 export const OrderFindUniqueAction = async <T extends Prisma.OrderFindUniqueArgs>(
     props: OrderFindUniqueProps<T>,
     disableSafeMessage: boolean = false,
 ): Promise<OrderFindUniqueResponse<T>> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "OrderFindUniqueAction", "Order", "findUnique");
-        const response = await PrismaInstance.order.findUnique(props);
-        return response;
-    } catch (error) {
-        throw new Error("OrderFindUniqueAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "OrderFindUniqueAction", "Order", "findUnique");
+    return await OrderService.findUnique(props);
 };
 
 /**
  * ## Order Find Many (Server Action)
+ *
  * **WARNING**: Server actions can't be cached and parallelized
+ *
  * - Do not use this for fetching data, use API routes with caching instead
- * - But you can use it to get fresh data, without any cache
+ * - Use it to get fresh data, without any cache
+ *
+ *  **Note**: function generated from template.
  */
 export const OrderFindManyAction = async <T extends Prisma.OrderFindManyArgs>(
     props: OrderFindManyProps<T>,
     disableSafeMessage: boolean = false,
 ): Promise<OrderFindManyResponse<T>> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "OrderFindManyAction", "Order", "findMany");
-        const response = await PrismaInstance.order.findMany(props);
-        return response;
-    } catch (error) {
-        throw new Error("OrderFindManyAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "OrderFindManyAction", "Order", "findMany");
+    return await OrderService.findMany(props);
 };
 
 /**
  * ## Order Count (Server Action)
+ *
  * **WARNING**: Server actions can't be cached and parallelized
+ *
  * - Do not use this for fetching data, use API routes with caching instead
- * - But you can use it to get fresh data, without any cache
+ * - Use it to get fresh data, without any cache
+ *
+ *  **Note**: function generated from template.
  */
 export const OrderCountAction = async <T extends Prisma.OrderCountArgs>(
     props: OrderCountProps<T>,
     disableSafeMessage: boolean = false,
 ): Promise<OrderCountResponse<T>> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "OrderCountAction", "Order", "count");
-        const response = await PrismaInstance.order.count(props);
-        return response;
-    } catch (error) {
-        throw new Error("OrderCountAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "OrderCountAction", "Order", "count");
+    return await OrderService.count(props);
 };

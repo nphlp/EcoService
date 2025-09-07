@@ -1,11 +1,6 @@
 import { Prisma } from "@prisma/client";
 import { GetResult, InternalArgs, PrismaClientOptions } from "@prisma/client/runtime/library";
 import {
-    PrismaClientKnownRequestError,
-    PrismaClientUnknownRequestError,
-    PrismaClientValidationError,
-} from "@prisma/client/runtime/library";
-import {
     CategoryCountCached,
     CategoryFindFirstCached,
     CategoryFindManyCached,
@@ -71,72 +66,58 @@ type CategoryCountResponse<T extends Prisma.CategoryCountArgs> =
 
 // ========== Services ========== //
 
+/**
+ * ## Category Find (Server)
+ *
+ * - SSG compatible
+ * - cached function
+ *
+ * **Note**: function generated from template.
+ */
 export const CategoryFindFirstServer = async <T extends Prisma.CategoryFindFirstArgs>(
     params: CategoryFindFirstProps<T>,
 ): Promise<CategoryFindFirstResponse<T>> => {
-    try {
-        const response = await CategoryFindFirstCached(params);
-        return response;
-    } catch (error) {
-        throw ServiceError("Category", "findFirst", error);
-    }
+    return await CategoryFindFirstCached(params);
 };
 
+/**
+ * ## Category Find (Server)
+ *
+ * - SSG compatible
+ * - cached function
+ *
+ * **Note**: function generated from template.
+ */
 export const CategoryFindUniqueServer = async <T extends Prisma.CategoryFindUniqueArgs>(
     params: CategoryFindUniqueProps<T>,
 ): Promise<CategoryFindUniqueResponse<T>> => {
-    try {
-        const response = await CategoryFindUniqueCached(params);
-        return response;
-    } catch (error) {
-        throw ServiceError("Category", "findUnique", error);
-    }
+    return await CategoryFindUniqueCached(params);
 };
 
+/**
+ * ## Category Find (Server)
+ *
+ * - SSG compatible
+ * - cached function
+ *
+ * **Note**: function generated from template.
+ */
 export const CategoryFindManyServer = async <T extends Prisma.CategoryFindManyArgs>(
     params: CategoryFindManyProps<T>,
 ): Promise<CategoryFindManyResponse<T>> => {
-    try {
-        const response = await CategoryFindManyCached(params);
-        return response;
-    } catch (error) {
-        throw ServiceError("Category", "findMany", error);
-    }
+    return await CategoryFindManyCached(params);
 };
 
+/**
+ * ## Category Find (Server)
+ *
+ * - SSG compatible
+ * - cached function
+ *
+ * **Note**: function generated from template.
+ */
 export const CategoryCountServer = async <T extends Prisma.CategoryCountArgs>(
     params: CategoryCountProps<T>,
 ): Promise<CategoryCountResponse<T>> => {
-    try {
-        const response = await CategoryCountCached(params);
-        return response;
-    } catch (error) {
-        throw ServiceError("Category", "count", error);
-    }
-};
-
-// ========== Error Handling ========== //
-
-const ServiceError = (serviceName: string, methodName: string, error: unknown) => {
-    if (process.env.NODE_ENV === "development") {
-        const message = (error as Error).message;
-
-        const isPrismaError =
-            error instanceof PrismaClientKnownRequestError ||
-            error instanceof PrismaClientUnknownRequestError ||
-            error instanceof PrismaClientValidationError;
-
-        if (isPrismaError) {
-            const prismaMessage = serviceName + " -> " + methodName + " -> Prisma error -> " + message;
-            console.error(prismaMessage);
-            throw new Error(prismaMessage);
-        } else {
-            const errorMessage = serviceName + " -> " + methodName + " -> " + message;
-            console.error(errorMessage);
-            throw new Error(errorMessage);
-        }
-    }
-
-    // TODO: add logging
-    throw new Error("Something went wrong...");
+    return await CategoryCountCached(params);
 };

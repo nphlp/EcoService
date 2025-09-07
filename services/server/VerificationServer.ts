@@ -1,11 +1,6 @@
 import { Prisma } from "@prisma/client";
 import { GetResult, InternalArgs, PrismaClientOptions } from "@prisma/client/runtime/library";
 import {
-    PrismaClientKnownRequestError,
-    PrismaClientUnknownRequestError,
-    PrismaClientValidationError,
-} from "@prisma/client/runtime/library";
-import {
     VerificationCountCached,
     VerificationFindFirstCached,
     VerificationFindManyCached,
@@ -77,72 +72,58 @@ type VerificationCountResponse<T extends Prisma.VerificationCountArgs> =
 
 // ========== Services ========== //
 
+/**
+ * ## Verification Find (Server)
+ *
+ * - SSG compatible
+ * - cached function
+ *
+ * **Note**: function generated from template.
+ */
 export const VerificationFindFirstServer = async <T extends Prisma.VerificationFindFirstArgs>(
     params: VerificationFindFirstProps<T>,
 ): Promise<VerificationFindFirstResponse<T>> => {
-    try {
-        const response = await VerificationFindFirstCached(params);
-        return response;
-    } catch (error) {
-        throw ServiceError("Verification", "findFirst", error);
-    }
+    return await VerificationFindFirstCached(params);
 };
 
+/**
+ * ## Verification Find (Server)
+ *
+ * - SSG compatible
+ * - cached function
+ *
+ * **Note**: function generated from template.
+ */
 export const VerificationFindUniqueServer = async <T extends Prisma.VerificationFindUniqueArgs>(
     params: VerificationFindUniqueProps<T>,
 ): Promise<VerificationFindUniqueResponse<T>> => {
-    try {
-        const response = await VerificationFindUniqueCached(params);
-        return response;
-    } catch (error) {
-        throw ServiceError("Verification", "findUnique", error);
-    }
+    return await VerificationFindUniqueCached(params);
 };
 
+/**
+ * ## Verification Find (Server)
+ *
+ * - SSG compatible
+ * - cached function
+ *
+ * **Note**: function generated from template.
+ */
 export const VerificationFindManyServer = async <T extends Prisma.VerificationFindManyArgs>(
     params: VerificationFindManyProps<T>,
 ): Promise<VerificationFindManyResponse<T>> => {
-    try {
-        const response = await VerificationFindManyCached(params);
-        return response;
-    } catch (error) {
-        throw ServiceError("Verification", "findMany", error);
-    }
+    return await VerificationFindManyCached(params);
 };
 
+/**
+ * ## Verification Find (Server)
+ *
+ * - SSG compatible
+ * - cached function
+ *
+ * **Note**: function generated from template.
+ */
 export const VerificationCountServer = async <T extends Prisma.VerificationCountArgs>(
     params: VerificationCountProps<T>,
 ): Promise<VerificationCountResponse<T>> => {
-    try {
-        const response = await VerificationCountCached(params);
-        return response;
-    } catch (error) {
-        throw ServiceError("Verification", "count", error);
-    }
-};
-
-// ========== Error Handling ========== //
-
-const ServiceError = (serviceName: string, methodName: string, error: unknown) => {
-    if (process.env.NODE_ENV === "development") {
-        const message = (error as Error).message;
-
-        const isPrismaError =
-            error instanceof PrismaClientKnownRequestError ||
-            error instanceof PrismaClientUnknownRequestError ||
-            error instanceof PrismaClientValidationError;
-
-        if (isPrismaError) {
-            const prismaMessage = serviceName + " -> " + methodName + " -> Prisma error -> " + message;
-            console.error(prismaMessage);
-            throw new Error(prismaMessage);
-        } else {
-            const errorMessage = serviceName + " -> " + methodName + " -> " + message;
-            console.error(errorMessage);
-            throw new Error(errorMessage);
-        }
-    }
-
-    // TODO: add logging
-    throw new Error("Something went wrong...");
+    return await VerificationCountCached(params);
 };

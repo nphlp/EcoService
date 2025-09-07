@@ -1,6 +1,6 @@
 "use server";
 
-import PrismaInstance from "@lib/prisma";
+import QuantityService from "@class/QuantityClass";
 import { requiresSafeMessage } from "@permissions/requiresSafeMessage";
 import { Prisma } from "@prisma/client";
 import { GetResult, InternalArgs, PrismaClientOptions } from "@prisma/client/runtime/library";
@@ -123,188 +123,184 @@ type QuantityCountResponse<T extends Prisma.QuantityCountArgs> =
 
 /**
  * ## Quantity Create (Server Action)
+ *
+ * - optimized for mutations
+ * - serial execution without cache
+ *
+ * **Note**: function generated from template.
  */
 export const QuantityCreateAction = async <T extends Prisma.QuantityCreateArgs>(
     props: QuantityCreateProps<T>,
     disableSafeMessage: boolean = false,
 ): Promise<QuantityCreateResponse<T>> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "QuantityCreateAction", "Quantity", "create");
-        const response = await PrismaInstance.quantity.create(props);
-        return response;
-    } catch (error) {
-        throw new Error("QuantityCreateAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "QuantityCreateAction", "Quantity", "create");
+    return await QuantityService.create(props);
 };
 
 /**
  * ## Quantity Upsert (Server Action)
+ *
+ * - optimized for mutations
+ * - serial execution without cache
+ *
+ * **Note**: function generated from template.
  */
 export const QuantityUpsertAction = async <T extends Prisma.QuantityUpsertArgs>(
     props: QuantityUpsertProps<T>,
     disableSafeMessage: boolean = false,
 ): Promise<QuantityUpsertResponse<T>> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "QuantityUpsertAction", "Quantity", "upsert");
-        const response = await PrismaInstance.quantity.upsert(props);
-        return response;
-    } catch (error) {
-        throw new Error("QuantityUpsertAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "QuantityUpsertAction", "Quantity", "upsert");
+    return await QuantityService.upsert(props);
 };
 
 /**
  * ## Quantity Update (Server Action)
+ *
+ * - optimized for mutations
+ * - serial execution without cache
+ *
+ * **Note**: function generated from template.
  */
 export const QuantityUpdateAction = async <T extends Prisma.QuantityUpdateArgs>(
     props: QuantityUpdateProps<T>,
     disableSafeMessage: boolean = false,
 ): Promise<QuantityUpdateResponse<T>> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "QuantityUpdateAction", "Quantity", "update");
-        const response = await PrismaInstance.quantity.update(props);
-        return response;
-    } catch (error) {
-        throw new Error("QuantityUpdateAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "QuantityUpdateAction", "Quantity", "update");
+    return await QuantityService.update(props);
 };
 
 /**
  * ## Quantity Delete (Server Action)
+ *
+ * - optimized for mutations
+ * - serial execution without cache
+ *
+ * **Note**: function generated from template.
  */
 export const QuantityDeleteAction = async <T extends Prisma.QuantityDeleteArgs>(
     props: QuantityDeleteProps<T>,
     disableSafeMessage: boolean = false,
 ): Promise<QuantityDeleteResponse<T>> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "QuantityDeleteAction", "Quantity", "delete");
-        const response = await PrismaInstance.quantity.delete(props);
-        return response;
-    } catch (error) {
-        throw new Error("QuantityDeleteAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "QuantityDeleteAction", "Quantity", "delete");
+    return await QuantityService.delete(props);
 };
 
 /**
  * ## Quantity Create Many (Server Action)
+ *
+ * - optimized for mutations
+ * - serial execution without cache
+ *
+ * **Note**: function generated from template.
  */
 export const QuantityCreateManyAction = async <T extends Prisma.QuantityCreateManyArgs>(
     props: QuantityCreateManyProps<T>,
     disableSafeMessage: boolean = false,
 ): Promise<QuantityCreateManyResponse> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "QuantityCreateManyAction", "Quantity", "createMany");
-        const response = await PrismaInstance.quantity.createMany(props);
-        return response;
-    } catch (error) {
-        throw new Error("QuantityCreateManyAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "QuantityCreateManyAction", "Quantity", "createMany");
+    return await QuantityService.createMany(props);
 };
 
 /**
  * ## Quantity Update Many (Server Action)
+ *
+ * - optimized for mutations
+ * - serial execution without cache
+ *
+ * **Note**: function generated from template.
  */
 export const QuantityUpdateManyAction = async <T extends Prisma.QuantityUpdateManyArgs>(
     props: QuantityUpdateManyProps<T>,
     disableSafeMessage: boolean = false,
 ): Promise<QuantityUpdateManyResponse> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "QuantityUpdateManyAction", "Quantity", "updateMany");
-        const response = await PrismaInstance.quantity.updateMany(props);
-        return response;
-    } catch (error) {
-        throw new Error("QuantityUpdateManyAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "QuantityUpdateManyAction", "Quantity", "updateMany");
+    return await QuantityService.updateMany(props);
 };
 
 /**
  * ## Quantity Delete Many (Server Action)
+ *
+ * - optimized for mutations
+ * - serial execution without cache
+ *
+ * **Note**: function generated from template.
  */
 export const QuantityDeleteManyAction = async <T extends Prisma.QuantityDeleteManyArgs>(
     props: QuantityDeleteManyProps<T>,
     disableSafeMessage: boolean = false,
 ): Promise<QuantityDeleteManyResponse> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "QuantityDeleteManyAction", "Quantity", "deleteMany");
-        const response = await PrismaInstance.quantity.deleteMany(props);
-        return response;
-    } catch (error) {
-        throw new Error("QuantityDeleteManyAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "QuantityDeleteManyAction", "Quantity", "deleteMany");
+    return await QuantityService.deleteMany(props);
 };
 
 /**
  * ## Quantity Find First (Server Action)
+ *
  * **WARNING**: Server actions can't be cached and parallelized
+ *
  * - Do not use this for fetching data, use API routes with caching instead
- * - But you can use it to get fresh data, without any cache
+ * - Use it to get fresh data, without any cache
+ *
+ *  **Note**: function generated from template.
  */
 export const QuantityFindFirstAction = async <T extends Prisma.QuantityFindFirstArgs>(
     props: QuantityFindFirstProps<T>,
     disableSafeMessage: boolean = false,
 ): Promise<QuantityFindFirstResponse<T>> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "QuantityFindFirstAction", "Quantity", "findFirst");
-        const response = await PrismaInstance.quantity.findFirst(props);
-        return response;
-    } catch (error) {
-        throw new Error("QuantityFindFirstAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "QuantityFindFirstAction", "Quantity", "findFirst");
+    return await QuantityService.findFirst(props);
 };
 
 /**
  * ## Quantity Find Unique (Server Action)
+ *
  * **WARNING**: Server actions can't be cached and parallelized
+ *
  * - Do not use this for fetching data, use API routes with caching instead
- * - But you can use it to get fresh data, without any cache
+ * - Use it to get fresh data, without any cache
+ *
+ *  **Note**: function generated from template.
  */
 export const QuantityFindUniqueAction = async <T extends Prisma.QuantityFindUniqueArgs>(
     props: QuantityFindUniqueProps<T>,
     disableSafeMessage: boolean = false,
 ): Promise<QuantityFindUniqueResponse<T>> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "QuantityFindUniqueAction", "Quantity", "findUnique");
-        const response = await PrismaInstance.quantity.findUnique(props);
-        return response;
-    } catch (error) {
-        throw new Error("QuantityFindUniqueAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "QuantityFindUniqueAction", "Quantity", "findUnique");
+    return await QuantityService.findUnique(props);
 };
 
 /**
  * ## Quantity Find Many (Server Action)
+ *
  * **WARNING**: Server actions can't be cached and parallelized
+ *
  * - Do not use this for fetching data, use API routes with caching instead
- * - But you can use it to get fresh data, without any cache
+ * - Use it to get fresh data, without any cache
+ *
+ *  **Note**: function generated from template.
  */
 export const QuantityFindManyAction = async <T extends Prisma.QuantityFindManyArgs>(
     props: QuantityFindManyProps<T>,
     disableSafeMessage: boolean = false,
 ): Promise<QuantityFindManyResponse<T>> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "QuantityFindManyAction", "Quantity", "findMany");
-        const response = await PrismaInstance.quantity.findMany(props);
-        return response;
-    } catch (error) {
-        throw new Error("QuantityFindManyAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "QuantityFindManyAction", "Quantity", "findMany");
+    return await QuantityService.findMany(props);
 };
 
 /**
  * ## Quantity Count (Server Action)
+ *
  * **WARNING**: Server actions can't be cached and parallelized
+ *
  * - Do not use this for fetching data, use API routes with caching instead
- * - But you can use it to get fresh data, without any cache
+ * - Use it to get fresh data, without any cache
+ *
+ *  **Note**: function generated from template.
  */
 export const QuantityCountAction = async <T extends Prisma.QuantityCountArgs>(
     props: QuantityCountProps<T>,
     disableSafeMessage: boolean = false,
 ): Promise<QuantityCountResponse<T>> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "QuantityCountAction", "Quantity", "count");
-        const response = await PrismaInstance.quantity.count(props);
-        return response;
-    } catch (error) {
-        throw new Error("QuantityCountAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "QuantityCountAction", "Quantity", "count");
+    return await QuantityService.count(props);
 };

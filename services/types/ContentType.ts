@@ -132,7 +132,7 @@ export type ContentCreateManyProps<T extends Prisma.ContentCreateManyArgs = Pris
 /**
  * Content Create Many response
  */
-export type ContentCreateManyResponse = Prisma.PrismaPromise<Prisma.BatchPayload>;
+export type ContentCreateManyResponse = Prisma.BatchPayload;
 
 /**
  * Content Update Many props
@@ -143,7 +143,7 @@ export type ContentUpdateManyProps<T extends Prisma.ContentUpdateManyArgs = Pris
 /**
  * Content Update Many response
  */
-export type ContentUpdateManyResponse = Prisma.PrismaPromise<Prisma.BatchPayload>;
+export type ContentUpdateManyResponse = Prisma.BatchPayload;
 
 /**
  * Content Delete Many props
@@ -154,7 +154,7 @@ export type ContentDeleteManyProps<T extends Prisma.ContentDeleteManyArgs = Pris
 /**
  * Content Delete Many response
  */
-export type ContentDeleteManyResponse = Prisma.PrismaPromise<Prisma.BatchPayload>;
+export type ContentDeleteManyResponse = Prisma.BatchPayload;
 
 /**
  * Content Find First props

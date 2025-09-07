@@ -1,11 +1,6 @@
 import { Prisma } from "@prisma/client";
 import { GetResult, InternalArgs, PrismaClientOptions } from "@prisma/client/runtime/library";
 import {
-    PrismaClientKnownRequestError,
-    PrismaClientUnknownRequestError,
-    PrismaClientValidationError,
-} from "@prisma/client/runtime/library";
-import {
     AccountCountCached,
     AccountFindFirstCached,
     AccountFindManyCached,
@@ -68,72 +63,58 @@ type AccountCountResponse<T extends Prisma.AccountCountArgs> =
 
 // ========== Services ========== //
 
+/**
+ * ## Account Find (Server)
+ *
+ * - SSG compatible
+ * - cached function
+ *
+ * **Note**: function generated from template.
+ */
 export const AccountFindFirstServer = async <T extends Prisma.AccountFindFirstArgs>(
     params: AccountFindFirstProps<T>,
 ): Promise<AccountFindFirstResponse<T>> => {
-    try {
-        const response = await AccountFindFirstCached(params);
-        return response;
-    } catch (error) {
-        throw ServiceError("Account", "findFirst", error);
-    }
+    return await AccountFindFirstCached(params);
 };
 
+/**
+ * ## Account Find (Server)
+ *
+ * - SSG compatible
+ * - cached function
+ *
+ * **Note**: function generated from template.
+ */
 export const AccountFindUniqueServer = async <T extends Prisma.AccountFindUniqueArgs>(
     params: AccountFindUniqueProps<T>,
 ): Promise<AccountFindUniqueResponse<T>> => {
-    try {
-        const response = await AccountFindUniqueCached(params);
-        return response;
-    } catch (error) {
-        throw ServiceError("Account", "findUnique", error);
-    }
+    return await AccountFindUniqueCached(params);
 };
 
+/**
+ * ## Account Find (Server)
+ *
+ * - SSG compatible
+ * - cached function
+ *
+ * **Note**: function generated from template.
+ */
 export const AccountFindManyServer = async <T extends Prisma.AccountFindManyArgs>(
     params: AccountFindManyProps<T>,
 ): Promise<AccountFindManyResponse<T>> => {
-    try {
-        const response = await AccountFindManyCached(params);
-        return response;
-    } catch (error) {
-        throw ServiceError("Account", "findMany", error);
-    }
+    return await AccountFindManyCached(params);
 };
 
+/**
+ * ## Account Find (Server)
+ *
+ * - SSG compatible
+ * - cached function
+ *
+ * **Note**: function generated from template.
+ */
 export const AccountCountServer = async <T extends Prisma.AccountCountArgs>(
     params: AccountCountProps<T>,
 ): Promise<AccountCountResponse<T>> => {
-    try {
-        const response = await AccountCountCached(params);
-        return response;
-    } catch (error) {
-        throw ServiceError("Account", "count", error);
-    }
-};
-
-// ========== Error Handling ========== //
-
-const ServiceError = (serviceName: string, methodName: string, error: unknown) => {
-    if (process.env.NODE_ENV === "development") {
-        const message = (error as Error).message;
-
-        const isPrismaError =
-            error instanceof PrismaClientKnownRequestError ||
-            error instanceof PrismaClientUnknownRequestError ||
-            error instanceof PrismaClientValidationError;
-
-        if (isPrismaError) {
-            const prismaMessage = serviceName + " -> " + methodName + " -> Prisma error -> " + message;
-            console.error(prismaMessage);
-            throw new Error(prismaMessage);
-        } else {
-            const errorMessage = serviceName + " -> " + methodName + " -> " + message;
-            console.error(errorMessage);
-            throw new Error(errorMessage);
-        }
-    }
-
-    // TODO: add logging
-    throw new Error("Something went wrong...");
+    return await AccountCountCached(params);
 };

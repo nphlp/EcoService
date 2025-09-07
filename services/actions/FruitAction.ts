@@ -1,6 +1,6 @@
 "use server";
 
-import PrismaInstance from "@lib/prisma";
+import FruitService from "@class/FruitClass";
 import { requiresSafeMessage } from "@permissions/requiresSafeMessage";
 import { Prisma } from "@prisma/client";
 import { GetResult, InternalArgs, PrismaClientOptions } from "@prisma/client/runtime/library";
@@ -108,188 +108,184 @@ type FruitCountResponse<T extends Prisma.FruitCountArgs> =
 
 /**
  * ## Fruit Create (Server Action)
+ *
+ * - optimized for mutations
+ * - serial execution without cache
+ *
+ * **Note**: function generated from template.
  */
 export const FruitCreateAction = async <T extends Prisma.FruitCreateArgs>(
     props: FruitCreateProps<T>,
     disableSafeMessage: boolean = false,
 ): Promise<FruitCreateResponse<T>> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "FruitCreateAction", "Fruit", "create");
-        const response = await PrismaInstance.fruit.create(props);
-        return response;
-    } catch (error) {
-        throw new Error("FruitCreateAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "FruitCreateAction", "Fruit", "create");
+    return await FruitService.create(props);
 };
 
 /**
  * ## Fruit Upsert (Server Action)
+ *
+ * - optimized for mutations
+ * - serial execution without cache
+ *
+ * **Note**: function generated from template.
  */
 export const FruitUpsertAction = async <T extends Prisma.FruitUpsertArgs>(
     props: FruitUpsertProps<T>,
     disableSafeMessage: boolean = false,
 ): Promise<FruitUpsertResponse<T>> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "FruitUpsertAction", "Fruit", "upsert");
-        const response = await PrismaInstance.fruit.upsert(props);
-        return response;
-    } catch (error) {
-        throw new Error("FruitUpsertAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "FruitUpsertAction", "Fruit", "upsert");
+    return await FruitService.upsert(props);
 };
 
 /**
  * ## Fruit Update (Server Action)
+ *
+ * - optimized for mutations
+ * - serial execution without cache
+ *
+ * **Note**: function generated from template.
  */
 export const FruitUpdateAction = async <T extends Prisma.FruitUpdateArgs>(
     props: FruitUpdateProps<T>,
     disableSafeMessage: boolean = false,
 ): Promise<FruitUpdateResponse<T>> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "FruitUpdateAction", "Fruit", "update");
-        const response = await PrismaInstance.fruit.update(props);
-        return response;
-    } catch (error) {
-        throw new Error("FruitUpdateAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "FruitUpdateAction", "Fruit", "update");
+    return await FruitService.update(props);
 };
 
 /**
  * ## Fruit Delete (Server Action)
+ *
+ * - optimized for mutations
+ * - serial execution without cache
+ *
+ * **Note**: function generated from template.
  */
 export const FruitDeleteAction = async <T extends Prisma.FruitDeleteArgs>(
     props: FruitDeleteProps<T>,
     disableSafeMessage: boolean = false,
 ): Promise<FruitDeleteResponse<T>> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "FruitDeleteAction", "Fruit", "delete");
-        const response = await PrismaInstance.fruit.delete(props);
-        return response;
-    } catch (error) {
-        throw new Error("FruitDeleteAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "FruitDeleteAction", "Fruit", "delete");
+    return await FruitService.delete(props);
 };
 
 /**
  * ## Fruit Create Many (Server Action)
+ *
+ * - optimized for mutations
+ * - serial execution without cache
+ *
+ * **Note**: function generated from template.
  */
 export const FruitCreateManyAction = async <T extends Prisma.FruitCreateManyArgs>(
     props: FruitCreateManyProps<T>,
     disableSafeMessage: boolean = false,
 ): Promise<FruitCreateManyResponse> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "FruitCreateManyAction", "Fruit", "createMany");
-        const response = await PrismaInstance.fruit.createMany(props);
-        return response;
-    } catch (error) {
-        throw new Error("FruitCreateManyAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "FruitCreateManyAction", "Fruit", "createMany");
+    return await FruitService.createMany(props);
 };
 
 /**
  * ## Fruit Update Many (Server Action)
+ *
+ * - optimized for mutations
+ * - serial execution without cache
+ *
+ * **Note**: function generated from template.
  */
 export const FruitUpdateManyAction = async <T extends Prisma.FruitUpdateManyArgs>(
     props: FruitUpdateManyProps<T>,
     disableSafeMessage: boolean = false,
 ): Promise<FruitUpdateManyResponse> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "FruitUpdateManyAction", "Fruit", "updateMany");
-        const response = await PrismaInstance.fruit.updateMany(props);
-        return response;
-    } catch (error) {
-        throw new Error("FruitUpdateManyAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "FruitUpdateManyAction", "Fruit", "updateMany");
+    return await FruitService.updateMany(props);
 };
 
 /**
  * ## Fruit Delete Many (Server Action)
+ *
+ * - optimized for mutations
+ * - serial execution without cache
+ *
+ * **Note**: function generated from template.
  */
 export const FruitDeleteManyAction = async <T extends Prisma.FruitDeleteManyArgs>(
     props: FruitDeleteManyProps<T>,
     disableSafeMessage: boolean = false,
 ): Promise<FruitDeleteManyResponse> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "FruitDeleteManyAction", "Fruit", "deleteMany");
-        const response = await PrismaInstance.fruit.deleteMany(props);
-        return response;
-    } catch (error) {
-        throw new Error("FruitDeleteManyAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "FruitDeleteManyAction", "Fruit", "deleteMany");
+    return await FruitService.deleteMany(props);
 };
 
 /**
  * ## Fruit Find First (Server Action)
+ *
  * **WARNING**: Server actions can't be cached and parallelized
+ *
  * - Do not use this for fetching data, use API routes with caching instead
- * - But you can use it to get fresh data, without any cache
+ * - Use it to get fresh data, without any cache
+ *
+ *  **Note**: function generated from template.
  */
 export const FruitFindFirstAction = async <T extends Prisma.FruitFindFirstArgs>(
     props: FruitFindFirstProps<T>,
     disableSafeMessage: boolean = false,
 ): Promise<FruitFindFirstResponse<T>> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "FruitFindFirstAction", "Fruit", "findFirst");
-        const response = await PrismaInstance.fruit.findFirst(props);
-        return response;
-    } catch (error) {
-        throw new Error("FruitFindFirstAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "FruitFindFirstAction", "Fruit", "findFirst");
+    return await FruitService.findFirst(props);
 };
 
 /**
  * ## Fruit Find Unique (Server Action)
+ *
  * **WARNING**: Server actions can't be cached and parallelized
+ *
  * - Do not use this for fetching data, use API routes with caching instead
- * - But you can use it to get fresh data, without any cache
+ * - Use it to get fresh data, without any cache
+ *
+ *  **Note**: function generated from template.
  */
 export const FruitFindUniqueAction = async <T extends Prisma.FruitFindUniqueArgs>(
     props: FruitFindUniqueProps<T>,
     disableSafeMessage: boolean = false,
 ): Promise<FruitFindUniqueResponse<T>> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "FruitFindUniqueAction", "Fruit", "findUnique");
-        const response = await PrismaInstance.fruit.findUnique(props);
-        return response;
-    } catch (error) {
-        throw new Error("FruitFindUniqueAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "FruitFindUniqueAction", "Fruit", "findUnique");
+    return await FruitService.findUnique(props);
 };
 
 /**
  * ## Fruit Find Many (Server Action)
+ *
  * **WARNING**: Server actions can't be cached and parallelized
+ *
  * - Do not use this for fetching data, use API routes with caching instead
- * - But you can use it to get fresh data, without any cache
+ * - Use it to get fresh data, without any cache
+ *
+ *  **Note**: function generated from template.
  */
 export const FruitFindManyAction = async <T extends Prisma.FruitFindManyArgs>(
     props: FruitFindManyProps<T>,
     disableSafeMessage: boolean = false,
 ): Promise<FruitFindManyResponse<T>> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "FruitFindManyAction", "Fruit", "findMany");
-        const response = await PrismaInstance.fruit.findMany(props);
-        return response;
-    } catch (error) {
-        throw new Error("FruitFindManyAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "FruitFindManyAction", "Fruit", "findMany");
+    return await FruitService.findMany(props);
 };
 
 /**
  * ## Fruit Count (Server Action)
+ *
  * **WARNING**: Server actions can't be cached and parallelized
+ *
  * - Do not use this for fetching data, use API routes with caching instead
- * - But you can use it to get fresh data, without any cache
+ * - Use it to get fresh data, without any cache
+ *
+ *  **Note**: function generated from template.
  */
 export const FruitCountAction = async <T extends Prisma.FruitCountArgs>(
     props: FruitCountProps<T>,
     disableSafeMessage: boolean = false,
 ): Promise<FruitCountResponse<T>> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "FruitCountAction", "Fruit", "count");
-        const response = await PrismaInstance.fruit.count(props);
-        return response;
-    } catch (error) {
-        throw new Error("FruitCountAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "FruitCountAction", "Fruit", "count");
+    return await FruitService.count(props);
 };

@@ -1,10 +1,5 @@
 import { Prisma } from "@prisma/client";
 import { GetResult, InternalArgs, PrismaClientOptions } from "@prisma/client/runtime/library";
-import {
-    PrismaClientKnownRequestError,
-    PrismaClientUnknownRequestError,
-    PrismaClientValidationError,
-} from "@prisma/client/runtime/library";
 import { OrderCountCached, OrderFindFirstCached, OrderFindManyCached, OrderFindUniqueCached } from "@services/cached";
 
 /**
@@ -60,72 +55,58 @@ type OrderCountResponse<T extends Prisma.OrderCountArgs> =
 
 // ========== Services ========== //
 
+/**
+ * ## Order Find (Server)
+ *
+ * - SSG compatible
+ * - cached function
+ *
+ * **Note**: function generated from template.
+ */
 export const OrderFindFirstServer = async <T extends Prisma.OrderFindFirstArgs>(
     params: OrderFindFirstProps<T>,
 ): Promise<OrderFindFirstResponse<T>> => {
-    try {
-        const response = await OrderFindFirstCached(params);
-        return response;
-    } catch (error) {
-        throw ServiceError("Order", "findFirst", error);
-    }
+    return await OrderFindFirstCached(params);
 };
 
+/**
+ * ## Order Find (Server)
+ *
+ * - SSG compatible
+ * - cached function
+ *
+ * **Note**: function generated from template.
+ */
 export const OrderFindUniqueServer = async <T extends Prisma.OrderFindUniqueArgs>(
     params: OrderFindUniqueProps<T>,
 ): Promise<OrderFindUniqueResponse<T>> => {
-    try {
-        const response = await OrderFindUniqueCached(params);
-        return response;
-    } catch (error) {
-        throw ServiceError("Order", "findUnique", error);
-    }
+    return await OrderFindUniqueCached(params);
 };
 
+/**
+ * ## Order Find (Server)
+ *
+ * - SSG compatible
+ * - cached function
+ *
+ * **Note**: function generated from template.
+ */
 export const OrderFindManyServer = async <T extends Prisma.OrderFindManyArgs>(
     params: OrderFindManyProps<T>,
 ): Promise<OrderFindManyResponse<T>> => {
-    try {
-        const response = await OrderFindManyCached(params);
-        return response;
-    } catch (error) {
-        throw ServiceError("Order", "findMany", error);
-    }
+    return await OrderFindManyCached(params);
 };
 
+/**
+ * ## Order Find (Server)
+ *
+ * - SSG compatible
+ * - cached function
+ *
+ * **Note**: function generated from template.
+ */
 export const OrderCountServer = async <T extends Prisma.OrderCountArgs>(
     params: OrderCountProps<T>,
 ): Promise<OrderCountResponse<T>> => {
-    try {
-        const response = await OrderCountCached(params);
-        return response;
-    } catch (error) {
-        throw ServiceError("Order", "count", error);
-    }
-};
-
-// ========== Error Handling ========== //
-
-const ServiceError = (serviceName: string, methodName: string, error: unknown) => {
-    if (process.env.NODE_ENV === "development") {
-        const message = (error as Error).message;
-
-        const isPrismaError =
-            error instanceof PrismaClientKnownRequestError ||
-            error instanceof PrismaClientUnknownRequestError ||
-            error instanceof PrismaClientValidationError;
-
-        if (isPrismaError) {
-            const prismaMessage = serviceName + " -> " + methodName + " -> Prisma error -> " + message;
-            console.error(prismaMessage);
-            throw new Error(prismaMessage);
-        } else {
-            const errorMessage = serviceName + " -> " + methodName + " -> " + message;
-            console.error(errorMessage);
-            throw new Error(errorMessage);
-        }
-    }
-
-    // TODO: add logging
-    throw new Error("Something went wrong...");
+    return await OrderCountCached(params);
 };

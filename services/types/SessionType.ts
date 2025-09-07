@@ -132,7 +132,7 @@ export type SessionCreateManyProps<T extends Prisma.SessionCreateManyArgs = Pris
 /**
  * Session Create Many response
  */
-export type SessionCreateManyResponse = Prisma.PrismaPromise<Prisma.BatchPayload>;
+export type SessionCreateManyResponse = Prisma.BatchPayload;
 
 /**
  * Session Update Many props
@@ -143,7 +143,7 @@ export type SessionUpdateManyProps<T extends Prisma.SessionUpdateManyArgs = Pris
 /**
  * Session Update Many response
  */
-export type SessionUpdateManyResponse = Prisma.PrismaPromise<Prisma.BatchPayload>;
+export type SessionUpdateManyResponse = Prisma.BatchPayload;
 
 /**
  * Session Delete Many props
@@ -154,7 +154,7 @@ export type SessionDeleteManyProps<T extends Prisma.SessionDeleteManyArgs = Pris
 /**
  * Session Delete Many response
  */
-export type SessionDeleteManyResponse = Prisma.PrismaPromise<Prisma.BatchPayload>;
+export type SessionDeleteManyResponse = Prisma.BatchPayload;
 
 /**
  * Session Find First props

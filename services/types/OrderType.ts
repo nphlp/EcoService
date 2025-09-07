@@ -132,7 +132,7 @@ export type OrderCreateManyProps<T extends Prisma.OrderCreateManyArgs = Prisma.O
 /**
  * Order Create Many response
  */
-export type OrderCreateManyResponse = Prisma.PrismaPromise<Prisma.BatchPayload>;
+export type OrderCreateManyResponse = Prisma.BatchPayload;
 
 /**
  * Order Update Many props
@@ -143,7 +143,7 @@ export type OrderUpdateManyProps<T extends Prisma.OrderUpdateManyArgs = Prisma.O
 /**
  * Order Update Many response
  */
-export type OrderUpdateManyResponse = Prisma.PrismaPromise<Prisma.BatchPayload>;
+export type OrderUpdateManyResponse = Prisma.BatchPayload;
 
 /**
  * Order Delete Many props
@@ -154,7 +154,7 @@ export type OrderDeleteManyProps<T extends Prisma.OrderDeleteManyArgs = Prisma.O
 /**
  * Order Delete Many response
  */
-export type OrderDeleteManyResponse = Prisma.PrismaPromise<Prisma.BatchPayload>;
+export type OrderDeleteManyResponse = Prisma.BatchPayload;
 
 /**
  * Order Find First props

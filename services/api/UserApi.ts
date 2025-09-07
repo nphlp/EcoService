@@ -60,30 +60,18 @@ type UserCountResponse<T extends Prisma.UserCountArgs> =
 type RouteResponse<T> = Promise<NextResponse<ResponseFormat<T>>>;
 
 export type UserRoutes<Input> = {
-    /**
-     * ## User Find First (API)
-     */
     "/user/findFirst": <T extends Prisma.UserFindFirstArgs>() => {
         params: UserFindFirstProps<T>;
         response: UserFindFirstResponse<Input extends UserFindFirstProps<T> ? Input : never>;
     };
-    /**
-     * ## User Find Unique (API)
-     */
     "/user/findUnique": <T extends Prisma.UserFindUniqueArgs>() => {
         params: UserFindUniqueProps<T>;
         response: UserFindUniqueResponse<Input extends UserFindUniqueProps<T> ? Input : never>;
     };
-    /**
-     * ## User Find Many (API)
-     */
     "/user/findMany": <T extends Prisma.UserFindManyArgs>() => {
         params: UserFindManyProps<T>;
         response: UserFindManyResponse<Input extends UserFindManyProps<T> ? Input : never>;
     };
-    /**
-     * ## User Count (API)
-     */
     "/user/count": <T extends Prisma.UserCountArgs>() => {
         params: UserCountProps<T>;
         response: UserCountResponse<Input extends UserCountProps<T> ? Input : never>;
@@ -100,7 +88,7 @@ export const UserFindFirstApi = async <T extends Prisma.UserFindFirstArgs>(
         const response: UserFindFirstResponse<T> = await UserFindFirstCached(params);
         return NextResponse.json({ data: response }, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ error: "UserFindFirstApi -> " + (error as Error).message }, { status: 500 });
+        return NextResponse.json({ error: (error as Error).message }, { status: 500 });
     }
 };
 
@@ -112,7 +100,7 @@ export const UserFindUniqueApi = async <T extends Prisma.UserFindUniqueArgs>(
         const response: UserFindUniqueResponse<T> = await UserFindUniqueCached(params);
         return NextResponse.json({ data: response }, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ error: "UserFindUniqueApi -> " + (error as Error).message }, { status: 500 });
+        return NextResponse.json({ error: (error as Error).message }, { status: 500 });
     }
 };
 
@@ -124,7 +112,7 @@ export const UserFindManyApi = async <T extends Prisma.UserFindManyArgs>(
         const response: UserFindManyResponse<T> = await UserFindManyCached(params);
         return NextResponse.json({ data: response }, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ error: "UserFindManyApi -> " + (error as Error).message }, { status: 500 });
+        return NextResponse.json({ error: (error as Error).message }, { status: 500 });
     }
 };
 
@@ -136,6 +124,6 @@ export const UserCountApi = async <T extends Prisma.UserCountArgs>(
         const response: UserCountResponse<T> = await UserCountCached(params);
         return NextResponse.json({ data: response }, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ error: "UserCountApi -> " + (error as Error).message }, { status: 500 });
+        return NextResponse.json({ error: (error as Error).message }, { status: 500 });
     }
 };

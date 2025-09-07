@@ -68,30 +68,18 @@ type ProductCountResponse<T extends Prisma.ProductCountArgs> =
 type RouteResponse<T> = Promise<NextResponse<ResponseFormat<T>>>;
 
 export type ProductRoutes<Input> = {
-    /**
-     * ## Product Find First (API)
-     */
     "/product/findFirst": <T extends Prisma.ProductFindFirstArgs>() => {
         params: ProductFindFirstProps<T>;
         response: ProductFindFirstResponse<Input extends ProductFindFirstProps<T> ? Input : never>;
     };
-    /**
-     * ## Product Find Unique (API)
-     */
     "/product/findUnique": <T extends Prisma.ProductFindUniqueArgs>() => {
         params: ProductFindUniqueProps<T>;
         response: ProductFindUniqueResponse<Input extends ProductFindUniqueProps<T> ? Input : never>;
     };
-    /**
-     * ## Product Find Many (API)
-     */
     "/product/findMany": <T extends Prisma.ProductFindManyArgs>() => {
         params: ProductFindManyProps<T>;
         response: ProductFindManyResponse<Input extends ProductFindManyProps<T> ? Input : never>;
     };
-    /**
-     * ## Product Count (API)
-     */
     "/product/count": <T extends Prisma.ProductCountArgs>() => {
         params: ProductCountProps<T>;
         response: ProductCountResponse<Input extends ProductCountProps<T> ? Input : never>;
@@ -108,7 +96,7 @@ export const ProductFindFirstApi = async <T extends Prisma.ProductFindFirstArgs>
         const response: ProductFindFirstResponse<T> = await ProductFindFirstCached(params);
         return NextResponse.json({ data: response }, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ error: "ProductFindFirstApi -> " + (error as Error).message }, { status: 500 });
+        return NextResponse.json({ error: (error as Error).message }, { status: 500 });
     }
 };
 
@@ -120,7 +108,7 @@ export const ProductFindUniqueApi = async <T extends Prisma.ProductFindUniqueArg
         const response: ProductFindUniqueResponse<T> = await ProductFindUniqueCached(params);
         return NextResponse.json({ data: response }, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ error: "ProductFindUniqueApi -> " + (error as Error).message }, { status: 500 });
+        return NextResponse.json({ error: (error as Error).message }, { status: 500 });
     }
 };
 
@@ -132,7 +120,7 @@ export const ProductFindManyApi = async <T extends Prisma.ProductFindManyArgs>(
         const response: ProductFindManyResponse<T> = await ProductFindManyCached(params);
         return NextResponse.json({ data: response }, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ error: "ProductFindManyApi -> " + (error as Error).message }, { status: 500 });
+        return NextResponse.json({ error: (error as Error).message }, { status: 500 });
     }
 };
 
@@ -144,6 +132,6 @@ export const ProductCountApi = async <T extends Prisma.ProductCountArgs>(
         const response: ProductCountResponse<T> = await ProductCountCached(params);
         return NextResponse.json({ data: response }, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ error: "ProductCountApi -> " + (error as Error).message }, { status: 500 });
+        return NextResponse.json({ error: (error as Error).message }, { status: 500 });
     }
 };

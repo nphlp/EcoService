@@ -1,11 +1,6 @@
 import { Prisma } from "@prisma/client";
 import { GetResult, InternalArgs, PrismaClientOptions } from "@prisma/client/runtime/library";
 import {
-    PrismaClientKnownRequestError,
-    PrismaClientUnknownRequestError,
-    PrismaClientValidationError,
-} from "@prisma/client/runtime/library";
-import {
     QuantityCountCached,
     QuantityFindFirstCached,
     QuantityFindManyCached,
@@ -71,72 +66,58 @@ type QuantityCountResponse<T extends Prisma.QuantityCountArgs> =
 
 // ========== Services ========== //
 
+/**
+ * ## Quantity Find (Server)
+ *
+ * - SSG compatible
+ * - cached function
+ *
+ * **Note**: function generated from template.
+ */
 export const QuantityFindFirstServer = async <T extends Prisma.QuantityFindFirstArgs>(
     params: QuantityFindFirstProps<T>,
 ): Promise<QuantityFindFirstResponse<T>> => {
-    try {
-        const response = await QuantityFindFirstCached(params);
-        return response;
-    } catch (error) {
-        throw ServiceError("Quantity", "findFirst", error);
-    }
+    return await QuantityFindFirstCached(params);
 };
 
+/**
+ * ## Quantity Find (Server)
+ *
+ * - SSG compatible
+ * - cached function
+ *
+ * **Note**: function generated from template.
+ */
 export const QuantityFindUniqueServer = async <T extends Prisma.QuantityFindUniqueArgs>(
     params: QuantityFindUniqueProps<T>,
 ): Promise<QuantityFindUniqueResponse<T>> => {
-    try {
-        const response = await QuantityFindUniqueCached(params);
-        return response;
-    } catch (error) {
-        throw ServiceError("Quantity", "findUnique", error);
-    }
+    return await QuantityFindUniqueCached(params);
 };
 
+/**
+ * ## Quantity Find (Server)
+ *
+ * - SSG compatible
+ * - cached function
+ *
+ * **Note**: function generated from template.
+ */
 export const QuantityFindManyServer = async <T extends Prisma.QuantityFindManyArgs>(
     params: QuantityFindManyProps<T>,
 ): Promise<QuantityFindManyResponse<T>> => {
-    try {
-        const response = await QuantityFindManyCached(params);
-        return response;
-    } catch (error) {
-        throw ServiceError("Quantity", "findMany", error);
-    }
+    return await QuantityFindManyCached(params);
 };
 
+/**
+ * ## Quantity Find (Server)
+ *
+ * - SSG compatible
+ * - cached function
+ *
+ * **Note**: function generated from template.
+ */
 export const QuantityCountServer = async <T extends Prisma.QuantityCountArgs>(
     params: QuantityCountProps<T>,
 ): Promise<QuantityCountResponse<T>> => {
-    try {
-        const response = await QuantityCountCached(params);
-        return response;
-    } catch (error) {
-        throw ServiceError("Quantity", "count", error);
-    }
-};
-
-// ========== Error Handling ========== //
-
-const ServiceError = (serviceName: string, methodName: string, error: unknown) => {
-    if (process.env.NODE_ENV === "development") {
-        const message = (error as Error).message;
-
-        const isPrismaError =
-            error instanceof PrismaClientKnownRequestError ||
-            error instanceof PrismaClientUnknownRequestError ||
-            error instanceof PrismaClientValidationError;
-
-        if (isPrismaError) {
-            const prismaMessage = serviceName + " -> " + methodName + " -> Prisma error -> " + message;
-            console.error(prismaMessage);
-            throw new Error(prismaMessage);
-        } else {
-            const errorMessage = serviceName + " -> " + methodName + " -> " + message;
-            console.error(errorMessage);
-            throw new Error(errorMessage);
-        }
-    }
-
-    // TODO: add logging
-    throw new Error("Something went wrong...");
+    return await QuantityCountCached(params);
 };

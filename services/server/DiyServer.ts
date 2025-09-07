@@ -1,10 +1,5 @@
 import { Prisma } from "@prisma/client";
 import { GetResult, InternalArgs, PrismaClientOptions } from "@prisma/client/runtime/library";
-import {
-    PrismaClientKnownRequestError,
-    PrismaClientUnknownRequestError,
-    PrismaClientValidationError,
-} from "@prisma/client/runtime/library";
 import { DiyCountCached, DiyFindFirstCached, DiyFindManyCached, DiyFindUniqueCached } from "@services/cached";
 
 /**
@@ -60,72 +55,58 @@ type DiyCountResponse<T extends Prisma.DiyCountArgs> =
 
 // ========== Services ========== //
 
+/**
+ * ## Diy Find (Server)
+ *
+ * - SSG compatible
+ * - cached function
+ *
+ * **Note**: function generated from template.
+ */
 export const DiyFindFirstServer = async <T extends Prisma.DiyFindFirstArgs>(
     params: DiyFindFirstProps<T>,
 ): Promise<DiyFindFirstResponse<T>> => {
-    try {
-        const response = await DiyFindFirstCached(params);
-        return response;
-    } catch (error) {
-        throw ServiceError("Diy", "findFirst", error);
-    }
+    return await DiyFindFirstCached(params);
 };
 
+/**
+ * ## Diy Find (Server)
+ *
+ * - SSG compatible
+ * - cached function
+ *
+ * **Note**: function generated from template.
+ */
 export const DiyFindUniqueServer = async <T extends Prisma.DiyFindUniqueArgs>(
     params: DiyFindUniqueProps<T>,
 ): Promise<DiyFindUniqueResponse<T>> => {
-    try {
-        const response = await DiyFindUniqueCached(params);
-        return response;
-    } catch (error) {
-        throw ServiceError("Diy", "findUnique", error);
-    }
+    return await DiyFindUniqueCached(params);
 };
 
+/**
+ * ## Diy Find (Server)
+ *
+ * - SSG compatible
+ * - cached function
+ *
+ * **Note**: function generated from template.
+ */
 export const DiyFindManyServer = async <T extends Prisma.DiyFindManyArgs>(
     params: DiyFindManyProps<T>,
 ): Promise<DiyFindManyResponse<T>> => {
-    try {
-        const response = await DiyFindManyCached(params);
-        return response;
-    } catch (error) {
-        throw ServiceError("Diy", "findMany", error);
-    }
+    return await DiyFindManyCached(params);
 };
 
+/**
+ * ## Diy Find (Server)
+ *
+ * - SSG compatible
+ * - cached function
+ *
+ * **Note**: function generated from template.
+ */
 export const DiyCountServer = async <T extends Prisma.DiyCountArgs>(
     params: DiyCountProps<T>,
 ): Promise<DiyCountResponse<T>> => {
-    try {
-        const response = await DiyCountCached(params);
-        return response;
-    } catch (error) {
-        throw ServiceError("Diy", "count", error);
-    }
-};
-
-// ========== Error Handling ========== //
-
-const ServiceError = (serviceName: string, methodName: string, error: unknown) => {
-    if (process.env.NODE_ENV === "development") {
-        const message = (error as Error).message;
-
-        const isPrismaError =
-            error instanceof PrismaClientKnownRequestError ||
-            error instanceof PrismaClientUnknownRequestError ||
-            error instanceof PrismaClientValidationError;
-
-        if (isPrismaError) {
-            const prismaMessage = serviceName + " -> " + methodName + " -> Prisma error -> " + message;
-            console.error(prismaMessage);
-            throw new Error(prismaMessage);
-        } else {
-            const errorMessage = serviceName + " -> " + methodName + " -> " + message;
-            console.error(errorMessage);
-            throw new Error(errorMessage);
-        }
-    }
-
-    // TODO: add logging
-    throw new Error("Something went wrong...");
+    return await DiyCountCached(params);
 };

@@ -60,30 +60,18 @@ type FruitCountResponse<T extends Prisma.FruitCountArgs> =
 type RouteResponse<T> = Promise<NextResponse<ResponseFormat<T>>>;
 
 export type FruitRoutes<Input> = {
-    /**
-     * ## Fruit Find First (API)
-     */
     "/fruit/findFirst": <T extends Prisma.FruitFindFirstArgs>() => {
         params: FruitFindFirstProps<T>;
         response: FruitFindFirstResponse<Input extends FruitFindFirstProps<T> ? Input : never>;
     };
-    /**
-     * ## Fruit Find Unique (API)
-     */
     "/fruit/findUnique": <T extends Prisma.FruitFindUniqueArgs>() => {
         params: FruitFindUniqueProps<T>;
         response: FruitFindUniqueResponse<Input extends FruitFindUniqueProps<T> ? Input : never>;
     };
-    /**
-     * ## Fruit Find Many (API)
-     */
     "/fruit/findMany": <T extends Prisma.FruitFindManyArgs>() => {
         params: FruitFindManyProps<T>;
         response: FruitFindManyResponse<Input extends FruitFindManyProps<T> ? Input : never>;
     };
-    /**
-     * ## Fruit Count (API)
-     */
     "/fruit/count": <T extends Prisma.FruitCountArgs>() => {
         params: FruitCountProps<T>;
         response: FruitCountResponse<Input extends FruitCountProps<T> ? Input : never>;
@@ -100,7 +88,7 @@ export const FruitFindFirstApi = async <T extends Prisma.FruitFindFirstArgs>(
         const response: FruitFindFirstResponse<T> = await FruitFindFirstCached(params);
         return NextResponse.json({ data: response }, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ error: "FruitFindFirstApi -> " + (error as Error).message }, { status: 500 });
+        return NextResponse.json({ error: (error as Error).message }, { status: 500 });
     }
 };
 
@@ -112,7 +100,7 @@ export const FruitFindUniqueApi = async <T extends Prisma.FruitFindUniqueArgs>(
         const response: FruitFindUniqueResponse<T> = await FruitFindUniqueCached(params);
         return NextResponse.json({ data: response }, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ error: "FruitFindUniqueApi -> " + (error as Error).message }, { status: 500 });
+        return NextResponse.json({ error: (error as Error).message }, { status: 500 });
     }
 };
 
@@ -124,7 +112,7 @@ export const FruitFindManyApi = async <T extends Prisma.FruitFindManyArgs>(
         const response: FruitFindManyResponse<T> = await FruitFindManyCached(params);
         return NextResponse.json({ data: response }, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ error: "FruitFindManyApi -> " + (error as Error).message }, { status: 500 });
+        return NextResponse.json({ error: (error as Error).message }, { status: 500 });
     }
 };
 
@@ -136,6 +124,6 @@ export const FruitCountApi = async <T extends Prisma.FruitCountArgs>(
         const response: FruitCountResponse<T> = await FruitCountCached(params);
         return NextResponse.json({ data: response }, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ error: "FruitCountApi -> " + (error as Error).message }, { status: 500 });
+        return NextResponse.json({ error: (error as Error).message }, { status: 500 });
     }
 };

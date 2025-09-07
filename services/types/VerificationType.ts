@@ -109,7 +109,7 @@ export type VerificationCreateManyProps<
 /**
  * Verification Create Many response
  */
-export type VerificationCreateManyResponse = Prisma.PrismaPromise<Prisma.BatchPayload>;
+export type VerificationCreateManyResponse = Prisma.BatchPayload;
 
 /**
  * Verification Update Many props
@@ -121,7 +121,7 @@ export type VerificationUpdateManyProps<
 /**
  * Verification Update Many response
  */
-export type VerificationUpdateManyResponse = Prisma.PrismaPromise<Prisma.BatchPayload>;
+export type VerificationUpdateManyResponse = Prisma.BatchPayload;
 
 /**
  * Verification Delete Many props
@@ -133,7 +133,7 @@ export type VerificationDeleteManyProps<
 /**
  * Verification Delete Many response
  */
-export type VerificationDeleteManyResponse = Prisma.PrismaPromise<Prisma.BatchPayload>;
+export type VerificationDeleteManyResponse = Prisma.BatchPayload;
 
 /**
  * Verification Find First props

@@ -132,7 +132,7 @@ export type AccountCreateManyProps<T extends Prisma.AccountCreateManyArgs = Pris
 /**
  * Account Create Many response
  */
-export type AccountCreateManyResponse = Prisma.PrismaPromise<Prisma.BatchPayload>;
+export type AccountCreateManyResponse = Prisma.BatchPayload;
 
 /**
  * Account Update Many props
@@ -143,7 +143,7 @@ export type AccountUpdateManyProps<T extends Prisma.AccountUpdateManyArgs = Pris
 /**
  * Account Update Many response
  */
-export type AccountUpdateManyResponse = Prisma.PrismaPromise<Prisma.BatchPayload>;
+export type AccountUpdateManyResponse = Prisma.BatchPayload;
 
 /**
  * Account Delete Many props
@@ -154,7 +154,7 @@ export type AccountDeleteManyProps<T extends Prisma.AccountDeleteManyArgs = Pris
 /**
  * Account Delete Many response
  */
-export type AccountDeleteManyResponse = Prisma.PrismaPromise<Prisma.BatchPayload>;
+export type AccountDeleteManyResponse = Prisma.BatchPayload;
 
 /**
  * Account Find First props

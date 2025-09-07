@@ -1,11 +1,6 @@
 import { Prisma } from "@prisma/client";
 import { GetResult, InternalArgs, PrismaClientOptions } from "@prisma/client/runtime/library";
 import {
-    PrismaClientKnownRequestError,
-    PrismaClientUnknownRequestError,
-    PrismaClientValidationError,
-} from "@prisma/client/runtime/library";
-import {
     ProductCountCached,
     ProductFindFirstCached,
     ProductFindManyCached,
@@ -68,72 +63,58 @@ type ProductCountResponse<T extends Prisma.ProductCountArgs> =
 
 // ========== Services ========== //
 
+/**
+ * ## Product Find (Server)
+ *
+ * - SSG compatible
+ * - cached function
+ *
+ * **Note**: function generated from template.
+ */
 export const ProductFindFirstServer = async <T extends Prisma.ProductFindFirstArgs>(
     params: ProductFindFirstProps<T>,
 ): Promise<ProductFindFirstResponse<T>> => {
-    try {
-        const response = await ProductFindFirstCached(params);
-        return response;
-    } catch (error) {
-        throw ServiceError("Product", "findFirst", error);
-    }
+    return await ProductFindFirstCached(params);
 };
 
+/**
+ * ## Product Find (Server)
+ *
+ * - SSG compatible
+ * - cached function
+ *
+ * **Note**: function generated from template.
+ */
 export const ProductFindUniqueServer = async <T extends Prisma.ProductFindUniqueArgs>(
     params: ProductFindUniqueProps<T>,
 ): Promise<ProductFindUniqueResponse<T>> => {
-    try {
-        const response = await ProductFindUniqueCached(params);
-        return response;
-    } catch (error) {
-        throw ServiceError("Product", "findUnique", error);
-    }
+    return await ProductFindUniqueCached(params);
 };
 
+/**
+ * ## Product Find (Server)
+ *
+ * - SSG compatible
+ * - cached function
+ *
+ * **Note**: function generated from template.
+ */
 export const ProductFindManyServer = async <T extends Prisma.ProductFindManyArgs>(
     params: ProductFindManyProps<T>,
 ): Promise<ProductFindManyResponse<T>> => {
-    try {
-        const response = await ProductFindManyCached(params);
-        return response;
-    } catch (error) {
-        throw ServiceError("Product", "findMany", error);
-    }
+    return await ProductFindManyCached(params);
 };
 
+/**
+ * ## Product Find (Server)
+ *
+ * - SSG compatible
+ * - cached function
+ *
+ * **Note**: function generated from template.
+ */
 export const ProductCountServer = async <T extends Prisma.ProductCountArgs>(
     params: ProductCountProps<T>,
 ): Promise<ProductCountResponse<T>> => {
-    try {
-        const response = await ProductCountCached(params);
-        return response;
-    } catch (error) {
-        throw ServiceError("Product", "count", error);
-    }
-};
-
-// ========== Error Handling ========== //
-
-const ServiceError = (serviceName: string, methodName: string, error: unknown) => {
-    if (process.env.NODE_ENV === "development") {
-        const message = (error as Error).message;
-
-        const isPrismaError =
-            error instanceof PrismaClientKnownRequestError ||
-            error instanceof PrismaClientUnknownRequestError ||
-            error instanceof PrismaClientValidationError;
-
-        if (isPrismaError) {
-            const prismaMessage = serviceName + " -> " + methodName + " -> Prisma error -> " + message;
-            console.error(prismaMessage);
-            throw new Error(prismaMessage);
-        } else {
-            const errorMessage = serviceName + " -> " + methodName + " -> " + message;
-            console.error(errorMessage);
-            throw new Error(errorMessage);
-        }
-    }
-
-    // TODO: add logging
-    throw new Error("Something went wrong...");
+    return await ProductCountCached(params);
 };

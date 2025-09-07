@@ -28,7 +28,7 @@ export default async function Page() {
 
     // ========== Find Many ========== //
 
-    const paramsMany: ArticleFindManyProps = { select: { slug: true } };
+    const paramsMany = { select: { slug: true } } satisfies ArticleFindManyProps;
 
     const articleMany = await PrismaInstance.article.findMany(paramsMany);
     const articleManyServer = await ArticleFindManyServer(paramsMany);
@@ -42,7 +42,7 @@ export default async function Page() {
 
     // ========== Find First ========== //
 
-    const paramsFirst: ArticleFindFirstProps = { select: { slug: true } };
+    const paramsFirst = { select: { slug: true } } satisfies ArticleFindFirstProps;
 
     const articleFirst = await PrismaInstance.article.findFirst(paramsFirst);
     const articleFirstServer = await ArticleFindFirstServer(paramsFirst);
@@ -56,7 +56,7 @@ export default async function Page() {
 
     // ========== Find Unique ========== //
 
-    const paramsUnique: ArticleFindUniqueProps = { select: { slug: true }, where: { id: "" } };
+    const paramsUnique = { select: { slug: true }, where: { id: "" } } satisfies ArticleFindUniqueProps;
 
     const articleUnique = await PrismaInstance.article.findUnique(paramsUnique);
     const articleUniqueServer = await ArticleFindUniqueServer(paramsUnique);
@@ -70,7 +70,7 @@ export default async function Page() {
 
     // ========== Count ========== //
 
-    const paramsCount: ArticleCountProps = {};
+    const paramsCount = {} satisfies ArticleCountProps;
 
     const articleCount = await PrismaInstance.article.count(paramsCount);
     const articleCountServer = await ArticleCountServer(paramsCount);

@@ -1,6 +1,6 @@
 "use server";
 
-import PrismaInstance from "@lib/prisma";
+import ContentService from "@class/ContentClass";
 import { requiresSafeMessage } from "@permissions/requiresSafeMessage";
 import { Prisma } from "@prisma/client";
 import { GetResult, InternalArgs, PrismaClientOptions } from "@prisma/client/runtime/library";
@@ -120,188 +120,184 @@ type ContentCountResponse<T extends Prisma.ContentCountArgs> =
 
 /**
  * ## Content Create (Server Action)
+ *
+ * - optimized for mutations
+ * - serial execution without cache
+ *
+ * **Note**: function generated from template.
  */
 export const ContentCreateAction = async <T extends Prisma.ContentCreateArgs>(
     props: ContentCreateProps<T>,
     disableSafeMessage: boolean = false,
 ): Promise<ContentCreateResponse<T>> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "ContentCreateAction", "Content", "create");
-        const response = await PrismaInstance.content.create(props);
-        return response;
-    } catch (error) {
-        throw new Error("ContentCreateAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "ContentCreateAction", "Content", "create");
+    return await ContentService.create(props);
 };
 
 /**
  * ## Content Upsert (Server Action)
+ *
+ * - optimized for mutations
+ * - serial execution without cache
+ *
+ * **Note**: function generated from template.
  */
 export const ContentUpsertAction = async <T extends Prisma.ContentUpsertArgs>(
     props: ContentUpsertProps<T>,
     disableSafeMessage: boolean = false,
 ): Promise<ContentUpsertResponse<T>> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "ContentUpsertAction", "Content", "upsert");
-        const response = await PrismaInstance.content.upsert(props);
-        return response;
-    } catch (error) {
-        throw new Error("ContentUpsertAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "ContentUpsertAction", "Content", "upsert");
+    return await ContentService.upsert(props);
 };
 
 /**
  * ## Content Update (Server Action)
+ *
+ * - optimized for mutations
+ * - serial execution without cache
+ *
+ * **Note**: function generated from template.
  */
 export const ContentUpdateAction = async <T extends Prisma.ContentUpdateArgs>(
     props: ContentUpdateProps<T>,
     disableSafeMessage: boolean = false,
 ): Promise<ContentUpdateResponse<T>> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "ContentUpdateAction", "Content", "update");
-        const response = await PrismaInstance.content.update(props);
-        return response;
-    } catch (error) {
-        throw new Error("ContentUpdateAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "ContentUpdateAction", "Content", "update");
+    return await ContentService.update(props);
 };
 
 /**
  * ## Content Delete (Server Action)
+ *
+ * - optimized for mutations
+ * - serial execution without cache
+ *
+ * **Note**: function generated from template.
  */
 export const ContentDeleteAction = async <T extends Prisma.ContentDeleteArgs>(
     props: ContentDeleteProps<T>,
     disableSafeMessage: boolean = false,
 ): Promise<ContentDeleteResponse<T>> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "ContentDeleteAction", "Content", "delete");
-        const response = await PrismaInstance.content.delete(props);
-        return response;
-    } catch (error) {
-        throw new Error("ContentDeleteAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "ContentDeleteAction", "Content", "delete");
+    return await ContentService.delete(props);
 };
 
 /**
  * ## Content Create Many (Server Action)
+ *
+ * - optimized for mutations
+ * - serial execution without cache
+ *
+ * **Note**: function generated from template.
  */
 export const ContentCreateManyAction = async <T extends Prisma.ContentCreateManyArgs>(
     props: ContentCreateManyProps<T>,
     disableSafeMessage: boolean = false,
 ): Promise<ContentCreateManyResponse> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "ContentCreateManyAction", "Content", "createMany");
-        const response = await PrismaInstance.content.createMany(props);
-        return response;
-    } catch (error) {
-        throw new Error("ContentCreateManyAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "ContentCreateManyAction", "Content", "createMany");
+    return await ContentService.createMany(props);
 };
 
 /**
  * ## Content Update Many (Server Action)
+ *
+ * - optimized for mutations
+ * - serial execution without cache
+ *
+ * **Note**: function generated from template.
  */
 export const ContentUpdateManyAction = async <T extends Prisma.ContentUpdateManyArgs>(
     props: ContentUpdateManyProps<T>,
     disableSafeMessage: boolean = false,
 ): Promise<ContentUpdateManyResponse> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "ContentUpdateManyAction", "Content", "updateMany");
-        const response = await PrismaInstance.content.updateMany(props);
-        return response;
-    } catch (error) {
-        throw new Error("ContentUpdateManyAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "ContentUpdateManyAction", "Content", "updateMany");
+    return await ContentService.updateMany(props);
 };
 
 /**
  * ## Content Delete Many (Server Action)
+ *
+ * - optimized for mutations
+ * - serial execution without cache
+ *
+ * **Note**: function generated from template.
  */
 export const ContentDeleteManyAction = async <T extends Prisma.ContentDeleteManyArgs>(
     props: ContentDeleteManyProps<T>,
     disableSafeMessage: boolean = false,
 ): Promise<ContentDeleteManyResponse> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "ContentDeleteManyAction", "Content", "deleteMany");
-        const response = await PrismaInstance.content.deleteMany(props);
-        return response;
-    } catch (error) {
-        throw new Error("ContentDeleteManyAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "ContentDeleteManyAction", "Content", "deleteMany");
+    return await ContentService.deleteMany(props);
 };
 
 /**
  * ## Content Find First (Server Action)
+ *
  * **WARNING**: Server actions can't be cached and parallelized
+ *
  * - Do not use this for fetching data, use API routes with caching instead
- * - But you can use it to get fresh data, without any cache
+ * - Use it to get fresh data, without any cache
+ *
+ *  **Note**: function generated from template.
  */
 export const ContentFindFirstAction = async <T extends Prisma.ContentFindFirstArgs>(
     props: ContentFindFirstProps<T>,
     disableSafeMessage: boolean = false,
 ): Promise<ContentFindFirstResponse<T>> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "ContentFindFirstAction", "Content", "findFirst");
-        const response = await PrismaInstance.content.findFirst(props);
-        return response;
-    } catch (error) {
-        throw new Error("ContentFindFirstAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "ContentFindFirstAction", "Content", "findFirst");
+    return await ContentService.findFirst(props);
 };
 
 /**
  * ## Content Find Unique (Server Action)
+ *
  * **WARNING**: Server actions can't be cached and parallelized
+ *
  * - Do not use this for fetching data, use API routes with caching instead
- * - But you can use it to get fresh data, without any cache
+ * - Use it to get fresh data, without any cache
+ *
+ *  **Note**: function generated from template.
  */
 export const ContentFindUniqueAction = async <T extends Prisma.ContentFindUniqueArgs>(
     props: ContentFindUniqueProps<T>,
     disableSafeMessage: boolean = false,
 ): Promise<ContentFindUniqueResponse<T>> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "ContentFindUniqueAction", "Content", "findUnique");
-        const response = await PrismaInstance.content.findUnique(props);
-        return response;
-    } catch (error) {
-        throw new Error("ContentFindUniqueAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "ContentFindUniqueAction", "Content", "findUnique");
+    return await ContentService.findUnique(props);
 };
 
 /**
  * ## Content Find Many (Server Action)
+ *
  * **WARNING**: Server actions can't be cached and parallelized
+ *
  * - Do not use this for fetching data, use API routes with caching instead
- * - But you can use it to get fresh data, without any cache
+ * - Use it to get fresh data, without any cache
+ *
+ *  **Note**: function generated from template.
  */
 export const ContentFindManyAction = async <T extends Prisma.ContentFindManyArgs>(
     props: ContentFindManyProps<T>,
     disableSafeMessage: boolean = false,
 ): Promise<ContentFindManyResponse<T>> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "ContentFindManyAction", "Content", "findMany");
-        const response = await PrismaInstance.content.findMany(props);
-        return response;
-    } catch (error) {
-        throw new Error("ContentFindManyAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "ContentFindManyAction", "Content", "findMany");
+    return await ContentService.findMany(props);
 };
 
 /**
  * ## Content Count (Server Action)
+ *
  * **WARNING**: Server actions can't be cached and parallelized
+ *
  * - Do not use this for fetching data, use API routes with caching instead
- * - But you can use it to get fresh data, without any cache
+ * - Use it to get fresh data, without any cache
+ *
+ *  **Note**: function generated from template.
  */
 export const ContentCountAction = async <T extends Prisma.ContentCountArgs>(
     props: ContentCountProps<T>,
     disableSafeMessage: boolean = false,
 ): Promise<ContentCountResponse<T>> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "ContentCountAction", "Content", "count");
-        const response = await PrismaInstance.content.count(props);
-        return response;
-    } catch (error) {
-        throw new Error("ContentCountAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "ContentCountAction", "Content", "count");
+    return await ContentService.count(props);
 };

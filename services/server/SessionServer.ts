@@ -1,11 +1,6 @@
 import { Prisma } from "@prisma/client";
 import { GetResult, InternalArgs, PrismaClientOptions } from "@prisma/client/runtime/library";
 import {
-    PrismaClientKnownRequestError,
-    PrismaClientUnknownRequestError,
-    PrismaClientValidationError,
-} from "@prisma/client/runtime/library";
-import {
     SessionCountCached,
     SessionFindFirstCached,
     SessionFindManyCached,
@@ -68,72 +63,58 @@ type SessionCountResponse<T extends Prisma.SessionCountArgs> =
 
 // ========== Services ========== //
 
+/**
+ * ## Session Find (Server)
+ *
+ * - SSG compatible
+ * - cached function
+ *
+ * **Note**: function generated from template.
+ */
 export const SessionFindFirstServer = async <T extends Prisma.SessionFindFirstArgs>(
     params: SessionFindFirstProps<T>,
 ): Promise<SessionFindFirstResponse<T>> => {
-    try {
-        const response = await SessionFindFirstCached(params);
-        return response;
-    } catch (error) {
-        throw ServiceError("Session", "findFirst", error);
-    }
+    return await SessionFindFirstCached(params);
 };
 
+/**
+ * ## Session Find (Server)
+ *
+ * - SSG compatible
+ * - cached function
+ *
+ * **Note**: function generated from template.
+ */
 export const SessionFindUniqueServer = async <T extends Prisma.SessionFindUniqueArgs>(
     params: SessionFindUniqueProps<T>,
 ): Promise<SessionFindUniqueResponse<T>> => {
-    try {
-        const response = await SessionFindUniqueCached(params);
-        return response;
-    } catch (error) {
-        throw ServiceError("Session", "findUnique", error);
-    }
+    return await SessionFindUniqueCached(params);
 };
 
+/**
+ * ## Session Find (Server)
+ *
+ * - SSG compatible
+ * - cached function
+ *
+ * **Note**: function generated from template.
+ */
 export const SessionFindManyServer = async <T extends Prisma.SessionFindManyArgs>(
     params: SessionFindManyProps<T>,
 ): Promise<SessionFindManyResponse<T>> => {
-    try {
-        const response = await SessionFindManyCached(params);
-        return response;
-    } catch (error) {
-        throw ServiceError("Session", "findMany", error);
-    }
+    return await SessionFindManyCached(params);
 };
 
+/**
+ * ## Session Find (Server)
+ *
+ * - SSG compatible
+ * - cached function
+ *
+ * **Note**: function generated from template.
+ */
 export const SessionCountServer = async <T extends Prisma.SessionCountArgs>(
     params: SessionCountProps<T>,
 ): Promise<SessionCountResponse<T>> => {
-    try {
-        const response = await SessionCountCached(params);
-        return response;
-    } catch (error) {
-        throw ServiceError("Session", "count", error);
-    }
-};
-
-// ========== Error Handling ========== //
-
-const ServiceError = (serviceName: string, methodName: string, error: unknown) => {
-    if (process.env.NODE_ENV === "development") {
-        const message = (error as Error).message;
-
-        const isPrismaError =
-            error instanceof PrismaClientKnownRequestError ||
-            error instanceof PrismaClientUnknownRequestError ||
-            error instanceof PrismaClientValidationError;
-
-        if (isPrismaError) {
-            const prismaMessage = serviceName + " -> " + methodName + " -> Prisma error -> " + message;
-            console.error(prismaMessage);
-            throw new Error(prismaMessage);
-        } else {
-            const errorMessage = serviceName + " -> " + methodName + " -> " + message;
-            console.error(errorMessage);
-            throw new Error(errorMessage);
-        }
-    }
-
-    // TODO: add logging
-    throw new Error("Something went wrong...");
+    return await SessionCountCached(params);
 };

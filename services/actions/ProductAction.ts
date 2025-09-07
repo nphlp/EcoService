@@ -1,6 +1,6 @@
 "use server";
 
-import PrismaInstance from "@lib/prisma";
+import ProductService from "@class/ProductClass";
 import { requiresSafeMessage } from "@permissions/requiresSafeMessage";
 import { Prisma } from "@prisma/client";
 import { GetResult, InternalArgs, PrismaClientOptions } from "@prisma/client/runtime/library";
@@ -120,188 +120,184 @@ type ProductCountResponse<T extends Prisma.ProductCountArgs> =
 
 /**
  * ## Product Create (Server Action)
+ *
+ * - optimized for mutations
+ * - serial execution without cache
+ *
+ * **Note**: function generated from template.
  */
 export const ProductCreateAction = async <T extends Prisma.ProductCreateArgs>(
     props: ProductCreateProps<T>,
     disableSafeMessage: boolean = false,
 ): Promise<ProductCreateResponse<T>> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "ProductCreateAction", "Product", "create");
-        const response = await PrismaInstance.product.create(props);
-        return response;
-    } catch (error) {
-        throw new Error("ProductCreateAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "ProductCreateAction", "Product", "create");
+    return await ProductService.create(props);
 };
 
 /**
  * ## Product Upsert (Server Action)
+ *
+ * - optimized for mutations
+ * - serial execution without cache
+ *
+ * **Note**: function generated from template.
  */
 export const ProductUpsertAction = async <T extends Prisma.ProductUpsertArgs>(
     props: ProductUpsertProps<T>,
     disableSafeMessage: boolean = false,
 ): Promise<ProductUpsertResponse<T>> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "ProductUpsertAction", "Product", "upsert");
-        const response = await PrismaInstance.product.upsert(props);
-        return response;
-    } catch (error) {
-        throw new Error("ProductUpsertAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "ProductUpsertAction", "Product", "upsert");
+    return await ProductService.upsert(props);
 };
 
 /**
  * ## Product Update (Server Action)
+ *
+ * - optimized for mutations
+ * - serial execution without cache
+ *
+ * **Note**: function generated from template.
  */
 export const ProductUpdateAction = async <T extends Prisma.ProductUpdateArgs>(
     props: ProductUpdateProps<T>,
     disableSafeMessage: boolean = false,
 ): Promise<ProductUpdateResponse<T>> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "ProductUpdateAction", "Product", "update");
-        const response = await PrismaInstance.product.update(props);
-        return response;
-    } catch (error) {
-        throw new Error("ProductUpdateAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "ProductUpdateAction", "Product", "update");
+    return await ProductService.update(props);
 };
 
 /**
  * ## Product Delete (Server Action)
+ *
+ * - optimized for mutations
+ * - serial execution without cache
+ *
+ * **Note**: function generated from template.
  */
 export const ProductDeleteAction = async <T extends Prisma.ProductDeleteArgs>(
     props: ProductDeleteProps<T>,
     disableSafeMessage: boolean = false,
 ): Promise<ProductDeleteResponse<T>> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "ProductDeleteAction", "Product", "delete");
-        const response = await PrismaInstance.product.delete(props);
-        return response;
-    } catch (error) {
-        throw new Error("ProductDeleteAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "ProductDeleteAction", "Product", "delete");
+    return await ProductService.delete(props);
 };
 
 /**
  * ## Product Create Many (Server Action)
+ *
+ * - optimized for mutations
+ * - serial execution without cache
+ *
+ * **Note**: function generated from template.
  */
 export const ProductCreateManyAction = async <T extends Prisma.ProductCreateManyArgs>(
     props: ProductCreateManyProps<T>,
     disableSafeMessage: boolean = false,
 ): Promise<ProductCreateManyResponse> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "ProductCreateManyAction", "Product", "createMany");
-        const response = await PrismaInstance.product.createMany(props);
-        return response;
-    } catch (error) {
-        throw new Error("ProductCreateManyAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "ProductCreateManyAction", "Product", "createMany");
+    return await ProductService.createMany(props);
 };
 
 /**
  * ## Product Update Many (Server Action)
+ *
+ * - optimized for mutations
+ * - serial execution without cache
+ *
+ * **Note**: function generated from template.
  */
 export const ProductUpdateManyAction = async <T extends Prisma.ProductUpdateManyArgs>(
     props: ProductUpdateManyProps<T>,
     disableSafeMessage: boolean = false,
 ): Promise<ProductUpdateManyResponse> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "ProductUpdateManyAction", "Product", "updateMany");
-        const response = await PrismaInstance.product.updateMany(props);
-        return response;
-    } catch (error) {
-        throw new Error("ProductUpdateManyAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "ProductUpdateManyAction", "Product", "updateMany");
+    return await ProductService.updateMany(props);
 };
 
 /**
  * ## Product Delete Many (Server Action)
+ *
+ * - optimized for mutations
+ * - serial execution without cache
+ *
+ * **Note**: function generated from template.
  */
 export const ProductDeleteManyAction = async <T extends Prisma.ProductDeleteManyArgs>(
     props: ProductDeleteManyProps<T>,
     disableSafeMessage: boolean = false,
 ): Promise<ProductDeleteManyResponse> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "ProductDeleteManyAction", "Product", "deleteMany");
-        const response = await PrismaInstance.product.deleteMany(props);
-        return response;
-    } catch (error) {
-        throw new Error("ProductDeleteManyAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "ProductDeleteManyAction", "Product", "deleteMany");
+    return await ProductService.deleteMany(props);
 };
 
 /**
  * ## Product Find First (Server Action)
+ *
  * **WARNING**: Server actions can't be cached and parallelized
+ *
  * - Do not use this for fetching data, use API routes with caching instead
- * - But you can use it to get fresh data, without any cache
+ * - Use it to get fresh data, without any cache
+ *
+ *  **Note**: function generated from template.
  */
 export const ProductFindFirstAction = async <T extends Prisma.ProductFindFirstArgs>(
     props: ProductFindFirstProps<T>,
     disableSafeMessage: boolean = false,
 ): Promise<ProductFindFirstResponse<T>> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "ProductFindFirstAction", "Product", "findFirst");
-        const response = await PrismaInstance.product.findFirst(props);
-        return response;
-    } catch (error) {
-        throw new Error("ProductFindFirstAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "ProductFindFirstAction", "Product", "findFirst");
+    return await ProductService.findFirst(props);
 };
 
 /**
  * ## Product Find Unique (Server Action)
+ *
  * **WARNING**: Server actions can't be cached and parallelized
+ *
  * - Do not use this for fetching data, use API routes with caching instead
- * - But you can use it to get fresh data, without any cache
+ * - Use it to get fresh data, without any cache
+ *
+ *  **Note**: function generated from template.
  */
 export const ProductFindUniqueAction = async <T extends Prisma.ProductFindUniqueArgs>(
     props: ProductFindUniqueProps<T>,
     disableSafeMessage: boolean = false,
 ): Promise<ProductFindUniqueResponse<T>> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "ProductFindUniqueAction", "Product", "findUnique");
-        const response = await PrismaInstance.product.findUnique(props);
-        return response;
-    } catch (error) {
-        throw new Error("ProductFindUniqueAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "ProductFindUniqueAction", "Product", "findUnique");
+    return await ProductService.findUnique(props);
 };
 
 /**
  * ## Product Find Many (Server Action)
+ *
  * **WARNING**: Server actions can't be cached and parallelized
+ *
  * - Do not use this for fetching data, use API routes with caching instead
- * - But you can use it to get fresh data, without any cache
+ * - Use it to get fresh data, without any cache
+ *
+ *  **Note**: function generated from template.
  */
 export const ProductFindManyAction = async <T extends Prisma.ProductFindManyArgs>(
     props: ProductFindManyProps<T>,
     disableSafeMessage: boolean = false,
 ): Promise<ProductFindManyResponse<T>> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "ProductFindManyAction", "Product", "findMany");
-        const response = await PrismaInstance.product.findMany(props);
-        return response;
-    } catch (error) {
-        throw new Error("ProductFindManyAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "ProductFindManyAction", "Product", "findMany");
+    return await ProductService.findMany(props);
 };
 
 /**
  * ## Product Count (Server Action)
+ *
  * **WARNING**: Server actions can't be cached and parallelized
+ *
  * - Do not use this for fetching data, use API routes with caching instead
- * - But you can use it to get fresh data, without any cache
+ * - Use it to get fresh data, without any cache
+ *
+ *  **Note**: function generated from template.
  */
 export const ProductCountAction = async <T extends Prisma.ProductCountArgs>(
     props: ProductCountProps<T>,
     disableSafeMessage: boolean = false,
 ): Promise<ProductCountResponse<T>> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "ProductCountAction", "Product", "count");
-        const response = await PrismaInstance.product.count(props);
-        return response;
-    } catch (error) {
-        throw new Error("ProductCountAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "ProductCountAction", "Product", "count");
+    return await ProductService.count(props);
 };

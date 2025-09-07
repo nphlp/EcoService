@@ -1,11 +1,6 @@
 import { Prisma } from "@prisma/client";
 import { GetResult, InternalArgs, PrismaClientOptions } from "@prisma/client/runtime/library";
 import {
-    PrismaClientKnownRequestError,
-    PrismaClientUnknownRequestError,
-    PrismaClientValidationError,
-} from "@prisma/client/runtime/library";
-import {
     {{modelName}}CountCached,
     {{modelName}}FindFirstCached,
     {{modelName}}FindManyCached,
@@ -68,72 +63,58 @@ type {{modelName}}CountResponse<T extends Prisma.{{modelName}}CountArgs> =
 
 // ========== Services ========== //
 
+/**
+ * ## {{modelName}} Find (Server)
+ *
+ * - SSG compatible
+ * - cached function
+ *
+ * **Note**: function generated from template.
+ */
 export const {{modelName}}FindFirstServer = async <T extends Prisma.{{modelName}}FindFirstArgs>(
     params: {{modelName}}FindFirstProps<T>,
 ): Promise<{{modelName}}FindFirstResponse<T>> => {
-    try {
-        const response = await {{modelName}}FindFirstCached(params);
-        return response;
-    } catch (error) {
-        throw ServiceError("{{modelName}}", "findFirst", error);
-    }
+    return await {{modelName}}FindFirstCached(params);
 };
 
+/**
+ * ## {{modelName}} Find (Server)
+ *
+ * - SSG compatible
+ * - cached function
+ *
+ * **Note**: function generated from template.
+ */
 export const {{modelName}}FindUniqueServer = async <T extends Prisma.{{modelName}}FindUniqueArgs>(
     params: {{modelName}}FindUniqueProps<T>,
 ): Promise<{{modelName}}FindUniqueResponse<T>> => {
-    try {
-        const response = await {{modelName}}FindUniqueCached(params);
-        return response;
-    } catch (error) {
-        throw ServiceError("{{modelName}}", "findUnique", error);
-    }
+    return await {{modelName}}FindUniqueCached(params);
 };
 
+/**
+ * ## {{modelName}} Find (Server)
+ *
+ * - SSG compatible
+ * - cached function
+ *
+ * **Note**: function generated from template.
+ */
 export const {{modelName}}FindManyServer = async <T extends Prisma.{{modelName}}FindManyArgs>(
     params: {{modelName}}FindManyProps<T>,
 ): Promise<{{modelName}}FindManyResponse<T>> => {
-    try {
-        const response = await {{modelName}}FindManyCached(params);
-        return response;
-    } catch (error) {
-        throw ServiceError("{{modelName}}", "findMany", error);
-    }
+    return await {{modelName}}FindManyCached(params);
 };
 
+/**
+ * ## {{modelName}} Find (Server)
+ *
+ * - SSG compatible
+ * - cached function
+ *
+ * **Note**: function generated from template.
+ */
 export const {{modelName}}CountServer = async <T extends Prisma.{{modelName}}CountArgs>(
     params: {{modelName}}CountProps<T>,
 ): Promise<{{modelName}}CountResponse<T>> => {
-    try {
-        const response = await {{modelName}}CountCached(params);
-        return response;
-    } catch (error) {
-        throw ServiceError("{{modelName}}", "count", error);
-    }
-};
-
-// ========== Error Handling ========== //
-
-const ServiceError = (serviceName: string, methodName: string, error: unknown) => {
-    if (process.env.NODE_ENV === "development") {
-        const message = (error as Error).message;
-
-        const isPrismaError =
-            error instanceof PrismaClientKnownRequestError ||
-            error instanceof PrismaClientUnknownRequestError ||
-            error instanceof PrismaClientValidationError;
-
-        if (isPrismaError) {
-            const prismaMessage = serviceName + " -> " + methodName + " -> Prisma error -> " + message;
-            console.error(prismaMessage);
-            throw new Error(prismaMessage);
-        } else {
-            const errorMessage = serviceName + " -> " + methodName + " -> " + message;
-            console.error(errorMessage);
-            throw new Error(errorMessage);
-        }
-    }
-
-    // TODO: add logging
-    throw new Error("Something went wrong...");
+    return await {{modelName}}CountCached(params);
 };

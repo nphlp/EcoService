@@ -1,6 +1,6 @@
 "use server";
 
-import PrismaInstance from "@lib/prisma";
+import UserService from "@class/UserClass";
 import { requiresSafeMessage } from "@permissions/requiresSafeMessage";
 import { Prisma } from "@prisma/client";
 import { GetResult, InternalArgs, PrismaClientOptions } from "@prisma/client/runtime/library";
@@ -108,188 +108,184 @@ type UserCountResponse<T extends Prisma.UserCountArgs> =
 
 /**
  * ## User Create (Server Action)
+ *
+ * - optimized for mutations
+ * - serial execution without cache
+ *
+ * **Note**: function generated from template.
  */
 export const UserCreateAction = async <T extends Prisma.UserCreateArgs>(
     props: UserCreateProps<T>,
     disableSafeMessage: boolean = false,
 ): Promise<UserCreateResponse<T>> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "UserCreateAction", "User", "create");
-        const response = await PrismaInstance.user.create(props);
-        return response;
-    } catch (error) {
-        throw new Error("UserCreateAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "UserCreateAction", "User", "create");
+    return await UserService.create(props);
 };
 
 /**
  * ## User Upsert (Server Action)
+ *
+ * - optimized for mutations
+ * - serial execution without cache
+ *
+ * **Note**: function generated from template.
  */
 export const UserUpsertAction = async <T extends Prisma.UserUpsertArgs>(
     props: UserUpsertProps<T>,
     disableSafeMessage: boolean = false,
 ): Promise<UserUpsertResponse<T>> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "UserUpsertAction", "User", "upsert");
-        const response = await PrismaInstance.user.upsert(props);
-        return response;
-    } catch (error) {
-        throw new Error("UserUpsertAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "UserUpsertAction", "User", "upsert");
+    return await UserService.upsert(props);
 };
 
 /**
  * ## User Update (Server Action)
+ *
+ * - optimized for mutations
+ * - serial execution without cache
+ *
+ * **Note**: function generated from template.
  */
 export const UserUpdateAction = async <T extends Prisma.UserUpdateArgs>(
     props: UserUpdateProps<T>,
     disableSafeMessage: boolean = false,
 ): Promise<UserUpdateResponse<T>> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "UserUpdateAction", "User", "update");
-        const response = await PrismaInstance.user.update(props);
-        return response;
-    } catch (error) {
-        throw new Error("UserUpdateAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "UserUpdateAction", "User", "update");
+    return await UserService.update(props);
 };
 
 /**
  * ## User Delete (Server Action)
+ *
+ * - optimized for mutations
+ * - serial execution without cache
+ *
+ * **Note**: function generated from template.
  */
 export const UserDeleteAction = async <T extends Prisma.UserDeleteArgs>(
     props: UserDeleteProps<T>,
     disableSafeMessage: boolean = false,
 ): Promise<UserDeleteResponse<T>> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "UserDeleteAction", "User", "delete");
-        const response = await PrismaInstance.user.delete(props);
-        return response;
-    } catch (error) {
-        throw new Error("UserDeleteAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "UserDeleteAction", "User", "delete");
+    return await UserService.delete(props);
 };
 
 /**
  * ## User Create Many (Server Action)
+ *
+ * - optimized for mutations
+ * - serial execution without cache
+ *
+ * **Note**: function generated from template.
  */
 export const UserCreateManyAction = async <T extends Prisma.UserCreateManyArgs>(
     props: UserCreateManyProps<T>,
     disableSafeMessage: boolean = false,
 ): Promise<UserCreateManyResponse> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "UserCreateManyAction", "User", "createMany");
-        const response = await PrismaInstance.user.createMany(props);
-        return response;
-    } catch (error) {
-        throw new Error("UserCreateManyAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "UserCreateManyAction", "User", "createMany");
+    return await UserService.createMany(props);
 };
 
 /**
  * ## User Update Many (Server Action)
+ *
+ * - optimized for mutations
+ * - serial execution without cache
+ *
+ * **Note**: function generated from template.
  */
 export const UserUpdateManyAction = async <T extends Prisma.UserUpdateManyArgs>(
     props: UserUpdateManyProps<T>,
     disableSafeMessage: boolean = false,
 ): Promise<UserUpdateManyResponse> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "UserUpdateManyAction", "User", "updateMany");
-        const response = await PrismaInstance.user.updateMany(props);
-        return response;
-    } catch (error) {
-        throw new Error("UserUpdateManyAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "UserUpdateManyAction", "User", "updateMany");
+    return await UserService.updateMany(props);
 };
 
 /**
  * ## User Delete Many (Server Action)
+ *
+ * - optimized for mutations
+ * - serial execution without cache
+ *
+ * **Note**: function generated from template.
  */
 export const UserDeleteManyAction = async <T extends Prisma.UserDeleteManyArgs>(
     props: UserDeleteManyProps<T>,
     disableSafeMessage: boolean = false,
 ): Promise<UserDeleteManyResponse> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "UserDeleteManyAction", "User", "deleteMany");
-        const response = await PrismaInstance.user.deleteMany(props);
-        return response;
-    } catch (error) {
-        throw new Error("UserDeleteManyAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "UserDeleteManyAction", "User", "deleteMany");
+    return await UserService.deleteMany(props);
 };
 
 /**
  * ## User Find First (Server Action)
+ *
  * **WARNING**: Server actions can't be cached and parallelized
+ *
  * - Do not use this for fetching data, use API routes with caching instead
- * - But you can use it to get fresh data, without any cache
+ * - Use it to get fresh data, without any cache
+ *
+ *  **Note**: function generated from template.
  */
 export const UserFindFirstAction = async <T extends Prisma.UserFindFirstArgs>(
     props: UserFindFirstProps<T>,
     disableSafeMessage: boolean = false,
 ): Promise<UserFindFirstResponse<T>> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "UserFindFirstAction", "User", "findFirst");
-        const response = await PrismaInstance.user.findFirst(props);
-        return response;
-    } catch (error) {
-        throw new Error("UserFindFirstAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "UserFindFirstAction", "User", "findFirst");
+    return await UserService.findFirst(props);
 };
 
 /**
  * ## User Find Unique (Server Action)
+ *
  * **WARNING**: Server actions can't be cached and parallelized
+ *
  * - Do not use this for fetching data, use API routes with caching instead
- * - But you can use it to get fresh data, without any cache
+ * - Use it to get fresh data, without any cache
+ *
+ *  **Note**: function generated from template.
  */
 export const UserFindUniqueAction = async <T extends Prisma.UserFindUniqueArgs>(
     props: UserFindUniqueProps<T>,
     disableSafeMessage: boolean = false,
 ): Promise<UserFindUniqueResponse<T>> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "UserFindUniqueAction", "User", "findUnique");
-        const response = await PrismaInstance.user.findUnique(props);
-        return response;
-    } catch (error) {
-        throw new Error("UserFindUniqueAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "UserFindUniqueAction", "User", "findUnique");
+    return await UserService.findUnique(props);
 };
 
 /**
  * ## User Find Many (Server Action)
+ *
  * **WARNING**: Server actions can't be cached and parallelized
+ *
  * - Do not use this for fetching data, use API routes with caching instead
- * - But you can use it to get fresh data, without any cache
+ * - Use it to get fresh data, without any cache
+ *
+ *  **Note**: function generated from template.
  */
 export const UserFindManyAction = async <T extends Prisma.UserFindManyArgs>(
     props: UserFindManyProps<T>,
     disableSafeMessage: boolean = false,
 ): Promise<UserFindManyResponse<T>> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "UserFindManyAction", "User", "findMany");
-        const response = await PrismaInstance.user.findMany(props);
-        return response;
-    } catch (error) {
-        throw new Error("UserFindManyAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "UserFindManyAction", "User", "findMany");
+    return await UserService.findMany(props);
 };
 
 /**
  * ## User Count (Server Action)
+ *
  * **WARNING**: Server actions can't be cached and parallelized
+ *
  * - Do not use this for fetching data, use API routes with caching instead
- * - But you can use it to get fresh data, without any cache
+ * - Use it to get fresh data, without any cache
+ *
+ *  **Note**: function generated from template.
  */
 export const UserCountAction = async <T extends Prisma.UserCountArgs>(
     props: UserCountProps<T>,
     disableSafeMessage: boolean = false,
 ): Promise<UserCountResponse<T>> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "UserCountAction", "User", "count");
-        const response = await PrismaInstance.user.count(props);
-        return response;
-    } catch (error) {
-        throw new Error("UserCountAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "UserCountAction", "User", "count");
+    return await UserService.count(props);
 };

@@ -68,30 +68,18 @@ type {{modelName}}CountResponse<T extends Prisma.{{modelName}}CountArgs> =
 type RouteResponse<T> = Promise<NextResponse<ResponseFormat<T>>>;
 
 export type {{modelName}}Routes<Input> = {
-    /**
-     * ## {{modelName}} Find First (API)
-     */
     "/{{modelNameLower}}/findFirst": <T extends Prisma.{{modelName}}FindFirstArgs>() => {
         params: {{modelName}}FindFirstProps<T>;
         response: {{modelName}}FindFirstResponse<Input extends {{modelName}}FindFirstProps<T> ? Input : never>;
     };
-    /**
-     * ## {{modelName}} Find Unique (API)
-     */
     "/{{modelNameLower}}/findUnique": <T extends Prisma.{{modelName}}FindUniqueArgs>() => {
         params: {{modelName}}FindUniqueProps<T>;
         response: {{modelName}}FindUniqueResponse<Input extends {{modelName}}FindUniqueProps<T> ? Input : never>;
     };
-    /**
-     * ## {{modelName}} Find Many (API)
-     */
     "/{{modelNameLower}}/findMany": <T extends Prisma.{{modelName}}FindManyArgs>() => {
         params: {{modelName}}FindManyProps<T>;
         response: {{modelName}}FindManyResponse<Input extends {{modelName}}FindManyProps<T> ? Input : never>;
     };
-    /**
-     * ## {{modelName}} Count (API)
-     */
     "/{{modelNameLower}}/count": <T extends Prisma.{{modelName}}CountArgs>() => {
         params: {{modelName}}CountProps<T>;
         response: {{modelName}}CountResponse<Input extends {{modelName}}CountProps<T> ? Input : never>;
@@ -108,7 +96,7 @@ export const {{modelName}}FindFirstApi = async <T extends Prisma.{{modelName}}Fi
         const response: {{modelName}}FindFirstResponse<T> = await {{modelName}}FindFirstCached(params);
         return NextResponse.json({ data: response }, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ error: "{{modelName}}FindFirstApi -> " + (error as Error).message }, { status: 500 });
+        return NextResponse.json({ error: (error as Error).message }, { status: 500 });
     }
 };
 
@@ -120,7 +108,7 @@ export const {{modelName}}FindUniqueApi = async <T extends Prisma.{{modelName}}F
         const response: {{modelName}}FindUniqueResponse<T> = await {{modelName}}FindUniqueCached(params);
         return NextResponse.json({ data: response }, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ error: "{{modelName}}FindUniqueApi -> " + (error as Error).message }, { status: 500 });
+        return NextResponse.json({ error: (error as Error).message }, { status: 500 });
     }
 };
 
@@ -132,7 +120,7 @@ export const {{modelName}}FindManyApi = async <T extends Prisma.{{modelName}}Fin
         const response: {{modelName}}FindManyResponse<T> = await {{modelName}}FindManyCached(params);
         return NextResponse.json({ data: response }, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ error: "{{modelName}}FindManyApi -> " + (error as Error).message }, { status: 500 });
+        return NextResponse.json({ error: (error as Error).message }, { status: 500 });
     }
 };
 
@@ -144,6 +132,6 @@ export const {{modelName}}CountApi = async <T extends Prisma.{{modelName}}CountA
         const response: {{modelName}}CountResponse<T> = await {{modelName}}CountCached(params);
         return NextResponse.json({ data: response }, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ error: "{{modelName}}CountApi -> " + (error as Error).message }, { status: 500 });
+        return NextResponse.json({ error: (error as Error).message }, { status: 500 });
     }
 };

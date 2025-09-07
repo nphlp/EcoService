@@ -77,30 +77,18 @@ type VerificationCountResponse<T extends Prisma.VerificationCountArgs> =
 type RouteResponse<T> = Promise<NextResponse<ResponseFormat<T>>>;
 
 export type VerificationRoutes<Input> = {
-    /**
-     * ## Verification Find First (API)
-     */
     "/verification/findFirst": <T extends Prisma.VerificationFindFirstArgs>() => {
         params: VerificationFindFirstProps<T>;
         response: VerificationFindFirstResponse<Input extends VerificationFindFirstProps<T> ? Input : never>;
     };
-    /**
-     * ## Verification Find Unique (API)
-     */
     "/verification/findUnique": <T extends Prisma.VerificationFindUniqueArgs>() => {
         params: VerificationFindUniqueProps<T>;
         response: VerificationFindUniqueResponse<Input extends VerificationFindUniqueProps<T> ? Input : never>;
     };
-    /**
-     * ## Verification Find Many (API)
-     */
     "/verification/findMany": <T extends Prisma.VerificationFindManyArgs>() => {
         params: VerificationFindManyProps<T>;
         response: VerificationFindManyResponse<Input extends VerificationFindManyProps<T> ? Input : never>;
     };
-    /**
-     * ## Verification Count (API)
-     */
     "/verification/count": <T extends Prisma.VerificationCountArgs>() => {
         params: VerificationCountProps<T>;
         response: VerificationCountResponse<Input extends VerificationCountProps<T> ? Input : never>;
@@ -117,7 +105,7 @@ export const VerificationFindFirstApi = async <T extends Prisma.VerificationFind
         const response: VerificationFindFirstResponse<T> = await VerificationFindFirstCached(params);
         return NextResponse.json({ data: response }, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ error: "VerificationFindFirstApi -> " + (error as Error).message }, { status: 500 });
+        return NextResponse.json({ error: (error as Error).message }, { status: 500 });
     }
 };
 
@@ -129,10 +117,7 @@ export const VerificationFindUniqueApi = async <T extends Prisma.VerificationFin
         const response: VerificationFindUniqueResponse<T> = await VerificationFindUniqueCached(params);
         return NextResponse.json({ data: response }, { status: 200 });
     } catch (error) {
-        return NextResponse.json(
-            { error: "VerificationFindUniqueApi -> " + (error as Error).message },
-            { status: 500 },
-        );
+        return NextResponse.json({ error: (error as Error).message }, { status: 500 });
     }
 };
 
@@ -144,7 +129,7 @@ export const VerificationFindManyApi = async <T extends Prisma.VerificationFindM
         const response: VerificationFindManyResponse<T> = await VerificationFindManyCached(params);
         return NextResponse.json({ data: response }, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ error: "VerificationFindManyApi -> " + (error as Error).message }, { status: 500 });
+        return NextResponse.json({ error: (error as Error).message }, { status: 500 });
     }
 };
 
@@ -156,6 +141,6 @@ export const VerificationCountApi = async <T extends Prisma.VerificationCountArg
         const response: VerificationCountResponse<T> = await VerificationCountCached(params);
         return NextResponse.json({ data: response }, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ error: "VerificationCountApi -> " + (error as Error).message }, { status: 500 });
+        return NextResponse.json({ error: (error as Error).message }, { status: 500 });
     }
 };

@@ -60,30 +60,18 @@ type OrderCountResponse<T extends Prisma.OrderCountArgs> =
 type RouteResponse<T> = Promise<NextResponse<ResponseFormat<T>>>;
 
 export type OrderRoutes<Input> = {
-    /**
-     * ## Order Find First (API)
-     */
     "/order/findFirst": <T extends Prisma.OrderFindFirstArgs>() => {
         params: OrderFindFirstProps<T>;
         response: OrderFindFirstResponse<Input extends OrderFindFirstProps<T> ? Input : never>;
     };
-    /**
-     * ## Order Find Unique (API)
-     */
     "/order/findUnique": <T extends Prisma.OrderFindUniqueArgs>() => {
         params: OrderFindUniqueProps<T>;
         response: OrderFindUniqueResponse<Input extends OrderFindUniqueProps<T> ? Input : never>;
     };
-    /**
-     * ## Order Find Many (API)
-     */
     "/order/findMany": <T extends Prisma.OrderFindManyArgs>() => {
         params: OrderFindManyProps<T>;
         response: OrderFindManyResponse<Input extends OrderFindManyProps<T> ? Input : never>;
     };
-    /**
-     * ## Order Count (API)
-     */
     "/order/count": <T extends Prisma.OrderCountArgs>() => {
         params: OrderCountProps<T>;
         response: OrderCountResponse<Input extends OrderCountProps<T> ? Input : never>;
@@ -100,7 +88,7 @@ export const OrderFindFirstApi = async <T extends Prisma.OrderFindFirstArgs>(
         const response: OrderFindFirstResponse<T> = await OrderFindFirstCached(params);
         return NextResponse.json({ data: response }, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ error: "OrderFindFirstApi -> " + (error as Error).message }, { status: 500 });
+        return NextResponse.json({ error: (error as Error).message }, { status: 500 });
     }
 };
 
@@ -112,7 +100,7 @@ export const OrderFindUniqueApi = async <T extends Prisma.OrderFindUniqueArgs>(
         const response: OrderFindUniqueResponse<T> = await OrderFindUniqueCached(params);
         return NextResponse.json({ data: response }, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ error: "OrderFindUniqueApi -> " + (error as Error).message }, { status: 500 });
+        return NextResponse.json({ error: (error as Error).message }, { status: 500 });
     }
 };
 
@@ -124,7 +112,7 @@ export const OrderFindManyApi = async <T extends Prisma.OrderFindManyArgs>(
         const response: OrderFindManyResponse<T> = await OrderFindManyCached(params);
         return NextResponse.json({ data: response }, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ error: "OrderFindManyApi -> " + (error as Error).message }, { status: 500 });
+        return NextResponse.json({ error: (error as Error).message }, { status: 500 });
     }
 };
 
@@ -136,6 +124,6 @@ export const OrderCountApi = async <T extends Prisma.OrderCountArgs>(
         const response: OrderCountResponse<T> = await OrderCountCached(params);
         return NextResponse.json({ data: response }, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ error: "OrderCountApi -> " + (error as Error).message }, { status: 500 });
+        return NextResponse.json({ error: (error as Error).message }, { status: 500 });
     }
 };

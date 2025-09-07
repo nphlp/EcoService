@@ -132,7 +132,7 @@ export type FruitCreateManyProps<T extends Prisma.FruitCreateManyArgs = Prisma.F
 /**
  * Fruit Create Many response
  */
-export type FruitCreateManyResponse = Prisma.PrismaPromise<Prisma.BatchPayload>;
+export type FruitCreateManyResponse = Prisma.BatchPayload;
 
 /**
  * Fruit Update Many props
@@ -143,7 +143,7 @@ export type FruitUpdateManyProps<T extends Prisma.FruitUpdateManyArgs = Prisma.F
 /**
  * Fruit Update Many response
  */
-export type FruitUpdateManyResponse = Prisma.PrismaPromise<Prisma.BatchPayload>;
+export type FruitUpdateManyResponse = Prisma.BatchPayload;
 
 /**
  * Fruit Delete Many props
@@ -154,7 +154,7 @@ export type FruitDeleteManyProps<T extends Prisma.FruitDeleteManyArgs = Prisma.F
 /**
  * Fruit Delete Many response
  */
-export type FruitDeleteManyResponse = Prisma.PrismaPromise<Prisma.BatchPayload>;
+export type FruitDeleteManyResponse = Prisma.BatchPayload;
 
 /**
  * Fruit Find First props

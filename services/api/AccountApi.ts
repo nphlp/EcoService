@@ -68,30 +68,18 @@ type AccountCountResponse<T extends Prisma.AccountCountArgs> =
 type RouteResponse<T> = Promise<NextResponse<ResponseFormat<T>>>;
 
 export type AccountRoutes<Input> = {
-    /**
-     * ## Account Find First (API)
-     */
     "/account/findFirst": <T extends Prisma.AccountFindFirstArgs>() => {
         params: AccountFindFirstProps<T>;
         response: AccountFindFirstResponse<Input extends AccountFindFirstProps<T> ? Input : never>;
     };
-    /**
-     * ## Account Find Unique (API)
-     */
     "/account/findUnique": <T extends Prisma.AccountFindUniqueArgs>() => {
         params: AccountFindUniqueProps<T>;
         response: AccountFindUniqueResponse<Input extends AccountFindUniqueProps<T> ? Input : never>;
     };
-    /**
-     * ## Account Find Many (API)
-     */
     "/account/findMany": <T extends Prisma.AccountFindManyArgs>() => {
         params: AccountFindManyProps<T>;
         response: AccountFindManyResponse<Input extends AccountFindManyProps<T> ? Input : never>;
     };
-    /**
-     * ## Account Count (API)
-     */
     "/account/count": <T extends Prisma.AccountCountArgs>() => {
         params: AccountCountProps<T>;
         response: AccountCountResponse<Input extends AccountCountProps<T> ? Input : never>;
@@ -108,7 +96,7 @@ export const AccountFindFirstApi = async <T extends Prisma.AccountFindFirstArgs>
         const response: AccountFindFirstResponse<T> = await AccountFindFirstCached(params);
         return NextResponse.json({ data: response }, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ error: "AccountFindFirstApi -> " + (error as Error).message }, { status: 500 });
+        return NextResponse.json({ error: (error as Error).message }, { status: 500 });
     }
 };
 
@@ -120,7 +108,7 @@ export const AccountFindUniqueApi = async <T extends Prisma.AccountFindUniqueArg
         const response: AccountFindUniqueResponse<T> = await AccountFindUniqueCached(params);
         return NextResponse.json({ data: response }, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ error: "AccountFindUniqueApi -> " + (error as Error).message }, { status: 500 });
+        return NextResponse.json({ error: (error as Error).message }, { status: 500 });
     }
 };
 
@@ -132,7 +120,7 @@ export const AccountFindManyApi = async <T extends Prisma.AccountFindManyArgs>(
         const response: AccountFindManyResponse<T> = await AccountFindManyCached(params);
         return NextResponse.json({ data: response }, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ error: "AccountFindManyApi -> " + (error as Error).message }, { status: 500 });
+        return NextResponse.json({ error: (error as Error).message }, { status: 500 });
     }
 };
 
@@ -144,6 +132,6 @@ export const AccountCountApi = async <T extends Prisma.AccountCountArgs>(
         const response: AccountCountResponse<T> = await AccountCountCached(params);
         return NextResponse.json({ data: response }, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ error: "AccountCountApi -> " + (error as Error).message }, { status: 500 });
+        return NextResponse.json({ error: (error as Error).message }, { status: 500 });
     }
 };

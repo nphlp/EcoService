@@ -132,7 +132,7 @@ export type CategoryCreateManyProps<T extends Prisma.CategoryCreateManyArgs = Pr
 /**
  * Category Create Many response
  */
-export type CategoryCreateManyResponse = Prisma.PrismaPromise<Prisma.BatchPayload>;
+export type CategoryCreateManyResponse = Prisma.BatchPayload;
 
 /**
  * Category Update Many props
@@ -143,7 +143,7 @@ export type CategoryUpdateManyProps<T extends Prisma.CategoryUpdateManyArgs = Pr
 /**
  * Category Update Many response
  */
-export type CategoryUpdateManyResponse = Prisma.PrismaPromise<Prisma.BatchPayload>;
+export type CategoryUpdateManyResponse = Prisma.BatchPayload;
 
 /**
  * Category Delete Many props
@@ -154,7 +154,7 @@ export type CategoryDeleteManyProps<T extends Prisma.CategoryDeleteManyArgs = Pr
 /**
  * Category Delete Many response
  */
-export type CategoryDeleteManyResponse = Prisma.PrismaPromise<Prisma.BatchPayload>;
+export type CategoryDeleteManyResponse = Prisma.BatchPayload;
 
 /**
  * Category Find First props

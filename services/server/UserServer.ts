@@ -1,10 +1,5 @@
 import { Prisma } from "@prisma/client";
 import { GetResult, InternalArgs, PrismaClientOptions } from "@prisma/client/runtime/library";
-import {
-    PrismaClientKnownRequestError,
-    PrismaClientUnknownRequestError,
-    PrismaClientValidationError,
-} from "@prisma/client/runtime/library";
 import { UserCountCached, UserFindFirstCached, UserFindManyCached, UserFindUniqueCached } from "@services/cached";
 
 /**
@@ -60,72 +55,58 @@ type UserCountResponse<T extends Prisma.UserCountArgs> =
 
 // ========== Services ========== //
 
+/**
+ * ## User Find (Server)
+ *
+ * - SSG compatible
+ * - cached function
+ *
+ * **Note**: function generated from template.
+ */
 export const UserFindFirstServer = async <T extends Prisma.UserFindFirstArgs>(
     params: UserFindFirstProps<T>,
 ): Promise<UserFindFirstResponse<T>> => {
-    try {
-        const response = await UserFindFirstCached(params);
-        return response;
-    } catch (error) {
-        throw ServiceError("User", "findFirst", error);
-    }
+    return await UserFindFirstCached(params);
 };
 
+/**
+ * ## User Find (Server)
+ *
+ * - SSG compatible
+ * - cached function
+ *
+ * **Note**: function generated from template.
+ */
 export const UserFindUniqueServer = async <T extends Prisma.UserFindUniqueArgs>(
     params: UserFindUniqueProps<T>,
 ): Promise<UserFindUniqueResponse<T>> => {
-    try {
-        const response = await UserFindUniqueCached(params);
-        return response;
-    } catch (error) {
-        throw ServiceError("User", "findUnique", error);
-    }
+    return await UserFindUniqueCached(params);
 };
 
+/**
+ * ## User Find (Server)
+ *
+ * - SSG compatible
+ * - cached function
+ *
+ * **Note**: function generated from template.
+ */
 export const UserFindManyServer = async <T extends Prisma.UserFindManyArgs>(
     params: UserFindManyProps<T>,
 ): Promise<UserFindManyResponse<T>> => {
-    try {
-        const response = await UserFindManyCached(params);
-        return response;
-    } catch (error) {
-        throw ServiceError("User", "findMany", error);
-    }
+    return await UserFindManyCached(params);
 };
 
+/**
+ * ## User Find (Server)
+ *
+ * - SSG compatible
+ * - cached function
+ *
+ * **Note**: function generated from template.
+ */
 export const UserCountServer = async <T extends Prisma.UserCountArgs>(
     params: UserCountProps<T>,
 ): Promise<UserCountResponse<T>> => {
-    try {
-        const response = await UserCountCached(params);
-        return response;
-    } catch (error) {
-        throw ServiceError("User", "count", error);
-    }
-};
-
-// ========== Error Handling ========== //
-
-const ServiceError = (serviceName: string, methodName: string, error: unknown) => {
-    if (process.env.NODE_ENV === "development") {
-        const message = (error as Error).message;
-
-        const isPrismaError =
-            error instanceof PrismaClientKnownRequestError ||
-            error instanceof PrismaClientUnknownRequestError ||
-            error instanceof PrismaClientValidationError;
-
-        if (isPrismaError) {
-            const prismaMessage = serviceName + " -> " + methodName + " -> Prisma error -> " + message;
-            console.error(prismaMessage);
-            throw new Error(prismaMessage);
-        } else {
-            const errorMessage = serviceName + " -> " + methodName + " -> " + message;
-            console.error(errorMessage);
-            throw new Error(errorMessage);
-        }
-    }
-
-    // TODO: add logging
-    throw new Error("Something went wrong...");
+    return await UserCountCached(params);
 };

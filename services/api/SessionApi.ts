@@ -68,30 +68,18 @@ type SessionCountResponse<T extends Prisma.SessionCountArgs> =
 type RouteResponse<T> = Promise<NextResponse<ResponseFormat<T>>>;
 
 export type SessionRoutes<Input> = {
-    /**
-     * ## Session Find First (API)
-     */
     "/session/findFirst": <T extends Prisma.SessionFindFirstArgs>() => {
         params: SessionFindFirstProps<T>;
         response: SessionFindFirstResponse<Input extends SessionFindFirstProps<T> ? Input : never>;
     };
-    /**
-     * ## Session Find Unique (API)
-     */
     "/session/findUnique": <T extends Prisma.SessionFindUniqueArgs>() => {
         params: SessionFindUniqueProps<T>;
         response: SessionFindUniqueResponse<Input extends SessionFindUniqueProps<T> ? Input : never>;
     };
-    /**
-     * ## Session Find Many (API)
-     */
     "/session/findMany": <T extends Prisma.SessionFindManyArgs>() => {
         params: SessionFindManyProps<T>;
         response: SessionFindManyResponse<Input extends SessionFindManyProps<T> ? Input : never>;
     };
-    /**
-     * ## Session Count (API)
-     */
     "/session/count": <T extends Prisma.SessionCountArgs>() => {
         params: SessionCountProps<T>;
         response: SessionCountResponse<Input extends SessionCountProps<T> ? Input : never>;
@@ -108,7 +96,7 @@ export const SessionFindFirstApi = async <T extends Prisma.SessionFindFirstArgs>
         const response: SessionFindFirstResponse<T> = await SessionFindFirstCached(params);
         return NextResponse.json({ data: response }, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ error: "SessionFindFirstApi -> " + (error as Error).message }, { status: 500 });
+        return NextResponse.json({ error: (error as Error).message }, { status: 500 });
     }
 };
 
@@ -120,7 +108,7 @@ export const SessionFindUniqueApi = async <T extends Prisma.SessionFindUniqueArg
         const response: SessionFindUniqueResponse<T> = await SessionFindUniqueCached(params);
         return NextResponse.json({ data: response }, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ error: "SessionFindUniqueApi -> " + (error as Error).message }, { status: 500 });
+        return NextResponse.json({ error: (error as Error).message }, { status: 500 });
     }
 };
 
@@ -132,7 +120,7 @@ export const SessionFindManyApi = async <T extends Prisma.SessionFindManyArgs>(
         const response: SessionFindManyResponse<T> = await SessionFindManyCached(params);
         return NextResponse.json({ data: response }, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ error: "SessionFindManyApi -> " + (error as Error).message }, { status: 500 });
+        return NextResponse.json({ error: (error as Error).message }, { status: 500 });
     }
 };
 
@@ -144,6 +132,6 @@ export const SessionCountApi = async <T extends Prisma.SessionCountArgs>(
         const response: SessionCountResponse<T> = await SessionCountCached(params);
         return NextResponse.json({ data: response }, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ error: "SessionCountApi -> " + (error as Error).message }, { status: 500 });
+        return NextResponse.json({ error: (error as Error).message }, { status: 500 });
     }
 };

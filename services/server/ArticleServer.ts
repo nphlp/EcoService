@@ -1,11 +1,6 @@
 import { Prisma } from "@prisma/client";
 import { GetResult, InternalArgs, PrismaClientOptions } from "@prisma/client/runtime/library";
 import {
-    PrismaClientKnownRequestError,
-    PrismaClientUnknownRequestError,
-    PrismaClientValidationError,
-} from "@prisma/client/runtime/library";
-import {
     ArticleCountCached,
     ArticleFindFirstCached,
     ArticleFindManyCached,
@@ -68,72 +63,58 @@ type ArticleCountResponse<T extends Prisma.ArticleCountArgs> =
 
 // ========== Services ========== //
 
+/**
+ * ## Article Find (Server)
+ *
+ * - SSG compatible
+ * - cached function
+ *
+ * **Note**: function generated from template.
+ */
 export const ArticleFindFirstServer = async <T extends Prisma.ArticleFindFirstArgs>(
     params: ArticleFindFirstProps<T>,
 ): Promise<ArticleFindFirstResponse<T>> => {
-    try {
-        const response = await ArticleFindFirstCached(params);
-        return response;
-    } catch (error) {
-        throw ServiceError("Article", "findFirst", error);
-    }
+    return await ArticleFindFirstCached(params);
 };
 
+/**
+ * ## Article Find (Server)
+ *
+ * - SSG compatible
+ * - cached function
+ *
+ * **Note**: function generated from template.
+ */
 export const ArticleFindUniqueServer = async <T extends Prisma.ArticleFindUniqueArgs>(
     params: ArticleFindUniqueProps<T>,
 ): Promise<ArticleFindUniqueResponse<T>> => {
-    try {
-        const response = await ArticleFindUniqueCached(params);
-        return response;
-    } catch (error) {
-        throw ServiceError("Article", "findUnique", error);
-    }
+    return await ArticleFindUniqueCached(params);
 };
 
+/**
+ * ## Article Find (Server)
+ *
+ * - SSG compatible
+ * - cached function
+ *
+ * **Note**: function generated from template.
+ */
 export const ArticleFindManyServer = async <T extends Prisma.ArticleFindManyArgs>(
     params: ArticleFindManyProps<T>,
 ): Promise<ArticleFindManyResponse<T>> => {
-    try {
-        const response = await ArticleFindManyCached(params);
-        return response;
-    } catch (error) {
-        throw ServiceError("Article", "findMany", error);
-    }
+    return await ArticleFindManyCached(params);
 };
 
+/**
+ * ## Article Find (Server)
+ *
+ * - SSG compatible
+ * - cached function
+ *
+ * **Note**: function generated from template.
+ */
 export const ArticleCountServer = async <T extends Prisma.ArticleCountArgs>(
     params: ArticleCountProps<T>,
 ): Promise<ArticleCountResponse<T>> => {
-    try {
-        const response = await ArticleCountCached(params);
-        return response;
-    } catch (error) {
-        throw ServiceError("Article", "count", error);
-    }
-};
-
-// ========== Error Handling ========== //
-
-const ServiceError = (serviceName: string, methodName: string, error: unknown) => {
-    if (process.env.NODE_ENV === "development") {
-        const message = (error as Error).message;
-
-        const isPrismaError =
-            error instanceof PrismaClientKnownRequestError ||
-            error instanceof PrismaClientUnknownRequestError ||
-            error instanceof PrismaClientValidationError;
-
-        if (isPrismaError) {
-            const prismaMessage = serviceName + " -> " + methodName + " -> Prisma error -> " + message;
-            console.error(prismaMessage);
-            throw new Error(prismaMessage);
-        } else {
-            const errorMessage = serviceName + " -> " + methodName + " -> " + message;
-            console.error(errorMessage);
-            throw new Error(errorMessage);
-        }
-    }
-
-    // TODO: add logging
-    throw new Error("Something went wrong...");
+    return await ArticleCountCached(params);
 };

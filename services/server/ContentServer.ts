@@ -1,11 +1,6 @@
 import { Prisma } from "@prisma/client";
 import { GetResult, InternalArgs, PrismaClientOptions } from "@prisma/client/runtime/library";
 import {
-    PrismaClientKnownRequestError,
-    PrismaClientUnknownRequestError,
-    PrismaClientValidationError,
-} from "@prisma/client/runtime/library";
-import {
     ContentCountCached,
     ContentFindFirstCached,
     ContentFindManyCached,
@@ -68,72 +63,58 @@ type ContentCountResponse<T extends Prisma.ContentCountArgs> =
 
 // ========== Services ========== //
 
+/**
+ * ## Content Find (Server)
+ *
+ * - SSG compatible
+ * - cached function
+ *
+ * **Note**: function generated from template.
+ */
 export const ContentFindFirstServer = async <T extends Prisma.ContentFindFirstArgs>(
     params: ContentFindFirstProps<T>,
 ): Promise<ContentFindFirstResponse<T>> => {
-    try {
-        const response = await ContentFindFirstCached(params);
-        return response;
-    } catch (error) {
-        throw ServiceError("Content", "findFirst", error);
-    }
+    return await ContentFindFirstCached(params);
 };
 
+/**
+ * ## Content Find (Server)
+ *
+ * - SSG compatible
+ * - cached function
+ *
+ * **Note**: function generated from template.
+ */
 export const ContentFindUniqueServer = async <T extends Prisma.ContentFindUniqueArgs>(
     params: ContentFindUniqueProps<T>,
 ): Promise<ContentFindUniqueResponse<T>> => {
-    try {
-        const response = await ContentFindUniqueCached(params);
-        return response;
-    } catch (error) {
-        throw ServiceError("Content", "findUnique", error);
-    }
+    return await ContentFindUniqueCached(params);
 };
 
+/**
+ * ## Content Find (Server)
+ *
+ * - SSG compatible
+ * - cached function
+ *
+ * **Note**: function generated from template.
+ */
 export const ContentFindManyServer = async <T extends Prisma.ContentFindManyArgs>(
     params: ContentFindManyProps<T>,
 ): Promise<ContentFindManyResponse<T>> => {
-    try {
-        const response = await ContentFindManyCached(params);
-        return response;
-    } catch (error) {
-        throw ServiceError("Content", "findMany", error);
-    }
+    return await ContentFindManyCached(params);
 };
 
+/**
+ * ## Content Find (Server)
+ *
+ * - SSG compatible
+ * - cached function
+ *
+ * **Note**: function generated from template.
+ */
 export const ContentCountServer = async <T extends Prisma.ContentCountArgs>(
     params: ContentCountProps<T>,
 ): Promise<ContentCountResponse<T>> => {
-    try {
-        const response = await ContentCountCached(params);
-        return response;
-    } catch (error) {
-        throw ServiceError("Content", "count", error);
-    }
-};
-
-// ========== Error Handling ========== //
-
-const ServiceError = (serviceName: string, methodName: string, error: unknown) => {
-    if (process.env.NODE_ENV === "development") {
-        const message = (error as Error).message;
-
-        const isPrismaError =
-            error instanceof PrismaClientKnownRequestError ||
-            error instanceof PrismaClientUnknownRequestError ||
-            error instanceof PrismaClientValidationError;
-
-        if (isPrismaError) {
-            const prismaMessage = serviceName + " -> " + methodName + " -> Prisma error -> " + message;
-            console.error(prismaMessage);
-            throw new Error(prismaMessage);
-        } else {
-            const errorMessage = serviceName + " -> " + methodName + " -> " + message;
-            console.error(errorMessage);
-            throw new Error(errorMessage);
-        }
-    }
-
-    // TODO: add logging
-    throw new Error("Something went wrong...");
+    return await ContentCountCached(params);
 };

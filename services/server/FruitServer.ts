@@ -1,10 +1,5 @@
 import { Prisma } from "@prisma/client";
 import { GetResult, InternalArgs, PrismaClientOptions } from "@prisma/client/runtime/library";
-import {
-    PrismaClientKnownRequestError,
-    PrismaClientUnknownRequestError,
-    PrismaClientValidationError,
-} from "@prisma/client/runtime/library";
 import { FruitCountCached, FruitFindFirstCached, FruitFindManyCached, FruitFindUniqueCached } from "@services/cached";
 
 /**
@@ -60,72 +55,58 @@ type FruitCountResponse<T extends Prisma.FruitCountArgs> =
 
 // ========== Services ========== //
 
+/**
+ * ## Fruit Find (Server)
+ *
+ * - SSG compatible
+ * - cached function
+ *
+ * **Note**: function generated from template.
+ */
 export const FruitFindFirstServer = async <T extends Prisma.FruitFindFirstArgs>(
     params: FruitFindFirstProps<T>,
 ): Promise<FruitFindFirstResponse<T>> => {
-    try {
-        const response = await FruitFindFirstCached(params);
-        return response;
-    } catch (error) {
-        throw ServiceError("Fruit", "findFirst", error);
-    }
+    return await FruitFindFirstCached(params);
 };
 
+/**
+ * ## Fruit Find (Server)
+ *
+ * - SSG compatible
+ * - cached function
+ *
+ * **Note**: function generated from template.
+ */
 export const FruitFindUniqueServer = async <T extends Prisma.FruitFindUniqueArgs>(
     params: FruitFindUniqueProps<T>,
 ): Promise<FruitFindUniqueResponse<T>> => {
-    try {
-        const response = await FruitFindUniqueCached(params);
-        return response;
-    } catch (error) {
-        throw ServiceError("Fruit", "findUnique", error);
-    }
+    return await FruitFindUniqueCached(params);
 };
 
+/**
+ * ## Fruit Find (Server)
+ *
+ * - SSG compatible
+ * - cached function
+ *
+ * **Note**: function generated from template.
+ */
 export const FruitFindManyServer = async <T extends Prisma.FruitFindManyArgs>(
     params: FruitFindManyProps<T>,
 ): Promise<FruitFindManyResponse<T>> => {
-    try {
-        const response = await FruitFindManyCached(params);
-        return response;
-    } catch (error) {
-        throw ServiceError("Fruit", "findMany", error);
-    }
+    return await FruitFindManyCached(params);
 };
 
+/**
+ * ## Fruit Find (Server)
+ *
+ * - SSG compatible
+ * - cached function
+ *
+ * **Note**: function generated from template.
+ */
 export const FruitCountServer = async <T extends Prisma.FruitCountArgs>(
     params: FruitCountProps<T>,
 ): Promise<FruitCountResponse<T>> => {
-    try {
-        const response = await FruitCountCached(params);
-        return response;
-    } catch (error) {
-        throw ServiceError("Fruit", "count", error);
-    }
-};
-
-// ========== Error Handling ========== //
-
-const ServiceError = (serviceName: string, methodName: string, error: unknown) => {
-    if (process.env.NODE_ENV === "development") {
-        const message = (error as Error).message;
-
-        const isPrismaError =
-            error instanceof PrismaClientKnownRequestError ||
-            error instanceof PrismaClientUnknownRequestError ||
-            error instanceof PrismaClientValidationError;
-
-        if (isPrismaError) {
-            const prismaMessage = serviceName + " -> " + methodName + " -> Prisma error -> " + message;
-            console.error(prismaMessage);
-            throw new Error(prismaMessage);
-        } else {
-            const errorMessage = serviceName + " -> " + methodName + " -> " + message;
-            console.error(errorMessage);
-            throw new Error(errorMessage);
-        }
-    }
-
-    // TODO: add logging
-    throw new Error("Something went wrong...");
+    return await FruitCountCached(params);
 };

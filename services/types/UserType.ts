@@ -134,7 +134,7 @@ export type UserCreateManyProps<T extends Prisma.UserCreateManyArgs = Prisma.Use
 /**
  * User Create Many response
  */
-export type UserCreateManyResponse = Prisma.PrismaPromise<Prisma.BatchPayload>;
+export type UserCreateManyResponse = Prisma.BatchPayload;
 
 /**
  * User Update Many props
@@ -147,7 +147,7 @@ export type UserUpdateManyProps<T extends Prisma.UserUpdateManyArgs = Prisma.Use
 /**
  * User Update Many response
  */
-export type UserUpdateManyResponse = Prisma.PrismaPromise<Prisma.BatchPayload>;
+export type UserUpdateManyResponse = Prisma.BatchPayload;
 
 /**
  * User Delete Many props
@@ -160,7 +160,7 @@ export type UserDeleteManyProps<T extends Prisma.UserDeleteManyArgs = Prisma.Use
 /**
  * User Delete Many response
  */
-export type UserDeleteManyResponse = Prisma.PrismaPromise<Prisma.BatchPayload>;
+export type UserDeleteManyResponse = Prisma.BatchPayload;
 
 /**
  * User Find First props

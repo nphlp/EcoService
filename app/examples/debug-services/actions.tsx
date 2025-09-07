@@ -10,31 +10,34 @@ import { UserDeleteAction } from "@actions/UserAction";
 import { revalidatePath } from "next/cache";
 
 export const handleAdd = async () => {
-    const check = await ArticleFindUniqueAction({ where: { id: "test-id" } });
+    const check = await ArticleFindUniqueAction({ where: { id: "test-id" } }, true);
 
     if (check) {
         console.log("Article with ID 'test-id' already exists.");
         return;
     }
 
-    const response = await ArticleCreateAction({
-        data: {
-            id: "test-id",
-            title: "Test Title",
-            slug: "test-title",
-            Author: { create: { name: "Test", email: "test@example.com", emailVerified: true } },
-            Content: { create: { content: "Test content", image: "/images/illustrations/IbfC88l5u8c.webp" } },
+    const response = await ArticleCreateAction(
+        {
+            data: {
+                id: "test-id",
+                title: "Test Title",
+                slug: "test-title",
+                Author: { create: { name: "Test", email: "test@example.com", emailVerified: true } },
+                Content: { create: { content: "Test content", image: "/images/illustrations/IbfC88l5u8c.webp" } },
+            },
+            include: { Author: true, Content: true },
         },
-        include: { Author: true, Content: true },
-    });
+        true,
+    );
 
-    revalidatePath("/examples/debugServices");
+    revalidatePath("/examples/debug-services");
 
     return response;
 };
 
 export const handleUpdate = async () => {
-    const check = await ArticleFindUniqueAction({ where: { id: "test-id" } });
+    const check = await ArticleFindUniqueAction({ where: { id: "test-id" } }, true);
 
     if (!check) {
         console.log("Article with ID 'test-id' does not exist.");
@@ -46,34 +49,40 @@ export const handleUpdate = async () => {
         return;
     }
 
-    const response = await ArticleUpdateAction({
-        data: {
-            title: "Updated Title",
-            slug: "updated-title",
+    const response = await ArticleUpdateAction(
+        {
+            data: {
+                title: "Updated Title",
+                slug: "updated-title",
+            },
+            where: { id: "test-id" },
         },
-        where: { id: "test-id" },
-    });
+        true,
+    );
 
-    revalidatePath("/examples/debugServices");
+    revalidatePath("/examples/debug-services");
 
     return response;
 };
 
 export const handleDelete = async () => {
-    const check = await ArticleFindUniqueAction({ where: { id: "test-id" } });
+    const check = await ArticleFindUniqueAction({ where: { id: "test-id" } }, true);
 
     if (!check) {
         console.log("Article with ID 'test-id' does not exist.");
         return;
     }
 
-    const articleResponse = await ArticleDeleteAction({
-        where: { id: "test-id" },
-    });
+    const articleResponse = await ArticleDeleteAction(
+        {
+            where: { id: "test-id" },
+        },
+        true,
+    );
 
-    const userResponse = await UserDeleteAction({ where: { email: "test@example.com" } });
+    const userResponse = await UserDeleteAction({ where: { email: "test@example.com" } }, true);
 
-    revalidatePath("/examples/debugServices");
+    revalidatePath("/examples/debug-services");
 
     return { articleResponse, userResponse };
 };

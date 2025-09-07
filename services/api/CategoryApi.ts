@@ -71,30 +71,18 @@ type CategoryCountResponse<T extends Prisma.CategoryCountArgs> =
 type RouteResponse<T> = Promise<NextResponse<ResponseFormat<T>>>;
 
 export type CategoryRoutes<Input> = {
-    /**
-     * ## Category Find First (API)
-     */
     "/category/findFirst": <T extends Prisma.CategoryFindFirstArgs>() => {
         params: CategoryFindFirstProps<T>;
         response: CategoryFindFirstResponse<Input extends CategoryFindFirstProps<T> ? Input : never>;
     };
-    /**
-     * ## Category Find Unique (API)
-     */
     "/category/findUnique": <T extends Prisma.CategoryFindUniqueArgs>() => {
         params: CategoryFindUniqueProps<T>;
         response: CategoryFindUniqueResponse<Input extends CategoryFindUniqueProps<T> ? Input : never>;
     };
-    /**
-     * ## Category Find Many (API)
-     */
     "/category/findMany": <T extends Prisma.CategoryFindManyArgs>() => {
         params: CategoryFindManyProps<T>;
         response: CategoryFindManyResponse<Input extends CategoryFindManyProps<T> ? Input : never>;
     };
-    /**
-     * ## Category Count (API)
-     */
     "/category/count": <T extends Prisma.CategoryCountArgs>() => {
         params: CategoryCountProps<T>;
         response: CategoryCountResponse<Input extends CategoryCountProps<T> ? Input : never>;
@@ -111,7 +99,7 @@ export const CategoryFindFirstApi = async <T extends Prisma.CategoryFindFirstArg
         const response: CategoryFindFirstResponse<T> = await CategoryFindFirstCached(params);
         return NextResponse.json({ data: response }, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ error: "CategoryFindFirstApi -> " + (error as Error).message }, { status: 500 });
+        return NextResponse.json({ error: (error as Error).message }, { status: 500 });
     }
 };
 
@@ -123,7 +111,7 @@ export const CategoryFindUniqueApi = async <T extends Prisma.CategoryFindUniqueA
         const response: CategoryFindUniqueResponse<T> = await CategoryFindUniqueCached(params);
         return NextResponse.json({ data: response }, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ error: "CategoryFindUniqueApi -> " + (error as Error).message }, { status: 500 });
+        return NextResponse.json({ error: (error as Error).message }, { status: 500 });
     }
 };
 
@@ -135,7 +123,7 @@ export const CategoryFindManyApi = async <T extends Prisma.CategoryFindManyArgs>
         const response: CategoryFindManyResponse<T> = await CategoryFindManyCached(params);
         return NextResponse.json({ data: response }, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ error: "CategoryFindManyApi -> " + (error as Error).message }, { status: 500 });
+        return NextResponse.json({ error: (error as Error).message }, { status: 500 });
     }
 };
 
@@ -147,6 +135,6 @@ export const CategoryCountApi = async <T extends Prisma.CategoryCountArgs>(
         const response: CategoryCountResponse<T> = await CategoryCountCached(params);
         return NextResponse.json({ data: response }, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ error: "CategoryCountApi -> " + (error as Error).message }, { status: 500 });
+        return NextResponse.json({ error: (error as Error).message }, { status: 500 });
     }
 };

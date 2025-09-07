@@ -1,6 +1,6 @@
 "use server";
 
-import PrismaInstance from "@lib/prisma";
+import AddressService from "@class/AddressClass";
 import { requiresSafeMessage } from "@permissions/requiresSafeMessage";
 import { Prisma } from "@prisma/client";
 import { GetResult, InternalArgs, PrismaClientOptions } from "@prisma/client/runtime/library";
@@ -120,188 +120,184 @@ type AddressCountResponse<T extends Prisma.AddressCountArgs> =
 
 /**
  * ## Address Create (Server Action)
+ *
+ * - optimized for mutations
+ * - serial execution without cache
+ *
+ * **Note**: function generated from template.
  */
 export const AddressCreateAction = async <T extends Prisma.AddressCreateArgs>(
     props: AddressCreateProps<T>,
     disableSafeMessage: boolean = false,
 ): Promise<AddressCreateResponse<T>> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "AddressCreateAction", "Address", "create");
-        const response = await PrismaInstance.address.create(props);
-        return response;
-    } catch (error) {
-        throw new Error("AddressCreateAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "AddressCreateAction", "Address", "create");
+    return await AddressService.create(props);
 };
 
 /**
  * ## Address Upsert (Server Action)
+ *
+ * - optimized for mutations
+ * - serial execution without cache
+ *
+ * **Note**: function generated from template.
  */
 export const AddressUpsertAction = async <T extends Prisma.AddressUpsertArgs>(
     props: AddressUpsertProps<T>,
     disableSafeMessage: boolean = false,
 ): Promise<AddressUpsertResponse<T>> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "AddressUpsertAction", "Address", "upsert");
-        const response = await PrismaInstance.address.upsert(props);
-        return response;
-    } catch (error) {
-        throw new Error("AddressUpsertAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "AddressUpsertAction", "Address", "upsert");
+    return await AddressService.upsert(props);
 };
 
 /**
  * ## Address Update (Server Action)
+ *
+ * - optimized for mutations
+ * - serial execution without cache
+ *
+ * **Note**: function generated from template.
  */
 export const AddressUpdateAction = async <T extends Prisma.AddressUpdateArgs>(
     props: AddressUpdateProps<T>,
     disableSafeMessage: boolean = false,
 ): Promise<AddressUpdateResponse<T>> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "AddressUpdateAction", "Address", "update");
-        const response = await PrismaInstance.address.update(props);
-        return response;
-    } catch (error) {
-        throw new Error("AddressUpdateAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "AddressUpdateAction", "Address", "update");
+    return await AddressService.update(props);
 };
 
 /**
  * ## Address Delete (Server Action)
+ *
+ * - optimized for mutations
+ * - serial execution without cache
+ *
+ * **Note**: function generated from template.
  */
 export const AddressDeleteAction = async <T extends Prisma.AddressDeleteArgs>(
     props: AddressDeleteProps<T>,
     disableSafeMessage: boolean = false,
 ): Promise<AddressDeleteResponse<T>> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "AddressDeleteAction", "Address", "delete");
-        const response = await PrismaInstance.address.delete(props);
-        return response;
-    } catch (error) {
-        throw new Error("AddressDeleteAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "AddressDeleteAction", "Address", "delete");
+    return await AddressService.delete(props);
 };
 
 /**
  * ## Address Create Many (Server Action)
+ *
+ * - optimized for mutations
+ * - serial execution without cache
+ *
+ * **Note**: function generated from template.
  */
 export const AddressCreateManyAction = async <T extends Prisma.AddressCreateManyArgs>(
     props: AddressCreateManyProps<T>,
     disableSafeMessage: boolean = false,
 ): Promise<AddressCreateManyResponse> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "AddressCreateManyAction", "Address", "createMany");
-        const response = await PrismaInstance.address.createMany(props);
-        return response;
-    } catch (error) {
-        throw new Error("AddressCreateManyAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "AddressCreateManyAction", "Address", "createMany");
+    return await AddressService.createMany(props);
 };
 
 /**
  * ## Address Update Many (Server Action)
+ *
+ * - optimized for mutations
+ * - serial execution without cache
+ *
+ * **Note**: function generated from template.
  */
 export const AddressUpdateManyAction = async <T extends Prisma.AddressUpdateManyArgs>(
     props: AddressUpdateManyProps<T>,
     disableSafeMessage: boolean = false,
 ): Promise<AddressUpdateManyResponse> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "AddressUpdateManyAction", "Address", "updateMany");
-        const response = await PrismaInstance.address.updateMany(props);
-        return response;
-    } catch (error) {
-        throw new Error("AddressUpdateManyAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "AddressUpdateManyAction", "Address", "updateMany");
+    return await AddressService.updateMany(props);
 };
 
 /**
  * ## Address Delete Many (Server Action)
+ *
+ * - optimized for mutations
+ * - serial execution without cache
+ *
+ * **Note**: function generated from template.
  */
 export const AddressDeleteManyAction = async <T extends Prisma.AddressDeleteManyArgs>(
     props: AddressDeleteManyProps<T>,
     disableSafeMessage: boolean = false,
 ): Promise<AddressDeleteManyResponse> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "AddressDeleteManyAction", "Address", "deleteMany");
-        const response = await PrismaInstance.address.deleteMany(props);
-        return response;
-    } catch (error) {
-        throw new Error("AddressDeleteManyAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "AddressDeleteManyAction", "Address", "deleteMany");
+    return await AddressService.deleteMany(props);
 };
 
 /**
  * ## Address Find First (Server Action)
+ *
  * **WARNING**: Server actions can't be cached and parallelized
+ *
  * - Do not use this for fetching data, use API routes with caching instead
- * - But you can use it to get fresh data, without any cache
+ * - Use it to get fresh data, without any cache
+ *
+ *  **Note**: function generated from template.
  */
 export const AddressFindFirstAction = async <T extends Prisma.AddressFindFirstArgs>(
     props: AddressFindFirstProps<T>,
     disableSafeMessage: boolean = false,
 ): Promise<AddressFindFirstResponse<T>> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "AddressFindFirstAction", "Address", "findFirst");
-        const response = await PrismaInstance.address.findFirst(props);
-        return response;
-    } catch (error) {
-        throw new Error("AddressFindFirstAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "AddressFindFirstAction", "Address", "findFirst");
+    return await AddressService.findFirst(props);
 };
 
 /**
  * ## Address Find Unique (Server Action)
+ *
  * **WARNING**: Server actions can't be cached and parallelized
+ *
  * - Do not use this for fetching data, use API routes with caching instead
- * - But you can use it to get fresh data, without any cache
+ * - Use it to get fresh data, without any cache
+ *
+ *  **Note**: function generated from template.
  */
 export const AddressFindUniqueAction = async <T extends Prisma.AddressFindUniqueArgs>(
     props: AddressFindUniqueProps<T>,
     disableSafeMessage: boolean = false,
 ): Promise<AddressFindUniqueResponse<T>> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "AddressFindUniqueAction", "Address", "findUnique");
-        const response = await PrismaInstance.address.findUnique(props);
-        return response;
-    } catch (error) {
-        throw new Error("AddressFindUniqueAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "AddressFindUniqueAction", "Address", "findUnique");
+    return await AddressService.findUnique(props);
 };
 
 /**
  * ## Address Find Many (Server Action)
+ *
  * **WARNING**: Server actions can't be cached and parallelized
+ *
  * - Do not use this for fetching data, use API routes with caching instead
- * - But you can use it to get fresh data, without any cache
+ * - Use it to get fresh data, without any cache
+ *
+ *  **Note**: function generated from template.
  */
 export const AddressFindManyAction = async <T extends Prisma.AddressFindManyArgs>(
     props: AddressFindManyProps<T>,
     disableSafeMessage: boolean = false,
 ): Promise<AddressFindManyResponse<T>> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "AddressFindManyAction", "Address", "findMany");
-        const response = await PrismaInstance.address.findMany(props);
-        return response;
-    } catch (error) {
-        throw new Error("AddressFindManyAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "AddressFindManyAction", "Address", "findMany");
+    return await AddressService.findMany(props);
 };
 
 /**
  * ## Address Count (Server Action)
+ *
  * **WARNING**: Server actions can't be cached and parallelized
+ *
  * - Do not use this for fetching data, use API routes with caching instead
- * - But you can use it to get fresh data, without any cache
+ * - Use it to get fresh data, without any cache
+ *
+ *  **Note**: function generated from template.
  */
 export const AddressCountAction = async <T extends Prisma.AddressCountArgs>(
     props: AddressCountProps<T>,
     disableSafeMessage: boolean = false,
 ): Promise<AddressCountResponse<T>> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "AddressCountAction", "Address", "count");
-        const response = await PrismaInstance.address.count(props);
-        return response;
-    } catch (error) {
-        throw new Error("AddressCountAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "AddressCountAction", "Address", "count");
+    return await AddressService.count(props);
 };

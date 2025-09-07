@@ -68,30 +68,18 @@ type ContentCountResponse<T extends Prisma.ContentCountArgs> =
 type RouteResponse<T> = Promise<NextResponse<ResponseFormat<T>>>;
 
 export type ContentRoutes<Input> = {
-    /**
-     * ## Content Find First (API)
-     */
     "/content/findFirst": <T extends Prisma.ContentFindFirstArgs>() => {
         params: ContentFindFirstProps<T>;
         response: ContentFindFirstResponse<Input extends ContentFindFirstProps<T> ? Input : never>;
     };
-    /**
-     * ## Content Find Unique (API)
-     */
     "/content/findUnique": <T extends Prisma.ContentFindUniqueArgs>() => {
         params: ContentFindUniqueProps<T>;
         response: ContentFindUniqueResponse<Input extends ContentFindUniqueProps<T> ? Input : never>;
     };
-    /**
-     * ## Content Find Many (API)
-     */
     "/content/findMany": <T extends Prisma.ContentFindManyArgs>() => {
         params: ContentFindManyProps<T>;
         response: ContentFindManyResponse<Input extends ContentFindManyProps<T> ? Input : never>;
     };
-    /**
-     * ## Content Count (API)
-     */
     "/content/count": <T extends Prisma.ContentCountArgs>() => {
         params: ContentCountProps<T>;
         response: ContentCountResponse<Input extends ContentCountProps<T> ? Input : never>;
@@ -108,7 +96,7 @@ export const ContentFindFirstApi = async <T extends Prisma.ContentFindFirstArgs>
         const response: ContentFindFirstResponse<T> = await ContentFindFirstCached(params);
         return NextResponse.json({ data: response }, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ error: "ContentFindFirstApi -> " + (error as Error).message }, { status: 500 });
+        return NextResponse.json({ error: (error as Error).message }, { status: 500 });
     }
 };
 
@@ -120,7 +108,7 @@ export const ContentFindUniqueApi = async <T extends Prisma.ContentFindUniqueArg
         const response: ContentFindUniqueResponse<T> = await ContentFindUniqueCached(params);
         return NextResponse.json({ data: response }, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ error: "ContentFindUniqueApi -> " + (error as Error).message }, { status: 500 });
+        return NextResponse.json({ error: (error as Error).message }, { status: 500 });
     }
 };
 
@@ -132,7 +120,7 @@ export const ContentFindManyApi = async <T extends Prisma.ContentFindManyArgs>(
         const response: ContentFindManyResponse<T> = await ContentFindManyCached(params);
         return NextResponse.json({ data: response }, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ error: "ContentFindManyApi -> " + (error as Error).message }, { status: 500 });
+        return NextResponse.json({ error: (error as Error).message }, { status: 500 });
     }
 };
 
@@ -144,6 +132,6 @@ export const ContentCountApi = async <T extends Prisma.ContentCountArgs>(
         const response: ContentCountResponse<T> = await ContentCountCached(params);
         return NextResponse.json({ data: response }, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ error: "ContentCountApi -> " + (error as Error).message }, { status: 500 });
+        return NextResponse.json({ error: (error as Error).message }, { status: 500 });
     }
 };

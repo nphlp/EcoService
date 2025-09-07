@@ -68,30 +68,18 @@ type AddressCountResponse<T extends Prisma.AddressCountArgs> =
 type RouteResponse<T> = Promise<NextResponse<ResponseFormat<T>>>;
 
 export type AddressRoutes<Input> = {
-    /**
-     * ## Address Find First (API)
-     */
     "/address/findFirst": <T extends Prisma.AddressFindFirstArgs>() => {
         params: AddressFindFirstProps<T>;
         response: AddressFindFirstResponse<Input extends AddressFindFirstProps<T> ? Input : never>;
     };
-    /**
-     * ## Address Find Unique (API)
-     */
     "/address/findUnique": <T extends Prisma.AddressFindUniqueArgs>() => {
         params: AddressFindUniqueProps<T>;
         response: AddressFindUniqueResponse<Input extends AddressFindUniqueProps<T> ? Input : never>;
     };
-    /**
-     * ## Address Find Many (API)
-     */
     "/address/findMany": <T extends Prisma.AddressFindManyArgs>() => {
         params: AddressFindManyProps<T>;
         response: AddressFindManyResponse<Input extends AddressFindManyProps<T> ? Input : never>;
     };
-    /**
-     * ## Address Count (API)
-     */
     "/address/count": <T extends Prisma.AddressCountArgs>() => {
         params: AddressCountProps<T>;
         response: AddressCountResponse<Input extends AddressCountProps<T> ? Input : never>;
@@ -108,7 +96,7 @@ export const AddressFindFirstApi = async <T extends Prisma.AddressFindFirstArgs>
         const response: AddressFindFirstResponse<T> = await AddressFindFirstCached(params);
         return NextResponse.json({ data: response }, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ error: "AddressFindFirstApi -> " + (error as Error).message }, { status: 500 });
+        return NextResponse.json({ error: (error as Error).message }, { status: 500 });
     }
 };
 
@@ -120,7 +108,7 @@ export const AddressFindUniqueApi = async <T extends Prisma.AddressFindUniqueArg
         const response: AddressFindUniqueResponse<T> = await AddressFindUniqueCached(params);
         return NextResponse.json({ data: response }, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ error: "AddressFindUniqueApi -> " + (error as Error).message }, { status: 500 });
+        return NextResponse.json({ error: (error as Error).message }, { status: 500 });
     }
 };
 
@@ -132,7 +120,7 @@ export const AddressFindManyApi = async <T extends Prisma.AddressFindManyArgs>(
         const response: AddressFindManyResponse<T> = await AddressFindManyCached(params);
         return NextResponse.json({ data: response }, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ error: "AddressFindManyApi -> " + (error as Error).message }, { status: 500 });
+        return NextResponse.json({ error: (error as Error).message }, { status: 500 });
     }
 };
 
@@ -144,6 +132,6 @@ export const AddressCountApi = async <T extends Prisma.AddressCountArgs>(
         const response: AddressCountResponse<T> = await AddressCountCached(params);
         return NextResponse.json({ data: response }, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ error: "AddressCountApi -> " + (error as Error).message }, { status: 500 });
+        return NextResponse.json({ error: (error as Error).message }, { status: 500 });
     }
 };

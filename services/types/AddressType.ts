@@ -132,7 +132,7 @@ export type AddressCreateManyProps<T extends Prisma.AddressCreateManyArgs = Pris
 /**
  * Address Create Many response
  */
-export type AddressCreateManyResponse = Prisma.PrismaPromise<Prisma.BatchPayload>;
+export type AddressCreateManyResponse = Prisma.BatchPayload;
 
 /**
  * Address Update Many props
@@ -143,7 +143,7 @@ export type AddressUpdateManyProps<T extends Prisma.AddressUpdateManyArgs = Pris
 /**
  * Address Update Many response
  */
-export type AddressUpdateManyResponse = Prisma.PrismaPromise<Prisma.BatchPayload>;
+export type AddressUpdateManyResponse = Prisma.BatchPayload;
 
 /**
  * Address Delete Many props
@@ -154,7 +154,7 @@ export type AddressDeleteManyProps<T extends Prisma.AddressDeleteManyArgs = Pris
 /**
  * Address Delete Many response
  */
-export type AddressDeleteManyResponse = Prisma.PrismaPromise<Prisma.BatchPayload>;
+export type AddressDeleteManyResponse = Prisma.BatchPayload;
 
 /**
  * Address Find First props

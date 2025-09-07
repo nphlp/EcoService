@@ -132,7 +132,7 @@ export type QuantityCreateManyProps<T extends Prisma.QuantityCreateManyArgs = Pr
 /**
  * Quantity Create Many response
  */
-export type QuantityCreateManyResponse = Prisma.PrismaPromise<Prisma.BatchPayload>;
+export type QuantityCreateManyResponse = Prisma.BatchPayload;
 
 /**
  * Quantity Update Many props
@@ -143,7 +143,7 @@ export type QuantityUpdateManyProps<T extends Prisma.QuantityUpdateManyArgs = Pr
 /**
  * Quantity Update Many response
  */
-export type QuantityUpdateManyResponse = Prisma.PrismaPromise<Prisma.BatchPayload>;
+export type QuantityUpdateManyResponse = Prisma.BatchPayload;
 
 /**
  * Quantity Delete Many props
@@ -154,7 +154,7 @@ export type QuantityDeleteManyProps<T extends Prisma.QuantityDeleteManyArgs = Pr
 /**
  * Quantity Delete Many response
  */
-export type QuantityDeleteManyResponse = Prisma.PrismaPromise<Prisma.BatchPayload>;
+export type QuantityDeleteManyResponse = Prisma.BatchPayload;
 
 /**
  * Quantity Find First props

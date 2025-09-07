@@ -1,6 +1,6 @@
 "use server";
 
-import PrismaInstance from "@lib/prisma";
+import SessionService from "@class/SessionClass";
 import { requiresSafeMessage } from "@permissions/requiresSafeMessage";
 import { Prisma } from "@prisma/client";
 import { GetResult, InternalArgs, PrismaClientOptions } from "@prisma/client/runtime/library";
@@ -120,188 +120,184 @@ type SessionCountResponse<T extends Prisma.SessionCountArgs> =
 
 /**
  * ## Session Create (Server Action)
+ *
+ * - optimized for mutations
+ * - serial execution without cache
+ *
+ * **Note**: function generated from template.
  */
 export const SessionCreateAction = async <T extends Prisma.SessionCreateArgs>(
     props: SessionCreateProps<T>,
     disableSafeMessage: boolean = false,
 ): Promise<SessionCreateResponse<T>> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "SessionCreateAction", "Session", "create");
-        const response = await PrismaInstance.session.create(props);
-        return response;
-    } catch (error) {
-        throw new Error("SessionCreateAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "SessionCreateAction", "Session", "create");
+    return await SessionService.create(props);
 };
 
 /**
  * ## Session Upsert (Server Action)
+ *
+ * - optimized for mutations
+ * - serial execution without cache
+ *
+ * **Note**: function generated from template.
  */
 export const SessionUpsertAction = async <T extends Prisma.SessionUpsertArgs>(
     props: SessionUpsertProps<T>,
     disableSafeMessage: boolean = false,
 ): Promise<SessionUpsertResponse<T>> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "SessionUpsertAction", "Session", "upsert");
-        const response = await PrismaInstance.session.upsert(props);
-        return response;
-    } catch (error) {
-        throw new Error("SessionUpsertAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "SessionUpsertAction", "Session", "upsert");
+    return await SessionService.upsert(props);
 };
 
 /**
  * ## Session Update (Server Action)
+ *
+ * - optimized for mutations
+ * - serial execution without cache
+ *
+ * **Note**: function generated from template.
  */
 export const SessionUpdateAction = async <T extends Prisma.SessionUpdateArgs>(
     props: SessionUpdateProps<T>,
     disableSafeMessage: boolean = false,
 ): Promise<SessionUpdateResponse<T>> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "SessionUpdateAction", "Session", "update");
-        const response = await PrismaInstance.session.update(props);
-        return response;
-    } catch (error) {
-        throw new Error("SessionUpdateAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "SessionUpdateAction", "Session", "update");
+    return await SessionService.update(props);
 };
 
 /**
  * ## Session Delete (Server Action)
+ *
+ * - optimized for mutations
+ * - serial execution without cache
+ *
+ * **Note**: function generated from template.
  */
 export const SessionDeleteAction = async <T extends Prisma.SessionDeleteArgs>(
     props: SessionDeleteProps<T>,
     disableSafeMessage: boolean = false,
 ): Promise<SessionDeleteResponse<T>> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "SessionDeleteAction", "Session", "delete");
-        const response = await PrismaInstance.session.delete(props);
-        return response;
-    } catch (error) {
-        throw new Error("SessionDeleteAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "SessionDeleteAction", "Session", "delete");
+    return await SessionService.delete(props);
 };
 
 /**
  * ## Session Create Many (Server Action)
+ *
+ * - optimized for mutations
+ * - serial execution without cache
+ *
+ * **Note**: function generated from template.
  */
 export const SessionCreateManyAction = async <T extends Prisma.SessionCreateManyArgs>(
     props: SessionCreateManyProps<T>,
     disableSafeMessage: boolean = false,
 ): Promise<SessionCreateManyResponse> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "SessionCreateManyAction", "Session", "createMany");
-        const response = await PrismaInstance.session.createMany(props);
-        return response;
-    } catch (error) {
-        throw new Error("SessionCreateManyAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "SessionCreateManyAction", "Session", "createMany");
+    return await SessionService.createMany(props);
 };
 
 /**
  * ## Session Update Many (Server Action)
+ *
+ * - optimized for mutations
+ * - serial execution without cache
+ *
+ * **Note**: function generated from template.
  */
 export const SessionUpdateManyAction = async <T extends Prisma.SessionUpdateManyArgs>(
     props: SessionUpdateManyProps<T>,
     disableSafeMessage: boolean = false,
 ): Promise<SessionUpdateManyResponse> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "SessionUpdateManyAction", "Session", "updateMany");
-        const response = await PrismaInstance.session.updateMany(props);
-        return response;
-    } catch (error) {
-        throw new Error("SessionUpdateManyAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "SessionUpdateManyAction", "Session", "updateMany");
+    return await SessionService.updateMany(props);
 };
 
 /**
  * ## Session Delete Many (Server Action)
+ *
+ * - optimized for mutations
+ * - serial execution without cache
+ *
+ * **Note**: function generated from template.
  */
 export const SessionDeleteManyAction = async <T extends Prisma.SessionDeleteManyArgs>(
     props: SessionDeleteManyProps<T>,
     disableSafeMessage: boolean = false,
 ): Promise<SessionDeleteManyResponse> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "SessionDeleteManyAction", "Session", "deleteMany");
-        const response = await PrismaInstance.session.deleteMany(props);
-        return response;
-    } catch (error) {
-        throw new Error("SessionDeleteManyAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "SessionDeleteManyAction", "Session", "deleteMany");
+    return await SessionService.deleteMany(props);
 };
 
 /**
  * ## Session Find First (Server Action)
+ *
  * **WARNING**: Server actions can't be cached and parallelized
+ *
  * - Do not use this for fetching data, use API routes with caching instead
- * - But you can use it to get fresh data, without any cache
+ * - Use it to get fresh data, without any cache
+ *
+ *  **Note**: function generated from template.
  */
 export const SessionFindFirstAction = async <T extends Prisma.SessionFindFirstArgs>(
     props: SessionFindFirstProps<T>,
     disableSafeMessage: boolean = false,
 ): Promise<SessionFindFirstResponse<T>> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "SessionFindFirstAction", "Session", "findFirst");
-        const response = await PrismaInstance.session.findFirst(props);
-        return response;
-    } catch (error) {
-        throw new Error("SessionFindFirstAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "SessionFindFirstAction", "Session", "findFirst");
+    return await SessionService.findFirst(props);
 };
 
 /**
  * ## Session Find Unique (Server Action)
+ *
  * **WARNING**: Server actions can't be cached and parallelized
+ *
  * - Do not use this for fetching data, use API routes with caching instead
- * - But you can use it to get fresh data, without any cache
+ * - Use it to get fresh data, without any cache
+ *
+ *  **Note**: function generated from template.
  */
 export const SessionFindUniqueAction = async <T extends Prisma.SessionFindUniqueArgs>(
     props: SessionFindUniqueProps<T>,
     disableSafeMessage: boolean = false,
 ): Promise<SessionFindUniqueResponse<T>> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "SessionFindUniqueAction", "Session", "findUnique");
-        const response = await PrismaInstance.session.findUnique(props);
-        return response;
-    } catch (error) {
-        throw new Error("SessionFindUniqueAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "SessionFindUniqueAction", "Session", "findUnique");
+    return await SessionService.findUnique(props);
 };
 
 /**
  * ## Session Find Many (Server Action)
+ *
  * **WARNING**: Server actions can't be cached and parallelized
+ *
  * - Do not use this for fetching data, use API routes with caching instead
- * - But you can use it to get fresh data, without any cache
+ * - Use it to get fresh data, without any cache
+ *
+ *  **Note**: function generated from template.
  */
 export const SessionFindManyAction = async <T extends Prisma.SessionFindManyArgs>(
     props: SessionFindManyProps<T>,
     disableSafeMessage: boolean = false,
 ): Promise<SessionFindManyResponse<T>> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "SessionFindManyAction", "Session", "findMany");
-        const response = await PrismaInstance.session.findMany(props);
-        return response;
-    } catch (error) {
-        throw new Error("SessionFindManyAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "SessionFindManyAction", "Session", "findMany");
+    return await SessionService.findMany(props);
 };
 
 /**
  * ## Session Count (Server Action)
+ *
  * **WARNING**: Server actions can't be cached and parallelized
+ *
  * - Do not use this for fetching data, use API routes with caching instead
- * - But you can use it to get fresh data, without any cache
+ * - Use it to get fresh data, without any cache
+ *
+ *  **Note**: function generated from template.
  */
 export const SessionCountAction = async <T extends Prisma.SessionCountArgs>(
     props: SessionCountProps<T>,
     disableSafeMessage: boolean = false,
 ): Promise<SessionCountResponse<T>> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "SessionCountAction", "Session", "count");
-        const response = await PrismaInstance.session.count(props);
-        return response;
-    } catch (error) {
-        throw new Error("SessionCountAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "SessionCountAction", "Session", "count");
+    return await SessionService.count(props);
 };

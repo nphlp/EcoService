@@ -1,6 +1,6 @@
 "use server";
 
-import PrismaInstance from "@lib/prisma";
+import AccountService from "@class/AccountClass";
 import { requiresSafeMessage } from "@permissions/requiresSafeMessage";
 import { Prisma } from "@prisma/client";
 import { GetResult, InternalArgs, PrismaClientOptions } from "@prisma/client/runtime/library";
@@ -120,188 +120,184 @@ type AccountCountResponse<T extends Prisma.AccountCountArgs> =
 
 /**
  * ## Account Create (Server Action)
+ *
+ * - optimized for mutations
+ * - serial execution without cache
+ *
+ * **Note**: function generated from template.
  */
 export const AccountCreateAction = async <T extends Prisma.AccountCreateArgs>(
     props: AccountCreateProps<T>,
     disableSafeMessage: boolean = false,
 ): Promise<AccountCreateResponse<T>> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "AccountCreateAction", "Account", "create");
-        const response = await PrismaInstance.account.create(props);
-        return response;
-    } catch (error) {
-        throw new Error("AccountCreateAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "AccountCreateAction", "Account", "create");
+    return await AccountService.create(props);
 };
 
 /**
  * ## Account Upsert (Server Action)
+ *
+ * - optimized for mutations
+ * - serial execution without cache
+ *
+ * **Note**: function generated from template.
  */
 export const AccountUpsertAction = async <T extends Prisma.AccountUpsertArgs>(
     props: AccountUpsertProps<T>,
     disableSafeMessage: boolean = false,
 ): Promise<AccountUpsertResponse<T>> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "AccountUpsertAction", "Account", "upsert");
-        const response = await PrismaInstance.account.upsert(props);
-        return response;
-    } catch (error) {
-        throw new Error("AccountUpsertAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "AccountUpsertAction", "Account", "upsert");
+    return await AccountService.upsert(props);
 };
 
 /**
  * ## Account Update (Server Action)
+ *
+ * - optimized for mutations
+ * - serial execution without cache
+ *
+ * **Note**: function generated from template.
  */
 export const AccountUpdateAction = async <T extends Prisma.AccountUpdateArgs>(
     props: AccountUpdateProps<T>,
     disableSafeMessage: boolean = false,
 ): Promise<AccountUpdateResponse<T>> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "AccountUpdateAction", "Account", "update");
-        const response = await PrismaInstance.account.update(props);
-        return response;
-    } catch (error) {
-        throw new Error("AccountUpdateAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "AccountUpdateAction", "Account", "update");
+    return await AccountService.update(props);
 };
 
 /**
  * ## Account Delete (Server Action)
+ *
+ * - optimized for mutations
+ * - serial execution without cache
+ *
+ * **Note**: function generated from template.
  */
 export const AccountDeleteAction = async <T extends Prisma.AccountDeleteArgs>(
     props: AccountDeleteProps<T>,
     disableSafeMessage: boolean = false,
 ): Promise<AccountDeleteResponse<T>> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "AccountDeleteAction", "Account", "delete");
-        const response = await PrismaInstance.account.delete(props);
-        return response;
-    } catch (error) {
-        throw new Error("AccountDeleteAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "AccountDeleteAction", "Account", "delete");
+    return await AccountService.delete(props);
 };
 
 /**
  * ## Account Create Many (Server Action)
+ *
+ * - optimized for mutations
+ * - serial execution without cache
+ *
+ * **Note**: function generated from template.
  */
 export const AccountCreateManyAction = async <T extends Prisma.AccountCreateManyArgs>(
     props: AccountCreateManyProps<T>,
     disableSafeMessage: boolean = false,
 ): Promise<AccountCreateManyResponse> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "AccountCreateManyAction", "Account", "createMany");
-        const response = await PrismaInstance.account.createMany(props);
-        return response;
-    } catch (error) {
-        throw new Error("AccountCreateManyAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "AccountCreateManyAction", "Account", "createMany");
+    return await AccountService.createMany(props);
 };
 
 /**
  * ## Account Update Many (Server Action)
+ *
+ * - optimized for mutations
+ * - serial execution without cache
+ *
+ * **Note**: function generated from template.
  */
 export const AccountUpdateManyAction = async <T extends Prisma.AccountUpdateManyArgs>(
     props: AccountUpdateManyProps<T>,
     disableSafeMessage: boolean = false,
 ): Promise<AccountUpdateManyResponse> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "AccountUpdateManyAction", "Account", "updateMany");
-        const response = await PrismaInstance.account.updateMany(props);
-        return response;
-    } catch (error) {
-        throw new Error("AccountUpdateManyAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "AccountUpdateManyAction", "Account", "updateMany");
+    return await AccountService.updateMany(props);
 };
 
 /**
  * ## Account Delete Many (Server Action)
+ *
+ * - optimized for mutations
+ * - serial execution without cache
+ *
+ * **Note**: function generated from template.
  */
 export const AccountDeleteManyAction = async <T extends Prisma.AccountDeleteManyArgs>(
     props: AccountDeleteManyProps<T>,
     disableSafeMessage: boolean = false,
 ): Promise<AccountDeleteManyResponse> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "AccountDeleteManyAction", "Account", "deleteMany");
-        const response = await PrismaInstance.account.deleteMany(props);
-        return response;
-    } catch (error) {
-        throw new Error("AccountDeleteManyAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "AccountDeleteManyAction", "Account", "deleteMany");
+    return await AccountService.deleteMany(props);
 };
 
 /**
  * ## Account Find First (Server Action)
+ *
  * **WARNING**: Server actions can't be cached and parallelized
+ *
  * - Do not use this for fetching data, use API routes with caching instead
- * - But you can use it to get fresh data, without any cache
+ * - Use it to get fresh data, without any cache
+ *
+ *  **Note**: function generated from template.
  */
 export const AccountFindFirstAction = async <T extends Prisma.AccountFindFirstArgs>(
     props: AccountFindFirstProps<T>,
     disableSafeMessage: boolean = false,
 ): Promise<AccountFindFirstResponse<T>> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "AccountFindFirstAction", "Account", "findFirst");
-        const response = await PrismaInstance.account.findFirst(props);
-        return response;
-    } catch (error) {
-        throw new Error("AccountFindFirstAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "AccountFindFirstAction", "Account", "findFirst");
+    return await AccountService.findFirst(props);
 };
 
 /**
  * ## Account Find Unique (Server Action)
+ *
  * **WARNING**: Server actions can't be cached and parallelized
+ *
  * - Do not use this for fetching data, use API routes with caching instead
- * - But you can use it to get fresh data, without any cache
+ * - Use it to get fresh data, without any cache
+ *
+ *  **Note**: function generated from template.
  */
 export const AccountFindUniqueAction = async <T extends Prisma.AccountFindUniqueArgs>(
     props: AccountFindUniqueProps<T>,
     disableSafeMessage: boolean = false,
 ): Promise<AccountFindUniqueResponse<T>> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "AccountFindUniqueAction", "Account", "findUnique");
-        const response = await PrismaInstance.account.findUnique(props);
-        return response;
-    } catch (error) {
-        throw new Error("AccountFindUniqueAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "AccountFindUniqueAction", "Account", "findUnique");
+    return await AccountService.findUnique(props);
 };
 
 /**
  * ## Account Find Many (Server Action)
+ *
  * **WARNING**: Server actions can't be cached and parallelized
+ *
  * - Do not use this for fetching data, use API routes with caching instead
- * - But you can use it to get fresh data, without any cache
+ * - Use it to get fresh data, without any cache
+ *
+ *  **Note**: function generated from template.
  */
 export const AccountFindManyAction = async <T extends Prisma.AccountFindManyArgs>(
     props: AccountFindManyProps<T>,
     disableSafeMessage: boolean = false,
 ): Promise<AccountFindManyResponse<T>> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "AccountFindManyAction", "Account", "findMany");
-        const response = await PrismaInstance.account.findMany(props);
-        return response;
-    } catch (error) {
-        throw new Error("AccountFindManyAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "AccountFindManyAction", "Account", "findMany");
+    return await AccountService.findMany(props);
 };
 
 /**
  * ## Account Count (Server Action)
+ *
  * **WARNING**: Server actions can't be cached and parallelized
+ *
  * - Do not use this for fetching data, use API routes with caching instead
- * - But you can use it to get fresh data, without any cache
+ * - Use it to get fresh data, without any cache
+ *
+ *  **Note**: function generated from template.
  */
 export const AccountCountAction = async <T extends Prisma.AccountCountArgs>(
     props: AccountCountProps<T>,
     disableSafeMessage: boolean = false,
 ): Promise<AccountCountResponse<T>> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "AccountCountAction", "Account", "count");
-        const response = await PrismaInstance.account.count(props);
-        return response;
-    } catch (error) {
-        throw new Error("AccountCountAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "AccountCountAction", "Account", "count");
+    return await AccountService.count(props);
 };

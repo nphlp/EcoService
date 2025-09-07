@@ -1,6 +1,6 @@
 "use server";
 
-import PrismaInstance from "@lib/prisma";
+import DiyService from "@class/DiyClass";
 import { requiresSafeMessage } from "@permissions/requiresSafeMessage";
 import { Prisma } from "@prisma/client";
 import { GetResult, InternalArgs, PrismaClientOptions } from "@prisma/client/runtime/library";
@@ -108,188 +108,184 @@ type DiyCountResponse<T extends Prisma.DiyCountArgs> =
 
 /**
  * ## Diy Create (Server Action)
+ *
+ * - optimized for mutations
+ * - serial execution without cache
+ *
+ * **Note**: function generated from template.
  */
 export const DiyCreateAction = async <T extends Prisma.DiyCreateArgs>(
     props: DiyCreateProps<T>,
     disableSafeMessage: boolean = false,
 ): Promise<DiyCreateResponse<T>> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "DiyCreateAction", "Diy", "create");
-        const response = await PrismaInstance.diy.create(props);
-        return response;
-    } catch (error) {
-        throw new Error("DiyCreateAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "DiyCreateAction", "Diy", "create");
+    return await DiyService.create(props);
 };
 
 /**
  * ## Diy Upsert (Server Action)
+ *
+ * - optimized for mutations
+ * - serial execution without cache
+ *
+ * **Note**: function generated from template.
  */
 export const DiyUpsertAction = async <T extends Prisma.DiyUpsertArgs>(
     props: DiyUpsertProps<T>,
     disableSafeMessage: boolean = false,
 ): Promise<DiyUpsertResponse<T>> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "DiyUpsertAction", "Diy", "upsert");
-        const response = await PrismaInstance.diy.upsert(props);
-        return response;
-    } catch (error) {
-        throw new Error("DiyUpsertAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "DiyUpsertAction", "Diy", "upsert");
+    return await DiyService.upsert(props);
 };
 
 /**
  * ## Diy Update (Server Action)
+ *
+ * - optimized for mutations
+ * - serial execution without cache
+ *
+ * **Note**: function generated from template.
  */
 export const DiyUpdateAction = async <T extends Prisma.DiyUpdateArgs>(
     props: DiyUpdateProps<T>,
     disableSafeMessage: boolean = false,
 ): Promise<DiyUpdateResponse<T>> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "DiyUpdateAction", "Diy", "update");
-        const response = await PrismaInstance.diy.update(props);
-        return response;
-    } catch (error) {
-        throw new Error("DiyUpdateAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "DiyUpdateAction", "Diy", "update");
+    return await DiyService.update(props);
 };
 
 /**
  * ## Diy Delete (Server Action)
+ *
+ * - optimized for mutations
+ * - serial execution without cache
+ *
+ * **Note**: function generated from template.
  */
 export const DiyDeleteAction = async <T extends Prisma.DiyDeleteArgs>(
     props: DiyDeleteProps<T>,
     disableSafeMessage: boolean = false,
 ): Promise<DiyDeleteResponse<T>> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "DiyDeleteAction", "Diy", "delete");
-        const response = await PrismaInstance.diy.delete(props);
-        return response;
-    } catch (error) {
-        throw new Error("DiyDeleteAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "DiyDeleteAction", "Diy", "delete");
+    return await DiyService.delete(props);
 };
 
 /**
  * ## Diy Create Many (Server Action)
+ *
+ * - optimized for mutations
+ * - serial execution without cache
+ *
+ * **Note**: function generated from template.
  */
 export const DiyCreateManyAction = async <T extends Prisma.DiyCreateManyArgs>(
     props: DiyCreateManyProps<T>,
     disableSafeMessage: boolean = false,
 ): Promise<DiyCreateManyResponse> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "DiyCreateManyAction", "Diy", "createMany");
-        const response = await PrismaInstance.diy.createMany(props);
-        return response;
-    } catch (error) {
-        throw new Error("DiyCreateManyAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "DiyCreateManyAction", "Diy", "createMany");
+    return await DiyService.createMany(props);
 };
 
 /**
  * ## Diy Update Many (Server Action)
+ *
+ * - optimized for mutations
+ * - serial execution without cache
+ *
+ * **Note**: function generated from template.
  */
 export const DiyUpdateManyAction = async <T extends Prisma.DiyUpdateManyArgs>(
     props: DiyUpdateManyProps<T>,
     disableSafeMessage: boolean = false,
 ): Promise<DiyUpdateManyResponse> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "DiyUpdateManyAction", "Diy", "updateMany");
-        const response = await PrismaInstance.diy.updateMany(props);
-        return response;
-    } catch (error) {
-        throw new Error("DiyUpdateManyAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "DiyUpdateManyAction", "Diy", "updateMany");
+    return await DiyService.updateMany(props);
 };
 
 /**
  * ## Diy Delete Many (Server Action)
+ *
+ * - optimized for mutations
+ * - serial execution without cache
+ *
+ * **Note**: function generated from template.
  */
 export const DiyDeleteManyAction = async <T extends Prisma.DiyDeleteManyArgs>(
     props: DiyDeleteManyProps<T>,
     disableSafeMessage: boolean = false,
 ): Promise<DiyDeleteManyResponse> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "DiyDeleteManyAction", "Diy", "deleteMany");
-        const response = await PrismaInstance.diy.deleteMany(props);
-        return response;
-    } catch (error) {
-        throw new Error("DiyDeleteManyAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "DiyDeleteManyAction", "Diy", "deleteMany");
+    return await DiyService.deleteMany(props);
 };
 
 /**
  * ## Diy Find First (Server Action)
+ *
  * **WARNING**: Server actions can't be cached and parallelized
+ *
  * - Do not use this for fetching data, use API routes with caching instead
- * - But you can use it to get fresh data, without any cache
+ * - Use it to get fresh data, without any cache
+ *
+ *  **Note**: function generated from template.
  */
 export const DiyFindFirstAction = async <T extends Prisma.DiyFindFirstArgs>(
     props: DiyFindFirstProps<T>,
     disableSafeMessage: boolean = false,
 ): Promise<DiyFindFirstResponse<T>> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "DiyFindFirstAction", "Diy", "findFirst");
-        const response = await PrismaInstance.diy.findFirst(props);
-        return response;
-    } catch (error) {
-        throw new Error("DiyFindFirstAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "DiyFindFirstAction", "Diy", "findFirst");
+    return await DiyService.findFirst(props);
 };
 
 /**
  * ## Diy Find Unique (Server Action)
+ *
  * **WARNING**: Server actions can't be cached and parallelized
+ *
  * - Do not use this for fetching data, use API routes with caching instead
- * - But you can use it to get fresh data, without any cache
+ * - Use it to get fresh data, without any cache
+ *
+ *  **Note**: function generated from template.
  */
 export const DiyFindUniqueAction = async <T extends Prisma.DiyFindUniqueArgs>(
     props: DiyFindUniqueProps<T>,
     disableSafeMessage: boolean = false,
 ): Promise<DiyFindUniqueResponse<T>> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "DiyFindUniqueAction", "Diy", "findUnique");
-        const response = await PrismaInstance.diy.findUnique(props);
-        return response;
-    } catch (error) {
-        throw new Error("DiyFindUniqueAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "DiyFindUniqueAction", "Diy", "findUnique");
+    return await DiyService.findUnique(props);
 };
 
 /**
  * ## Diy Find Many (Server Action)
+ *
  * **WARNING**: Server actions can't be cached and parallelized
+ *
  * - Do not use this for fetching data, use API routes with caching instead
- * - But you can use it to get fresh data, without any cache
+ * - Use it to get fresh data, without any cache
+ *
+ *  **Note**: function generated from template.
  */
 export const DiyFindManyAction = async <T extends Prisma.DiyFindManyArgs>(
     props: DiyFindManyProps<T>,
     disableSafeMessage: boolean = false,
 ): Promise<DiyFindManyResponse<T>> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "DiyFindManyAction", "Diy", "findMany");
-        const response = await PrismaInstance.diy.findMany(props);
-        return response;
-    } catch (error) {
-        throw new Error("DiyFindManyAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "DiyFindManyAction", "Diy", "findMany");
+    return await DiyService.findMany(props);
 };
 
 /**
  * ## Diy Count (Server Action)
+ *
  * **WARNING**: Server actions can't be cached and parallelized
+ *
  * - Do not use this for fetching data, use API routes with caching instead
- * - But you can use it to get fresh data, without any cache
+ * - Use it to get fresh data, without any cache
+ *
+ *  **Note**: function generated from template.
  */
 export const DiyCountAction = async <T extends Prisma.DiyCountArgs>(
     props: DiyCountProps<T>,
     disableSafeMessage: boolean = false,
 ): Promise<DiyCountResponse<T>> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "DiyCountAction", "Diy", "count");
-        const response = await PrismaInstance.diy.count(props);
-        return response;
-    } catch (error) {
-        throw new Error("DiyCountAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "DiyCountAction", "Diy", "count");
+    return await DiyService.count(props);
 };

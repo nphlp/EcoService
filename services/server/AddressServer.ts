@@ -1,11 +1,6 @@
 import { Prisma } from "@prisma/client";
 import { GetResult, InternalArgs, PrismaClientOptions } from "@prisma/client/runtime/library";
 import {
-    PrismaClientKnownRequestError,
-    PrismaClientUnknownRequestError,
-    PrismaClientValidationError,
-} from "@prisma/client/runtime/library";
-import {
     AddressCountCached,
     AddressFindFirstCached,
     AddressFindManyCached,
@@ -68,72 +63,58 @@ type AddressCountResponse<T extends Prisma.AddressCountArgs> =
 
 // ========== Services ========== //
 
+/**
+ * ## Address Find (Server)
+ *
+ * - SSG compatible
+ * - cached function
+ *
+ * **Note**: function generated from template.
+ */
 export const AddressFindFirstServer = async <T extends Prisma.AddressFindFirstArgs>(
     params: AddressFindFirstProps<T>,
 ): Promise<AddressFindFirstResponse<T>> => {
-    try {
-        const response = await AddressFindFirstCached(params);
-        return response;
-    } catch (error) {
-        throw ServiceError("Address", "findFirst", error);
-    }
+    return await AddressFindFirstCached(params);
 };
 
+/**
+ * ## Address Find (Server)
+ *
+ * - SSG compatible
+ * - cached function
+ *
+ * **Note**: function generated from template.
+ */
 export const AddressFindUniqueServer = async <T extends Prisma.AddressFindUniqueArgs>(
     params: AddressFindUniqueProps<T>,
 ): Promise<AddressFindUniqueResponse<T>> => {
-    try {
-        const response = await AddressFindUniqueCached(params);
-        return response;
-    } catch (error) {
-        throw ServiceError("Address", "findUnique", error);
-    }
+    return await AddressFindUniqueCached(params);
 };
 
+/**
+ * ## Address Find (Server)
+ *
+ * - SSG compatible
+ * - cached function
+ *
+ * **Note**: function generated from template.
+ */
 export const AddressFindManyServer = async <T extends Prisma.AddressFindManyArgs>(
     params: AddressFindManyProps<T>,
 ): Promise<AddressFindManyResponse<T>> => {
-    try {
-        const response = await AddressFindManyCached(params);
-        return response;
-    } catch (error) {
-        throw ServiceError("Address", "findMany", error);
-    }
+    return await AddressFindManyCached(params);
 };
 
+/**
+ * ## Address Find (Server)
+ *
+ * - SSG compatible
+ * - cached function
+ *
+ * **Note**: function generated from template.
+ */
 export const AddressCountServer = async <T extends Prisma.AddressCountArgs>(
     params: AddressCountProps<T>,
 ): Promise<AddressCountResponse<T>> => {
-    try {
-        const response = await AddressCountCached(params);
-        return response;
-    } catch (error) {
-        throw ServiceError("Address", "count", error);
-    }
-};
-
-// ========== Error Handling ========== //
-
-const ServiceError = (serviceName: string, methodName: string, error: unknown) => {
-    if (process.env.NODE_ENV === "development") {
-        const message = (error as Error).message;
-
-        const isPrismaError =
-            error instanceof PrismaClientKnownRequestError ||
-            error instanceof PrismaClientUnknownRequestError ||
-            error instanceof PrismaClientValidationError;
-
-        if (isPrismaError) {
-            const prismaMessage = serviceName + " -> " + methodName + " -> Prisma error -> " + message;
-            console.error(prismaMessage);
-            throw new Error(prismaMessage);
-        } else {
-            const errorMessage = serviceName + " -> " + methodName + " -> " + message;
-            console.error(errorMessage);
-            throw new Error(errorMessage);
-        }
-    }
-
-    // TODO: add logging
-    throw new Error("Something went wrong...");
+    return await AddressCountCached(params);
 };

@@ -71,30 +71,18 @@ type QuantityCountResponse<T extends Prisma.QuantityCountArgs> =
 type RouteResponse<T> = Promise<NextResponse<ResponseFormat<T>>>;
 
 export type QuantityRoutes<Input> = {
-    /**
-     * ## Quantity Find First (API)
-     */
     "/quantity/findFirst": <T extends Prisma.QuantityFindFirstArgs>() => {
         params: QuantityFindFirstProps<T>;
         response: QuantityFindFirstResponse<Input extends QuantityFindFirstProps<T> ? Input : never>;
     };
-    /**
-     * ## Quantity Find Unique (API)
-     */
     "/quantity/findUnique": <T extends Prisma.QuantityFindUniqueArgs>() => {
         params: QuantityFindUniqueProps<T>;
         response: QuantityFindUniqueResponse<Input extends QuantityFindUniqueProps<T> ? Input : never>;
     };
-    /**
-     * ## Quantity Find Many (API)
-     */
     "/quantity/findMany": <T extends Prisma.QuantityFindManyArgs>() => {
         params: QuantityFindManyProps<T>;
         response: QuantityFindManyResponse<Input extends QuantityFindManyProps<T> ? Input : never>;
     };
-    /**
-     * ## Quantity Count (API)
-     */
     "/quantity/count": <T extends Prisma.QuantityCountArgs>() => {
         params: QuantityCountProps<T>;
         response: QuantityCountResponse<Input extends QuantityCountProps<T> ? Input : never>;
@@ -111,7 +99,7 @@ export const QuantityFindFirstApi = async <T extends Prisma.QuantityFindFirstArg
         const response: QuantityFindFirstResponse<T> = await QuantityFindFirstCached(params);
         return NextResponse.json({ data: response }, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ error: "QuantityFindFirstApi -> " + (error as Error).message }, { status: 500 });
+        return NextResponse.json({ error: (error as Error).message }, { status: 500 });
     }
 };
 
@@ -123,7 +111,7 @@ export const QuantityFindUniqueApi = async <T extends Prisma.QuantityFindUniqueA
         const response: QuantityFindUniqueResponse<T> = await QuantityFindUniqueCached(params);
         return NextResponse.json({ data: response }, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ error: "QuantityFindUniqueApi -> " + (error as Error).message }, { status: 500 });
+        return NextResponse.json({ error: (error as Error).message }, { status: 500 });
     }
 };
 
@@ -135,7 +123,7 @@ export const QuantityFindManyApi = async <T extends Prisma.QuantityFindManyArgs>
         const response: QuantityFindManyResponse<T> = await QuantityFindManyCached(params);
         return NextResponse.json({ data: response }, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ error: "QuantityFindManyApi -> " + (error as Error).message }, { status: 500 });
+        return NextResponse.json({ error: (error as Error).message }, { status: 500 });
     }
 };
 
@@ -147,6 +135,6 @@ export const QuantityCountApi = async <T extends Prisma.QuantityCountArgs>(
         const response: QuantityCountResponse<T> = await QuantityCountCached(params);
         return NextResponse.json({ data: response }, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ error: "QuantityCountApi -> " + (error as Error).message }, { status: 500 });
+        return NextResponse.json({ error: (error as Error).message }, { status: 500 });
     }
 };
