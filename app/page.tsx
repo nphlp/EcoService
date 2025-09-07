@@ -5,15 +5,7 @@ import ProductSlider from "@comps/PROJECT/sliders/productSlider";
 import { ArticleOrDiyFetchParams, ProductFetchParams } from "@comps/PROJECT/sliders/sliderFetchParams";
 import ImageRatio from "@comps/UI/imageRatio";
 import { combo } from "@lib/combo";
-import {
-    ArticleCountServer,
-    ArticleFindFirstServer,
-    ArticleFindManyServer,
-    ArticleFindUniqueServer,
-    DiyFindManyServer,
-    ProductFindManyServer,
-} from "@services/server";
-import { FetchV2 } from "@utils/FetchV2/FetchV2";
+import { ArticleFindManyServer, DiyFindManyServer, ProductFindManyServer } from "@services/server";
 import { Metadata } from "next";
 import { unstable_cacheLife as cacheLife, unstable_cacheTag as cacheTag } from "next/cache";
 
@@ -34,30 +26,6 @@ export default async function Page() {
     cacheTag("home");
 
     const imageClass = "h-[100px] sm:h-[150px] md:h-[120px] lg:h-[160px] xl:h-[220px] rounded shadow-lg";
-
-    const articleMany = await ArticleFindManyServer({ select: { slug: true } });
-    const articleMany2 = await FetchV2({
-        route: "/article/findMany",
-        params: { select: { slug: true } },
-    });
-
-    const articleFirst = await ArticleFindFirstServer({ select: { slug: true } });
-    const articleFirst2 = await FetchV2({
-        route: "/article/findFirst",
-        params: { select: { slug: true } },
-    });
-
-    const articleUnique = await ArticleFindUniqueServer({ select: { slug: true }, where: { id: "" } });
-    const articleUnique2 = await FetchV2({
-        route: "/article/findUnique",
-        params: { select: { slug: true }, where: { id: "" } },
-    });
-
-    const articleCount = await ArticleCountServer({});
-    const articleCount2 = await FetchV2({
-        route: "/article/count",
-        params: {},
-    });
 
     // Data fetching
     const articleList = await ArticleFindManyServer(ArticleOrDiyFetchParams);

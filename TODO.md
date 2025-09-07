@@ -16,6 +16,8 @@ Complete auth and user management
 - [ ] Fusionner Fetch et FetchV2 en FetchV3
     - [ ] Ajouter au template API en `/external/...`
 
+- [ ] Error handling
+
 ## CURRENT
 
 - [] Homogénéhiser tous les composants
