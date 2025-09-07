@@ -1,50 +1,68 @@
-// ============== Types ============== //
+import { Prisma } from "@prisma/client";
+import { InternalArgs } from "@prisma/client/runtime/library";
 
-import { User, Prisma } from "@prisma/client";
+// ============== Utils ============== //
 
-// ============== Model Types ============== //
+type Payload = Prisma.$UserPayload<InternalArgs>;
 
-export type UserModel = User;
+type Flatten<T> = T extends infer U ? { [K in keyof U]: U[K] } : never;
+
+// ============== Model ============== //
+
+/**
+ * User native fields only
+ */
+export type UserFields = Flatten<Payload["scalars"]>;
+
+/**
+ * User relations fields only
+ */
+export type UserRelations = {
+    [K in keyof Payload["objects"]]: Payload["objects"][K] extends Array<infer T>
+        ? T extends { scalars: unknown }
+            ? Flatten<T["scalars"]>[]
+            : never
+        : Payload["objects"][K] extends { scalars: unknown }
+          ? Flatten<Payload["objects"][K]["scalars"]>
+          : never;
+};
+
+/**
+ * User native and relations fields
+ */
+export type UserComplete = Flatten<UserFields & UserRelations>;
+
+/**
+ * User count type
+ */
 export type UserCount = number;
 
-// ============== Props Types ============== //
+// ============== Mutations ============== //
 
-// Single mutations
+// Create
 export type UserCreateProps = Prisma.UserCreateArgs;
-export type UserUpsertProps = Prisma.UserUpsertArgs;
-export type UserUpdateProps = Prisma.UserUpdateArgs;
-export type UserDeleteProps = Prisma.UserDeleteArgs;
-
-// Multiple mutations
-export type UserCreateManyProps = Prisma.UserCreateManyArgs;
-export type UserUpdateManyProps = Prisma.UserUpdateManyArgs;
-export type UserDeleteManyProps = Prisma.UserDeleteManyArgs;
-
-// Single queries
-export type UserFindFirstProps = Prisma.UserFindFirstArgs;
-export type UserFindUniqueProps = Prisma.UserFindUniqueArgs;
-export type UserFindManyProps = Prisma.UserFindManyArgs;
-
-// Multiple queries
-export type UserCountProps = Prisma.UserCountArgs;
-
-// ============== Response Types ============== //
-
-// Single mutations
 export type UserCreateResponse<T extends UserCreateProps> = Prisma.UserGetPayload<T>;
+
+// Upsert
+export type UserUpsertProps = Prisma.UserUpsertArgs;
 export type UserUpsertResponse<T extends UserUpsertProps> = Prisma.UserGetPayload<T>;
+
+// Update
+export type UserUpdateProps = Prisma.UserUpdateArgs;
 export type UserUpdateResponse<T extends UserUpdateProps> = Prisma.UserGetPayload<T>;
+
+// Delete
+export type UserDeleteProps = Prisma.UserDeleteArgs;
 export type UserDeleteResponse<T extends UserDeleteProps> = Prisma.UserGetPayload<T>;
 
-// Multiple mutations
+// Create Many
+export type UserCreateManyProps = Prisma.UserCreateManyArgs;
 export type UserCreateManyResponse = { count: number };
+
+// Update Many
+export type UserUpdateManyProps = Prisma.UserUpdateManyArgs;
 export type UserUpdateManyResponse = { count: number };
+
+// Delete Many
+export type UserDeleteManyProps = Prisma.UserDeleteManyArgs;
 export type UserDeleteManyResponse = { count: number };
-
-// Single queries
-export type UserFindFirstResponse<T extends UserFindFirstProps> = Prisma.UserGetPayload<T> | null;
-export type UserFindUniqueResponse<T extends UserFindUniqueProps> = Prisma.UserGetPayload<T> | null;
-export type UserFindManyResponse<T extends UserFindManyProps> = Prisma.UserGetPayload<T>[];
-
-// Aggregate queries
-export type UserCountResponse = UserCount;

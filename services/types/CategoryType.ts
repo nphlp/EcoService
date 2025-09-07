@@ -1,50 +1,68 @@
-// ============== Types ============== //
+import { Prisma } from "@prisma/client";
+import { InternalArgs } from "@prisma/client/runtime/library";
 
-import { Category, Prisma } from "@prisma/client";
+// ============== Utils ============== //
 
-// ============== Model Types ============== //
+type Payload = Prisma.$CategoryPayload<InternalArgs>;
 
-export type CategoryModel = Category;
+type Flatten<T> = T extends infer U ? { [K in keyof U]: U[K] } : never;
+
+// ============== Model ============== //
+
+/**
+ * Category native fields only
+ */
+export type CategoryFields = Flatten<Payload["scalars"]>;
+
+/**
+ * Category relations fields only
+ */
+export type CategoryRelations = {
+    [K in keyof Payload["objects"]]: Payload["objects"][K] extends Array<infer T>
+        ? T extends { scalars: unknown }
+            ? Flatten<T["scalars"]>[]
+            : never
+        : Payload["objects"][K] extends { scalars: unknown }
+          ? Flatten<Payload["objects"][K]["scalars"]>
+          : never;
+};
+
+/**
+ * Category native and relations fields
+ */
+export type CategoryComplete = Flatten<CategoryFields & CategoryRelations>;
+
+/**
+ * Category count type
+ */
 export type CategoryCount = number;
 
-// ============== Props Types ============== //
+// ============== Mutations ============== //
 
-// Single mutations
+// Create
 export type CategoryCreateProps = Prisma.CategoryCreateArgs;
-export type CategoryUpsertProps = Prisma.CategoryUpsertArgs;
-export type CategoryUpdateProps = Prisma.CategoryUpdateArgs;
-export type CategoryDeleteProps = Prisma.CategoryDeleteArgs;
-
-// Multiple mutations
-export type CategoryCreateManyProps = Prisma.CategoryCreateManyArgs;
-export type CategoryUpdateManyProps = Prisma.CategoryUpdateManyArgs;
-export type CategoryDeleteManyProps = Prisma.CategoryDeleteManyArgs;
-
-// Single queries
-export type CategoryFindFirstProps = Prisma.CategoryFindFirstArgs;
-export type CategoryFindUniqueProps = Prisma.CategoryFindUniqueArgs;
-export type CategoryFindManyProps = Prisma.CategoryFindManyArgs;
-
-// Multiple queries
-export type CategoryCountProps = Prisma.CategoryCountArgs;
-
-// ============== Response Types ============== //
-
-// Single mutations
 export type CategoryCreateResponse<T extends CategoryCreateProps> = Prisma.CategoryGetPayload<T>;
+
+// Upsert
+export type CategoryUpsertProps = Prisma.CategoryUpsertArgs;
 export type CategoryUpsertResponse<T extends CategoryUpsertProps> = Prisma.CategoryGetPayload<T>;
+
+// Update
+export type CategoryUpdateProps = Prisma.CategoryUpdateArgs;
 export type CategoryUpdateResponse<T extends CategoryUpdateProps> = Prisma.CategoryGetPayload<T>;
+
+// Delete
+export type CategoryDeleteProps = Prisma.CategoryDeleteArgs;
 export type CategoryDeleteResponse<T extends CategoryDeleteProps> = Prisma.CategoryGetPayload<T>;
 
-// Multiple mutations
+// Create Many
+export type CategoryCreateManyProps = Prisma.CategoryCreateManyArgs;
 export type CategoryCreateManyResponse = { count: number };
+
+// Update Many
+export type CategoryUpdateManyProps = Prisma.CategoryUpdateManyArgs;
 export type CategoryUpdateManyResponse = { count: number };
+
+// Delete Many
+export type CategoryDeleteManyProps = Prisma.CategoryDeleteManyArgs;
 export type CategoryDeleteManyResponse = { count: number };
-
-// Single queries
-export type CategoryFindFirstResponse<T extends CategoryFindFirstProps> = Prisma.CategoryGetPayload<T> | null;
-export type CategoryFindUniqueResponse<T extends CategoryFindUniqueProps> = Prisma.CategoryGetPayload<T> | null;
-export type CategoryFindManyResponse<T extends CategoryFindManyProps> = Prisma.CategoryGetPayload<T>[];
-
-// Aggregate queries
-export type CategoryCountResponse = CategoryCount;

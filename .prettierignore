@@ -3,7 +3,6 @@
 .next-test/
 .github/
 templates/
-services/
 prisma/client/
 node_modules/
 pnpm-lock.yaml

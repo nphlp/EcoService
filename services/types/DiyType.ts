@@ -1,50 +1,68 @@
-// ============== Types ============== //
+import { Prisma } from "@prisma/client";
+import { InternalArgs } from "@prisma/client/runtime/library";
 
-import { Diy, Prisma } from "@prisma/client";
+// ============== Utils ============== //
 
-// ============== Model Types ============== //
+type Payload = Prisma.$DiyPayload<InternalArgs>;
 
-export type DiyModel = Diy;
+type Flatten<T> = T extends infer U ? { [K in keyof U]: U[K] } : never;
+
+// ============== Model ============== //
+
+/**
+ * Diy native fields only
+ */
+export type DiyFields = Flatten<Payload["scalars"]>;
+
+/**
+ * Diy relations fields only
+ */
+export type DiyRelations = {
+    [K in keyof Payload["objects"]]: Payload["objects"][K] extends Array<infer T>
+        ? T extends { scalars: unknown }
+            ? Flatten<T["scalars"]>[]
+            : never
+        : Payload["objects"][K] extends { scalars: unknown }
+          ? Flatten<Payload["objects"][K]["scalars"]>
+          : never;
+};
+
+/**
+ * Diy native and relations fields
+ */
+export type DiyComplete = Flatten<DiyFields & DiyRelations>;
+
+/**
+ * Diy count type
+ */
 export type DiyCount = number;
 
-// ============== Props Types ============== //
+// ============== Mutations ============== //
 
-// Single mutations
+// Create
 export type DiyCreateProps = Prisma.DiyCreateArgs;
-export type DiyUpsertProps = Prisma.DiyUpsertArgs;
-export type DiyUpdateProps = Prisma.DiyUpdateArgs;
-export type DiyDeleteProps = Prisma.DiyDeleteArgs;
-
-// Multiple mutations
-export type DiyCreateManyProps = Prisma.DiyCreateManyArgs;
-export type DiyUpdateManyProps = Prisma.DiyUpdateManyArgs;
-export type DiyDeleteManyProps = Prisma.DiyDeleteManyArgs;
-
-// Single queries
-export type DiyFindFirstProps = Prisma.DiyFindFirstArgs;
-export type DiyFindUniqueProps = Prisma.DiyFindUniqueArgs;
-export type DiyFindManyProps = Prisma.DiyFindManyArgs;
-
-// Multiple queries
-export type DiyCountProps = Prisma.DiyCountArgs;
-
-// ============== Response Types ============== //
-
-// Single mutations
 export type DiyCreateResponse<T extends DiyCreateProps> = Prisma.DiyGetPayload<T>;
+
+// Upsert
+export type DiyUpsertProps = Prisma.DiyUpsertArgs;
 export type DiyUpsertResponse<T extends DiyUpsertProps> = Prisma.DiyGetPayload<T>;
+
+// Update
+export type DiyUpdateProps = Prisma.DiyUpdateArgs;
 export type DiyUpdateResponse<T extends DiyUpdateProps> = Prisma.DiyGetPayload<T>;
+
+// Delete
+export type DiyDeleteProps = Prisma.DiyDeleteArgs;
 export type DiyDeleteResponse<T extends DiyDeleteProps> = Prisma.DiyGetPayload<T>;
 
-// Multiple mutations
+// Create Many
+export type DiyCreateManyProps = Prisma.DiyCreateManyArgs;
 export type DiyCreateManyResponse = { count: number };
+
+// Update Many
+export type DiyUpdateManyProps = Prisma.DiyUpdateManyArgs;
 export type DiyUpdateManyResponse = { count: number };
+
+// Delete Many
+export type DiyDeleteManyProps = Prisma.DiyDeleteManyArgs;
 export type DiyDeleteManyResponse = { count: number };
-
-// Single queries
-export type DiyFindFirstResponse<T extends DiyFindFirstProps> = Prisma.DiyGetPayload<T> | null;
-export type DiyFindUniqueResponse<T extends DiyFindUniqueProps> = Prisma.DiyGetPayload<T> | null;
-export type DiyFindManyResponse<T extends DiyFindManyProps> = Prisma.DiyGetPayload<T>[];
-
-// Aggregate queries
-export type DiyCountResponse = DiyCount;

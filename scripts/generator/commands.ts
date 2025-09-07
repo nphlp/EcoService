@@ -2,7 +2,7 @@ import path from "path";
 import { generateIndexFiles, generateModelFiles } from "./fileGenerator";
 import { removePath } from "./fileUtils";
 import { pathsToRemove } from "./mapping";
-import { extractModelNames } from "./modelExtractor";
+import { getModelsInfo } from "./modelExtractor";
 
 /**
  * Implémentation des commandes disponibles via l'interface CLI
@@ -20,17 +20,9 @@ import { extractModelNames } from "./modelExtractor";
  * la génération, avec un formatage console lisible.
  */
 export const listModels = (): void => {
-    // Extraire les noms des modèles du schéma Prisma
-    const modelNames = extractModelNames();
+    const { models } = getModelsInfo();
 
-    // Vérifier si des modèles ont été trouvés
-    if (modelNames.length === 0) {
-        console.error("❌ Aucun modèle trouvé dans le schéma Prisma");
-        return;
-    }
-
-    // Afficher la liste des modèles avec formatage
-    console.log(`📋 Modèles trouvés (${modelNames.length}):\n  - ${modelNames.join("\n  - ")}`);
+    console.log(`📋 ${models.length} modèles disponibles dans le Prisma Client:\n  - ${models.join("\n  - ")}`);
     console.log("\n✅ Listage terminé avec succès!");
 };
 
@@ -64,10 +56,10 @@ export const generateModels = (): void => {
     console.log("🚀 Démarrage de la génération des fichiers...");
 
     // Extraire les noms des modèles du schéma Prisma
-    const modelNames = extractModelNames();
+    const { models } = getModelsInfo();
 
     // Vérifier si des modèles ont été trouvés
-    if (modelNames.length === 0) {
+    if (models.length === 0) {
         console.error("❌ Aucun modèle trouvé dans le schéma Prisma");
         return;
     }
@@ -78,12 +70,12 @@ export const generateModels = (): void => {
     }
 
     // Générer les fichiers pour chaque modèle individuellement
-    for (const modelName of modelNames) {
-        generateModelFiles(modelName);
+    for (const namme of models) {
+        generateModelFiles(namme);
     }
 
     // Générer les fichiers globaux (index, routes)
-    generateIndexFiles(modelNames);
+    generateIndexFiles(models);
 
     console.log("✅ Génération terminée avec succès!");
 };

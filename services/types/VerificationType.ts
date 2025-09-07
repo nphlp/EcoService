@@ -1,50 +1,68 @@
-// ============== Types ============== //
+import { Prisma } from "@prisma/client";
+import { InternalArgs } from "@prisma/client/runtime/library";
 
-import { Verification, Prisma } from "@prisma/client";
+// ============== Utils ============== //
 
-// ============== Model Types ============== //
+type Payload = Prisma.$VerificationPayload<InternalArgs>;
 
-export type VerificationModel = Verification;
+type Flatten<T> = T extends infer U ? { [K in keyof U]: U[K] } : never;
+
+// ============== Model ============== //
+
+/**
+ * Verification native fields only
+ */
+export type VerificationFields = Flatten<Payload["scalars"]>;
+
+/**
+ * Verification relations fields only
+ */
+export type VerificationRelations = {
+    [K in keyof Payload["objects"]]: Payload["objects"][K] extends Array<infer T>
+        ? T extends { scalars: unknown }
+            ? Flatten<T["scalars"]>[]
+            : never
+        : Payload["objects"][K] extends { scalars: unknown }
+          ? Flatten<Payload["objects"][K]["scalars"]>
+          : never;
+};
+
+/**
+ * Verification native and relations fields
+ */
+export type VerificationComplete = Flatten<VerificationFields & VerificationRelations>;
+
+/**
+ * Verification count type
+ */
 export type VerificationCount = number;
 
-// ============== Props Types ============== //
+// ============== Mutations ============== //
 
-// Single mutations
+// Create
 export type VerificationCreateProps = Prisma.VerificationCreateArgs;
-export type VerificationUpsertProps = Prisma.VerificationUpsertArgs;
-export type VerificationUpdateProps = Prisma.VerificationUpdateArgs;
-export type VerificationDeleteProps = Prisma.VerificationDeleteArgs;
-
-// Multiple mutations
-export type VerificationCreateManyProps = Prisma.VerificationCreateManyArgs;
-export type VerificationUpdateManyProps = Prisma.VerificationUpdateManyArgs;
-export type VerificationDeleteManyProps = Prisma.VerificationDeleteManyArgs;
-
-// Single queries
-export type VerificationFindFirstProps = Prisma.VerificationFindFirstArgs;
-export type VerificationFindUniqueProps = Prisma.VerificationFindUniqueArgs;
-export type VerificationFindManyProps = Prisma.VerificationFindManyArgs;
-
-// Multiple queries
-export type VerificationCountProps = Prisma.VerificationCountArgs;
-
-// ============== Response Types ============== //
-
-// Single mutations
 export type VerificationCreateResponse<T extends VerificationCreateProps> = Prisma.VerificationGetPayload<T>;
+
+// Upsert
+export type VerificationUpsertProps = Prisma.VerificationUpsertArgs;
 export type VerificationUpsertResponse<T extends VerificationUpsertProps> = Prisma.VerificationGetPayload<T>;
+
+// Update
+export type VerificationUpdateProps = Prisma.VerificationUpdateArgs;
 export type VerificationUpdateResponse<T extends VerificationUpdateProps> = Prisma.VerificationGetPayload<T>;
+
+// Delete
+export type VerificationDeleteProps = Prisma.VerificationDeleteArgs;
 export type VerificationDeleteResponse<T extends VerificationDeleteProps> = Prisma.VerificationGetPayload<T>;
 
-// Multiple mutations
+// Create Many
+export type VerificationCreateManyProps = Prisma.VerificationCreateManyArgs;
 export type VerificationCreateManyResponse = { count: number };
+
+// Update Many
+export type VerificationUpdateManyProps = Prisma.VerificationUpdateManyArgs;
 export type VerificationUpdateManyResponse = { count: number };
+
+// Delete Many
+export type VerificationDeleteManyProps = Prisma.VerificationDeleteManyArgs;
 export type VerificationDeleteManyResponse = { count: number };
-
-// Single queries
-export type VerificationFindFirstResponse<T extends VerificationFindFirstProps> = Prisma.VerificationGetPayload<T> | null;
-export type VerificationFindUniqueResponse<T extends VerificationFindUniqueProps> = Prisma.VerificationGetPayload<T> | null;
-export type VerificationFindManyResponse<T extends VerificationFindManyProps> = Prisma.VerificationGetPayload<T>[];
-
-// Aggregate queries
-export type VerificationCountResponse = VerificationCount;

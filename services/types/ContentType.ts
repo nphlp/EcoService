@@ -1,50 +1,68 @@
-// ============== Types ============== //
+import { Prisma } from "@prisma/client";
+import { InternalArgs } from "@prisma/client/runtime/library";
 
-import { Content, Prisma } from "@prisma/client";
+// ============== Utils ============== //
 
-// ============== Model Types ============== //
+type Payload = Prisma.$ContentPayload<InternalArgs>;
 
-export type ContentModel = Content;
+type Flatten<T> = T extends infer U ? { [K in keyof U]: U[K] } : never;
+
+// ============== Model ============== //
+
+/**
+ * Content native fields only
+ */
+export type ContentFields = Flatten<Payload["scalars"]>;
+
+/**
+ * Content relations fields only
+ */
+export type ContentRelations = {
+    [K in keyof Payload["objects"]]: Payload["objects"][K] extends Array<infer T>
+        ? T extends { scalars: unknown }
+            ? Flatten<T["scalars"]>[]
+            : never
+        : Payload["objects"][K] extends { scalars: unknown }
+          ? Flatten<Payload["objects"][K]["scalars"]>
+          : never;
+};
+
+/**
+ * Content native and relations fields
+ */
+export type ContentComplete = Flatten<ContentFields & ContentRelations>;
+
+/**
+ * Content count type
+ */
 export type ContentCount = number;
 
-// ============== Props Types ============== //
+// ============== Mutations ============== //
 
-// Single mutations
+// Create
 export type ContentCreateProps = Prisma.ContentCreateArgs;
-export type ContentUpsertProps = Prisma.ContentUpsertArgs;
-export type ContentUpdateProps = Prisma.ContentUpdateArgs;
-export type ContentDeleteProps = Prisma.ContentDeleteArgs;
-
-// Multiple mutations
-export type ContentCreateManyProps = Prisma.ContentCreateManyArgs;
-export type ContentUpdateManyProps = Prisma.ContentUpdateManyArgs;
-export type ContentDeleteManyProps = Prisma.ContentDeleteManyArgs;
-
-// Single queries
-export type ContentFindFirstProps = Prisma.ContentFindFirstArgs;
-export type ContentFindUniqueProps = Prisma.ContentFindUniqueArgs;
-export type ContentFindManyProps = Prisma.ContentFindManyArgs;
-
-// Multiple queries
-export type ContentCountProps = Prisma.ContentCountArgs;
-
-// ============== Response Types ============== //
-
-// Single mutations
 export type ContentCreateResponse<T extends ContentCreateProps> = Prisma.ContentGetPayload<T>;
+
+// Upsert
+export type ContentUpsertProps = Prisma.ContentUpsertArgs;
 export type ContentUpsertResponse<T extends ContentUpsertProps> = Prisma.ContentGetPayload<T>;
+
+// Update
+export type ContentUpdateProps = Prisma.ContentUpdateArgs;
 export type ContentUpdateResponse<T extends ContentUpdateProps> = Prisma.ContentGetPayload<T>;
+
+// Delete
+export type ContentDeleteProps = Prisma.ContentDeleteArgs;
 export type ContentDeleteResponse<T extends ContentDeleteProps> = Prisma.ContentGetPayload<T>;
 
-// Multiple mutations
+// Create Many
+export type ContentCreateManyProps = Prisma.ContentCreateManyArgs;
 export type ContentCreateManyResponse = { count: number };
+
+// Update Many
+export type ContentUpdateManyProps = Prisma.ContentUpdateManyArgs;
 export type ContentUpdateManyResponse = { count: number };
+
+// Delete Many
+export type ContentDeleteManyProps = Prisma.ContentDeleteManyArgs;
 export type ContentDeleteManyResponse = { count: number };
-
-// Single queries
-export type ContentFindFirstResponse<T extends ContentFindFirstProps> = Prisma.ContentGetPayload<T> | null;
-export type ContentFindUniqueResponse<T extends ContentFindUniqueProps> = Prisma.ContentGetPayload<T> | null;
-export type ContentFindManyResponse<T extends ContentFindManyProps> = Prisma.ContentGetPayload<T>[];
-
-// Aggregate queries
-export type ContentCountResponse = ContentCount;

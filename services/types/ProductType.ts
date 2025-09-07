@@ -1,50 +1,68 @@
-// ============== Types ============== //
+import { Prisma } from "@prisma/client";
+import { InternalArgs } from "@prisma/client/runtime/library";
 
-import { Product, Prisma } from "@prisma/client";
+// ============== Utils ============== //
 
-// ============== Model Types ============== //
+type Payload = Prisma.$ProductPayload<InternalArgs>;
 
-export type ProductModel = Product;
+type Flatten<T> = T extends infer U ? { [K in keyof U]: U[K] } : never;
+
+// ============== Model ============== //
+
+/**
+ * Product native fields only
+ */
+export type ProductFields = Flatten<Payload["scalars"]>;
+
+/**
+ * Product relations fields only
+ */
+export type ProductRelations = {
+    [K in keyof Payload["objects"]]: Payload["objects"][K] extends Array<infer T>
+        ? T extends { scalars: unknown }
+            ? Flatten<T["scalars"]>[]
+            : never
+        : Payload["objects"][K] extends { scalars: unknown }
+          ? Flatten<Payload["objects"][K]["scalars"]>
+          : never;
+};
+
+/**
+ * Product native and relations fields
+ */
+export type ProductComplete = Flatten<ProductFields & ProductRelations>;
+
+/**
+ * Product count type
+ */
 export type ProductCount = number;
 
-// ============== Props Types ============== //
+// ============== Mutations ============== //
 
-// Single mutations
+// Create
 export type ProductCreateProps = Prisma.ProductCreateArgs;
-export type ProductUpsertProps = Prisma.ProductUpsertArgs;
-export type ProductUpdateProps = Prisma.ProductUpdateArgs;
-export type ProductDeleteProps = Prisma.ProductDeleteArgs;
-
-// Multiple mutations
-export type ProductCreateManyProps = Prisma.ProductCreateManyArgs;
-export type ProductUpdateManyProps = Prisma.ProductUpdateManyArgs;
-export type ProductDeleteManyProps = Prisma.ProductDeleteManyArgs;
-
-// Single queries
-export type ProductFindFirstProps = Prisma.ProductFindFirstArgs;
-export type ProductFindUniqueProps = Prisma.ProductFindUniqueArgs;
-export type ProductFindManyProps = Prisma.ProductFindManyArgs;
-
-// Multiple queries
-export type ProductCountProps = Prisma.ProductCountArgs;
-
-// ============== Response Types ============== //
-
-// Single mutations
 export type ProductCreateResponse<T extends ProductCreateProps> = Prisma.ProductGetPayload<T>;
+
+// Upsert
+export type ProductUpsertProps = Prisma.ProductUpsertArgs;
 export type ProductUpsertResponse<T extends ProductUpsertProps> = Prisma.ProductGetPayload<T>;
+
+// Update
+export type ProductUpdateProps = Prisma.ProductUpdateArgs;
 export type ProductUpdateResponse<T extends ProductUpdateProps> = Prisma.ProductGetPayload<T>;
+
+// Delete
+export type ProductDeleteProps = Prisma.ProductDeleteArgs;
 export type ProductDeleteResponse<T extends ProductDeleteProps> = Prisma.ProductGetPayload<T>;
 
-// Multiple mutations
+// Create Many
+export type ProductCreateManyProps = Prisma.ProductCreateManyArgs;
 export type ProductCreateManyResponse = { count: number };
+
+// Update Many
+export type ProductUpdateManyProps = Prisma.ProductUpdateManyArgs;
 export type ProductUpdateManyResponse = { count: number };
+
+// Delete Many
+export type ProductDeleteManyProps = Prisma.ProductDeleteManyArgs;
 export type ProductDeleteManyResponse = { count: number };
-
-// Single queries
-export type ProductFindFirstResponse<T extends ProductFindFirstProps> = Prisma.ProductGetPayload<T> | null;
-export type ProductFindUniqueResponse<T extends ProductFindUniqueProps> = Prisma.ProductGetPayload<T> | null;
-export type ProductFindManyResponse<T extends ProductFindManyProps> = Prisma.ProductGetPayload<T>[];
-
-// Aggregate queries
-export type ProductCountResponse = ProductCount;

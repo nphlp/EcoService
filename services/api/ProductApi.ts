@@ -1,62 +1,121 @@
-import { ProductCountCached, ProductFindFirstCached, ProductFindManyCached, ProductFindUniqueCached } from "@services/cached/index";
-import { ProductCountProps, ProductCountResponse, ProductFindFirstProps, ProductFindFirstResponse, ProductFindManyProps, ProductFindManyResponse, ProductFindUniqueProps, ProductFindUniqueResponse } from "@services/types/index";
-import { parseAndDecodeParams } from "@utils/FetchConfig";
+import PrismaInstance from "@lib/prisma";
+import { Prisma } from "@prisma/client";
+import { GetResult, InternalArgs, PrismaClientOptions } from "@prisma/client/runtime/library";
+import { ResponseFormat, parseAndDecodeParams } from "@utils/FetchConfig";
 import { NextRequest, NextResponse } from "next/server";
 
-export type ProductRoutes<Input> = {
-    "/product/findMany": {
-        params: ProductFindManyProps,
-        response: ProductFindManyResponse<Input extends ProductFindManyProps ? Input : never>
-    },
-    "/product/findFirst": {
-        params: ProductFindFirstProps,
-        response: ProductFindFirstResponse<Input extends ProductFindFirstProps ? Input : never>
-    },
-    "/product/findUnique": {
-        params: ProductFindUniqueProps,
-        response: ProductFindUniqueResponse<Input extends ProductFindUniqueProps ? Input : never>
-    },
-    "/product/count": {
-        params: ProductCountProps,
-        response: ProductCountResponse
-    }
-}
+// ========== Utils ========== //
 
-export const ProductFindManyApi = async <T extends ProductFindManyProps>(request: NextRequest) => {
+type RouteResponse<T> = Promise<NextResponse<ResponseFormat<T>>>;
+
+// ========== Types ========== //
+
+export type ProductFindManyProps<T extends Prisma.ProductFindManyArgs> = Prisma.SelectSubset<
+    T,
+    Prisma.ProductFindManyArgs
+>;
+export type ProductFindManyResponse<T extends Prisma.ProductFindManyArgs> = GetResult<
+    Prisma.$ProductPayload<InternalArgs>,
+    T,
+    "findMany",
+    PrismaClientOptions
+>;
+
+export type ProductFindFirstProps<T extends Prisma.ProductFindFirstArgs> = Prisma.SelectSubset<
+    T,
+    Prisma.ProductFindFirstArgs
+>;
+export type ProductFindFirstResponse<T extends Prisma.ProductFindFirstArgs> = GetResult<
+    Prisma.$ProductPayload<InternalArgs>,
+    T,
+    "findFirst",
+    PrismaClientOptions
+>;
+
+export type ProductFindUniqueProps<T extends Prisma.ProductFindUniqueArgs> = Prisma.SelectSubset<
+    T,
+    Prisma.ProductFindUniqueArgs
+>;
+export type ProductFindUniqueResponse<T extends Prisma.ProductFindUniqueArgs> = GetResult<
+    Prisma.$ProductPayload<InternalArgs>,
+    T,
+    "findUnique",
+    PrismaClientOptions
+>;
+
+export type ProductCountProps<T extends Prisma.ProductCountArgs> = Prisma.SelectSubset<T, Prisma.ProductCountArgs>;
+export type ProductCountResponse<T extends Prisma.ProductCountArgs> =
+    // eslint-disable-next-line
+    T extends { select: any }
+        ? T["select"] extends true
+            ? number
+            : Prisma.GetScalarType<T["select"], Prisma.ProductCountAggregateOutputType>
+        : number;
+
+// ========== Services ========== //
+
+export type ProductRoutes<Input> = {
+    "/product/findMany": <T extends Prisma.ProductFindManyArgs>() => {
+        params: ProductFindManyProps<T>;
+        response: ProductFindManyResponse<Input extends ProductFindManyProps<T> ? Input : never>;
+    };
+    "/product/findFirst": <T extends Prisma.ProductFindFirstArgs>() => {
+        params: ProductFindFirstProps<T>;
+        response: ProductFindFirstResponse<Input extends ProductFindFirstProps<T> ? Input : never>;
+    };
+    "/product/findUnique": <T extends Prisma.ProductFindUniqueArgs>() => {
+        params: ProductFindUniqueProps<T>;
+        response: ProductFindUniqueResponse<Input extends ProductFindUniqueProps<T> ? Input : never>;
+    };
+    "/product/count": <T extends Prisma.ProductCountArgs>() => {
+        params: ProductCountProps<T>;
+        response: ProductCountResponse<Input extends ProductCountProps<T> ? Input : never>;
+    };
+};
+
+export const ProductFindManyApi = async <T extends Prisma.ProductFindManyArgs>(
+    request: NextRequest,
+): RouteResponse<ProductFindManyResponse<T>> => {
     try {
-        const params: T = parseAndDecodeParams(request);
-        const response = await ProductFindManyCached<T>(params);
-        return NextResponse.json(response, { status: 200 });
+        const params: ProductFindManyProps<T> = parseAndDecodeParams(request);
+        const response: ProductFindManyResponse<T> = await PrismaInstance.product.findMany(params);
+        return NextResponse.json({ data: response }, { status: 200 });
     } catch (error) {
         return NextResponse.json({ error: "ProductFindManyApi -> " + (error as Error).message }, { status: 500 });
     }
 };
 
-export const ProductFindFirstApi = async <T extends ProductFindFirstProps>(request: NextRequest) => {
+export const ProductFindFirstApi = async <T extends Prisma.ProductFindFirstArgs>(
+    request: NextRequest,
+): RouteResponse<ProductFindFirstResponse<T>> => {
     try {
-        const params: T = parseAndDecodeParams(request);
-        const response = await ProductFindFirstCached<T>(params);
-        return NextResponse.json(response, { status: 200 });
+        const params: ProductFindFirstProps<T> = parseAndDecodeParams(request);
+        const response: ProductFindFirstResponse<T> = await PrismaInstance.product.findFirst(params);
+        return NextResponse.json({ data: response }, { status: 200 });
     } catch (error) {
         return NextResponse.json({ error: "ProductFindFirstApi -> " + (error as Error).message }, { status: 500 });
     }
 };
 
-export const ProductFindUniqueApi = async <T extends ProductFindUniqueProps>(request: NextRequest) => {
+export const ProductFindUniqueApi = async <T extends Prisma.ProductFindUniqueArgs>(
+    request: NextRequest,
+): RouteResponse<ProductFindUniqueResponse<T>> => {
     try {
-        const params: T = parseAndDecodeParams(request);
-        const response = await ProductFindUniqueCached<T>(params);
-        return NextResponse.json(response, { status: 200 });
+        const params: ProductFindUniqueProps<T> = parseAndDecodeParams(request);
+        const response: ProductFindUniqueResponse<T> = await PrismaInstance.product.findUnique(params);
+        return NextResponse.json({ data: response }, { status: 200 });
     } catch (error) {
         return NextResponse.json({ error: "ProductFindUniqueApi -> " + (error as Error).message }, { status: 500 });
     }
 };
 
-export const ProductCountApi = async (request: NextRequest) => {
+export const ProductCountApi = async <T extends Prisma.ProductCountArgs>(
+    request: NextRequest,
+): RouteResponse<ProductCountResponse<T>> => {
     try {
-        const params: ProductCountProps = parseAndDecodeParams(request);
-        const response = await ProductCountCached(params);
-        return NextResponse.json(response, { status: 200 });
+        const params: ProductCountProps<T> = parseAndDecodeParams(request);
+        const response: ProductCountResponse<T> = await PrismaInstance.product.count(params);
+        return NextResponse.json({ data: response }, { status: 200 });
     } catch (error) {
         return NextResponse.json({ error: "ProductCountApi -> " + (error as Error).message }, { status: 500 });
     }

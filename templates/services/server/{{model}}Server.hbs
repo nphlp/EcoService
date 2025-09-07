@@ -1,26 +1,120 @@
-import {{modelName}}Service from "@services/class/{{modelName}}Class";
-import { {{modelName}}CountProps, {{modelName}}FindFirstProps, {{modelName}}FindManyProps, {{modelName}}FindUniqueProps } from "@services/types/{{modelName}}Type";
+import PrismaInstance from "@lib/prisma";
+import { Prisma } from "@prisma/client";
+import { GetResult, InternalArgs, PrismaClientOptions } from "@prisma/client/runtime/library";
+import {
+    PrismaClientKnownRequestError,
+    PrismaClientUnknownRequestError,
+    PrismaClientValidationError,
+} from "@prisma/client/runtime/library";
 
-export const {{modelName}}FindManyServer = async <T extends {{modelName}}FindManyProps>(params: T) => {
-    const { data, error } = await {{modelName}}Service.findMany<T>(params);
-    if (error || data === undefined) throw new Error(error ?? "Something went wrong...");
-    return data;
+// ========== Types ========== //
+
+export type {{modelName}}FindManyProps<T extends Prisma.{{modelName}}FindManyArgs> = Prisma.SelectSubset<
+    T,
+    Prisma.{{modelName}}FindManyArgs
+>;
+export type {{modelName}}FindManyResponse<T extends Prisma.{{modelName}}FindManyArgs> = GetResult<
+    Prisma.${{modelName}}Payload<InternalArgs>,
+    T,
+    "findMany",
+    PrismaClientOptions
+>;
+
+export type {{modelName}}FindFirstProps<T extends Prisma.{{modelName}}FindFirstArgs> = Prisma.SelectSubset<
+    T,
+    Prisma.{{modelName}}FindFirstArgs
+>;
+export type {{modelName}}FindFirstResponse<T extends Prisma.{{modelName}}FindFirstArgs> = GetResult<
+    Prisma.${{modelName}}Payload<InternalArgs>,
+    T,
+    "findFirst",
+    PrismaClientOptions
+>;
+
+export type {{modelName}}FindUniqueProps<T extends Prisma.{{modelName}}FindUniqueArgs> = Prisma.SelectSubset<
+    T,
+    Prisma.{{modelName}}FindUniqueArgs
+>;
+export type {{modelName}}FindUniqueResponse<T extends Prisma.{{modelName}}FindUniqueArgs> = GetResult<
+    Prisma.${{modelName}}Payload<InternalArgs>,
+    T,
+    "findUnique",
+    PrismaClientOptions
+>;
+
+export type {{modelName}}CountProps<T extends Prisma.{{modelName}}CountArgs> = Prisma.SelectSubset<T, Prisma.{{modelName}}CountArgs>;
+export type {{modelName}}CountResponse<T extends Prisma.{{modelName}}CountArgs> =
+    // eslint-disable-next-line
+    T extends { select: any }
+        ? T["select"] extends true
+            ? number
+            : Prisma.GetScalarType<T["select"], Prisma.{{modelName}}CountAggregateOutputType>
+        : number;
+
+// ========== Services ========== //
+
+export const {{modelName}}FindManyServer = <T extends Prisma.{{modelName}}FindManyArgs>(
+    params: {{modelName}}FindManyProps<T>,
+): Promise<{{modelName}}FindManyResponse<T>> => {
+    try {
+        return PrismaInstance.{{modelNameLower}}.findMany(params);
+    } catch (error) {
+        throw ServiceError("{{modelName}}", "findMany", error);
+    }
 };
 
-export const {{modelName}}FindFirstServer = async <T extends {{modelName}}FindFirstProps>(params: T) => {
-    const { data, error } = await {{modelName}}Service.findFirst<T>(params);
-    if (error || data === undefined) throw new Error(error ?? "Something went wrong...");
-    return data;
+export const {{modelName}}FindFirstServer = <T extends Prisma.{{modelName}}FindFirstArgs>(
+    params: {{modelName}}FindFirstProps<T>,
+): Promise<{{modelName}}FindFirstResponse<T>> => {
+    try {
+        return PrismaInstance.{{modelNameLower}}.findFirst(params);
+    } catch (error) {
+        throw ServiceError("{{modelName}}", "findFirst", error);
+    }
 };
 
-export const {{modelName}}FindUniqueServer = async <T extends {{modelName}}FindUniqueProps>(params: T) => {
-    const { data, error } = await {{modelName}}Service.findUnique<T>(params);
-    if (error || data === undefined) throw new Error(error ?? "Something went wrong...");
-    return data;
+export const {{modelName}}FindUniqueServer = <T extends Prisma.{{modelName}}FindUniqueArgs>(
+    params: {{modelName}}FindUniqueProps<T>,
+): Promise<{{modelName}}FindUniqueResponse<T>> => {
+    try {
+        return PrismaInstance.{{modelNameLower}}.findUnique(params);
+    } catch (error) {
+        throw ServiceError("{{modelName}}", "findUnique", error);
+    }
 };
 
-export const {{modelName}}CountServer = async (params: {{modelName}}CountProps) => {
-    const { data, error } = await {{modelName}}Service.count(params);
-    if (error || data === undefined) throw new Error(error ?? "Something went wrong...");
-    return data;
-}; 
+export const {{modelName}}CountServer = <T extends Prisma.{{modelName}}CountArgs>(
+    params: {{modelName}}CountProps<T>,
+): Promise<{{modelName}}CountResponse<T>> => {
+    try {
+        return PrismaInstance.{{modelNameLower}}.count(params);
+    } catch (error) {
+        throw ServiceError("{{modelName}}", "count", error);
+    }
+};
+
+// ========== Error Handling ========== //
+
+const ServiceError = (serviceName: string, methodName: string, error: unknown) => {
+    if (process.env.NODE_ENV === "development") {
+        const message = (error as Error).message;
+
+        const isPrismaError =
+            error instanceof PrismaClientKnownRequestError ||
+            error instanceof PrismaClientUnknownRequestError ||
+            error instanceof PrismaClientValidationError;
+
+        if (isPrismaError) {
+            const prismaMessage = serviceName + " -> " + methodName + " -> Prisma error -> " + message;
+            console.error(prismaMessage);
+            throw new Error(prismaMessage);
+        } else {
+            const errorMessage = serviceName + " -> " + methodName + " -> " + message;
+            console.error(errorMessage);
+            throw new Error(errorMessage);
+        }
+    }
+
+    // TODO: add logging
+    throw new Error("Something went wrong...");
+};

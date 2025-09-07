@@ -1,50 +1,68 @@
-// ============== Types ============== //
+import { Prisma } from "@prisma/client";
+import { InternalArgs } from "@prisma/client/runtime/library";
 
-import { Quantity, Prisma } from "@prisma/client";
+// ============== Utils ============== //
 
-// ============== Model Types ============== //
+type Payload = Prisma.$QuantityPayload<InternalArgs>;
 
-export type QuantityModel = Quantity;
+type Flatten<T> = T extends infer U ? { [K in keyof U]: U[K] } : never;
+
+// ============== Model ============== //
+
+/**
+ * Quantity native fields only
+ */
+export type QuantityFields = Flatten<Payload["scalars"]>;
+
+/**
+ * Quantity relations fields only
+ */
+export type QuantityRelations = {
+    [K in keyof Payload["objects"]]: Payload["objects"][K] extends Array<infer T>
+        ? T extends { scalars: unknown }
+            ? Flatten<T["scalars"]>[]
+            : never
+        : Payload["objects"][K] extends { scalars: unknown }
+          ? Flatten<Payload["objects"][K]["scalars"]>
+          : never;
+};
+
+/**
+ * Quantity native and relations fields
+ */
+export type QuantityComplete = Flatten<QuantityFields & QuantityRelations>;
+
+/**
+ * Quantity count type
+ */
 export type QuantityCount = number;
 
-// ============== Props Types ============== //
+// ============== Mutations ============== //
 
-// Single mutations
+// Create
 export type QuantityCreateProps = Prisma.QuantityCreateArgs;
-export type QuantityUpsertProps = Prisma.QuantityUpsertArgs;
-export type QuantityUpdateProps = Prisma.QuantityUpdateArgs;
-export type QuantityDeleteProps = Prisma.QuantityDeleteArgs;
-
-// Multiple mutations
-export type QuantityCreateManyProps = Prisma.QuantityCreateManyArgs;
-export type QuantityUpdateManyProps = Prisma.QuantityUpdateManyArgs;
-export type QuantityDeleteManyProps = Prisma.QuantityDeleteManyArgs;
-
-// Single queries
-export type QuantityFindFirstProps = Prisma.QuantityFindFirstArgs;
-export type QuantityFindUniqueProps = Prisma.QuantityFindUniqueArgs;
-export type QuantityFindManyProps = Prisma.QuantityFindManyArgs;
-
-// Multiple queries
-export type QuantityCountProps = Prisma.QuantityCountArgs;
-
-// ============== Response Types ============== //
-
-// Single mutations
 export type QuantityCreateResponse<T extends QuantityCreateProps> = Prisma.QuantityGetPayload<T>;
+
+// Upsert
+export type QuantityUpsertProps = Prisma.QuantityUpsertArgs;
 export type QuantityUpsertResponse<T extends QuantityUpsertProps> = Prisma.QuantityGetPayload<T>;
+
+// Update
+export type QuantityUpdateProps = Prisma.QuantityUpdateArgs;
 export type QuantityUpdateResponse<T extends QuantityUpdateProps> = Prisma.QuantityGetPayload<T>;
+
+// Delete
+export type QuantityDeleteProps = Prisma.QuantityDeleteArgs;
 export type QuantityDeleteResponse<T extends QuantityDeleteProps> = Prisma.QuantityGetPayload<T>;
 
-// Multiple mutations
+// Create Many
+export type QuantityCreateManyProps = Prisma.QuantityCreateManyArgs;
 export type QuantityCreateManyResponse = { count: number };
+
+// Update Many
+export type QuantityUpdateManyProps = Prisma.QuantityUpdateManyArgs;
 export type QuantityUpdateManyResponse = { count: number };
+
+// Delete Many
+export type QuantityDeleteManyProps = Prisma.QuantityDeleteManyArgs;
 export type QuantityDeleteManyResponse = { count: number };
-
-// Single queries
-export type QuantityFindFirstResponse<T extends QuantityFindFirstProps> = Prisma.QuantityGetPayload<T> | null;
-export type QuantityFindUniqueResponse<T extends QuantityFindUniqueProps> = Prisma.QuantityGetPayload<T> | null;
-export type QuantityFindManyResponse<T extends QuantityFindManyProps> = Prisma.QuantityGetPayload<T>[];
-
-// Aggregate queries
-export type QuantityCountResponse = QuantityCount;
