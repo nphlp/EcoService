@@ -1,11 +1,4 @@
-import { Routes as ExternalRoutes } from "@api/external/Routes";
-import { Routes as StripeRoutes } from "@api/stripe/Routes";
 import { NextRequest } from "next/server";
-
-/**
- * Routes list
- */
-export type RoutesList = ExternalRoutes & StripeRoutes;
 
 /**
  * Re-validate time in seconds

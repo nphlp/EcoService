@@ -47,7 +47,7 @@ const CurrentSession = async (props: CurrentSessionProps) => {
     const userAgent = session.session.userAgent ?? "";
     const ipAddress = session.session.ipAddress ?? "";
 
-    const location = await Fetch({ route: "/external/location", params: { ipAddress } });
+    const location = await Fetch({ route: "/location", params: { ipAddress } });
 
     return (
         <div className="space-y-2 rounded-lg border border-gray-300 px-5 py-3">
@@ -87,7 +87,7 @@ const OtherSessions = async (props: OtherSessionsProps) => {
     const location = await Promise.all(
         orderedSessionList.map(({ ipAddress }) =>
             Fetch({
-                route: "/external/location",
+                route: "/location",
                 params: { ipAddress: ipAddress ?? "" },
             }),
         ),

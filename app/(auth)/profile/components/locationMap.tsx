@@ -1,6 +1,6 @@
 "use client";
 
-import { LocationResponse } from "@app/api/external/location/route";
+import { LocationResponse } from "@app/api/location/route";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { MapPin } from "lucide-react";

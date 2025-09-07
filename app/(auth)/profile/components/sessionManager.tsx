@@ -1,6 +1,6 @@
 "use client";
 
-import { LocationResponse } from "@app/api/external/location/route";
+import { LocationResponse } from "@app/api/location/route";
 import Button from "@comps/UI/button/button";
 import Modal from "@comps/UI/modal/modal";
 import { revokeOtherSessions, revokeSession } from "@lib/authClient";

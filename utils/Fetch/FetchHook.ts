@@ -1,7 +1,7 @@
 "use client";
 
+import { Routes } from "@app/api/Routes";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Routes } from "./Fetch";
 import { Fetch, FetchProps, FetchResponse } from "./Fetch";
 
 export type FetchHookProps<Key extends keyof Routes> = Omit<FetchProps<Key>, "client"> & {

@@ -1,4 +1,5 @@
-import { ResponseFormat, RoutesList } from "@utils/FetchConfig";
+import { Routes } from "@app/api/Routes";
+import { ResponseFormat } from "@utils/FetchConfig";
 
 const NEXT_PUBLIC_BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
@@ -15,8 +16,6 @@ const headers = async () => {
     }
     return undefined;
 };
-
-export type Routes = RoutesList;
 
 export type Route = keyof Routes;
 
