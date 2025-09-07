@@ -35,6 +35,11 @@ export default function Page() {
             text: "How to create a bouncy height resize",
         },
         {
+            label: "Debug Services",
+            href: "/examples/debug-services",
+            text: "How to create a debug service",
+        },
+        {
             label: "Cropper",
             href: "/examples/cropper",
             text: "How to create a cropper",

@@ -3,7 +3,7 @@ import { unauthorized } from "next/navigation";
 import { ReactNode } from "react";
 import LinkList from "./linkList";
 import MainContent from "./mainContent";
-import { SideBar, SideBarProvider } from "./sideBar";
+import SidebarLayout from "./sidebarLayout";
 
 type LayoutProps = {
     children: ReactNode;
@@ -22,12 +22,10 @@ export default async function Layout(props: LayoutProps) {
 
     return (
         <div className="flex w-full flex-1 flex-row border-t-1 border-gray-300">
-            <SideBarProvider>
-                <SideBar className="bg-gray-100">
-                    <LinkList />
-                </SideBar>
-                <MainContent className="bg-gray-50">{children}</MainContent>
-            </SideBarProvider>
+            <SidebarLayout className="bg-gray-100">
+                <LinkList />
+            </SidebarLayout>
+            <MainContent className="bg-gray-50">{children}</MainContent>
         </div>
     );
 }

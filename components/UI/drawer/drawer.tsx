@@ -105,7 +105,7 @@ export default function Drawer(props: DrawerProps) {
                     translateX: "100%",
                 }}
                 animate={{
-                    display: isDrawerOpen ? "block" : "none",
+                    display: isDrawerOpen ? "" : "none",
                     translateX: isDrawerOpen ? "0" : "100%",
                 }}
                 transition={{ duration: animationDuration }}

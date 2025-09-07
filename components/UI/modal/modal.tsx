@@ -133,7 +133,7 @@ export default function Modal(props: ModalProps) {
                             scale: 0,
                         }}
                         animate={{
-                            display: isModalOpen ? "block" : "none",
+                            display: isModalOpen ? "" : "none",
                             scale: isModalOpen ? 1 : 0,
                         }}
                         transition={{

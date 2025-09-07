@@ -27,7 +27,7 @@ export default function ProductDisplay(props: ProductDisplayProps) {
             {stripeProductList.map((product, index) => (
                 <div key={index} className="group relative">
                     <div className="w-full overflow-hidden rounded-lg">
-                        <ImageRatio src={getImageUrl(product.images[0])} alt={product.name} mode="preloaded" />
+                        <ImageRatio src={getImageUrl(product.images[0])} alt={product.name} mode="onPageLoad" />
                     </div>
                     <div
                         className={combo(

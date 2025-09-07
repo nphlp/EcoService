@@ -11,7 +11,7 @@ import { FileText, Hammer, Package, ShoppingCart, Users } from "lucide-react";
 import { Metadata } from "next";
 import { unauthorized } from "next/navigation";
 import { JSX, cloneElement } from "react";
-import { SideBarToggleTitle } from "./sideBar";
+import SidebarToggleButton from "./sidebarToggleButton";
 
 export const metadata: Metadata = {
     title: "Dashboard",
@@ -30,7 +30,7 @@ export default async function Page() {
 
     return (
         <>
-            <SideBarToggleTitle title={metadata.title as string} />
+            <SidebarToggleButton title={metadata.title as string} />
             <div className="p-5">
                 <div className="space-y-4">
                     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
