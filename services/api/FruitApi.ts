@@ -1,12 +1,8 @@
-import PrismaInstance from "@lib/prisma";
 import { Prisma } from "@prisma/client";
 import { GetResult, InternalArgs, PrismaClientOptions } from "@prisma/client/runtime/library";
+import { FruitCountCached, FruitFindFirstCached, FruitFindManyCached, FruitFindUniqueCached } from "@services/cached";
 import { ResponseFormat, parseAndDecodeParams } from "@utils/FetchConfig";
 import { NextRequest, NextResponse } from "next/server";
-
-// ========== Utils ========== //
-
-type RouteResponse<T> = Promise<NextResponse<ResponseFormat<T>>>;
 
 // ========== Types ========== //
 
@@ -49,7 +45,9 @@ export type FruitCountResponse<T extends Prisma.FruitCountArgs> =
             : Prisma.GetScalarType<T["select"], Prisma.FruitCountAggregateOutputType>
         : number;
 
-// ========== Services ========== //
+// ========== Routes ========== //
+
+type RouteResponse<T> = Promise<NextResponse<ResponseFormat<T>>>;
 
 export type FruitRoutes<Input> = {
     "/fruit/findMany": <T extends Prisma.FruitFindManyArgs>() => {
@@ -70,12 +68,14 @@ export type FruitRoutes<Input> = {
     };
 };
 
+// ========== Services ========== //
+
 export const FruitFindManyApi = async <T extends Prisma.FruitFindManyArgs>(
     request: NextRequest,
 ): RouteResponse<FruitFindManyResponse<T>> => {
     try {
         const params: FruitFindManyProps<T> = parseAndDecodeParams(request);
-        const response: FruitFindManyResponse<T> = await PrismaInstance.fruit.findMany(params);
+        const response: FruitFindManyResponse<T> = await FruitFindManyCached(params);
         return NextResponse.json({ data: response }, { status: 200 });
     } catch (error) {
         return NextResponse.json({ error: "FruitFindManyApi -> " + (error as Error).message }, { status: 500 });
@@ -87,7 +87,7 @@ export const FruitFindFirstApi = async <T extends Prisma.FruitFindFirstArgs>(
 ): RouteResponse<FruitFindFirstResponse<T>> => {
     try {
         const params: FruitFindFirstProps<T> = parseAndDecodeParams(request);
-        const response: FruitFindFirstResponse<T> = await PrismaInstance.fruit.findFirst(params);
+        const response: FruitFindFirstResponse<T> = await FruitFindFirstCached(params);
         return NextResponse.json({ data: response }, { status: 200 });
     } catch (error) {
         return NextResponse.json({ error: "FruitFindFirstApi -> " + (error as Error).message }, { status: 500 });
@@ -99,7 +99,7 @@ export const FruitFindUniqueApi = async <T extends Prisma.FruitFindUniqueArgs>(
 ): RouteResponse<FruitFindUniqueResponse<T>> => {
     try {
         const params: FruitFindUniqueProps<T> = parseAndDecodeParams(request);
-        const response: FruitFindUniqueResponse<T> = await PrismaInstance.fruit.findUnique(params);
+        const response: FruitFindUniqueResponse<T> = await FruitFindUniqueCached(params);
         return NextResponse.json({ data: response }, { status: 200 });
     } catch (error) {
         return NextResponse.json({ error: "FruitFindUniqueApi -> " + (error as Error).message }, { status: 500 });
@@ -111,7 +111,7 @@ export const FruitCountApi = async <T extends Prisma.FruitCountArgs>(
 ): RouteResponse<FruitCountResponse<T>> => {
     try {
         const params: FruitCountProps<T> = parseAndDecodeParams(request);
-        const response: FruitCountResponse<T> = await PrismaInstance.fruit.count(params);
+        const response: FruitCountResponse<T> = await FruitCountCached(params);
         return NextResponse.json({ data: response }, { status: 200 });
     } catch (error) {
         return NextResponse.json({ error: "FruitCountApi -> " + (error as Error).message }, { status: 500 });

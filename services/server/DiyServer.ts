@@ -1,4 +1,3 @@
-import PrismaInstance from "@lib/prisma";
 import { Prisma } from "@prisma/client";
 import { GetResult, InternalArgs, PrismaClientOptions } from "@prisma/client/runtime/library";
 import {
@@ -6,6 +5,7 @@ import {
     PrismaClientUnknownRequestError,
     PrismaClientValidationError,
 } from "@prisma/client/runtime/library";
+import { DiyCountCached, DiyFindFirstCached, DiyFindManyCached, DiyFindUniqueCached } from "@services/cached";
 
 // ========== Types ========== //
 
@@ -48,7 +48,7 @@ export const DiyFindManyServer = <T extends Prisma.DiyFindManyArgs>(
     params: DiyFindManyProps<T>,
 ): Promise<DiyFindManyResponse<T>> => {
     try {
-        return PrismaInstance.diy.findMany(params);
+        return DiyFindManyCached(params);
     } catch (error) {
         throw ServiceError("Diy", "findMany", error);
     }
@@ -58,7 +58,7 @@ export const DiyFindFirstServer = <T extends Prisma.DiyFindFirstArgs>(
     params: DiyFindFirstProps<T>,
 ): Promise<DiyFindFirstResponse<T>> => {
     try {
-        return PrismaInstance.diy.findFirst(params);
+        return DiyFindFirstCached(params);
     } catch (error) {
         throw ServiceError("Diy", "findFirst", error);
     }
@@ -68,7 +68,7 @@ export const DiyFindUniqueServer = <T extends Prisma.DiyFindUniqueArgs>(
     params: DiyFindUniqueProps<T>,
 ): Promise<DiyFindUniqueResponse<T>> => {
     try {
-        return PrismaInstance.diy.findUnique(params);
+        return DiyFindUniqueCached(params);
     } catch (error) {
         throw ServiceError("Diy", "findUnique", error);
     }
@@ -78,7 +78,7 @@ export const DiyCountServer = <T extends Prisma.DiyCountArgs>(
     params: DiyCountProps<T>,
 ): Promise<DiyCountResponse<T>> => {
     try {
-        return PrismaInstance.diy.count(params);
+        return DiyCountCached(params);
     } catch (error) {
         throw ServiceError("Diy", "count", error);
     }

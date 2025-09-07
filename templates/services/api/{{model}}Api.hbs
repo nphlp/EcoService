@@ -1,12 +1,13 @@
-import PrismaInstance from "@lib/prisma";
 import { Prisma } from "@prisma/client";
 import { GetResult, InternalArgs, PrismaClientOptions } from "@prisma/client/runtime/library";
+import {
+    {{modelName}}CountCached,
+    {{modelName}}FindFirstCached,
+    {{modelName}}FindManyCached,
+    {{modelName}}FindUniqueCached,
+} from "@services/cached";
 import { ResponseFormat, parseAndDecodeParams } from "@utils/FetchConfig";
 import { NextRequest, NextResponse } from "next/server";
-
-// ========== Utils ========== //
-
-type RouteResponse<T> = Promise<NextResponse<ResponseFormat<T>>>;
 
 // ========== Types ========== //
 
@@ -52,7 +53,9 @@ export type {{modelName}}CountResponse<T extends Prisma.{{modelName}}CountArgs> 
             : Prisma.GetScalarType<T["select"], Prisma.{{modelName}}CountAggregateOutputType>
         : number;
 
-// ========== Services ========== //
+// ========== Routes ========== //
+
+type RouteResponse<T> = Promise<NextResponse<ResponseFormat<T>>>;
 
 export type {{modelName}}Routes<Input> = {
     "/{{modelNameLower}}/findMany": <T extends Prisma.{{modelName}}FindManyArgs>() => {
@@ -73,12 +76,14 @@ export type {{modelName}}Routes<Input> = {
     };
 };
 
+// ========== Services ========== //
+
 export const {{modelName}}FindManyApi = async <T extends Prisma.{{modelName}}FindManyArgs>(
     request: NextRequest,
 ): RouteResponse<{{modelName}}FindManyResponse<T>> => {
     try {
         const params: {{modelName}}FindManyProps<T> = parseAndDecodeParams(request);
-        const response: {{modelName}}FindManyResponse<T> = await PrismaInstance.{{modelNameLower}}.findMany(params);
+        const response: {{modelName}}FindManyResponse<T> = await {{modelName}}FindManyCached(params);
         return NextResponse.json({ data: response }, { status: 200 });
     } catch (error) {
         return NextResponse.json({ error: "{{modelName}}FindManyApi -> " + (error as Error).message }, { status: 500 });
@@ -90,7 +95,7 @@ export const {{modelName}}FindFirstApi = async <T extends Prisma.{{modelName}}Fi
 ): RouteResponse<{{modelName}}FindFirstResponse<T>> => {
     try {
         const params: {{modelName}}FindFirstProps<T> = parseAndDecodeParams(request);
-        const response: {{modelName}}FindFirstResponse<T> = await PrismaInstance.{{modelNameLower}}.findFirst(params);
+        const response: {{modelName}}FindFirstResponse<T> = await {{modelName}}FindFirstCached(params);
         return NextResponse.json({ data: response }, { status: 200 });
     } catch (error) {
         return NextResponse.json({ error: "{{modelName}}FindFirstApi -> " + (error as Error).message }, { status: 500 });
@@ -102,7 +107,7 @@ export const {{modelName}}FindUniqueApi = async <T extends Prisma.{{modelName}}F
 ): RouteResponse<{{modelName}}FindUniqueResponse<T>> => {
     try {
         const params: {{modelName}}FindUniqueProps<T> = parseAndDecodeParams(request);
-        const response: {{modelName}}FindUniqueResponse<T> = await PrismaInstance.{{modelNameLower}}.findUnique(params);
+        const response: {{modelName}}FindUniqueResponse<T> = await {{modelName}}FindUniqueCached(params);
         return NextResponse.json({ data: response }, { status: 200 });
     } catch (error) {
         return NextResponse.json({ error: "{{modelName}}FindUniqueApi -> " + (error as Error).message }, { status: 500 });
@@ -114,7 +119,7 @@ export const {{modelName}}CountApi = async <T extends Prisma.{{modelName}}CountA
 ): RouteResponse<{{modelName}}CountResponse<T>> => {
     try {
         const params: {{modelName}}CountProps<T> = parseAndDecodeParams(request);
-        const response: {{modelName}}CountResponse<T> = await PrismaInstance.{{modelNameLower}}.count(params);
+        const response: {{modelName}}CountResponse<T> = await {{modelName}}CountCached(params);
         return NextResponse.json({ data: response }, { status: 200 });
     } catch (error) {
         return NextResponse.json({ error: "{{modelName}}CountApi -> " + (error as Error).message }, { status: 500 });

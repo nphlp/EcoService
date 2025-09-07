@@ -1,12 +1,8 @@
-import PrismaInstance from "@lib/prisma";
 import { Prisma } from "@prisma/client";
 import { GetResult, InternalArgs, PrismaClientOptions } from "@prisma/client/runtime/library";
+import { OrderCountCached, OrderFindFirstCached, OrderFindManyCached, OrderFindUniqueCached } from "@services/cached";
 import { ResponseFormat, parseAndDecodeParams } from "@utils/FetchConfig";
 import { NextRequest, NextResponse } from "next/server";
-
-// ========== Utils ========== //
-
-type RouteResponse<T> = Promise<NextResponse<ResponseFormat<T>>>;
 
 // ========== Types ========== //
 
@@ -49,7 +45,9 @@ export type OrderCountResponse<T extends Prisma.OrderCountArgs> =
             : Prisma.GetScalarType<T["select"], Prisma.OrderCountAggregateOutputType>
         : number;
 
-// ========== Services ========== //
+// ========== Routes ========== //
+
+type RouteResponse<T> = Promise<NextResponse<ResponseFormat<T>>>;
 
 export type OrderRoutes<Input> = {
     "/order/findMany": <T extends Prisma.OrderFindManyArgs>() => {
@@ -70,12 +68,14 @@ export type OrderRoutes<Input> = {
     };
 };
 
+// ========== Services ========== //
+
 export const OrderFindManyApi = async <T extends Prisma.OrderFindManyArgs>(
     request: NextRequest,
 ): RouteResponse<OrderFindManyResponse<T>> => {
     try {
         const params: OrderFindManyProps<T> = parseAndDecodeParams(request);
-        const response: OrderFindManyResponse<T> = await PrismaInstance.order.findMany(params);
+        const response: OrderFindManyResponse<T> = await OrderFindManyCached(params);
         return NextResponse.json({ data: response }, { status: 200 });
     } catch (error) {
         return NextResponse.json({ error: "OrderFindManyApi -> " + (error as Error).message }, { status: 500 });
@@ -87,7 +87,7 @@ export const OrderFindFirstApi = async <T extends Prisma.OrderFindFirstArgs>(
 ): RouteResponse<OrderFindFirstResponse<T>> => {
     try {
         const params: OrderFindFirstProps<T> = parseAndDecodeParams(request);
-        const response: OrderFindFirstResponse<T> = await PrismaInstance.order.findFirst(params);
+        const response: OrderFindFirstResponse<T> = await OrderFindFirstCached(params);
         return NextResponse.json({ data: response }, { status: 200 });
     } catch (error) {
         return NextResponse.json({ error: "OrderFindFirstApi -> " + (error as Error).message }, { status: 500 });
@@ -99,7 +99,7 @@ export const OrderFindUniqueApi = async <T extends Prisma.OrderFindUniqueArgs>(
 ): RouteResponse<OrderFindUniqueResponse<T>> => {
     try {
         const params: OrderFindUniqueProps<T> = parseAndDecodeParams(request);
-        const response: OrderFindUniqueResponse<T> = await PrismaInstance.order.findUnique(params);
+        const response: OrderFindUniqueResponse<T> = await OrderFindUniqueCached(params);
         return NextResponse.json({ data: response }, { status: 200 });
     } catch (error) {
         return NextResponse.json({ error: "OrderFindUniqueApi -> " + (error as Error).message }, { status: 500 });
@@ -111,7 +111,7 @@ export const OrderCountApi = async <T extends Prisma.OrderCountArgs>(
 ): RouteResponse<OrderCountResponse<T>> => {
     try {
         const params: OrderCountProps<T> = parseAndDecodeParams(request);
-        const response: OrderCountResponse<T> = await PrismaInstance.order.count(params);
+        const response: OrderCountResponse<T> = await OrderCountCached(params);
         return NextResponse.json({ data: response }, { status: 200 });
     } catch (error) {
         return NextResponse.json({ error: "OrderCountApi -> " + (error as Error).message }, { status: 500 });

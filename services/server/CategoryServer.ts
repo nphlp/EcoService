@@ -1,4 +1,3 @@
-import PrismaInstance from "@lib/prisma";
 import { Prisma } from "@prisma/client";
 import { GetResult, InternalArgs, PrismaClientOptions } from "@prisma/client/runtime/library";
 import {
@@ -6,6 +5,12 @@ import {
     PrismaClientUnknownRequestError,
     PrismaClientValidationError,
 } from "@prisma/client/runtime/library";
+import {
+    CategoryCountCached,
+    CategoryFindFirstCached,
+    CategoryFindManyCached,
+    CategoryFindUniqueCached,
+} from "@services/cached";
 
 // ========== Types ========== //
 
@@ -57,7 +62,7 @@ export const CategoryFindManyServer = <T extends Prisma.CategoryFindManyArgs>(
     params: CategoryFindManyProps<T>,
 ): Promise<CategoryFindManyResponse<T>> => {
     try {
-        return PrismaInstance.category.findMany(params);
+        return CategoryFindManyCached(params);
     } catch (error) {
         throw ServiceError("Category", "findMany", error);
     }
@@ -67,7 +72,7 @@ export const CategoryFindFirstServer = <T extends Prisma.CategoryFindFirstArgs>(
     params: CategoryFindFirstProps<T>,
 ): Promise<CategoryFindFirstResponse<T>> => {
     try {
-        return PrismaInstance.category.findFirst(params);
+        return CategoryFindFirstCached(params);
     } catch (error) {
         throw ServiceError("Category", "findFirst", error);
     }
@@ -77,7 +82,7 @@ export const CategoryFindUniqueServer = <T extends Prisma.CategoryFindUniqueArgs
     params: CategoryFindUniqueProps<T>,
 ): Promise<CategoryFindUniqueResponse<T>> => {
     try {
-        return PrismaInstance.category.findUnique(params);
+        return CategoryFindUniqueCached(params);
     } catch (error) {
         throw ServiceError("Category", "findUnique", error);
     }
@@ -87,7 +92,7 @@ export const CategoryCountServer = <T extends Prisma.CategoryCountArgs>(
     params: CategoryCountProps<T>,
 ): Promise<CategoryCountResponse<T>> => {
     try {
-        return PrismaInstance.category.count(params);
+        return CategoryCountCached(params);
     } catch (error) {
         throw ServiceError("Category", "count", error);
     }

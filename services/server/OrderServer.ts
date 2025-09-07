@@ -1,4 +1,3 @@
-import PrismaInstance from "@lib/prisma";
 import { Prisma } from "@prisma/client";
 import { GetResult, InternalArgs, PrismaClientOptions } from "@prisma/client/runtime/library";
 import {
@@ -6,6 +5,7 @@ import {
     PrismaClientUnknownRequestError,
     PrismaClientValidationError,
 } from "@prisma/client/runtime/library";
+import { OrderCountCached, OrderFindFirstCached, OrderFindManyCached, OrderFindUniqueCached } from "@services/cached";
 
 // ========== Types ========== //
 
@@ -54,7 +54,7 @@ export const OrderFindManyServer = <T extends Prisma.OrderFindManyArgs>(
     params: OrderFindManyProps<T>,
 ): Promise<OrderFindManyResponse<T>> => {
     try {
-        return PrismaInstance.order.findMany(params);
+        return OrderFindManyCached(params);
     } catch (error) {
         throw ServiceError("Order", "findMany", error);
     }
@@ -64,7 +64,7 @@ export const OrderFindFirstServer = <T extends Prisma.OrderFindFirstArgs>(
     params: OrderFindFirstProps<T>,
 ): Promise<OrderFindFirstResponse<T>> => {
     try {
-        return PrismaInstance.order.findFirst(params);
+        return OrderFindFirstCached(params);
     } catch (error) {
         throw ServiceError("Order", "findFirst", error);
     }
@@ -74,7 +74,7 @@ export const OrderFindUniqueServer = <T extends Prisma.OrderFindUniqueArgs>(
     params: OrderFindUniqueProps<T>,
 ): Promise<OrderFindUniqueResponse<T>> => {
     try {
-        return PrismaInstance.order.findUnique(params);
+        return OrderFindUniqueCached(params);
     } catch (error) {
         throw ServiceError("Order", "findUnique", error);
     }
@@ -84,7 +84,7 @@ export const OrderCountServer = <T extends Prisma.OrderCountArgs>(
     params: OrderCountProps<T>,
 ): Promise<OrderCountResponse<T>> => {
     try {
-        return PrismaInstance.order.count(params);
+        return OrderCountCached(params);
     } catch (error) {
         throw ServiceError("Order", "count", error);
     }

@@ -1,12 +1,13 @@
-import PrismaInstance from "@lib/prisma";
 import { Prisma } from "@prisma/client";
 import { GetResult, InternalArgs, PrismaClientOptions } from "@prisma/client/runtime/library";
+import {
+    ArticleCountCached,
+    ArticleFindFirstCached,
+    ArticleFindManyCached,
+    ArticleFindUniqueCached,
+} from "@services/cached";
 import { ResponseFormat, parseAndDecodeParams } from "@utils/FetchConfig";
 import { NextRequest, NextResponse } from "next/server";
-
-// ========== Utils ========== //
-
-type RouteResponse<T> = Promise<NextResponse<ResponseFormat<T>>>;
 
 // ========== Types ========== //
 
@@ -52,7 +53,9 @@ export type ArticleCountResponse<T extends Prisma.ArticleCountArgs> =
             : Prisma.GetScalarType<T["select"], Prisma.ArticleCountAggregateOutputType>
         : number;
 
-// ========== Services ========== //
+// ========== Routes ========== //
+
+type RouteResponse<T> = Promise<NextResponse<ResponseFormat<T>>>;
 
 export type ArticleRoutes<Input> = {
     "/article/findMany": <T extends Prisma.ArticleFindManyArgs>() => {
@@ -73,12 +76,14 @@ export type ArticleRoutes<Input> = {
     };
 };
 
+// ========== Services ========== //
+
 export const ArticleFindManyApi = async <T extends Prisma.ArticleFindManyArgs>(
     request: NextRequest,
 ): RouteResponse<ArticleFindManyResponse<T>> => {
     try {
         const params: ArticleFindManyProps<T> = parseAndDecodeParams(request);
-        const response: ArticleFindManyResponse<T> = await PrismaInstance.article.findMany(params);
+        const response: ArticleFindManyResponse<T> = await ArticleFindManyCached(params);
         return NextResponse.json({ data: response }, { status: 200 });
     } catch (error) {
         return NextResponse.json({ error: "ArticleFindManyApi -> " + (error as Error).message }, { status: 500 });
@@ -90,7 +95,7 @@ export const ArticleFindFirstApi = async <T extends Prisma.ArticleFindFirstArgs>
 ): RouteResponse<ArticleFindFirstResponse<T>> => {
     try {
         const params: ArticleFindFirstProps<T> = parseAndDecodeParams(request);
-        const response: ArticleFindFirstResponse<T> = await PrismaInstance.article.findFirst(params);
+        const response: ArticleFindFirstResponse<T> = await ArticleFindFirstCached(params);
         return NextResponse.json({ data: response }, { status: 200 });
     } catch (error) {
         return NextResponse.json({ error: "ArticleFindFirstApi -> " + (error as Error).message }, { status: 500 });
@@ -102,7 +107,7 @@ export const ArticleFindUniqueApi = async <T extends Prisma.ArticleFindUniqueArg
 ): RouteResponse<ArticleFindUniqueResponse<T>> => {
     try {
         const params: ArticleFindUniqueProps<T> = parseAndDecodeParams(request);
-        const response: ArticleFindUniqueResponse<T> = await PrismaInstance.article.findUnique(params);
+        const response: ArticleFindUniqueResponse<T> = await ArticleFindUniqueCached(params);
         return NextResponse.json({ data: response }, { status: 200 });
     } catch (error) {
         return NextResponse.json({ error: "ArticleFindUniqueApi -> " + (error as Error).message }, { status: 500 });
@@ -114,7 +119,7 @@ export const ArticleCountApi = async <T extends Prisma.ArticleCountArgs>(
 ): RouteResponse<ArticleCountResponse<T>> => {
     try {
         const params: ArticleCountProps<T> = parseAndDecodeParams(request);
-        const response: ArticleCountResponse<T> = await PrismaInstance.article.count(params);
+        const response: ArticleCountResponse<T> = await ArticleCountCached(params);
         return NextResponse.json({ data: response }, { status: 200 });
     } catch (error) {
         return NextResponse.json({ error: "ArticleCountApi -> " + (error as Error).message }, { status: 500 });

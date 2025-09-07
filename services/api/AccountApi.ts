@@ -1,12 +1,13 @@
-import PrismaInstance from "@lib/prisma";
 import { Prisma } from "@prisma/client";
 import { GetResult, InternalArgs, PrismaClientOptions } from "@prisma/client/runtime/library";
+import {
+    AccountCountCached,
+    AccountFindFirstCached,
+    AccountFindManyCached,
+    AccountFindUniqueCached,
+} from "@services/cached";
 import { ResponseFormat, parseAndDecodeParams } from "@utils/FetchConfig";
 import { NextRequest, NextResponse } from "next/server";
-
-// ========== Utils ========== //
-
-type RouteResponse<T> = Promise<NextResponse<ResponseFormat<T>>>;
 
 // ========== Types ========== //
 
@@ -52,7 +53,9 @@ export type AccountCountResponse<T extends Prisma.AccountCountArgs> =
             : Prisma.GetScalarType<T["select"], Prisma.AccountCountAggregateOutputType>
         : number;
 
-// ========== Services ========== //
+// ========== Routes ========== //
+
+type RouteResponse<T> = Promise<NextResponse<ResponseFormat<T>>>;
 
 export type AccountRoutes<Input> = {
     "/account/findMany": <T extends Prisma.AccountFindManyArgs>() => {
@@ -73,12 +76,14 @@ export type AccountRoutes<Input> = {
     };
 };
 
+// ========== Services ========== //
+
 export const AccountFindManyApi = async <T extends Prisma.AccountFindManyArgs>(
     request: NextRequest,
 ): RouteResponse<AccountFindManyResponse<T>> => {
     try {
         const params: AccountFindManyProps<T> = parseAndDecodeParams(request);
-        const response: AccountFindManyResponse<T> = await PrismaInstance.account.findMany(params);
+        const response: AccountFindManyResponse<T> = await AccountFindManyCached(params);
         return NextResponse.json({ data: response }, { status: 200 });
     } catch (error) {
         return NextResponse.json({ error: "AccountFindManyApi -> " + (error as Error).message }, { status: 500 });
@@ -90,7 +95,7 @@ export const AccountFindFirstApi = async <T extends Prisma.AccountFindFirstArgs>
 ): RouteResponse<AccountFindFirstResponse<T>> => {
     try {
         const params: AccountFindFirstProps<T> = parseAndDecodeParams(request);
-        const response: AccountFindFirstResponse<T> = await PrismaInstance.account.findFirst(params);
+        const response: AccountFindFirstResponse<T> = await AccountFindFirstCached(params);
         return NextResponse.json({ data: response }, { status: 200 });
     } catch (error) {
         return NextResponse.json({ error: "AccountFindFirstApi -> " + (error as Error).message }, { status: 500 });
@@ -102,7 +107,7 @@ export const AccountFindUniqueApi = async <T extends Prisma.AccountFindUniqueArg
 ): RouteResponse<AccountFindUniqueResponse<T>> => {
     try {
         const params: AccountFindUniqueProps<T> = parseAndDecodeParams(request);
-        const response: AccountFindUniqueResponse<T> = await PrismaInstance.account.findUnique(params);
+        const response: AccountFindUniqueResponse<T> = await AccountFindUniqueCached(params);
         return NextResponse.json({ data: response }, { status: 200 });
     } catch (error) {
         return NextResponse.json({ error: "AccountFindUniqueApi -> " + (error as Error).message }, { status: 500 });
@@ -114,7 +119,7 @@ export const AccountCountApi = async <T extends Prisma.AccountCountArgs>(
 ): RouteResponse<AccountCountResponse<T>> => {
     try {
         const params: AccountCountProps<T> = parseAndDecodeParams(request);
-        const response: AccountCountResponse<T> = await PrismaInstance.account.count(params);
+        const response: AccountCountResponse<T> = await AccountCountCached(params);
         return NextResponse.json({ data: response }, { status: 200 });
     } catch (error) {
         return NextResponse.json({ error: "AccountCountApi -> " + (error as Error).message }, { status: 500 });

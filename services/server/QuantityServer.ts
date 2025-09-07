@@ -1,4 +1,3 @@
-import PrismaInstance from "@lib/prisma";
 import { Prisma } from "@prisma/client";
 import { GetResult, InternalArgs, PrismaClientOptions } from "@prisma/client/runtime/library";
 import {
@@ -6,6 +5,12 @@ import {
     PrismaClientUnknownRequestError,
     PrismaClientValidationError,
 } from "@prisma/client/runtime/library";
+import {
+    QuantityCountCached,
+    QuantityFindFirstCached,
+    QuantityFindManyCached,
+    QuantityFindUniqueCached,
+} from "@services/cached";
 
 // ========== Types ========== //
 
@@ -57,7 +62,7 @@ export const QuantityFindManyServer = <T extends Prisma.QuantityFindManyArgs>(
     params: QuantityFindManyProps<T>,
 ): Promise<QuantityFindManyResponse<T>> => {
     try {
-        return PrismaInstance.quantity.findMany(params);
+        return QuantityFindManyCached(params);
     } catch (error) {
         throw ServiceError("Quantity", "findMany", error);
     }
@@ -67,7 +72,7 @@ export const QuantityFindFirstServer = <T extends Prisma.QuantityFindFirstArgs>(
     params: QuantityFindFirstProps<T>,
 ): Promise<QuantityFindFirstResponse<T>> => {
     try {
-        return PrismaInstance.quantity.findFirst(params);
+        return QuantityFindFirstCached(params);
     } catch (error) {
         throw ServiceError("Quantity", "findFirst", error);
     }
@@ -77,7 +82,7 @@ export const QuantityFindUniqueServer = <T extends Prisma.QuantityFindUniqueArgs
     params: QuantityFindUniqueProps<T>,
 ): Promise<QuantityFindUniqueResponse<T>> => {
     try {
-        return PrismaInstance.quantity.findUnique(params);
+        return QuantityFindUniqueCached(params);
     } catch (error) {
         throw ServiceError("Quantity", "findUnique", error);
     }
@@ -87,7 +92,7 @@ export const QuantityCountServer = <T extends Prisma.QuantityCountArgs>(
     params: QuantityCountProps<T>,
 ): Promise<QuantityCountResponse<T>> => {
     try {
-        return PrismaInstance.quantity.count(params);
+        return QuantityCountCached(params);
     } catch (error) {
         throw ServiceError("Quantity", "count", error);
     }

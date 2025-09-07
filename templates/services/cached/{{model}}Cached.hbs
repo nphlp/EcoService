@@ -1,32 +1,139 @@
-import {{modelName}}Service from "@services/class/{{modelName}}Class";
-import { {{modelName}}CountProps, {{modelName}}FindFirstProps, {{modelName}}FindManyProps, {{modelName}}FindUniqueProps } from "@services/types/{{modelName}}Type";
+import PrismaInstance from "@lib/prisma";
+import { Prisma } from "@prisma/client";
+import { GetResult, InternalArgs, PrismaClientOptions } from "@prisma/client/runtime/library";
 import { cacheLifeApi } from "@utils/FetchConfig";
 import { unstable_cacheLife as cacheLife, unstable_cacheTag as cacheTag } from "next/cache";
 
-export const {{modelName}}FindManyCached = async <T extends {{modelName}}FindManyProps>(params: T) => {
+// ========== Types ========== //
+
+export type {{modelName}}FindManyProps<T extends Prisma.{{modelName}}FindManyArgs> = Prisma.SelectSubset<
+    T,
+    Prisma.{{modelName}}FindManyArgs
+>;
+export type {{modelName}}FindManyResponse<T extends Prisma.{{modelName}}FindManyArgs> = GetResult<
+    Prisma.${{modelName}}Payload<InternalArgs>,
+    T,
+    "findMany",
+    PrismaClientOptions
+>;
+
+export type {{modelName}}FindFirstProps<T extends Prisma.{{modelName}}FindFirstArgs> = Prisma.SelectSubset<
+    T,
+    Prisma.{{modelName}}FindFirstArgs
+>;
+export type {{modelName}}FindFirstResponse<T extends Prisma.{{modelName}}FindFirstArgs> = GetResult<
+    Prisma.${{modelName}}Payload<InternalArgs>,
+    T,
+    "findFirst",
+    PrismaClientOptions
+>;
+
+export type {{modelName}}FindUniqueProps<T extends Prisma.{{modelName}}FindUniqueArgs> = Prisma.SelectSubset<
+    T,
+    Prisma.{{modelName}}FindUniqueArgs
+>;
+export type {{modelName}}FindUniqueResponse<T extends Prisma.{{modelName}}FindUniqueArgs> = GetResult<
+    Prisma.${{modelName}}Payload<InternalArgs>,
+    T,
+    "findUnique",
+    PrismaClientOptions
+>;
+
+export type {{modelName}}CountProps<T extends Prisma.{{modelName}}CountArgs> = Prisma.SelectSubset<T, Prisma.{{modelName}}CountArgs>;
+export type {{modelName}}CountResponse<T extends Prisma.{{modelName}}CountArgs> =
+    // eslint-disable-next-line
+    T extends { select: any }
+        ? T["select"] extends true
+            ? number
+            : Prisma.GetScalarType<T["select"], Prisma.{{modelName}}CountAggregateOutputType>
+        : number;
+
+// ========== Services ========== //
+
+export const {{modelName}}FindManyCached = async <T extends Prisma.{{modelName}}FindManyArgs>(
+    params: {{modelName}}FindManyProps<T>,
+): Promise<{{modelName}}FindManyResponse<T>> => {
     "use cache";
+
     cacheLife(cacheLifeApi);
-    cacheTag("/api/{{modelNameLower}}");
-    return {{modelName}}Service.findMany<T>(params);
+    cacheTag(
+        // All services
+        "services",
+        // All {{modelNameLower}} services
+        "{{modelNameLower}}",
+        // All findMany services
+        "findMany",
+        // All {{modelNameLower}} findMany services
+        "{{modelNameLower}}-findMany",
+        // This specific services
+        `{{modelNameLower}}-findMany-${JSON.stringify(params)}`,
+    );
+
+    return PrismaInstance.{{modelNameLower}}.findMany(params);
 };
 
-export const {{modelName}}FindFirstCached = async <T extends {{modelName}}FindFirstProps>(params: T) => {
+export const {{modelName}}FindFirstCached = async <T extends Prisma.{{modelName}}FindFirstArgs>(
+    params: {{modelName}}FindFirstProps<T>,
+): Promise<{{modelName}}FindFirstResponse<T>> => {
     "use cache";
+
     cacheLife(cacheLifeApi);
-    cacheTag("/api/{{modelNameLower}}/first");
-    return {{modelName}}Service.findFirst<T>(params);
+    cacheTag(
+        // All services
+        "services",
+        // All {{modelNameLower}} services
+        "{{modelNameLower}}",
+        // All findFirst services
+        "findFirst",
+        // All {{modelNameLower}} findFirst services
+        "{{modelNameLower}}-findFirst",
+        // This specific services
+        `{{modelNameLower}}-findFirst-${JSON.stringify(params)}`,
+    );
+
+    return PrismaInstance.{{modelNameLower}}.findFirst(params);
 };
 
-export const {{modelName}}FindUniqueCached = async <T extends {{modelName}}FindUniqueProps>(params: T) => {
+export const {{modelName}}FindUniqueCached = async <T extends Prisma.{{modelName}}FindUniqueArgs>(
+    params: {{modelName}}FindUniqueProps<T>,
+): Promise<{{modelName}}FindUniqueResponse<T>> => {
     "use cache";
+
     cacheLife(cacheLifeApi);
-    cacheTag("/api/{{modelNameLower}}/unique");
-    return {{modelName}}Service.findUnique<T>(params);
+    cacheTag(
+        // All services
+        "services",
+        // All {{modelNameLower}} services
+        "{{modelNameLower}}",
+        // All findUnique services
+        "findUnique",
+        // All {{modelNameLower}} findUnique services
+        "{{modelNameLower}}-findUnique",
+        // This specific services
+        `{{modelNameLower}}-findUnique-${JSON.stringify(params)}`,
+    );
+
+    return PrismaInstance.{{modelNameLower}}.findUnique(params);
 };
 
-export const {{modelName}}CountCached = async (params: {{modelName}}CountProps) => {
+export const {{modelName}}CountCached = async <T extends Prisma.{{modelName}}CountArgs>(
+    params: {{modelName}}CountProps<T>,
+): Promise<{{modelName}}CountResponse<T>> => {
     "use cache";
+
     cacheLife(cacheLifeApi);
-    cacheTag("/api/{{modelNameLower}}/count");
-    return {{modelName}}Service.count(params);
+    cacheTag(
+        // All services
+        "services",
+        // All {{modelNameLower}} services
+        "{{modelNameLower}}",
+        // All count services
+        "count",
+        // All {{modelNameLower}} count services
+        "{{modelNameLower}}-count",
+        // This specific services
+        `{{modelNameLower}}-count-${JSON.stringify(params)}`,
+    );
+
+    return PrismaInstance.{{modelNameLower}}.count(params);
 };

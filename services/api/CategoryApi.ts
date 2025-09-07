@@ -1,12 +1,13 @@
-import PrismaInstance from "@lib/prisma";
 import { Prisma } from "@prisma/client";
 import { GetResult, InternalArgs, PrismaClientOptions } from "@prisma/client/runtime/library";
+import {
+    CategoryCountCached,
+    CategoryFindFirstCached,
+    CategoryFindManyCached,
+    CategoryFindUniqueCached,
+} from "@services/cached";
 import { ResponseFormat, parseAndDecodeParams } from "@utils/FetchConfig";
 import { NextRequest, NextResponse } from "next/server";
-
-// ========== Utils ========== //
-
-type RouteResponse<T> = Promise<NextResponse<ResponseFormat<T>>>;
 
 // ========== Types ========== //
 
@@ -52,7 +53,9 @@ export type CategoryCountResponse<T extends Prisma.CategoryCountArgs> =
             : Prisma.GetScalarType<T["select"], Prisma.CategoryCountAggregateOutputType>
         : number;
 
-// ========== Services ========== //
+// ========== Routes ========== //
+
+type RouteResponse<T> = Promise<NextResponse<ResponseFormat<T>>>;
 
 export type CategoryRoutes<Input> = {
     "/category/findMany": <T extends Prisma.CategoryFindManyArgs>() => {
@@ -73,12 +76,14 @@ export type CategoryRoutes<Input> = {
     };
 };
 
+// ========== Services ========== //
+
 export const CategoryFindManyApi = async <T extends Prisma.CategoryFindManyArgs>(
     request: NextRequest,
 ): RouteResponse<CategoryFindManyResponse<T>> => {
     try {
         const params: CategoryFindManyProps<T> = parseAndDecodeParams(request);
-        const response: CategoryFindManyResponse<T> = await PrismaInstance.category.findMany(params);
+        const response: CategoryFindManyResponse<T> = await CategoryFindManyCached(params);
         return NextResponse.json({ data: response }, { status: 200 });
     } catch (error) {
         return NextResponse.json({ error: "CategoryFindManyApi -> " + (error as Error).message }, { status: 500 });
@@ -90,7 +95,7 @@ export const CategoryFindFirstApi = async <T extends Prisma.CategoryFindFirstArg
 ): RouteResponse<CategoryFindFirstResponse<T>> => {
     try {
         const params: CategoryFindFirstProps<T> = parseAndDecodeParams(request);
-        const response: CategoryFindFirstResponse<T> = await PrismaInstance.category.findFirst(params);
+        const response: CategoryFindFirstResponse<T> = await CategoryFindFirstCached(params);
         return NextResponse.json({ data: response }, { status: 200 });
     } catch (error) {
         return NextResponse.json({ error: "CategoryFindFirstApi -> " + (error as Error).message }, { status: 500 });
@@ -102,7 +107,7 @@ export const CategoryFindUniqueApi = async <T extends Prisma.CategoryFindUniqueA
 ): RouteResponse<CategoryFindUniqueResponse<T>> => {
     try {
         const params: CategoryFindUniqueProps<T> = parseAndDecodeParams(request);
-        const response: CategoryFindUniqueResponse<T> = await PrismaInstance.category.findUnique(params);
+        const response: CategoryFindUniqueResponse<T> = await CategoryFindUniqueCached(params);
         return NextResponse.json({ data: response }, { status: 200 });
     } catch (error) {
         return NextResponse.json({ error: "CategoryFindUniqueApi -> " + (error as Error).message }, { status: 500 });
@@ -114,7 +119,7 @@ export const CategoryCountApi = async <T extends Prisma.CategoryCountArgs>(
 ): RouteResponse<CategoryCountResponse<T>> => {
     try {
         const params: CategoryCountProps<T> = parseAndDecodeParams(request);
-        const response: CategoryCountResponse<T> = await PrismaInstance.category.count(params);
+        const response: CategoryCountResponse<T> = await CategoryCountCached(params);
         return NextResponse.json({ data: response }, { status: 200 });
     } catch (error) {
         return NextResponse.json({ error: "CategoryCountApi -> " + (error as Error).message }, { status: 500 });

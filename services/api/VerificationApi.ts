@@ -1,12 +1,13 @@
-import PrismaInstance from "@lib/prisma";
 import { Prisma } from "@prisma/client";
 import { GetResult, InternalArgs, PrismaClientOptions } from "@prisma/client/runtime/library";
+import {
+    VerificationCountCached,
+    VerificationFindFirstCached,
+    VerificationFindManyCached,
+    VerificationFindUniqueCached,
+} from "@services/cached";
 import { ResponseFormat, parseAndDecodeParams } from "@utils/FetchConfig";
 import { NextRequest, NextResponse } from "next/server";
-
-// ========== Utils ========== //
-
-type RouteResponse<T> = Promise<NextResponse<ResponseFormat<T>>>;
 
 // ========== Types ========== //
 
@@ -55,7 +56,9 @@ export type VerificationCountResponse<T extends Prisma.VerificationCountArgs> =
             : Prisma.GetScalarType<T["select"], Prisma.VerificationCountAggregateOutputType>
         : number;
 
-// ========== Services ========== //
+// ========== Routes ========== //
+
+type RouteResponse<T> = Promise<NextResponse<ResponseFormat<T>>>;
 
 export type VerificationRoutes<Input> = {
     "/verification/findMany": <T extends Prisma.VerificationFindManyArgs>() => {
@@ -76,12 +79,14 @@ export type VerificationRoutes<Input> = {
     };
 };
 
+// ========== Services ========== //
+
 export const VerificationFindManyApi = async <T extends Prisma.VerificationFindManyArgs>(
     request: NextRequest,
 ): RouteResponse<VerificationFindManyResponse<T>> => {
     try {
         const params: VerificationFindManyProps<T> = parseAndDecodeParams(request);
-        const response: VerificationFindManyResponse<T> = await PrismaInstance.verification.findMany(params);
+        const response: VerificationFindManyResponse<T> = await VerificationFindManyCached(params);
         return NextResponse.json({ data: response }, { status: 200 });
     } catch (error) {
         return NextResponse.json({ error: "VerificationFindManyApi -> " + (error as Error).message }, { status: 500 });
@@ -93,7 +98,7 @@ export const VerificationFindFirstApi = async <T extends Prisma.VerificationFind
 ): RouteResponse<VerificationFindFirstResponse<T>> => {
     try {
         const params: VerificationFindFirstProps<T> = parseAndDecodeParams(request);
-        const response: VerificationFindFirstResponse<T> = await PrismaInstance.verification.findFirst(params);
+        const response: VerificationFindFirstResponse<T> = await VerificationFindFirstCached(params);
         return NextResponse.json({ data: response }, { status: 200 });
     } catch (error) {
         return NextResponse.json({ error: "VerificationFindFirstApi -> " + (error as Error).message }, { status: 500 });
@@ -105,7 +110,7 @@ export const VerificationFindUniqueApi = async <T extends Prisma.VerificationFin
 ): RouteResponse<VerificationFindUniqueResponse<T>> => {
     try {
         const params: VerificationFindUniqueProps<T> = parseAndDecodeParams(request);
-        const response: VerificationFindUniqueResponse<T> = await PrismaInstance.verification.findUnique(params);
+        const response: VerificationFindUniqueResponse<T> = await VerificationFindUniqueCached(params);
         return NextResponse.json({ data: response }, { status: 200 });
     } catch (error) {
         return NextResponse.json(
@@ -120,7 +125,7 @@ export const VerificationCountApi = async <T extends Prisma.VerificationCountArg
 ): RouteResponse<VerificationCountResponse<T>> => {
     try {
         const params: VerificationCountProps<T> = parseAndDecodeParams(request);
-        const response: VerificationCountResponse<T> = await PrismaInstance.verification.count(params);
+        const response: VerificationCountResponse<T> = await VerificationCountCached(params);
         return NextResponse.json({ data: response }, { status: 200 });
     } catch (error) {
         return NextResponse.json({ error: "VerificationCountApi -> " + (error as Error).message }, { status: 500 });

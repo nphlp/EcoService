@@ -1,4 +1,3 @@
-import PrismaInstance from "@lib/prisma";
 import { Prisma } from "@prisma/client";
 import { GetResult, InternalArgs, PrismaClientOptions } from "@prisma/client/runtime/library";
 import {
@@ -6,6 +5,12 @@ import {
     PrismaClientUnknownRequestError,
     PrismaClientValidationError,
 } from "@prisma/client/runtime/library";
+import {
+    VerificationCountCached,
+    VerificationFindFirstCached,
+    VerificationFindManyCached,
+    VerificationFindUniqueCached,
+} from "@services/cached";
 
 // ========== Types ========== //
 
@@ -60,7 +65,7 @@ export const VerificationFindManyServer = <T extends Prisma.VerificationFindMany
     params: VerificationFindManyProps<T>,
 ): Promise<VerificationFindManyResponse<T>> => {
     try {
-        return PrismaInstance.verification.findMany(params);
+        return VerificationFindManyCached(params);
     } catch (error) {
         throw ServiceError("Verification", "findMany", error);
     }
@@ -70,7 +75,7 @@ export const VerificationFindFirstServer = <T extends Prisma.VerificationFindFir
     params: VerificationFindFirstProps<T>,
 ): Promise<VerificationFindFirstResponse<T>> => {
     try {
-        return PrismaInstance.verification.findFirst(params);
+        return VerificationFindFirstCached(params);
     } catch (error) {
         throw ServiceError("Verification", "findFirst", error);
     }
@@ -80,7 +85,7 @@ export const VerificationFindUniqueServer = <T extends Prisma.VerificationFindUn
     params: VerificationFindUniqueProps<T>,
 ): Promise<VerificationFindUniqueResponse<T>> => {
     try {
-        return PrismaInstance.verification.findUnique(params);
+        return VerificationFindUniqueCached(params);
     } catch (error) {
         throw ServiceError("Verification", "findUnique", error);
     }
@@ -90,7 +95,7 @@ export const VerificationCountServer = <T extends Prisma.VerificationCountArgs>(
     params: VerificationCountProps<T>,
 ): Promise<VerificationCountResponse<T>> => {
     try {
-        return PrismaInstance.verification.count(params);
+        return VerificationCountCached(params);
     } catch (error) {
         throw ServiceError("Verification", "count", error);
     }

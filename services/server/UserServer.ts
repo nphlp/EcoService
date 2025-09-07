@@ -1,4 +1,3 @@
-import PrismaInstance from "@lib/prisma";
 import { Prisma } from "@prisma/client";
 import { GetResult, InternalArgs, PrismaClientOptions } from "@prisma/client/runtime/library";
 import {
@@ -6,6 +5,7 @@ import {
     PrismaClientUnknownRequestError,
     PrismaClientValidationError,
 } from "@prisma/client/runtime/library";
+import { UserCountCached, UserFindFirstCached, UserFindManyCached, UserFindUniqueCached } from "@services/cached";
 
 // ========== Types ========== //
 
@@ -51,7 +51,7 @@ export const UserFindManyServer = <T extends Prisma.UserFindManyArgs>(
     params: UserFindManyProps<T>,
 ): Promise<UserFindManyResponse<T>> => {
     try {
-        return PrismaInstance.user.findMany(params);
+        return UserFindManyCached(params);
     } catch (error) {
         throw ServiceError("User", "findMany", error);
     }
@@ -61,7 +61,7 @@ export const UserFindFirstServer = <T extends Prisma.UserFindFirstArgs>(
     params: UserFindFirstProps<T>,
 ): Promise<UserFindFirstResponse<T>> => {
     try {
-        return PrismaInstance.user.findFirst(params);
+        return UserFindFirstCached(params);
     } catch (error) {
         throw ServiceError("User", "findFirst", error);
     }
@@ -71,7 +71,7 @@ export const UserFindUniqueServer = <T extends Prisma.UserFindUniqueArgs>(
     params: UserFindUniqueProps<T>,
 ): Promise<UserFindUniqueResponse<T>> => {
     try {
-        return PrismaInstance.user.findUnique(params);
+        return UserFindUniqueCached(params);
     } catch (error) {
         throw ServiceError("User", "findUnique", error);
     }
@@ -81,7 +81,7 @@ export const UserCountServer = <T extends Prisma.UserCountArgs>(
     params: UserCountProps<T>,
 ): Promise<UserCountResponse<T>> => {
     try {
-        return PrismaInstance.user.count(params);
+        return UserCountCached(params);
     } catch (error) {
         throw ServiceError("User", "count", error);
     }

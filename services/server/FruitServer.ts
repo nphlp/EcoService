@@ -1,4 +1,3 @@
-import PrismaInstance from "@lib/prisma";
 import { Prisma } from "@prisma/client";
 import { GetResult, InternalArgs, PrismaClientOptions } from "@prisma/client/runtime/library";
 import {
@@ -6,6 +5,7 @@ import {
     PrismaClientUnknownRequestError,
     PrismaClientValidationError,
 } from "@prisma/client/runtime/library";
+import { FruitCountCached, FruitFindFirstCached, FruitFindManyCached, FruitFindUniqueCached } from "@services/cached";
 
 // ========== Types ========== //
 
@@ -54,7 +54,7 @@ export const FruitFindManyServer = <T extends Prisma.FruitFindManyArgs>(
     params: FruitFindManyProps<T>,
 ): Promise<FruitFindManyResponse<T>> => {
     try {
-        return PrismaInstance.fruit.findMany(params);
+        return FruitFindManyCached(params);
     } catch (error) {
         throw ServiceError("Fruit", "findMany", error);
     }
@@ -64,7 +64,7 @@ export const FruitFindFirstServer = <T extends Prisma.FruitFindFirstArgs>(
     params: FruitFindFirstProps<T>,
 ): Promise<FruitFindFirstResponse<T>> => {
     try {
-        return PrismaInstance.fruit.findFirst(params);
+        return FruitFindFirstCached(params);
     } catch (error) {
         throw ServiceError("Fruit", "findFirst", error);
     }
@@ -74,7 +74,7 @@ export const FruitFindUniqueServer = <T extends Prisma.FruitFindUniqueArgs>(
     params: FruitFindUniqueProps<T>,
 ): Promise<FruitFindUniqueResponse<T>> => {
     try {
-        return PrismaInstance.fruit.findUnique(params);
+        return FruitFindUniqueCached(params);
     } catch (error) {
         throw ServiceError("Fruit", "findUnique", error);
     }
@@ -84,7 +84,7 @@ export const FruitCountServer = <T extends Prisma.FruitCountArgs>(
     params: FruitCountProps<T>,
 ): Promise<FruitCountResponse<T>> => {
     try {
-        return PrismaInstance.fruit.count(params);
+        return FruitCountCached(params);
     } catch (error) {
         throw ServiceError("Fruit", "count", error);
     }

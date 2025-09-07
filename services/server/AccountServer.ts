@@ -1,4 +1,3 @@
-import PrismaInstance from "@lib/prisma";
 import { Prisma } from "@prisma/client";
 import { GetResult, InternalArgs, PrismaClientOptions } from "@prisma/client/runtime/library";
 import {
@@ -6,6 +5,12 @@ import {
     PrismaClientUnknownRequestError,
     PrismaClientValidationError,
 } from "@prisma/client/runtime/library";
+import {
+    AccountCountCached,
+    AccountFindFirstCached,
+    AccountFindManyCached,
+    AccountFindUniqueCached,
+} from "@services/cached";
 
 // ========== Types ========== //
 
@@ -57,7 +62,7 @@ export const AccountFindManyServer = <T extends Prisma.AccountFindManyArgs>(
     params: AccountFindManyProps<T>,
 ): Promise<AccountFindManyResponse<T>> => {
     try {
-        return PrismaInstance.account.findMany(params);
+        return AccountFindManyCached(params);
     } catch (error) {
         throw ServiceError("Account", "findMany", error);
     }
@@ -67,7 +72,7 @@ export const AccountFindFirstServer = <T extends Prisma.AccountFindFirstArgs>(
     params: AccountFindFirstProps<T>,
 ): Promise<AccountFindFirstResponse<T>> => {
     try {
-        return PrismaInstance.account.findFirst(params);
+        return AccountFindFirstCached(params);
     } catch (error) {
         throw ServiceError("Account", "findFirst", error);
     }
@@ -77,7 +82,7 @@ export const AccountFindUniqueServer = <T extends Prisma.AccountFindUniqueArgs>(
     params: AccountFindUniqueProps<T>,
 ): Promise<AccountFindUniqueResponse<T>> => {
     try {
-        return PrismaInstance.account.findUnique(params);
+        return AccountFindUniqueCached(params);
     } catch (error) {
         throw ServiceError("Account", "findUnique", error);
     }
@@ -87,7 +92,7 @@ export const AccountCountServer = <T extends Prisma.AccountCountArgs>(
     params: AccountCountProps<T>,
 ): Promise<AccountCountResponse<T>> => {
     try {
-        return PrismaInstance.account.count(params);
+        return AccountCountCached(params);
     } catch (error) {
         throw ServiceError("Account", "count", error);
     }

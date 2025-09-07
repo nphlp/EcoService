@@ -1,12 +1,8 @@
-import PrismaInstance from "@lib/prisma";
 import { Prisma } from "@prisma/client";
 import { GetResult, InternalArgs, PrismaClientOptions } from "@prisma/client/runtime/library";
+import { DiyCountCached, DiyFindFirstCached, DiyFindManyCached, DiyFindUniqueCached } from "@services/cached";
 import { ResponseFormat, parseAndDecodeParams } from "@utils/FetchConfig";
 import { NextRequest, NextResponse } from "next/server";
-
-// ========== Utils ========== //
-
-type RouteResponse<T> = Promise<NextResponse<ResponseFormat<T>>>;
 
 // ========== Types ========== //
 
@@ -43,7 +39,9 @@ export type DiyCountResponse<T extends Prisma.DiyCountArgs> =
             : Prisma.GetScalarType<T["select"], Prisma.DiyCountAggregateOutputType>
         : number;
 
-// ========== Services ========== //
+// ========== Routes ========== //
+
+type RouteResponse<T> = Promise<NextResponse<ResponseFormat<T>>>;
 
 export type DiyRoutes<Input> = {
     "/diy/findMany": <T extends Prisma.DiyFindManyArgs>() => {
@@ -64,12 +62,14 @@ export type DiyRoutes<Input> = {
     };
 };
 
+// ========== Services ========== //
+
 export const DiyFindManyApi = async <T extends Prisma.DiyFindManyArgs>(
     request: NextRequest,
 ): RouteResponse<DiyFindManyResponse<T>> => {
     try {
         const params: DiyFindManyProps<T> = parseAndDecodeParams(request);
-        const response: DiyFindManyResponse<T> = await PrismaInstance.diy.findMany(params);
+        const response: DiyFindManyResponse<T> = await DiyFindManyCached(params);
         return NextResponse.json({ data: response }, { status: 200 });
     } catch (error) {
         return NextResponse.json({ error: "DiyFindManyApi -> " + (error as Error).message }, { status: 500 });
@@ -81,7 +81,7 @@ export const DiyFindFirstApi = async <T extends Prisma.DiyFindFirstArgs>(
 ): RouteResponse<DiyFindFirstResponse<T>> => {
     try {
         const params: DiyFindFirstProps<T> = parseAndDecodeParams(request);
-        const response: DiyFindFirstResponse<T> = await PrismaInstance.diy.findFirst(params);
+        const response: DiyFindFirstResponse<T> = await DiyFindFirstCached(params);
         return NextResponse.json({ data: response }, { status: 200 });
     } catch (error) {
         return NextResponse.json({ error: "DiyFindFirstApi -> " + (error as Error).message }, { status: 500 });
@@ -93,7 +93,7 @@ export const DiyFindUniqueApi = async <T extends Prisma.DiyFindUniqueArgs>(
 ): RouteResponse<DiyFindUniqueResponse<T>> => {
     try {
         const params: DiyFindUniqueProps<T> = parseAndDecodeParams(request);
-        const response: DiyFindUniqueResponse<T> = await PrismaInstance.diy.findUnique(params);
+        const response: DiyFindUniqueResponse<T> = await DiyFindUniqueCached(params);
         return NextResponse.json({ data: response }, { status: 200 });
     } catch (error) {
         return NextResponse.json({ error: "DiyFindUniqueApi -> " + (error as Error).message }, { status: 500 });
@@ -105,7 +105,7 @@ export const DiyCountApi = async <T extends Prisma.DiyCountArgs>(
 ): RouteResponse<DiyCountResponse<T>> => {
     try {
         const params: DiyCountProps<T> = parseAndDecodeParams(request);
-        const response: DiyCountResponse<T> = await PrismaInstance.diy.count(params);
+        const response: DiyCountResponse<T> = await DiyCountCached(params);
         return NextResponse.json({ data: response }, { status: 200 });
     } catch (error) {
         return NextResponse.json({ error: "DiyCountApi -> " + (error as Error).message }, { status: 500 });
