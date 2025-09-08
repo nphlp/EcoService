@@ -68,19 +68,19 @@ type {{modelName}}CountResponse<T extends Prisma.{{modelName}}CountArgs> =
 type RouteResponse<T> = Promise<NextResponse<ResponseFormat<T>>>;
 
 export type {{modelName}}Routes<Input> = {
-    "/{{modelNameLower}}/findFirst": <T extends Prisma.{{modelName}}FindFirstArgs>() => {
+    "/internal/{{modelNameLower}}/findFirst": <T extends Prisma.{{modelName}}FindFirstArgs>() => {
         params: {{modelName}}FindFirstProps<T>;
         response: {{modelName}}FindFirstResponse<Input extends {{modelName}}FindFirstProps<T> ? Input : never>;
     };
-    "/{{modelNameLower}}/findUnique": <T extends Prisma.{{modelName}}FindUniqueArgs>() => {
+    "/internal/{{modelNameLower}}/findUnique": <T extends Prisma.{{modelName}}FindUniqueArgs>() => {
         params: {{modelName}}FindUniqueProps<T>;
         response: {{modelName}}FindUniqueResponse<Input extends {{modelName}}FindUniqueProps<T> ? Input : never>;
     };
-    "/{{modelNameLower}}/findMany": <T extends Prisma.{{modelName}}FindManyArgs>() => {
+    "/internal/{{modelNameLower}}/findMany": <T extends Prisma.{{modelName}}FindManyArgs>() => {
         params: {{modelName}}FindManyProps<T>;
         response: {{modelName}}FindManyResponse<Input extends {{modelName}}FindManyProps<T> ? Input : never>;
     };
-    "/{{modelNameLower}}/count": <T extends Prisma.{{modelName}}CountArgs>() => {
+    "/internal/{{modelNameLower}}/count": <T extends Prisma.{{modelName}}CountArgs>() => {
         params: {{modelName}}CountProps<T>;
         response: {{modelName}}CountResponse<Input extends {{modelName}}CountProps<T> ? Input : never>;
     };

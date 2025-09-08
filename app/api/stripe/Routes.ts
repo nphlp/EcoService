@@ -2,26 +2,26 @@ import { StripeFileUploadBody, StripeFileUploadResponse } from "./file/upload/ro
 import { CreateStripePriceProps, CreateStripePriceResponse } from "./prices/create/route";
 import { StripeSelectPriceProps, StripeSelectPriceResponse } from "./prices/select/route";
 import { CreateStripeProductProps, CreateStripeProductResponse } from "./products/create/route";
-import { StripeProductsResponse } from "./products/route";
+import { StripeProductsProps, StripeProductsResponse } from "./products/route";
 import { StripeSearchProductProps, StripeSearchProductResponse } from "./products/search/route";
 import { StripeSelectProductProps, StripeSelectProductResponse } from "./products/select/route";
 import { UpdateStripeProductProps, UpdateStripeProductResponse } from "./products/update/route";
 import { StripeWebhookResponse } from "./webhooks/route";
 
 export type Routes = {
-    // "/stripe/checkout": {
+    // "/stripe/checkout": () => {
     //     method: "POST";
     //     params: SelectProductListProps;
     //     response: SelectProductListResponse;
     // };
 
-    // "/stripe/connect/become-seller": {
+    // "/stripe/connect/become-seller": () => {
     //     method: "POST";
     //     params: SelectProductListProps;
     //     response: SelectProductListResponse;
     // };
 
-    // "/stripe/connect/onboard": {
+    // "/stripe/connect/onboard": () => {
     //     method: "POST";
     //     params: SelectProductListProps;
     //     response: SelectProductListResponse;
@@ -29,7 +29,7 @@ export type Routes = {
 
     // ====== Files ====== //
 
-    "/stripe/file/upload": {
+    "/stripe/file/upload": () => {
         method: "POST";
         params: undefined;
         body: StripeFileUploadBody;
@@ -38,32 +38,32 @@ export type Routes = {
 
     // ====== Products  ====== //
 
-    "/stripe/products": {
-        params: undefined;
+    "/stripe/products": () => {
+        params: StripeProductsProps;
         response: StripeProductsResponse;
     };
 
-    "/stripe/products/search": {
+    "/stripe/products/search": () => {
         params: StripeSearchProductProps;
         response: StripeSearchProductResponse;
     };
 
-    "/stripe/products/create": {
+    "/stripe/products/create": () => {
         params: CreateStripeProductProps;
         response: CreateStripeProductResponse;
     };
 
-    "/stripe/products/select": {
+    "/stripe/products/select": () => {
         params: StripeSelectProductProps;
         response: StripeSelectProductResponse;
     };
 
-    "/stripe/products/update": {
+    "/stripe/products/update": () => {
         params: UpdateStripeProductProps;
         response: UpdateStripeProductResponse;
     };
 
-    // "/stripe/products/delete": {
+    // "/stripe/products/delete": () => {
     //     method: "POST";
     //     params: DeleteStripeProductProps;
     //     response: DeleteStripeProductResponse;
@@ -71,19 +71,19 @@ export type Routes = {
 
     // ====== Prices  ====== //
 
-    "/stripe/prices/create": {
+    "/stripe/prices/create": () => {
         params: CreateStripePriceProps;
         response: CreateStripePriceResponse;
     };
 
-    "/stripe/prices/select": {
+    "/stripe/prices/select": () => {
         params: StripeSelectPriceProps;
         response: StripeSelectPriceResponse;
     };
 
     // ====== Webhooks  ====== //
 
-    "/stripe/webhooks": {
+    "/stripe/webhooks": () => {
         method: "POST";
         params: undefined;
         response: StripeWebhookResponse;

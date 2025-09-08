@@ -1,29 +1,33 @@
 "use client";
 
-import { Routes } from "@app/api/Routes";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Fetch, FetchProps, FetchResponse } from "./Fetch";
+import { FetchProps, FetchResponse, FetchV3, Params, Route } from "./FetchV3";
 
-export type FetchHookProps<Key extends keyof Routes> = Omit<FetchProps<Key>, "client"> & {
+export type FetchHookProps<Input, R extends Route<Input>, P extends Params<Input, R>> = Omit<
+    FetchProps<Input, R, P>,
+    "client" | "signal"
+> & {
     fetchOnFirstRender?: boolean;
+    initialData?: FetchResponse<Input, R, P>;
 };
 
-const useFetch = <Key extends keyof Routes>(props: FetchHookProps<Key>) => {
-    const { route, params, fetchOnFirstRender = false } = props;
+export const useFetchV3 = <Input, R extends Route<Input>, P extends Params<Input, R>>(
+    props: FetchHookProps<Input, R, P>,
+) => {
+    const { route, params, fetchOnFirstRender = false, initialData } = props;
 
-    const stringifiedParams = params ? JSON.stringify(params) : undefined;
-
+    const stringifiedParams = JSON.stringify(params);
     const memoizedProps = useMemo(
         () => ({
             route,
-            params: stringifiedParams ? JSON.parse(stringifiedParams) : undefined,
+            params: JSON.parse(stringifiedParams),
         }),
         [route, stringifiedParams],
     );
 
     const fetchOnFirstRenderRef = useRef(fetchOnFirstRender);
 
-    const [data, setData] = useState<FetchResponse<Key>>();
+    const [data, setData] = useState<FetchResponse<Input, R, P> | undefined>(initialData);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string>();
 
@@ -35,13 +39,13 @@ const useFetch = <Key extends keyof Routes>(props: FetchHookProps<Key>) => {
             setIsLoading(true);
 
             if (process.env.NODE_ENV === "development") {
-                console.log("useFetch: ", memoizedProps);
+                console.log("useFetchV3: ", memoizedProps);
             }
 
             try {
                 const { route, params } = memoizedProps;
 
-                const response = await Fetch({
+                const response = await FetchV3<Input, R, P>({
                     route,
                     params,
                     client: true,

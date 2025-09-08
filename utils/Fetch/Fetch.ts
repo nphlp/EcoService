@@ -32,7 +32,7 @@ export type FetchProps<R extends Route> = {
 
 export type FetchResponse<R extends Route> = Routes[R]["response"];
 
-export const Fetch = async <R extends Route>(props: FetchProps<R>): Promise<FetchResponse<R>> => {
+const Fetch = async <R extends Route>(props: FetchProps<R>): Promise<FetchResponse<R>> => {
     const { route, params, method = "GET", body, signal, client = false } = props;
 
     const baseUrl = client ? "" : NEXT_PUBLIC_BASE_URL;

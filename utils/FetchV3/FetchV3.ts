@@ -1,4 +1,4 @@
-import { Routes } from "@app/api/internal/Routes";
+import { Routes } from "@app/api/Routes";
 import { ResponseFormat } from "@utils/FetchConfig";
 
 const NEXT_PUBLIC_BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
@@ -9,7 +9,8 @@ if (!NEXT_PUBLIC_BASE_URL) {
 
 export type Route<Input> = keyof Routes<Input>;
 
-export type Params<Input, R extends Route<Input>> = ReturnType<Routes<Input>[R]>["params"];
+export type Params<Input, R extends Route<Input>> =
+    ReturnType<Routes<Input>[R]> extends { params: object } ? ReturnType<Routes<Input>[R]>["params"] : undefined;
 
 export type FetchProps<Input, R extends Route<Input>, P extends Params<Input, R>> = {
     route: R;
@@ -22,7 +23,7 @@ export type FetchResponse<Input, R extends Route<Input>, P extends Params<Input,
     Routes<P>[R]
 >["response"];
 
-const FetchV2 = async <Input, R extends Route<Input>, P extends Params<Input, R>>(
+export const FetchV3 = async <Input, R extends Route<Input>, P extends Params<Input, R>>(
     props: FetchProps<Input, R, P>,
 ): Promise<FetchResponse<Input, R, P>> => {
     const { route, params, signal, client = false } = props;
@@ -30,7 +31,7 @@ const FetchV2 = async <Input, R extends Route<Input>, P extends Params<Input, R>
     const baseUrl = client ? "" : NEXT_PUBLIC_BASE_URL;
     const encodedParams = params ? encodeURIComponent(JSON.stringify(params)) : "";
     const urlParams = params ? "?params=" + encodedParams : "";
-    const url = baseUrl + "/api/internal" + route + urlParams;
+    const url = baseUrl + "/api" + route + urlParams;
 
     const newAbortSignal = process.env.NODE_ENV !== "test" ? AbortSignal.timeout(10000) : undefined;
 

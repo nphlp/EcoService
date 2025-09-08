@@ -11,9 +11,7 @@ export type FetchHookProps<Input, R extends Route<Input>, P extends Params<Input
     initialData?: FetchResponse<Input, R, P>;
 };
 
-export const useFetchV2 = <Input, R extends Route<Input>, P extends Params<Input, R>>(
-    props: FetchHookProps<Input, R, P>,
-) => {
+const useFetchV2 = <Input, R extends Route<Input>, P extends Params<Input, R>>(props: FetchHookProps<Input, R, P>) => {
     const { route, params, fetchOnFirstRender = false, initialData } = props;
 
     const stringifiedParams = JSON.stringify(params);
