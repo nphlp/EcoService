@@ -68,19 +68,19 @@ type AddressCountResponse<T extends Prisma.AddressCountArgs> =
 type RouteResponse<T> = Promise<NextResponse<ResponseFormat<T>>>;
 
 export type AddressRoutes<Input> = {
-    "/address/findFirst": <T extends Prisma.AddressFindFirstArgs>() => {
+    "/internal/address/findFirst": <T extends Prisma.AddressFindFirstArgs>() => {
         params: AddressFindFirstProps<T>;
         response: AddressFindFirstResponse<Input extends AddressFindFirstProps<T> ? Input : never>;
     };
-    "/address/findUnique": <T extends Prisma.AddressFindUniqueArgs>() => {
+    "/internal/address/findUnique": <T extends Prisma.AddressFindUniqueArgs>() => {
         params: AddressFindUniqueProps<T>;
         response: AddressFindUniqueResponse<Input extends AddressFindUniqueProps<T> ? Input : never>;
     };
-    "/address/findMany": <T extends Prisma.AddressFindManyArgs>() => {
+    "/internal/address/findMany": <T extends Prisma.AddressFindManyArgs>() => {
         params: AddressFindManyProps<T>;
         response: AddressFindManyResponse<Input extends AddressFindManyProps<T> ? Input : never>;
     };
-    "/address/count": <T extends Prisma.AddressCountArgs>() => {
+    "/internal/address/count": <T extends Prisma.AddressCountArgs>() => {
         params: AddressCountProps<T>;
         response: AddressCountResponse<Input extends AddressCountProps<T> ? Input : never>;
     };

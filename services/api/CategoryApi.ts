@@ -71,19 +71,19 @@ type CategoryCountResponse<T extends Prisma.CategoryCountArgs> =
 type RouteResponse<T> = Promise<NextResponse<ResponseFormat<T>>>;
 
 export type CategoryRoutes<Input> = {
-    "/category/findFirst": <T extends Prisma.CategoryFindFirstArgs>() => {
+    "/internal/category/findFirst": <T extends Prisma.CategoryFindFirstArgs>() => {
         params: CategoryFindFirstProps<T>;
         response: CategoryFindFirstResponse<Input extends CategoryFindFirstProps<T> ? Input : never>;
     };
-    "/category/findUnique": <T extends Prisma.CategoryFindUniqueArgs>() => {
+    "/internal/category/findUnique": <T extends Prisma.CategoryFindUniqueArgs>() => {
         params: CategoryFindUniqueProps<T>;
         response: CategoryFindUniqueResponse<Input extends CategoryFindUniqueProps<T> ? Input : never>;
     };
-    "/category/findMany": <T extends Prisma.CategoryFindManyArgs>() => {
+    "/internal/category/findMany": <T extends Prisma.CategoryFindManyArgs>() => {
         params: CategoryFindManyProps<T>;
         response: CategoryFindManyResponse<Input extends CategoryFindManyProps<T> ? Input : never>;
     };
-    "/category/count": <T extends Prisma.CategoryCountArgs>() => {
+    "/internal/category/count": <T extends Prisma.CategoryCountArgs>() => {
         params: CategoryCountProps<T>;
         response: CategoryCountResponse<Input extends CategoryCountProps<T> ? Input : never>;
     };

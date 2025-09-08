@@ -60,19 +60,19 @@ type DiyCountResponse<T extends Prisma.DiyCountArgs> =
 type RouteResponse<T> = Promise<NextResponse<ResponseFormat<T>>>;
 
 export type DiyRoutes<Input> = {
-    "/diy/findFirst": <T extends Prisma.DiyFindFirstArgs>() => {
+    "/internal/diy/findFirst": <T extends Prisma.DiyFindFirstArgs>() => {
         params: DiyFindFirstProps<T>;
         response: DiyFindFirstResponse<Input extends DiyFindFirstProps<T> ? Input : never>;
     };
-    "/diy/findUnique": <T extends Prisma.DiyFindUniqueArgs>() => {
+    "/internal/diy/findUnique": <T extends Prisma.DiyFindUniqueArgs>() => {
         params: DiyFindUniqueProps<T>;
         response: DiyFindUniqueResponse<Input extends DiyFindUniqueProps<T> ? Input : never>;
     };
-    "/diy/findMany": <T extends Prisma.DiyFindManyArgs>() => {
+    "/internal/diy/findMany": <T extends Prisma.DiyFindManyArgs>() => {
         params: DiyFindManyProps<T>;
         response: DiyFindManyResponse<Input extends DiyFindManyProps<T> ? Input : never>;
     };
-    "/diy/count": <T extends Prisma.DiyCountArgs>() => {
+    "/internal/diy/count": <T extends Prisma.DiyCountArgs>() => {
         params: DiyCountProps<T>;
         response: DiyCountResponse<Input extends DiyCountProps<T> ? Input : never>;
     };

@@ -68,19 +68,19 @@ type ProductCountResponse<T extends Prisma.ProductCountArgs> =
 type RouteResponse<T> = Promise<NextResponse<ResponseFormat<T>>>;
 
 export type ProductRoutes<Input> = {
-    "/product/findFirst": <T extends Prisma.ProductFindFirstArgs>() => {
+    "/internal/product/findFirst": <T extends Prisma.ProductFindFirstArgs>() => {
         params: ProductFindFirstProps<T>;
         response: ProductFindFirstResponse<Input extends ProductFindFirstProps<T> ? Input : never>;
     };
-    "/product/findUnique": <T extends Prisma.ProductFindUniqueArgs>() => {
+    "/internal/product/findUnique": <T extends Prisma.ProductFindUniqueArgs>() => {
         params: ProductFindUniqueProps<T>;
         response: ProductFindUniqueResponse<Input extends ProductFindUniqueProps<T> ? Input : never>;
     };
-    "/product/findMany": <T extends Prisma.ProductFindManyArgs>() => {
+    "/internal/product/findMany": <T extends Prisma.ProductFindManyArgs>() => {
         params: ProductFindManyProps<T>;
         response: ProductFindManyResponse<Input extends ProductFindManyProps<T> ? Input : never>;
     };
-    "/product/count": <T extends Prisma.ProductCountArgs>() => {
+    "/internal/product/count": <T extends Prisma.ProductCountArgs>() => {
         params: ProductCountProps<T>;
         response: ProductCountResponse<Input extends ProductCountProps<T> ? Input : never>;
     };

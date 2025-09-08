@@ -68,19 +68,19 @@ type ArticleCountResponse<T extends Prisma.ArticleCountArgs> =
 type RouteResponse<T> = Promise<NextResponse<ResponseFormat<T>>>;
 
 export type ArticleRoutes<Input> = {
-    "/article/findFirst": <T extends Prisma.ArticleFindFirstArgs>() => {
+    "/internal/article/findFirst": <T extends Prisma.ArticleFindFirstArgs>() => {
         params: ArticleFindFirstProps<T>;
         response: ArticleFindFirstResponse<Input extends ArticleFindFirstProps<T> ? Input : never>;
     };
-    "/article/findUnique": <T extends Prisma.ArticleFindUniqueArgs>() => {
+    "/internal/article/findUnique": <T extends Prisma.ArticleFindUniqueArgs>() => {
         params: ArticleFindUniqueProps<T>;
         response: ArticleFindUniqueResponse<Input extends ArticleFindUniqueProps<T> ? Input : never>;
     };
-    "/article/findMany": <T extends Prisma.ArticleFindManyArgs>() => {
+    "/internal/article/findMany": <T extends Prisma.ArticleFindManyArgs>() => {
         params: ArticleFindManyProps<T>;
         response: ArticleFindManyResponse<Input extends ArticleFindManyProps<T> ? Input : never>;
     };
-    "/article/count": <T extends Prisma.ArticleCountArgs>() => {
+    "/internal/article/count": <T extends Prisma.ArticleCountArgs>() => {
         params: ArticleCountProps<T>;
         response: ArticleCountResponse<Input extends ArticleCountProps<T> ? Input : never>;
     };

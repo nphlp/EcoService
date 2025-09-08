@@ -68,19 +68,19 @@ type ContentCountResponse<T extends Prisma.ContentCountArgs> =
 type RouteResponse<T> = Promise<NextResponse<ResponseFormat<T>>>;
 
 export type ContentRoutes<Input> = {
-    "/content/findFirst": <T extends Prisma.ContentFindFirstArgs>() => {
+    "/internal/content/findFirst": <T extends Prisma.ContentFindFirstArgs>() => {
         params: ContentFindFirstProps<T>;
         response: ContentFindFirstResponse<Input extends ContentFindFirstProps<T> ? Input : never>;
     };
-    "/content/findUnique": <T extends Prisma.ContentFindUniqueArgs>() => {
+    "/internal/content/findUnique": <T extends Prisma.ContentFindUniqueArgs>() => {
         params: ContentFindUniqueProps<T>;
         response: ContentFindUniqueResponse<Input extends ContentFindUniqueProps<T> ? Input : never>;
     };
-    "/content/findMany": <T extends Prisma.ContentFindManyArgs>() => {
+    "/internal/content/findMany": <T extends Prisma.ContentFindManyArgs>() => {
         params: ContentFindManyProps<T>;
         response: ContentFindManyResponse<Input extends ContentFindManyProps<T> ? Input : never>;
     };
-    "/content/count": <T extends Prisma.ContentCountArgs>() => {
+    "/internal/content/count": <T extends Prisma.ContentCountArgs>() => {
         params: ContentCountProps<T>;
         response: ContentCountResponse<Input extends ContentCountProps<T> ? Input : never>;
     };

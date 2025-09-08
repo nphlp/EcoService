@@ -60,19 +60,19 @@ type UserCountResponse<T extends Prisma.UserCountArgs> =
 type RouteResponse<T> = Promise<NextResponse<ResponseFormat<T>>>;
 
 export type UserRoutes<Input> = {
-    "/user/findFirst": <T extends Prisma.UserFindFirstArgs>() => {
+    "/internal/user/findFirst": <T extends Prisma.UserFindFirstArgs>() => {
         params: UserFindFirstProps<T>;
         response: UserFindFirstResponse<Input extends UserFindFirstProps<T> ? Input : never>;
     };
-    "/user/findUnique": <T extends Prisma.UserFindUniqueArgs>() => {
+    "/internal/user/findUnique": <T extends Prisma.UserFindUniqueArgs>() => {
         params: UserFindUniqueProps<T>;
         response: UserFindUniqueResponse<Input extends UserFindUniqueProps<T> ? Input : never>;
     };
-    "/user/findMany": <T extends Prisma.UserFindManyArgs>() => {
+    "/internal/user/findMany": <T extends Prisma.UserFindManyArgs>() => {
         params: UserFindManyProps<T>;
         response: UserFindManyResponse<Input extends UserFindManyProps<T> ? Input : never>;
     };
-    "/user/count": <T extends Prisma.UserCountArgs>() => {
+    "/internal/user/count": <T extends Prisma.UserCountArgs>() => {
         params: UserCountProps<T>;
         response: UserCountResponse<Input extends UserCountProps<T> ? Input : never>;
     };

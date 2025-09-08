@@ -60,19 +60,19 @@ type OrderCountResponse<T extends Prisma.OrderCountArgs> =
 type RouteResponse<T> = Promise<NextResponse<ResponseFormat<T>>>;
 
 export type OrderRoutes<Input> = {
-    "/order/findFirst": <T extends Prisma.OrderFindFirstArgs>() => {
+    "/internal/order/findFirst": <T extends Prisma.OrderFindFirstArgs>() => {
         params: OrderFindFirstProps<T>;
         response: OrderFindFirstResponse<Input extends OrderFindFirstProps<T> ? Input : never>;
     };
-    "/order/findUnique": <T extends Prisma.OrderFindUniqueArgs>() => {
+    "/internal/order/findUnique": <T extends Prisma.OrderFindUniqueArgs>() => {
         params: OrderFindUniqueProps<T>;
         response: OrderFindUniqueResponse<Input extends OrderFindUniqueProps<T> ? Input : never>;
     };
-    "/order/findMany": <T extends Prisma.OrderFindManyArgs>() => {
+    "/internal/order/findMany": <T extends Prisma.OrderFindManyArgs>() => {
         params: OrderFindManyProps<T>;
         response: OrderFindManyResponse<Input extends OrderFindManyProps<T> ? Input : never>;
     };
-    "/order/count": <T extends Prisma.OrderCountArgs>() => {
+    "/internal/order/count": <T extends Prisma.OrderCountArgs>() => {
         params: OrderCountProps<T>;
         response: OrderCountResponse<Input extends OrderCountProps<T> ? Input : never>;
     };

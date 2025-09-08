@@ -68,19 +68,19 @@ type AccountCountResponse<T extends Prisma.AccountCountArgs> =
 type RouteResponse<T> = Promise<NextResponse<ResponseFormat<T>>>;
 
 export type AccountRoutes<Input> = {
-    "/account/findFirst": <T extends Prisma.AccountFindFirstArgs>() => {
+    "/internal/account/findFirst": <T extends Prisma.AccountFindFirstArgs>() => {
         params: AccountFindFirstProps<T>;
         response: AccountFindFirstResponse<Input extends AccountFindFirstProps<T> ? Input : never>;
     };
-    "/account/findUnique": <T extends Prisma.AccountFindUniqueArgs>() => {
+    "/internal/account/findUnique": <T extends Prisma.AccountFindUniqueArgs>() => {
         params: AccountFindUniqueProps<T>;
         response: AccountFindUniqueResponse<Input extends AccountFindUniqueProps<T> ? Input : never>;
     };
-    "/account/findMany": <T extends Prisma.AccountFindManyArgs>() => {
+    "/internal/account/findMany": <T extends Prisma.AccountFindManyArgs>() => {
         params: AccountFindManyProps<T>;
         response: AccountFindManyResponse<Input extends AccountFindManyProps<T> ? Input : never>;
     };
-    "/account/count": <T extends Prisma.AccountCountArgs>() => {
+    "/internal/account/count": <T extends Prisma.AccountCountArgs>() => {
         params: AccountCountProps<T>;
         response: AccountCountResponse<Input extends AccountCountProps<T> ? Input : never>;
     };

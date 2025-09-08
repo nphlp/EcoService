@@ -60,19 +60,19 @@ type FruitCountResponse<T extends Prisma.FruitCountArgs> =
 type RouteResponse<T> = Promise<NextResponse<ResponseFormat<T>>>;
 
 export type FruitRoutes<Input> = {
-    "/fruit/findFirst": <T extends Prisma.FruitFindFirstArgs>() => {
+    "/internal/fruit/findFirst": <T extends Prisma.FruitFindFirstArgs>() => {
         params: FruitFindFirstProps<T>;
         response: FruitFindFirstResponse<Input extends FruitFindFirstProps<T> ? Input : never>;
     };
-    "/fruit/findUnique": <T extends Prisma.FruitFindUniqueArgs>() => {
+    "/internal/fruit/findUnique": <T extends Prisma.FruitFindUniqueArgs>() => {
         params: FruitFindUniqueProps<T>;
         response: FruitFindUniqueResponse<Input extends FruitFindUniqueProps<T> ? Input : never>;
     };
-    "/fruit/findMany": <T extends Prisma.FruitFindManyArgs>() => {
+    "/internal/fruit/findMany": <T extends Prisma.FruitFindManyArgs>() => {
         params: FruitFindManyProps<T>;
         response: FruitFindManyResponse<Input extends FruitFindManyProps<T> ? Input : never>;
     };
-    "/fruit/count": <T extends Prisma.FruitCountArgs>() => {
+    "/internal/fruit/count": <T extends Prisma.FruitCountArgs>() => {
         params: FruitCountProps<T>;
         response: FruitCountResponse<Input extends FruitCountProps<T> ? Input : never>;
     };

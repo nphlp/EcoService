@@ -71,19 +71,19 @@ type QuantityCountResponse<T extends Prisma.QuantityCountArgs> =
 type RouteResponse<T> = Promise<NextResponse<ResponseFormat<T>>>;
 
 export type QuantityRoutes<Input> = {
-    "/quantity/findFirst": <T extends Prisma.QuantityFindFirstArgs>() => {
+    "/internal/quantity/findFirst": <T extends Prisma.QuantityFindFirstArgs>() => {
         params: QuantityFindFirstProps<T>;
         response: QuantityFindFirstResponse<Input extends QuantityFindFirstProps<T> ? Input : never>;
     };
-    "/quantity/findUnique": <T extends Prisma.QuantityFindUniqueArgs>() => {
+    "/internal/quantity/findUnique": <T extends Prisma.QuantityFindUniqueArgs>() => {
         params: QuantityFindUniqueProps<T>;
         response: QuantityFindUniqueResponse<Input extends QuantityFindUniqueProps<T> ? Input : never>;
     };
-    "/quantity/findMany": <T extends Prisma.QuantityFindManyArgs>() => {
+    "/internal/quantity/findMany": <T extends Prisma.QuantityFindManyArgs>() => {
         params: QuantityFindManyProps<T>;
         response: QuantityFindManyResponse<Input extends QuantityFindManyProps<T> ? Input : never>;
     };
-    "/quantity/count": <T extends Prisma.QuantityCountArgs>() => {
+    "/internal/quantity/count": <T extends Prisma.QuantityCountArgs>() => {
         params: QuantityCountProps<T>;
         response: QuantityCountResponse<Input extends QuantityCountProps<T> ? Input : never>;
     };

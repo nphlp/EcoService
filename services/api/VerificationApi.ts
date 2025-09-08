@@ -77,19 +77,19 @@ type VerificationCountResponse<T extends Prisma.VerificationCountArgs> =
 type RouteResponse<T> = Promise<NextResponse<ResponseFormat<T>>>;
 
 export type VerificationRoutes<Input> = {
-    "/verification/findFirst": <T extends Prisma.VerificationFindFirstArgs>() => {
+    "/internal/verification/findFirst": <T extends Prisma.VerificationFindFirstArgs>() => {
         params: VerificationFindFirstProps<T>;
         response: VerificationFindFirstResponse<Input extends VerificationFindFirstProps<T> ? Input : never>;
     };
-    "/verification/findUnique": <T extends Prisma.VerificationFindUniqueArgs>() => {
+    "/internal/verification/findUnique": <T extends Prisma.VerificationFindUniqueArgs>() => {
         params: VerificationFindUniqueProps<T>;
         response: VerificationFindUniqueResponse<Input extends VerificationFindUniqueProps<T> ? Input : never>;
     };
-    "/verification/findMany": <T extends Prisma.VerificationFindManyArgs>() => {
+    "/internal/verification/findMany": <T extends Prisma.VerificationFindManyArgs>() => {
         params: VerificationFindManyProps<T>;
         response: VerificationFindManyResponse<Input extends VerificationFindManyProps<T> ? Input : never>;
     };
-    "/verification/count": <T extends Prisma.VerificationCountArgs>() => {
+    "/internal/verification/count": <T extends Prisma.VerificationCountArgs>() => {
         params: VerificationCountProps<T>;
         response: VerificationCountResponse<Input extends VerificationCountProps<T> ? Input : never>;
     };

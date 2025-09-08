@@ -68,19 +68,19 @@ type SessionCountResponse<T extends Prisma.SessionCountArgs> =
 type RouteResponse<T> = Promise<NextResponse<ResponseFormat<T>>>;
 
 export type SessionRoutes<Input> = {
-    "/session/findFirst": <T extends Prisma.SessionFindFirstArgs>() => {
+    "/internal/session/findFirst": <T extends Prisma.SessionFindFirstArgs>() => {
         params: SessionFindFirstProps<T>;
         response: SessionFindFirstResponse<Input extends SessionFindFirstProps<T> ? Input : never>;
     };
-    "/session/findUnique": <T extends Prisma.SessionFindUniqueArgs>() => {
+    "/internal/session/findUnique": <T extends Prisma.SessionFindUniqueArgs>() => {
         params: SessionFindUniqueProps<T>;
         response: SessionFindUniqueResponse<Input extends SessionFindUniqueProps<T> ? Input : never>;
     };
-    "/session/findMany": <T extends Prisma.SessionFindManyArgs>() => {
+    "/internal/session/findMany": <T extends Prisma.SessionFindManyArgs>() => {
         params: SessionFindManyProps<T>;
         response: SessionFindManyResponse<Input extends SessionFindManyProps<T> ? Input : never>;
     };
-    "/session/count": <T extends Prisma.SessionCountArgs>() => {
+    "/internal/session/count": <T extends Prisma.SessionCountArgs>() => {
         params: SessionCountProps<T>;
         response: SessionCountResponse<Input extends SessionCountProps<T> ? Input : never>;
     };
