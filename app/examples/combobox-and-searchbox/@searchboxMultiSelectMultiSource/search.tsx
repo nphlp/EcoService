@@ -4,7 +4,7 @@ import Button from "@comps/UI/button/button";
 import { useComboboxMultiStates } from "@comps/UI/comboboxes/comboHookStates";
 import ComboboxMulti from "@comps/UI/comboboxes/comboboxMulti";
 import { MultiSourceComboOptionType, createComboOptions, deduplicateOptions } from "@comps/UI/comboboxes/utils";
-import { useFetchV2 } from "@utils/FetchV2/FetchHookV2";
+import { useFetchV3 } from "@utils/FetchV3/FetchHookV3";
 import { isEqual } from "lodash";
 import { FormEvent, useEffect } from "react";
 
@@ -20,8 +20,8 @@ export default function Search(props: SearchProps) {
     const { selected, query, options, setOptions } = comboboxStates;
 
     // Reactive fetches
-    const { data: productData, isLoading: isLoadingProduct } = useFetchV2({
-        route: "/product/findMany",
+    const { data: productData, isLoading: isLoadingProduct } = useFetchV3({
+        route: "/internal/product/findMany",
         params: {
             select: { slug: true, name: true },
             where: {
@@ -33,8 +33,8 @@ export default function Search(props: SearchProps) {
         },
     });
 
-    const { data: categoryData, isLoading: isLoadingCategory } = useFetchV2({
-        route: "/category/findMany",
+    const { data: categoryData, isLoading: isLoadingCategory } = useFetchV3({
+        route: "/internal/category/findMany",
         params: {
             select: { slug: true, name: true },
             where: {
@@ -46,8 +46,8 @@ export default function Search(props: SearchProps) {
         },
     });
 
-    const { data: articleData, isLoading: isLoadingArticle } = useFetchV2({
-        route: "/article/findMany",
+    const { data: articleData, isLoading: isLoadingArticle } = useFetchV3({
+        route: "/internal/article/findMany",
         params: {
             select: { slug: true, title: true },
             where: {

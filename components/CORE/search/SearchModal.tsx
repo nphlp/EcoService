@@ -5,7 +5,7 @@ import Button from "@comps/UI/button/button";
 import Input from "@comps/UI/input/input";
 import Modal from "@comps/UI/modal/modal";
 import { combo } from "@lib/combo";
-import { useFetchV2 } from "@utils/FetchV2/FetchHookV2";
+import { useFetchV3 } from "@utils/FetchV3/FetchHookV3";
 import { SearchIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { FormEvent, useEffect, useRef, useState } from "react";
@@ -70,46 +70,46 @@ export default function SearchModal(props: SearchModalProps) {
     const takeAmount = 3;
 
     // Fetch data
-    const { data: productList, isLoading: isLoadingProductList } = useFetchV2({
-        route: "/product/findMany",
+    const { data: productList, isLoading: isLoadingProductList } = useFetchV3({
+        route: "/internal/product/findMany",
         params: productFetchParams(search, takeAmount),
         initialData: initialResults.productList,
     });
-    const { data: productCount, isLoading: isLoadingProductCount } = useFetchV2({
-        route: "/product/count",
+    const { data: productCount, isLoading: isLoadingProductCount } = useFetchV3({
+        route: "/internal/product/count",
         params: productCountParams(search),
         initialData: initialResults.productCount,
     });
 
-    const { data: categoryList, isLoading: isLoadingCategoryList } = useFetchV2({
-        route: "/category/findMany",
+    const { data: categoryList, isLoading: isLoadingCategoryList } = useFetchV3({
+        route: "/internal/category/findMany",
         params: categoryFetchParams(search, takeAmount),
         initialData: initialResults.categoryList,
     });
-    const { data: categoryCount, isLoading: isLoadingCategoryCount } = useFetchV2({
-        route: "/category/count",
+    const { data: categoryCount, isLoading: isLoadingCategoryCount } = useFetchV3({
+        route: "/internal/category/count",
         params: categoryCountParams(search),
         initialData: initialResults.categoryCount,
     });
 
-    const { data: articleList, isLoading: isLoadingArticleList } = useFetchV2({
-        route: "/article/findMany",
+    const { data: articleList, isLoading: isLoadingArticleList } = useFetchV3({
+        route: "/internal/article/findMany",
         params: articleFetchParams(search, takeAmount),
         initialData: initialResults.articleList,
     });
-    const { data: articleCount, isLoading: isLoadingArticleCount } = useFetchV2({
-        route: "/article/count",
+    const { data: articleCount, isLoading: isLoadingArticleCount } = useFetchV3({
+        route: "/internal/article/count",
         params: articleCountParams(search),
         initialData: initialResults.articleCount,
     });
 
-    const { data: diyList, isLoading: isLoadingDiyList } = useFetchV2({
-        route: "/diy/findMany",
+    const { data: diyList, isLoading: isLoadingDiyList } = useFetchV3({
+        route: "/internal/diy/findMany",
         params: diyFetchParams(search, takeAmount),
         initialData: initialResults.diyList,
     });
-    const { data: diyCount, isLoading: isLoadingDiyCount } = useFetchV2({
-        route: "/diy/count",
+    const { data: diyCount, isLoading: isLoadingDiyCount } = useFetchV3({
+        route: "/internal/diy/count",
         params: diyCountParams(search),
         initialData: initialResults.diyCount,
     });

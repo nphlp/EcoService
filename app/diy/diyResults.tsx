@@ -3,7 +3,7 @@
 import ArticleOrDiyCard, { ArticleOrDiyCardSkeleton } from "@comps/PROJECT/cards/articleOrDiyCard";
 import { usePageQueryParams, useSearchQueryParams } from "@comps/SHARED/queryParamsClientHooks";
 import Link from "@comps/UI/button/link";
-import { useFetchV2 } from "@utils/FetchV2/FetchHookV2";
+import { useFetchV3 } from "@utils/FetchV3/FetchHookV3";
 import { BookOpenText } from "lucide-react";
 import { DiySearchType, diyFetchParams } from "./fetchParams";
 
@@ -17,8 +17,8 @@ export default function DiyResults(props: DiyResultsProps) {
     const { page } = usePageQueryParams();
     const { search } = useSearchQueryParams();
 
-    const { data: diyList, isLoading } = useFetchV2({
-        route: "/diy/findMany",
+    const { data: diyList, isLoading } = useFetchV3({
+        route: "/internal/diy/findMany",
         params: diyFetchParams({ page, search }),
         initialData: initialDiyList,
     });

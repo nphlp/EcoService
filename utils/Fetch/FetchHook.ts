@@ -1,14 +1,13 @@
 "use client";
 
-import { Routes } from "@app/api/Routes";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Fetch, FetchProps, FetchResponse } from "./Fetch";
+import { Fetch, FetchProps, FetchResponse, Route } from "./Fetch";
 
-export type FetchHookProps<Key extends keyof Routes> = Omit<FetchProps<Key>, "client"> & {
+export type FetchHookProps<Input, R extends Route<Input>> = Omit<FetchProps<Input, R>, "client"> & {
     fetchOnFirstRender?: boolean;
 };
 
-const useFetch = <Key extends keyof Routes>(props: FetchHookProps<Key>) => {
+export const useFetch = <Input, R extends Route<Input>>(props: FetchHookProps<Input, R>) => {
     const { route, params, fetchOnFirstRender = false } = props;
 
     const stringifiedParams = params ? JSON.stringify(params) : undefined;
@@ -23,7 +22,7 @@ const useFetch = <Key extends keyof Routes>(props: FetchHookProps<Key>) => {
 
     const fetchOnFirstRenderRef = useRef(fetchOnFirstRender);
 
-    const [data, setData] = useState<FetchResponse<Key>>();
+    const [data, setData] = useState<FetchResponse<Input, R>>();
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string>();
 

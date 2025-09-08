@@ -1,7 +1,7 @@
 "use client";
 
 import { useSearchQueryParams } from "@comps/SHARED/queryParamsClientHooks";
-import { useFetchV2 } from "@utils/FetchV2/FetchHookV2";
+import { useFetchV3 } from "@utils/FetchV3/FetchHookV3";
 import { ReactNode } from "react";
 import { Context } from "./context";
 import { articleCountParams } from "./fetchParams";
@@ -16,8 +16,8 @@ export default function Provider(props: ContextProviderProps) {
 
     const { search } = useSearchQueryParams();
 
-    const { data: articleAmount, isLoading } = useFetchV2({
-        route: "/article/count",
+    const { data: articleAmount, isLoading } = useFetchV3({
+        route: "/internal/article/count",
         params: articleCountParams({ search }),
         initialData: initialArticleAmount,
     });

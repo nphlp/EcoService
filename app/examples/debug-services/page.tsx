@@ -17,7 +17,7 @@ import {
     ArticleFindManyProps,
     ArticleFindUniqueProps,
 } from "@services/types";
-import { FetchV2 } from "@utils/FetchV2/FetchV2";
+import { FetchV3 } from "@utils/FetchV3/FetchV3";
 import Mutations from "./mutations";
 
 export const dynamic = "force-dynamic";
@@ -33,7 +33,7 @@ export default async function Page() {
     const articleMany = await PrismaInstance.article.findMany(paramsMany);
     const articleManyServer = await ArticleFindManyServer(paramsMany);
     const articleManyAction = await ArticleFindManyAction(paramsMany, true);
-    const articleManyFetch = await FetchV2({ route: "/article/findMany", params: paramsMany });
+    const articleManyFetch = await FetchV3({ route: "/internal/article/findMany", params: paramsMany });
 
     const articleManyTypes =
         typeof articleMany === typeof articleManyServer &&
@@ -47,7 +47,7 @@ export default async function Page() {
     const articleFirst = await PrismaInstance.article.findFirst(paramsFirst);
     const articleFirstServer = await ArticleFindFirstServer(paramsFirst);
     const articleFirstAction = await ArticleFindFirstAction(paramsFirst, true);
-    const articleFirstFetch = await FetchV2({ route: "/article/findFirst", params: paramsFirst });
+    const articleFirstFetch = await FetchV3({ route: "/internal/article/findFirst", params: paramsFirst });
 
     const articleFirstTypes =
         typeof articleFirst === typeof articleFirstServer &&
@@ -61,7 +61,7 @@ export default async function Page() {
     const articleUnique = await PrismaInstance.article.findUnique(paramsUnique);
     const articleUniqueServer = await ArticleFindUniqueServer(paramsUnique);
     const articleUniqueAction = await ArticleFindUniqueAction(paramsUnique, true);
-    const articleUniqueFetch = await FetchV2({ route: "/article/findUnique", params: paramsUnique });
+    const articleUniqueFetch = await FetchV3({ route: "/internal/article/findUnique", params: paramsUnique });
 
     const articleUniqueTypes =
         typeof articleUnique === typeof articleUniqueServer &&
@@ -75,7 +75,7 @@ export default async function Page() {
     const articleCount = await PrismaInstance.article.count(paramsCount);
     const articleCountServer = await ArticleCountServer(paramsCount);
     const articleCountAction = await ArticleCountAction(paramsCount, true);
-    const articleCountFetch = await FetchV2({ route: "/article/count", params: paramsCount });
+    const articleCountFetch = await FetchV3({ route: "/internal/article/count", params: paramsCount });
 
     const articleCountTypes =
         typeof articleCount === typeof articleCountServer &&

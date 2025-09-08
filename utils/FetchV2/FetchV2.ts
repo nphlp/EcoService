@@ -22,7 +22,7 @@ export type FetchResponse<Input, R extends Route<Input>, P extends Params<Input,
     Routes<P>[R]
 >["response"];
 
-const FetchV2 = async <Input, R extends Route<Input>, P extends Params<Input, R>>(
+export const FetchV2 = async <Input, R extends Route<Input>, P extends Params<Input, R>>(
     props: FetchProps<Input, R, P>,
 ): Promise<FetchResponse<Input, R, P>> => {
     const { route, params, signal, client = false } = props;

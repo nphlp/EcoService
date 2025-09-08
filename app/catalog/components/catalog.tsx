@@ -11,7 +11,7 @@ import {
 import Link from "@comps/UI/button/link";
 import { combo } from "@lib/combo";
 import { ProductModel } from "@services/types";
-import { useFetchV2 } from "@utils/FetchV2/FetchHookV2";
+import { useFetchV3 } from "@utils/FetchV3/FetchHookV3";
 import { PackageSearch } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { MouseEvent, useContext } from "react";
@@ -36,8 +36,8 @@ export default function Catalog(props: CatalogProps) {
     const { search } = useSearchQueryParams();
     const { category } = useCategoryQueryParams();
 
-    const { data: productList, isLoading: isLoadingProductList } = useFetchV2({
-        route: "/product/findMany",
+    const { data: productList, isLoading: isLoadingProductList } = useFetchV3({
+        route: "/internal/product/findMany",
         params: productFetchParams({ page, take, priceOrder, search, category }),
         initialData: initialProductList,
     });

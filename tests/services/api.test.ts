@@ -1,11 +1,11 @@
-import { FetchV2 } from "@utils/FetchV2/FetchV2";
+import { FetchV3 } from "@utils/FetchV3/FetchV3";
 import { describe, expect, it } from "vitest";
 
 describe("API tests", () => {
     it("User API", async () => {
         // Fetch articles
-        const articles = await FetchV2({
-            route: "/article/findMany",
+        const articles = await FetchV3({
+            route: "/internal/article/findMany",
             params: {
                 include: {
                     Author: true,
@@ -23,8 +23,8 @@ describe("API tests", () => {
 
     it("Product API", async () => {
         // Fetch products
-        const products = await FetchV2({
-            route: "/product/findMany",
+        const products = await FetchV3({
+            route: "/internal/product/findMany",
             params: {
                 include: {
                     Category: true,
