@@ -18,6 +18,8 @@ Complete auth and user management
 
 - [ ] Error handling
 
+- [ ] SetTimeout -> RequestAnimationFrame ?
+
 ## CURRENT
 
 - [] Homogénéhiser tous les composants

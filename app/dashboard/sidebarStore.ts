@@ -12,7 +12,7 @@ type Store = {
  */
 export const useSidebarStore = create<Store>()(
     persist(
-        (set, get) => ({
+        (set) => ({
             // State
             isOpen: false,
 

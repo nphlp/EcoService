@@ -1,18 +1,27 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import { FetchProps, FetchResponse, FetchV3, Params, Route } from "./FetchV3";
+import { Body, FetchProps, FetchResponse, FetchV3, Method, Params, Route } from "./FetchV3";
 
-export type FetchHookProps<Input, R extends Route<Input>, P extends Params<Input, R>> = Omit<
-    FetchProps<Input, R, P>,
-    "client" | "signal"
-> & {
+export type FetchHookProps<
+    Input,
+    R extends Route<Input>,
+    P extends Params<Input, R>,
+    M extends Method<Input, R>,
+    B extends Body<Input, R>,
+> = Omit<FetchProps<Input, R, P, M, B>, "client" | "signal"> & {
     fetchOnFirstRender?: boolean;
     initialData?: FetchResponse<Input, R, P>;
 };
 
-export const useFetchV3 = <Input, R extends Route<Input>, P extends Params<Input, R>>(
-    props: FetchHookProps<Input, R, P>,
+export const useFetchV3 = <
+    Input,
+    R extends Route<Input>,
+    P extends Params<Input, R>,
+    M extends Method<Input, R>,
+    B extends Body<Input, R>,
+>(
+    props: FetchHookProps<Input, R, P, M, B>,
 ) => {
     const { route, params, fetchOnFirstRender = false, initialData } = props;
 
@@ -20,7 +29,11 @@ export const useFetchV3 = <Input, R extends Route<Input>, P extends Params<Input
     const memoizedProps = useMemo(
         () => ({
             route,
+
+            // FetchV2
             params: JSON.parse(stringifiedParams),
+            // FetchV1
+            // params: stringifiedParams ? JSON.parse(stringifiedParams) : undefined,
         }),
         [route, stringifiedParams],
     );
@@ -45,7 +58,7 @@ export const useFetchV3 = <Input, R extends Route<Input>, P extends Params<Input
             try {
                 const { route, params } = memoizedProps;
 
-                const response = await FetchV3<Input, R, P>({
+                const response = await FetchV3<Input, R, P, M, B>({
                     route,
                     params,
                     client: true,

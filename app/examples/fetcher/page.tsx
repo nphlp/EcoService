@@ -1,5 +1,7 @@
 import { FetchV3 } from "@utils/FetchV3/FetchV3";
 
+export const dynamic = "force-dynamic";
+
 export default async function Page() {
     const internalProduct = await FetchV3({
         route: "/internal/product/findMany",

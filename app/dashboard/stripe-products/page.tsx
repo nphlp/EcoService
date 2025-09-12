@@ -1,5 +1,5 @@
 import { hasRole } from "@permissions/hasRole";
-import { Fetch } from "@utils/Fetch/Fetch";
+import { FetchV3 } from "@utils/FetchV3/FetchV3";
 import { Metadata } from "next";
 import { unauthorized } from "next/navigation";
 import SidebarToggleButton from "../sidebarToggleButton";
@@ -13,7 +13,7 @@ export default async function Page() {
     const session = await hasRole(["VENDOR", "EMPLOYEE", "ADMIN"]);
     if (!session) unauthorized();
 
-    const stripeProductList = await Fetch({ route: "/stripe/products" });
+    const stripeProductList = await FetchV3({ route: "/stripe/products" });
 
     return (
         <main className="w-full">

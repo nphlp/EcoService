@@ -4,7 +4,7 @@ import { CategoryFindUniqueAction } from "@actions/CategoryAction";
 import { ProductFindUniqueAction } from "@actions/ProductAction";
 import { hasRole } from "@permissions/hasRole";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
-import { Fetch } from "@utils/Fetch/Fetch";
+import { FetchV3 } from "@utils/FetchV3/FetchV3";
 import { ZodError, ZodType, strictObject, z } from "zod";
 
 export type AddProductToStripeProcessProps = {
@@ -15,13 +15,18 @@ export type AddProductToStripeProcessProps = {
     image: File;
 };
 
-const addProductToStripeProcessSchema: ZodType<AddProductToStripeProcessProps> = strictObject({
-    name: z.string(),
-    description: z.string(),
-    price: z.string(),
-    categoryId: z.string(),
-    image: z.instanceof(File),
-});
+const addProductToStripeProcessSchema: ZodType<Omit<AddProductToStripeProcessProps, "price"> & { price: number }> =
+    strictObject({
+        name: z.string(),
+        description: z.string(),
+        // Transform price string to number
+        price: z
+            .string()
+            .transform((stringValue: string): number => Number(Number(stringValue.trim().replace(",", ".")).toFixed(2)))
+            .refine((value) => !isNaN(value) && value >= 0.01),
+        categoryId: z.string(),
+        image: z.instanceof(File),
+    });
 
 export type AddProductToStripeProcessResponse = {
     status: boolean;
@@ -63,14 +68,14 @@ export const AddProductToStripeProcess = async (
         }
 
         // Product already exists in Stripe ?
-        const existingProductInStripe = await Fetch({ route: "/stripe/products/search", params: { name } });
+        const existingProductInStripe = await FetchV3({ route: "/stripe/products/search", params: { name } });
 
         if (existingProductInStripe.length > 0) {
             return { message: "Product already exists in Stripe", status: false };
         }
 
         // Upload image to Stripe
-        const imageUrlOnStripe = await Fetch({
+        const imageUrlOnStripe = await FetchV3({
             route: "/stripe/file/upload",
             method: "POST",
             body: {
@@ -84,13 +89,11 @@ export const AddProductToStripeProcess = async (
         }
 
         // Create product in Stripe
-        const createProductInStripe = await Fetch({
+        const createProductInStripe = await FetchV3({
             route: "/stripe/products/create",
             params: {
                 name,
                 description,
-                price,
-                currency: "eur",
                 categoryId,
                 categoryName: categoryExists.name,
                 vendorId: session.user.id,
@@ -103,11 +106,11 @@ export const AddProductToStripeProcess = async (
         }
 
         // Create price in Stripe
-        const createPriceInStripe = await Fetch({
+        const createPriceInStripe = await FetchV3({
             route: "/stripe/prices/create",
             params: {
                 productId: createProductInStripe.id,
-                amountInCents: parseFloat(price) * 100,
+                amountInCents: price * 100,
                 currency: "eur",
             },
         });
@@ -117,7 +120,7 @@ export const AddProductToStripeProcess = async (
         }
 
         // Update Stripe product default price
-        const updateProductDefaultPriceInStripe = await Fetch({
+        const updateProductDefaultPriceInStripe = await FetchV3({
             route: "/stripe/products/update",
             params: {
                 productId: createProductInStripe.id,

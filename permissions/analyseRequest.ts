@@ -31,7 +31,7 @@ type PermissionsArgs = {
  */
 export const parseStripeRequest = (props: PermissionsArgs) => {
     const { session, request } = props;
-    console.log("==> 💰 StripePermissions =", session, request);
+    console.log("==> 💰 StripePermissions =", session, request.url);
 
     // TODO: add checks for stripe requests
     return true;
