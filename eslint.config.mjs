@@ -26,6 +26,7 @@ const eslintConfig = [
             "prisma/client/**",
             "node_modules/**",
             "next-env.d.ts",
+            "cache-handler.cjs",
         ],
     },
     ...compat.extends("next/core-web-vitals", "next/typescript"),
