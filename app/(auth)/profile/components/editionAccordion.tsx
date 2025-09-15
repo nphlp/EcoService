@@ -8,7 +8,7 @@ import InputPassword from "@comps/UI/inputPassword";
 import { changeEmail, changePassword, updateUser, useSession } from "@lib/authClient";
 import { BetterSessionServer } from "@lib/authServer";
 import { UpdateLastnameProcess } from "@process/ProfileUpdate";
-import { fileToBase64 } from "@utils/base64";
+import { imageToBase64 } from "@utils/base64";
 import { useState } from "react";
 
 type EditionAccordionProps = {
@@ -231,7 +231,7 @@ const UpdateImageForm = () => {
 
         // Update database through Better Auth API
         try {
-            const encodedImage = await fileToBase64(image);
+            const encodedImage = await imageToBase64(image);
             if (!encodedImage) return;
             await updateUser({ image: encodedImage });
         } catch {

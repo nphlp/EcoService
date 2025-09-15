@@ -55,27 +55,30 @@ export const FetchV3 = async <
 >(
     props: FetchProps<Input, R, P, M, B>,
 ): Promise<FetchResponse<Input, R, P>> => {
-    const { route, params, method = "GET", body, signal, client = false } = props;
+    const { route, params, method = "GET", body: bodyObject, signal: overrideSignal, client = false } = props;
 
+    // Construct URL
     const baseUrl = client ? "" : NEXT_PUBLIC_BASE_URL;
     const encodedParams = params ? encodeURIComponent(JSON.stringify(params)) : "";
     const urlParams = params ? "?params=" + encodedParams : "";
     const url = baseUrl + "/api" + route + urlParams;
 
-    // Prevent timeout in pipeline tests
-    const newAbortSignal = process.env.NODE_ENV !== "test" ? AbortSignal.timeout(10000) : undefined;
-
-    const formData = new FormData();
-    if (body) {
-        Object.entries(body).forEach(([key, value]) => {
-            formData.append(key, value);
+    // Construct body
+    const body = bodyObject ? new FormData() : undefined;
+    if (body && bodyObject) {
+        Object.entries(bodyObject).forEach(([key, value]) => {
+            body.append(key, value);
         });
     }
 
+    // Manage abort controller signal
+    const defaultOrOverrideSignal = overrideSignal ?? AbortSignal.timeout(10000);
+    const signal = process.env.NODE_ENV !== "test" ? defaultOrOverrideSignal : undefined;
+
     const response = await fetch(url, {
         method,
-        ...(body && { body: formData }),
-        signal: signal ?? newAbortSignal,
+        body,
+        signal,
 
         /**
          * Send `headers` from server to client

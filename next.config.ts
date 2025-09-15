@@ -27,13 +27,14 @@ const nextConfig: NextConfig = {
         ],
     },
 
+    // typedRoutes: true, // enable typed routes for links
+    // typedEnv: true, // enable typed environment variables
+
     experimental: {
         viewTransition: true, // enable view transition API
         authInterrupts: true, // enable unauthorized()
         useCache: true, // enable useCache, cacheLife and cacheTag
         // turbopackPersistentCaching: true, // enable turbopack persistent caching
-        // typedRoutes: true, // enable typed routes for links
-        // typedEnv: true, // enable typed environment variables
     },
 };
 

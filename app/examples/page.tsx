@@ -10,21 +10,6 @@ type LinkProps = {
 export default function Page() {
     const links: LinkProps[] = [
         {
-            label: "Comps Table",
-            href: "/examples/comps-table",
-            text: "All components",
-        },
-        {
-            label: "Formulaire",
-            href: "/examples/formulaire",
-            text: "How to create a form with input, select...",
-        },
-        {
-            label: "Comboboxes and Searchboxes",
-            href: "/examples/combobox-and-searchbox",
-            text: "How to create a combobox and searchbox",
-        },
-        {
             label: "Auto-Layout",
             href: "/examples/auto-layout",
             text: "How to create a auto-layout",
@@ -35,24 +20,29 @@ export default function Page() {
             text: "How to create a bouncy height resize",
         },
         {
+            label: "Comboboxes and Searchboxes",
+            href: "/examples/combobox-and-searchbox",
+            text: "How to create a combobox and searchbox",
+        },
+        {
+            label: "Comps example",
+            href: "/examples/comps-example",
+            text: "All components",
+        },
+        {
             label: "Debug Services",
             href: "/examples/debug-services",
             text: "How to create a debug service",
         },
         {
-            label: "Cropper",
-            href: "/examples/cropper",
-            text: "How to create a cropper",
+            label: "Debug Fetch",
+            href: "/examples/debug-fetch",
+            text: "Debugging internal and external fetch calls",
         },
         {
-            label: "User permissions",
-            href: "/examples/user-permissions",
-            text: "How to create a user permissions",
-        },
-        {
-            label: "Image Upload",
-            href: "/examples/image-upload",
-            text: "How to upload an image",
+            label: "Formulaire",
+            href: "/examples/formulaire",
+            text: "How to create a form with input, select...",
         },
         {
             label: "Perspective card",
@@ -60,19 +50,9 @@ export default function Page() {
             text: "How to create a perspective card",
         },
         {
-            label: "Slider",
-            href: "/examples/Slider",
-            text: "How to create a slider",
-        },
-        {
-            label: "View Transition Image",
-            href: "/examples/ViewTransitionImage",
-            text: "How to create a view transition image",
-        },
-        {
-            label: "View Transition Link",
-            href: "/examples/ViewTransitionLink",
-            text: "How to create a view transition link",
+            label: "User permissions",
+            href: "/examples/user-permissions",
+            text: "How to create a user permissions",
         },
     ];
 
