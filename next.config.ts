@@ -1,4 +1,8 @@
 import type { NextConfig } from "next";
+import { dirname } from "node:path";
+import { fileURLToPath } from "node:url";
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 // const isDocker = process.env.MYSQL_HOST === "mysql";
 // const isProduction = process.env.NODE_ENV === "production";

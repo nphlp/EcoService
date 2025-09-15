@@ -54,3 +54,11 @@ export const localBasketSchema: ZodType<LocalBasket> = z.object({
     orderId: z.coerce.string().optional(),
     items: z.array(localBasketItemSchema),
 });
+
+/** Zustand Cookie Name */
+export const basketCookieName = "basket-cookie";
+
+/** Zustand Cookie Schema */
+export const basketCookieSchema = z.object({
+    basket: localBasketSchema,
+});

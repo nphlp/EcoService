@@ -10,11 +10,11 @@ if (!NEXT_PUBLIC_BASE_URL) {
 /**
  * Server only headers inport
  */
-const headers = async () => {
-    if (typeof window !== "undefined") return undefined;
-    const nextHeaders = await import("next/headers");
-    return await nextHeaders.headers();
-};
+// const headers = async () => {
+//     if (typeof window !== "undefined") return undefined;
+//     const nextHeaders = await import("next/headers");
+//     return await nextHeaders.headers();
+// };
 
 export type Route<Input> = keyof Routes<Input>;
 
@@ -80,17 +80,8 @@ export const FetchV3 = async <
         body,
         signal,
 
-        /**
-         * Send `headers` from server to client
-         * -> Required for @lib/zustandCookieStorage.ts to update client cookies from server
-         */
-        headers: await headers(),
-
-        /**
-         * Send `cookies` from client to server
-         * -> Required for @lib/zustandServer.ts to read cookies server side
-         */
-        credentials: "include",
+        // headers: await headers(),
+        // credentials: "include",
     });
 
     const { data, error }: ResponseFormat<FetchResponse<Input, R, P>> = await response.json();

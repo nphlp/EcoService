@@ -40,16 +40,32 @@
  */
 export const zustandCookieStorage = {
     getItem: (name: string) => {
-        const match = document.cookie.match(new RegExp("(^| )" + encodeURIComponent(name) + "=([^;]+)"));
-        return match ? decodeURIComponent(match[2]) : null;
+        try {
+            const cookieName = encodeURIComponent(name);
+            const match = document.cookie.match(new RegExp("(^| )" + cookieName + "=([^;]+)"));
+            return match ? decodeURIComponent(match[2]) : null;
+        } catch (error) {
+            throw new Error(`zustandCookieStorage -> getItem -> ${(error as Error).message}`);
+        }
     },
     setItem: (name: string, value: string) => {
-        const days = 30;
-        const expires = new Date(Date.now() + days * 864e5).toUTCString();
-        document.cookie = `${encodeURIComponent(name)}=${encodeURIComponent(value)}; expires=${expires}; path=/; Secure; SameSite=Strict`;
+        try {
+            const cookieName = encodeURIComponent(name);
+            const cookieValue = encodeURIComponent(value);
+            const cookieExpiration = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toUTCString();
+            document.cookie = `${cookieName}=${cookieValue}; expires=${cookieExpiration}; path=/; Secure; SameSite=Strict`;
+        } catch (error) {
+            throw new Error(`zustandCookieStorage -> setItem -> ${(error as Error).message}`);
+        }
     },
     removeItem: (name: string) => {
-        document.cookie = `${encodeURIComponent(name)}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/`;
+        try {
+            const cookieName = encodeURIComponent(name);
+            const cookieExpiration = new Date(0).toUTCString();
+            document.cookie = `${cookieName}=; expires=${cookieExpiration}; path=/`;
+        } catch (error) {
+            throw new Error(`zustandCookieStorage -> removeItem -> ${(error as Error).message}`);
+        }
     },
 };
 
@@ -59,8 +75,13 @@ export const zustandCookieStorage = {
  * @param expiration - The expiration date
  */
 export const updateCookieExpiration = (name: string, expiration: Date) => {
-    const expires = expiration.toUTCString();
-    const value = zustandCookieStorage.getItem(name);
-    if (!value) return;
-    document.cookie = `${encodeURIComponent(name)}=${encodeURIComponent(value)}; expires=${expires}; path=/; Secure; SameSite=Strict`;
+    const cookieName = encodeURIComponent(name);
+    const cookieExpiration = expiration.toUTCString();
+
+    // Get the current cookie value
+    const cookieValue = zustandCookieStorage.getItem(name);
+
+    if (!cookieValue) return;
+
+    document.cookie = `${cookieName}=${cookieValue}; expires=${cookieExpiration}; path=/; Secure; SameSite=Strict`;
 };

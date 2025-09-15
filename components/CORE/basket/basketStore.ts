@@ -10,9 +10,9 @@ import { UpdateProductOnServerBasket } from "@process/basket/UpdateProductOnServ
 import { OrderModel } from "@services/types";
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
-import { BasketProduct, LocalBasket, LocalBasketItem, ServerBasket } from "./basketType";
+import { BasketProduct, LocalBasket, LocalBasketItem, ServerBasket, basketCookieName } from "./basketType";
 
-type Store = {
+type BasketStore = {
     // State
     basket: LocalBasket | null;
 
@@ -38,7 +38,7 @@ type Store = {
 /**
  * Basket store (synchronized with cookies)
  */
-export const useBasketStore = create<Store>()(
+export const useBasketStore = create<BasketStore>()(
     persist(
         (set, get) => ({
             // State
@@ -287,9 +287,9 @@ export const useBasketStore = create<Store>()(
         }),
         // Persist the basket in cookies
         {
-            name: "basket-cookie",
+            name: basketCookieName,
             storage: createJSONStorage(() => zustandCookieStorage),
-            partialize: (state) => ({ basket: state.basket }),
+            partialize: (state: BasketStore) => ({ basket: state.basket }),
         },
     ),
 );
