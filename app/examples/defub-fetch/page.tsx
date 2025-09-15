@@ -1,14 +1,14 @@
-import { FetchV3 } from "@utils/FetchV3/FetchV3";
+import { Fetch } from "@utils/Fetch";
 
 export const dynamic = "force-dynamic";
 
 export default async function Page() {
-    const internalProduct = await FetchV3({
+    const internalProduct = await Fetch({
         route: "/internal/product/findMany",
         params: { take: 3 },
     });
 
-    const stripeProduct = await FetchV3({
+    const stripeProduct = await Fetch({
         route: "/stripe/products",
         params: { limit: 3 },
     });

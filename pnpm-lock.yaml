@@ -8,9 +8,6 @@ importers:
 
   .:
     dependencies:
-      '@headlessui/react':
-        specifier: ^2.2.8
-        version: 2.2.8(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
       '@prisma/client':
         specifier: ^6.16.1
         version: 6.16.1(prisma@6.16.1(typescript@5.9.2))(typescript@5.9.2)
@@ -23,9 +20,6 @@ importers:
       next:
         specifier: 15.6.0-canary.6
         version: 15.6.0-canary.6(@babel/core@7.28.4)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(sass@1.92.1)
-      prettier:
-        specifier: 3.6.2
-        version: 3.6.2
       react:
         specifier: ^19.1.1
         version: 19.1.1
@@ -51,6 +45,9 @@ importers:
       '@eslint/eslintrc':
         specifier: ^3.3.1
         version: 3.3.1
+      '@headlessui/react':
+        specifier: ^2.2.8
+        version: 2.2.8(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
       '@next/eslint-plugin-next':
         specifier: ^15.5.3
         version: 15.5.3
@@ -171,6 +168,9 @@ importers:
       postcss:
         specifier: ^8.5.6
         version: 8.5.6
+      prettier:
+        specifier: 3.6.2
+        version: 3.6.2
       prettier-plugin-tailwindcss:
         specifier: ^0.6.14
         version: 0.6.14(@trivago/prettier-plugin-sort-imports@5.2.2(prettier@3.6.2))(prettier@3.6.2)

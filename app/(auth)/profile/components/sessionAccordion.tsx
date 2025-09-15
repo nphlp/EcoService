@@ -1,7 +1,7 @@
 import { Accordion, AccordionButton, AccordionContent } from "@comps/UI/accordion";
 import Logout from "@comps/UI/logout";
 import { BetterSessionListServer, BetterSessionServer, GetSessionList } from "@lib/authServer";
-import { FetchV3 } from "@utils/FetchV3/FetchV3";
+import { Fetch } from "@utils/Fetch";
 import { LogOut } from "lucide-react";
 import LocationMap from "./locationMap";
 import SessionManager, { SessionAndLocation } from "./sessionManager";
@@ -47,7 +47,7 @@ const CurrentSession = async (props: CurrentSessionProps) => {
     const userAgent = session.session.userAgent ?? "";
     const ipAddress = session.session.ipAddress ?? "";
 
-    const location = await FetchV3({ route: "/location", params: { ipAddress } });
+    const location = await Fetch({ route: "/location", params: { ipAddress } });
 
     return (
         <div className="space-y-2 rounded-lg border border-gray-300 px-5 py-3">
@@ -86,7 +86,7 @@ const OtherSessions = async (props: OtherSessionsProps) => {
 
     const location = await Promise.all(
         orderedSessionList.map(({ ipAddress }) =>
-            FetchV3({
+            Fetch({
                 route: "/location",
                 params: { ipAddress: ipAddress ?? "" },
             }),

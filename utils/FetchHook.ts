@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Body, FetchProps, FetchResponse, FetchV3, Method, Params, Route } from "./FetchV3";
+import { Body, Fetch, FetchProps, FetchResponse, Method, Params, Route } from "./Fetch";
 
 export type FetchHookProps<
     Input,
@@ -14,7 +14,7 @@ export type FetchHookProps<
     initialData?: FetchResponse<Input, R, P>;
 };
 
-export const useFetchV3 = <
+export const useFetch = <
     Input,
     R extends Route<Input>,
     P extends Params<Input, R>,
@@ -52,13 +52,13 @@ export const useFetchV3 = <
             setIsLoading(true);
 
             if (process.env.NODE_ENV === "development") {
-                console.log("useFetchV3: ", memoizedProps);
+                console.log("useFetch: ", memoizedProps);
             }
 
             try {
                 const { route, params } = memoizedProps;
 
-                const response = await FetchV3<Input, R, P, M, B>({
+                const response = await Fetch<Input, R, P, M, B>({
                     route,
                     params,
                     client: true,

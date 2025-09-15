@@ -2,8 +2,8 @@ import { OrderUpdateAction } from "@actions/OrderAction";
 import { ProductUpsertAction } from "@actions/ProductAction";
 import { StripeInstance } from "@lib/stripe";
 import { StripeError } from "@stripe/stripe-js";
+import { Fetch } from "@utils/Fetch";
 import { ResponseFormat } from "@utils/FetchConfig";
-import { FetchV3 } from "@utils/FetchV3/FetchV3";
 import { StringToSlug } from "@utils/StringToSlug";
 import { revalidateTag } from "next/cache";
 import { headers } from "next/headers";
@@ -119,7 +119,7 @@ const productUpsert = async (product: Stripe.Product) => {
     const defaultPrice = product.default_price as string | undefined;
 
     const productPrice = defaultPrice
-        ? await FetchV3({
+        ? await Fetch({
               route: "/stripe/prices/select",
               params: { id: defaultPrice },
           })

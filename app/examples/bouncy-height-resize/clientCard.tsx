@@ -1,7 +1,7 @@
 "use client";
 
 import Toggle from "@comps/UI/toogle";
-import { useFetchV3 } from "@utils/FetchV3/FetchHookV3";
+import { useFetch } from "@utils/FetchHook";
 import { motion } from "motion/react";
 import { ReactNode, useEffect, useRef, useState } from "react";
 import { ProductResponse, selectProductFetch } from "./fetch";
@@ -15,7 +15,7 @@ export default function ClientCard(props: ClientCardProps) {
 
     const [take, setTake] = useState(false);
 
-    const { data: productList } = useFetchV3({
+    const { data: productList } = useFetch({
         route: "/internal/product/findMany",
         params: {
             ...selectProductFetch,

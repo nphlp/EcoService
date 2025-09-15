@@ -4,7 +4,7 @@ import Button from "@comps/UI/button/button";
 import { useComboboxMultiStates } from "@comps/UI/comboboxes/comboHookStates";
 import ComboboxMulti from "@comps/UI/comboboxes/comboboxMulti";
 import { ComboOptionType, createComboOptions, deduplicateOptions } from "@comps/UI/comboboxes/utils";
-import { useFetchV3 } from "@utils/FetchV3/FetchHookV3";
+import { useFetch } from "@utils/FetchHook";
 import { isEqual } from "lodash";
 import { FormEvent, useEffect } from "react";
 
@@ -20,7 +20,7 @@ export default function Search(props: ResearchProps) {
     const { selected, query, options, setOptions } = comboboxStates;
 
     // Reactive fetch
-    const { data: productData, isLoading: isLoadingProduct } = useFetchV3({
+    const { data: productData, isLoading: isLoadingProduct } = useFetch({
         route: "/internal/product/findMany",
         params: {
             select: { slug: true, name: true },

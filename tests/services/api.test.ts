@@ -1,10 +1,10 @@
-import { FetchV3 } from "@utils/FetchV3/FetchV3";
+import { Fetch } from "@utils/Fetch";
 import { describe, expect, it } from "vitest";
 
 describe("API tests", () => {
     it("User API", async () => {
         // Fetch articles
-        const articles = await FetchV3({
+        const articles = await Fetch({
             route: "/internal/article/findMany",
             params: {
                 include: {
@@ -23,7 +23,7 @@ describe("API tests", () => {
 
     it("Product API", async () => {
         // Fetch products
-        const products = await FetchV3({
+        const products = await Fetch({
             route: "/internal/product/findMany",
             params: {
                 include: {

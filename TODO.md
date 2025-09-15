@@ -6,14 +6,14 @@ Complete auth and user management
 
 - Build : The Next.js plugin was not detected in your ESLint configuration. See https://nextjs.org/docs/app/api-reference/config/eslint#migrating-existing-config
 
-## FetchV3
+## Fetch
 
 - [ ] Template Server n'utilise pas le cache ?
 
 - [ ] Réduire le nombre de couches
     - [ ] Supprimer Zod
 
-- [ ] Fusionner Fetch et FetchV2 en FetchV3
+- [ ] Fusionner Fetch et FetchV2 en Fetch
     - [ ] Ajouter au template API en `/external/...`
 
 - [ ] Error handling
