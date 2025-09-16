@@ -12,16 +12,16 @@ import { SessionRoutes } from "@services/api/SessionApi";
 import { UserRoutes } from "@services/api/UserApi";
 import { VerificationRoutes } from "@services/api/VerificationApi";
 
-export type Routes<Input> = UserRoutes<Input> &
-    SessionRoutes<Input> &
-    AccountRoutes<Input> &
-    VerificationRoutes<Input> &
+export type Routes<Input> = AccountRoutes<Input> &
     AddressRoutes<Input> &
     ArticleRoutes<Input> &
-    DiyRoutes<Input> &
-    ContentRoutes<Input> &
     CategoryRoutes<Input> &
+    ContentRoutes<Input> &
+    DiyRoutes<Input> &
+    FruitRoutes<Input> &
+    OrderRoutes<Input> &
     ProductRoutes<Input> &
     QuantityRoutes<Input> &
-    OrderRoutes<Input> &
-    FruitRoutes<Input>;
+    SessionRoutes<Input> &
+    UserRoutes<Input> &
+    VerificationRoutes<Input>;

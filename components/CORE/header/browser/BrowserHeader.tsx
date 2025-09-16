@@ -6,7 +6,7 @@ type BrowserHeaderProps = {
     className?: string;
 };
 
-export default function BrowserHeader(props: BrowserHeaderProps) {
+export default async function BrowserHeader(props: BrowserHeaderProps) {
     const { className } = props;
 
     return (

@@ -1,4 +1,4 @@
-import { searchQueryParser } from "@comps/SHARED/queryParamsServerParsers";
+import { pageQueryParser, searchQueryParser } from "@comps/SHARED/queryParamsServerParsers";
 import { createSearchParamsCache, createSerializer } from "nuqs/server";
 
 /**
@@ -7,6 +7,8 @@ import { createSearchParamsCache, createSerializer } from "nuqs/server";
 export const diyQueryParams = {
     /** Search (default value: `""`) */
     search: searchQueryParser,
+    /** Page number (default value: `1`) */
+    page: pageQueryParser,
 };
 
 /**

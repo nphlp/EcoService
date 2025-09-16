@@ -4,7 +4,7 @@ import { CategoryFindUniqueAction } from "@actions/CategoryAction";
 import { ProductFindUniqueAction } from "@actions/ProductAction";
 import { hasRole } from "@permissions/hasRole";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
-import { Fetch } from "@utils/Fetch/Fetch";
+import { Fetch } from "@utils/Fetch";
 import { ZodError, ZodType, strictObject, z } from "zod";
 
 export type AddProductToStripeProcessProps = {
@@ -15,13 +15,18 @@ export type AddProductToStripeProcessProps = {
     image: File;
 };
 
-const addProductToStripeProcessSchema: ZodType<AddProductToStripeProcessProps> = strictObject({
-    name: z.string(),
-    description: z.string(),
-    price: z.string(),
-    categoryId: z.string(),
-    image: z.instanceof(File),
-});
+const addProductToStripeProcessSchema: ZodType<Omit<AddProductToStripeProcessProps, "price"> & { price: number }> =
+    strictObject({
+        name: z.string(),
+        description: z.string(),
+        // Transform price string to number
+        price: z
+            .string()
+            .transform((stringValue: string): number => Number(Number(stringValue.trim().replace(",", ".")).toFixed(2)))
+            .refine((value) => !isNaN(value) && value >= 0.01),
+        categoryId: z.string(),
+        image: z.instanceof(File),
+    });
 
 export type AddProductToStripeProcessResponse = {
     status: boolean;
@@ -89,8 +94,6 @@ export const AddProductToStripeProcess = async (
             params: {
                 name,
                 description,
-                price,
-                currency: "eur",
                 categoryId,
                 categoryName: categoryExists.name,
                 vendorId: session.user.id,
@@ -107,7 +110,7 @@ export const AddProductToStripeProcess = async (
             route: "/stripe/prices/create",
             params: {
                 productId: createProductInStripe.id,
-                amountInCents: parseFloat(price) * 100,
+                amountInCents: price * 100,
                 currency: "eur",
             },
         });

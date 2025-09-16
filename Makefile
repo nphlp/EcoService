@@ -1,159 +1,116 @@
-####################
-#      Config      #
-####################
-
-.PHONY: dev prod build-dev build-prod stop-dev stop-prod rm-dev rm-prod nextjs-logs mysql-logs nextjs-it mysql-it nextjs-db-shell mysql-db-shell
-
-# Enable compose bake for better performance
-BAKE = COMPOSE_BAKE=true
-
 #############################
-#    Image Compression      #
+#    Image Processing       #
 #############################
 
-compress:
-	@make -f Makefile.compress auto-compress
+.PHONY: image-resize image-compress image-blur
+
+image-resize:
+	@./scripts/resize-images.sh
+
+image-compress:
+	@./scripts/compress-images.sh
+
+image-blur:
+	@./scripts/blur-images.sh
 
 ####################
 #    Certificates  #
 ####################
 
+.PHONY: certs-setup certs-reset certs-reload
+
 # Generate SSL certificates if needed
 certs-setup:
-	@ ./docker/generate-mysql-ssl-certs.bash
+	@./scripts/ssl-certs.sh setup
 
 # Reset the certs
 certs-reset:
-	@ echo "🧹 Resetting certs..."
-	@ rm -rf ./docker/certs
-	@ echo "🫧 Certs reset"
+	@./scripts/ssl-certs.sh reset
 
 # Reload the certs
 certs-reload:
-	@ $(MAKE) certs-reset
-	@ $(MAKE) certs-setup
+	@./scripts/ssl-certs.sh reload
 
 ####################
-#     Hybrid env    #
+#      Docker      #
 ####################
 
-DC_HYBRID = docker compose -f docker/compose/compose.hybrid.yml --env-file .env.hybrid
+.PHONY: local dev hybrid prod
 
-# Build hybrid
-build-hybrid:
-	@ $(BAKE) $(DC_HYBRID) up -d --build
+DC = COMPOSE_BAKE=true docker compose -f compose.yml
 
-# Run hybrid
-hybrid:
-	@ $(DC_HYBRID) up -d
+local:
+	@pnpm run auto
+	@echo ""
+	@echo "🔥 LOCAL MODE"
+	@echo "✅ Not any container is running"
+	@echo "✏️ MySQL local service is exposed on local network (3306)"
+	@echo "📝 Access Next.js at http://localhost:3000"
 
-# Stop hybrid
-stop-hybrid:
-	@ $(DC_HYBRID) down
-
-# Remove hybrid and volumes
-rm-hybrid:
-	@ $(DC_HYBRID) down -v
-
-####################
-#      Dev env     #
-####################
-
-DC_DEV = docker compose -f docker/compose/compose.dev.yml --env-file .env.dev
-
-# Build dev
-build-dev:
-	@ $(BAKE) $(DC_DEV) up -d --build
-
-# Run dev
 dev:
-	@ $(DC_DEV) up -d
+	@ $(DC) -f docker/compose.dev.yml up -d --build
+	@echo ""
+	@echo "🔥 DEV MODE"
+	@echo "⚠️ Warning: Compilation performances are slow in docker environments. Prefer using HYBRID MODE."
+	@echo "✅ Nextjs and MySQL containers are running"
+	@echo "✏️ MySQL container is exposed on internal network (3306)"
+	@echo "📝 Access Next.js at http://localhost:3000"
 
-# Stop dev
-stop-dev:
-	@ $(DC_DEV) down
+hybrid:
+	@ $(DC) -f docker/compose.hybrid.yml up -d --build
+	@echo ""
+	@echo "🔥 HYBRID MODE"
+	@echo "✅ Only MySQL container is running"
+	@echo "✏️ MySQL container is exposed on local network (3307)"
+	@echo ""
+	@echo "➡️ Now, run 'pnpm hybrid' to start Next.js locally with overridden .env file"
+	@echo "📝 Access Next.js at http://localhost:3000"
 
-# Remove dev and volumes
-rm-dev:
-	@ $(DC_DEV) down -v
-
-####################
-#     Prod env     #
-####################
-
-DC_PROD = docker compose -f docker/compose/compose.prod.yml --env-file .env.prod
-
-# Build prod
-build-prod:
-	@ $(BAKE) $(DC_PROD) up -d --build
-
-# Run prod
 prod:
-	@ $(DC_PROD) up -d
-
-# Stop prod
-stop-prod:
-	@ $(DC_PROD) down
-
-# Remove prod and volumes
-rm-prod:
-	@ $(DC_PROD) down -v
+	@ $(DC) -f docker/compose.prod.yml up -d --build
+	@echo ""
+	@echo "🔥 PRODUCTION MODE"
+	@echo "✅ Nextjs and MySQL containers are running"
+	@echo "✏️ MySQL container is exposed on internal network (3306)"
+	@echo "📝 Access Next.js at http://localhost:3000"
 
 ####################
-#    Containers    #
+#     Commands     #
 ####################
 
-# Show the nextjs logs
-nextjs-logs:
-	@ docker logs -f nextjs
+.PHONY: stop clean
 
-# Show the mysql logs
-mysql-logs:
-	@ docker logs -f mysql
+stop:
+	@docker compose down
+	@echo "🫧 All containers stopped"
 
-# Connect to the nextjs container
-nextjs-it:
-	@ docker exec -it nextjs sh
+clean:
+	@docker compose down -v
+	@echo "🧹 All containers and volumes removed"
 
-# Connect to the mysql container
-mysql-it:
-	@ docker exec -it mysql sh
+#########################
+#    Containers Logs    #
+#########################
 
-# Connect to the mysql instance through the nextjs container
-nextjs-db-shell:
-	@ docker exec -it nextjs sh -c " \
-	    mysql -u root -p${MYSQL_ROOT_PASSWORD} -h mysql \
-	    --ssl-ca=/app/docker/certs/ca.pem \
-	    --ssl-cert=/app/docker/certs/client-cert.pem \
-	    --ssl-key=/app/docker/certs/client-key.pem \
-	"
+.PHONY: logs-nextjs logs-mysql
 
-# Connect to the mysql instance through the mysql container
-mysql-db-shell:
-	@ docker exec -it mysql bash -c "mysql -u root -p${MYSQL_ROOT_PASSWORD}"
+logs-nextjs:
+	@docker logs -f nextjs
 
-####################
-#   Docker Swarm   #
-####################
+logs-mysql:
+	@docker logs -f mysql
 
-# # Deploy to Docker Swarm
-# swarm-deploy:
-# 	@ $(MAKE) certs-setup
-# 	@ echo "🚀 Deploying to Docker Swarm..."
-# 	@ docker stack deploy -c compose.prod.yml --with-registry-auth eco-service
+#########################
+#      Shell access     #
+#########################
 
-# # Update Docker Swarm deployment (rolling update)
-# swarm-update:
-# 	@ echo "🔄 Updating Docker Swarm deployment..."
-# 	@ docker service update --image eco-service:latest eco-service_nextjs
+.PHONY: shell-nextjs shell-mysql shell-mysql-db
 
-# # Remove from Docker Swarm
-# swarm-down:
-# 	@ echo "🛑 Removing from Docker Swarm..."
-# 	@ docker stack rm eco-service
+shell-nextjs:
+	@docker exec -it nextjs sh
 
-# # Build production image
-# build-prod:
-# 	@ $(MAKE) certs-setup
-# 	@ echo "🏗️ Building production image..."
-# 	@ docker build -f docker/Dockerfile.prod -t eco-service:latest .
+shell-mysql:
+	@docker exec -it mysql sh
+
+shell-mysql-db:
+	@docker exec -it mysql mysql -u root -p${MYSQL_ROOT_PASSWORD}

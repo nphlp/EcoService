@@ -1,155 +1,306 @@
 "use server";
 
+import CategoryService from "@class/CategoryClass";
 import { requiresSafeMessage } from "@permissions/requiresSafeMessage";
-import CategoryService from "@services/class/CategoryClass";
-import { CategoryCountProps, CategoryCountResponse, CategoryCreateManyProps, CategoryCreateManyResponse, CategoryCreateProps, CategoryCreateResponse, CategoryDeleteManyProps, CategoryDeleteManyResponse, CategoryDeleteProps, CategoryDeleteResponse, CategoryFindFirstProps, CategoryFindFirstResponse, CategoryFindManyProps, CategoryFindManyResponse, CategoryFindUniqueProps, CategoryFindUniqueResponse, CategoryUpdateManyProps, CategoryUpdateManyResponse, CategoryUpdateProps, CategoryUpdateResponse, CategoryUpsertProps, CategoryUpsertResponse } from "@services/types/CategoryType";
-
-// ========== Single mutations ========== //
-
-export const CategoryCreateAction = async <T extends CategoryCreateProps>(props: T, disableSafeMessage: boolean = false): Promise<CategoryCreateResponse<T>> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "CategoryCreateAction", "Category", "create");
-        const { data, error } = await CategoryService.create(props);
-        if (!data || error) throw new Error(error);
-        return data;
-    } catch (error) {
-        throw new Error("CategoryCreateAction -> " + (error as Error).message);
-    }
-};
-
-export const CategoryUpsertAction = async <T extends CategoryUpsertProps>(props: T, disableSafeMessage: boolean = false): Promise<CategoryUpsertResponse<T>> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "CategoryUpsertAction", "Category", "upsert");
-        const { data, error } = await CategoryService.upsert(props);
-        if (!data || error) throw new Error(error);
-        return data;
-    } catch (error) {
-        throw new Error("CategoryUpsertAction -> " + (error as Error).message);
-    }
-};
-
-export const CategoryUpdateAction = async <T extends CategoryUpdateProps>(props: T, disableSafeMessage: boolean = false): Promise<CategoryUpdateResponse<T>> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "CategoryUpdateAction", "Category", "update");
-        const { data, error } = await CategoryService.update(props);
-        if (!data || error) throw new Error(error);
-        return data;
-    } catch (error) {
-        throw new Error("CategoryUpdateAction -> " + (error as Error).message);
-    }
-};
-
-export const CategoryDeleteAction = async <T extends CategoryDeleteProps>(props: T, disableSafeMessage: boolean = false): Promise<CategoryDeleteResponse<T>> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "CategoryDeleteAction", "Category", "delete");
-        const { data, error } = await CategoryService.delete(props);
-        if (!data || error) throw new Error(error);
-        return data;
-    } catch (error) {
-        throw new Error("CategoryDeleteAction -> " + (error as Error).message);
-    }
-};
-
-// ========== Multiple mutations ========== //
-
-export const CategoryCreateManyAction = async (props: CategoryCreateManyProps, disableSafeMessage: boolean = false): Promise<CategoryCreateManyResponse> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "CategoryCreateManyAction", "Category", "createMany");
-        const { data, error } = await CategoryService.createMany(props);
-        if (!data || error) throw new Error(error);
-        return data;
-    } catch (error) {
-        throw new Error("CategoryCreateManyAction -> " + (error as Error).message);
-    }
-};
-
-export const CategoryUpdateManyAction = async (props: CategoryUpdateManyProps, disableSafeMessage: boolean = false): Promise<CategoryUpdateManyResponse> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "CategoryUpdateManyAction", "Category", "updateMany");
-        const { data, error } = await CategoryService.updateMany(props);
-        if (!data || error) throw new Error(error);
-        return data;
-    } catch (error) {
-        throw new Error("CategoryUpdateManyAction -> " + (error as Error).message);
-    }
-};
-
-export const CategoryDeleteManyAction = async (props: CategoryDeleteManyProps, disableSafeMessage: boolean = false): Promise<CategoryDeleteManyResponse> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "CategoryDeleteManyAction", "Category", "deleteMany");
-        const { data, error } = await CategoryService.deleteMany(props);
-        if (!data || error) throw new Error(error);
-        return data;
-    } catch (error) {
-        throw new Error("CategoryDeleteManyAction -> " + (error as Error).message);
-    }
-};
-
-// ========== Single queries ========== //
+import { Prisma } from "@prisma/client";
+import { GetResult, InternalArgs, PrismaClientOptions } from "@prisma/client/runtime/library";
 
 /**
- * WARNING: do not use this for fetching data -> use API routes with caching instead
+ * # Category Action Services
+ *
+ * This file:
+ * - is generated by the command `pnpm run generate:all`
+ * - that executes the script: `scripts/generator.ts`
+ * - which uses `template/services/actions/{{model}}Action.hbs` as base template
+ * - to generate server actions files for every models available in the `prisma/client/index.d.ts`.
+ *
+ * > **Warning**: Do not edit this file directly. Your changes will be lost the next time the code is generated.
  */
-export const CategoryFindFirstAction = async <T extends CategoryFindFirstProps>(
-    props: T,
-    disableSafeMessage: boolean = false
+
+// ========== Types ========== //
+
+// Create
+type CategoryCreateProps<T extends Prisma.CategoryCreateArgs> = Prisma.SelectSubset<T, Prisma.CategoryCreateArgs>;
+type CategoryCreateResponse<T extends Prisma.CategoryCreateArgs> = GetResult<
+    Prisma.$CategoryPayload<InternalArgs>,
+    T,
+    "create",
+    PrismaClientOptions
+>;
+
+// Upsert
+type CategoryUpsertProps<T extends Prisma.CategoryUpsertArgs> = Prisma.SelectSubset<T, Prisma.CategoryUpsertArgs>;
+type CategoryUpsertResponse<T extends Prisma.CategoryUpsertArgs> = GetResult<
+    Prisma.$CategoryPayload<InternalArgs>,
+    T,
+    "upsert",
+    PrismaClientOptions
+>;
+
+// Update
+type CategoryUpdateProps<T extends Prisma.CategoryUpdateArgs> = Prisma.SelectSubset<T, Prisma.CategoryUpdateArgs>;
+type CategoryUpdateResponse<T extends Prisma.CategoryUpdateArgs> = GetResult<
+    Prisma.$CategoryPayload<InternalArgs>,
+    T,
+    "update",
+    PrismaClientOptions
+>;
+
+// Delete
+type CategoryDeleteProps<T extends Prisma.CategoryDeleteArgs> = Prisma.SelectSubset<T, Prisma.CategoryDeleteArgs>;
+type CategoryDeleteResponse<T extends Prisma.CategoryDeleteArgs> = GetResult<
+    Prisma.$CategoryPayload<InternalArgs>,
+    T,
+    "delete",
+    PrismaClientOptions
+>;
+
+// Create Many
+type CategoryCreateManyProps<T extends Prisma.CategoryCreateManyArgs> = Prisma.SelectSubset<
+    T,
+    Prisma.CategoryCreateManyArgs
+>;
+type CategoryCreateManyResponse = Prisma.BatchPayload;
+
+// Update Many
+type CategoryUpdateManyProps<T extends Prisma.CategoryUpdateManyArgs> = Prisma.SelectSubset<
+    T,
+    Prisma.CategoryUpdateManyArgs
+>;
+type CategoryUpdateManyResponse = Prisma.BatchPayload;
+
+// Delete Many
+type CategoryDeleteManyProps<T extends Prisma.CategoryDeleteManyArgs> = Prisma.SelectSubset<
+    T,
+    Prisma.CategoryDeleteManyArgs
+>;
+type CategoryDeleteManyResponse = Prisma.BatchPayload;
+
+// Find First
+type CategoryFindFirstProps<T extends Prisma.CategoryFindFirstArgs> = Prisma.SelectSubset<
+    T,
+    Prisma.CategoryFindFirstArgs
+>;
+type CategoryFindFirstResponse<T extends Prisma.CategoryFindFirstArgs> = GetResult<
+    Prisma.$CategoryPayload<InternalArgs>,
+    T,
+    "findFirst",
+    PrismaClientOptions
+>;
+
+// Find Unique
+type CategoryFindUniqueProps<T extends Prisma.CategoryFindUniqueArgs> = Prisma.SelectSubset<
+    T,
+    Prisma.CategoryFindUniqueArgs
+>;
+type CategoryFindUniqueResponse<T extends Prisma.CategoryFindUniqueArgs> = GetResult<
+    Prisma.$CategoryPayload<InternalArgs>,
+    T,
+    "findUnique",
+    PrismaClientOptions
+>;
+
+// Find Many
+type CategoryFindManyProps<T extends Prisma.CategoryFindManyArgs> = Prisma.SelectSubset<T, Prisma.CategoryFindManyArgs>;
+type CategoryFindManyResponse<T extends Prisma.CategoryFindManyArgs> = GetResult<
+    Prisma.$CategoryPayload<InternalArgs>,
+    T,
+    "findMany",
+    PrismaClientOptions
+>;
+
+// Count
+type CategoryCountProps<T extends Prisma.CategoryCountArgs> = Prisma.SelectSubset<T, Prisma.CategoryCountArgs>;
+type CategoryCountResponse<T extends Prisma.CategoryCountArgs> =
+    // eslint-disable-next-line
+    T extends { select: any }
+        ? T["select"] extends true
+            ? number
+            : Prisma.GetScalarType<T["select"], Prisma.CategoryCountAggregateOutputType>
+        : number;
+
+// ========== Services ========== //
+
+/**
+ * ## Category Create (Server Action)
+ *
+ * - optimized for mutations
+ * - serial execution without cache
+ *
+ * **Note**: function generated from template.
+ */
+export const CategoryCreateAction = async <T extends Prisma.CategoryCreateArgs>(
+    props: CategoryCreateProps<T>,
+    disableSafeMessage: boolean = false,
+): Promise<CategoryCreateResponse<T>> => {
+    await requiresSafeMessage(disableSafeMessage, "CategoryCreateAction", "Category", "create");
+    return await CategoryService.create(props);
+};
+
+/**
+ * ## Category Upsert (Server Action)
+ *
+ * - optimized for mutations
+ * - serial execution without cache
+ *
+ * **Note**: function generated from template.
+ */
+export const CategoryUpsertAction = async <T extends Prisma.CategoryUpsertArgs>(
+    props: CategoryUpsertProps<T>,
+    disableSafeMessage: boolean = false,
+): Promise<CategoryUpsertResponse<T>> => {
+    await requiresSafeMessage(disableSafeMessage, "CategoryUpsertAction", "Category", "upsert");
+    return await CategoryService.upsert(props);
+};
+
+/**
+ * ## Category Update (Server Action)
+ *
+ * - optimized for mutations
+ * - serial execution without cache
+ *
+ * **Note**: function generated from template.
+ */
+export const CategoryUpdateAction = async <T extends Prisma.CategoryUpdateArgs>(
+    props: CategoryUpdateProps<T>,
+    disableSafeMessage: boolean = false,
+): Promise<CategoryUpdateResponse<T>> => {
+    await requiresSafeMessage(disableSafeMessage, "CategoryUpdateAction", "Category", "update");
+    return await CategoryService.update(props);
+};
+
+/**
+ * ## Category Delete (Server Action)
+ *
+ * - optimized for mutations
+ * - serial execution without cache
+ *
+ * **Note**: function generated from template.
+ */
+export const CategoryDeleteAction = async <T extends Prisma.CategoryDeleteArgs>(
+    props: CategoryDeleteProps<T>,
+    disableSafeMessage: boolean = false,
+): Promise<CategoryDeleteResponse<T>> => {
+    await requiresSafeMessage(disableSafeMessage, "CategoryDeleteAction", "Category", "delete");
+    return await CategoryService.delete(props);
+};
+
+/**
+ * ## Category Create Many (Server Action)
+ *
+ * - optimized for mutations
+ * - serial execution without cache
+ *
+ * **Note**: function generated from template.
+ */
+export const CategoryCreateManyAction = async <T extends Prisma.CategoryCreateManyArgs>(
+    props: CategoryCreateManyProps<T>,
+    disableSafeMessage: boolean = false,
+): Promise<CategoryCreateManyResponse> => {
+    await requiresSafeMessage(disableSafeMessage, "CategoryCreateManyAction", "Category", "createMany");
+    return await CategoryService.createMany(props);
+};
+
+/**
+ * ## Category Update Many (Server Action)
+ *
+ * - optimized for mutations
+ * - serial execution without cache
+ *
+ * **Note**: function generated from template.
+ */
+export const CategoryUpdateManyAction = async <T extends Prisma.CategoryUpdateManyArgs>(
+    props: CategoryUpdateManyProps<T>,
+    disableSafeMessage: boolean = false,
+): Promise<CategoryUpdateManyResponse> => {
+    await requiresSafeMessage(disableSafeMessage, "CategoryUpdateManyAction", "Category", "updateMany");
+    return await CategoryService.updateMany(props);
+};
+
+/**
+ * ## Category Delete Many (Server Action)
+ *
+ * - optimized for mutations
+ * - serial execution without cache
+ *
+ * **Note**: function generated from template.
+ */
+export const CategoryDeleteManyAction = async <T extends Prisma.CategoryDeleteManyArgs>(
+    props: CategoryDeleteManyProps<T>,
+    disableSafeMessage: boolean = false,
+): Promise<CategoryDeleteManyResponse> => {
+    await requiresSafeMessage(disableSafeMessage, "CategoryDeleteManyAction", "Category", "deleteMany");
+    return await CategoryService.deleteMany(props);
+};
+
+/**
+ * ## Category Find First (Server Action)
+ *
+ * **WARNING**: Server actions can't be cached and parallelized
+ *
+ * - Do not use this for fetching data, use API routes with caching instead
+ * - Use it to get fresh data, without any cache
+ *
+ *  **Note**: function generated from template.
+ */
+export const CategoryFindFirstAction = async <T extends Prisma.CategoryFindFirstArgs>(
+    props: CategoryFindFirstProps<T>,
+    disableSafeMessage: boolean = false,
 ): Promise<CategoryFindFirstResponse<T>> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "CategoryFindFirstAction", "Category", "findFirst");
-        const { data, error } = await CategoryService.findFirst(props);
-        if (error) throw new Error(error);
-        return data ?? null;
-    } catch (error) {
-        throw new Error("CategoryFindFirstAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "CategoryFindFirstAction", "Category", "findFirst");
+    return await CategoryService.findFirst(props);
 };
 
 /**
- * WARNING: do not use this for fetching data -> use API routes with caching instead
+ * ## Category Find Unique (Server Action)
+ *
+ * **WARNING**: Server actions can't be cached and parallelized
+ *
+ * - Do not use this for fetching data, use API routes with caching instead
+ * - Use it to get fresh data, without any cache
+ *
+ *  **Note**: function generated from template.
  */
-export const CategoryFindUniqueAction = async <T extends CategoryFindUniqueProps>(
-    props: T,
-    disableSafeMessage: boolean = false
+export const CategoryFindUniqueAction = async <T extends Prisma.CategoryFindUniqueArgs>(
+    props: CategoryFindUniqueProps<T>,
+    disableSafeMessage: boolean = false,
 ): Promise<CategoryFindUniqueResponse<T>> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "CategoryFindUniqueAction", "Category", "findUnique");
-        const { data, error } = await CategoryService.findUnique(props);
-        if (error) throw new Error(error);
-        return data ?? null;
-    } catch (error) {
-        throw new Error("CategoryFindUniqueAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "CategoryFindUniqueAction", "Category", "findUnique");
+    return await CategoryService.findUnique(props);
 };
 
 /**
- * WARNING: do not use this for fetching data -> use API routes with caching instead
+ * ## Category Find Many (Server Action)
+ *
+ * **WARNING**: Server actions can't be cached and parallelized
+ *
+ * - Do not use this for fetching data, use API routes with caching instead
+ * - Use it to get fresh data, without any cache
+ *
+ *  **Note**: function generated from template.
  */
-export const CategoryFindManyAction = async <T extends CategoryFindManyProps>(
-    props: T,
-    disableSafeMessage: boolean = false
+export const CategoryFindManyAction = async <T extends Prisma.CategoryFindManyArgs>(
+    props: CategoryFindManyProps<T>,
+    disableSafeMessage: boolean = false,
 ): Promise<CategoryFindManyResponse<T>> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "CategoryFindManyAction", "Category", "findMany");
-        const { data, error } = await CategoryService.findMany(props);
-        if (!data || error) throw new Error(error);
-        return data;
-    } catch (error) {
-        throw new Error("CategoryFindManyAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "CategoryFindManyAction", "Category", "findMany");
+    return await CategoryService.findMany(props);
 };
 
-// ========== Aggregate queries ========== //
-
 /**
- * WARNING: do not use this for fetching data -> use API routes with caching instead
+ * ## Category Count (Server Action)
+ *
+ * **WARNING**: Server actions can't be cached and parallelized
+ *
+ * - Do not use this for fetching data, use API routes with caching instead
+ * - Use it to get fresh data, without any cache
+ *
+ *  **Note**: function generated from template.
  */
-export const CategoryCountAction = async (props: CategoryCountProps, disableSafeMessage: boolean = false): Promise<CategoryCountResponse> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "CategoryCountAction", "Category", "count");
-        const { data, error } = await CategoryService.count(props);
-        if (!data || error) throw new Error(error);
-        return data;
-    } catch (error) {
-        throw new Error("CategoryCountAction -> " + (error as Error).message);
-    }
+export const CategoryCountAction = async <T extends Prisma.CategoryCountArgs>(
+    props: CategoryCountProps<T>,
+    disableSafeMessage: boolean = false,
+): Promise<CategoryCountResponse<T>> => {
+    await requiresSafeMessage(disableSafeMessage, "CategoryCountAction", "Category", "count");
+    return await CategoryService.count(props);
 };

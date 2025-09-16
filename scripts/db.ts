@@ -42,7 +42,7 @@ const main = async (): Promise<void> => {
         const args = process.argv.slice(2);
         const isDocker = args.includes("--docker");
         const isSSL = args.includes("--ssl");
-        const filteredArgs = args.filter((arg) => arg !== "--docker");
+        const filteredArgs = args.filter((arg) => arg !== "--docker" && arg !== "--ssl");
 
         const sqlFileOrCommand = filteredArgs[0];
 

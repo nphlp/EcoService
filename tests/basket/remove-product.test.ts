@@ -1,4 +1,4 @@
-import { useBasketStore } from "@comps/basket/basketStore";
+import { useBasketStore } from "@comps/CORE/basket/basketStore";
 import * as removeApi from "@process/basket/RemoveProductFromServerBasket";
 import { Mock, beforeEach, describe, expect, it, vi } from "vitest";
 

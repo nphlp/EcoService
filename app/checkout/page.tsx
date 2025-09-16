@@ -1,16 +1,16 @@
 import CheckoutGenerator from "@app/checkout/components/checkoutGenerator";
 import CheckoutProductList from "@app/checkout/components/checkoutProductList";
-import { LocalBasket, localBasketSchema } from "@comps/basket/basketType";
-import Link from "@comps/ui/link";
+import { basketCookieName, basketCookieSchema } from "@comps/CORE/basket/basketType";
+import Link from "@comps/UI/button/link";
 import { GetSession } from "@lib/authServer";
 import { getZustandCookie } from "@lib/zustandServer";
 
 export default async function Page() {
     const session = await GetSession();
 
-    const localBasket = await getZustandCookie<LocalBasket>("basket-cookie", localBasketSchema, "basket");
+    const cookieBasket = await getZustandCookie(basketCookieName, basketCookieSchema);
 
-    if (!localBasket?.items.length) {
+    if (!cookieBasket?.basket?.items.length) {
         return (
             <div className="flex min-h-full flex-col items-center justify-center">
                 <div className="flex flex-col items-start space-y-6 px-5 py-18">

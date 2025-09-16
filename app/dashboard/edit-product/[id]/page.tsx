@@ -1,5 +1,5 @@
 import { hasRole } from "@permissions/hasRole";
-import { Fetch } from "@utils/Fetch/Fetch";
+import { Fetch } from "@utils/Fetch";
 import { unauthorized } from "next/navigation";
 
 type PageProps = {

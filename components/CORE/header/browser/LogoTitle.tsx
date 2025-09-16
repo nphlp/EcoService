@@ -1,8 +1,8 @@
 "use client";
 
-import Logo from "@comps/server/logo";
-import Link from "@comps/ui/link";
-import { motion } from "framer-motion";
+import Link from "@comps/UI/button/link";
+import Logo from "@comps/UI/logo";
+import { motion } from "motion/react";
 import { useState } from "react";
 
 export default function LogoTitle() {
@@ -10,7 +10,7 @@ export default function LogoTitle() {
 
     return (
         <motion.div onHoverStart={() => setIsHomeHovered(true)} onHoverEnd={() => setIsHomeHovered(false)}>
-            <Link type="link" href="/" label="home" variant="none" baseStyleOnly={["flex"]}>
+            <Link href="/" label="home" variant="none" className="rounded-lg p-0.5">
                 <Logo className="size-9" />
                 <span className="relative">
                     <div className="text-2xl font-semibold text-black uppercase">Circle</div>

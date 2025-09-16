@@ -1,8 +1,8 @@
 import { hasRole } from "@permissions/hasRole";
-import { Fetch } from "@utils/Fetch/Fetch";
+import { Fetch } from "@utils/Fetch";
 import { Metadata } from "next";
 import { unauthorized } from "next/navigation";
-import { SideBarToggleTitle } from "../sideBar";
+import SidebarToggleButton from "../sidebarToggleButton";
 import ProductDisplay from "./components/productDisplay";
 
 export const metadata: Metadata = {
@@ -17,7 +17,7 @@ export default async function Page() {
 
     return (
         <main className="w-full">
-            <SideBarToggleTitle title={metadata.title as string} />
+            <SidebarToggleButton title={metadata.title as string} />
             <ProductDisplay stripeProductList={stripeProductList} />
         </main>
     );

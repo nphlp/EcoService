@@ -1,5 +1,5 @@
-import Card from "@comps/server/card";
-import Link from "@comps/ui/link";
+import Link from "@comps/UI/button/link";
+import Card from "@comps/UI/card";
 
 type LinkProps = {
     label: string;
@@ -9,16 +9,6 @@ type LinkProps = {
 
 export default function Page() {
     const links: LinkProps[] = [
-        {
-            label: "Formulaire",
-            href: "/examples/formulaire",
-            text: "How to create a form with input, select...",
-        },
-        {
-            label: "Search Comboboxes",
-            href: "/examples/search",
-            text: "How to create a search combobox",
-        },
         {
             label: "Auto-Layout",
             href: "/examples/auto-layout",
@@ -30,29 +20,39 @@ export default function Page() {
             text: "How to create a bouncy height resize",
         },
         {
+            label: "Comboboxes and Searchboxes",
+            href: "/examples/combobox-and-searchbox",
+            text: "How to create a combobox and searchbox",
+        },
+        {
+            label: "Comps example",
+            href: "/examples/comps-example",
+            text: "All components",
+        },
+        {
+            label: "Debug Services",
+            href: "/examples/debug-services",
+            text: "How to create a debug service",
+        },
+        {
+            label: "Debug Fetch",
+            href: "/examples/debug-fetch",
+            text: "Debugging internal and external fetch calls",
+        },
+        {
+            label: "Formulaire",
+            href: "/examples/formulaire",
+            text: "How to create a form with input, select...",
+        },
+        {
+            label: "Perspective card",
+            href: "/examples/perspective-card",
+            text: "How to create a perspective card",
+        },
+        {
             label: "User permissions",
             href: "/examples/user-permissions",
             text: "How to create a user permissions",
-        },
-        {
-            label: "Image Upload",
-            href: "/examples/image-upload",
-            text: "How to upload an image",
-        },
-        {
-            label: "Slider",
-            href: "/examples/Slider",
-            text: "How to create a slider",
-        },
-        {
-            label: "View Transition Image",
-            href: "/examples/ViewTransitionImage",
-            text: "How to create a view transition image",
-        },
-        {
-            label: "View Transition Link",
-            href: "/examples/ViewTransitionLink",
-            text: "How to create a view transition link",
         },
     ];
 
@@ -76,13 +76,7 @@ const UnderlinedLink = (props: UnderlinedLinkProps) => {
     const { href, label, text } = props;
     return (
         <li className="list-disc">
-            <Link
-                href={href}
-                variant="underline"
-                label={label}
-                baseStyleWithout={["outline", "padding", "flex", "font"]}
-                className="decoration-gray-600"
-            />
+            <Link href={href} variant="underline" label={label} className="px-1 decoration-gray-600" />
             <p className="text-xs text-gray-500">{text}</p>
         </li>
     );

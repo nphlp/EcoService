@@ -1,61 +1,65 @@
-import fs from "fs";
-import path from "path";
+import { Prisma } from "@prisma/client";
 
-/**
- * Analyse du schéma Prisma pour extraire les informations des modèles
- *
- * Ce module fournit des utilitaires pour:
- * - Extraire les noms des modèles définis dans schema.prisma
- * - Déterminer si un modèle possède des relations
- * - Formater les noms de modèles selon différentes conventions
- */
+type ModelRelations = {
+    [modelName: string]: {
+        fields: string[];
+        relations: string[];
+    };
+};
 
-/**
- * Extrait la liste des noms de modèles à partir du schéma Prisma
- *
- * Analyse le fichier schema.prisma pour identifier toutes les déclarations
- * de modèle et en extraire les noms.
- *
- * @returns Liste des noms de modèles trouvés dans le schéma
- */
-export const extractModelNames = (): string[] => {
-    const schemaPath = path.join(process.cwd(), "prisma/schema.prisma");
-    const schemaContent = fs.readFileSync(schemaPath, "utf-8");
-
-    const modelRegex = /model\s+(\w+)\s+\{/g;
-    const modelNames: string[] = [];
-
-    const matches = schemaContent.matchAll(modelRegex);
-
-    for (const match of matches) {
-        modelNames.push(match[1]);
-    }
-
-    return modelNames;
+type SchemaInfo = {
+    models: string[];
+    schema: ModelRelations;
 };
 
 /**
- * Détermine si un modèle a des relations avec d'autres modèles
- *
- * Vérifie l'existence d'un fichier de schéma d'inclusion spécifique au modèle,
- * qui est généralement créé uniquement pour les modèles ayant des relations.
- *
- * @param modelName Nom du modèle à vérifier
- * @returns true si le modèle a des relations, false sinon
+ * Récupère la liste des modèles disponibles dans le Prisma Client
+ */
+export const getModelsInfo = (): SchemaInfo => {
+    const prismaClientModels = Prisma.dmmf.datamodel.models;
+
+    const value = prismaClientModels
+        .map((model) => {
+            const fieldsObjectIncludingRelations = model.fields.filter(({ relationName }) => {
+                return typeof relationName === "string" && relationName.length > 0;
+            });
+
+            const relationsPerModels = fieldsObjectIncludingRelations.map((f) => f.name).sort();
+
+            return {
+                [model.name]: {
+                    fields: model.fields.map((f) => f.name).filter((f) => !relationsPerModels.includes(f)),
+                    relations: relationsPerModels,
+                },
+            };
+        })
+        .sort();
+
+    const modelsWithRelations: ModelRelations = Object.fromEntries(
+        value
+            .map((item) => {
+                const [key, val] = Object.entries(item)[0];
+                return [key, val];
+            })
+            .sort(),
+    );
+
+    return {
+        models: Object.keys(modelsWithRelations),
+        schema: modelsWithRelations,
+    };
+};
+
+/**
+ * Check si un modèle a des relations avec d'autres modèles
  */
 export const hasModelRelations = (modelName: string): boolean => {
-    const includePath = path.join(process.cwd(), `services/schemas/inputTypeSchemas/${modelName}IncludeSchema.ts`);
-    return fs.existsSync(includePath);
+    const { schema } = getModelsInfo();
+    return schema[modelName].relations.length > 0;
 };
 
 /**
- * Convertit un nom de modèle en version camelCase
- *
- * Transforme le premier caractère du nom en minuscule, tout en préservant
- * la casse du reste du nom. Exemple: 'User' -> 'user'
- *
- * @param name Nom du modèle à convertir
- * @returns Version camelCase du nom
+ * Convertit un nom de modèle PascalCase en version camelCase
  */
 export const getLowerName = (name: string): string => {
     return name.charAt(0).toLowerCase() + name.slice(1);

@@ -1,8 +1,8 @@
-templates/
-services/
-prisma/client/
-prisma/zod/
+.conductor/
 .next/
-node_modules/
+.next-test/
 .github/
+templates/
+prisma/client/
+node_modules/
 pnpm-lock.yaml

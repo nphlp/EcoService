@@ -1,9 +1,9 @@
 "use cache";
 
-import { ArticleOrDiySlider } from "@comps/articleOrDiySlider";
-import ProductSlider from "@comps/productSlider";
-import { ArticleOrDiyFetchParams, ProductFetchParams } from "@comps/sliderFetchParams";
-import ImageRatio from "@comps/ui/imageRatio";
+import { ArticleOrDiySlider } from "@comps/PROJECT/sliders/articleOrDiySlider";
+import ProductSlider from "@comps/PROJECT/sliders/productSlider";
+import { ArticleOrDiyFetchParams, ProductFetchParams } from "@comps/PROJECT/sliders/sliderFetchParams";
+import ImageRatio from "@comps/UI/imageRatio";
 import { combo } from "@lib/combo";
 import { ArticleFindManyServer, DiyFindManyServer, ProductFindManyServer } from "@services/server";
 import { Metadata } from "next";
@@ -35,7 +35,7 @@ export default async function Page() {
     return (
         <div className="w-full">
             <section
-                className="flex flex-row items-center justify-between gap-12 p-8 backdrop-blur-md md:p-16"
+                className="flex flex-row items-center justify-between gap-12 p-8 backdrop-blur-md"
                 style={{
                     backgroundImage: "url('/home.webp')",
                     backgroundSize: "cover",
@@ -50,48 +50,52 @@ export default async function Page() {
                 </div>
                 <div className="flex flex-row items-center justify-center gap-8">
                     <ImageRatio
-                        src="/illustration/produit 2.webp"
+                        src="/images/illustrations/BRVqq2uak4E.webp"
                         alt="produit"
                         className={combo("max-md:hidden", imageClass)}
-                        priority
+                        mode="preloaded"
                     />
                     <ImageRatio
-                        src="/illustration/produit 3.webp"
+                        src="/images/illustrations/cTmJbqysgV8.webp"
                         alt="produit"
                         className={combo("max-md:hidden", imageClass)}
-                        priority
+                        mode="preloaded"
                     />
                 </div>
             </section>
-            <section className="flex flex-col items-center gap-12 px-8 pt-8 text-center lg:flex-row lg:justify-between lg:px-16 lg:pt-16 lg:text-left">
-                <div className="space-y-4 lg:w-1/2">
-                    <h1 className="text-secondary text-xl font-bold md:text-3xl">Réinventez Votre Quotidien !</h1>
-                    <p className="mt-2 text-gray-700">
-                        Dans un monde où la surconsommation génère des tonnes de déchets chaque jour, le zéro déchet
-                        apparaît comme une solution incontournable pour préserver notre environnement.
-                    </p>
-                    <p className="mt-2 text-gray-700">
-                        En choisissant des alternatives durables comme les produits réutilisables, les achats en vrac et
-                        les objets réparables, vous pouvez diminuer considérablement votre impact écologique tout en
-                        réalisant des économies.
-                    </p>
-                    <p className="mt-2 text-gray-700">
-                        Ce mode de vie repose sur un principe simple : réduire au maximum la production de déchets en
-                        favorisant le réemploi, la réutilisation et le recyclage. En choisissant des alternatives
-                        durables comme les produits réutilisables, les achats en vrac et les objets réparables, vous
-                        pouvez diminuer considérablement votre impact écologique tout en réalisant des économies.
-                    </p>
-                </div>
-                <ImageRatio
-                    src="/illustration/produit 5.webp"
-                    alt="produit"
-                    className="rounded-lg shadow-md max-lg:w-full lg:h-80"
-                    priority
-                />
-            </section>
-            <ProductSlider productList={productList} title="Nos produits vedettes" />
-            <ArticleOrDiySlider articleOrDiy={diyList} link="/diy" title="Nos Do It Yourself" />
-            <ArticleOrDiySlider articleOrDiy={articleList} link="/article" title="Nos articles" />
+
+            <div className="space-y-10 p-12">
+                <section className="flex flex-col items-center gap-12 px-2 text-center lg:flex-row lg:justify-between lg:text-left">
+                    <div className="space-y-4 lg:w-1/2">
+                        <h1 className="text-secondary text-xl font-bold md:text-3xl">Réinventez Votre Quotidien !</h1>
+                        <p className="text-gray-700">
+                            Dans un monde où la surconsommation génère des tonnes de déchets chaque jour, le zéro déchet
+                            apparaît comme une solution incontournable pour préserver notre environnement.
+                        </p>
+                        <p className="text-gray-700">
+                            En choisissant des alternatives durables comme les produits réutilisables, les achats en
+                            vrac et les objets réparables, vous pouvez diminuer considérablement votre impact écologique
+                            tout en réalisant des économies.
+                        </p>
+                        <p className="text-gray-700">
+                            Ce mode de vie repose sur un principe simple : réduire au maximum la production de déchets
+                            en favorisant le réemploi, la réutilisation et le recyclage. En choisissant des alternatives
+                            durables comme les produits réutilisables, les achats en vrac et les objets réparables, vous
+                            pouvez diminuer considérablement votre impact écologique tout en réalisant des économies.
+                        </p>
+                    </div>
+                    <ImageRatio
+                        src="/images/illustrations/gtdSDl5IkKw.webp"
+                        alt="produit"
+                        className="rounded-lg shadow-md max-lg:w-full lg:h-80"
+                        mode="preloaded"
+                    />
+                </section>
+
+                <ProductSlider productList={productList} title="Nos produits vedettes" />
+                <ArticleOrDiySlider articleOrDiy={diyList} link="/diy" title="Nos Do It Yourself" />
+                <ArticleOrDiySlider articleOrDiy={articleList} link="/article" title="Nos articles" />
+            </div>
         </div>
     );
 }

@@ -1,17 +1,15 @@
 "use client";
 
-import Button from "@comps/ui/button";
-import { useComboboxMultiStates, useComboboxStates } from "@comps/ui/comboboxes/comboHookStates";
-import Combobox from "@comps/ui/comboboxes/combobox";
-import ComboboxMulti from "@comps/ui/comboboxes/comboboxMulti";
-// import ComboboxSearch from "@comps/ui/comboboxes/comboboxSearch";
-import { ComboOptionType, MultiSourceComboOptionType } from "@comps/ui/comboboxes/utils";
-import Feedback, { FeedbackMode } from "@comps/ui/feedback";
-import Input from "@comps/ui/input/input";
-import { useInputState } from "@comps/ui/input/inputHookStates";
-import InputImage from "@comps/ui/inputImage";
-import Select from "@comps/ui/select/select";
-import { SelectOptionType } from "@comps/ui/select/utils";
+import Button from "@comps/UI/button/button";
+import { useComboboxMultiStates, useComboboxStates } from "@comps/UI/comboboxes/comboHookStates";
+import Combobox from "@comps/UI/comboboxes/combobox";
+import ComboboxMulti from "@comps/UI/comboboxes/comboboxMulti";
+import { ComboOptionType, MultiSourceComboOptionType } from "@comps/UI/comboboxes/utils";
+import Feedback, { FeedbackMode } from "@comps/UI/feedback";
+import Input from "@comps/UI/input/input";
+import InputImage from "@comps/UI/inputImage";
+import Select from "@comps/UI/select/select";
+import { SelectOptionType } from "@comps/UI/select/utils";
 import { FormEvent, useState } from "react";
 
 type FormProps = {
@@ -24,8 +22,8 @@ export default function Form(props: FormProps) {
     const { categoryOptions, articleOptions, productOptions } = props;
 
     // State
-    const [name, setName] = useInputState();
-    const [category, setCategory] = useState<string>("");
+    const [name, setName] = useState("");
+    const [category, setCategory] = useState("");
     const [image, setImage] = useState<File | null>(null);
     const comboboxStates = useComboboxStates(null, articleOptions);
     const comboboxMultiStates = useComboboxMultiStates([], productOptions);
@@ -76,7 +74,7 @@ export default function Form(props: FormProps) {
                 placeholder="Entrez votre nom"
                 setValue={setName}
                 value={name}
-                classComponent="w-full"
+                className={{ component: "w-full" }}
                 required={false}
             />
             <Select
@@ -86,18 +84,18 @@ export default function Form(props: FormProps) {
                 setSelected={setCategory}
                 selected={category}
                 className={{ component: "w-full" }}
-                canNotBeEmpty
+                // canNotBeEmpty
             />
             <Combobox
-                label="Article"
-                placeholder="Sélectionnez un article"
+                label="Un seul article"
+                placeholder="Recherchez un article"
                 classComponent="w-full"
                 initialOptions={articleOptions}
                 states={comboboxStates}
             />
             <ComboboxMulti
-                label="Produits"
-                placeholder="Sélectionnez plusieurs produits"
+                label="Liste de produits"
+                placeholder="Recherchez plusieurs produits"
                 classComponent="w-full"
                 initialOptions={productOptions}
                 states={comboboxMultiStates}

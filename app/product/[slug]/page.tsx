@@ -1,13 +1,13 @@
-import ProductCard from "@comps/productCard";
-import Card from "@comps/server/card";
-import ImageRatio from "@comps/ui/imageRatio";
-import Slider, { LinkInfoType } from "@comps/ui/slider";
+import ProductCard from "@comps/PROJECT/cards/productCard";
+import Link from "@comps/UI/button/link";
+import Card from "@comps/UI/card";
+import ImageRatio from "@comps/UI/imageRatio";
+import Slider, { LinkInfoType } from "@comps/UI/slider";
 import PrismaInstance from "@lib/prisma";
 import { ProductFindManyServer, ProductFindUniqueServer } from "@services/server";
 import { ArrowLeft, Package2, ShieldCheck, Truck, User } from "lucide-react";
 import { Metadata } from "next";
 import { unstable_cacheLife as cacheLife, unstable_cacheTag as cacheTag } from "next/cache";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import { JSX, cloneElement } from "react";
 import AddToCartButton from "./addToCartButton";
@@ -81,13 +81,19 @@ export default async function Page(props: PageProps) {
 
     return (
         <div className="w-full max-w-[1200px] flex-1 p-7">
-            <Link href="/catalog" className="text-primary mb-8 inline-flex items-center hover:underline">
+            <Link label="Retour aux produits" href="/catalog" variant="ghost" className="mb-4">
                 <ArrowLeft className="mr-2 size-4" />
                 Retour aux produits
             </Link>
 
             <div className="flex items-start justify-start gap-8">
-                <ImageRatio src={image} alt={name} className="hidden h-[420px] shrink-0 grow-0 rounded-lg lg:block" />
+                {/* Image for large screen */}
+                <ImageRatio
+                    src={image}
+                    alt={name}
+                    className="hidden h-[420px] shrink-0 grow-0 rounded-lg lg:block"
+                    mode="preloaded"
+                />
 
                 <div className="w-full space-y-6">
                     <div>
@@ -100,7 +106,8 @@ export default async function Page(props: PageProps) {
                         <p className="text-gray-600">{description}</p>
                     </div>
 
-                    <ImageRatio src={image} alt={name} className="rounded-lg lg:hidden" />
+                    {/* Image for small screen */}
+                    <ImageRatio src={image} alt={name} className="rounded-lg lg:hidden" mode="preloaded" />
 
                     <div className="w-full space-y-4">
                         <div className="flex items-end justify-between">
@@ -117,7 +124,7 @@ export default async function Page(props: PageProps) {
                         </div>
 
                         <AddToCartButton
-                            className="py-3 text-xl lg:py-1.5 lg:text-base"
+                            className="w-full py-3 text-xl lg:py-1.5 lg:text-base"
                             product={product}
                             stock={stock}
                         />
@@ -137,7 +144,7 @@ export default async function Page(props: PageProps) {
                     <h2 className="text-center text-4xl font-bold">Nos recommandations</h2>
                     <Slider dataListLength={recommendedProductList.length} linkList={linkList}>
                         {recommendedProductList.map((product, index) => (
-                            <ProductCard key={index} product={product} />
+                            <ProductCard key={index} product={product} mode="whenIsVisible" />
                         ))}
                     </Slider>
                 </section>

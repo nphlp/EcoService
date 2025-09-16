@@ -3,7 +3,7 @@ import Pagination from "@comps/SHARED/PaginationFilter";
 import PriceOrderFilter from "@comps/SHARED/PriceOrderFilter";
 import SearchFilter from "@comps/SHARED/SearchFilter";
 import TakeFilter from "@comps/SHARED/TakeFilter";
-import { createSelectOptions } from "@comps/ui/select/utils";
+import { createSelectOptions } from "@comps/UI/select/utils";
 import {
     CategoryFindManyServer,
     CategoryFindUniqueServer,
@@ -13,6 +13,7 @@ import {
 import { Metadata } from "next";
 import { SearchParams } from "nuqs/server";
 import Catalog from "./components/catalog";
+import { Context } from "./components/context";
 import { categoryFetchParams, productCountParams, productFetchParams } from "./components/fetchParams";
 import Provider from "./components/provider";
 import { catalogQueryParamsCached } from "./components/queryParams";
@@ -78,11 +79,11 @@ export default async function Page(props: PageProps) {
                         />
                         <PriceOrderFilter />
                         <TakeFilter />
-                        <SearchFilter />
+                        <SearchFilter className={{ label: "text-white" }} />
                     </div>
                     <div className="flex flex-1 flex-col justify-start">
                         <Catalog className="p-6" initialProductList={initialProductList} />
-                        <Pagination className="mb-6" />
+                        <Pagination className="mb-6" path="/catalog" context={Context} />
                     </div>
                 </Provider>
             </div>

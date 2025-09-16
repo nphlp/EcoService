@@ -1,10 +1,10 @@
 "use client";
 
-import Button from "@comps/ui/button";
-import Feedback, { FeedbackMode } from "@comps/ui/feedback";
-import Input from "@comps/ui/input/input";
-import InputPassword from "@comps/ui/inputPassword";
-import Link from "@comps/ui/link";
+import Button from "@comps/UI/button/button";
+import Link from "@comps/UI/button/link";
+import Feedback, { FeedbackMode } from "@comps/UI/feedback";
+import Input from "@comps/UI/input/input";
+import InputPassword from "@comps/UI/inputPassword";
 import { signIn } from "@lib/authClient";
 import { hasRole } from "@permissions/hasRole";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -79,7 +79,6 @@ export default function LoginClient() {
                     href="/auth?tab=register"
                     label="not-registered-yet"
                     variant="underline"
-                    baseStyleWithout={["padding", "font", "rounded"]}
                 >
                     Pas encore inscrit ?
                 </Link>

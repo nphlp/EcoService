@@ -2,7 +2,7 @@ import { OrderUpdateAction } from "@actions/OrderAction";
 import { ProductUpsertAction } from "@actions/ProductAction";
 import { StripeInstance } from "@lib/stripe";
 import { StripeError } from "@stripe/stripe-js";
-import { Fetch } from "@utils/Fetch/Fetch";
+import { Fetch } from "@utils/Fetch";
 import { ResponseFormat } from "@utils/FetchConfig";
 import { StringToSlug } from "@utils/StringToSlug";
 import { revalidateTag } from "next/cache";

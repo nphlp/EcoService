@@ -1,155 +1,324 @@
 "use server";
 
+import VerificationService from "@class/VerificationClass";
 import { requiresSafeMessage } from "@permissions/requiresSafeMessage";
-import VerificationService from "@services/class/VerificationClass";
-import { VerificationCountProps, VerificationCountResponse, VerificationCreateManyProps, VerificationCreateManyResponse, VerificationCreateProps, VerificationCreateResponse, VerificationDeleteManyProps, VerificationDeleteManyResponse, VerificationDeleteProps, VerificationDeleteResponse, VerificationFindFirstProps, VerificationFindFirstResponse, VerificationFindManyProps, VerificationFindManyResponse, VerificationFindUniqueProps, VerificationFindUniqueResponse, VerificationUpdateManyProps, VerificationUpdateManyResponse, VerificationUpdateProps, VerificationUpdateResponse, VerificationUpsertProps, VerificationUpsertResponse } from "@services/types/VerificationType";
-
-// ========== Single mutations ========== //
-
-export const VerificationCreateAction = async <T extends VerificationCreateProps>(props: T, disableSafeMessage: boolean = false): Promise<VerificationCreateResponse<T>> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "VerificationCreateAction", "Verification", "create");
-        const { data, error } = await VerificationService.create(props);
-        if (!data || error) throw new Error(error);
-        return data;
-    } catch (error) {
-        throw new Error("VerificationCreateAction -> " + (error as Error).message);
-    }
-};
-
-export const VerificationUpsertAction = async <T extends VerificationUpsertProps>(props: T, disableSafeMessage: boolean = false): Promise<VerificationUpsertResponse<T>> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "VerificationUpsertAction", "Verification", "upsert");
-        const { data, error } = await VerificationService.upsert(props);
-        if (!data || error) throw new Error(error);
-        return data;
-    } catch (error) {
-        throw new Error("VerificationUpsertAction -> " + (error as Error).message);
-    }
-};
-
-export const VerificationUpdateAction = async <T extends VerificationUpdateProps>(props: T, disableSafeMessage: boolean = false): Promise<VerificationUpdateResponse<T>> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "VerificationUpdateAction", "Verification", "update");
-        const { data, error } = await VerificationService.update(props);
-        if (!data || error) throw new Error(error);
-        return data;
-    } catch (error) {
-        throw new Error("VerificationUpdateAction -> " + (error as Error).message);
-    }
-};
-
-export const VerificationDeleteAction = async <T extends VerificationDeleteProps>(props: T, disableSafeMessage: boolean = false): Promise<VerificationDeleteResponse<T>> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "VerificationDeleteAction", "Verification", "delete");
-        const { data, error } = await VerificationService.delete(props);
-        if (!data || error) throw new Error(error);
-        return data;
-    } catch (error) {
-        throw new Error("VerificationDeleteAction -> " + (error as Error).message);
-    }
-};
-
-// ========== Multiple mutations ========== //
-
-export const VerificationCreateManyAction = async (props: VerificationCreateManyProps, disableSafeMessage: boolean = false): Promise<VerificationCreateManyResponse> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "VerificationCreateManyAction", "Verification", "createMany");
-        const { data, error } = await VerificationService.createMany(props);
-        if (!data || error) throw new Error(error);
-        return data;
-    } catch (error) {
-        throw new Error("VerificationCreateManyAction -> " + (error as Error).message);
-    }
-};
-
-export const VerificationUpdateManyAction = async (props: VerificationUpdateManyProps, disableSafeMessage: boolean = false): Promise<VerificationUpdateManyResponse> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "VerificationUpdateManyAction", "Verification", "updateMany");
-        const { data, error } = await VerificationService.updateMany(props);
-        if (!data || error) throw new Error(error);
-        return data;
-    } catch (error) {
-        throw new Error("VerificationUpdateManyAction -> " + (error as Error).message);
-    }
-};
-
-export const VerificationDeleteManyAction = async (props: VerificationDeleteManyProps, disableSafeMessage: boolean = false): Promise<VerificationDeleteManyResponse> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "VerificationDeleteManyAction", "Verification", "deleteMany");
-        const { data, error } = await VerificationService.deleteMany(props);
-        if (!data || error) throw new Error(error);
-        return data;
-    } catch (error) {
-        throw new Error("VerificationDeleteManyAction -> " + (error as Error).message);
-    }
-};
-
-// ========== Single queries ========== //
+import { Prisma } from "@prisma/client";
+import { GetResult, InternalArgs, PrismaClientOptions } from "@prisma/client/runtime/library";
 
 /**
- * WARNING: do not use this for fetching data -> use API routes with caching instead
+ * # Verification Action Services
+ *
+ * This file:
+ * - is generated by the command `pnpm run generate:all`
+ * - that executes the script: `scripts/generator.ts`
+ * - which uses `template/services/actions/{{model}}Action.hbs` as base template
+ * - to generate server actions files for every models available in the `prisma/client/index.d.ts`.
+ *
+ * > **Warning**: Do not edit this file directly. Your changes will be lost the next time the code is generated.
  */
-export const VerificationFindFirstAction = async <T extends VerificationFindFirstProps>(
-    props: T,
-    disableSafeMessage: boolean = false
+
+// ========== Types ========== //
+
+// Create
+type VerificationCreateProps<T extends Prisma.VerificationCreateArgs> = Prisma.SelectSubset<
+    T,
+    Prisma.VerificationCreateArgs
+>;
+type VerificationCreateResponse<T extends Prisma.VerificationCreateArgs> = GetResult<
+    Prisma.$VerificationPayload<InternalArgs>,
+    T,
+    "create",
+    PrismaClientOptions
+>;
+
+// Upsert
+type VerificationUpsertProps<T extends Prisma.VerificationUpsertArgs> = Prisma.SelectSubset<
+    T,
+    Prisma.VerificationUpsertArgs
+>;
+type VerificationUpsertResponse<T extends Prisma.VerificationUpsertArgs> = GetResult<
+    Prisma.$VerificationPayload<InternalArgs>,
+    T,
+    "upsert",
+    PrismaClientOptions
+>;
+
+// Update
+type VerificationUpdateProps<T extends Prisma.VerificationUpdateArgs> = Prisma.SelectSubset<
+    T,
+    Prisma.VerificationUpdateArgs
+>;
+type VerificationUpdateResponse<T extends Prisma.VerificationUpdateArgs> = GetResult<
+    Prisma.$VerificationPayload<InternalArgs>,
+    T,
+    "update",
+    PrismaClientOptions
+>;
+
+// Delete
+type VerificationDeleteProps<T extends Prisma.VerificationDeleteArgs> = Prisma.SelectSubset<
+    T,
+    Prisma.VerificationDeleteArgs
+>;
+type VerificationDeleteResponse<T extends Prisma.VerificationDeleteArgs> = GetResult<
+    Prisma.$VerificationPayload<InternalArgs>,
+    T,
+    "delete",
+    PrismaClientOptions
+>;
+
+// Create Many
+type VerificationCreateManyProps<T extends Prisma.VerificationCreateManyArgs> = Prisma.SelectSubset<
+    T,
+    Prisma.VerificationCreateManyArgs
+>;
+type VerificationCreateManyResponse = Prisma.BatchPayload;
+
+// Update Many
+type VerificationUpdateManyProps<T extends Prisma.VerificationUpdateManyArgs> = Prisma.SelectSubset<
+    T,
+    Prisma.VerificationUpdateManyArgs
+>;
+type VerificationUpdateManyResponse = Prisma.BatchPayload;
+
+// Delete Many
+type VerificationDeleteManyProps<T extends Prisma.VerificationDeleteManyArgs> = Prisma.SelectSubset<
+    T,
+    Prisma.VerificationDeleteManyArgs
+>;
+type VerificationDeleteManyResponse = Prisma.BatchPayload;
+
+// Find First
+type VerificationFindFirstProps<T extends Prisma.VerificationFindFirstArgs> = Prisma.SelectSubset<
+    T,
+    Prisma.VerificationFindFirstArgs
+>;
+type VerificationFindFirstResponse<T extends Prisma.VerificationFindFirstArgs> = GetResult<
+    Prisma.$VerificationPayload<InternalArgs>,
+    T,
+    "findFirst",
+    PrismaClientOptions
+>;
+
+// Find Unique
+type VerificationFindUniqueProps<T extends Prisma.VerificationFindUniqueArgs> = Prisma.SelectSubset<
+    T,
+    Prisma.VerificationFindUniqueArgs
+>;
+type VerificationFindUniqueResponse<T extends Prisma.VerificationFindUniqueArgs> = GetResult<
+    Prisma.$VerificationPayload<InternalArgs>,
+    T,
+    "findUnique",
+    PrismaClientOptions
+>;
+
+// Find Many
+type VerificationFindManyProps<T extends Prisma.VerificationFindManyArgs> = Prisma.SelectSubset<
+    T,
+    Prisma.VerificationFindManyArgs
+>;
+type VerificationFindManyResponse<T extends Prisma.VerificationFindManyArgs> = GetResult<
+    Prisma.$VerificationPayload<InternalArgs>,
+    T,
+    "findMany",
+    PrismaClientOptions
+>;
+
+// Count
+type VerificationCountProps<T extends Prisma.VerificationCountArgs> = Prisma.SelectSubset<
+    T,
+    Prisma.VerificationCountArgs
+>;
+type VerificationCountResponse<T extends Prisma.VerificationCountArgs> =
+    // eslint-disable-next-line
+    T extends { select: any }
+        ? T["select"] extends true
+            ? number
+            : Prisma.GetScalarType<T["select"], Prisma.VerificationCountAggregateOutputType>
+        : number;
+
+// ========== Services ========== //
+
+/**
+ * ## Verification Create (Server Action)
+ *
+ * - optimized for mutations
+ * - serial execution without cache
+ *
+ * **Note**: function generated from template.
+ */
+export const VerificationCreateAction = async <T extends Prisma.VerificationCreateArgs>(
+    props: VerificationCreateProps<T>,
+    disableSafeMessage: boolean = false,
+): Promise<VerificationCreateResponse<T>> => {
+    await requiresSafeMessage(disableSafeMessage, "VerificationCreateAction", "Verification", "create");
+    return await VerificationService.create(props);
+};
+
+/**
+ * ## Verification Upsert (Server Action)
+ *
+ * - optimized for mutations
+ * - serial execution without cache
+ *
+ * **Note**: function generated from template.
+ */
+export const VerificationUpsertAction = async <T extends Prisma.VerificationUpsertArgs>(
+    props: VerificationUpsertProps<T>,
+    disableSafeMessage: boolean = false,
+): Promise<VerificationUpsertResponse<T>> => {
+    await requiresSafeMessage(disableSafeMessage, "VerificationUpsertAction", "Verification", "upsert");
+    return await VerificationService.upsert(props);
+};
+
+/**
+ * ## Verification Update (Server Action)
+ *
+ * - optimized for mutations
+ * - serial execution without cache
+ *
+ * **Note**: function generated from template.
+ */
+export const VerificationUpdateAction = async <T extends Prisma.VerificationUpdateArgs>(
+    props: VerificationUpdateProps<T>,
+    disableSafeMessage: boolean = false,
+): Promise<VerificationUpdateResponse<T>> => {
+    await requiresSafeMessage(disableSafeMessage, "VerificationUpdateAction", "Verification", "update");
+    return await VerificationService.update(props);
+};
+
+/**
+ * ## Verification Delete (Server Action)
+ *
+ * - optimized for mutations
+ * - serial execution without cache
+ *
+ * **Note**: function generated from template.
+ */
+export const VerificationDeleteAction = async <T extends Prisma.VerificationDeleteArgs>(
+    props: VerificationDeleteProps<T>,
+    disableSafeMessage: boolean = false,
+): Promise<VerificationDeleteResponse<T>> => {
+    await requiresSafeMessage(disableSafeMessage, "VerificationDeleteAction", "Verification", "delete");
+    return await VerificationService.delete(props);
+};
+
+/**
+ * ## Verification Create Many (Server Action)
+ *
+ * - optimized for mutations
+ * - serial execution without cache
+ *
+ * **Note**: function generated from template.
+ */
+export const VerificationCreateManyAction = async <T extends Prisma.VerificationCreateManyArgs>(
+    props: VerificationCreateManyProps<T>,
+    disableSafeMessage: boolean = false,
+): Promise<VerificationCreateManyResponse> => {
+    await requiresSafeMessage(disableSafeMessage, "VerificationCreateManyAction", "Verification", "createMany");
+    return await VerificationService.createMany(props);
+};
+
+/**
+ * ## Verification Update Many (Server Action)
+ *
+ * - optimized for mutations
+ * - serial execution without cache
+ *
+ * **Note**: function generated from template.
+ */
+export const VerificationUpdateManyAction = async <T extends Prisma.VerificationUpdateManyArgs>(
+    props: VerificationUpdateManyProps<T>,
+    disableSafeMessage: boolean = false,
+): Promise<VerificationUpdateManyResponse> => {
+    await requiresSafeMessage(disableSafeMessage, "VerificationUpdateManyAction", "Verification", "updateMany");
+    return await VerificationService.updateMany(props);
+};
+
+/**
+ * ## Verification Delete Many (Server Action)
+ *
+ * - optimized for mutations
+ * - serial execution without cache
+ *
+ * **Note**: function generated from template.
+ */
+export const VerificationDeleteManyAction = async <T extends Prisma.VerificationDeleteManyArgs>(
+    props: VerificationDeleteManyProps<T>,
+    disableSafeMessage: boolean = false,
+): Promise<VerificationDeleteManyResponse> => {
+    await requiresSafeMessage(disableSafeMessage, "VerificationDeleteManyAction", "Verification", "deleteMany");
+    return await VerificationService.deleteMany(props);
+};
+
+/**
+ * ## Verification Find First (Server Action)
+ *
+ * **WARNING**: Server actions can't be cached and parallelized
+ *
+ * - Do not use this for fetching data, use API routes with caching instead
+ * - Use it to get fresh data, without any cache
+ *
+ *  **Note**: function generated from template.
+ */
+export const VerificationFindFirstAction = async <T extends Prisma.VerificationFindFirstArgs>(
+    props: VerificationFindFirstProps<T>,
+    disableSafeMessage: boolean = false,
 ): Promise<VerificationFindFirstResponse<T>> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "VerificationFindFirstAction", "Verification", "findFirst");
-        const { data, error } = await VerificationService.findFirst(props);
-        if (error) throw new Error(error);
-        return data ?? null;
-    } catch (error) {
-        throw new Error("VerificationFindFirstAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "VerificationFindFirstAction", "Verification", "findFirst");
+    return await VerificationService.findFirst(props);
 };
 
 /**
- * WARNING: do not use this for fetching data -> use API routes with caching instead
+ * ## Verification Find Unique (Server Action)
+ *
+ * **WARNING**: Server actions can't be cached and parallelized
+ *
+ * - Do not use this for fetching data, use API routes with caching instead
+ * - Use it to get fresh data, without any cache
+ *
+ *  **Note**: function generated from template.
  */
-export const VerificationFindUniqueAction = async <T extends VerificationFindUniqueProps>(
-    props: T,
-    disableSafeMessage: boolean = false
+export const VerificationFindUniqueAction = async <T extends Prisma.VerificationFindUniqueArgs>(
+    props: VerificationFindUniqueProps<T>,
+    disableSafeMessage: boolean = false,
 ): Promise<VerificationFindUniqueResponse<T>> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "VerificationFindUniqueAction", "Verification", "findUnique");
-        const { data, error } = await VerificationService.findUnique(props);
-        if (error) throw new Error(error);
-        return data ?? null;
-    } catch (error) {
-        throw new Error("VerificationFindUniqueAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "VerificationFindUniqueAction", "Verification", "findUnique");
+    return await VerificationService.findUnique(props);
 };
 
 /**
- * WARNING: do not use this for fetching data -> use API routes with caching instead
+ * ## Verification Find Many (Server Action)
+ *
+ * **WARNING**: Server actions can't be cached and parallelized
+ *
+ * - Do not use this for fetching data, use API routes with caching instead
+ * - Use it to get fresh data, without any cache
+ *
+ *  **Note**: function generated from template.
  */
-export const VerificationFindManyAction = async <T extends VerificationFindManyProps>(
-    props: T,
-    disableSafeMessage: boolean = false
+export const VerificationFindManyAction = async <T extends Prisma.VerificationFindManyArgs>(
+    props: VerificationFindManyProps<T>,
+    disableSafeMessage: boolean = false,
 ): Promise<VerificationFindManyResponse<T>> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "VerificationFindManyAction", "Verification", "findMany");
-        const { data, error } = await VerificationService.findMany(props);
-        if (!data || error) throw new Error(error);
-        return data;
-    } catch (error) {
-        throw new Error("VerificationFindManyAction -> " + (error as Error).message);
-    }
+    await requiresSafeMessage(disableSafeMessage, "VerificationFindManyAction", "Verification", "findMany");
+    return await VerificationService.findMany(props);
 };
 
-// ========== Aggregate queries ========== //
-
 /**
- * WARNING: do not use this for fetching data -> use API routes with caching instead
+ * ## Verification Count (Server Action)
+ *
+ * **WARNING**: Server actions can't be cached and parallelized
+ *
+ * - Do not use this for fetching data, use API routes with caching instead
+ * - Use it to get fresh data, without any cache
+ *
+ *  **Note**: function generated from template.
  */
-export const VerificationCountAction = async (props: VerificationCountProps, disableSafeMessage: boolean = false): Promise<VerificationCountResponse> => {
-    try {
-        await requiresSafeMessage(disableSafeMessage, "VerificationCountAction", "Verification", "count");
-        const { data, error } = await VerificationService.count(props);
-        if (!data || error) throw new Error(error);
-        return data;
-    } catch (error) {
-        throw new Error("VerificationCountAction -> " + (error as Error).message);
-    }
+export const VerificationCountAction = async <T extends Prisma.VerificationCountArgs>(
+    props: VerificationCountProps<T>,
+    disableSafeMessage: boolean = false,
+): Promise<VerificationCountResponse<T>> => {
+    await requiresSafeMessage(disableSafeMessage, "VerificationCountAction", "Verification", "count");
+    return await VerificationService.count(props);
 };

@@ -1,6 +1,6 @@
 "use client";
 
-import ButtonClient from "@comps/client/button";
+import Button from "@comps/UI/button/button";
 import { useEffect } from "react";
 
 type ErrorProps = {
@@ -17,14 +17,12 @@ export default function Error(props: ErrorProps) {
     }, [error]);
 
     return (
-        <div className="flex h-full flex-col items-center justify-center">
-            <div className="w-3/4 space-y-4">
-                <h2 className="text-2xl font-bold">Oups!</h2>
-                <div>{error.message}</div>
-                <ButtonClient type="button" label="reset" onClick={reset}>
-                    Try Again
-                </ButtonClient>
-            </div>
+        <div className="max-w-3/4 space-y-4">
+            <h2 className="text-2xl font-bold">Oups!</h2>
+            <div>{error.message}</div>
+            <Button type="button" label="reset" onClick={reset}>
+                Try Again
+            </Button>
         </div>
     );
 }

@@ -4,6 +4,7 @@
 
 # next.js
 .next/
+.next-test/
 
 # misc
 .DS_Store
@@ -11,9 +12,6 @@
 
 # env files
 .env
-.env.hybrid
-.env.dev
-.env.prod
 
 # vercel
 .vercel
@@ -30,7 +28,6 @@ docker/certs/
 
 # prisma
 prisma/client
-prisma/zod
 
 # Test
 run/
@@ -40,3 +37,6 @@ run/
 
 # Sonar
 .scannerwork/
+
+# Mcp
+.mcp*

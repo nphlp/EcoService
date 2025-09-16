@@ -8,8 +8,6 @@ import { StripeError } from "../../Error";
 export type CreateStripeProductProps = {
     name: string;
     description: string;
-    price: string;
-    currency: string;
     categoryId: string;
     categoryName: string;
     vendorId: string;
@@ -19,8 +17,6 @@ export type CreateStripeProductProps = {
 const createStripeProductPropsSchema: ZodType<CreateStripeProductProps> = z.object({
     name: z.string(),
     description: z.string(),
-    price: z.string(),
-    currency: z.string(),
     categoryId: z.string(),
     categoryName: z.string(),
     vendorId: z.string(),

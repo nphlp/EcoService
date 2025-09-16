@@ -1,12 +1,12 @@
 "use client";
 
-import Card from "@comps/server/card";
-import Button from "@comps/ui/button";
-import Feedback, { FeedbackMode } from "@comps/ui/feedback";
-import Input from "@comps/ui/input/input";
-import InputImage from "@comps/ui/inputImage";
-import Select from "@comps/ui/select/select";
-import { createSelectOptions } from "@comps/ui/select/utils";
+import Button from "@comps/UI/button/button";
+import Card from "@comps/UI/card";
+import Feedback, { FeedbackMode } from "@comps/UI/feedback";
+import Input from "@comps/UI/input/input";
+import InputImage from "@comps/UI/inputImage";
+import Select from "@comps/UI/select/select";
+import { createSelectOptions } from "@comps/UI/select/utils";
 import { Prisma } from "@prisma/client";
 import { authorizedFileSize, authorizedFormats } from "@utils/ImageValidation";
 import { useState } from "react";
@@ -101,7 +101,7 @@ export default function ProductCreationForm(props: ProductCreationFormPros) {
     };
 
     return (
-        <Card className="rounded-3xl p-8 backdrop-blur-lg md:w-[600px]">
+        <Card className="rounded-3xl p-8 md:w-[600px]">
             <form className="space-y-4">
                 <Input label="Nom du produit" type="text" setValue={setName} value={name} autoFocus />
 
@@ -109,7 +109,6 @@ export default function ProductCreationForm(props: ProductCreationFormPros) {
 
                 <Input label="Prix" type="number" min="0" setValue={setPrice} value={price} />
 
-                {/* TODO: why the select is smaller than the input ? */}
                 <Select
                     label="Catégorie"
                     placeholder="Sélectionnez une catégorie"

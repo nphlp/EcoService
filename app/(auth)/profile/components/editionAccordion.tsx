@@ -1,14 +1,14 @@
 "use client";
 
-import { Accordion, AccordionButton, AccordionContent } from "@comps/ui/accordion";
-import Button from "@comps/ui/button";
-import Input from "@comps/ui/input/input";
-import InputImage from "@comps/ui/inputImage";
-import InputPassword from "@comps/ui/inputPassword";
+import { Accordion, AccordionButton, AccordionContent } from "@comps/UI/accordion";
+import Button from "@comps/UI/button/button";
+import Input from "@comps/UI/input/input";
+import InputImage from "@comps/UI/inputImage";
+import InputPassword from "@comps/UI/inputPassword";
 import { changeEmail, changePassword, updateUser, useSession } from "@lib/authClient";
 import { BetterSessionServer } from "@lib/authServer";
 import { UpdateLastnameProcess } from "@process/ProfileUpdate";
-import { fileToBase64 } from "@utils/base64";
+import { imageToBase64 } from "@utils/base64";
 import { useState } from "react";
 
 type EditionAccordionProps = {
@@ -79,7 +79,7 @@ const UpdateLastnameForm = (props: UpdateFormProps) => {
                 setValue={setLastname}
                 value={lastname}
                 required={false}
-                classComponent="w-full"
+                className={{ component: "w-full" }}
             />
             <Button label="Modifier" isLoading={isLoading} type="submit" />
         </form>
@@ -120,7 +120,7 @@ const UpdateFirstnameForm = (props: UpdateFormProps) => {
                 setValue={setName}
                 value={name}
                 required={false}
-                classComponent="w-full"
+                className={{ component: "w-full" }}
             />
             <Button label="Modifier" isLoading={isLoading} type="submit" />
         </form>
@@ -161,7 +161,7 @@ const UpdateEmailForm = (props: UpdateFormProps) => {
                 setValue={setEmail}
                 value={email}
                 required={false}
-                classComponent="w-full"
+                className={{ component: "w-full" }}
             />
             <Button label="Modifier" isLoading={isLoading} type="submit" />
         </form>
@@ -231,7 +231,7 @@ const UpdateImageForm = () => {
 
         // Update database through Better Auth API
         try {
-            const encodedImage = await fileToBase64(image);
+            const encodedImage = await imageToBase64(image);
             if (!encodedImage) return;
             await updateUser({ image: encodedImage });
         } catch {

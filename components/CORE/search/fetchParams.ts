@@ -16,7 +16,7 @@ type CountType = number;
 
 type ProductSearchType = Prisma.ProductGetPayload<ReturnType<typeof productFetchParams>>;
 
-const productFetchParams = (search?: string, take: number = 3) =>
+const productFetchParams = (search: string = "", take: number = 3) =>
     ({
         select: {
             name: true,
@@ -30,7 +30,7 @@ const productFetchParams = (search?: string, take: number = 3) =>
         },
     }) satisfies ProductFindManyProps;
 
-const productCountParams = (search?: string) =>
+const productCountParams = (search: string = "") =>
     ({
         where: {
             OR: [{ name: { contains: search } }, { slug: { contains: search } }, { description: { contains: search } }],
@@ -41,7 +41,7 @@ const productCountParams = (search?: string) =>
 
 type CategorySearchType = Prisma.CategoryGetPayload<ReturnType<typeof categoryFetchParams>>;
 
-const categoryFetchParams = (search?: string, take: number = 3) =>
+const categoryFetchParams = (search: string = "", take: number = 3) =>
     ({
         select: {
             name: true,
@@ -54,7 +54,7 @@ const categoryFetchParams = (search?: string, take: number = 3) =>
         },
     }) satisfies CategoryFindManyProps;
 
-const categoryCountParams = (search?: string) =>
+const categoryCountParams = (search: string = "") =>
     ({
         where: {
             OR: [{ name: { contains: search } }, { slug: { contains: search } }, { description: { contains: search } }],
@@ -65,7 +65,7 @@ const categoryCountParams = (search?: string) =>
 
 type ArticleSearchType = Prisma.ArticleGetPayload<ReturnType<typeof articleFetchParams>>;
 
-const articleFetchParams = (search?: string, take: number = 3) =>
+const articleFetchParams = (search: string = "", take: number = 3) =>
     ({
         select: {
             title: true,
@@ -98,7 +98,7 @@ const articleFetchParams = (search?: string, take: number = 3) =>
         },
     }) satisfies ArticleFindManyProps;
 
-const articleCountParams = (search?: string) =>
+const articleCountParams = (search: string = "") =>
     ({
         where: {
             OR: [
@@ -124,7 +124,7 @@ const articleCountParams = (search?: string) =>
 
 type DiySearchType = Prisma.DiyGetPayload<ReturnType<typeof diyFetchParams>>;
 
-const diyFetchParams = (search?: string, take: number = 3) =>
+const diyFetchParams = (search: string = "", take: number = 3) =>
     ({
         select: {
             title: true,
@@ -157,7 +157,7 @@ const diyFetchParams = (search?: string, take: number = 3) =>
         },
     }) satisfies DiyFindManyProps;
 
-const diyCountParams = (search?: string) =>
+const diyCountParams = (search: string = "") =>
     ({
         where: {
             OR: [

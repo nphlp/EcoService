@@ -1,11 +1,11 @@
 "use client";
 
+import { useBasketStore } from "@comps/CORE/basket/basketStore";
 import { useHeaderStore } from "@comps/CORE/header/headerStore";
-import { useBasketStore } from "@comps/basket/basketStore";
-import Logout from "@comps/client/logout";
-import Button from "@comps/ui/button";
-import ImageProfile from "@comps/ui/imageProfile";
-import Link from "@comps/ui/link";
+import Button from "@comps/UI/button/button";
+import Link from "@comps/UI/button/link";
+import ImageProfile from "@comps/UI/imageProfile";
+import Logout from "@comps/UI/logout";
 import { useSession } from "@lib/authClient";
 import { combo } from "@lib/combo";
 import { LogOut, PanelsTopLeft, Search, ShoppingCart, UserRound } from "lucide-react";
@@ -31,8 +31,8 @@ export default function IconLinks() {
             <Button
                 label="toggle-search-section-visibility"
                 variant="ghost"
-                className="p-2"
-                baseStyleOnly={["flex", "rounded"]}
+                className={{ button: "p-2" }}
+                focusVisible
                 onClick={() => {
                     setSearchOpen(!searchOpen);
                     setBasketOpen(false);
@@ -45,7 +45,7 @@ export default function IconLinks() {
             {/* <Button
                 label="toggle-mode"
                 variant="ghost"
-                baseStyleOnly={["flex", "rounded"]}
+                focusVisible
                 onClick={handleSwitchTheme}
                 className="w-10 overflow-hidden p-2"
             >
@@ -61,7 +61,6 @@ export default function IconLinks() {
                     href="/profile"
                     variant="ghost"
                     className={combo(session.user.image ? "p-1.5" : "p-2")}
-                    baseStyleOnly={["flex", "rounded"]}
                     onClick={() => {
                         setSearchOpen(false);
                         setBasketOpen(false);
@@ -79,7 +78,6 @@ export default function IconLinks() {
                     href="/auth"
                     variant="ghost"
                     className="p-2"
-                    baseStyleOnly={["flex", "rounded"]}
                     onClick={() => {
                         setSearchOpen(false);
                         setBasketOpen(false);
@@ -96,7 +94,6 @@ export default function IconLinks() {
                     href="/dashboard"
                     variant="ghost"
                     className="p-2"
-                    baseStyleOnly={["flex", "rounded"]}
                     onClick={() => {
                         setSearchOpen(false);
                         setBasketOpen(false);
@@ -108,10 +105,10 @@ export default function IconLinks() {
 
             {/* Basket button */}
             <Button
-                label="toggle-basket-section-visibility"
+                label="basket"
                 variant="ghost"
-                className="relative p-2"
-                baseStyleOnly={["flex", "rounded"]}
+                className={{ button: "relative p-2" }}
+                focusVisible
                 onClick={() => {
                     setSearchOpen(false);
                     setBasketOpen(!basketOpen);
@@ -127,8 +124,7 @@ export default function IconLinks() {
             {session && (
                 <Logout
                     variant="ghost"
-                    baseStyleOnly={["flex", "rounded"]}
-                    className="p-2"
+                    className={{ button: "p-2" }}
                     onClick={() => {
                         setSearchOpen(false);
                         setBasketOpen(false);

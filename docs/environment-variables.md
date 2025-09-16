@@ -16,7 +16,6 @@ This is the list of environment variables used in the project.
 | MYSQL_USER                         | `eco-service-user`                                                           | MySQL variable for Docker service                       |
 | MYSQL_PASSWORD                     | `eco-service-password`                                                       | MySQL variable for Docker service                       |
 | MYSQL_HOST                         | `localhost` or `mysql`                                                       | MySQL variable for Docker service                       |
-| MYSQL_PORT                         | `3306` or `3307`                                                             | MySQL variable for Docker service                       |
 | REDIS_URL                          | `redis://localhost:6379` or `redis://redis:6379`                             | Redis URL                                               |
 | REDIS_ARGS                         | `--save 1 1` for testing, `--save 3600 10` for production                    | Redis arguments                                         |
 | BETTER_AUTH_SECRET                 | `session-encryption-key`                                                     | Better Auth encryption key                              |

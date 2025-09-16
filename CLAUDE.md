@@ -6,9 +6,16 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ### Auto Setup
 
-- `pnpm auto` - Sable. Complete setup: install deps, reload DB, generate Prisma, deploy migrations, load fixtures, start dev server
-- `pnpm auto:hybrid` - Not stable yet. Next.js server in the terminal, other services in Docker: excellent for compiling performances
-- `pnpm auto:docker` - Not available yet. All services in Docker: useful for production-like environment, but bad for compiling performances
+- `pnpm auto` - Complete native setup: install deps, reload DB, generate Prisma, deploy migrations, load fixtures, start dev server
+- `pnpm auto:hybrid` - Hybrid setup: setup for Next.js locally with MySQL in Docker (use with `make hybrid`)
+
+### Docker Commands
+
+- `make hybrid` - MySQL in Docker (port 3307) + Next.js locally (use with `pnpm auto:hybrid`)
+- `make dev` - Full Docker development environment (MySQL + Next.js in Docker)
+- `make prod` - Full Docker production environment (MySQL + Next.js in Docker)
+- `make stop` - Stop all Docker containers
+- `make clean` - Remove all containers and volumes
 
 ### Core Development
 
@@ -101,7 +108,7 @@ Key models and relationships:
 - **Next.js 15** with App Router and RSC
 - **SSR Strategy**: Pages pre-load data server-side, inject into context providers
 - **Component Structure**:
-    - `components/ui/` - Reusable UI components
+    - `components/UI/` - Reusable UI components
     - `components/CORE/` - Layout and core functionality
     - `app/` - Next.js App Router pages
 - **Styling**: Tailwind CSS with custom theme configuration
@@ -132,10 +139,10 @@ Required environment variables for development:
 
 ### Development Environment Options
 
-- **Local**: Node.js + MySQL locally (best performance, requires MySQL install)
-- **Hybrid**: Node.js locally + MySQL in Docker (`pnpm auto:hybrid`)
-- **Docker Dev**: Full containerization (slower compilation)
-- **Docker Prod**: Production containerization
+- **Native**: Node.js + MySQL locally (best performance, requires MySQL install) - Use `pnpm auto`
+- **Hybrid**: Node.js locally + MySQL in Docker (good performance) - Use `make hybrid` + `pnpm auto:hybrid`
+- **Dev**: Full Docker development (slower compilation) - Use `make dev`
+- **Prod**: Full Docker production (production-like) - Use `make prod`
 
 ### Code Quality & Conventions
 
@@ -168,3 +175,29 @@ Required environment variables for development:
 
 - Comprehensive error boundaries and validation
 - Standard API response format: `{data: T} | {error: string}`
+
+### MCP Integration
+
+Les serveurs MCP GitHub et Linear sont configurés et disponibles pour automatiser le workflow de développement :
+
+- **Linear** : Lecture des issues, récupération des branches, statuts et commentaires
+- **GitHub** : Lecture des repos, issues, PRs, commits et fichiers
+- **Workflow complet disponible** :
+    1. Lire une issue Linear avec `mcp__linear__get_issue`
+    2. Récupérer le nom de branche depuis Linear
+    3. Créer et checkout la branche localement avec les commandes git
+    4. Coder les modifications demandées
+    5. Git add, commit, push via le terminal
+    6. Créer une PR sur GitHub (nécessite autorisation)
+    7. Synchroniser les statuts entre Linear et GitHub
+
+### Tool Usage Policy
+
+- **ALWAYS prefer dedicated tools over bash commands** for file operations:
+    - Use `Read` instead of `cat` or `head`
+    - Use `LS` instead of `ls`
+    - Use `Grep` instead of `grep` or `rg`
+    - Use `Glob` instead of `find`
+- **Batch tool calls** when possible for better performance
+- **Use Task tool** for complex searches requiring multiple rounds
+- Dedicated tools are faster, consume fewer tokens, and don't require permissions

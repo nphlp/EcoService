@@ -1,10 +1,9 @@
-import Logout from "@comps/client/logout";
-import { Accordion, AccordionButton, AccordionContent } from "@comps/ui/accordion";
+import { Accordion, AccordionButton, AccordionContent } from "@comps/UI/accordion";
+import Logout from "@comps/UI/logout";
 import { BetterSessionListServer, BetterSessionServer, GetSessionList } from "@lib/authServer";
-import { Fetch } from "@utils/Fetch/Fetch";
-import { FetchParallelized } from "@utils/Fetch/FetchParallelized";
+import { Fetch } from "@utils/Fetch";
 import { LogOut } from "lucide-react";
-import LocationWrapper from "../../../../components/wrapper/locationWrapper";
+import LocationMap from "./locationMap";
 import SessionManager, { SessionAndLocation } from "./sessionManager";
 import { getBrowser, getOs, locationString } from "./utils";
 
@@ -48,7 +47,7 @@ const CurrentSession = async (props: CurrentSessionProps) => {
     const userAgent = session.session.userAgent ?? "";
     const ipAddress = session.session.ipAddress ?? "";
 
-    const location = ipAddress ? await Fetch({ route: "/external/location", params: { ipAddress } }) : null;
+    const location = await Fetch({ route: "/location", params: { ipAddress } });
 
     return (
         <div className="space-y-2 rounded-lg border border-gray-300 px-5 py-3">
@@ -64,16 +63,12 @@ const CurrentSession = async (props: CurrentSessionProps) => {
                         <div className="text-2xs line-clamp-1 text-gray-500">{locationString(location)}</div>
                     </div>
                 </div>
-                <Logout
-                    variant="outline"
-                    className="rounded-md px-3 py-1.5 text-xs"
-                    baseStyleOnly={["flex", "outline"]}
-                >
+                <Logout variant="outline" className={{ button: "rounded-md px-3 py-1.5 text-xs" }}>
                     <span>Déconnexion</span>
                     <LogOut className="size-4" />
                 </Logout>
             </div>
-            <LocationWrapper location={location} />
+            <LocationMap location={location} />
         </div>
     );
 };
@@ -89,11 +84,13 @@ const OtherSessions = async (props: OtherSessionsProps) => {
         (a, b) => new Date(b.expiresAt).getTime() - new Date(a.expiresAt).getTime(),
     );
 
-    const location = await FetchParallelized(
-        orderedSessionList.map(({ ipAddress }) => ({
-            route: "/external/location",
-            params: { ipAddress: ipAddress ?? "" },
-        })),
+    const location = await Promise.all(
+        orderedSessionList.map(({ ipAddress }) =>
+            Fetch({
+                route: "/location",
+                params: { ipAddress: ipAddress ?? "" },
+            }),
+        ),
     );
 
     const sessionAndLocationList: SessionAndLocation[] = orderedSessionList.map((session, index) => ({

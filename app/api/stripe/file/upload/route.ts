@@ -3,6 +3,7 @@ import { ResponseFormat } from "@utils/FetchConfig";
 import { authorizedFileSize, authorizedFormats } from "@utils/ImageValidation";
 import { StringToSlug } from "@utils/StringToSlug";
 import { NextRequest, NextResponse } from "next/server";
+import z, { ZodType } from "zod";
 import { StripeError } from "../../Error";
 
 export type StripeFileUploadBody = {
@@ -10,10 +11,10 @@ export type StripeFileUploadBody = {
     fileNameToSlugify: string;
 };
 
-// const StripeFileUploadBodySchema: ZodType<StripeFileUploadBody> = strictObject({
-//     fileNameToSlugify: z.string(),
-//     file: z.instanceof(File),
-// });
+const stripeFileUploadBodySchema: ZodType<StripeFileUploadBody> = z.object({
+    fileNameToSlugify: z.string(),
+    file: z.file(),
+});
 
 export type StripeFileUploadResponse = string;
 
@@ -21,19 +22,12 @@ export async function POST(request: NextRequest): Promise<NextResponse<ResponseF
     try {
         // Get the params and decode them
         const formData = await request.formData();
-        const params = Object.fromEntries(formData.entries());
-        // const { file, fileNameToSlugify } = StripeFileUploadBodySchema.parse(params);
-        const { file, fileNameToSlugify } = params;
-
-        if (!file || !(file instanceof File) || !(typeof fileNameToSlugify === "string")) {
-            return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
-        }
+        const body = Object.fromEntries(formData.entries());
+        const { file, fileNameToSlugify } = stripeFileUploadBodySchema.parse(body);
 
         // Convert file to Buffer
         const arrayBuffer = await file.arrayBuffer();
         const fileBuffer = Buffer.from(arrayBuffer);
-        // const fileBytes = await file.bytes();
-        // const fileBuffer = Buffer.from(fileBytes);
 
         // Check if the file size is too big
         if (fileBuffer.length > authorizedFileSize) {

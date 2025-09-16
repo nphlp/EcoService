@@ -1,4 +1,4 @@
-import { searchQueryParser } from "@comps/SHARED/queryParamsServerParsers";
+import { pageQueryParser, searchQueryParser } from "@comps/SHARED/queryParamsServerParsers";
 import { createSearchParamsCache, createSerializer } from "nuqs/server";
 
 /**
@@ -7,6 +7,8 @@ import { createSearchParamsCache, createSerializer } from "nuqs/server";
 export const articleQueryParams = {
     /** Search (default value: `""`) */
     search: searchQueryParser,
+    /** Page number (default value: `1`) */
+    page: pageQueryParser,
 };
 
 /**
@@ -14,7 +16,7 @@ export const articleQueryParams = {
  */
 export const articleQueryParamsCached = createSearchParamsCache(articleQueryParams);
 
-export type DiyQueryParamsCachedType = Awaited<ReturnType<typeof articleQueryParamsCached.parse>>;
+export type ArticleQueryParamsCachedType = Awaited<ReturnType<typeof articleQueryParamsCached.parse>>;
 
 /**
  * Serializer to construct an URL with query params

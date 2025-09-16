@@ -5,14 +5,15 @@ import { describe, expect, it } from "vitest";
 describe("Actions tests", () => {
     it("User actions", async () => {
         // Fetch users
-        const users = await UserFindManyAction({
-            include: {
-                Account: true,
-                Address: true,
+        const users = await UserFindManyAction(
+            {
+                include: {
+                    Account: true,
+                    Address: true,
+                },
             },
-        },
-        true // Disable safe message
-    );
+            true, // Disable safe message
+        );
 
         // Check users
         expect(users).toBeDefined();
@@ -25,13 +26,14 @@ describe("Actions tests", () => {
 
     it("Product actions", async () => {
         // Fetch products
-        const products = await ProductFindManyAction({
-            include: {
-                Category: true,
+        const products = await ProductFindManyAction(
+            {
+                include: {
+                    Category: true,
+                },
             },
-        },
-        true // Disable safe message
-    );
+            true, // Disable safe message
+        );
 
         // Check products
         expect(products).toBeDefined();

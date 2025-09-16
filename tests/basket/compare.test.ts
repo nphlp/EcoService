@@ -1,4 +1,4 @@
-import { useBasketStore } from "@comps/basket/basketStore";
+import { useBasketStore } from "@comps/CORE/basket/basketStore";
 import * as createApi from "@process/basket/CreateServerBasket";
 import * as findApi from "@process/basket/FindPendingServerBasket";
 import * as getApi from "@process/basket/GetServerBasket";

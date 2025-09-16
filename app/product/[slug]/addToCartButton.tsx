@@ -1,9 +1,8 @@
 "use client";
 
 import { ProductType } from "@app/product/[slug]/fetchParams";
-import { useBasketStore } from "@comps/basket/basketStore";
-import Button from "@comps/ui/button";
-import { combo } from "@lib/combo";
+import { useBasketStore } from "@comps/CORE/basket/basketStore";
+import Button from "@comps/UI/button/button";
 
 type AddToCartButtonProps = {
     product: ProductType;
@@ -34,7 +33,7 @@ export default function AddToCartButton(props: AddToCartButtonProps) {
         <Button
             type="button"
             disabled={stock === 0}
-            className={combo("w-full", className)}
+            className={{ button: className }}
             label={stock === 0 ? "Indisponible" : isInBasket(product.id) ? "Retirer du panier" : "Ajouter au panier"}
             onClick={handleClick}
         >

@@ -1,7 +1,7 @@
+import Link from "@comps/UI/button/link";
 import { combo } from "@lib/combo";
 import { ArticleFindManyServer, DiyFindManyServer, ProductFindManyServer } from "@services/server";
-import Link from "next/link";
-import Logo from "../server/logo";
+import Logo from "../UI/logo";
 
 type FooterProps = {
     className?: string;
@@ -166,9 +166,13 @@ const TopLinks = (props: TopLinksProps) => {
             </div>
             <div className="space-y-0.5">
                 {items.map((item, index) => (
-                    <Link key={index} href={url + item.slug} className="line-clamp-1">
-                        {item.name}
-                    </Link>
+                    <Link
+                        key={index}
+                        label={item.name}
+                        variant="underline"
+                        href={url + item.slug}
+                        className="line-clamp-1 text-white"
+                    />
                 ))}
             </div>
         </div>

@@ -1,11 +1,4 @@
-import { Routes as ExternalRoutes } from "@api/external/Routes";
-import { Routes as StripeRoutes } from "@api/stripe/Routes";
 import { NextRequest } from "next/server";
-
-/**
- * Routes list
- */
-export type RoutesList = ExternalRoutes & StripeRoutes;
 
 /**
  * Re-validate time in seconds
@@ -35,6 +28,16 @@ export const parseAndDecodeParams = (request: NextRequest) => {
 };
 
 /**
+ * Hash the params to create an unique cache key (240 characters max)
+ */
+export const hashParamsForCacheKey = <T extends object>(key: string, params: T) => {
+    const json = JSON.stringify(params);
+    const base64 = Buffer.from(json).toString("base64");
+    const hashKey = `${key}-${base64}`.slice(0, 240);
+    return hashKey;
+};
+
+/**
  * Exact type
  * Used to ensure that the params are exactly the same as the shape of the object, without any extra properties
  */
@@ -45,9 +48,9 @@ export type Exact<T, Shape extends T> = T & {
 /**
  * Response format
  */
-export type ResponseFormat<Response> =
+export type ResponseFormat<T> =
     | {
-          data: Response;
+          data: T;
           error?: undefined;
       }
     | {

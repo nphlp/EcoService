@@ -1,8 +1,14 @@
-import ImageRatio from "@comps/ui/imageRatio";
-import { DiyFindManyServer } from "@services/server";
+import Pagination from "@comps/SHARED/PaginationFilter";
+import SearchFilter from "@comps/SHARED/SearchFilter";
+import { combo } from "@lib/combo";
+import { DiyCountServer, DiyFindManyServer } from "@services/server";
+import { Search } from "lucide-react";
 import { Metadata } from "next";
-import Link from "next/link";
 import { SearchParams } from "nuqs/server";
+import { Context } from "./context";
+import DiyResults from "./diyResults";
+import { diyCountParams, diyFetchParams } from "./fetchParams";
+import Provider from "./provider";
 import { diyQueryParamsCached } from "./queryParams";
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
@@ -23,86 +29,38 @@ type PageProps = {
 
 export default async function Page(props: PageProps) {
     const { searchParams } = props;
-    const { search } = await diyQueryParamsCached.parse(searchParams);
 
-    const diyList = await DiyFindManyServer({
-        select: {
-            title: true,
-            slug: true,
-            createdAt: true,
-            Content: {
-                select: {
-                    content: true,
-                    image: true,
-                },
-            },
-            Author: {
-                select: {
-                    name: true,
-                },
-            },
-        },
-        orderBy: {
-            createdAt: "desc",
-        },
-        where: {
-            OR: [
-                { title: { contains: search } },
-                { slug: { contains: search } },
-                {
-                    Content: {
-                        some: {
-                            content: { contains: search },
-                        },
-                    },
-                },
-                {
-                    Author: {
-                        name: { contains: search },
-                    },
-                },
-            ],
-        },
-    });
+    // Get search params
+    const { page, search } = await diyQueryParamsCached.parse(searchParams);
 
-    if (!diyList) {
-        return <div className="container mx-auto px-4 py-10">Aucun tutoriel DIY disponible pour le moment.</div>;
-    }
+    // Fetch data
+    const initialDiyAmount = await DiyCountServer(diyCountParams({ search }));
+
+    const initialDiyList = await DiyFindManyServer(diyFetchParams({ page, search }));
 
     return (
-        <div className="container mx-auto px-4 py-10">
-            <h1 className="mb-10 text-center text-3xl font-bold md:text-4xl">Nos tutoriels DIY</h1>
-
-            <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                {diyList.map((diy, index) => (
-                    <Link
-                        key={index}
-                        href={`/diy/${diy.slug}`}
-                        className="group flex flex-col overflow-hidden rounded-xl border border-gray-300 bg-white shadow-md transition-shadow duration-300 hover:shadow-lg"
-                    >
-                        {/* Image */}
-                        {diy.Content[0] && <ImageRatio src={diy.Content[0].image} alt={diy.title} />}
-
-                        {/* Contenu */}
-                        <div className="flex flex-1 flex-col p-4">
-                            <h2 className="mb-2 text-xl font-semibold transition-colors duration-300 group-hover:text-teal-600">
-                                {diy.title}
-                            </h2>
-
-                            {diy.Content[0] && (
-                                <p className="mb-4 line-clamp-3 text-gray-600">{diy.Content[0].content}</p>
+        <div className="container mx-auto flex flex-1 flex-col space-y-6 px-5 py-10">
+            <Provider initialDiyAmount={initialDiyAmount}>
+                <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
+                    <h1 className="text-center text-3xl font-bold md:text-4xl">Nos tutoriels DIY</h1>
+                    <div className={combo("group flex flex-row items-center justify-center gap-4")}>
+                        <Search
+                            className={combo(
+                                "text-gray-400 group-focus-within:text-gray-700",
+                                "transition-all duration-150",
                             )}
-
-                            <div className="mt-auto flex items-center justify-between">
-                                <span className="text-sm text-gray-500">Par {diy.Author.name}</span>
-                                <span className="text-sm text-gray-500">
-                                    {new Date(diy.createdAt).toLocaleDateString("fr-FR")}
-                                </span>
-                            </div>
-                        </div>
-                    </Link>
-                ))}
-            </div>
+                        />
+                        <SearchFilter
+                            className={{
+                                input: "rounded-none border-x-0 border-t-0 border-b-gray-300 px-0 py-0.5 ring-transparent",
+                            }}
+                            noLabel
+                        />
+                    </div>
+                </div>
+                <DiyResults initialDiyList={initialDiyList} />
+                <Pagination path="/diy" takeOverride={6} context={Context} />
+            </Provider>
         </div>
     );
 }

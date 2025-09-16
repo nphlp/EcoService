@@ -1,6 +1,6 @@
 import { StripeProductsResponse } from "@app/api/stripe/products/route";
-import ImageRatio from "@comps/ui/imageRatio";
-import Link from "@comps/ui/link";
+import Link from "@comps/UI/button/link";
+import ImageRatio from "@comps/UI/imageRatio";
 import { combo } from "@lib/combo";
 import Stripe from "stripe";
 
@@ -27,7 +27,7 @@ export default function ProductDisplay(props: ProductDisplayProps) {
             {stripeProductList.map((product, index) => (
                 <div key={index} className="group relative">
                     <div className="w-full overflow-hidden rounded-lg">
-                        <ImageRatio src={getImageUrl(product.images[0])} alt={product.name} />
+                        <ImageRatio src={getImageUrl(product.images[0])} alt={product.name} mode="onPageLoad" />
                     </div>
                     <div
                         className={combo(

@@ -1,7 +1,7 @@
-import ArticleOrDiyCard from "@comps/articleOrDiyCard";
-import ImageRatio from "@comps/ui/imageRatio";
-import Link from "@comps/ui/link";
-import Slider from "@comps/ui/slider";
+import ArticleOrDiyCard from "@comps/PROJECT/cards/articleOrDiyCard";
+import Link from "@comps/UI/button/link";
+import ImageRatio from "@comps/UI/imageRatio";
+import Slider from "@comps/UI/slider";
 import { combo } from "@lib/combo";
 import PrismaInstance from "@lib/prisma";
 import { ArticleFindManyServer, ArticleFindUniqueServer } from "@services/server";
@@ -136,6 +136,7 @@ export default async function Page(props: PageProps) {
                             src={content.image}
                             alt={`Illustration pour ${article.title}`}
                             className="w-2/3 rounded-lg shadow-md md:w-1/3"
+                            mode="preloaded"
                         />
                     </div>
                 ))}
@@ -151,7 +152,7 @@ export default async function Page(props: PageProps) {
                     }))}
                 >
                     {otherArticleList.map((articleOrDiy, index) => (
-                        <ArticleOrDiyCard key={index} articleOrDiy={articleOrDiy} />
+                        <ArticleOrDiyCard key={index} articleOrDiy={articleOrDiy} mode="whenIsVisible" />
                     ))}
                 </Slider>
             </section>

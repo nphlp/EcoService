@@ -1,5 +1,6 @@
 "use client";
 
+import ProductCard, { ProductCardSkeleton } from "@comps/PROJECT/cards/productCard";
 import {
     useCategoryQueryParams,
     usePageQueryParams,
@@ -7,12 +8,10 @@ import {
     useSearchQueryParams,
     useTakeQueryParams,
 } from "@comps/SHARED/queryParamsClientHooks";
-import ProductCard from "@comps/productCard";
-import Card from "@comps/server/card";
-import Link from "@comps/ui/link";
+import Link from "@comps/UI/button/link";
 import { combo } from "@lib/combo";
 import { ProductModel } from "@services/types";
-import { useFetchV2 } from "@utils/FetchV2/FetchHookV2";
+import { useFetch } from "@utils/FetchHook";
 import { PackageSearch } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { MouseEvent, useContext } from "react";
@@ -37,8 +36,8 @@ export default function Catalog(props: CatalogProps) {
     const { search } = useSearchQueryParams();
     const { category } = useCategoryQueryParams();
 
-    const { data: productList, isLoading: isLoadingProductList } = useFetchV2({
-        route: "/product/findMany",
+    const { data: productList, isLoading: isLoadingProductList } = useFetch({
+        route: "/internal/product/findMany",
         params: productFetchParams({ page, take, priceOrder, search, category }),
         initialData: initialProductList,
     });
@@ -91,31 +90,13 @@ export default function Catalog(props: CatalogProps) {
                         label={product.name}
                         href={`/product/${product.slug}`}
                         variant="none"
-                        baseStyle={false}
+                        className="w-full rounded-xl"
                         onClick={(e) => handleClick(e, product.slug)}
                     >
-                        <ProductCard product={product} />
+                        <ProductCard product={product} mode="preloaded" />
                     </Link>
                 ))}
             </div>
         </div>
     );
 }
-
-const ProductCardSkeleton = () => {
-    return (
-        <Card className="h-full overflow-hidden p-0">
-            <div className="animate-shimmer aspect-[3/2]" />
-            <div className="flex flex-row items-end justify-between p-5">
-                <div className="w-full space-y-3">
-                    <div className="w-full space-y-2">
-                        <div className="animate-shimmer h-[24px] w-[50%] rounded" />
-                        <div className="animate-shimmer h-[18px] w-[70%] rounded" />
-                    </div>
-                    <div className="animate-shimmer h-[18px] w-[20%] rounded" />
-                </div>
-                <div className="animate-shimmer size-[44px] shrink-0 rounded-xl" />
-            </div>
-        </Card>
-    );
-};

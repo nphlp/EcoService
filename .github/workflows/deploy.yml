@@ -1,5 +1,33 @@
 # Requirements
 #
+# A. Coolify Setup
+#
+# -> Configurer deux environnements : "production" et "preview"
+#
+# Étapes dans Coolify :
+# 1. Coolify > Keys & Tokens > Private Keys
+#    Créer une Deploy Key
+# 2. Coolify > Keys & Tokens > API Tokens
+#    Créer un token avec permissions (read + write + deploy)
+# 3. Récupérer les UUIDs des applications "production" et "preview" qui se trouve dans l'URL
+#    Exemple: https://coolify.domain.com/project/.../environment/.../application/{uuid}
+#
+# B. GitHub Setup 
+#
+# -> Ajouter les GitHub Actions Secrets
+#
+# Pour cela : GitHub > Repository > Settings > Secrets and Variables > Actions
+# 1. COOLIFY_API_URL (ex: https://coolify.domain.com)
+# 2. COOLIFY_API_TOKEN (ex: 34|tXirjfk5gzUUpAMqppaLZnC2OfjkoitmTvcHakjfs646889)
+# 3. COOLIFY_ECO_SERVICE_PREVIEW_UUID (UUID environnement preview)
+# 4. COOLIFY_ECO_SERVICE_PRODUCTION_UUID (UUID environnement production)
+#
+# -> Ajouter la Deploy Key
+#
+# Pour cela : Github > Your Repository > Settings > Deploy keys
+# 1. Ajouter la Deploy Key
+# 2. Etc.
+#
 # -> Configurer un environnement "production" et "preview"
 #
 # Pour cela : Github > Your Respository > Settings > Environments
@@ -11,148 +39,154 @@
 name: CI/CD Pipeline
 
 on:
-  # push:
-  #   branches: [main]
-  pull_request:
-    branches: [main]
+    # push:
+    #     branches: [main]
+    pull_request:
+        branches: [main]
 
 jobs:
-  commit:
-    name: Commit Check
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: wagoid/commitlint-github-action@v6
+    commit:
+        name: Commit Check
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+            - uses: wagoid/commitlint-github-action@v6
 
-  setup-base:
-    name: Setup dependencies
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: ./.github/actions/setup-base
+    setup-base:
+        name: Setup dependencies
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+            - uses: ./.github/actions/setup-base
 
-  lint:
-      name: Lint check
-      runs-on: ubuntu-latest
-      needs: [commit, setup-base]
-      steps:
-          - uses: actions/checkout@v4
-          - uses: ./.github/actions/setup-base
-          - uses: ./.github/actions/quality-check
-            with:
-              check-type: lint
-  format:
-      name: Format check
-      runs-on: ubuntu-latest
-      needs: [commit, setup-base]
-      steps:
-          - uses: actions/checkout@v4
-          - uses: ./.github/actions/setup-base
-          - uses: ./.github/actions/quality-check
-            with:
-              check-type: format
-  type:
-      name: Type check
-      runs-on: ubuntu-latest
-      needs: [commit, setup-base]
-      steps:
-          - uses: actions/checkout@v4
-          - uses: ./.github/actions/setup-base
-          - uses: ./.github/actions/quality-check
-            with:
-              check-type: type
+    lint:
+        name: Lint check
+        runs-on: ubuntu-latest
+        needs: [commit, setup-base]
+        steps:
+            - uses: actions/checkout@v4
+            - uses: ./.github/actions/setup-base
+            - uses: ./.github/actions/quality-check
+              with:
+                  check-type: lint
+    format:
+        name: Format check
+        runs-on: ubuntu-latest
+        needs: [commit, setup-base]
+        steps:
+            - uses: actions/checkout@v4
+            - uses: ./.github/actions/setup-base
+            - uses: ./.github/actions/quality-check
+              with:
+                  check-type: format
+    type:
+        name: Type check
+        runs-on: ubuntu-latest
+        needs: [commit, setup-base]
+        steps:
+            - uses: actions/checkout@v4
+            - uses: ./.github/actions/setup-base
+            - uses: ./.github/actions/quality-check
+              with:
+                  check-type: type
 
-  build-and-tests:
-      name: Build and test check
-      runs-on: ubuntu-latest
-      needs: [lint, format, type]
-      services:
-          mysql:
-              image: mysql:9.3
-              ports:
-                  - "3306:3306"
-              env:
-                  MYSQL_DATABASE: eco_service_db
-                  MYSQL_USER: eco_service_user
-                  MYSQL_PASSWORD: eco_service_password
-                  MYSQL_ROOT_PASSWORD: root
-              options: >-
-                --health-cmd="mysqladmin ping -h localhost -u root -proot"
-                --health-interval=5s
-                --health-timeout=5s
-                --health-retries=10
-                --health-start-period=60s
-      env:
-          # Used in the workflow
-          DATABASE_URL: "mysql://eco_service_user:eco_service_password@127.0.0.1:3306/eco_service_db?ssl-mode=DISABLED"
-          NEXT_PUBLIC_BASE_URL: "http://localhost:3000"
-          # Required to prevent errors
-          BETTER_AUTH_SECRET: "session-encryption-key"
-          PLUNK_API_KEY: "plunk-private-key"
-          NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: "pk_test_xxxxx"
-          STRIPE_SECRET_KEY: "sk_test_pk_test_xxxxx"
-          STRIPE_WEBHOOK_SECRET: "whsec_xxxxx"
-      steps:
-          - uses: actions/checkout@v4
-          - name: Generate MySQL SSL certificates
-            run: |
-              chmod +x ./docker/generate-mysql-ssl-certs.bash
-              ./docker/generate-mysql-ssl-certs.bash
-          - uses: ./.github/actions/setup-base
-          - uses: ./.github/actions/setup-database
-          - uses: ./.github/actions/build-app
-          - name: Start server in background for tests
-            run: pnpm start &
-          - name: Wait for server to be ready
-            run: |
-              for i in {1..30}; do
-                if nc -z localhost 3000; then
-                  echo "Server is up!"
-                  break
-                fi
-                echo "Waiting for server..."
-                sleep 2
-              done
-          - name: Run unit tests
-            run: pnpm test:run
-          # - name: Run integration tests
-          #   run: pnpm test:integration
-          # - name: Run functional tests
-          #   run: pnpm test:functional
-          # - name: Run coverage
-          #   run: pnpm test:coverage
-          # - name: Run e2e tests
-          #   run: pnpm test:e2e
-
-  deploy-preview:
-    name: Deploy Preview
-    runs-on: ubuntu-latest
-    needs: [build-and-tests]
-    environment: preview
-    steps:
-      - name: Trigger Coolify Deploy Preview
-        run: |
-          curl -X GET "${{ secrets.COOLIFY_API_URL }}/api/v1/deploy?uuid=${{ secrets.COOLIFY_ECO_SERVICE_PREVIEW_UUID }}&force=false&branch=test" \
-            -H "Authorization: Bearer ${{ secrets.COOLIFY_API_TOKEN }}"
-
-  deploy-production:
-    name: Deploy Production
-    runs-on: ubuntu-latest
-    needs: [build-and-tests]
-    environment: production
-    steps:
-      # Setup
-      - uses: actions/checkout@v4
-      - uses: ./.github/actions/setup-base
-      
-      # Release avec semantic-release
-      - name: Create release
-        run: pnpm dlx semantic-release
+    build-and-tests:
+        name: Build and test check
+        runs-on: ubuntu-latest
+        needs: [lint, format, type]
+        services:
+            mysql:
+                image: mysql:9.3
+                ports:
+                    - "3306:3306"
+                env:
+                    MYSQL_DATABASE: eco_service_db
+                    MYSQL_USER: eco_service_user
+                    MYSQL_PASSWORD: eco_service_password
+                    MYSQL_ROOT_PASSWORD: root
+                options: >-
+                    --health-cmd="mysqladmin ping -h localhost -u root -proot"
+                    --health-interval=5s
+                    --health-timeout=5s
+                    --health-retries=10
+                    --health-start-period=60s
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      
-      # Deploy vers Coolify
-      - name: Trigger Coolify Deploy Production
-        run: |
-          curl -X GET "${{ secrets.COOLIFY_API_URL }}/api/v1/deploy?uuid=${{ secrets.COOLIFY_ECO_SERVICE_UUID }}&force=false&branch=main" \
-            -H "Authorization: Bearer ${{ secrets.COOLIFY_API_TOKEN }}"
+            # Used in the workflow
+            DATABASE_URL: "mysql://eco_service_user:eco_service_password@127.0.0.1:3306/eco_service_db?ssl-mode=DISABLED"
+            NEXT_PUBLIC_BASE_URL: "http://localhost:3000"
+            # Required to prevent errors
+            BETTER_AUTH_SECRET: "session-encryption-key"
+            PLUNK_API_KEY: "plunk-private-key"
+            NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: "pk_test_xxxxx"
+            STRIPE_SECRET_KEY: "sk_test_pk_test_xxxxx"
+            STRIPE_WEBHOOK_SECRET: "whsec_xxxxx"
+        steps:
+            - uses: actions/checkout@v4
+            - name: Generate MySQL SSL certificates
+              run: |
+                  chmod +x ./scripts/ssl-certs.sh
+                  ./scripts/ssl-certs.sh setup
+            - uses: ./.github/actions/setup-base
+            - uses: ./.github/actions/setup-database
+            - uses: ./.github/actions/build-app
+            - name: Start server in background for tests
+              run: pnpm start &
+            - name: Wait for server to be ready
+              run: |
+                  for i in {1..30}; do
+                      if nc -z localhost 3000; then
+                          echo "Server is up!"
+                          break
+                      fi
+                      echo "Waiting for server..."
+                      sleep 2
+                  done
+            - name: Run unit tests
+              run: pnpm test:run
+            # - name: Run integration tests
+            #   run: pnpm test:integration
+            # - name: Run functional tests
+            #   run: pnpm test:functional
+            # - name: Run coverage
+            #   run: pnpm test:coverage
+            # - name: Run e2e tests
+            #   run: pnpm test:e2e
+
+    deploy-preview:
+        name: Deploy Preview
+        runs-on: ubuntu-latest
+        needs: [build-and-tests]
+        environment: preview
+        steps:
+            - name: Update branch in Coolify
+              run: |
+                  curl -X PATCH "${{ secrets.COOLIFY_API_URL }}/api/v1/applications/${{ secrets.COOLIFY_ECO_SERVICE_PREVIEW_UUID }}" \
+                      -H "Authorization: Bearer ${{ secrets.COOLIFY_API_TOKEN }}" \
+                      -H "Content-Type: application/json" \
+                      -d '{"git_branch": "${{ github.head_ref }}"}'
+            - name: Trigger Coolify Deploy Preview
+              run: |
+                  curl -X GET "${{ secrets.COOLIFY_API_URL }}/api/v1/deploy?uuid=${{ secrets.COOLIFY_ECO_SERVICE_PREVIEW_UUID }}&force=false" \
+                      -H "Authorization: Bearer ${{ secrets.COOLIFY_API_TOKEN }}"
+
+    deploy-production:
+        name: Deploy Production
+        runs-on: ubuntu-latest
+        needs: [build-and-tests]
+        environment: production
+        steps:
+            # Setup
+            - uses: actions/checkout@v4
+            - uses: ./.github/actions/setup-base
+            
+            # Release avec semantic-release
+            - name: Create release
+              run: pnpm dlx semantic-release
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            
+            # Deploy vers Coolify
+            - name: Trigger Coolify Deploy Production
+              run: |
+                  curl -X GET "${{ secrets.COOLIFY_API_URL }}/api/v1/deploy?uuid=${{ secrets.COOLIFY_ECO_SERVICE_UUID }}&force=false&branch=main" \
+                      -H "Authorization: Bearer ${{ secrets.COOLIFY_API_TOKEN }}"

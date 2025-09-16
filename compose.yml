@@ -1,0 +1,30 @@
+services:
+    mysql:
+        image: mysql:9.3
+        container_name: mysql
+        restart: unless-stopped
+        environment:
+            - MYSQL_DATABASE=${MYSQL_DATABASE}
+            - MYSQL_USER=${MYSQL_USER}
+            - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+            - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+        volumes:
+            # MySQL data (persistent volume)
+            - mysql-data:/var/lib/mysql
+        ports:
+            - "3306:3306"
+        networks:
+            - app-network
+
+    nextjs:
+        image: node:24-alpine
+        container_name: nextjs
+
+volumes:
+    mysql-data:
+        name: mysql-volume
+        driver: local
+
+networks:
+    app-network:
+        driver: bridge

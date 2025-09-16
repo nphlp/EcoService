@@ -1,4 +1,4 @@
-import { LocationResponse } from "@app/api/external/location/route";
+import { LocationResponse } from "@app/api/location/route";
 
 export const getOs = (userAgent: string) => {
     if (/Macintosh|Mac OS X/i.test(userAgent)) return "Mac";

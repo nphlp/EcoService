@@ -4,7 +4,7 @@ import { decodeBase64, encodeBase64 } from "@oslojs/encoding";
  * Convert a File object to a base64 string
  * @usage Usefull to upload an image file to a server, and store it in the database in base64 string format
  */
-export const fileToBase64 = async (image: File): Promise<string | null> => {
+export const imageToBase64 = async (image: File): Promise<string | null> => {
     try {
         const arrayBuffer = await image.arrayBuffer();
         const uint8Array = new Uint8Array(arrayBuffer);
@@ -22,7 +22,8 @@ export const fileToBase64 = async (image: File): Promise<string | null> => {
 export const base64ToFile = (base64: string): File | null => {
     try {
         const uint8Array = decodeBase64(base64);
-        return new File([uint8Array], "image.jpeg", { type: "image/jpeg" });
+        const buffer = new Uint8Array(uint8Array);
+        return new File([buffer], "image.jpeg", { type: "image/jpeg" });
     } catch (error) {
         console.error("Erreur lors du décodage du fichier:", error);
         return null;
@@ -36,7 +37,8 @@ export const base64ToFile = (base64: string): File | null => {
 export const base64ToUrl = (base64: string): string | null => {
     try {
         const uint8Array = decodeBase64(base64);
-        const blob = new Blob([uint8Array], { type: "image/jpeg" });
+        const buffer = new Uint8Array(uint8Array);
+        const blob = new Blob([buffer], { type: "image/jpeg" });
         return URL.createObjectURL(blob);
     } catch (error) {
         console.error("Erreur lors du décodage du fichier:", error);

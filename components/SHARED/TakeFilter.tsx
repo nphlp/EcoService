@@ -1,6 +1,6 @@
 "use client";
 
-import Select from "@comps/ui/select/select";
+import Select from "@comps/UI/select/select";
 import { usePageQueryParams, useTakeQueryParams } from "./queryParamsClientHooks";
 
 export default function TakeFilter() {

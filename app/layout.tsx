@@ -1,10 +1,11 @@
+import Basket from "@comps/CORE/Basket";
 import Footer from "@comps/CORE/Footer";
 import Header from "@comps/CORE/Header";
 import Portal from "@comps/CORE/Portal";
+import ScrollReset from "@comps/CORE/ScrollReset";
 import Search from "@comps/CORE/Search";
+import BasketSync from "@comps/CORE/basket/basketSync";
 import { PortalProvider } from "@comps/CORE/portal/PortalProvider";
-import Basket from "@comps/basket/basket";
-import BasketSync from "@comps/basket/basketSync";
 import { combo } from "@lib/combo";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
@@ -41,7 +42,8 @@ export default async function Layout(props: LayoutProps) {
         <html
             lang={lang}
             className={combo(
-                "h-full overflow-hidden",
+                "h-full",
+                // "overflow-hidden",
                 inter.className,
                 // isDarkMode === true && "dark",
                 // isDarkMode === false && "light",
@@ -55,13 +57,14 @@ export default async function Layout(props: LayoutProps) {
                         <Search />
                         <Basket />
                         <BasketSync />
-                        <div className="flex-1 overflow-y-auto">
+                        <div id="main" className="flex-1 overflow-y-auto">
                             <main className="flex min-h-full flex-col items-center justify-center">{children}</main>
                             <Footer />
                         </div>
                         <Portal />
                     </PortalProvider>
                 </NuqsAdapter>
+                <ScrollReset />
             </body>
         </html>
     );

@@ -1,4 +1,4 @@
-import { Accordion, AccordionButton, AccordionContent } from "@comps/ui/accordion";
+import { Accordion, AccordionButton, AccordionContent } from "@comps/UI/accordion";
 import { BetterSessionServer } from "@lib/authServer";
 import ProfileInfo from "./profileInfo";
 

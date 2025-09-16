@@ -1,8 +1,8 @@
 "use client";
 
-import Button from "@comps/ui/button";
+import Button from "@comps/UI/button/button";
 import { combo } from "@lib/combo";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { parseAsStringEnum, useQueryState } from "nuqs";
 import { ReactNode, useEffect, useRef, useState } from "react";
 
@@ -80,15 +80,17 @@ export default function TabClient(props: TabClientProps) {
                 {cardList.map(({ label }, index) => (
                     <Button
                         key={index}
-                        variant="none"
-                        baseStyleOnly={["padding", "rounded", "transition"]}
                         type="button"
+                        variant="none"
                         label={"tab" + label}
-                        className={combo(
-                            "border border-transparent", // to get the same size for buttons and indicator
-                            "relative z-20 w-full",
-                            index !== activeTab && "hover:bg-gray-100",
-                        )}
+                        className={{
+                            button: combo(
+                                "border border-transparent", // to get the same size for buttons and indicator
+                                "relative z-20 w-full rounded-lg py-1",
+                                index !== activeTab && "hover:bg-gray-100",
+                            ),
+                        }}
+                        focusVisible
                         onClick={() => setTab(cardList[index].searchParams)}
                     >
                         {label}

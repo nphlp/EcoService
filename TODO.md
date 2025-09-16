@@ -1,17 +1,25 @@
 # Todo
 
-Complete auth and user management
-
-## CURRENT
-
-- [] Déployer
+- [ ] Build warning : The Next.js plugin was not detected in your ESLint configuration. See https://nextjs.org/docs/app/api-reference/config/eslint#migrating-existing-config
+- [ ] SetTimeout scroll to top bad pratice -> RequestAnimationFrame ?
+- [ ] Caler toutes les pages sur une largeur max
 
 ## Rework
 
 - [] Revoir et décompléxifier le système Fetch interne/externe, hook useFetch et génération de Services
-- [] Revoir les composants UI et l'architecture premitive/surcouche
-- [] Revoir les Docker Compose environnements depuis le chagement de paradigme `export dynamic = "auto"`
 - [] Améliorer la gestion des autorisations et permissions
+- [] Gérer les TODOs
+
+## Base de donnée
+
+- [] Gestion du stock
+- [] Système de notation
+- [] Système de favoris
+- [] Système de commentaires
+
+- [] Système de hits / rank
+    - Ajouter un `vue` produit à chaque clic
+    - Calcul rank = `nombre vue` / `nombre achat`
 
 ## User Experience
 
@@ -82,6 +90,7 @@ Complete auth and user management
 - Theme and dark mode
 - View Transition
 - Internationalization
+- Redis Cache
 - Progressive Web App (PWA)
 - React Native (Expo)
 - Desktop (Tauri)
