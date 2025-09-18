@@ -13,6 +13,7 @@ const compat = new FlatCompat({
 });
 
 const eslintConfig = [
+    ...compat.extends("next/core-web-vitals", "next/typescript"),
     {
         ignores: [
             ".conductor/**",
@@ -20,7 +21,6 @@ const eslintConfig = [
             ".next-test/**",
             ".github/**",
             "prettier.config.mjs",
-            "eslint.config.mjs",
             "vitest.config.mjs",
             "postcss.config.mjs",
             "prisma/client/**",
@@ -29,11 +29,11 @@ const eslintConfig = [
             "cache-handler.cjs",
         ],
     },
-    ...compat.extends("next/core-web-vitals", "next/typescript"),
     {
+        files: ["**/*.ts", "**/*.tsx", "**/*.mts", "**/*.cts"],
         languageOptions: {
             parser: tsParser,
-            parserOptions: { project: true },
+            parserOptions: { project: true, tsconfigRootDir: __dirname },
         },
         plugins: {
             "react-refresh": reactRefresh,

@@ -1,36 +1,36 @@
-# Dependencies
-node_modules
+# git
+.git/
+.gitignore
+.github/
+
+# dependencies
+node_modules/
 .pnpm-store
 
-# Build outputs
-.next
+# next.js
+.next/
 
-# Environment files
+# misc
+.DS_Store
+*.pem
+
+# env files
 .env.example
-.env.example.hybrid
-.env.example.dev
-.env.example.prod
 
-# Git
-.git
-.gitignore
-
-# Docker files
+# docker
+docker/
 Dockerfile*
 compose*.yml
-coolify.yml
 
-# Development files
-.vscode
-.cursor
-.DS_Store
-*.log
+# editor
+.vscode/
+.cursor/
+.idea/
 
-# Documentation
+# docs
 README.md
 TODO.md
 docs/
 
 # Misc
-.husky
-.github
+.husky/

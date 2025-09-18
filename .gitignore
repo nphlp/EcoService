@@ -1,5 +1,5 @@
 # dependencies
-/node_modules
+node_modules/
 .pnpm-store
 
 # next.js
@@ -13,15 +13,14 @@
 # env files
 .env
 
-# vercel
-.vercel
-
 # typescript
 *.tsbuildinfo
 next-env.d.ts
 
-# vscode
-.vscode
+# editor
+.vscode/
+.cursor/
+.idea/
 
 # docker ssl certs
 docker/certs/
@@ -32,8 +31,8 @@ prisma/client
 # Test
 run/
 
-# Husky hooks
-.husky/_
+# husky
+.husky/_/
 
 # Sonar
 .scannerwork/
