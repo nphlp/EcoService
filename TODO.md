@@ -4,6 +4,75 @@
 - [ ] SetTimeout scroll to top bad pratice -> RequestAnimationFrame ?
 - [ ] Caler toutes les pages sur une largeur max
 
+## Email
+
+```ts
+Voici comment intégrer l'envoi d'emails via Hostinger dans votre Next.js :
+
+Configuration SMTP Hostinger
+
+// Variables d'environnement (.env.local)
+SMTP_HOST=smtp.hostinger.com
+SMTP_PORT=587
+SMTP_USER=votre-email@nansp.dev
+SMTP_PASS=votre-mot-de-passe
+
+Installation de Nodemailer
+
+cd NextjsDeploy
+pnpm add nodemailer
+pnpm add -D @types/nodemailer
+
+API Route Example (app/api/send-email/route.ts)
+
+import nodemailer from 'nodemailer';
+
+export async function POST(request: Request) {
+const { to, subject, text, html } = await request.json();
+
+const transporter = nodemailer.createTransporter({
+    host: process.env.SMTP_HOST,
+    port: parseInt(process.env.SMTP_PORT || '587'),
+    secure: false, // true pour port 465, false pour port 587
+    auth: {
+    user: process.env.SMTP_USER,
+    pass: process.env.SMTP_PASS,
+    },
+});
+
+try {
+    await transporter.sendMail({
+    from: process.env.SMTP_USER,
+    to,
+    subject,
+    text,
+    html,
+    });
+
+    return Response.json({ success: true });
+} catch (error) {
+    return Response.json({ error: 'Failed to send email' }, { status: 500 });
+}
+}
+
+Utilisation depuis un composant
+
+const sendEmail = async () => {
+const response = await fetch('/api/send-email', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+    to: 'destinataire@example.com',
+    subject: 'Test depuis Next.js',
+    text: 'Hello world!',
+    html: '<h1>Hello world!</h1>'
+    })
+});
+};
+
+Vous n'avez plus besoin d'UsePlunk - Hostinger remplace complètement cette fonctionnalité avec votre propre domaine.
+```
+
 ## Rework
 
 - [] Revoir et décompléxifier le système Fetch interne/externe, hook useFetch et génération de Services
