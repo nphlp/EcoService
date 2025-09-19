@@ -1,13 +1,15 @@
 "use client";
 
 import { combo } from "@lib/combo";
+import { Route } from "next";
 import NextLink, { LinkProps as NextLinkProps } from "next/link";
-import { AnchorHTMLAttributes, MouseEvent, ReactNode, RefObject } from "react";
+import { AnchorHTMLAttributes, MouseEvent } from "react";
 import { ButtonVariant, theme } from "./theme";
 
-export type LinkProps = {
+export type LinkProps<T extends string> = {
     label: string;
-    href: string;
+    href: Route<T>;
+    isDisabled?: boolean;
 
     // Styles
     variant?: ButtonVariant;
@@ -15,16 +17,11 @@ export type LinkProps = {
     noPointer?: boolean;
     noRing?: boolean;
     noPadding?: boolean;
-
-    ref?: RefObject<HTMLAnchorElement | null>;
-    onClick?: (e: MouseEvent<HTMLAnchorElement>) => void;
-    isDisabled?: boolean;
-
-    children?: ReactNode;
-} & Pick<
-    AnchorHTMLAttributes<HTMLAnchorElement> & NextLinkProps,
-    "id" | "href" | "style" | "target" | "onClick" | "onMouseDown"
->;
+} &
+    // Nextjs Link props
+    Pick<NextLinkProps<T>, "ref" | "replace" | "scroll" | "prefetch" | "onNavigate"> &
+    // Legacy Link props
+    Omit<AnchorHTMLAttributes<HTMLAnchorElement>, "href">;
 
 /**
  * Button component
@@ -37,15 +34,15 @@ export type LinkProps = {
  * <Link href="/" label="Home page">Home page</Link>
  * ```
  */
-const Link = (props: LinkProps) => {
+const Link = <T extends string>(props: LinkProps<T>) => {
     const {
         label,
+        href,
         variant = "default",
         noPointer = false,
         noRing = false,
         noPadding = false,
         isDisabled,
-        ref,
         className,
         children,
         ...others
@@ -64,7 +61,6 @@ const Link = (props: LinkProps) => {
     if (isDisabled) {
         return (
             <span
-                ref={ref}
                 aria-label={label}
                 className={combo(
                     // Pointer events, ring, padding
@@ -85,7 +81,7 @@ const Link = (props: LinkProps) => {
 
     return (
         <NextLink
-            ref={ref}
+            href={href}
             aria-label={label}
             className={combo(
                 // Pointer events, ring, padding

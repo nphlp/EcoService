@@ -2,7 +2,7 @@
 
 import Loader from "@comps/UI/loader";
 import { combo } from "@lib/combo";
-import { ButtonHTMLAttributes, ReactNode } from "react";
+import { ButtonHTMLAttributes } from "react";
 import { ButtonVariant, theme } from "./theme";
 
 export type ButtonClassName = {
@@ -13,9 +13,10 @@ export type ButtonClassName = {
 };
 
 export type ButtonProps = {
-    type?: "button" | "submit" | "reset";
     label: string;
     loadingLabel?: string;
+    isLoading?: boolean;
+    isDisabled?: boolean;
 
     // Styles
     variant?: ButtonVariant;
@@ -23,12 +24,7 @@ export type ButtonProps = {
     noPointer?: boolean;
     noRing?: boolean;
     focusVisible?: boolean;
-
-    isLoading?: boolean;
-    isDisabled?: boolean;
-
-    children?: ReactNode;
-} & Omit<ButtonHTMLAttributes<HTMLButtonElement>, "type" | "className" | "children">;
+} & Omit<ButtonHTMLAttributes<HTMLButtonElement>, "className">;
 
 /**
  * Button component

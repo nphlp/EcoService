@@ -4,6 +4,7 @@ import { articleUrlSerializer } from "@app/article/queryParams";
 import { catalogUrlSerializer } from "@app/catalog/components/queryParams";
 import { diyUrlSerializer } from "@app/diy/queryParams";
 import Link from "@comps/UI/button/link";
+import { Route } from "next";
 import { useHeaderStore } from "../header/headerStore";
 import ItemList from "./SearchItem";
 import { ArticleSearchType, CategorySearchType, CountType, DiySearchType, ProductSearchType } from "./fetchParams";
@@ -86,16 +87,16 @@ const Results = (props: ResultsProps) => {
 
     const { setSearchOpen } = useHeaderStore();
 
-    const getPagePath = () => {
+    const getPagePath = (): Route => {
         switch (items.type) {
             case "product":
-                return catalogUrlSerializer("/catalog", { search });
+                return catalogUrlSerializer("/catalog", { search }) as Route;
             case "category":
-                return catalogUrlSerializer("/catalog", { search });
+                return catalogUrlSerializer("/catalog", { search }) as Route;
             case "article":
-                return articleUrlSerializer("/article", { search });
+                return articleUrlSerializer("/article", { search }) as Route;
             case "diy":
-                return diyUrlSerializer("/diy", { search });
+                return diyUrlSerializer("/diy", { search }) as Route;
         }
     };
 

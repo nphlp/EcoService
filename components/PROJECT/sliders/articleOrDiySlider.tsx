@@ -1,5 +1,6 @@
 "use client";
 
+import { Route } from "next";
 import Slider, { LinkInfoType } from "../../UI/slider";
 import ArticleOrDiyCard from "../cards/articleOrDiyCard";
 import { ArticleOrDiyListType } from "./sliderFetchParams";
@@ -18,7 +19,7 @@ export const ArticleOrDiySlider = (props: SliderClientProps) => {
 
     const linkList: LinkInfoType[] = articleOrDiy.map((articleOrDiy) => ({
         label: articleOrDiy.title,
-        href: `${link}/${articleOrDiy.slug}`,
+        href: `${link}/${articleOrDiy.slug}` as Route,
     }));
 
     return (

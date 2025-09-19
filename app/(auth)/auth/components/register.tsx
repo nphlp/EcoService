@@ -7,12 +7,13 @@ import Input from "@comps/UI/input/input";
 import InputPassword from "@comps/UI/inputPassword";
 import { signUp } from "@lib/authClient";
 import { UpdateLastnameProcess } from "@process/ProfileUpdate";
+import { Route } from "next";
 import { useRouter, useSearchParams } from "next/navigation";
 import { FormEvent, useState } from "react";
 
 export default function RegisterClient() {
     const searchParams = useSearchParams();
-    const redirect = searchParams.get("redirect") ? "/" + searchParams.get("redirect") : null;
+    const redirect = searchParams.get("redirect") ? (("/" + searchParams.get("redirect")) as Route) : undefined;
 
     const [isLoading, setIsLoading] = useState<boolean>(false);
 

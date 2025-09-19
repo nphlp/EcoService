@@ -6,6 +6,7 @@ import ImageRatio from "@comps/UI/imageRatio";
 import { combo } from "@lib/combo";
 import { StringToSlug } from "@utils/StringToSlug";
 import { ArrowRightIcon } from "lucide-react";
+import { Route } from "next";
 import { useRouter } from "next/navigation";
 import { MouseEvent } from "react";
 import { useHeaderStore } from "../header/headerStore";
@@ -69,7 +70,7 @@ const Item = (props: ItemProps) => {
     };
 
     type ItemType = {
-        href: string;
+        href: Route;
         imageUrl?: string;
         title: {
             complete: string;
@@ -89,21 +90,21 @@ const Item = (props: ItemProps) => {
         switch (type) {
             case "product":
                 return {
-                    href: `/product/${data.slug}`,
+                    href: `/product/${data.slug}` as Route,
                     imageUrl: data.image,
                     title: highlightQuery(data.name, search, 30),
                     description: highlightQuery(data.description, search, 70),
                 };
             case "category":
                 return {
-                    href: catalogUrlSerializer("/catalog", { category: data.slug }),
+                    href: catalogUrlSerializer("/catalog", { category: data.slug }) as Route,
                     title: highlightQuery(data.name, search, 30),
                     description: highlightQuery(data.description ?? "", search, 70),
                 };
             case "article":
                 const joinedArticleContent = data.Content.map((item) => item.content).join(" ");
                 return {
-                    href: `/article/${data.slug}`,
+                    href: `/article/${data.slug}` as Route,
                     imageUrl: data.Content[0].image,
                     title: highlightQuery(data.title, search, 30),
                     description: highlightQuery(joinedArticleContent, search, 70),
@@ -111,7 +112,7 @@ const Item = (props: ItemProps) => {
             case "diy":
                 const joinedDiyContent = data.Content.map((item) => item.content).join(" ");
                 return {
-                    href: `/diy/${data.slug}`,
+                    href: `/diy/${data.slug}` as Route,
                     imageUrl: data.Content[0].image,
                     title: highlightQuery(data.title, search, 30),
                     description: highlightQuery(joinedDiyContent, search, 70),

@@ -4,23 +4,14 @@ import { fileURLToPath } from "node:url";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-// const isDocker = process.env.MYSQL_HOST === "mysql";
-// const isProduction = process.env.NODE_ENV === "production";
+const isStandalone = process.env.NEXTJS_STANDALONE === "true";
+const isTest = process.env.NEXT_TEST_MODE === "true";
 
 const nextConfig: NextConfig = {
-    // Docker production optimization with environment variable control
-    output: process.env.NEXTJS_STANDALONE === "true" ? "standalone" : undefined,
+    // Switch between `.next` and `.next-test` build folders
+    distDir: isTest ? ".next-test" : ".next",
 
-    // Redis cache handler
-    // cacheHandler: require.resolve("./cache-handler.cjs"),
-
-    // Fix workspace eslint root warning
-    outputFileTracingRoot: __dirname,
-
-    // Classic server compile in .next
-    // Test server compile in .next-test
-    distDir: process.env.NEXT_TEST_MODE ? ".next-test" : ".next",
-
+    // Stripe images ??
     images: {
         remotePatterns: [
             {
@@ -31,14 +22,27 @@ const nextConfig: NextConfig = {
         ],
     },
 
-    // typedRoutes: true, // enable typed routes for links
-    // typedEnv: true, // enable typed environment variables
+    // Build output mode
+    output: isStandalone ? "standalone" : undefined,
+
+    // Directory for tracing files in standalone mode
+    outputFileTracingRoot: __dirname,
+
+    // Typed routes for links
+    typedRoutes: true,
 
     experimental: {
-        viewTransition: true, // enable view transition API
-        authInterrupts: true, // enable unauthorized()
-        useCache: true, // enable useCache, cacheLife and cacheTag
-        // turbopackPersistentCaching: true, // enable turbopack persistent caching
+        // View transition API
+        viewTransition: true,
+
+        // Unauthorized redirection support
+        authInterrupts: true,
+
+        // UseCache, cacheLife and cacheTag
+        useCache: true,
+
+        // Turbopack persistent caching
+        turbopackPersistentCaching: true,
     },
 };
 

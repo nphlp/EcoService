@@ -3,6 +3,7 @@
 import Link from "@comps/UI/button/link";
 import { combo } from "@lib/combo";
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
+import { Route } from "next";
 import { useSearchParams } from "next/navigation";
 import { Context, MouseEvent, useContext } from "react";
 import { usePageQueryParams, useTakeQueryParams } from "./queryParamsClientHooks";
@@ -34,18 +35,18 @@ export default function Pagination(props: PaginationProps) {
 
     if (itemsAmount === 0 || onlyOnePage) return <></>;
 
-    const paginationUrl = (pageNumber: number) => {
+    const paginationUrl = (pageNumber: number): Route => {
         // eslint-disable-next-line
         const { page, ...paramsWithoutPage } = Object.fromEntries(searchParams.entries());
         const numberOfParams = Object.keys(paramsWithoutPage).length;
 
         let newParams;
 
-        if (pageNumber === 1 && numberOfParams === 0) return path;
+        if (pageNumber === 1 && numberOfParams === 0) return path as Route;
         if (pageNumber === 1 && numberOfParams > 0) newParams = new URLSearchParams({ ...paramsWithoutPage });
         if (pageNumber > 1) newParams = new URLSearchParams({ ...paramsWithoutPage, page: String(pageNumber) });
 
-        return `${path}?${newParams}`;
+        return `${path}?${newParams}` as Route;
     };
 
     const triggerScroll = () => {

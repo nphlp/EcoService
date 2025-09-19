@@ -6,7 +6,7 @@ import Slider, { LinkInfoType } from "@comps/UI/slider";
 import PrismaInstance from "@lib/prisma";
 import { ProductFindManyServer, ProductFindUniqueServer } from "@services/server";
 import { ArrowLeft, Package2, ShieldCheck, Truck, User } from "lucide-react";
-import { Metadata } from "next";
+import { Metadata, Route } from "next";
 import { unstable_cacheLife as cacheLife, unstable_cacheTag as cacheTag } from "next/cache";
 import { notFound } from "next/navigation";
 import { JSX, cloneElement } from "react";
@@ -74,7 +74,7 @@ export default async function Page(props: PageProps) {
 
     const linkList: LinkInfoType[] = recommendedProductList.map((product) => ({
         label: product.name,
-        href: `/product/${product.slug}`,
+        href: `/product/${product.slug}` as Route,
     }));
 
     const { name, image, price, description, stock, Category } = product;

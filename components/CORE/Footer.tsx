@@ -1,7 +1,20 @@
 import Link from "@comps/UI/button/link";
 import { combo } from "@lib/combo";
 import { ArticleFindManyServer, DiyFindManyServer, ProductFindManyServer } from "@services/server";
+import { Route } from "next";
 import Logo from "../UI/logo";
+
+type LinkItem = {
+    name: string;
+    url: Route;
+};
+
+type LinksList = {
+    topNavigation: LinkItem[];
+    topProducts: LinkItem[];
+    topArticles: LinkItem[];
+    topDiys: LinkItem[];
+};
 
 type FooterProps = {
     className?: string;
@@ -11,31 +24,6 @@ export default async function Footer(props: FooterProps) {
     const { className } = props;
 
     const linksAmount = 5;
-
-    const formatTitleToName = ({ title, slug }: { title: string; slug: string }) => ({ name: title, slug });
-
-    const topNavigation = [
-        {
-            name: "Accueil",
-            slug: "/",
-        },
-        {
-            name: "Catalogue",
-            slug: "/catalog",
-        },
-        {
-            name: "Articles",
-            slug: "/article",
-        },
-        {
-            name: "Do it yourself",
-            slug: "/do-it-yourself",
-        },
-        {
-            name: "Authentication",
-            slug: "/auth",
-        },
-    ];
 
     const topProducts = await ProductFindManyServer({
         select: { name: true, slug: true },
@@ -52,11 +40,26 @@ export default async function Footer(props: FooterProps) {
         take: linksAmount,
     });
 
-    const linksList = {
-        topNavigation,
-        topProducts,
-        topArticles: topArticles.map(formatTitleToName),
-        topDiys: topDiys.map(formatTitleToName),
+    const linksList: LinksList = {
+        topNavigation: [
+            { name: "Accueil", url: "/" },
+            { name: "Catalogue", url: "/catalog" },
+            { name: "Articles", url: "/article" },
+            { name: "Do it yourself", url: "/diy" },
+            { name: "Authentication", url: "/auth" },
+        ],
+        topProducts: topProducts.map(({ name, slug }) => ({
+            name,
+            url: `/product/${slug}` as Route,
+        })),
+        topArticles: topArticles.map(({ title, slug }) => ({
+            name: title,
+            url: `/article/${slug}` as Route,
+        })),
+        topDiys: topDiys.map(({ title, slug }) => ({
+            name: title,
+            url: `/diy/${slug}` as Route,
+        })),
     };
 
     return (
@@ -64,15 +67,12 @@ export default async function Footer(props: FooterProps) {
             {/* Mobile */}
             <div className={combo("flex sm:hidden", "flex-col gap-12")}>
                 <LogoTitle scale={1.2} />
-                <TopLinksList
-                    linksList={linksList}
-                    className={combo("flex flex-row flex-wrap justify-between gap-12")}
-                />
+                <LinkList linksList={linksList} className={combo("flex flex-row flex-wrap justify-between gap-12")} />
             </div>
             {/* Tablet */}
             <div className={combo("hidden sm:flex md:hidden", "flex-col gap-12")}>
                 <LogoTitle />
-                <TopLinksList
+                <LinkList
                     linksList={linksList}
                     className={combo("grid grid-flow-col grid-cols-[auto_1fr] grid-rows-2 gap-12")}
                 />
@@ -80,7 +80,7 @@ export default async function Footer(props: FooterProps) {
             {/* Desktop */}
             <div className={combo("hidden md:flex lg:hidden", "flex-row items-start gap-16")}>
                 <LogoTitle />
-                <TopLinksList
+                <LinkList
                     linksList={linksList}
                     className={combo("grid grid-flow-col grid-cols-[auto_1fr] grid-rows-2 gap-12")}
                 />
@@ -88,10 +88,7 @@ export default async function Footer(props: FooterProps) {
             {/* Large Desktop */}
             <div className={combo("hidden lg:flex", "flex-row gap-16")}>
                 <LogoTitle />
-                <TopLinksList
-                    linksList={linksList}
-                    className={combo("grid grid-flow-col grid-cols-[auto_1fr] gap-12")}
-                />
+                <LinkList linksList={linksList} className={combo("grid grid-flow-col grid-cols-[auto_1fr] gap-12")} />
             </div>
         </footer>
     );
@@ -114,49 +111,33 @@ const LogoTitle = (props: LogoTitleProps) => {
     );
 };
 
-type LinksItem = {
-    name: string;
-    slug: string;
-};
-
-type LinksList = {
-    topNavigation: LinksItem[];
-    topProducts: LinksItem[];
-    topArticles: LinksItem[];
-    topDiys: LinksItem[];
-};
-
-type TopLinksListProps = {
+type LinkListProps = {
     className?: string;
     linksList: LinksList;
 };
 
-const TopLinksList = (props: TopLinksListProps) => {
+const LinkList = (props: LinkListProps) => {
     const { className, linksList } = props;
 
     const { topNavigation, topProducts, topArticles, topDiys } = linksList;
 
     return (
         <div className={className}>
-            <TopLinks title="Navigation" url="" items={topNavigation} />
-            <TopLinks title="Produits" url="/product/" items={topProducts} />
-            <TopLinks title="Articles" url="/article/" items={topArticles} />
-            <TopLinks title="DIYs" url="/diy/" items={topDiys} />
+            <TopLinks title="Navigation" items={topNavigation} />
+            <TopLinks title="Produits" items={topProducts} />
+            <TopLinks title="Articles" items={topArticles} />
+            <TopLinks title="DIYs" items={topDiys} />
         </div>
     );
 };
 
 type TopLinksProps = {
     title: string;
-    url: string;
-    items: {
-        name: string;
-        slug: string;
-    }[];
+    items: LinkItem[];
 };
 
 const TopLinks = (props: TopLinksProps) => {
-    const { title, url, items } = props;
+    const { title, items } = props;
 
     return (
         <div className={combo("space-y-3 text-white")}>
@@ -170,7 +151,7 @@ const TopLinks = (props: TopLinksProps) => {
                         key={index}
                         label={item.name}
                         variant="underline"
-                        href={url + item.slug}
+                        href={item.url}
                         className="line-clamp-1 text-white"
                     />
                 ))}

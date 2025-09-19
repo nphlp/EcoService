@@ -5,7 +5,7 @@ import Slider from "@comps/UI/slider";
 import { combo } from "@lib/combo";
 import PrismaInstance from "@lib/prisma";
 import { DiyFindManyServer, DiyFindUniqueServer } from "@services/server";
-import { Metadata } from "next";
+import { Metadata, Route } from "next";
 import { unstable_cacheLife as cacheLife, unstable_cacheTag as cacheTag } from "next/cache";
 import { notFound } from "next/navigation";
 
@@ -148,7 +148,7 @@ export default async function Page(props: PageProps) {
                     dataListLength={otherDiyList.length}
                     linkList={otherDiyList.map((diy) => ({
                         label: diy.title,
-                        href: `/diy/${diy.slug}`,
+                        href: `/diy/${diy.slug}` as Route,
                     }))}
                 >
                     {otherDiyList.map((diy, index) => (

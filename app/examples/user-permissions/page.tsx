@@ -3,6 +3,7 @@ import Card from "@comps/UI/card";
 import { BetterSessionServer, GetSession } from "@lib/authServer";
 import { UserFindManyServer } from "@services/server";
 import { UserModel } from "@services/types";
+import { Route } from "next";
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 if (!baseUrl) throw new Error("NEXT_PUBLIC_BASE_URL is not set");
@@ -33,7 +34,7 @@ const UserCard = (props: UserCardProps) => {
 
     const apiUrl = "/api/internal/user/findUnique?params=";
     const params = encodeURIComponent(JSON.stringify({ where: { id: user.id } }));
-    const href = `${baseUrl}${apiUrl}${params}`;
+    const href = `${baseUrl}${apiUrl}${params}` as Route;
 
     return (
         <Card className="space-y-1">

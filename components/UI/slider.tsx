@@ -6,12 +6,13 @@ import { combo } from "@lib/combo";
 import { useWidth } from "@utils/useWidth";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { PanInfo, motion } from "motion/react";
+import { Route } from "next";
 import { useRouter } from "next/navigation";
 import { CSSProperties, Children, ReactNode, useEffect, useMemo, useRef, useState } from "react";
 import Link from "./button/link";
 
 type ItemNumberType = { minWidth: number; itemAmount: number }[];
-export type LinkInfoType = { label: string; href: string };
+export type LinkInfoType = { label: string; href: Route };
 
 type SliderProps = {
     dataListLength: number;

@@ -1,14 +1,15 @@
 "use client";
 
+import { Route } from "next";
 import Link, { LinkProps } from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { MouseEvent, ReactNode, useEffect, useRef } from "react";
+import { MouseEvent, useEffect, useRef } from "react";
+
+type LinkRoutes<T extends string = string> = Route<T>;
 
 type TransitionLinkProps = {
-    href: string;
-    className?: string;
-    children: ReactNode;
-} & Omit<LinkProps, "href">;
+    href: LinkRoutes;
+} & LinkProps<string>;
 
 const wait = (ms: number) => {
     return new Promise((resolve) => setTimeout(resolve, ms));

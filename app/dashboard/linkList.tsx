@@ -4,6 +4,7 @@ import Link from "@comps/UI/button/link";
 import Modal from "@comps/UI/modal/modal";
 import { combo } from "@lib/combo";
 import { Hammer } from "lucide-react";
+import { Route } from "next";
 import { usePathname } from "next/navigation";
 import { MouseEvent, useState } from "react";
 
@@ -54,21 +55,21 @@ export default function LinkList() {
                 label="Créer un article"
                 variant="outline"
                 className={combo("w-full text-sm", path === "/dashboard/create-article" && "font-bold")}
-                href="/dashboard/create-article"
+                href={"/dashboard/create-article" as Route}
                 onClick={handleDisabledLink}
             />
             <Link
                 label="Créer un DIY"
                 variant="outline"
                 className={combo("w-full text-sm", path === "/dashboard/create-diy" && "font-bold")}
-                href="/dashboard/create-diy"
+                href={"/dashboard/create-diy" as Route}
                 onClick={handleDisabledLink}
             />
             <Link
                 label="Créer un vendeur"
                 variant="outline"
                 className={combo("w-full text-sm", path === "/dashboard/create-vendor" && "font-bold")}
-                href="/dashboard/create-vendor"
+                href={"/dashboard/create-vendor" as Route}
                 onClick={handleDisabledLink}
             />
         </>

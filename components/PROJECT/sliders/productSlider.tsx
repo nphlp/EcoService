@@ -1,6 +1,7 @@
 import ProductCard from "@comps/PROJECT/cards/productCard";
 import { ProductListType } from "@comps/PROJECT/sliders/sliderFetchParams";
 import Slider, { LinkInfoType } from "@comps/UI/slider";
+import { Route } from "next";
 
 type ProductSliderProps = {
     productList: ProductListType;
@@ -14,7 +15,7 @@ export default function ProductSlider(props: ProductSliderProps) {
 
     const linkList: LinkInfoType[] = productList.map((product) => ({
         label: product.name,
-        href: `/product/${product.slug}`,
+        href: `/product/${product.slug}` as Route,
     }));
 
     return (

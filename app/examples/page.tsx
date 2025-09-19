@@ -1,9 +1,10 @@
 import Link from "@comps/UI/button/link";
 import Card from "@comps/UI/card";
+import { Route } from "next";
 
 type LinkProps = {
     label: string;
-    href: string;
+    href: Route;
     text: string;
 };
 

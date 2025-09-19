@@ -7,6 +7,7 @@ import Modal from "@comps/UI/modal/modal";
 import { combo } from "@lib/combo";
 import { useFetch } from "@utils/FetchHook";
 import { SearchIcon } from "lucide-react";
+import { Route } from "next";
 import { useRouter } from "next/navigation";
 import { FormEvent, useEffect, useRef, useState } from "react";
 import { useHeaderStore } from "../header/headerStore";
@@ -61,7 +62,7 @@ export default function SearchModal(props: SearchModalProps) {
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        const urlSearch = catalogUrlSerializer("catalog", { search });
+        const urlSearch = catalogUrlSerializer("catalog", { search }) as Route;
         router.push(urlSearch);
 
         setSearchOpen(false);
