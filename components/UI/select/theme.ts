@@ -13,7 +13,7 @@ export type StylesType = {
 };
 
 const structure: StructureType = {
-    component: combo("block space-y-1"),
+    component: combo("block"),
     label: combo(""),
 
     displayedValue: combo(""),
