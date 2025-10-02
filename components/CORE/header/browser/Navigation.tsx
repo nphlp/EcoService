@@ -28,24 +28,6 @@ export default function Navigation() {
                 className={combo(path.includes("/article") && "font-bold")}
             />
             <Link href="/diy" label="DIYs" variant="ghost" className={combo(path.includes("/diy") && "font-bold")} />
-            <Link
-                label="Exemples"
-                href="/examples"
-                variant="ghost"
-                className={combo(path.includes("/examples") && "font-bold")}
-            />
-            {/* <Link
-                label="Comps Table"
-                href="/comps-table"
-                variant="ghost"
-                className={combo(path.includes("/comps-table") && "font-bold")}
-            />
-            <Link
-                label="AI Search"
-                href="/ai-search"
-                variant="ghost"
-                className={combo(path.includes("/ai-search") && "font-bold")}
-            /> */}
         </div>
     );
 }

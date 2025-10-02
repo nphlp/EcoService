@@ -127,15 +127,6 @@ const Menu = (props: MenuProps) => {
                     >
                         DIY
                     </Link>
-                    <Link
-                        href="/examples"
-                        label="examples"
-                        variant="outline"
-                        className={buttonClass}
-                        onClick={() => setIsMenuOpen(false)}
-                    >
-                        Exemples
-                    </Link>
                     {!session && (
                         <>
                             <Link
