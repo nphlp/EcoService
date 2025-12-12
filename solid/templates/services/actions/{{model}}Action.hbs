@@ -1,7 +1,7 @@
 "use server";
 
 import {{modelName}}Service from "@class/{{modelName}}Class";
-// import { requiresSafeMessage } from "@permissions/requiresSafeMessage";
+import { requiresSafeMessage } from "@permissions/requiresSafeMessage";
 import { Prisma } from "@prisma/client/client";
 import { GetResult, InternalArgs, PrismaClientOptions } from "@prisma/client/runtime/client";
 
@@ -128,9 +128,9 @@ type {{modelName}}CountResponse<T extends Prisma.{{modelName}}CountArgs> =
  */
 export const {{modelName}}CreateAction = async <T extends Prisma.{{modelName}}CreateArgs>(
     props: {{modelName}}CreateProps<T>,
-    // disableSafeMessage: boolean = false,
+    disableSafeMessage: boolean = false,
 ): Promise<{{modelName}}CreateResponse<T>> => {
-    // await requiresSafeMessage(disableSafeMessage, "{{modelName}}CreateAction", "{{modelName}}", "create");
+    await requiresSafeMessage(disableSafeMessage, "{{modelName}}CreateAction", "{{modelName}}", "create");
     return await {{modelName}}Service.create(props);
 };
 
@@ -144,9 +144,9 @@ export const {{modelName}}CreateAction = async <T extends Prisma.{{modelName}}Cr
  */
 export const {{modelName}}UpsertAction = async <T extends Prisma.{{modelName}}UpsertArgs>(
     props: {{modelName}}UpsertProps<T>,
-    // disableSafeMessage: boolean = false,
+    disableSafeMessage: boolean = false,
 ): Promise<{{modelName}}UpsertResponse<T>> => {
-    // await requiresSafeMessage(disableSafeMessage, "{{modelName}}UpsertAction", "{{modelName}}", "upsert");
+    await requiresSafeMessage(disableSafeMessage, "{{modelName}}UpsertAction", "{{modelName}}", "upsert");
     return await {{modelName}}Service.upsert(props);
 };
 
@@ -160,9 +160,9 @@ export const {{modelName}}UpsertAction = async <T extends Prisma.{{modelName}}Up
  */
 export const {{modelName}}UpdateAction = async <T extends Prisma.{{modelName}}UpdateArgs>(
     props: {{modelName}}UpdateProps<T>,
-    // disableSafeMessage: boolean = false,
+    disableSafeMessage: boolean = false,
 ): Promise<{{modelName}}UpdateResponse<T>> => {
-    // await requiresSafeMessage(disableSafeMessage, "{{modelName}}UpdateAction", "{{modelName}}", "update");
+    await requiresSafeMessage(disableSafeMessage, "{{modelName}}UpdateAction", "{{modelName}}", "update");
     return await {{modelName}}Service.update(props);
 };
 
@@ -176,9 +176,9 @@ export const {{modelName}}UpdateAction = async <T extends Prisma.{{modelName}}Up
  */
 export const {{modelName}}DeleteAction = async <T extends Prisma.{{modelName}}DeleteArgs>(
     props: {{modelName}}DeleteProps<T>,
-    // disableSafeMessage: boolean = false,
+    disableSafeMessage: boolean = false,
 ): Promise<{{modelName}}DeleteResponse<T>> => {
-    // await requiresSafeMessage(disableSafeMessage, "{{modelName}}DeleteAction", "{{modelName}}", "delete");
+    await requiresSafeMessage(disableSafeMessage, "{{modelName}}DeleteAction", "{{modelName}}", "delete");
     return await {{modelName}}Service.delete(props);
 };
 
@@ -192,9 +192,9 @@ export const {{modelName}}DeleteAction = async <T extends Prisma.{{modelName}}De
  */
 export const {{modelName}}CreateManyAction = async <T extends Prisma.{{modelName}}CreateManyArgs>(
     props: {{modelName}}CreateManyProps<T>,
-    // disableSafeMessage: boolean = false,
+    disableSafeMessage: boolean = false,
 ): Promise<{{modelName}}CreateManyResponse> => {
-    // await requiresSafeMessage(disableSafeMessage, "{{modelName}}CreateManyAction", "{{modelName}}", "createMany");
+    await requiresSafeMessage(disableSafeMessage, "{{modelName}}CreateManyAction", "{{modelName}}", "createMany");
     return await {{modelName}}Service.createMany(props);
 };
 
@@ -208,9 +208,9 @@ export const {{modelName}}CreateManyAction = async <T extends Prisma.{{modelName
  */
 export const {{modelName}}UpdateManyAction = async <T extends Prisma.{{modelName}}UpdateManyArgs>(
     props: {{modelName}}UpdateManyProps<T>,
-    // disableSafeMessage: boolean = false,
+    disableSafeMessage: boolean = false,
 ): Promise<{{modelName}}UpdateManyResponse> => {
-    // await requiresSafeMessage(disableSafeMessage, "{{modelName}}UpdateManyAction", "{{modelName}}", "updateMany");
+    await requiresSafeMessage(disableSafeMessage, "{{modelName}}UpdateManyAction", "{{modelName}}", "updateMany");
     return await {{modelName}}Service.updateMany(props);
 };
 
@@ -224,9 +224,9 @@ export const {{modelName}}UpdateManyAction = async <T extends Prisma.{{modelName
  */
 export const {{modelName}}DeleteManyAction = async <T extends Prisma.{{modelName}}DeleteManyArgs>(
     props: {{modelName}}DeleteManyProps<T>,
-    // disableSafeMessage: boolean = false,
+    disableSafeMessage: boolean = false,
 ): Promise<{{modelName}}DeleteManyResponse> => {
-    // await requiresSafeMessage(disableSafeMessage, "{{modelName}}DeleteManyAction", "{{modelName}}", "deleteMany");
+    await requiresSafeMessage(disableSafeMessage, "{{modelName}}DeleteManyAction", "{{modelName}}", "deleteMany");
     return await {{modelName}}Service.deleteMany(props);
 };
 
@@ -242,9 +242,9 @@ export const {{modelName}}DeleteManyAction = async <T extends Prisma.{{modelName
  */
 export const {{modelName}}FindFirstAction = async <T extends Prisma.{{modelName}}FindFirstArgs>(
     props: {{modelName}}FindFirstProps<T>,
-    // disableSafeMessage: boolean = false,
+    disableSafeMessage: boolean = false,
 ): Promise<{{modelName}}FindFirstResponse<T>> => {
-    // await requiresSafeMessage(disableSafeMessage, "{{modelName}}FindFirstAction", "{{modelName}}", "findFirst");
+    await requiresSafeMessage(disableSafeMessage, "{{modelName}}FindFirstAction", "{{modelName}}", "findFirst");
     return await {{modelName}}Service.findFirst(props);
 };
 
@@ -260,9 +260,9 @@ export const {{modelName}}FindFirstAction = async <T extends Prisma.{{modelName}
  */
 export const {{modelName}}FindUniqueAction = async <T extends Prisma.{{modelName}}FindUniqueArgs>(
     props: {{modelName}}FindUniqueProps<T>,
-    // disableSafeMessage: boolean = false,
+    disableSafeMessage: boolean = false,
 ): Promise<{{modelName}}FindUniqueResponse<T>> => {
-    // await requiresSafeMessage(disableSafeMessage, "{{modelName}}FindUniqueAction", "{{modelName}}", "findUnique");
+    await requiresSafeMessage(disableSafeMessage, "{{modelName}}FindUniqueAction", "{{modelName}}", "findUnique");
     return await {{modelName}}Service.findUnique(props);
 };
 
@@ -278,9 +278,9 @@ export const {{modelName}}FindUniqueAction = async <T extends Prisma.{{modelName
  */
 export const {{modelName}}FindManyAction = async <T extends Prisma.{{modelName}}FindManyArgs>(
     props: {{modelName}}FindManyProps<T>,
-    // disableSafeMessage: boolean = false,
+    disableSafeMessage: boolean = false,
 ): Promise<{{modelName}}FindManyResponse<T>> => {
-    // await requiresSafeMessage(disableSafeMessage, "{{modelName}}FindManyAction", "{{modelName}}", "findMany");
+    await requiresSafeMessage(disableSafeMessage, "{{modelName}}FindManyAction", "{{modelName}}", "findMany");
     return await {{modelName}}Service.findMany(props);
 };
 
@@ -296,8 +296,8 @@ export const {{modelName}}FindManyAction = async <T extends Prisma.{{modelName}}
  */
 export const {{modelName}}CountAction = async <T extends Prisma.{{modelName}}CountArgs>(
     props: {{modelName}}CountProps<T>,
-    // disableSafeMessage: boolean = false,
+    disableSafeMessage: boolean = false,
 ): Promise<{{modelName}}CountResponse<T>> => {
-    // await requiresSafeMessage(disableSafeMessage, "{{modelName}}CountAction", "{{modelName}}", "count");
+    await requiresSafeMessage(disableSafeMessage, "{{modelName}}CountAction", "{{modelName}}", "count");
     return await {{modelName}}Service.count(props);
 };
