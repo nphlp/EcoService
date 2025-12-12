@@ -1,8 +1,8 @@
 "use client";
 
 import { useSearchQueryParams } from "@comps/SHARED/queryParamsClientHooks";
-import { useFetch } from "@utils/FetchHook";
 import { ReactNode } from "react";
+import useSolid from "@/solid/solid-hook";
 import { Context } from "./context";
 import { diyCountParams } from "./fetchParams";
 
@@ -16,8 +16,8 @@ export default function Provider(props: ContextProviderProps) {
 
     const { search } = useSearchQueryParams();
 
-    const { data: diyAmount, isLoading } = useFetch({
-        route: "/internal/diy/count",
+    const { data: diyAmount, isLoading } = useSolid({
+        route: "/solid/diy/count",
         params: diyCountParams({ search }),
         initialData: initialDiyAmount,
     });

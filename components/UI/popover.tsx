@@ -32,7 +32,8 @@ export default function Popover(props: PopoverProps) {
                 setIsVisible(true);
             }, 500);
         } else {
-            setIsVisible(false);
+            // TODO: (timeout useEffect/useState) verify if it works
+            setTimeout(() => setIsVisible(false), 10);
             if (timeoutId) {
                 clearTimeout(timeoutId);
             }

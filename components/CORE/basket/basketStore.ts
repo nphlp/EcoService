@@ -1,4 +1,4 @@
-import { zustandCookieStorage } from "@lib/zustandCookieStorage";
+import { zustandCookieStorage } from "@lib/zustand-cookie-client";
 import { AddProductToServerBasket } from "@process/basket/AddProductToServerBasket";
 import { ClearServerBasket } from "@process/basket/ClearServerBasket";
 import { CreateServerBasket } from "@process/basket/CreateServerBasket";

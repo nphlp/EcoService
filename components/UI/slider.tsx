@@ -3,7 +3,7 @@
 import Button from "@comps/UI/button/button";
 import Loader from "@comps/UI/loader";
 import { combo } from "@lib/combo";
-import { useWidth } from "@utils/useWidth";
+import { useWidth } from "@utils/use-width";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { PanInfo, motion } from "motion/react";
 import { Route } from "next";

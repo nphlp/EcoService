@@ -3,7 +3,7 @@
 import { useBasketStore } from "@comps/CORE/basket/basketStore";
 import Button, { ButtonProps } from "@comps/UI/button/button";
 import Loader from "@comps/UI/loader";
-import { signOut } from "@lib/authClient";
+import { signOut } from "@lib/auth-client";
 import { useRouter } from "next/navigation";
 import { ReactNode, useState } from "react";
 

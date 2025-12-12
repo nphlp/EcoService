@@ -1,21 +1,21 @@
 import { Accordion, AccordionButton, AccordionContent } from "@comps/UI/accordion";
 import Logout from "@comps/UI/logout";
-import { BetterSessionListServer, BetterSessionServer, GetSessionList } from "@lib/authServer";
-import { Fetch } from "@utils/Fetch";
+import { Session, SessionList, getSessionList } from "@lib/auth-server";
 import { LogOut } from "lucide-react";
+import Solid from "@/solid/solid-fetch";
 import LocationMap from "./locationMap";
 import SessionManager, { SessionAndLocation } from "./sessionManager";
 import { getBrowser, getOs, locationString } from "./utils";
 
 type SessionAccordionProps = {
-    session: NonNullable<BetterSessionServer>;
+    session: NonNullable<Session>;
     index?: number;
 };
 
 export default async function SessionAccordion(props: SessionAccordionProps) {
     const { session } = props;
 
-    const sessionList = await GetSessionList();
+    const sessionList = await getSessionList();
 
     const sessionListWithoutCurrentSession = sessionList.filter(
         (sessionFromList) => sessionFromList.token !== session.session.token,
@@ -38,7 +38,7 @@ export default async function SessionAccordion(props: SessionAccordionProps) {
 }
 
 type CurrentSessionProps = {
-    session: NonNullable<BetterSessionServer>;
+    session: NonNullable<Session>;
 };
 
 const CurrentSession = async (props: CurrentSessionProps) => {
@@ -47,7 +47,7 @@ const CurrentSession = async (props: CurrentSessionProps) => {
     const userAgent = session.session.userAgent ?? "";
     const ipAddress = session.session.ipAddress ?? "";
 
-    const location = await Fetch({ route: "/location", params: { ipAddress } });
+    const location = await Solid({ route: "/location", params: { ipAddress } });
 
     return (
         <div className="space-y-2 rounded-lg border border-gray-300 px-5 py-3">
@@ -74,7 +74,7 @@ const CurrentSession = async (props: CurrentSessionProps) => {
 };
 
 type OtherSessionsProps = {
-    sessionList: BetterSessionListServer;
+    sessionList: SessionList;
 };
 
 const OtherSessions = async (props: OtherSessionsProps) => {
@@ -86,7 +86,7 @@ const OtherSessions = async (props: OtherSessionsProps) => {
 
     const location = await Promise.all(
         orderedSessionList.map(({ ipAddress }) =>
-            Fetch({
+            Solid({
                 route: "/location",
                 params: { ipAddress: ipAddress ?? "" },
             }),

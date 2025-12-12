@@ -1,5 +1,5 @@
 import { AccordionGroup } from "@comps/UI/accordion";
-import { GetSession } from "@lib/authServer";
+import { getSession } from "@lib/auth-server";
 import { unauthorized } from "next/navigation";
 import EditionAccordion from "./components/editionAccordion";
 import EmailConfirmModal from "./components/emailConfirmModal";
@@ -8,7 +8,7 @@ import ProfileAccordion from "./components/profileAccordion";
 import SessionAccordion from "./components/sessionAccordion";
 
 export default async function Page() {
-    const session = await GetSession();
+    const session = await getSession();
     if (!session) unauthorized();
 
     return (

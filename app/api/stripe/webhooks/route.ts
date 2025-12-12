@@ -1,14 +1,14 @@
-import { OrderUpdateAction } from "@actions/OrderAction";
-import { ProductUpsertAction } from "@actions/ProductAction";
 import { StripeInstance } from "@lib/stripe";
+import { OrderUpdateAction } from "@services/actions/OrderAction";
+import { ProductUpsertAction } from "@services/actions/ProductAction";
 import { StripeError } from "@stripe/stripe-js";
-import { Fetch } from "@utils/Fetch";
-import { ResponseFormat } from "@utils/FetchConfig";
-import { StringToSlug } from "@utils/StringToSlug";
+import { stringToSlug } from "@utils/string-format";
 import { revalidateTag } from "next/cache";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
+import { ResponseFormat, cacheLifeApi } from "@/solid/solid-config";
+import Solid from "@/solid/solid-fetch";
 
 const STRIPE_WEBHOOK_SECRET = process.env.STRIPE_WEBHOOK_SECRET;
 
@@ -119,7 +119,7 @@ const productUpsert = async (product: Stripe.Product) => {
     const defaultPrice = product.default_price as string | undefined;
 
     const productPrice = defaultPrice
-        ? await Fetch({
+        ? await Solid({
               route: "/stripe/prices/select",
               params: { id: defaultPrice },
           })
@@ -136,7 +136,7 @@ const productUpsert = async (product: Stripe.Product) => {
         create: {
             id,
             name,
-            slug: StringToSlug(name),
+            slug: stringToSlug(name),
             description: description ?? "",
             image,
             price: price ?? 0,
@@ -156,5 +156,5 @@ const productUpsert = async (product: Stripe.Product) => {
     });
 
     // Revalidate the product cache
-    revalidateTag("product");
+    revalidateTag("product", cacheLifeApi);
 };

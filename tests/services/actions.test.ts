@@ -1,5 +1,5 @@
-import { ProductFindManyAction } from "@actions/ProductAction";
-import { UserFindManyAction } from "@actions/UserAction";
+import { ProductFindManyAction } from "@services/actions/ProductAction";
+import { UserFindManyAction } from "@services/actions/UserAction";
 import { describe, expect, it } from "vitest";
 
 describe("Actions tests", () => {

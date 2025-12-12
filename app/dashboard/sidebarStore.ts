@@ -1,4 +1,4 @@
-import { zustandCookieStorage } from "@lib/zustandCookieStorage";
+import { zustandCookieStorage } from "@lib/zustand-cookie-client";
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 

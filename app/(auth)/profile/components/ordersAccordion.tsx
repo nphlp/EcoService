@@ -1,9 +1,9 @@
-import { OrderFindManyAction } from "@actions/OrderAction";
 import { Accordion, AccordionButton, AccordionContent } from "@comps/UI/accordion";
-import { BetterSessionServer } from "@lib/authServer";
+import { Session } from "@lib/auth-server";
+import { OrderFindManyAction } from "@services/actions/OrderAction";
 
 type OrdersAccordionProps = {
-    session: NonNullable<BetterSessionServer>;
+    session: NonNullable<Session>;
     index?: number;
 };
 

@@ -1,9 +1,9 @@
 "use server";
 
-import { OrderFindManyAction } from "@actions/OrderAction";
-import { GetSession } from "@lib/authServer";
+import { getSession } from "@lib/auth-server";
 import { hasPermission } from "@permissions/hasPermissions";
 import { ProcessDevError } from "@process/Error";
+import { OrderFindManyAction } from "@services/actions/OrderAction";
 import { OrderModel } from "@services/types";
 
 export type FindPendingServerBasketResponse = OrderModel["id"] | null;
@@ -11,7 +11,7 @@ export type FindPendingServerBasketResponse = OrderModel["id"] | null;
 export const FindPendingServerBasket = async (): Promise<FindPendingServerBasketResponse> => {
     try {
         // Get session
-        const session = await GetSession();
+        const session = await getSession();
         if (!session) return null;
 
         // Check permissions

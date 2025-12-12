@@ -1,6 +1,6 @@
 import { hasRole } from "@permissions/hasRole";
-import { Fetch } from "@utils/Fetch";
 import { unauthorized } from "next/navigation";
+import Solid from "@/solid/solid-fetch";
 
 type PageProps = {
     params: Promise<{ id: string }>;
@@ -13,7 +13,7 @@ export default async function Page(props: PageProps) {
     const session = await hasRole(["VENDOR", "EMPLOYEE", "ADMIN"]);
     if (!session) unauthorized();
 
-    const stripeProduct = await Fetch({
+    const stripeProduct = await Solid({
         route: "/stripe/products/select",
         params: { id },
     });

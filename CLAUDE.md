@@ -83,7 +83,7 @@ This project uses a sophisticated code generation system based on the Prisma sch
 - **Configuration**: `lib/auth.ts` with email integration via Plunk
 - **Access Patterns**:
     - Client: `lib/authClient.ts` with `useSession` hook
-    - Server: `lib/authServer.ts` with `GetSession` function
+    - Server: `lib/authServer.ts` with `getSession` function
 
 ### State Management
 

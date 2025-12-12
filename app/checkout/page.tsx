@@ -2,11 +2,11 @@ import CheckoutGenerator from "@app/checkout/components/checkoutGenerator";
 import CheckoutProductList from "@app/checkout/components/checkoutProductList";
 import { basketCookieName, basketCookieSchema } from "@comps/CORE/basket/basketType";
 import Link from "@comps/UI/button/link";
-import { GetSession } from "@lib/authServer";
-import { getZustandCookie } from "@lib/zustandServer";
+import { getSession } from "@lib/auth-server";
+import { getZustandCookie } from "@lib/zustand-cookie-server";
 
 export default async function Page() {
-    const session = await GetSession();
+    const session = await getSession();
 
     const cookieBasket = await getZustandCookie(basketCookieName, basketCookieSchema);
 

@@ -261,7 +261,7 @@ export type ApiRouteNameResponse = {
 export async function GET(request: NextRequest): Promise<NextResponse<ResponseFormat<ApiRouteNameResponse>>> {
     try {
         // Decode and parse URL params
-        const params: CreateStripePriceProps = parseAndDecodeParams(request);
+        const params: CreateStripePriceProps = decodeParams(request.nextUrl.searchParams);
 
         // Destructure and validate params
         const { myString } = apiRouteNamePropsSchema.parse(params);

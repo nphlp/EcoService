@@ -1,25 +1,27 @@
 import { AccountRoutes } from "@services/api/AccountApi";
-import { ContractRoutes } from "@services/api/ContractApi";
-import { LeaveRoutes } from "@services/api/LeaveApi";
-import { PlannedClockRoutes } from "@services/api/PlannedClockApi";
-import { RecordedClockRoutes } from "@services/api/RecordedClockApi";
-import { ScheduleRoutes } from "@services/api/ScheduleApi";
+import { AddressRoutes } from "@services/api/AddressApi";
+import { ArticleRoutes } from "@services/api/ArticleApi";
+import { CategoryRoutes } from "@services/api/CategoryApi";
+import { ContentRoutes } from "@services/api/ContentApi";
+import { DiyRoutes } from "@services/api/DiyApi";
+import { FruitRoutes } from "@services/api/FruitApi";
+import { OrderRoutes } from "@services/api/OrderApi";
+import { ProductRoutes } from "@services/api/ProductApi";
+import { QuantityRoutes } from "@services/api/QuantityApi";
 import { SessionRoutes } from "@services/api/SessionApi";
-import { TeamRoutes } from "@services/api/TeamApi";
-import { TeamMemberRoutes } from "@services/api/TeamMemberApi";
 import { UserRoutes } from "@services/api/UserApi";
 import { VerificationRoutes } from "@services/api/VerificationApi";
-import { WorkRoutes } from "@services/api/WorkApi";
 
 export type Routes<Input> = AccountRoutes<Input> &
-    ContractRoutes<Input> &
-    LeaveRoutes<Input> &
-    PlannedClockRoutes<Input> &
-    RecordedClockRoutes<Input> &
-    ScheduleRoutes<Input> &
+    AddressRoutes<Input> &
+    ArticleRoutes<Input> &
+    CategoryRoutes<Input> &
+    ContentRoutes<Input> &
+    DiyRoutes<Input> &
+    FruitRoutes<Input> &
+    OrderRoutes<Input> &
+    ProductRoutes<Input> &
+    QuantityRoutes<Input> &
     SessionRoutes<Input> &
-    TeamRoutes<Input> &
-    TeamMemberRoutes<Input> &
     UserRoutes<Input> &
-    VerificationRoutes<Input> &
-    WorkRoutes<Input>;
+    VerificationRoutes<Input>;

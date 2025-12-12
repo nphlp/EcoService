@@ -1,7 +1,7 @@
 import { hasRole } from "@permissions/hasRole";
-import { Fetch } from "@utils/Fetch";
 import { Metadata } from "next";
 import { unauthorized } from "next/navigation";
+import Solid from "@/solid/solid-fetch";
 import SidebarToggleButton from "../sidebarToggleButton";
 import ProductDisplay from "./components/productDisplay";
 
@@ -13,7 +13,7 @@ export default async function Page() {
     const session = await hasRole(["VENDOR", "EMPLOYEE", "ADMIN"]);
     if (!session) unauthorized();
 
-    const stripeProductList = await Fetch({ route: "/stripe/products" });
+    const stripeProductList = await Solid({ route: "/stripe/products" });
 
     return (
         <main className="w-full">

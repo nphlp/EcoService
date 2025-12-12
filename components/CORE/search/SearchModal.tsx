@@ -5,11 +5,11 @@ import Button from "@comps/UI/button/button";
 import Input from "@comps/UI/input/input";
 import Modal from "@comps/UI/modal/modal";
 import { combo } from "@lib/combo";
-import { useFetch } from "@utils/FetchHook";
 import { SearchIcon } from "lucide-react";
 import { Route } from "next";
 import { useRouter } from "next/navigation";
 import { FormEvent, useEffect, useRef, useState } from "react";
+import useSolid from "@/solid/solid-hook";
 import { useHeaderStore } from "../header/headerStore";
 import ResultsList from "./SearchResult";
 import SearchSkeleton from "./SearchSkeleton";
@@ -71,46 +71,46 @@ export default function SearchModal(props: SearchModalProps) {
     const takeAmount = 3;
 
     // Fetch data
-    const { data: productList, isLoading: isLoadingProductList } = useFetch({
-        route: "/internal/product/findMany",
+    const { data: productList, isLoading: isLoadingProductList } = useSolid({
+        route: "/solid/product/findMany",
         params: productFetchParams(search, takeAmount),
         initialData: initialResults.productList,
     });
-    const { data: productCount, isLoading: isLoadingProductCount } = useFetch({
-        route: "/internal/product/count",
+    const { data: productCount, isLoading: isLoadingProductCount } = useSolid({
+        route: "/solid/product/count",
         params: productCountParams(search),
         initialData: initialResults.productCount,
     });
 
-    const { data: categoryList, isLoading: isLoadingCategoryList } = useFetch({
-        route: "/internal/category/findMany",
+    const { data: categoryList, isLoading: isLoadingCategoryList } = useSolid({
+        route: "/solid/category/findMany",
         params: categoryFetchParams(search, takeAmount),
         initialData: initialResults.categoryList,
     });
-    const { data: categoryCount, isLoading: isLoadingCategoryCount } = useFetch({
-        route: "/internal/category/count",
+    const { data: categoryCount, isLoading: isLoadingCategoryCount } = useSolid({
+        route: "/solid/category/count",
         params: categoryCountParams(search),
         initialData: initialResults.categoryCount,
     });
 
-    const { data: articleList, isLoading: isLoadingArticleList } = useFetch({
-        route: "/internal/article/findMany",
+    const { data: articleList, isLoading: isLoadingArticleList } = useSolid({
+        route: "/solid/article/findMany",
         params: articleFetchParams(search, takeAmount),
         initialData: initialResults.articleList,
     });
-    const { data: articleCount, isLoading: isLoadingArticleCount } = useFetch({
-        route: "/internal/article/count",
+    const { data: articleCount, isLoading: isLoadingArticleCount } = useSolid({
+        route: "/solid/article/count",
         params: articleCountParams(search),
         initialData: initialResults.articleCount,
     });
 
-    const { data: diyList, isLoading: isLoadingDiyList } = useFetch({
-        route: "/internal/diy/findMany",
+    const { data: diyList, isLoading: isLoadingDiyList } = useSolid({
+        route: "/solid/diy/findMany",
         params: diyFetchParams(search, takeAmount),
         initialData: initialResults.diyList,
     });
-    const { data: diyCount, isLoading: isLoadingDiyCount } = useFetch({
-        route: "/internal/diy/count",
+    const { data: diyCount, isLoading: isLoadingDiyCount } = useSolid({
+        route: "/solid/diy/count",
         params: diyCountParams(search),
         initialData: initialResults.diyCount,
     });
@@ -147,10 +147,11 @@ export default function SearchModal(props: SearchModalProps) {
     // Focus input when modal opens
     useEffect(() => {
         if (searchOpen) {
-            setSearch("");
+            // TODO: (timeout useEffect/useState) verify if it works
+            setTimeout(() => setSearch(""), 10);
             // Timeout is required to wait for the modal transition
             // from "display: none" to "display: block"
-            setTimeout(() => inputRef.current?.focus(), 10);
+            setTimeout(() => inputRef.current?.focus(), 30);
         }
     }, [searchOpen]);
 

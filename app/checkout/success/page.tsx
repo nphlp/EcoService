@@ -1,6 +1,6 @@
-import { OrderFindUniqueAction, OrderUpdateAction } from "@actions/OrderAction";
 import Link from "@comps/UI/button/link";
 import { StripeInstance } from "@lib/stripe";
+import { OrderFindUniqueAction, OrderUpdateAction } from "@services/actions/OrderAction";
 import { CheckCircleIcon, X } from "lucide-react";
 import { redirect } from "next/navigation";
 import BasketCleaner from "./basketCleaner";

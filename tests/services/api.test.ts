@@ -1,11 +1,11 @@
-import { Fetch } from "@utils/Fetch";
 import { describe, expect, it } from "vitest";
+import Solid from "@/solid/solid-fetch";
 
 describe("API tests", () => {
     it("User API", async () => {
         // Fetch articles
-        const articles = await Fetch({
-            route: "/internal/article/findMany",
+        const articles = await Solid({
+            route: "/solid/article/findMany",
             params: {
                 include: {
                     Author: true,
@@ -23,8 +23,8 @@ describe("API tests", () => {
 
     it("Product API", async () => {
         // Fetch products
-        const products = await Fetch({
-            route: "/internal/product/findMany",
+        const products = await Solid({
+            route: "/solid/product/findMany",
             params: {
                 include: {
                     Category: true,

@@ -1,4 +1,4 @@
-import { BetterSessionServer } from "../lib/authServer";
+import { Session } from "@lib/auth-server";
 import { GLOBAL_PERMISSIONS } from "./permissionsConfig";
 import { Models, RolePermissions, Roles } from "./permissionsType";
 import { getRole } from "./permissionsUtils";
@@ -12,10 +12,7 @@ import { getRole } from "./permissionsUtils";
  * });
  * if (!isAuthorized) throw new Error("Permission denied");
  */
-export const hasPermission = async (
-    session: BetterSessionServer,
-    askedPermissions: Partial<RolePermissions>,
-): Promise<boolean> => {
+export const hasPermission = async (session: Session, askedPermissions: Partial<RolePermissions>): Promise<boolean> => {
     // Get role
     const role = getRole(session);
 

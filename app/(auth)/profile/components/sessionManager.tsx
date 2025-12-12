@@ -3,15 +3,15 @@
 import { LocationResponse } from "@app/api/location/route";
 import Button from "@comps/UI/button/button";
 import Modal from "@comps/UI/modal/modal";
-import { revokeOtherSessions, revokeSession } from "@lib/authClient";
-import { BetterSessionListServer } from "@lib/authServer";
+import { revokeOtherSessions, revokeSession } from "@lib/auth-client";
+import { type SessionList } from "@lib/auth-server";
 import { X } from "lucide-react";
 import { Dispatch, SetStateAction } from "react";
 import { Fragment, ReactNode, createContext, useContext, useState } from "react";
 import { getBrowser, getOs, locationString } from "./utils";
 
 export type SessionAndLocation = {
-    session: BetterSessionListServer[number];
+    session: SessionList[number];
     location: LocationResponse;
 };
 

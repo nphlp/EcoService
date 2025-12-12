@@ -2,11 +2,11 @@
 
 import Button from "@comps/UI/button/button";
 import Modal from "@comps/UI/modal/modal";
-import { BetterSessionServer } from "@lib/authServer";
+import { Session } from "@lib/auth-server";
 import { useState } from "react";
 
 type EmailConfirmModalProps = {
-    session: NonNullable<BetterSessionServer>;
+    session: NonNullable<Session>;
 };
 
 export default function EmailConfirmModal(props: EmailConfirmModalProps) {

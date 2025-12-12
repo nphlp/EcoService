@@ -8,9 +8,9 @@ vi.mock("next/cache", () => ({
     revalidatePath: vi.fn(),
 }));
 
-// Mock the GetSession function
+// Mock the getSession function
 vi.mock("@lib/authServer", () => ({
-    GetSession: vi.fn().mockResolvedValue({
+    getSession: vi.fn().mockResolvedValue({
         user: {
             id: "user-10",
             role: "USER",

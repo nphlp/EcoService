@@ -7,12 +7,12 @@ import { ZodType, z } from "zod";
  * @example
  * const basketCookie = await getZustandCookie(basketCookieName, basketCookieSchema);
  */
-export const getZustandCookie = async <T>(name: string, schema: ZodType<T>): Promise<T | null> => {
+export const getZustandCookie = async <T>(name: string, schema: ZodType<T>): Promise<T | undefined> => {
     try {
         const cookieStore = await cookies();
         const cookieValue = cookieStore.get(name)?.value;
 
-        if (!cookieValue) return null;
+        if (!cookieValue) return undefined;
 
         const objectValue = JSON.parse(cookieValue);
 

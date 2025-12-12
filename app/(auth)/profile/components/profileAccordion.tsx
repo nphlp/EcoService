@@ -1,9 +1,9 @@
 import { Accordion, AccordionButton, AccordionContent } from "@comps/UI/accordion";
-import { BetterSessionServer } from "@lib/authServer";
+import { Session } from "@lib/auth-server";
 import ProfileInfo from "./profileInfo";
 
 type ProfileAccordionProps = {
-    session: NonNullable<BetterSessionServer>;
+    session: NonNullable<Session>;
     index?: number;
 };
 

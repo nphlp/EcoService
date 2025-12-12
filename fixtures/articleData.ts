@@ -1,6 +1,6 @@
 import PrismaInstance from "@lib/prisma";
 import { Prisma } from "@prisma/client/client";
-import { StringToSlug } from "@utils/StringToSlug";
+import { stringToSlug } from "@utils/string-format";
 
 export const insertArticles = async () => {
     try {
@@ -15,7 +15,7 @@ export const insertArticles = async () => {
 export const articleData: Prisma.ArticleCreateInput[] = [
     {
         title: "Vivre écologiquement au quotidien",
-        slug: StringToSlug("Vivre écologiquement au quotidien"),
+        slug: stringToSlug("Vivre écologiquement au quotidien"),
         Author: {
             connect: {
                 email: "admin@example.com",
@@ -45,7 +45,7 @@ export const articleData: Prisma.ArticleCreateInput[] = [
     },
     {
         title: "Les alternatives aux produits ménagers chimiques",
-        slug: StringToSlug("Les alternatives aux produits ménagers chimiques"),
+        slug: stringToSlug("Les alternatives aux produits ménagers chimiques"),
         Author: {
             connect: {
                 email: "vendor@example.com",
@@ -75,7 +75,7 @@ export const articleData: Prisma.ArticleCreateInput[] = [
     },
     {
         title: "Jardinage écologique et permaculture",
-        slug: StringToSlug("Jardinage écologique et permaculture"),
+        slug: stringToSlug("Jardinage écologique et permaculture"),
         Author: {
             connect: {
                 email: "user@example.com",
@@ -105,7 +105,7 @@ export const articleData: Prisma.ArticleCreateInput[] = [
     },
     {
         title: "Réduire son empreinte carbone au quotidien",
-        slug: StringToSlug("Réduire son empreinte carbone au quotidien"),
+        slug: stringToSlug("Réduire son empreinte carbone au quotidien"),
         Author: {
             connect: {
                 email: "employee@example.com",
@@ -135,7 +135,7 @@ export const articleData: Prisma.ArticleCreateInput[] = [
     },
     {
         title: "Hygiène personnelle zéro déchet",
-        slug: StringToSlug("Hygiène personnelle zéro déchet"),
+        slug: stringToSlug("Hygiène personnelle zéro déchet"),
         Author: {
             connect: {
                 email: "admin@example.com",
@@ -166,7 +166,7 @@ export const articleData: Prisma.ArticleCreateInput[] = [
 
     {
         title: "Cuisine anti-gaspi: astuces et recettes",
-        slug: StringToSlug("Cuisine anti-gaspi: astuces et recettes"),
+        slug: stringToSlug("Cuisine anti-gaspi: astuces et recettes"),
         Author: { connect: { email: "user@example.com" } },
         Content: {
             createMany: {
@@ -192,7 +192,7 @@ export const articleData: Prisma.ArticleCreateInput[] = [
     },
     {
         title: "Minimalisme: désencombrer pour mieux vivre",
-        slug: StringToSlug("Minimalisme: désencombrer pour mieux vivre"),
+        slug: stringToSlug("Minimalisme: désencombrer pour mieux vivre"),
         Author: { connect: { email: "admin@example.com" } },
         Content: {
             createMany: {
@@ -218,7 +218,7 @@ export const articleData: Prisma.ArticleCreateInput[] = [
     },
     {
         title: "Zéro plastique au supermarché",
-        slug: StringToSlug("Zéro plastique au supermarché"),
+        slug: stringToSlug("Zéro plastique au supermarché"),
         Author: { connect: { email: "vendor@example.com" } },
         Content: {
             createMany: {
@@ -244,7 +244,7 @@ export const articleData: Prisma.ArticleCreateInput[] = [
     },
     {
         title: "Composter en ville: solutions pratiques",
-        slug: StringToSlug("Composter en ville: solutions pratiques"),
+        slug: stringToSlug("Composter en ville: solutions pratiques"),
         Author: { connect: { email: "employee@example.com" } },
         Content: {
             createMany: {
@@ -270,7 +270,7 @@ export const articleData: Prisma.ArticleCreateInput[] = [
     },
     {
         title: "Réparer plutôt que jeter",
-        slug: StringToSlug("Réparer plutôt que jeter"),
+        slug: stringToSlug("Réparer plutôt que jeter"),
         Author: { connect: { email: "user@example.com" } },
         Content: {
             createMany: {
@@ -296,7 +296,7 @@ export const articleData: Prisma.ArticleCreateInput[] = [
     },
     {
         title: "Mode éthique: bien choisir ses vêtements",
-        slug: StringToSlug("Mode éthique: bien choisir ses vêtements"),
+        slug: stringToSlug("Mode éthique: bien choisir ses vêtements"),
         Author: { connect: { email: "admin@example.com" } },
         Content: {
             createMany: {
@@ -322,7 +322,7 @@ export const articleData: Prisma.ArticleCreateInput[] = [
     },
     {
         title: "Mobilité douce en ville",
-        slug: StringToSlug("Mobilité douce en ville"),
+        slug: stringToSlug("Mobilité douce en ville"),
         Author: { connect: { email: "employee@example.com" } },
         Content: {
             createMany: {
@@ -348,7 +348,7 @@ export const articleData: Prisma.ArticleCreateInput[] = [
     },
     {
         title: "Énergie à la maison: réduire sa conso",
-        slug: StringToSlug("Énergie à la maison: réduire sa conso"),
+        slug: stringToSlug("Énergie à la maison: réduire sa conso"),
         Author: { connect: { email: "vendor@example.com" } },
         Content: {
             createMany: {
@@ -374,7 +374,7 @@ export const articleData: Prisma.ArticleCreateInput[] = [
     },
     {
         title: "Jardinage sur balcon: bien démarrer",
-        slug: StringToSlug("Jardinage sur balcon: bien démarrer"),
+        slug: stringToSlug("Jardinage sur balcon: bien démarrer"),
         Author: { connect: { email: "user@example.com" } },
         Content: {
             createMany: {
@@ -400,7 +400,7 @@ export const articleData: Prisma.ArticleCreateInput[] = [
     },
     {
         title: "Économies d'eau au quotidien",
-        slug: StringToSlug("Économies d'eau au quotidien"),
+        slug: stringToSlug("Économies d'eau au quotidien"),
         Author: { connect: { email: "admin@example.com" } },
         Content: {
             createMany: {

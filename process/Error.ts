@@ -1,4 +1,4 @@
-import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
+import { PrismaClientKnownRequestError } from "@prisma/client/runtime/client";
 import { ZodError } from "zod";
 
 export const ProcessDevError = (processName: string, error: unknown) => {

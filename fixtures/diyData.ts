@@ -1,6 +1,6 @@
 import PrismaInstance from "@lib/prisma";
 import { Prisma } from "@prisma/client/client";
-import { StringToSlug } from "@utils/StringToSlug";
+import { stringToSlug } from "@utils/string-format";
 
 export const insertDIYs = async () => {
     try {
@@ -15,7 +15,7 @@ export const insertDIYs = async () => {
 export const diyData: Prisma.DiyCreateInput[] = [
     {
         title: "Fabriquer son propre savon naturel",
-        slug: StringToSlug("Fabriquer son propre savon naturel"),
+        slug: stringToSlug("Fabriquer son propre savon naturel"),
         Author: {
             connect: {
                 email: "admin@example.com",
@@ -45,7 +45,7 @@ export const diyData: Prisma.DiyCreateInput[] = [
     },
     {
         title: "Créer un potager vertical avec des palettes",
-        slug: StringToSlug("Créer un potager vertical avec des palettes"),
+        slug: stringToSlug("Créer un potager vertical avec des palettes"),
         Author: {
             connect: {
                 email: "vendor@example.com",
@@ -75,7 +75,7 @@ export const diyData: Prisma.DiyCreateInput[] = [
     },
     {
         title: "Fabriquer une lessive écologique maison",
-        slug: StringToSlug("Fabriquer une lessive écologique maison"),
+        slug: stringToSlug("Fabriquer une lessive écologique maison"),
         Author: {
             connect: {
                 email: "user@example.com",
@@ -105,7 +105,7 @@ export const diyData: Prisma.DiyCreateInput[] = [
     },
     {
         title: "Créer un composteur d'appartement",
-        slug: StringToSlug("Créer un composteur d'appartement"),
+        slug: stringToSlug("Créer un composteur d'appartement"),
         Author: {
             connect: {
                 email: "employee@example.com",
@@ -135,7 +135,7 @@ export const diyData: Prisma.DiyCreateInput[] = [
     },
     {
         title: "Fabriquer un tawashi (éponge zéro déchet)",
-        slug: StringToSlug("Fabriquer un tawashi (éponge zéro déchet)"),
+        slug: stringToSlug("Fabriquer un tawashi (éponge zéro déchet)"),
         Author: {
             connect: {
                 email: "admin@example.com",
@@ -165,7 +165,7 @@ export const diyData: Prisma.DiyCreateInput[] = [
     },
     {
         title: "Fabriquer un sac à vrac",
-        slug: StringToSlug("Fabriquer un sac à vrac"),
+        slug: stringToSlug("Fabriquer un sac à vrac"),
         Author: { connect: { email: "user@example.com" } },
         Content: {
             createMany: {
@@ -191,7 +191,7 @@ export const diyData: Prisma.DiyCreateInput[] = [
     },
     {
         title: "Bee wrap maison",
-        slug: StringToSlug("Bee wrap maison"),
+        slug: stringToSlug("Bee wrap maison"),
         Author: { connect: { email: "admin@example.com" } },
         Content: {
             createMany: {
@@ -217,7 +217,7 @@ export const diyData: Prisma.DiyCreateInput[] = [
     },
     {
         title: "Spray multi-usage maison",
-        slug: StringToSlug("Spray multi-usage maison"),
+        slug: stringToSlug("Spray multi-usage maison"),
         Author: { connect: { email: "vendor@example.com" } },
         Content: {
             createMany: {
@@ -243,7 +243,7 @@ export const diyData: Prisma.DiyCreateInput[] = [
     },
     {
         title: "Composteur bokashi maison",
-        slug: StringToSlug("Composteur bokashi maison"),
+        slug: stringToSlug("Composteur bokashi maison"),
         Author: { connect: { email: "employee@example.com" } },
         Content: {
             createMany: {
@@ -269,7 +269,7 @@ export const diyData: Prisma.DiyCreateInput[] = [
     },
     {
         title: "Filtre à café réutilisable",
-        slug: StringToSlug("Filtre à café réutilisable"),
+        slug: stringToSlug("Filtre à café réutilisable"),
         Author: { connect: { email: "user@example.com" } },
         Content: {
             createMany: {
@@ -295,7 +295,7 @@ export const diyData: Prisma.DiyCreateInput[] = [
     },
     {
         title: "Huile de finition bois naturelle",
-        slug: StringToSlug("Huile de finition bois naturelle"),
+        slug: stringToSlug("Huile de finition bois naturelle"),
         Author: { connect: { email: "admin@example.com" } },
         Content: {
             createMany: {
@@ -321,7 +321,7 @@ export const diyData: Prisma.DiyCreateInput[] = [
     },
     {
         title: "Bougies à la cire d'abeille",
-        slug: StringToSlug("Bougies à la cire d'abeille"),
+        slug: stringToSlug("Bougies à la cire d'abeille"),
         Author: { connect: { email: "vendor@example.com" } },
         Content: {
             createMany: {
@@ -347,7 +347,7 @@ export const diyData: Prisma.DiyCreateInput[] = [
     },
     {
         title: "Démaquillant biphasé maison",
-        slug: StringToSlug("Démaquillant biphasé maison"),
+        slug: stringToSlug("Démaquillant biphasé maison"),
         Author: { connect: { email: "employee@example.com" } },
         Content: {
             createMany: {
@@ -373,7 +373,7 @@ export const diyData: Prisma.DiyCreateInput[] = [
     },
     {
         title: "Cendrier de poche DIY",
-        slug: StringToSlug("Cendrier de poche DIY"),
+        slug: stringToSlug("Cendrier de poche DIY"),
         Author: { connect: { email: "user@example.com" } },
         Content: {
             createMany: {
@@ -399,7 +399,7 @@ export const diyData: Prisma.DiyCreateInput[] = [
     },
     {
         title: "Poudre lave-vaisselle maison",
-        slug: StringToSlug("Poudre lave-vaisselle maison"),
+        slug: stringToSlug("Poudre lave-vaisselle maison"),
         Author: { connect: { email: "admin@example.com" } },
         Content: {
             createMany: {

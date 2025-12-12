@@ -1,9 +1,10 @@
-import { UserFindUniqueAction } from "@actions/UserAction";
+import SendEmailAction from "@actions/SendEmailAction";
+import EmailTemplate from "@comps/UI/email";
 import PrismaInstance from "@lib/prisma";
 import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
+import { nextCookies } from "better-auth/next-js";
 import { customSession } from "better-auth/plugins";
-import { SendEmail } from "./plunk";
 
 const NEXT_PUBLIC_BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
@@ -13,55 +14,59 @@ if (!NEXT_PUBLIC_BASE_URL) {
 
 export const auth = betterAuth({
     database: prismaAdapter(PrismaInstance, {
-        provider: "mysql",
+        provider: "postgresql",
     }),
-    trustedOrigins: [`${NEXT_PUBLIC_BASE_URL}`],
+    trustedOrigins: [NEXT_PUBLIC_BASE_URL],
     emailAndPassword: {
         enabled: true,
+        sendResetPassword: async ({ user, url }: { user: { email: string; name: string }; url: string }) => {
+            await SendEmailAction({
+                subject: `Reset your password`,
+                email: user.email,
+                body: EmailTemplate({ buttonUrl: url, emailType: "reset" }),
+            });
+        },
     },
     emailVerification: {
         sendOnSignUp: true,
         autoSignInAfterVerification: true,
         sendVerificationEmail: async ({ user, url }) => {
-            // Send email template
-            await SendEmail({
+            await SendEmailAction({
                 subject: `Welcome ${user.name}! Let's verify your email.`,
                 email: user.email,
-                buttonUrl: url,
+                body: EmailTemplate({ buttonUrl: url, emailType: "verification" }),
             });
         },
     },
-    user: {
-        changeEmail: {
-            enabled: true,
-            sendChangeEmailVerification: async ({ newEmail, url, user }) => {
-                // Send email template
-                await SendEmail({
-                    subject: `Hey ${user.name}! Let's verify your new email.`,
-                    email: newEmail,
-                    buttonUrl: url,
-                    changingEmail: true,
-                });
-            },
-        },
-    },
+    // user: {
+    //     changeEmail: {
+    //         enabled: true,
+    //         sendChangeEmailVerification: async ({ newEmail, url, user }) => {
+    //             // Send email template
+    //             await SendEmailAction({
+    //                 subject: `Hey ${user.name}! Let's verify your new email.`,
+    //                 email: newEmail,
+    //                 buttonUrl: url,
+    //                 changingEmail: true,
+    //             });
+    //         },
+    //     },
+    // },
     session: {
-        expiresIn: 60 * 60 * 2, // 2 hours
+        expiresIn: 60 * 60 * 24, // 24 hours
         updateAge: 60 * 20, // 20 minutes
-        // cookieCache: {
-        //     enabled: true,
-        //     maxAge: 60 * 5
-        // }
     },
-    // TODO: Add rate limit
-    // rateLimit: {},
     plugins: [
+        // Extends session with role and lastname
         customSession(async ({ session, user }) => {
-            const userData = await UserFindUniqueAction({ where: { id: user.id } }, true);
+            // const userData = await UserFindUniqueAction({ where: { id: user.id } }, true);
+            const userData = await PrismaInstance.user.findUnique({ where: { id: user.id } });
+
             if (!userData) {
                 throw new Error("User not found");
             }
-            return {
+
+            const extendedSession = {
                 user: {
                     ...user,
                     lastname: userData.lastname,
@@ -69,10 +74,12 @@ export const auth = betterAuth({
                 },
                 session,
             };
+
+            return extendedSession;
         }),
-        // twoFactor({
-        //     twoFactorPage: "/two-factor" // the page to redirect if a user need to verify 2nd factor
-        // }) // TODO: Add two factor authentication
+        // For functions like signInEmail, signUpEmail, etc.
+        // Must be the last plugin in the array
+        nextCookies(),
     ],
     advanced: {
         ipAddress: {

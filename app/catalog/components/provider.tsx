@@ -1,8 +1,8 @@
 "use client";
 
 import { useCategoryQueryParams, useSearchQueryParams } from "@comps/SHARED/queryParamsClientHooks";
-import { useFetch } from "@utils/FetchHook";
 import { ReactNode } from "react";
+import useSolid from "@/solid/solid-hook";
 import { Context } from "./context";
 import { productCountParams } from "./fetchParams";
 
@@ -17,8 +17,8 @@ export default function Provider(props: ContextProviderProps) {
     const { search } = useSearchQueryParams();
     const { category } = useCategoryQueryParams();
 
-    const { data: productAmount, isLoading } = useFetch({
-        route: "/internal/product/count",
+    const { data: productAmount, isLoading } = useSolid({
+        route: "/solid/product/count",
         params: productCountParams({ category, search }),
         initialData: initialProductAmount,
     });

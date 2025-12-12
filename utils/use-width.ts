@@ -8,7 +8,8 @@ export const useWidth = () => {
 
     useEffect(() => {
         // Initial value
-        setWindowWidth(window.innerWidth);
+        // TODO: (timeout useEffect/useState) verify if it works
+        setTimeout(() => setWindowWidth(window.innerWidth), 10);
 
         // Resize event
         const handleResize = () => setWindowWidth(window.innerWidth);

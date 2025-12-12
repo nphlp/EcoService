@@ -1,5 +1,5 @@
-import { BetterSessionServer, GetSession } from "@lib/authServer";
-import { parseAndDecodeParams } from "@utils/FetchConfig";
+import { Session, getSession } from "@lib/auth-server";
+import { decodeParams } from "@utils/url-parsers";
 import { NextRequest } from "next/server";
 import { hasPermission } from "./hasPermissions";
 import { getMethodFromPathname, getModel } from "./permissionsUtils";
@@ -9,7 +9,7 @@ export const analyseRequest = async (request: NextRequest) => {
     const pathname = request.nextUrl.pathname;
 
     // Get session
-    const session = await GetSession();
+    const session = await getSession();
 
     const isStripeRequest = pathname.startsWith("/api/stripe");
     if (isStripeRequest) return parseStripeRequest({ session, request });
@@ -22,7 +22,7 @@ export const analyseRequest = async (request: NextRequest) => {
 };
 
 type PermissionsArgs = {
-    session: BetterSessionServer;
+    session: Session;
     request: NextRequest;
 };
 
@@ -51,7 +51,7 @@ export const parseApiRequest = async (props: PermissionsArgs) => {
     if (!model) return true;
 
     // Get params from request
-    const params = parseAndDecodeParams(request);
+    const params = decodeParams(request.nextUrl.searchParams);
 
     // Get method from pathname
     const method = getMethodFromPathname(pathname, params, session);

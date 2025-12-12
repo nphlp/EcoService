@@ -1,10 +1,10 @@
 "use server";
 
-import { QuantityCreateManyAction, QuantityDeleteManyAction } from "@actions/QuantityAction";
 import { LocalBasket, localBasketSchema } from "@comps/CORE/basket/basketType";
-import { GetSession } from "@lib/authServer";
+import { getSession } from "@lib/auth-server";
 import { hasPermission } from "@permissions/hasPermissions";
 import { ProcessDevError } from "@process/Error";
+import { QuantityCreateManyAction, QuantityDeleteManyAction } from "@services/actions/QuantityAction";
 import { OrderModel } from "@services/types";
 import { revalidatePath } from "next/cache";
 import { ZodType, z } from "zod";
@@ -34,7 +34,7 @@ export const SyncServerBasket = async (props: SyncServerBasketProps): Promise<Sy
         const { localBasket, orderId } = syncServerBasketSchema.parse(props);
 
         // Get session for security
-        const session = await GetSession();
+        const session = await getSession();
 
         // Check permissions
         const isAuthorized = await hasPermission(session, {

@@ -1,4 +1,4 @@
-import { GetSession } from "@lib/authServer";
+import { getSession } from "@lib/auth-server";
 import { unauthorized } from "next/navigation";
 import { ReactNode } from "react";
 import LinkList from "./linkList";
@@ -12,7 +12,7 @@ type LayoutProps = {
 export default async function Layout(props: LayoutProps) {
     const { children } = props;
 
-    const session = await GetSession();
+    const session = await getSession();
 
     const role = session?.user.role;
 

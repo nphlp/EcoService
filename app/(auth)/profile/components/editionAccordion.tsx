@@ -5,14 +5,14 @@ import Button from "@comps/UI/button/button";
 import Input from "@comps/UI/input/input";
 import InputImage from "@comps/UI/inputImage";
 import InputPassword from "@comps/UI/inputPassword";
-import { changeEmail, changePassword, updateUser, useSession } from "@lib/authClient";
-import { BetterSessionServer } from "@lib/authServer";
+import { changeEmail, changePassword, updateUser, useSession } from "@lib/auth-client";
+import { Session } from "@lib/auth-server";
 import { UpdateLastnameProcess } from "@process/ProfileUpdate";
 import { imageToBase64 } from "@utils/base64";
 import { useState } from "react";
 
 type EditionAccordionProps = {
-    session: NonNullable<BetterSessionServer>;
+    session: NonNullable<Session>;
     index?: number;
 };
 
@@ -43,7 +43,7 @@ export default function EditionAccordion(props: EditionAccordionProps) {
 }
 
 type UpdateFormProps = {
-    session: NonNullable<BetterSessionServer>;
+    session: NonNullable<Session>;
 };
 
 const UpdateLastnameForm = (props: UpdateFormProps) => {

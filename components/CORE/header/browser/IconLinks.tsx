@@ -6,7 +6,7 @@ import Button from "@comps/UI/button/button";
 import Link from "@comps/UI/button/link";
 import ImageProfile from "@comps/UI/imageProfile";
 import Logout from "@comps/UI/logout";
-import { useSession } from "@lib/authClient";
+import { useSession } from "@lib/auth-client";
 import { combo } from "@lib/combo";
 import { LogOut, PanelsTopLeft, Search, ShoppingCart, UserRound } from "lucide-react";
 

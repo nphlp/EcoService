@@ -23,9 +23,14 @@ export const {
     updateUser,
     changeEmail,
     changePassword,
+    sendVerificationEmail,
+    requestPasswordReset,
+    resetPassword,
 } = authClient;
 
 /**
  * Type for the session data
  */
-export type BetterSessionClient = ReturnType<typeof useSession>["data"];
+export type SessionClient = ReturnType<typeof useSession>["data"];
+
+export type SessionRefetch = ReturnType<typeof useSession>["refetch"];

@@ -1,10 +1,10 @@
 "use server";
 
-import { OrderCreateAction } from "@actions/OrderAction";
 import { LocalBasketItem, localBasketItemSchema } from "@comps/CORE/basket/basketType";
-import { GetSession } from "@lib/authServer";
+import { getSession } from "@lib/auth-server";
 import { hasPermission } from "@permissions/hasPermissions";
 import { ProcessDevError } from "@process/Error";
+import { OrderCreateAction } from "@services/actions/OrderAction";
 import { OrderModel } from "@services/types";
 import { revalidatePath } from "next/cache";
 import { ZodType, z } from "zod";
@@ -24,7 +24,7 @@ export const CreateServerBasket = async (props: CreateServerBasketProps): Promis
         const { items } = createServerBasketSchema.parse(props);
 
         // Get session for security
-        const session = await GetSession();
+        const session = await getSession();
         if (!session) return null;
 
         // Check permissions

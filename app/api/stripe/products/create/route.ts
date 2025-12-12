@@ -1,8 +1,9 @@
 import { StripeInstance } from "@lib/stripe";
-import { ResponseFormat, parseAndDecodeParams } from "@utils/FetchConfig";
+import { decodeParams } from "@utils/url-parsers";
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 import { ZodType, z } from "zod";
+import { ResponseFormat } from "@/solid/solid-config";
 import { StripeError } from "../../Error";
 
 export type CreateStripeProductProps = {
@@ -27,7 +28,7 @@ export type CreateStripeProductResponse = Stripe.Product;
 
 export async function GET(request: NextRequest): Promise<NextResponse<ResponseFormat<CreateStripeProductResponse>>> {
     try {
-        const params: CreateStripeProductProps = parseAndDecodeParams(request);
+        const params: CreateStripeProductProps = decodeParams(request.nextUrl.searchParams);
 
         const { name, description, categoryId, categoryName, vendorId, imageUrl } =
             createStripeProductPropsSchema.parse(params);

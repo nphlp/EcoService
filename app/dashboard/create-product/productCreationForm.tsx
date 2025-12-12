@@ -8,7 +8,7 @@ import InputImage from "@comps/UI/inputImage";
 import Select from "@comps/UI/select/select";
 import { createSelectOptions } from "@comps/UI/select/utils";
 import { Prisma } from "@prisma/client/client";
-import { authorizedFileSize, authorizedFormats } from "@utils/ImageValidation";
+import { authorizedFileSize, authorizedFormats } from "@utils/image-validation";
 import { useState } from "react";
 import { AddProductToStripeProcess } from "@/process/AddProductToStripeProcess";
 

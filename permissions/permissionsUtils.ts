@@ -1,11 +1,11 @@
-import { BetterSessionServer } from "@lib/authServer";
+import { Session } from "@lib/auth-server";
 import { Methods, Models, Roles, WhereHimOnly } from "./permissionsType";
 
 /**
  * Get role from session \
  * Return `NON_LOGGED` if no session
  */
-export const getRole = (session: BetterSessionServer): Roles => session?.user.role ?? "NON_LOGGED";
+export const getRole = (session: Session): Roles => session?.user.role ?? "NON_LOGGED";
 
 /**
  * Get model from pathname
@@ -44,11 +44,7 @@ export const getModel = (pathname: string): Models | null => {
  * Return: `findUnique-HO`
  * ```
  */
-export const getMethodFromPathname = (
-    pathname: string,
-    params: WhereHimOnly,
-    session: BetterSessionServer,
-): Methods => {
+export const getMethodFromPathname = (pathname: string, params: WhereHimOnly, session: Session): Methods => {
     // Extract method from pathname
     const method = pathname.split("/")[4] as Methods;
 

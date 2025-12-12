@@ -2,7 +2,7 @@
 
 import { Combobox as ComboboxHeadlessUI, ComboboxInput, ComboboxOption, ComboboxOptions } from "@headlessui/react";
 import { combo } from "@lib/combo";
-import { StringToSlug } from "@utils/StringToSlug";
+import { stringToSlug } from "@utils/string-format";
 import { Check } from "lucide-react";
 import { ChangeEvent } from "react";
 import ComboboxIcon from "./sub-components/comboboxIcon";
@@ -236,7 +236,7 @@ export default function Combobox<T extends ComboOptionType | MultiSourceComboOpt
     // The following line is usefull when options are static (not connected to an API)
     // When options are dynamic (connected to the API), this filter is done for nothing
     // But the code and usage is easier and cleaner with more conditions
-    const displayedOptions = options.filter((option) => option.slug.includes(StringToSlug(query)));
+    const displayedOptions = options.filter((option) => option.slug.includes(stringToSlug(query)));
 
     const handleQueryChange = (event: ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value;

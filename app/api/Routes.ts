@@ -1,9 +1,9 @@
 import { HealthResponse } from "./health/route";
-import { type Routes as InternalRoutes } from "./internal/Routes";
 import { LocationProps, LocationResponse } from "./location/route";
+import { type Routes as SolidRoutes } from "./solid/Routes";
 import { type Routes as StripeRoutes } from "./stripe/Routes";
 
-type SubRoutes<Input> = StripeRoutes & InternalRoutes<Input>;
+type SubRoutes<Input> = StripeRoutes & SolidRoutes<Input>;
 
 export type Routes<Input> = SubRoutes<Input> & {
     "/health": () => {

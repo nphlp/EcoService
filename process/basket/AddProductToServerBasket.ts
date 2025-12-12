@@ -1,10 +1,10 @@
 "use server";
 
-import { OrderUpdateAction } from "@actions/OrderAction";
 import { LocalBasketItem, localBasketItemSchema } from "@comps/CORE/basket/basketType";
-import { GetSession } from "@lib/authServer";
+import { getSession } from "@lib/auth-server";
 import { hasPermission } from "@permissions/hasPermissions";
 import { ProcessDevError } from "@process/Error";
+import { OrderUpdateAction } from "@services/actions/OrderAction";
 import { OrderModel } from "@services/types";
 import { revalidatePath } from "next/cache";
 import { ZodType, z } from "zod";
@@ -29,7 +29,7 @@ export const AddProductToServerBasket = async (
         const { orderId, item } = addProductToServerBasketSchema.parse(props);
 
         // Get session for security
-        const session = await GetSession();
+        const session = await getSession();
 
         // Check permissions
         const isAuthorized = await hasPermission(session, {

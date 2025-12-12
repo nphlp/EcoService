@@ -1,11 +1,11 @@
 "use server";
 
-import { OrderFindUniqueAction } from "@actions/OrderAction";
 import { ServerBasket } from "@comps/CORE/basket/basketType";
-import { GetSession } from "@lib/authServer";
+import { getSession } from "@lib/auth-server";
 import { hasPermission } from "@permissions/hasPermissions";
 import { Order } from "@prisma/client/client";
 import { ProcessDevError } from "@process/Error";
+import { OrderFindUniqueAction } from "@services/actions/OrderAction";
 import { ZodType, z } from "zod";
 
 export type GetServerBasketProps = {
@@ -33,7 +33,7 @@ export const GetServerBasket = async (props: GetServerBasketProps): Promise<GetS
         const { orderId } = getServerBasketSchema.parse(props);
 
         // Get session for security
-        const session = await GetSession();
+        const session = await getSession();
 
         // Check permissions
         const isAuthorized = await hasPermission(session, {

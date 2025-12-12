@@ -1,11 +1,11 @@
 "use server";
 
-import { CategoryFindUniqueAction } from "@actions/CategoryAction";
-import { ProductFindUniqueAction } from "@actions/ProductAction";
 import { hasRole } from "@permissions/hasRole";
-import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
-import { Fetch } from "@utils/Fetch";
+import { PrismaClientKnownRequestError } from "@prisma/client/runtime/client";
+import { CategoryFindUniqueAction } from "@services/actions/CategoryAction";
+import { ProductFindUniqueAction } from "@services/actions/ProductAction";
 import { ZodError, ZodType, strictObject, z } from "zod";
+import Solid from "@/solid/solid-fetch";
 
 export type AddProductToStripeProcessProps = {
     name: string;
@@ -68,14 +68,14 @@ export const AddProductToStripeProcess = async (
         }
 
         // Product already exists in Stripe ?
-        const existingProductInStripe = await Fetch({ route: "/stripe/products/search", params: { name } });
+        const existingProductInStripe = await Solid({ route: "/stripe/products/search", params: { name } });
 
         if (existingProductInStripe.length > 0) {
             return { message: "Product already exists in Stripe", status: false };
         }
 
         // Upload image to Stripe
-        const imageUrlOnStripe = await Fetch({
+        const imageUrlOnStripe = await Solid({
             route: "/stripe/file/upload",
             method: "POST",
             body: {
@@ -89,7 +89,7 @@ export const AddProductToStripeProcess = async (
         }
 
         // Create product in Stripe
-        const createProductInStripe = await Fetch({
+        const createProductInStripe = await Solid({
             route: "/stripe/products/create",
             params: {
                 name,
@@ -106,7 +106,7 @@ export const AddProductToStripeProcess = async (
         }
 
         // Create price in Stripe
-        const createPriceInStripe = await Fetch({
+        const createPriceInStripe = await Solid({
             route: "/stripe/prices/create",
             params: {
                 productId: createProductInStripe.id,
@@ -120,7 +120,7 @@ export const AddProductToStripeProcess = async (
         }
 
         // Update Stripe product default price
-        const updateProductDefaultPriceInStripe = await Fetch({
+        const updateProductDefaultPriceInStripe = await Solid({
             route: "/stripe/products/update",
             params: {
                 productId: createProductInStripe.id,

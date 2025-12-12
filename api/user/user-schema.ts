@@ -31,7 +31,9 @@ const userDeleteInputSchema = z.object({
     revalidatePaths: z.array(z.string()).optional().describe("Array of revalidation paths"),
 });
 
-const userOutputSchema: ZodType<User> = z.object({
+type StripeFields = "phone" | "stripeId" | "stripeConnectId" | "isOnboarded" | "isSeller";
+
+const userOutputSchema: ZodType<Omit<User, StripeFields>> = z.object({
     id: z.string().describe("Unique ID of the user (nanoid)"),
     name: z.string().describe("Firstname of the user"),
     lastname: z.string().nullable().describe("Lastname of the user"),

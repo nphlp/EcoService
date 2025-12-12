@@ -1,8 +1,8 @@
 "use server";
 
-import { UserUpdateAction } from "@actions/UserAction";
-import { GetSession } from "@lib/authServer";
+import { getSession } from "@lib/auth-server";
 import { hasPermission } from "@permissions/hasPermissions";
+import { UserUpdateAction } from "@services/actions/UserAction";
 import { revalidatePath } from "next/cache";
 import { ZodType, strictObject, z } from "zod";
 import { ProcessDevError } from "./Error";
@@ -22,7 +22,7 @@ export const UpdateLastnameProcess = async (props: UpdateLastnameProcessProps): 
         const { lastname } = UpdateLastnameSchema.parse(props);
 
         // Get session for security
-        const session = await GetSession();
+        const session = await getSession();
 
         // Check permissions
         const isAuthorized = await hasPermission(session, {

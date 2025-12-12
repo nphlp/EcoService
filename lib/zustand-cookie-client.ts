@@ -1,7 +1,7 @@
 "use client";
 
 /**
- * ## Zustand cookie storage
+ * ## Zustand cookie client
  *
  * @description
  * A cookie storage lib for Zustand, used to persist the basket in cookies. \

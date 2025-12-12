@@ -1,9 +1,9 @@
 "use server";
 
-import { OrderDeleteAction } from "@actions/OrderAction";
-import { GetSession } from "@lib/authServer";
+import { getSession } from "@lib/auth-server";
 import { hasPermission } from "@permissions/hasPermissions";
 import { ProcessDevError } from "@process/Error";
+import { OrderDeleteAction } from "@services/actions/OrderAction";
 import { OrderModel } from "@services/types";
 import { revalidatePath } from "next/cache";
 import { ZodType, z } from "zod";
@@ -24,7 +24,7 @@ export const ClearServerBasket = async (props: ClearServerBasketProps): Promise<
         const { orderId } = clearServerBasketSchema.parse(props);
 
         // Get session for security
-        const session = await GetSession();
+        const session = await getSession();
 
         // Check permissions
         const isAuthorized = await hasPermission(session, {

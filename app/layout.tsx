@@ -7,11 +7,12 @@ import Search from "@comps/CORE/Search";
 import BasketSync from "@comps/CORE/basket/basketSync";
 import { PortalProvider } from "@comps/CORE/portal/PortalProvider";
 import { combo } from "@lib/combo";
+import "@lib/orpc-server";
+import "@public/globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
 import { ReactNode } from "react";
-import "@/globals.scss";
 
 const inter = Inter({ subsets: ["latin"], weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"] });
 

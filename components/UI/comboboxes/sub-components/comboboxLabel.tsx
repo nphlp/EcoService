@@ -1,6 +1,6 @@
 "use client";
 
-import { StringToSlug } from "@utils/StringToSlug";
+import { stringToSlug } from "@utils/string-format";
 import { ComboOptionType, MultiSourceComboOptionType } from "../utils";
 
 type ComboboxLabelProps<T extends ComboOptionType | MultiSourceComboOptionType> = {
@@ -19,8 +19,8 @@ export default function ComboboxLabel<T extends ComboOptionType | MultiSourceCom
 
     const highlightQuery = (optionName: string, query: string) => {
         // Slugify the option name and the query
-        const nameSlug = StringToSlug(optionName);
-        const querySlug = StringToSlug(query);
+        const nameSlug = stringToSlug(optionName);
+        const querySlug = stringToSlug(query);
 
         // Find the index of the query in the option name
         const queryStartIndex = nameSlug.indexOf(querySlug);

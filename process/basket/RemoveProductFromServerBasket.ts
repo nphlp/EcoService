@@ -1,11 +1,11 @@
 "use server";
 
-import { OrderDeleteAction } from "@actions/OrderAction";
-import { QuantityDeleteAction } from "@actions/QuantityAction";
 import { LocalBasketItem } from "@comps/CORE/basket/basketType";
-import { GetSession } from "@lib/authServer";
+import { getSession } from "@lib/auth-server";
 import { hasPermission } from "@permissions/hasPermissions";
 import { ProcessDevError } from "@process/Error";
+import { OrderDeleteAction } from "@services/actions/OrderAction";
+import { QuantityDeleteAction } from "@services/actions/QuantityAction";
 import { OrderModel } from "@services/types";
 import { revalidatePath } from "next/cache";
 import { ZodType, z } from "zod";
@@ -30,7 +30,7 @@ export const RemoveProductFromServerBasket = async (
         const { productId, orderId } = removeProductFromServerBasketSchema.parse(props);
 
         // Get session for security
-        const session = await GetSession();
+        const session = await getSession();
 
         // Check permissions
         const isAuthorized = await hasPermission(session, {

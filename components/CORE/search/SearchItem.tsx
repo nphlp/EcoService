@@ -4,7 +4,7 @@ import { catalogUrlSerializer } from "@app/catalog/components/queryParams";
 import Link from "@comps/UI/button/link";
 import ImageRatio from "@comps/UI/imageRatio";
 import { combo } from "@lib/combo";
-import { StringToSlug } from "@utils/StringToSlug";
+import { stringToSlug } from "@utils/string-format";
 import { ArrowRightIcon } from "lucide-react";
 import { Route } from "next";
 import { useRouter } from "next/navigation";
@@ -47,8 +47,8 @@ const Item = (props: ItemProps) => {
 
     const highlightQuery = (optionName: string, query: string, textMaxLength: number) => {
         // Slugify the option name and the query
-        const nameSlug = StringToSlug(optionName);
-        const querySlug = StringToSlug(query);
+        const nameSlug = stringToSlug(optionName);
+        const querySlug = stringToSlug(query);
 
         // Find the index of the query in the option name
         const queryStartIndex = nameSlug.indexOf(querySlug);

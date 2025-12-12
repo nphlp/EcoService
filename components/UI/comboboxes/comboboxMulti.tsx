@@ -2,7 +2,7 @@
 
 import { Combobox as ComboboxHeadlessUI, ComboboxInput, ComboboxOption, ComboboxOptions } from "@headlessui/react";
 import { combo } from "@lib/combo";
-import { StringToSlug } from "@utils/StringToSlug";
+import { stringToSlug } from "@utils/string-format";
 import { Check, X } from "lucide-react";
 import { motion } from "motion/react";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
@@ -255,7 +255,7 @@ export default function ComboboxMulti<T extends ComboOptionType | MultiSourceCom
         // The following line is usefull when options are static (not connected to an API)
         // When options are dynamic (connected to the API), this filter is done for nothing
         // But the code and usage is easier and cleaner with more conditions
-        .filter((option) => option.slug.includes(StringToSlug(query)))
+        .filter((option) => option.slug.includes(stringToSlug(query)))
         // Include or exclude the selected options from the dropdown options
         .filter((option) => {
             // If true, show all options

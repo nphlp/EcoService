@@ -1,11 +1,11 @@
 "use client";
 
 import ImageProfile from "@comps/UI/imageProfile";
-import { BetterSessionClient, useSession } from "@lib/authClient";
+import { SessionClient, useSession } from "@lib/auth-client";
 import { CircleCheck, CircleX } from "lucide-react";
 
 type ProfileInfoProps = {
-    session: NonNullable<BetterSessionClient>;
+    session: NonNullable<SessionClient>;
 };
 
 export default function ProfileInfo(props: ProfileInfoProps) {

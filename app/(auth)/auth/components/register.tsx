@@ -5,7 +5,7 @@ import Link from "@comps/UI/button/link";
 import Feedback, { FeedbackMode } from "@comps/UI/feedback";
 import Input from "@comps/UI/input/input";
 import InputPassword from "@comps/UI/inputPassword";
-import { signUp } from "@lib/authClient";
+import { signUp } from "@lib/auth-client";
 import { UpdateLastnameProcess } from "@process/ProfileUpdate";
 import { Route } from "next";
 import { useRouter, useSearchParams } from "next/navigation";

@@ -1,9 +1,9 @@
 import { StripeInstance } from "@lib/stripe";
-import { ResponseFormat } from "@utils/FetchConfig";
-import { authorizedFileSize, authorizedFormats } from "@utils/ImageValidation";
-import { StringToSlug } from "@utils/StringToSlug";
+import { authorizedFileSize, authorizedFormats } from "@utils/image-validation";
+import { stringToSlug } from "@utils/string-format";
 import { NextRequest, NextResponse } from "next/server";
 import z, { ZodType } from "zod";
+import { ResponseFormat } from "@/solid/solid-config";
 import { StripeError } from "../../Error";
 
 export type StripeFileUploadBody = {
@@ -35,7 +35,7 @@ export async function POST(request: NextRequest): Promise<NextResponse<ResponseF
         }
 
         // Slugify the image name
-        const fileNameSlugified = StringToSlug(fileNameToSlugify);
+        const fileNameSlugified = stringToSlug(fileNameToSlugify);
 
         // Get the file extension
         const fileExtension = file.type.replace("image/", "");
