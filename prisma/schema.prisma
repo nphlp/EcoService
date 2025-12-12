@@ -15,7 +15,7 @@ model User {
     lastname      String?
     email         String  @unique
     emailVerified Boolean
-    image         String?  @db.LongText
+    image         String?  @db.Text
 
     role  Role    @default(USER)
     phone String?
