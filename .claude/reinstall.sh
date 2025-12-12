@@ -1,29 +1,12 @@
 #!/bin/bash
 
 # Script de réinstallation de Claude Code
-# Résout les problèmes de mise à jour automatique
 
-set -e  # Arrête le script en cas d'erreur
+npm cache clean --force --silent
 
-echo "🔧 Réinstallation de Claude Code en cours..."
-echo
+rm -rf /opt/homebrew/lib/node_modules/@anthropic-ai/claude-code
+# npm rm -g @anthropic-ai/claude-code --force
 
-echo "1️⃣ Nettoyage du cache npm..."
-npm cache clean --force
-echo "✅ Cache npm nettoyé"
-echo
+npm i -g @anthropic-ai/claude-code@latest --silent
 
-echo "2️⃣ Suppression de l'ancienne installation..."
-sudo rm -rf /opt/homebrew/lib/node_modules/@anthropic-ai/claude-code
-echo "✅ Ancienne installation supprimée"
-echo
-
-echo "3️⃣ Réinstallation de Claude Code..."
-npm i -g @anthropic-ai/claude-code
-echo "✅ Claude Code réinstallé"
-echo
-
-echo "🎉 Réinstallation terminée !"
-echo
-echo "Version installée :"
 claude --version

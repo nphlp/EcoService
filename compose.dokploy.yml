@@ -1,0 +1,55 @@
+services:
+    postgres:
+        image: postgres:16-alpine
+        container_name: postgres-${ENV_LABEL}
+        restart: unless-stopped
+        environment:
+            - POSTGRES_DB=${POSTGRES_DB}
+            - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+        volumes:
+            - ../files/postgres-${ENV_LABEL}:/var/lib/postgresql/data
+        healthcheck:
+            test: ["CMD-SHELL", "pg_isready -U postgres -d postgres"]
+            interval: 2s
+            timeout: 1s
+            retries: 30
+            start_period: 10s
+        networks:
+            - app-network
+
+    nextjs:
+        container_name: nextjs-${ENV_LABEL}
+        env_file:
+            - ./.env
+        build:
+            context: ./
+            args:
+                - NODE_ENV=${NODE_ENV}
+                - NEXTJS_STANDALONE=${NEXTJS_STANDALONE}
+                - DATABASE_URL=${DATABASE_URL}
+                - POSTGRES_HOST=${POSTGRES_HOST}
+                - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+                - POSTGRES_DB=${POSTGRES_DB}
+                - NEXT_PUBLIC_BASE_URL=${NEXT_PUBLIC_BASE_URL}
+            dockerfile: docker/Dockerfile
+            target: runner
+        restart: unless-stopped
+        depends_on:
+            postgres:
+                condition: service_healthy
+        networks:
+            - app-network
+            - dokploy-network
+        labels:
+            - traefik.enable=true
+            - traefik.http.routers.nextjs-${ENV_LABEL}.rule=Host(`${VPS_SUB_DOMAIN}.${VPS_DOMAIN}`)
+            - traefik.http.routers.nextjs-${ENV_LABEL}.entrypoints=websecure
+            - traefik.http.routers.nextjs-${ENV_LABEL}.tls.certResolver=letsencrypt
+            - traefik.http.services.nextjs-${ENV_LABEL}.loadbalancer.server.port=3000
+
+networks:
+    app-network:
+        name: app-network-${ENV_LABEL}
+        driver: bridge
+    dokploy-network:
+        external: true

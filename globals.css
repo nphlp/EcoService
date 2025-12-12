@@ -1,0 +1,62 @@
+@import "tailwindcss";
+
+@theme {
+    --color-primary: hsl(248, 79%, 13%);
+    --color-secondary: hsl(183, 100%, 40%);
+
+    --font-size-2xs: 0.625rem;
+    --font-size-2xs--line-height: 0.75rem;
+    --font-size-3xs: 0.5rem;
+    --font-size-3xs--line-height: 0.625rem;
+}
+
+/* ========== Scrollbar ========== */
+
+.scrollbar-hide {
+    /* Internet Explorer, Edge */
+    -ms-overflow-style: none;
+    /* Firefox */
+    scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+    /* Chrome, Safari, Opera */
+    display: none;
+}
+
+/* ========== Skeleton Animation ========== */
+
+:root {
+    /* Shimmer colors */
+    --shimmer-light: hsl(210, 12%, 97%);
+    --shimmer-dark: hsl(225, 12%, 92%);
+    /* Shimmer second colors */
+    --shimmer-second-light: hsl(210, 12%, 92%);
+    --shimmer-second-dark: hsl(225, 12%, 87%);
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: -1000px 0;
+    }
+    100% {
+        background-position: 1000px 0;
+    }
+}
+
+.animate-shimmer {
+    animation: shimmer 2s infinite linear;
+    background: linear-gradient(to right, var(--shimmer-light) 4%, var(--shimmer-dark) 25%, var(--shimmer-light) 36%);
+    background-size: 1000px 100%;
+}
+
+.animate-shimmer-second {
+    animation: shimmer 2s infinite linear;
+    background: linear-gradient(
+        to right,
+        var(--shimmer-second-light) 4%,
+        var(--shimmer-second-dark) 25%,
+        var(--shimmer-second-light) 36%
+    );
+    background-size: 1000px 100%;
+}

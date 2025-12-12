@@ -1,19 +1,19 @@
-# .github/actions/setup-base/action.yml
-name: Setup base environment  
+name: Setup base environment
 description: Setup Node.js, pnpm and install dependencies with optimized caching
+
 runs:
     using: "composite"
     steps:
         - name: Install pnpm
           uses: pnpm/action-setup@v4
           with:
-            version: 10
-            run_install: false
+              version: 10
+              run_install: false
         - name: Install Node.js with cache
           uses: actions/setup-node@v4
           with:
-            node-version: 23
-            cache: 'pnpm'
+              node-version: 24
+              cache: "pnpm"
         - name: Install dependencies
           run: pnpm install --frozen-lockfile
           shell: bash

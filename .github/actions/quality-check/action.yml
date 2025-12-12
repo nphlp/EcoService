@@ -1,29 +1,35 @@
-# .github/actions/quality-check/action.yml
 name: Quality check
 description: Run code quality checks (lint, format, or type)
+
 inputs:
-  check-type:
-    description: 'Type of check to run (lint, format, type)'
-    required: true
+    check-type:
+        description: "Type of check to run (lint, format, type)"
+        required: true
+
 runs:
     using: "composite"
     steps:
-        - name: Generate Prisma client
-          if: inputs.check-type == 'type'
-          run: pnpm prisma:generate
-          shell: bash
-          
         - name: Run lint check
           if: inputs.check-type == 'lint'
           run: pnpm lint
           shell: bash
-          
+
         - name: Run format check
           if: inputs.check-type == 'format'
           run: pnpm format
           shell: bash
-          
+
         - name: Run type check
           if: inputs.check-type == 'type'
-          run: pnpm type
+          run: pnpm prisma:generate && pnpm type
           shell: bash
+          env:
+              DATABASE_URL: "postgresql://user:pass@localhost:5432/db"
+
+        - name: Run tests
+          if: inputs.check-type == 'test'
+          run: pnpm prisma:generate && pnpm test:run
+          shell: bash
+          env:
+              DATABASE_URL: "postgresql://user:pass@localhost:5432/db"
+              NEXT_PUBLIC_BASE_URL: "https://example.com"

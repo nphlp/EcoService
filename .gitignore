@@ -12,6 +12,13 @@ node_modules/
 
 # env files
 .env
+.env.backup
+.env.basic
+.env.preview
+.env.production
+.env.override.basic
+.env.override.preview
+.env.override.production
 
 # typescript
 *.tsbuildinfo
@@ -22,20 +29,17 @@ next-env.d.ts
 .cursor/
 .idea/
 
-# docker ssl certs
-docker/certs/
-
 # prisma
-prisma/client
+prisma/client/
 
-# Test
-run/
+# docker ssl certs
+.dev-certs/
 
 # husky
 .husky/_/
 
-# Sonar
-.scannerwork/
+# PDF files
+PDF/
 
-# Mcp
-.mcp*
+# Vitest
+coverage/

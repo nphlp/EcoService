@@ -20,23 +20,39 @@
             }
         ],
         "paths": {
-            "@actions/*": ["./services/actions/*"],
+            "@actions/*": ["./actions/*"],
             "@app/*": ["./app/*"],
             "@api/*": ["./app/api/*"],
-            "@fixtures/*": ["./fixtures/*"],
+            "@cache/*": ["./cache/*"],
             "@class/*": ["./services/class/*"],
             "@comps/*": ["./components/*"],
+            "@core/*": ["./components/CORE/*"],
+            "@fixtures/*": ["./fixtures/*"],
             "@lib/*": ["./lib/*"],
-            "@permissions/*": ["./permissions/*"],
+            "@orpc/*": ["./api/*"],
             "@prisma/*": ["./prisma/*"],
             "@public/*": ["./public/*"],
+            "@services/*": ["./services/*"],
+            "@shadcn/*": ["./components/SHADCN/*"],
+            "@test/*": ["./test/*"],
             "@ui/*": ["./components/UI/*"],
             "@utils/*": ["./utils/*"],
-            "@services/*": ["./services/*"],
-            "@process/*": ["./process/*"],
             "@/*": ["./*"]
         }
     },
-    "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", ".next-test/types/**/*.ts", "**/*.mts"],
-    "exclude": ["node_modules"]
+    "include": [
+        "**/*.ts",
+        "**/*.tsx",
+        ".next/types/**/*.ts",
+        "next-env.d.ts",
+        "**/*.mts",
+        ".next/dev/types/**/*.ts",
+        ".next-test/dev/types/**/*.ts"
+    ],
+    "exclude": [
+        "node_modules",
+        // TODO: (remove this) Exclude API example routes and tests
+        "api/examples/**",
+        "test/unit/examples/**"
+    ]
 }

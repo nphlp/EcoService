@@ -1,3 +1,8 @@
+# Import environment variables from .env if it exists
+ifneq (,$(wildcard .env))
+    include .env
+endif
+
 #############################
 #    Image Processing       #
 #############################
@@ -13,104 +18,159 @@ image-compress:
 image-blur:
 	@./scripts/blur-images.sh
 
-####################
-#    Certificates  #
-####################
-
-.PHONY: certs-setup certs-reset certs-reload
-
-# Generate SSL certificates if needed
-certs-setup:
-	@./scripts/ssl-certs.sh setup
-
-# Reset the certs
-certs-reset:
-	@./scripts/ssl-certs.sh reset
-
-# Reload the certs
-certs-reload:
-	@./scripts/ssl-certs.sh reload
-
-####################
-#      Docker      #
-####################
-
-.PHONY: local dev hybrid prod
-
-DC = COMPOSE_BAKE=true docker compose -f compose.yml
-
-local:
-	@pnpm run auto
-	@echo ""
-	@echo "🔥 LOCAL MODE"
-	@echo "✅ Not any container is running"
-	@echo "✏️ MySQL local service is exposed on local network (3306)"
-	@echo "📝 Access Next.js at http://localhost:3000"
-
-dev:
-	@ $(DC) -f docker/compose.dev.yml up -d --build
-	@echo ""
-	@echo "🔥 DEV MODE"
-	@echo "⚠️ Warning: Compilation performances are slow in docker environments. Prefer using HYBRID MODE."
-	@echo "✅ Nextjs and MySQL containers are running"
-	@echo "✏️ MySQL container is exposed on internal network (3306)"
-	@echo "📝 Access Next.js at http://localhost:3000"
-
-hybrid:
-	@ $(DC) -f docker/compose.hybrid.yml up -d --build
-	@echo ""
-	@echo "🔥 HYBRID MODE"
-	@echo "✅ Only MySQL container is running"
-	@echo "✏️ MySQL container is exposed on local network (3307)"
-	@echo ""
-	@echo "➡️ Now, run 'pnpm hybrid' to start Next.js locally with overridden .env file"
-	@echo "📝 Access Next.js at http://localhost:3000"
-
-prod:
-	@ $(DC) -f docker/compose.prod.yml up -d --build
-	@echo ""
-	@echo "🔥 PRODUCTION MODE"
-	@echo "✅ Nextjs and MySQL containers are running"
-	@echo "✏️ MySQL container is exposed on internal network (3306)"
-	@echo "📝 Access Next.js at http://localhost:3000"
-
-####################
-#     Commands     #
-####################
-
-.PHONY: stop clean
-
-stop:
-	@docker compose down
-	@echo "🫧 All containers stopped"
+####################################
+#    Clean none versionned files   #
+####################################
 
 clean:
-	@docker compose down -v
-	@echo "🧹 All containers and volumes removed"
+	rm -rf .husky/_ .next node_modules prisma/client next-env.d.ts tsconfig.tsbuildinfo
 
-#########################
-#    Containers Logs    #
-#########################
+########################
+#    Merge Env Files   #
+########################
 
-.PHONY: logs-nextjs logs-mysql
+BASE = .env
 
-logs-nextjs:
-	@docker logs -f nextjs
+OVERRIDE_BASIC = env/.env.override.basic
+OVERRIDE_PREVIEW = env/.env.override.preview
+OVERRIDE_PRODUCTION = env/.env.override.production
 
-logs-mysql:
-	@docker logs -f mysql
+OUTPUT_BASIC = .env.basic
+OUTPUT_PREVIEW = .env.preview
+OUTPUT_PRODUCTION = .env.production
 
-#########################
-#      Shell access     #
-#########################
+# Setup environment files if they don't exist
+.PHONY: setup-env merge-env-basic merge-env-preview merge-env-production
 
-.PHONY: shell-nextjs shell-mysql shell-mysql-db
+setup-env:
+	@if [ ! -f .env ]; then \
+		cp env/.env.example .env; \
+		echo "✅ Created .env from env/.env.example"; \
+	else \
+		echo "📝 .env already exists"; \
+	fi
 
-shell-nextjs:
-	@docker exec -it nextjs sh
+merge-env-basic:
+	@if [ ! -f env/.env.override.basic ]; then \
+		cp env/.env.override.basic.example env/.env.override.basic; \
+		echo "✅ Created env/.env.override.basic from example"; \
+	else \
+		echo "📝 env/.env.override.basic already exists"; \
+	fi
+	@./scripts/merge-env.sh --base $(BASE) --override $(OVERRIDE_BASIC) --output $(OUTPUT_BASIC)
 
-shell-mysql:
-	@docker exec -it mysql sh
+# Used for VPS preview deployments environment
+merge-env-preview:
+	@if [ ! -f env/.env.override.preview ]; then \
+		cp env/.env.override.preview.example env/.env.override.preview; \
+		echo "✅ Created env/.env.override.preview from example"; \
+	else \
+		echo "📝 env/.env.override.preview already exists"; \
+	fi
+	@./scripts/merge-env.sh --base $(BASE) --override $(OVERRIDE_PREVIEW) --output $(OUTPUT_PREVIEW)
 
-shell-mysql-db:
-	@docker exec -it mysql mysql -u root -p${MYSQL_ROOT_PASSWORD}
+# Used for VPS production deployments environment
+merge-env-production:
+	@if [ ! -f env/.env.override.production ]; then \
+		cp env/.env.override.production.example env/.env.override.production; \
+		echo "✅ Created env/.env.override.production from example"; \
+	else \
+		echo "📝 env/.env.override.production already exists"; \
+	fi
+	@./scripts/merge-env.sh --base $(BASE) --override $(OVERRIDE_PRODUCTION) --output $(OUTPUT_PRODUCTION)
+
+#####################
+#   Nextjs server   #
+#####################
+
+DC = BUILDKIT_PROGRESS=plain COMPOSE_BAKE=true docker compose
+
+POSTGRES = docker/compose.postgres.yml
+BASIC = docker/compose.basic.yml
+
+# Start a Postgres standalone
+# -> Used in the following commands: dev, prod, ngrok
+.PHONY: postgres postgres-stop postgres-clear
+
+postgres:
+	@make setup-env
+	$(DC) --env-file .env -f $(POSTGRES) up -d --build
+	@echo "🚀 Postgres is running on port 5432"
+	@echo "📝 Now start Nextjs with 'pnpm auto'"
+	@echo "🌍 Access the app at: http://localhost:3000 ✅"
+	@echo "🔐 Then start Prisma Studio with 'pnpm prisma:studio'"
+	@echo "🗃️ Visualise data at : http://localhost:5555 🔥"
+
+postgres-stop:
+	$(DC) --env-file .env -f $(POSTGRES) down
+
+postgres-clear:
+	$(DC) --env-file .env -f $(POSTGRES) down -v
+
+# One command to start Dev, Prod or Ngrok
+# -> Nextjs in terminal + Postgres in docker
+# -> CMD/CTRL+C to stop both
+.PHONY: dev start ngrok
+
+# For local development server -> http://localhost:3000
+# -> Best performance for hot-reloading
+dev:
+	@make postgres
+	@pnpm auto && make postgres-stop
+
+# For local build server for testing -> http://localhost:3000
+# -> Check everything works before deploying to VPS
+start:
+	@make postgres
+	@pnpm auto:start && make postgres-stop
+
+# For tunneling with Ngrok -> https://your-static-url.ngrok-free.app
+# -> Useful for mobile debugging, functional testing or sharing with others
+ngrok:
+	@if [ -z "$(NGROK_URL)" ]; then \
+		echo; \
+		echo "ℹ️ NGROK_URL is not set in .env file"; \
+		echo; \
+		echo "1. Create an account at https://ngrok.com/"; \
+		echo "2. Setup your authtoken from https://dashboard.ngrok.com/get-started/setup"; \
+		echo "3. Get a static URL for free at https://dashboard.ngrok.com/domains"; \
+		echo "4. Add the NGROK_URL to your .env file"; \
+		echo; \
+		echo "Then, run 'make ngrok' to start the tunnel 🔥"; \
+		echo; \
+	else \
+		if curl -s http://localhost:3000 > /dev/null 2>&1; then \
+			echo "🚀 Starting ngrok tunnel for: $(NGROK_URL)"; \
+			ngrok http --url="$(NGROK_URL)" http://localhost:3000; \
+		else \
+			echo; \
+			echo "👋 Nextjs server is not running..."; \
+			echo; \
+			echo "1. In a first terminal instance, start the Nextjs server with:"; \
+			echo "NEXT_PUBLIC_BASE_URL=$(NGROK_URL) make dev"; \
+			echo; \
+			echo "2. In a second terminal instance, start Ngrok Tunnel with :"; \
+			echo "make ngrok"; \
+			echo; \
+			echo "Then, access the app at: $(NGROK_URL) ✅"; \
+			echo; \
+		fi \
+	fi
+
+# Fully containerized Nextjs and Postgres for local testing
+.PHONY: basic basic-stop basic-clear
+
+basic:
+	@make setup-env
+	@make merge-env-basic
+	$(DC) --env-file $(OUTPUT_BASIC) -f $(BASIC) up -d --build
+	@echo "🚀 Access the app at: http://localhost:3000 ✅"
+	@echo "🗃️ Visualise data at : http://localhost:5555 🔥"
+
+basic-stop:
+	@make merge-env-basic
+	$(DC) --env-file $(OUTPUT_BASIC) -f $(BASIC) down
+
+basic-clear:
+	@make merge-env-basic
+	$(DC) --env-file $(OUTPUT_BASIC) -f $(BASIC) down -v

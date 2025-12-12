@@ -1,38 +1,34 @@
-import { FlatCompat } from "@eslint/eslintrc";
-import tsParser from "@typescript-eslint/parser";
+import nextVitals from "eslint-config-next/core-web-vitals";
+import nextTs from "eslint-config-next/typescript";
 import reactRefresh from "eslint-plugin-react-refresh";
 import unusedImports from "eslint-plugin-unused-imports";
+import { defineConfig, globalIgnores } from "eslint/config";
 import { dirname } from "path";
 import { fileURLToPath } from "url";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const compat = new FlatCompat({
-    baseDirectory: __dirname,
-});
-
-const eslintConfig = [
-    ...compat.extends("next/core-web-vitals", "next/typescript"),
-    {
-        ignores: [
-            ".conductor/**",
-            ".next/**",
-            ".next-test/**",
-            ".github/**",
-            "prettier.config.mjs",
-            "vitest.config.mjs",
-            "postcss.config.mjs",
-            "prisma/client/**",
-            "node_modules/**",
-            "next-env.d.ts",
-            "cache-handler.cjs",
-        ],
-    },
+const eslintConfig = defineConfig([
+    ...nextVitals,
+    ...nextTs,
+    globalIgnores([
+        ".next/**",
+        ".github/**",
+        "coverage/**",
+        "components/SHADCN/**",
+        "prettier.config.mjs",
+        "postcss.config.mjs",
+        "vitest.config.mjs",
+        "prisma/client/**",
+        "next-env.d.ts",
+        // TODO: (remove this) Exclude API example routes and tests
+        "api/examples/**",
+        "test/unit/examples/**",
+    ]),
     {
         files: ["**/*.ts", "**/*.tsx", "**/*.mts", "**/*.cts"],
         languageOptions: {
-            parser: tsParser,
             parserOptions: { project: true, tsconfigRootDir: __dirname },
         },
         plugins: {
@@ -63,6 +59,6 @@ const eslintConfig = [
             "@typescript-eslint/no-deprecated": "error",
         },
     },
-];
+]);
 
 export default eslintConfig;

@@ -1,8 +1,7 @@
-.conductor/
 .next/
 .next-test/
 .github/
-templates/
+solid/templates/
 prisma/client/
 node_modules/
 pnpm-lock.yaml

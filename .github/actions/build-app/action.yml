@@ -1,9 +1,0 @@
-# .github/actions/build-app/action.yml
-name: Build application
-description: Build the Next.js application
-runs:
-    using: "composite"
-    steps:
-        - name: Build application
-          run: pnpm run build
-          shell: bash
