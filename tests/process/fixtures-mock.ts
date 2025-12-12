@@ -1,5 +1,5 @@
 import PrismaInstance from "@lib/prisma";
-import { Order, Product } from "@prisma/client";
+import { Order, Product } from "@prisma/client/client";
 import { User } from "better-auth";
 
 type CreateProps = {

@@ -1,4 +1,4 @@
-import { Prisma } from "@prisma/client";
+import { Prisma } from "@prisma/client/client";
 import { ArticleCountProps, ArticleFindManyProps } from "@services/types";
 import { ArticleQueryParamsCachedType } from "./queryParams";
 

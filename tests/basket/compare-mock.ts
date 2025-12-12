@@ -1,5 +1,5 @@
 import { LocalBasket, LocalBasketItem, ServerBasketItem } from "@comps/CORE/basket/basketType";
-import { Order } from "@prisma/client";
+import { Order } from "@prisma/client/client";
 import { GetServerBasketResponse } from "@process/basket/GetServerBasket";
 
 /** Server item 1 */

@@ -1,4 +1,4 @@
-import { Prisma } from "@prisma/client";
+import { Prisma } from "@prisma/client/client";
 import { CategoryFindManyProps } from "@services/types/CategoryType";
 import { ProductCountProps, ProductFindManyProps } from "@services/types/ProductType";
 import { CatalogQueryParamsCachedType } from "./queryParams";

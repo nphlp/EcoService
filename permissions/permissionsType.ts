@@ -1,4 +1,4 @@
-import { $Enums, Prisma } from "@prisma/client";
+import { $Enums, Prisma } from "@prisma/client/client";
 
 // Fetch methods (GET requests)
 type Find = "findFirst" | "findUnique" | "findMany" | "findFirst-HO" | "findUnique-HO" | "findMany-HO";
