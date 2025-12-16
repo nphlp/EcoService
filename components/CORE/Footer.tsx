@@ -2,6 +2,7 @@ import Link from "@comps/UI/button/link";
 import { combo } from "@lib/combo";
 import { ArticleFindManyServer, DiyFindManyServer, ProductFindManyServer } from "@services/server";
 import { Route } from "next";
+import { Suspense } from "react";
 import Logo from "../UI/logo";
 
 type LinkItem = {
@@ -21,6 +22,14 @@ type FooterProps = {
 };
 
 export default async function Footer(props: FooterProps) {
+    return (
+        <Suspense>
+            <SuspendedFooter {...props} />
+        </Suspense>
+    );
+}
+
+const SuspendedFooter = async (props: FooterProps) => {
     const { className } = props;
 
     const linksAmount = 5;
@@ -92,7 +101,7 @@ export default async function Footer(props: FooterProps) {
             </div>
         </footer>
     );
-}
+};
 
 type LogoTitleProps = {
     scale?: number;

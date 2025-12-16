@@ -147,11 +147,10 @@ export default function SearchModal(props: SearchModalProps) {
     // Focus input when modal opens
     useEffect(() => {
         if (searchOpen) {
-            // TODO: (timeout useEffect/useState) verify if it works
-            setTimeout(() => setSearch(""), 10);
+            setSearch("");
             // Timeout is required to wait for the modal transition
             // from "display: none" to "display: block"
-            setTimeout(() => inputRef.current?.focus(), 30);
+            setTimeout(() => inputRef.current?.focus(), 10);
         }
     }, [searchOpen]);
 

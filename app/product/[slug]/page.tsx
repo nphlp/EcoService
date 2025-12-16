@@ -3,36 +3,29 @@ import Link from "@comps/UI/button/link";
 import Card from "@comps/UI/card";
 import ImageRatio from "@comps/UI/imageRatio";
 import Slider, { LinkInfoType } from "@comps/UI/slider";
-import PrismaInstance from "@lib/prisma";
 import { ProductFindManyServer, ProductFindUniqueServer } from "@services/server";
 import { ArrowLeft, Package2, ShieldCheck, Truck, User } from "lucide-react";
 import { Metadata, Route } from "next";
-import { unstable_cacheLife as cacheLife, unstable_cacheTag as cacheTag } from "next/cache";
 import { notFound } from "next/navigation";
 import { JSX, cloneElement } from "react";
 import AddToCartButton from "./addToCartButton";
 import { ProductFetchParams, RecommendedProductListFetchParams } from "./fetchParams";
 
-export const generateStaticParams = async () => {
-    const products = await PrismaInstance.product.findMany({
-        select: { slug: true },
-        take: 30,
-        // TODO: add a filter to get top 30 products
-    });
+// export const generateStaticParams = async () => {
+//     const products = await PrismaInstance.product.findMany({
+//         select: { slug: true },
+//         take: 30,
+//         // TODO: add a filter to get top 30 products
+//     });
 
-    return products.map((product) => ({ slug: product.slug }));
-};
+//     return products.map((product) => ({ slug: product.slug }));
+// };
 
 type PageProps = {
     params: Promise<{ slug: string }>;
 };
 
 export async function generateMetadata(props: PageProps): Promise<Metadata> {
-    "use cache";
-
-    cacheLife("hours");
-    cacheTag("product");
-
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
     if (!baseUrl) throw new Error("NEXT_PUBLIC_BASE_URL environment variable is not defined");
 
@@ -58,11 +51,6 @@ export async function generateMetadata(props: PageProps): Promise<Metadata> {
 }
 
 export default async function Page(props: PageProps) {
-    "use cache";
-
-    cacheLife("hours");
-    cacheTag("product");
-
     const { params } = props;
     const { slug } = await params;
 

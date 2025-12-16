@@ -18,13 +18,6 @@ export default function IconLinks() {
 
     const role = session?.user.role;
 
-    // const { isDarkMode, setIsDarkMode } = useThemeStore();
-    // const handleSwitchTheme = () => {
-    //     if (isDarkMode === null) setIsDarkMode(true);
-    //     if (isDarkMode === true) setIsDarkMode(false);
-    //     if (isDarkMode === false) setIsDarkMode(null);
-    // };
-
     return (
         <div className="flex flex-row items-center justify-center gap-3">
             {/* Search button */}
@@ -40,19 +33,6 @@ export default function IconLinks() {
             >
                 <Search />
             </Button>
-
-            {/* Toogle theme mode */}
-            {/* <Button
-                label="toggle-mode"
-                variant="ghost"
-                focusVisible
-                onClick={handleSwitchTheme}
-                className="w-10 overflow-hidden p-2"
-            >
-                {isDarkMode === null && <Monitor />}
-                {isDarkMode === true && <Moon />}
-                {isDarkMode === false && <Sun />}
-            </Button> */}
 
             {/* Account button */}
             {session ? (

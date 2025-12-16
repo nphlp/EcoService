@@ -31,6 +31,7 @@
         "fixtures:setup": "tsx scripts/fixtures.ts setup",
         "fixtures:reset": "tsx scripts/fixtures.ts reset",
         "fixtures:reload": "tsx scripts/fixtures.ts reload",
+        "stripe:webhooks": "stripe listen --forward-to localhost:3000/api/stripe/webhooks",
         "solid:list": "tsx solid/solid-generator.ts list",
         "solid:clear": "tsx solid/solid-generator.ts clear",
         "solid:all": "tsx solid/solid-generator.ts all"

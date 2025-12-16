@@ -3,32 +3,25 @@ import Link from "@comps/UI/button/link";
 import ImageRatio from "@comps/UI/imageRatio";
 import Slider from "@comps/UI/slider";
 import { combo } from "@lib/combo";
-import PrismaInstance from "@lib/prisma";
 import { DiyFindManyServer, DiyFindUniqueServer } from "@services/server";
 import { Metadata, Route } from "next";
-import { unstable_cacheLife as cacheLife, unstable_cacheTag as cacheTag } from "next/cache";
 import { notFound } from "next/navigation";
 
-export const generateStaticParams = async () => {
-    const diyList = await PrismaInstance.diy.findMany({
-        select: { slug: true },
-        take: 30,
-        // TODO: add a filter to get top 30 diy
-    });
+// export const generateStaticParams = async () => {
+//     const diyList = await PrismaInstance.diy.findMany({
+//         select: { slug: true },
+//         take: 30,
+//         // TODO: add a filter to get top 30 diy
+//     });
 
-    return diyList.map((diy) => ({ slug: diy.slug }));
-};
+//     return diyList.map((diy) => ({ slug: diy.slug }));
+// };
 
 type PageProps = {
     params: Promise<{ slug: string }>;
 };
 
 export async function generateMetadata(props: PageProps): Promise<Metadata> {
-    "use cache";
-
-    cacheLife("hours");
-    cacheTag("diy");
-
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
     if (!baseUrl) throw new Error("NEXT_PUBLIC_BASE_URL environment variable is not defined");
 
@@ -54,11 +47,6 @@ export async function generateMetadata(props: PageProps): Promise<Metadata> {
 }
 
 export default async function Page(props: PageProps) {
-    "use cache";
-
-    cacheLife("hours");
-    cacheTag("diy");
-
     const { params } = props;
     const { slug } = await params;
 

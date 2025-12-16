@@ -1,5 +1,3 @@
-"use cache";
-
 import { ArticleOrDiySlider } from "@comps/PROJECT/sliders/articleOrDiySlider";
 import ProductSlider from "@comps/PROJECT/sliders/productSlider";
 import { ArticleOrDiyFetchParams, ProductFetchParams } from "@comps/PROJECT/sliders/sliderFetchParams";
@@ -7,7 +5,6 @@ import ImageRatio from "@comps/UI/imageRatio";
 import { combo } from "@lib/combo";
 import { ArticleFindManyServer, DiyFindManyServer, ProductFindManyServer } from "@services/server";
 import { Metadata } from "next";
-import { unstable_cacheLife as cacheLife, unstable_cacheTag as cacheTag } from "next/cache";
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 if (!baseUrl) throw new Error("NEXT_PUBLIC_BASE_URL environment variable is not defined");
@@ -22,9 +19,6 @@ export const metadata: Metadata = {
 };
 
 export default async function Page() {
-    cacheLife("hours");
-    cacheTag("home");
-
     const imageClass = "h-[100px] sm:h-[150px] md:h-[120px] lg:h-[160px] xl:h-[220px] rounded shadow-lg";
 
     // Data fetching

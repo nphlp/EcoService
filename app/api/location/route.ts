@@ -1,8 +1,8 @@
 import { decodeParams } from "@utils/url-parsers";
-import { unstable_cacheLife as cacheLife, unstable_cacheTag as cacheTag } from "next/cache";
+import { cacheLife } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 import { ZodError, ZodType, strictObject, z } from "zod";
-import { ResponseFormat, cacheLifeApi } from "@/solid/solid-config";
+import { ResponseFormat } from "@/solid/solid-config";
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 if (!baseUrl) throw new Error("NEXT_PUBLIC_BASE_URL environment variable is not defined");
@@ -92,8 +92,11 @@ export async function GET(request: NextRequest): Promise<NextResponse<ResponseFo
         console.error("Location -> " + (error as Error).message);
         if (process.env.NODE_ENV === "development") {
             if (error instanceof ZodError)
-                return NextResponse.json({ error: "Location -> Invalid Zod params -> " + error.message });
-            return NextResponse.json({ error: "Location -> " + (error as Error).message });
+                return NextResponse.json(
+                    { error: "Location -> Invalid Zod params -> " + error.message },
+                    { status: 400 },
+                );
+            return NextResponse.json({ error: "Location -> " + (error as Error).message }, { status: 500 });
         }
         // TODO: add logging
         return NextResponse.json({ error: "Something went wrong..." }, { status: 500 });
@@ -101,10 +104,9 @@ export async function GET(request: NextRequest): Promise<NextResponse<ResponseFo
 }
 
 const getLocationCached = async (ipAddress: string) => {
-    "use cache";
+    "use cache: private";
 
-    cacheLife(cacheLifeApi);
-    cacheTag("location");
+    cacheLife("hours");
 
     const url = `https://ipapi.co/${ipAddress}/json/`;
 
