@@ -1,7 +1,7 @@
 "use client";
 
+import { Carousel, Slide } from "@comps/UI/carousel";
 import { Route } from "next";
-import Slider, { LinkInfoType } from "../../UI/slider";
 import ArticleOrDiyCard from "../cards/articleOrDiyCard";
 import { ArticleOrDiyListType } from "./sliderFetchParams";
 
@@ -17,19 +17,20 @@ export const ArticleOrDiySlider = (props: SliderClientProps) => {
 
     if (!articleOrDiy.length) return null;
 
-    const linkList: LinkInfoType[] = articleOrDiy.map((articleOrDiy) => ({
-        label: articleOrDiy.title,
-        href: `${link}/${articleOrDiy.slug}` as Route,
-    }));
-
     return (
         <section className="space-y-6">
             <h2 className="text-center text-4xl font-bold">{title}</h2>
-            <Slider dataListLength={articleOrDiy.length} linkList={linkList}>
-                {articleOrDiy.map((articleOrDiy, index) => (
-                    <ArticleOrDiyCard key={index} articleOrDiy={articleOrDiy} mode="whenIsVisible" />
+            <Carousel gap="0.5rem">
+                {articleOrDiy.map((articleOrDiy) => (
+                    <Slide key={articleOrDiy.title}>
+                        <ArticleOrDiyCard
+                            href={`${link}/${articleOrDiy.slug}` as Route}
+                            articleOrDiy={articleOrDiy}
+                            mode="whenIsVisible"
+                        />
+                    </Slide>
                 ))}
-            </Slider>
+            </Carousel>
         </section>
     );
 };

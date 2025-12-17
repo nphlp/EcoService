@@ -2,8 +2,8 @@
 
 import ArticleOrDiyCard, { ArticleOrDiyCardSkeleton } from "@comps/PROJECT/cards/articleOrDiyCard";
 import { usePageQueryParams, useSearchQueryParams } from "@comps/SHARED/queryParamsClientHooks";
-import Link from "@comps/UI/button/link";
 import { BookOpenText } from "lucide-react";
+import { Route } from "next";
 import useSolid from "@/solid/solid-hook";
 import { ArticleSearchType, articleFetchParams } from "./fetchParams";
 
@@ -47,16 +47,13 @@ export default function ArticleResults(props: ArticleResultsProps) {
 
     return (
         <div className="grid grid-cols-2 gap-4 lg:grid-cols-3 lg:gap-6 xl:grid-cols-4">
-            {articleList.map((article, index) => (
-                <Link
-                    key={index}
-                    label={article.title}
-                    href={`/article/${article.slug}`}
-                    variant="none"
-                    className="transition-scale rounded-xl duration-300 hover:scale-101"
-                >
-                    <ArticleOrDiyCard articleOrDiy={article} mode="preloaded" />
-                </Link>
+            {articleList.map((article) => (
+                <ArticleOrDiyCard
+                    key={article.slug}
+                    href={`/article/${article.slug}` as Route}
+                    articleOrDiy={article}
+                    mode="preloaded"
+                />
             ))}
         </div>
     );

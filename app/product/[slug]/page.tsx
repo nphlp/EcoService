@@ -1,8 +1,8 @@
 import ProductCard from "@comps/PROJECT/cards/productCard";
 import Link from "@comps/UI/button/link";
 import Card from "@comps/UI/card";
+import { Carousel, Slide } from "@comps/UI/carousel";
 import ImageRatio from "@comps/UI/imageRatio";
-import Slider, { LinkInfoType } from "@comps/UI/slider";
 import { ProductFindManyServer, ProductFindUniqueServer } from "@services/server";
 import { ArrowLeft, Package2, ShieldCheck, Truck, User } from "lucide-react";
 import { Metadata, Route } from "next";
@@ -10,16 +10,6 @@ import { notFound } from "next/navigation";
 import { JSX, cloneElement } from "react";
 import AddToCartButton from "./addToCartButton";
 import { ProductFetchParams, RecommendedProductListFetchParams } from "./fetchParams";
-
-// export const generateStaticParams = async () => {
-//     const products = await PrismaInstance.product.findMany({
-//         select: { slug: true },
-//         take: 30,
-//         // TODO: add a filter to get top 30 products
-//     });
-
-//     return products.map((product) => ({ slug: product.slug }));
-// };
 
 type PageProps = {
     params: Promise<{ slug: string }>;
@@ -60,15 +50,10 @@ export default async function Page(props: PageProps) {
 
     const recommendedProductList = await ProductFindManyServer(RecommendedProductListFetchParams(slug));
 
-    const linkList: LinkInfoType[] = recommendedProductList.map((product) => ({
-        label: product.name,
-        href: `/product/${product.slug}` as Route,
-    }));
-
     const { name, image, price, description, stock, Category } = product;
 
     return (
-        <div className="w-full max-w-[1200px] flex-1 p-7">
+        <div className="w-full max-w-300 flex-1 p-7">
             <Link label="Retour aux produits" href="/catalog" variant="ghost" className="mb-4">
                 <ArrowLeft className="mr-2 size-4" />
                 Retour aux produits
@@ -79,7 +64,7 @@ export default async function Page(props: PageProps) {
                 <ImageRatio
                     src={image}
                     alt={name}
-                    className="hidden h-[420px] shrink-0 grow-0 rounded-lg lg:block"
+                    className="hidden h-105 shrink-0 grow-0 rounded-lg lg:block"
                     mode="preloaded"
                 />
 
@@ -130,11 +115,17 @@ export default async function Page(props: PageProps) {
             {recommendedProductList.length ? (
                 <section className="space-y-6 py-8 md:py-16">
                     <h2 className="text-center text-4xl font-bold">Nos recommandations</h2>
-                    <Slider dataListLength={recommendedProductList.length} linkList={linkList}>
-                        {recommendedProductList.map((product, index) => (
-                            <ProductCard key={index} product={product} mode="whenIsVisible" />
+                    <Carousel gap="0.5rem">
+                        {recommendedProductList.map((product) => (
+                            <Slide key={product.id}>
+                                <ProductCard
+                                    href={`/product/${product.slug}` as Route}
+                                    product={product}
+                                    mode="whenIsVisible"
+                                />
+                            </Slide>
                         ))}
-                    </Slider>
+                    </Carousel>
                 </section>
             ) : (
                 <></>

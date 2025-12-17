@@ -1,6 +1,6 @@
 import ProductCard from "@comps/PROJECT/cards/productCard";
 import { ProductListType } from "@comps/PROJECT/sliders/sliderFetchParams";
-import Slider, { LinkInfoType } from "@comps/UI/slider";
+import { Carousel, Slide } from "@comps/UI/carousel";
 import { Route } from "next";
 
 type ProductSliderProps = {
@@ -13,19 +13,20 @@ export default function ProductSlider(props: ProductSliderProps) {
 
     if (!productList.length) return null;
 
-    const linkList: LinkInfoType[] = productList.map((product) => ({
-        label: product.name,
-        href: `/product/${product.slug}` as Route,
-    }));
-
     return (
         <section className="space-y-6">
             <h2 className="text-center text-4xl font-bold">{title}</h2>
-            <Slider dataListLength={productList.length} linkList={linkList}>
-                {productList.map((product, index) => (
-                    <ProductCard key={index} product={product} mode="whenIsVisible" />
+            <Carousel gap="0.5rem">
+                {productList.map((product) => (
+                    <Slide key={product.id}>
+                        <ProductCard
+                            href={`/product/${product.slug}` as Route}
+                            product={product}
+                            mode="whenIsVisible"
+                        />
+                    </Slide>
                 ))}
-            </Slider>
+            </Carousel>
         </section>
     );
 }

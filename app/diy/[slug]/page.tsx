@@ -1,21 +1,11 @@
 import ArticleOrDiyCard from "@comps/PROJECT/cards/articleOrDiyCard";
 import Link from "@comps/UI/button/link";
+import { Carousel, Slide } from "@comps/UI/carousel";
 import ImageRatio from "@comps/UI/imageRatio";
-import Slider from "@comps/UI/slider";
 import { combo } from "@lib/combo";
 import { DiyFindManyServer, DiyFindUniqueServer } from "@services/server";
 import { Metadata, Route } from "next";
 import { notFound } from "next/navigation";
-
-// export const generateStaticParams = async () => {
-//     const diyList = await PrismaInstance.diy.findMany({
-//         select: { slug: true },
-//         take: 30,
-//         // TODO: add a filter to get top 30 diy
-//     });
-
-//     return diyList.map((diy) => ({ slug: diy.slug }));
-// };
 
 type PageProps = {
     params: Promise<{ slug: string }>;
@@ -109,7 +99,7 @@ export default async function Page(props: PageProps) {
                 )}
             </div>
 
-            <div className="mx-auto max-w-[900px] space-y-12">
+            <div className="mx-auto max-w-225 space-y-12">
                 {diy.Content.map((content, index) => (
                     <div
                         key={index}
@@ -132,17 +122,17 @@ export default async function Page(props: PageProps) {
 
             <section className="space-y-6 py-8">
                 <h2 className="text-center text-4xl font-bold">À lire aussi</h2>
-                <Slider
-                    dataListLength={otherDiyList.length}
-                    linkList={otherDiyList.map((diy) => ({
-                        label: diy.title,
-                        href: `/diy/${diy.slug}` as Route,
-                    }))}
-                >
-                    {otherDiyList.map((diy, index) => (
-                        <ArticleOrDiyCard key={index} articleOrDiy={diy} mode="whenIsVisible" />
+                <Carousel gap="0.5rem">
+                    {otherDiyList.map((articleOrDiy) => (
+                        <Slide key={articleOrDiy.slug}>
+                            <ArticleOrDiyCard
+                                href={`/diy/${articleOrDiy.slug}` as Route}
+                                articleOrDiy={articleOrDiy}
+                                mode="whenIsVisible"
+                            />
+                        </Slide>
                     ))}
-                </Slider>
+                </Carousel>
             </section>
 
             <div className="flex justify-center">

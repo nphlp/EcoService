@@ -8,12 +8,10 @@ import {
     useSearchQueryParams,
     useTakeQueryParams,
 } from "@comps/SHARED/queryParamsClientHooks";
-import Link from "@comps/UI/button/link";
 import { combo } from "@lib/combo";
-import { ProductModel } from "@services/types";
 import { PackageSearch } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { MouseEvent, useContext } from "react";
+import { Route } from "next";
+import { useContext } from "react";
 import useSolid from "@/solid/solid-hook";
 import { Context } from "./context";
 import { ProductSearchType, productFetchParams } from "./fetchParams";
@@ -25,8 +23,6 @@ type CatalogProps = {
 
 export default function Catalog(props: CatalogProps) {
     const { className, initialProductList } = props;
-
-    const router = useRouter();
 
     const { isLoading: isLoadingProductAmount } = useContext(Context);
 
@@ -41,20 +37,6 @@ export default function Catalog(props: CatalogProps) {
         params: productFetchParams({ page, take, priceOrder, search, category }),
         initialData: initialProductList,
     });
-
-    const handleClick = (e: MouseEvent<HTMLAnchorElement>, slug: ProductModel["slug"]) => {
-        e.preventDefault();
-        const linkElement = document.getElementById(`product-${slug}`);
-        if (linkElement) {
-            const current = e.target as HTMLElement;
-            // Find all buttons in the link element
-            const buttons = Array.from(linkElement.querySelectorAll("button"));
-            // Check if the current element is a button or a child of a button
-            const isButtonOrChild = buttons.some((button) => button.contains(current));
-            // If the current element is not a button or a child of a button, push the link
-            if (!isButtonOrChild) router.push(`/product/${slug}`);
-        }
-    };
 
     if (isLoadingProductList || isLoadingProductAmount) {
         return (
@@ -83,18 +65,13 @@ export default function Catalog(props: CatalogProps) {
     return (
         <div className="flex-1">
             <div className={combo("grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4", className)}>
-                {productList.map((product, index) => (
-                    <Link
-                        key={index}
-                        id={`product-${product.slug}`}
-                        label={product.name}
-                        href={`/product/${product.slug}`}
-                        variant="none"
-                        className="w-full rounded-xl"
-                        onClick={(e) => handleClick(e, product.slug)}
-                    >
-                        <ProductCard product={product} mode="preloaded" />
-                    </Link>
+                {productList.map((product) => (
+                    <ProductCard
+                        key={product.id}
+                        href={`/product/${product.slug}` as Route}
+                        product={product}
+                        mode="preloaded"
+                    />
                 ))}
             </div>
         </div>

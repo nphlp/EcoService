@@ -34,7 +34,7 @@ export default function AddToCartIcon(props: AddToCartIconProps) {
             label="add-to-basket"
             onClick={handleClick}
             className={{
-                button: "group relative size-fit rounded-xl p-[10px] transition-all duration-300 hover:scale-105",
+                button: "group relative size-fit rounded-xl p-2.5 transition-all duration-300 hover:scale-105",
             }}
         >
             {isInBasket(product.id) ? (

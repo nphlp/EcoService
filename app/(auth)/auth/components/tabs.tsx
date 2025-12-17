@@ -4,7 +4,7 @@ import Button from "@comps/UI/button/button";
 import { combo } from "@lib/combo";
 import { motion } from "motion/react";
 import { parseAsStringEnum, useQueryState } from "nuqs";
-import { ReactNode, useEffect, useRef, useState } from "react";
+import { ReactNode, useEffect, useMemo, useRef, useState } from "react";
 
 type TabClientProps = {
     cardList: {
@@ -41,13 +41,8 @@ export default function TabClient(props: TabClientProps) {
     const leftSide = `calc(${PADDING} + ${tabWidth} * ${activeTab})`;
     const rightSide = `calc(${PADDING} + ${tabWidth} * ${tabAmount - realActiveTab})`;
 
-    // Initialize tab position
-    const [tabPosition, setTabPosition] = useState({ left: leftSide, right: rightSide });
-
-    // Update tab position
-    useEffect(() => {
-        setTabPosition({ left: leftSide, right: rightSide });
-    }, [tab, leftSide, rightSide]);
+    // Tab position (derived from leftSide and rightSide)
+    const tabPosition = useMemo(() => ({ left: leftSide, right: rightSide }), [leftSide, rightSide]);
 
     // Update card height
     useEffect(() => {
