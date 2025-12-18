@@ -1,15 +1,19 @@
 "use client";
 
+import Button from "@comps/UI/button/button";
+import { combo } from "@lib/combo";
 import useBreakpoint, { Breakpoint } from "@utils/use-breakpoint";
-import useEmblaCarousel from "embla-carousel-react";
+import useEmblaCarousel, { UseEmblaCarouselType } from "embla-carousel-react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import { ReactNode, createContext, useContext } from "react";
 
 type ContextType = {
     size: string;
     gap: string;
+    emblaApi: UseEmblaCarouselType["1"] | undefined;
 };
 
-const Context = createContext<ContextType>({ size: "calc(100% / 2)", gap: "1.5rem" });
+const Context = createContext<ContextType>({ size: "calc(100% / 2)", gap: "1.5rem", emblaApi: undefined });
 
 type ProviderProps = {
     value: ContextType;
@@ -24,22 +28,23 @@ const Provider = (props: ProviderProps) => {
 type SlidePerView = Record<Breakpoint, number>;
 
 const slidePerViewDefault: Record<Breakpoint, number> = {
-    mobile: 1.25,
-    "3xs": 1.25,
-    "2xs": 1.25,
-    xs: 2.25,
+    mobile: 1,
+    "3xs": 1,
+    "2xs": 1,
+    xs: 2,
     sm: 2.75,
-    md: 3.25,
-    lg: 4.25,
-    xl: 5.25,
-    "2xl": 5.25,
-    "3xl": 6.25,
+    md: 3,
+    lg: 4,
+    xl: 5,
+    "2xl": 5,
+    "3xl": 6,
 };
 
 type CarouselProps = {
     slidePerView?: SlidePerView;
     gap?: string;
     children: ReactNode;
+    withArrows?: boolean;
 };
 
 /**
@@ -58,17 +63,17 @@ type CarouselProps = {
  * ```
  */
 const Carousel = (props: CarouselProps) => {
-    const { slidePerView = slidePerViewDefault, gap = "1rem", children } = props;
+    const { slidePerView = slidePerViewDefault, gap = "1rem", children, withArrows = false } = props;
 
-    const [emblaRef] = useEmblaCarousel({ slidesToScroll: 1, align: "start" });
+    const [emblaRef, emblaApi] = useEmblaCarousel({ slidesToScroll: 1, align: "start" });
 
     const breakpoint = useBreakpoint();
 
     const size = `calc(100% / ${slidePerView[breakpoint]})`;
 
     return (
-        <Provider value={{ size, gap }}>
-            <div className="max-w-screen overflow-hidden" ref={emblaRef}>
+        <Provider value={{ size, gap, emblaApi }}>
+            <div className="relative max-w-screen overflow-hidden" ref={emblaRef}>
                 <div
                     className="flex touch-pan-y touch-pinch-zoom backface-hidden"
                     style={{
@@ -77,6 +82,7 @@ const Carousel = (props: CarouselProps) => {
                 >
                     {children}
                 </div>
+                {withArrows && <Arrow />}
             </div>
         </Provider>
     );
@@ -101,6 +107,39 @@ const Slide = (props: SlideProps) => {
         >
             {children}
         </div>
+    );
+};
+
+const Arrow = () => {
+    const { emblaApi } = useContext(Context);
+
+    const style = "absolute top-1/2 -translate-y-1/2 rounded-full p-2 hover:bg-black/30 disabled:bg-black/30";
+
+    return (
+        <>
+            <Button
+                label="Previous"
+                className={{
+                    button: combo(style, "left-0"),
+                }}
+                onClick={() => emblaApi?.scrollPrev()}
+                disabled={!emblaApi?.canScrollPrev()}
+                focusVisible
+            >
+                <ArrowLeft className="size-5" />
+            </Button>
+            <Button
+                label="Next"
+                className={{
+                    button: combo(style, "right-0"),
+                }}
+                onClick={() => emblaApi?.scrollNext()}
+                disabled={!emblaApi?.canScrollNext()}
+                focusVisible
+            >
+                <ArrowRight className="size-5" />
+            </Button>
+        </>
     );
 };
 

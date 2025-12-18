@@ -115,7 +115,7 @@ export default async function Page(props: PageProps) {
             {recommendedProductList.length ? (
                 <section className="space-y-6 py-8 md:py-16">
                     <h2 className="text-center text-4xl font-bold">Nos recommandations</h2>
-                    <Carousel gap="0.5rem">
+                    <Carousel gap="0.5rem" withArrows>
                         {recommendedProductList.map((product) => (
                             <Slide key={product.id}>
                                 <ProductCard

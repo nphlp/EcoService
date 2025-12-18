@@ -16,7 +16,7 @@ export default function ProductSlider(props: ProductSliderProps) {
     return (
         <section className="space-y-6">
             <h2 className="text-center text-4xl font-bold">{title}</h2>
-            <Carousel gap="0.5rem">
+            <Carousel gap="0.5rem" withArrows>
                 {productList.map((product) => (
                     <Slide key={product.id}>
                         <ProductCard

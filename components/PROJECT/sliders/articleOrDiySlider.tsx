@@ -20,7 +20,7 @@ export const ArticleOrDiySlider = (props: SliderClientProps) => {
     return (
         <section className="space-y-6">
             <h2 className="text-center text-4xl font-bold">{title}</h2>
-            <Carousel gap="0.5rem">
+            <Carousel gap="0.5rem" withArrows>
                 {articleOrDiy.map((articleOrDiy) => (
                     <Slide key={articleOrDiy.title}>
                         <ArticleOrDiyCard

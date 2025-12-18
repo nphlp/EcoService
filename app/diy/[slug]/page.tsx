@@ -122,7 +122,7 @@ export default async function Page(props: PageProps) {
 
             <section className="space-y-6 py-8">
                 <h2 className="text-center text-4xl font-bold">À lire aussi</h2>
-                <Carousel gap="0.5rem">
+                <Carousel gap="0.5rem" withArrows>
                     {otherDiyList.map((articleOrDiy) => (
                         <Slide key={articleOrDiy.slug}>
                             <ArticleOrDiyCard
