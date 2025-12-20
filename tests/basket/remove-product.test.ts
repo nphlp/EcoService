@@ -2,6 +2,9 @@ import { useBasketStore } from "@comps/CORE/basket/basketStore";
 import * as removeApi from "@process/basket/RemoveProductFromServerBasket";
 import { Mock, beforeEach, describe, expect, it, vi } from "vitest";
 
+// Mock server-only module
+vi.mock("server-only", () => ({}));
+
 describe("removeProductInBasket", () => {
     // Initial state(s)
     beforeEach(() => {

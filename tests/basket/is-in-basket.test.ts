@@ -1,6 +1,9 @@
 import { useBasketStore } from "@comps/CORE/basket/basketStore";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
+// Mock server-only module
+vi.mock("server-only", () => ({}));
+
 describe("isInBasket", () => {
     // Initial state(s)
     beforeEach(() => {

@@ -3,6 +3,9 @@ import * as addApi from "@process/basket/AddProductToServerBasket";
 import * as createApi from "@process/basket/CreateServerBasket";
 import { Mock, beforeEach, describe, expect, it, vi } from "vitest";
 
+// Mock server-only module
+vi.mock("server-only", () => ({}));
+
 describe("addProductToBasket", () => {
     // Initial state(s)
     beforeEach(() => {

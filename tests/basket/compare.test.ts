@@ -12,6 +12,9 @@ import {
     serverBasketStatusAccepted,
 } from "./compare-mock";
 
+// Mock server-only module
+vi.mock("server-only", () => ({}));
+
 describe("compareAndSyncBasket", () => {
     // Initial state(s)
     beforeEach(() => {

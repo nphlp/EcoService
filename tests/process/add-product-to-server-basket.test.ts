@@ -3,13 +3,16 @@ import { AddProductToServerBasket } from "@process/basket/AddProductToServerBask
 import { describe, expect, it, vi } from "vitest";
 import { createUserProductAndOrder, removeUserProductAndOrder } from "./fixtures-mock";
 
+// Mock server-only module
+vi.mock("server-only", () => ({}));
+
 // Mock the revalidatePath function
 vi.mock("next/cache", () => ({
     revalidatePath: vi.fn(),
 }));
 
 // Mock the getSession function
-vi.mock("@lib/authServer", () => ({
+vi.mock("@lib/auth-server", () => ({
     getSession: vi.fn().mockResolvedValue({
         user: {
             id: "user-2",
