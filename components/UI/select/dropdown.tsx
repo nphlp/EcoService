@@ -1,6 +1,7 @@
 "use client";
 
 import { combo } from "@lib/combo";
+import { AnimatePresence, motion } from "motion/react";
 import { ReactNode, startTransition, useContext, useEffect, useState } from "react";
 import { Context } from "./context";
 import { theme } from "./theme";
@@ -49,16 +50,24 @@ const Dropdown = (props: DropdownProps) => {
         };
     }, [buttonRef]);
 
-    if (!isOpen || !buttonRect) return null;
+    const shouldRender = isOpen && buttonRect;
 
     return (
-        <div
-            ref={optionListRef}
-            className={combo(theme[variant].optionList, className?.optionList)}
-            style={{ top, left, width }}
-        >
-            {children}
-        </div>
+        <AnimatePresence>
+            {shouldRender && (
+                <motion.div
+                    ref={optionListRef}
+                    className={combo(theme[variant].optionList, className?.optionList)}
+                    style={{ top, left, width }}
+                    initial={{ opacity: 0, y: 4 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 4 }}
+                    transition={{ duration: 0.1 }}
+                >
+                    {children}
+                </motion.div>
+            )}
+        </AnimatePresence>
     );
 };
 
