@@ -5,7 +5,6 @@ import Button from "@comps/UI/button/button";
 import { Elements, PaymentElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import { Appearance, StripePaymentElementOptions, loadStripe } from "@stripe/stripe-js";
 import { FormEvent, useState } from "react";
-import AddressForm from "./adressForm";
 import { totalPriceInCents } from "./totalPriceInCents";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
@@ -76,11 +75,11 @@ const CheckoutForm = () => {
 
     return (
         <form id="payment-form" onSubmit={handleSubmit} className="w-full space-y-16 lg:mt-5">
-            <div className="space-y-4">
+            {/* <div className="space-y-4">
                 <div className="text-xl font-bold">Adresse de livraison</div>
                 <hr className="w-full" />
                 <AddressForm />
-            </div>
+            </div> */}
             <div className="space-y-4">
                 <div className="text-xl font-bold">Méthode de paiement</div>
                 <hr className="w-full" />

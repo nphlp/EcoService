@@ -27,7 +27,7 @@ export default async function Page() {
     return (
         <div className="flex min-h-full flex-col items-center justify-center">
             <div className="flex flex-col items-start px-5 py-18">
-                <div className="space-y-6">
+                <div className="space-y-16">
                     <div className="w-full space-y-6">
                         <h2 className="text-4xl font-bold">Votre panier</h2>
                         <hr className="w-full" />
