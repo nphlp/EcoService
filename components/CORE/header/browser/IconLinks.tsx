@@ -94,7 +94,7 @@ export default function IconLinks() {
                     setBasketOpen(!basketOpen);
                 }}
             >
-                <div className="absolute translate-x-[40%] translate-y-[-35%] scale-[0.7] rounded-full bg-black px-[7px] font-bold text-white">
+                <div className="absolute translate-x-[40%] translate-y-[-35%] scale-[0.7] rounded-full bg-black px-1.75 font-bold text-white">
                     {basket?.items.length ?? 0}
                 </div>
                 <ShoppingCart />

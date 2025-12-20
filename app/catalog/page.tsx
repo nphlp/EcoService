@@ -79,7 +79,7 @@ export default async function Page(props: PageProps) {
                         />
                         <PriceOrderFilter />
                         <TakeFilter />
-                        <SearchFilter className={{ label: "text-white" }} />
+                        <SearchFilter className={{ component: "space-y-0", label: "text-white" }} />
                     </div>
                     <div className="flex flex-1 flex-col justify-start">
                         <Catalog className="p-6" initialProductList={initialProductList} />
