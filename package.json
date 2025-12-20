@@ -52,7 +52,6 @@
         "@commitlint/cli": "^20.2.0",
         "@commitlint/config-conventional": "^20.2.0",
         "@commitlint/types": "^20.2.0",
-        "@headlessui/react": "^2.2.9",
         "@hookform/resolvers": "^5.2.2",
         "@next/bundle-analyzer": "^16.0.10",
         "@orpc/client": "^1.12.2",
