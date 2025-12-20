@@ -4,8 +4,20 @@ import { basketCookieName, basketCookieSchema } from "@comps/CORE/basket/basketT
 import Link from "@comps/UI/button/link";
 import { getSession } from "@lib/auth-server";
 import { getZustandCookie } from "@lib/zustand-cookie-server";
+import { connection } from "next/server";
+import { Suspense } from "react";
 
 export default async function Page() {
+    return (
+        <Suspense>
+            <SuspendedPage />
+        </Suspense>
+    );
+}
+
+const SuspendedPage = async () => {
+    await connection();
+
     const session = await getSession();
 
     const cookieBasket = await getZustandCookie(basketCookieName, basketCookieSchema);
@@ -51,4 +63,4 @@ export default async function Page() {
             </div>
         </div>
     );
-}
+};

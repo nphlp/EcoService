@@ -6,7 +6,8 @@ import { ProductFindManyServer, ProductFindUniqueServer } from "@services/server
 import { ArrowLeft, Package2, ShieldCheck, Truck, User } from "lucide-react";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { JSX, cloneElement } from "react";
+import { connection } from "next/server";
+import { JSX, Suspense, cloneElement } from "react";
 import AddToCartButton from "./addToCartButton";
 import { ProductFetchParams, RecommendedProductListFetchParams } from "./fetchParams";
 
@@ -40,6 +41,16 @@ export async function generateMetadata(props: PageProps): Promise<Metadata> {
 }
 
 export default async function Page(props: PageProps) {
+    return (
+        <Suspense>
+            <SuspendedPage {...props} />
+        </Suspense>
+    );
+}
+
+const SuspendedPage = async (props: PageProps) => {
+    await connection();
+
     const { params } = props;
     const { slug } = await params;
 
@@ -114,7 +125,7 @@ export default async function Page(props: PageProps) {
             <ProductSlider productList={recommendedProductList} title="Nos recommandations" />
         </div>
     );
-}
+};
 
 type ProductInfoProps = {
     icon: JSX.Element;

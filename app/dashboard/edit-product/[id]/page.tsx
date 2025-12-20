@@ -1,5 +1,7 @@
 import { hasRole } from "@permissions/hasRole";
 import { unauthorized } from "next/navigation";
+import { connection } from "next/server";
+import { Suspense } from "react";
 import Solid from "@/solid/solid-fetch";
 
 type PageProps = {
@@ -7,6 +9,16 @@ type PageProps = {
 };
 
 export default async function Page(props: PageProps) {
+    return (
+        <Suspense>
+            <SuspendedPage {...props} />
+        </Suspense>
+    );
+}
+
+const SuspendedPage = async (props: PageProps) => {
+    await connection();
+
     const { params } = props;
     const { id } = await params;
 
@@ -19,4 +31,4 @@ export default async function Page(props: PageProps) {
     });
 
     return <pre className="p-5">Edit Product {JSON.stringify(stripeProduct, null, 2)}</pre>;
-}
+};

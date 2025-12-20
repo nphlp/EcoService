@@ -10,7 +10,8 @@ import {
 import { FileText, Hammer, Package, ShoppingCart, Users } from "lucide-react";
 import { Metadata } from "next";
 import { unauthorized } from "next/navigation";
-import { JSX, cloneElement } from "react";
+import { connection } from "next/server";
+import { JSX, Suspense, cloneElement } from "react";
 import SidebarToggleButton from "./sidebarToggleButton";
 
 export const metadata: Metadata = {
@@ -18,6 +19,16 @@ export const metadata: Metadata = {
 };
 
 export default async function Page() {
+    return (
+        <Suspense>
+            <SuspendedPage />
+        </Suspense>
+    );
+}
+
+const SuspendedPage = async () => {
+    await connection();
+
     const session = await hasRole(["VENDOR", "EMPLOYEE", "ADMIN"]);
 
     if (!session) unauthorized();
@@ -44,7 +55,7 @@ export default async function Page() {
             </div>
         </>
     );
-}
+};
 
 type StatsCardProps = {
     count: number;

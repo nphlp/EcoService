@@ -3,13 +3,25 @@ import { StripeInstance } from "@lib/stripe";
 import { OrderFindUniqueAction, OrderUpdateAction } from "@services/actions/OrderAction";
 import { CheckCircleIcon, X } from "lucide-react";
 import { redirect } from "next/navigation";
+import { connection } from "next/server";
+import { Suspense } from "react";
 import BasketCleaner from "./basketCleaner";
 
-type SuccessPageProps = {
+type PageProps = {
     searchParams: Promise<{ payment_intent: string }>;
 };
 
-export default async function SuccessPage(props: SuccessPageProps) {
+export default async function Page(props: PageProps) {
+    return (
+        <Suspense>
+            <SuspendedPage {...props} />
+        </Suspense>
+    );
+}
+
+const SuspendedPage = async (props: PageProps) => {
+    await connection();
+
     const { searchParams } = props;
     const { payment_intent: paymentIntentId } = await searchParams;
 
@@ -59,4 +71,4 @@ export default async function SuccessPage(props: SuccessPageProps) {
             <Link label="Retourner au panier" href="/checkout" />
         </div>
     );
-}
+};

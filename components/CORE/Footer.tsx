@@ -2,6 +2,7 @@ import Link from "@comps/UI/button/link";
 import { combo } from "@lib/combo";
 import { ArticleFindManyServer, DiyFindManyServer, ProductFindManyServer } from "@services/server";
 import { Route } from "next";
+import { connection } from "next/server";
 import { Suspense } from "react";
 import Logo from "../UI/logo";
 
@@ -30,6 +31,8 @@ export default async function Footer(props: FooterProps) {
 }
 
 const SuspendedFooter = async (props: FooterProps) => {
+    await connection();
+
     const { className } = props;
 
     const linksAmount = 5;
@@ -112,8 +115,8 @@ const LogoTitle = (props: LogoTitleProps) => {
 
     return (
         <div style={{ scale }} className="flex flex-col items-center justify-center gap-4">
-            <div className="flex size-[108px] items-center justify-center rounded-full bg-white">
-                <Logo className="size-[100px]" />
+            <div className="flex size-27 items-center justify-center rounded-full bg-white">
+                <Logo className="size-25" />
             </div>
             <div className="text-4xl font-semibold text-white uppercase">Circle</div>
         </div>

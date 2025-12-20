@@ -4,7 +4,9 @@ import { combo } from "@lib/combo";
 import { DiyCountServer, DiyFindManyServer } from "@services/server";
 import { Search } from "lucide-react";
 import { Metadata } from "next";
+import { connection } from "next/server";
 import { SearchParams } from "nuqs/server";
+import { Suspense } from "react";
 import { Context } from "./context";
 import DiyResults from "./diyResults";
 import { diyCountParams, diyFetchParams } from "./fetchParams";
@@ -28,6 +30,16 @@ type PageProps = {
 };
 
 export default async function Page(props: PageProps) {
+    return (
+        <Suspense>
+            <SuspendedPage {...props} />
+        </Suspense>
+    );
+}
+
+const SuspendedPage = async (props: PageProps) => {
+    await connection();
+
     const { searchParams } = props;
 
     // Get search params
@@ -63,4 +75,4 @@ export default async function Page(props: PageProps) {
             </Provider>
         </div>
     );
-}
+};

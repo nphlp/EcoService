@@ -8,6 +8,7 @@ import {
     ProductCountServer,
     ProductFindManyServer,
 } from "@services/server";
+import { connection } from "next/server";
 import { Suspense } from "react";
 import SearchModal from "./search/SearchModal";
 import {
@@ -35,6 +36,8 @@ export default function Search() {
 }
 
 const SuspendedSearch = async () => {
+    await connection();
+
     // Fetch data
     const productList: ProductSearchType[] = await ProductFindManyServer(productFetchParams());
     const productCount: CountType = await ProductCountServer(productCountParams());

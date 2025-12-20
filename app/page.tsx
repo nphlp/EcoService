@@ -5,6 +5,8 @@ import ImageRatio from "@comps/UI/imageRatio";
 import { combo } from "@lib/combo";
 import { ArticleFindManyServer, DiyFindManyServer, ProductFindManyServer } from "@services/server";
 import { Metadata } from "next";
+import { connection } from "next/server";
+import { Suspense } from "react";
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 if (!baseUrl) throw new Error("NEXT_PUBLIC_BASE_URL environment variable is not defined");
@@ -19,6 +21,16 @@ export const metadata: Metadata = {
 };
 
 export default async function Page() {
+    return (
+        <Suspense>
+            <SuspendedPage />
+        </Suspense>
+    );
+}
+
+const SuspendedPage = async () => {
+    await connection();
+
     const imageClass = "h-[100px] sm:h-[150px] md:h-[120px] lg:h-[160px] xl:h-[220px] rounded shadow-lg";
 
     // Data fetching
@@ -107,4 +119,4 @@ export default async function Page() {
             </div>
         </div>
     );
-}
+};

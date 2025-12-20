@@ -11,7 +11,9 @@ import {
     ProductFindManyServer,
 } from "@services/server";
 import { Metadata } from "next";
+import { connection } from "next/server";
 import { SearchParams } from "nuqs/server";
+import { Suspense } from "react";
 import Catalog from "./components/catalog";
 import { Context } from "./components/context";
 import { categoryFetchParams, productCountParams, productFetchParams } from "./components/fetchParams";
@@ -51,6 +53,16 @@ export async function generateMetadata(props: PageProps): Promise<Metadata> {
 }
 
 export default async function Page(props: PageProps) {
+    return (
+        <Suspense>
+            <SuspendedPage {...props} />
+        </Suspense>
+    );
+}
+
+const SuspendedPage = async (props: PageProps) => {
+    await connection();
+
     const { searchParams } = props;
 
     // Get search params
@@ -89,4 +101,4 @@ export default async function Page(props: PageProps) {
             </div>
         </div>
     );
-}
+};

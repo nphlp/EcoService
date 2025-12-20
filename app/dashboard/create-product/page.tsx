@@ -2,6 +2,8 @@ import { hasRole } from "@permissions/hasRole";
 import { CategoryFindManyServer } from "@services/server";
 import { Metadata } from "next";
 import { unauthorized } from "next/navigation";
+import { connection } from "next/server";
+import { Suspense } from "react";
 import SidebarToggleButton from "../sidebarToggleButton";
 import ProductCreationForm from "./productCreationForm";
 
@@ -10,6 +12,16 @@ export const metadata: Metadata = {
 };
 
 export default async function Page() {
+    return (
+        <Suspense>
+            <SuspendedPage />
+        </Suspense>
+    );
+}
+
+const SuspendedPage = async () => {
+    await connection();
+
     const session = await hasRole(["VENDOR", "EMPLOYEE", "ADMIN"]);
     if (!session) unauthorized();
 
@@ -33,4 +45,4 @@ export default async function Page() {
             </div>
         </div>
     );
-}
+};

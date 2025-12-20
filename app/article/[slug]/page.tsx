@@ -5,6 +5,8 @@ import { combo } from "@lib/combo";
 import { ArticleFindManyServer, ArticleFindUniqueServer } from "@services/server";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { connection } from "next/server";
+import { Suspense } from "react";
 
 type PageProps = {
     params: Promise<{ slug: string }>;
@@ -36,6 +38,16 @@ export async function generateMetadata(props: PageProps): Promise<Metadata> {
 }
 
 export default async function Page(props: PageProps) {
+    return (
+        <Suspense>
+            <SuspendedPage {...props} />
+        </Suspense>
+    );
+}
+
+const SuspendedPage = async (props: PageProps) => {
+    await connection();
+
     const { params } = props;
     const { slug } = await params;
 
@@ -128,4 +140,4 @@ export default async function Page(props: PageProps) {
             </div>
         </div>
     );
-}
+};
