@@ -42,6 +42,7 @@ export default async function Page() {
                     <div className="text-white text-shadow-lg">Passez au</div>
                     <div className="text-secondary text-shadow-lg">zéro déchet</div>
                 </div>
+
                 <div className="flex flex-row items-center justify-center gap-8">
                     <ImageRatio
                         src="/images/illustrations/BRVqq2uak4E.webp"
@@ -58,7 +59,7 @@ export default async function Page() {
                 </div>
             </section>
 
-            <div className="space-y-10 p-12">
+            <div className="space-y-16 px-7 py-16">
                 <section className="flex flex-col items-center gap-12 px-2 text-center lg:flex-row lg:justify-between lg:text-left">
                     <div className="space-y-4 lg:w-1/2">
                         <h1 className="text-secondary text-xl font-bold md:text-3xl">Réinventez Votre Quotidien !</h1>
@@ -86,9 +87,23 @@ export default async function Page() {
                     />
                 </section>
 
-                <ProductSlider productList={productList} title="Nos produits vedettes" />
-                <ArticleOrDiySlider articleOrDiy={diyList} link="/diy" title="Nos Do It Yourself" />
-                <ArticleOrDiySlider articleOrDiy={articleList} link="/article" title="Nos articles" />
+                <ProductSlider
+                    productList={productList}
+                    title="Nos produits vedettes"
+                    description="Les produits bio et écologiques sont cultivés et fabriqués dans le respect de l'environnement, sans pesticides ni produits chimiques nocifs. Ils favorisent une agriculture durable, préservent la biodiversité et réduisent l'empreinte carbone de notre consommation quotidienne. Choisir bio, c'est agir pour sa santé tout en protégeant notre planète pour les générations futures."
+                />
+                <ArticleOrDiySlider
+                    articleOrDiy={diyList}
+                    link="/diy"
+                    title="Nos Do It Yourself"
+                    description="Apprenez à fabriquer vos propres produits écologiques et découvrez comment combiner nos articles pour un quotidien plus durable. Nos tutoriels vous guident pas à pas vers l'autonomie et la créativité responsable."
+                />
+                <ArticleOrDiySlider
+                    articleOrDiy={articleList}
+                    link="/article"
+                    title="Nos articles"
+                    description="Plongez dans l'univers de nos créateurs engagés et découvrez les valeurs qui animent chaque produit. Nos articles vous font rencontrer les artisans derrière nos collections et explorent les enjeux d'une consommation plus responsable."
+                />
             </div>
         </div>
     );

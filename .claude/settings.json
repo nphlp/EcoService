@@ -6,7 +6,7 @@
             "Bash(pnpm lint:*)",
             "Bash(pnpm format:*)",
             "Bash(pnpm checks)",
-            "Bash(pnpm test:run*)",
+            "Bash(pnpm test:*)",
 
             "Bash(make:*)",
             "Bash(docker:*)",

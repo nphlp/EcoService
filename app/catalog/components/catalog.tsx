@@ -64,7 +64,7 @@ export default function Catalog(props: CatalogProps) {
 
     return (
         <div className="flex-1">
-            <div className={combo("grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4", className)}>
+            <div className={combo("grid grid-cols-1 gap-1 sm:grid-cols-2 lg:grid-cols-4", className)}>
                 {productList.map((product) => (
                     <ProductCard
                         key={product.id}

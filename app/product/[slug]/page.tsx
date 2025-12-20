@@ -1,11 +1,10 @@
-import ProductCard from "@comps/PROJECT/cards/productCard";
+import ProductSlider from "@comps/PROJECT/sliders/productSlider";
 import Link from "@comps/UI/button/link";
 import Card from "@comps/UI/card";
-import { Carousel, Slide } from "@comps/UI/carousel";
 import ImageRatio from "@comps/UI/imageRatio";
 import { ProductFindManyServer, ProductFindUniqueServer } from "@services/server";
 import { ArrowLeft, Package2, ShieldCheck, Truck, User } from "lucide-react";
-import { Metadata, Route } from "next";
+import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { JSX, cloneElement } from "react";
 import AddToCartButton from "./addToCartButton";
@@ -53,8 +52,8 @@ export default async function Page(props: PageProps) {
     const { name, image, price, description, stock, Category } = product;
 
     return (
-        <div className="w-full max-w-300 flex-1 p-7">
-            <Link label="Retour aux produits" href="/catalog" variant="ghost" className="mb-4">
+        <div className="w-full max-w-300 flex-1 space-y-8 p-7">
+            <Link label="Retour aux produits" href="/catalog" variant="ghost">
                 <ArrowLeft className="mr-2 size-4" />
                 Retour aux produits
             </Link>
@@ -112,24 +111,7 @@ export default async function Page(props: PageProps) {
                 </div>
             </div>
 
-            {recommendedProductList.length ? (
-                <section className="space-y-6 py-8 md:py-16">
-                    <h2 className="text-center text-4xl font-bold">Nos recommandations</h2>
-                    <Carousel gap="0.5rem" withArrows>
-                        {recommendedProductList.map((product) => (
-                            <Slide key={product.id}>
-                                <ProductCard
-                                    href={`/product/${product.slug}` as Route}
-                                    product={product}
-                                    mode="whenIsVisible"
-                                />
-                            </Slide>
-                        ))}
-                    </Carousel>
-                </section>
-            ) : (
-                <></>
-            )}
+            <ProductSlider productList={recommendedProductList} title="Nos recommandations" />
         </div>
     );
 }

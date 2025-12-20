@@ -4,13 +4,15 @@ import { ProductSearchType } from "@app/catalog/components/fetchParams";
 import { useBasketStore } from "@comps/CORE/basket/basketStore";
 import Button from "@comps/UI/button/button";
 import { CircleCheck, CirclePlus, CircleX, ShoppingCart } from "lucide-react";
+import { RefObject } from "react";
 
 type AddToCartIconProps = {
     product: ProductSearchType;
+    ref?: RefObject<HTMLButtonElement | null>;
 };
 
 export default function AddToCartIcon(props: AddToCartIconProps) {
-    const { product } = props;
+    const { product, ref } = props;
 
     const { isInBasket, addProductToBasket, removeProductFromBasket } = useBasketStore();
 
@@ -33,6 +35,7 @@ export default function AddToCartIcon(props: AddToCartIconProps) {
             type="button"
             label="add-to-basket"
             onClick={handleClick}
+            ref={ref}
             className={{
                 button: "group relative size-fit rounded-xl p-2.5 transition-all duration-300 hover:scale-105",
             }}

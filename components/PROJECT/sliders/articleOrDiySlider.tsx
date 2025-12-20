@@ -7,19 +7,21 @@ import { ArticleOrDiyListType } from "./sliderFetchParams";
 
 type SliderClientProps = {
     className?: string;
-    link: string;
+    link: "/article" | "/diy";
     articleOrDiy: ArticleOrDiyListType;
     title: string;
+    description?: string;
 };
 
 export const ArticleOrDiySlider = (props: SliderClientProps) => {
-    const { articleOrDiy, link, title } = props;
+    const { articleOrDiy, link, title, description } = props;
 
     if (!articleOrDiy.length) return null;
 
     return (
-        <section className="space-y-6">
+        <section className="flex flex-col items-center space-y-6">
             <h2 className="text-center text-4xl font-bold">{title}</h2>
+            {description && <p className="max-w-300 text-center">{description}</p>}
             <Carousel gap="0.5rem" withArrows>
                 {articleOrDiy.map((articleOrDiy) => (
                     <Slide key={articleOrDiy.title}>

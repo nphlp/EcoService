@@ -46,7 +46,7 @@ export default function ArticleResults(props: ArticleResultsProps) {
     }
 
     return (
-        <div className="grid grid-cols-2 gap-4 lg:grid-cols-3 lg:gap-6 xl:grid-cols-4">
+        <div className="grid grid-cols-2 gap-1 lg:grid-cols-3 lg:gap-2 xl:grid-cols-4">
             {articleList.map((article) => (
                 <ArticleOrDiyCard
                     key={article.slug}

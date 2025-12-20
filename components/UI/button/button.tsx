@@ -2,7 +2,7 @@
 
 import Loader from "@comps/UI/loader";
 import { combo } from "@lib/combo";
-import { ButtonHTMLAttributes } from "react";
+import { ButtonHTMLAttributes, RefObject } from "react";
 import { ButtonVariant, theme } from "./theme";
 
 export type ButtonClassName = {
@@ -24,6 +24,9 @@ export type ButtonProps = {
     noPointer?: boolean;
     noRing?: boolean;
     focusVisible?: boolean;
+
+    // Ref
+    ref?: RefObject<HTMLButtonElement | null>;
 } & Omit<ButtonHTMLAttributes<HTMLButtonElement>, "className">;
 
 /**
@@ -57,6 +60,7 @@ export default function Button(props: ButtonProps) {
         isDisabled,
         className,
         children,
+        ref,
         ...others
     } = props;
 
@@ -64,6 +68,7 @@ export default function Button(props: ButtonProps) {
         <button
             type={type}
             aria-label={label}
+            ref={ref}
             className={combo(
                 // Pointer events, ring, padding
                 !noPointer && "cursor-pointer disabled:cursor-not-allowed",

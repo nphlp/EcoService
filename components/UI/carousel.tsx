@@ -73,7 +73,7 @@ const Carousel = (props: CarouselProps) => {
 
     return (
         <Provider value={{ size, gap, emblaApi }}>
-            <div className="relative max-w-screen overflow-hidden" ref={emblaRef}>
+            <div className="relative max-w-full min-w-full overflow-hidden" ref={emblaRef}>
                 <div
                     className="flex touch-pan-y touch-pinch-zoom backface-hidden"
                     style={{

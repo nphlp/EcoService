@@ -1,10 +1,9 @@
-import ArticleOrDiyCard from "@comps/PROJECT/cards/articleOrDiyCard";
+import { ArticleOrDiySlider } from "@comps/PROJECT/sliders/articleOrDiySlider";
 import Link from "@comps/UI/button/link";
-import { Carousel, Slide } from "@comps/UI/carousel";
 import ImageRatio from "@comps/UI/imageRatio";
 import { combo } from "@lib/combo";
 import { ArticleFindManyServer, ArticleFindUniqueServer } from "@services/server";
-import { Metadata, Route } from "next";
+import { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 type PageProps = {
@@ -120,20 +119,7 @@ export default async function Page(props: PageProps) {
                 ))}
             </div>
 
-            <section className="space-y-6 py-8">
-                <h2 className="text-center text-4xl font-bold">À lire aussi</h2>
-                <Carousel gap="0.5rem" withArrows>
-                    {otherArticleList.map((articleOrDiy) => (
-                        <Slide key={articleOrDiy.slug}>
-                            <ArticleOrDiyCard
-                                href={`/article/${articleOrDiy.slug}` as Route}
-                                articleOrDiy={articleOrDiy}
-                                mode="whenIsVisible"
-                            />
-                        </Slide>
-                    ))}
-                </Carousel>
-            </section>
+            <ArticleOrDiySlider articleOrDiy={otherArticleList} title="À lire aussi" link="/article" />
 
             <div className="flex justify-center">
                 <Link href="/article" label="Retour aux articles" variant="outline">
