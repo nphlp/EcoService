@@ -21,17 +21,27 @@ vi.mock("@lib/prisma", () => {
             role: "ADMIN",
             createdAt: new Date(),
             updatedAt: new Date(),
+            phone: null,
+            stripeId: null,
+            stripeConnectId: null,
+            isOnboarded: false,
+            isSeller: false,
         },
         {
-            id: "managerId",
-            name: "Manager",
+            id: "vendorId",
+            name: "Vendor",
             lastname: "Debug",
-            email: "manager@test.com",
+            email: "vendor@test.com",
             emailVerified: true,
             image: null,
-            role: "MANAGER",
+            role: "VENDOR",
             createdAt: new Date(),
             updatedAt: new Date(),
+            phone: null,
+            stripeId: null,
+            stripeConnectId: null,
+            isOnboarded: false,
+            isSeller: false,
         },
         {
             id: "employeeId",
@@ -43,6 +53,11 @@ vi.mock("@lib/prisma", () => {
             role: "EMPLOYEE",
             createdAt: new Date(),
             updatedAt: new Date(),
+            phone: null,
+            stripeId: null,
+            stripeConnectId: null,
+            isOnboarded: false,
+            isSeller: false,
         },
     ];
 
@@ -89,9 +104,9 @@ describe("GET /users (permissions)", () => {
         await expect(oRpcUserFindMany()).rejects.toThrow();
     });
 
-    it("Role manager", async () => {
-        // Set manager session
-        setMockSession("MANAGER");
+    it("Role vendor", async () => {
+        // Set vendor session
+        setMockSession("VENDOR");
 
         // Expect unauthorized error (not admin)
         await expect(oRpcUserFindMany()).rejects.toThrow();
@@ -126,7 +141,7 @@ describe("GET /users (params)", () => {
 
         // Expect first two users
         expect(users[0].id).toBe("adminId");
-        expect(users[1].id).toBe("managerId");
+        expect(users[1].id).toBe("vendorId");
     });
 
     it("Skip 1", async () => {
@@ -142,7 +157,7 @@ describe("GET /users (params)", () => {
         expect(users.length).toBe(2);
 
         // Expect users after skipping first
-        expect(users[0].id).toBe("managerId");
+        expect(users[0].id).toBe("vendorId");
         expect(users[1].id).toBe("employeeId");
     });
 });

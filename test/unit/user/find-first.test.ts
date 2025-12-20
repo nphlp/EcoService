@@ -21,17 +21,27 @@ vi.mock("@lib/prisma", () => {
             role: "ADMIN",
             createdAt: new Date(),
             updatedAt: new Date(),
+            phone: null,
+            stripeId: null,
+            stripeConnectId: null,
+            isOnboarded: false,
+            isSeller: false,
         },
         {
-            id: "managerId",
-            name: "Manager",
+            id: "vendorId",
+            name: "Vendor",
             lastname: "Debug",
-            email: "manager@test.com",
+            email: "vendor@test.com",
             emailVerified: true,
             image: null,
-            role: "MANAGER",
+            role: "VENDOR",
             createdAt: new Date(),
             updatedAt: new Date(),
+            phone: null,
+            stripeId: null,
+            stripeConnectId: null,
+            isOnboarded: false,
+            isSeller: false,
         },
         {
             id: "employeeId",
@@ -43,6 +53,11 @@ vi.mock("@lib/prisma", () => {
             role: "EMPLOYEE",
             createdAt: new Date(),
             updatedAt: new Date(),
+            phone: null,
+            stripeId: null,
+            stripeConnectId: null,
+            isOnboarded: false,
+            isSeller: false,
         },
     ];
 
@@ -110,21 +125,21 @@ describe("GET /users/first (permissions)", () => {
     });
 
     it("Role vendor -> own profile", async () => {
-        // Set manager session
-        setMockSession("MANAGER");
+        // Set vendor session
+        setMockSession("VENDOR");
 
-        // Execute function (manager searching for own profile)
-        const user = await oRpcUserFindFirst({ name: "Manager", lastname: "Debug" });
+        // Execute function (vendor searching for own profile)
+        const user = await oRpcUserFindFirst({ name: "Vendor", lastname: "Debug" });
 
         // Expect user object
         expect(user).toBeDefined();
-        expect(user?.id).toBe("managerId");
-        expect(user?.role).toBe("MANAGER");
+        expect(user?.id).toBe("vendorId");
+        expect(user?.role).toBe("VENDOR");
     });
 
     it("Role vendor -> other profile", async () => {
-        // Set manager session
-        setMockSession("MANAGER");
+        // Set vendor session
+        setMockSession("VENDOR");
 
         // Expect unauthorized error (not owner or admin)
         await expect(oRpcUserFindFirst({ name: "Employee", lastname: "Debug" })).rejects.toThrow();
@@ -171,12 +186,12 @@ describe("GET /users/first (params)", () => {
         setMockSession("ADMIN");
 
         // Execute function
-        const user = await oRpcUserFindFirst({ name: "Manager", lastname: "Debug" });
+        const user = await oRpcUserFindFirst({ name: "Vendor", lastname: "Debug" });
 
-        // Expect manager user object
+        // Expect vendor user object
         expect(user).toBeDefined();
-        expect(user?.id).toBe("managerId");
-        expect(user?.name).toBe("Manager");
+        expect(user?.id).toBe("vendorId");
+        expect(user?.name).toBe("Vendor");
         expect(user?.lastname).toBe("Debug");
     });
 

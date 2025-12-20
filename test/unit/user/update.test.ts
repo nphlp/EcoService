@@ -21,17 +21,27 @@ vi.mock("@lib/prisma", () => {
             role: "ADMIN",
             createdAt: new Date(),
             updatedAt: new Date(),
+            phone: null,
+            stripeId: null,
+            stripeConnectId: null,
+            isOnboarded: false,
+            isSeller: false,
         },
         {
-            id: "managerId",
-            name: "Manager",
+            id: "vendorId",
+            name: "Vendor",
             lastname: "Debug",
-            email: "manager@test.com",
+            email: "vendor@test.com",
             emailVerified: true,
             image: null,
-            role: "MANAGER",
+            role: "VENDOR",
             createdAt: new Date(),
             updatedAt: new Date(),
+            phone: null,
+            stripeId: null,
+            stripeConnectId: null,
+            isOnboarded: false,
+            isSeller: false,
         },
         {
             id: "employeeId",
@@ -43,6 +53,11 @@ vi.mock("@lib/prisma", () => {
             role: "EMPLOYEE",
             createdAt: new Date(),
             updatedAt: new Date(),
+            phone: null,
+            stripeId: null,
+            stripeConnectId: null,
+            isOnboarded: false,
+            isSeller: false,
         },
     ];
 
@@ -132,32 +147,32 @@ describe("PUT /users/{id} (permissions)", () => {
     });
 
     it("Role vendor -> own profile", async () => {
-        // Set manager session
-        setMockSession("MANAGER");
+        // Set vendor session
+        setMockSession("VENDOR");
 
-        // Execute function (manager updating own profile)
-        const user = await oRpcUserUpdate({ id: "managerId", name: "Updated" });
+        // Execute function (vendor updating own profile)
+        const user = await oRpcUserUpdate({ id: "vendorId", name: "Updated" });
 
         // Expect updated user object
         expect(user).toBeDefined();
-        expect(user.id).toBe("managerId");
+        expect(user.id).toBe("vendorId");
         expect(user.name).toBe("Updated");
     });
 
     it("Role vendor -> other profile", async () => {
-        // Set manager session
-        setMockSession("MANAGER");
+        // Set vendor session
+        setMockSession("VENDOR");
 
         // Expect unauthorized error (not owner or admin)
         await expect(oRpcUserUpdate({ id: "employeeId", name: "Updated" })).rejects.toThrow();
     });
 
     it("Role vendor -> change role", async () => {
-        // Set manager session
-        setMockSession("MANAGER");
+        // Set vendor session
+        setMockSession("VENDOR");
 
         // Expect unauthorized error (only admin can change roles)
-        await expect(oRpcUserUpdate({ id: "managerId", role: "ADMIN" })).rejects.toThrow();
+        await expect(oRpcUserUpdate({ id: "vendorId", role: "ADMIN" })).rejects.toThrow();
     });
 
     it("Role admin -> own profile", async () => {
@@ -191,12 +206,12 @@ describe("PUT /users/{id} (permissions)", () => {
         setMockSession("ADMIN");
 
         // Execute function (admin can change roles)
-        const user = await oRpcUserUpdate({ id: "employeeId", role: "MANAGER" });
+        const user = await oRpcUserUpdate({ id: "employeeId", role: "VENDOR" });
 
         // Expect updated user object with new role
         expect(user).toBeDefined();
         expect(user.id).toBe("employeeId");
-        expect(user.role).toBe("MANAGER");
+        expect(user.role).toBe("VENDOR");
     });
 });
 

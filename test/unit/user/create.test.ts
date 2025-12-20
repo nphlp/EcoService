@@ -21,17 +21,27 @@ vi.mock("@lib/prisma", () => {
             role: "ADMIN",
             createdAt: new Date(),
             updatedAt: new Date(),
+            phone: null,
+            stripeId: null,
+            stripeConnectId: null,
+            isOnboarded: false,
+            isSeller: false,
         },
         {
-            id: "managerId",
-            name: "Manager",
+            id: "vendorId",
+            name: "Vendor",
             lastname: "Debug",
-            email: "manager@test.com",
+            email: "vendor@test.com",
             emailVerified: true,
             image: null,
-            role: "MANAGER",
+            role: "VENDOR",
             createdAt: new Date(),
             updatedAt: new Date(),
+            phone: null,
+            stripeId: null,
+            stripeConnectId: null,
+            isOnboarded: false,
+            isSeller: false,
         },
         {
             id: "employeeId",
@@ -43,6 +53,11 @@ vi.mock("@lib/prisma", () => {
             role: "EMPLOYEE",
             createdAt: new Date(),
             updatedAt: new Date(),
+            phone: null,
+            stripeId: null,
+            stripeConnectId: null,
+            isOnboarded: false,
+            isSeller: false,
         },
     ];
 
@@ -67,6 +82,11 @@ vi.mock("@lib/prisma", () => {
             role: (input.role ?? "EMPLOYEE") as Role,
             createdAt: new Date(),
             updatedAt: new Date(),
+            phone: null,
+            stripeId: null,
+            stripeConnectId: null,
+            isOnboarded: false,
+            isSeller: false,
         };
 
         data.push(newUser);
@@ -110,9 +130,9 @@ describe("POST /users (permissions)", () => {
         await expect(oRpcUserCreate({ name: "New", email: "new@test.com" })).rejects.toThrow();
     });
 
-    it("Role manager", async () => {
-        // Set manager session
-        setMockSession("MANAGER");
+    it("Role vendor", async () => {
+        // Set vendor session
+        setMockSession("VENDOR");
 
         // Expect unauthorized error (not admin)
         await expect(oRpcUserCreate({ name: "New", email: "new@test.com" })).rejects.toThrow();
@@ -168,7 +188,7 @@ describe("POST /users (params)", () => {
             lastname: "Data",
             email: "full@test.com",
             image: "https://example.com/image.jpg",
-            role: "MANAGER",
+            role: "VENDOR",
         });
 
         // Expect user object with all fields
@@ -177,7 +197,7 @@ describe("POST /users (params)", () => {
         expect(user.lastname).toBe("Data");
         expect(user.email).toBe("full@test.com");
         expect(user.image).toBe("https://example.com/image.jpg");
-        expect(user.role).toBe("MANAGER");
+        expect(user.role).toBe("VENDOR");
         expect(user.emailVerified).toBe(false);
     });
 

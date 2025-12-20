@@ -20,17 +20,27 @@ const createInitialData = (): User[] => [
         role: "ADMIN",
         createdAt: new Date(),
         updatedAt: new Date(),
+        phone: null,
+        stripeId: null,
+        stripeConnectId: null,
+        isOnboarded: false,
+        isSeller: false,
     },
     {
-        id: "managerId",
-        name: "Manager",
+        id: "vendorId",
+        name: "Vendor",
         lastname: "Debug",
-        email: "manager@test.com",
+        email: "vendor@test.com",
         emailVerified: true,
         image: null,
-        role: "MANAGER",
+        role: "VENDOR",
         createdAt: new Date(),
         updatedAt: new Date(),
+        phone: null,
+        stripeId: null,
+        stripeConnectId: null,
+        isOnboarded: false,
+        isSeller: false,
     },
     {
         id: "employeeId",
@@ -42,6 +52,11 @@ const createInitialData = (): User[] => [
         role: "EMPLOYEE",
         createdAt: new Date(),
         updatedAt: new Date(),
+        phone: null,
+        stripeId: null,
+        stripeConnectId: null,
+        isOnboarded: false,
+        isSeller: false,
     },
 ];
 
@@ -102,7 +117,7 @@ describe("DELETE /users/{id} (permissions)", () => {
         setMockSession("EMPLOYEE");
 
         // Expect unauthorized error (not admin)
-        await expect(oRpcUserDelete({ id: "managerId" })).rejects.toThrow();
+        await expect(oRpcUserDelete({ id: "vendorId" })).rejects.toThrow();
     });
 
     it("Role user -> own profile", async () => {
@@ -113,20 +128,20 @@ describe("DELETE /users/{id} (permissions)", () => {
         await expect(oRpcUserDelete({ id: "employeeId" })).rejects.toThrow();
     });
 
-    it("Role manager", async () => {
-        // Set manager session
-        setMockSession("MANAGER");
+    it("Role vendor", async () => {
+        // Set vendor session
+        setMockSession("VENDOR");
 
         // Expect unauthorized error (not admin)
         await expect(oRpcUserDelete({ id: "employeeId" })).rejects.toThrow();
     });
 
     it("Role vendor -> own profile", async () => {
-        // Set manager session
-        setMockSession("MANAGER");
+        // Set vendor session
+        setMockSession("VENDOR");
 
         // Expect unauthorized error (only admin can delete)
-        await expect(oRpcUserDelete({ id: "managerId" })).rejects.toThrow();
+        await expect(oRpcUserDelete({ id: "vendorId" })).rejects.toThrow();
     });
 
     it("Role admin -> own profile", async () => {
@@ -173,17 +188,17 @@ describe("DELETE /users/{id} (params)", () => {
         expect(user.email).toBe("employee@test.com");
     });
 
-    it("Delete manager", async () => {
+    it("Delete vendor", async () => {
         // Set admin session
         setMockSession("ADMIN");
 
         // Execute function
-        const user = await oRpcUserDelete({ id: "managerId" });
+        const user = await oRpcUserDelete({ id: "vendorId" });
 
         // Expect deleted user object
         expect(user).toBeDefined();
-        expect(user.id).toBe("managerId");
-        expect(user.name).toBe("Manager");
-        expect(user.email).toBe("manager@test.com");
+        expect(user.id).toBe("vendorId");
+        expect(user.name).toBe("Vendor");
+        expect(user.email).toBe("vendor@test.com");
     });
 });

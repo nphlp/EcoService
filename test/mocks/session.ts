@@ -13,7 +13,7 @@ type MockSession = {
  * Creates a mock session based on the role
  * - null: visitor (no session)
  * - "EMPLOYEE": regular employee
- * - "MANAGER": manager
+ * - "VENDOR": vendor
  * - "ADMIN": admin user
  */
 export const createMockSession = (role: MockRole): MockSession => {
