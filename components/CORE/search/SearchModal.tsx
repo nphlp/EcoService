@@ -8,7 +8,7 @@ import { combo } from "@lib/combo";
 import { SearchIcon } from "lucide-react";
 import { Route } from "next";
 import { useRouter } from "next/navigation";
-import { FormEvent, useEffect, useRef, useState } from "react";
+import { FormEvent, startTransition, useEffect, useRef, useState } from "react";
 import useSolid from "@/solid/solid-hook";
 import { useHeaderStore } from "../header/headerStore";
 import ResultsList from "./SearchResult";
@@ -147,7 +147,9 @@ export default function SearchModal(props: SearchModalProps) {
     // Focus input when modal opens
     useEffect(() => {
         if (searchOpen) {
-            setSearch("");
+            startTransition(() => {
+                setSearch("");
+            });
             // Timeout is required to wait for the modal transition
             // from "display: none" to "display: block"
             setTimeout(() => inputRef.current?.focus(), 10);

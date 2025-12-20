@@ -1,5 +1,5 @@
 import { combo } from "@lib/combo";
-import { useEffect, useState } from "react";
+import { startTransition, useEffect, useState } from "react";
 
 type PopoverProps = {
     name: string;
@@ -32,7 +32,9 @@ export default function Popover(props: PopoverProps) {
                 setIsVisible(true);
             }, 500);
         } else {
-            setIsVisible(false);
+            startTransition(() => {
+                setIsVisible(false);
+            });
             if (timeoutId) {
                 clearTimeout(timeoutId);
             }

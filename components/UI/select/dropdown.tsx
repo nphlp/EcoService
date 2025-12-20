@@ -1,7 +1,7 @@
 "use client";
 
 import { combo } from "@lib/combo";
-import { ReactNode, useContext, useEffect, useState } from "react";
+import { ReactNode, startTransition, useContext, useEffect, useState } from "react";
 import { Context } from "./context";
 import { theme } from "./theme";
 
@@ -15,8 +15,7 @@ const Dropdown = (props: DropdownProps) => {
     const { isOpen, buttonRef, optionListRef, dropdownGap, variant, className } = useContext(Context);
 
     // Select button position
-    const initialButtonRect = buttonRef.current?.getBoundingClientRect();
-    const [buttonRect, setButtonRect] = useState<DOMRect | undefined>(initialButtonRect);
+    const [buttonRect, setButtonRect] = useState<DOMRect | undefined>(undefined);
 
     // Options dropdown position
     const top = (buttonRect?.bottom ?? 0) + dropdownGap;
@@ -27,7 +26,9 @@ const Dropdown = (props: DropdownProps) => {
     useEffect(() => {
         if (isOpen) {
             const newButtonRect = buttonRef.current?.getBoundingClientRect();
-            setButtonRect(newButtonRect);
+            startTransition(() => {
+                setButtonRect(newButtonRect);
+            });
         }
     }, [isOpen, buttonRef]);
 

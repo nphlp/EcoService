@@ -3,15 +3,17 @@
 import { combo } from "@lib/combo";
 import { ChevronUp } from "lucide-react";
 import { motion } from "motion/react";
-import { nanoid } from "nanoid";
 import {
     Dispatch,
     ReactNode,
     RefObject,
     SetStateAction,
     createContext,
+    startTransition,
     useContext,
     useEffect,
+    useId,
+    useLayoutEffect,
     useRef,
     useState,
 } from "react";
@@ -101,7 +103,9 @@ const AccordionProvider = (props: AccordionProviderProps) => {
     // Update all accordions
     useEffect(() => {
         if (typeof index === "number" && openedAccordionIndex !== index) {
-            setOpen(false);
+            startTransition(() => {
+                setOpen(false);
+            });
         }
     }, [openedAccordionIndex, index, setOpen]);
 
@@ -129,36 +133,31 @@ type AccordionProps = {
 const Accordion = (props: AccordionProps) => {
     const { className, children, openByDefault = false } = props;
 
-    // Store the index of this accordion
-    const indexRef = useRef<number>(undefined);
+    // Use stable ID between SSR and client
+    const id = useId();
 
-    // Get the id list
+    // Get the id list from group context
     const { idListRef } = useContext(AccordionGroupContext);
 
-    // Get the id of this accordion
-    const idRef = useRef<string>(nanoid());
-    const id = idRef.current;
+    // Store the index of this accordion
+    const [index, setIndex] = useState<number | undefined>(undefined);
 
-    // Register the accordion if it's not already in the list
-    if (idListRef) {
-        const idList = idListRef.current;
-        if (!idList.has(id)) {
-            idList.set(id, idList.size);
+    // Register accordion and calculate index after mount
+    useLayoutEffect(() => {
+        if (idListRef) {
+            const idList = idListRef.current;
+            if (!idList.has(id)) {
+                idList.set(id, idList.size);
+            }
+            const calculatedIndex = idList.get(id);
+            if (index !== calculatedIndex) {
+                setIndex(calculatedIndex);
+            }
         }
-    }
-
-    // Prevent hydration error
-    const [mounted, setMounted] = useState(false);
-    useEffect(() => setMounted(true), []);
-    if (!mounted) return <></>;
-
-    // Determine the index of this accordion after the first render
-    if (idListRef) {
-        indexRef.current = idListRef.current.get(id);
-    }
+    }, [id, idListRef, index]);
 
     return (
-        <AccordionProvider openByDefault={openByDefault} index={indexRef.current}>
+        <AccordionProvider openByDefault={openByDefault} index={index}>
             <div
                 className={combo(
                     "w-full overflow-hidden rounded-2xl border border-gray-300 bg-white shadow-md",
