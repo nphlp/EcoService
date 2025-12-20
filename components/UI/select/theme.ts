@@ -110,10 +110,8 @@ const styles: StylesType = {
         subChevron: combo("stroke-gray-600 translate-y-px"),
 
         optionList: combo(
-            // Position
-            "absolute",
             // Size and padding
-            "w-full p-1",
+            "p-1",
             // Border and radius
             "border border-gray-300 rounded-lg",
             // Background
@@ -166,10 +164,8 @@ const styles: StylesType = {
         subChevron: combo("stroke-gray-300 translate-y-px"),
 
         optionList: combo(
-            // Position
-            "absolute",
             // Size and padding
-            "w-full p-1",
+            "p-1",
             // Border and radius
             "border border-gray-500 rounded-lg",
             // Background

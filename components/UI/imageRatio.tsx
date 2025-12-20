@@ -43,7 +43,7 @@ export default function ImageRatio(props: ImageRatioProps) {
 
     if (!src) {
         return (
-            <div className={combo("relative aspect-[3/2] overflow-hidden", className)}>
+            <div className={combo("relative aspect-3/2 overflow-hidden", className)}>
                 <ImageTemplate className="size-full" />
             </div>
         );
@@ -68,7 +68,7 @@ export default function ImageRatio(props: ImageRatioProps) {
     const hasBlurEffect = !noBlur && mode === "whenIsVisible";
 
     return (
-        <div className={combo("relative aspect-[3/2] overflow-hidden", className)}>
+        <div className={combo("relative aspect-3/2 overflow-hidden", className)}>
             {/* Image nette en arrière-plan */}
             <Image
                 src={src}

@@ -76,7 +76,7 @@ export default function Popover(props: PopoverProps) {
                 "border border-gray-400 bg-white",
                 "pointer-events-none",
                 "text-sm",
-                isVisible ? "translate-y-0" : "translate-y-[3px]",
+                isVisible ? "translate-y-0" : "translate-y-0.75",
                 isVisible ? "opacity-100" : "opacity-0",
                 "transition-all duration-150",
             )}

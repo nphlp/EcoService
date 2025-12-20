@@ -109,7 +109,7 @@ export default function Drawer(props: DrawerProps) {
                     translateX: isDrawerOpen ? "0" : "100%",
                 }}
                 transition={{ duration: animationDuration }}
-                className={combo("w-full sm:w-[400px]", theme[variant].drawer, className?.drawer)}
+                className={combo("w-full sm:w-100", theme[variant].drawer, className?.drawer)}
             >
                 <CloseButton
                     setIsDrawerOpen={setIsDrawerOpen}
