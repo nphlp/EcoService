@@ -43,7 +43,7 @@ export default async function Layout(props: LayoutProps) {
                     <Search />
                     <Basket />
                     <BasketSync />
-                    <div id="main" className="flex-1 overflow-y-auto">
+                    <div id="main" className="isolate flex-1 overflow-y-auto">
                         <main className="flex min-h-full flex-col items-center justify-center">
                             <Suspense>{children}</Suspense>
                         </main>

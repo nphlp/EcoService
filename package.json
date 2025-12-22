@@ -37,6 +37,7 @@
         "solid:all": "tsx solid/solid-generator.ts all"
     },
     "dependencies": {
+        "@base-ui/react": "^1.0.0",
         "@prisma/adapter-pg": "^7.1.0",
         "@prisma/client": "^7.1.0",
         "@stripe/react-stripe-js": "^5.4.1",

@@ -31,7 +31,13 @@ export default async function Page() {
 const SuspendedPage = async () => {
     await connection();
 
-    const imageClass = "h-[100px] sm:h-[150px] md:h-[120px] lg:h-[160px] xl:h-[220px] rounded shadow-lg";
+    const imageClass = combo(
+        "h-[100px] rounded shadow-lg",
+        "sm:h-[150px]",
+        "md:h-[120px]",
+        "lg:h-[160px]",
+        "xl:h-[220px]",
+    );
 
     // Data fetching
     const articleList = await ArticleFindManyServer(ArticleOrDiyFetchParams);
@@ -50,7 +56,15 @@ const SuspendedPage = async () => {
                     backgroundColor: "rgba(0, 0, 0, 0.4)",
                 }}
             >
-                <div className="w-full text-4xl font-bold text-nowrap sm:text-5xl md:text-4xl lg:text-5xl xl:text-6xl">
+                <div
+                    className={combo(
+                        "w-full text-4xl font-bold text-nowrap",
+                        "sm:text-5xl",
+                        "md:text-4xl",
+                        "lg:text-5xl",
+                        "xl:text-6xl",
+                    )}
+                >
                     <div className="text-white text-shadow-lg">Passez au</div>
                     <div className="text-secondary text-shadow-lg">zéro déchet</div>
                 </div>
@@ -72,9 +86,16 @@ const SuspendedPage = async () => {
             </section>
 
             <div className="space-y-16 px-7 py-16">
-                <section className="flex flex-col items-center gap-12 px-2 text-center lg:flex-row lg:justify-between lg:text-left">
-                    <div className="space-y-4 lg:w-1/2">
-                        <h1 className="text-secondary text-xl font-bold md:text-3xl">Réinventez Votre Quotidien !</h1>
+                <section
+                    className={combo(
+                        "flex flex-col items-center gap-12 px-2 text-center",
+                        "lg:flex-row lg:justify-between lg:text-left",
+                    )}
+                >
+                    <div className={combo("space-y-4", "lg:w-1/2")}>
+                        <h1 className={combo("text-secondary text-xl font-bold", "md:text-3xl")}>
+                            Réinventez Votre Quotidien !
+                        </h1>
                         <p className="text-gray-700">
                             Dans un monde où la surconsommation génère des tonnes de déchets chaque jour, le zéro déchet
                             apparaît comme une solution incontournable pour préserver notre environnement.
@@ -94,7 +115,7 @@ const SuspendedPage = async () => {
                     <ImageRatio
                         src="/images/illustrations/gtdSDl5IkKw.webp"
                         alt="produit"
-                        className="rounded-lg shadow-md max-lg:w-full lg:h-80"
+                        className={combo("rounded-lg shadow-md", "max-lg:w-full", "lg:h-80")}
                         mode="preloaded"
                     />
                 </section>
