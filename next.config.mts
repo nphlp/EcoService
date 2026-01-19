@@ -8,6 +8,38 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const isStandalone = process.env.NEXTJS_STANDALONE === "true";
 const isTest = process.env.NEXT_TEST_MODE === "true";
 
+// Security headers configuration
+const securityHeaders = [
+    {
+        key: "X-Frame-Options",
+        value: "DENY", // Prevent clickjacking attacks
+    },
+    {
+        key: "X-Content-Type-Options",
+        value: "nosniff", // Prevent MIME type sniffing
+    },
+    {
+        key: "Referrer-Policy",
+        value: "strict-origin-when-cross-origin", // Control referrer information
+    },
+    {
+        key: "Permissions-Policy",
+        value: "camera=(), microphone=(), geolocation=()", // Disable unused browser features
+    },
+    {
+        key: "Content-Security-Policy",
+        value: [
+            "default-src 'self'",
+            "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://js.stripe.com",
+            "style-src 'self' 'unsafe-inline'",
+            "img-src 'self' data: blob: https://files.stripe.com",
+            "font-src 'self'",
+            "connect-src 'self' https://api.stripe.com",
+            "frame-src 'self' https://js.stripe.com https://hooks.stripe.com",
+        ].join("; "),
+    },
+];
+
 const nextConfig: NextConfig = {
     // Switch between `.next` and `.next-test` build folders
     distDir: isTest ? ".next-test" : ".next",
@@ -52,6 +84,16 @@ const nextConfig: NextConfig = {
         // Turbopack persistent caching
         turbopackFileSystemCacheForDev: true,
         turbopackFileSystemCacheForBuild: true,
+    },
+
+    // Apply security headers to all routes
+    async headers() {
+        return [
+            {
+                source: "/(.*)",
+                headers: securityHeaders,
+            },
+        ];
     },
 };
 
