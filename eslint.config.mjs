@@ -22,9 +22,6 @@ const eslintConfig = defineConfig([
         "vitest.config.mjs",
         "prisma/client/**",
         "next-env.d.ts",
-        // TODO: (remove this) Exclude API example routes and tests
-        "api/examples/**",
-        "test/unit/examples/**",
     ]),
     {
         files: ["**/*.ts", "**/*.tsx", "**/*.mts", "**/*.cts"],

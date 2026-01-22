@@ -12,12 +12,7 @@ export default defineConfig({
     test: {
         environment: "jsdom",
         env: { NEXT_PUBLIC_BASE_URL },
-        exclude: [
-            "**/.next/**",
-            "**/node_modules/**",
-            // TODO: (remove this) Exclude example api routes
-            "./test/unit/examples/**",
-        ],
+        exclude: ["**/.next/**", "**/node_modules/**"],
         coverage: {
             provider: "v8",
             // Files to include in coverage
@@ -26,8 +21,6 @@ export default defineConfig({
             exclude: [
                 // `*-action.ts` files are tested through `*-mutation.ts` files tests
                 "api/**/*-action.ts",
-                // TODO: (remove this) Exclude example api test files
-                "api/examples/**",
             ],
             reporter: ["text", "html"],
             reportsDirectory: "./test/coverage",

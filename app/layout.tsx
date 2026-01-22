@@ -5,7 +5,6 @@ import ScrollReset from "@comps/CORE/ScrollReset";
 import Search from "@comps/CORE/Search";
 import BasketSync from "@comps/CORE/basket/basketSync";
 import { combo } from "@lib/combo";
-import "@lib/orpc-server";
 import "@public/globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";

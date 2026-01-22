@@ -51,10 +51,5 @@
         ".next/dev/types/**/*.ts",
         ".next-test/dev/types/**/*.ts"
     ],
-    "exclude": [
-        "node_modules",
-        // TODO: (remove this) Exclude API example routes and tests
-        "api/examples/**",
-        "test/unit/examples/**"
-    ]
+    "exclude": ["node_modules"]
 }
