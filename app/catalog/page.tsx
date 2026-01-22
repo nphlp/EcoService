@@ -85,7 +85,7 @@ const SuspendedPage = async (props: PageProps) => {
             </div>
             <div className="flex flex-1 flex-col justify-start">
                 <Provider initialProductAmount={initialProductAmount}>
-                    <div className="bg-primary grid grid-cols-2 gap-5 p-6 md:grid-cols-4">
+                    <div className="bg-primary grid grid-cols-1 gap-5 p-6 sm:grid-cols-2 lg:grid-cols-4">
                         <CategoryFilter
                             categoryOptions={createSelectOptions(categoryList, { label: "name", slug: "slug" })}
                         />
@@ -94,7 +94,7 @@ const SuspendedPage = async (props: PageProps) => {
                         <SearchFilter className={{ component: "space-y-0", label: "text-white" }} />
                     </div>
                     <div className="flex flex-1 flex-col justify-start">
-                        <Catalog className="p-6" initialProductList={initialProductList} />
+                        <Catalog className="p-3 sm:p-6" initialProductList={initialProductList} />
                         <Pagination className="mb-6" path="/catalog" context={Context} />
                     </div>
                 </Provider>
