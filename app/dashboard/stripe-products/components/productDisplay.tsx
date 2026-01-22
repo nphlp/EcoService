@@ -2,6 +2,7 @@ import { StripeProductsResponse } from "@app/api/stripe/products/route";
 import Link from "@comps/UI/button/link";
 import ImageRatio from "@comps/UI/imageRatio";
 import { combo } from "@lib/combo";
+import { Route } from "next";
 import Stripe from "stripe";
 
 const env = process.env.NODE_ENV;
@@ -49,7 +50,7 @@ export default function ProductDisplay(props: ProductDisplayProps) {
                         <Link
                             label={product.name}
                             className="border border-gray-600 text-sm"
-                            href={`/dashboard/edit-product/${product.id}`}
+                            href={`/dashboard/edit-product/${product.id}` as Route}
                         >
                             Éditer
                         </Link>
