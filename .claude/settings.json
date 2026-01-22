@@ -42,6 +42,10 @@
             "mcp__next-devtools__nextjs_call",
             "mcp__next-devtools__nextjs_index",
 
+            "mcp__chrome-devtools__new_page",
+            "mcp__chrome-devtools__take_snapshot",
+            "mcp__chrome-devtools__navigate_page",
+
             "mcp__ide__getDiagnostics",
 
             "Read",
