@@ -70,7 +70,7 @@ const structure: StructureType = {
         "cursor-pointer",
     ),
     optionIcon: combo("size-5 stroke-[2.5px]"),
-    optionLabel: combo(""),
+    optionLabel: combo("text-left"),
 };
 
 const styles: StylesType = {

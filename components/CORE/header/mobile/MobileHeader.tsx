@@ -151,13 +151,6 @@ const Menu = (props: MenuProps) => {
                             >
                                 Profile
                             </Link>
-                            <LogoutClient
-                                variant="outline"
-                                onClick={() => setIsMenuOpen(false)}
-                                className={{ button: buttonClass }}
-                            >
-                                Déconnexion
-                            </LogoutClient>
                         </>
                     )}
                     <Button
@@ -171,6 +164,15 @@ const Menu = (props: MenuProps) => {
                     >
                         Basket
                     </Button>
+                    {session && (
+                        <LogoutClient
+                            variant="outline"
+                            onClick={() => setIsMenuOpen(false)}
+                            className={{ button: buttonClass }}
+                        >
+                            Déconnexion
+                        </LogoutClient>
+                    )}
                     {/* Close button */}
                     <Button
                         className={{ button: buttonClass }}
