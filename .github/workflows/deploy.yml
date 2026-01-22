@@ -53,28 +53,27 @@ jobs:
                   check-type: type
 
     test:
-        name: Build and test check
+        name: Integration tests
         runs-on: ubuntu-latest
         needs: [lint, format, type]
         services:
-            mysql:
-                image: mysql:9.3
+            postgres:
+                image: postgres:16-alpine
                 ports:
-                    - "3306:3306"
+                    - "5432:5432"
                 env:
-                    MYSQL_DATABASE: eco_service_db
-                    MYSQL_USER: eco_service_user
-                    MYSQL_PASSWORD: eco_service_password
-                    MYSQL_ROOT_PASSWORD: root
+                    POSTGRES_DB: eco_service_db
+                    POSTGRES_USER: eco_service_user
+                    POSTGRES_PASSWORD: eco_service_password
                 options: >-
-                    --health-cmd="mysqladmin ping -h localhost -u root -proot"
-                    --health-interval=5s
-                    --health-timeout=5s
-                    --health-retries=10
-                    --health-start-period=60s
+                    --health-cmd="pg_isready -U eco_service_user -d eco_service_db"
+                    --health-interval=2s
+                    --health-timeout=1s
+                    --health-retries=30
+                    --health-start-period=10s
         env:
             # Used in the workflow
-            DATABASE_URL: "mysql://eco_service_user:eco_service_password@127.0.0.1:3306/eco_service_db?ssl-mode=DISABLED"
+            DATABASE_URL: "postgresql://eco_service_user:eco_service_password@127.0.0.1:5432/eco_service_db"
             NEXT_PUBLIC_BASE_URL: "http://localhost:3000"
             # Required to prevent errors
             BETTER_AUTH_SECRET: "session-encryption-key"
@@ -84,13 +83,11 @@ jobs:
             STRIPE_WEBHOOK_SECRET: "whsec_xxxxx"
         steps:
             - uses: actions/checkout@v4
-            - name: Generate MySQL SSL certificates
-              run: |
-                  chmod +x ./scripts/ssl-certs.sh
-                  ./scripts/ssl-certs.sh setup
             - uses: ./.github/actions/setup-base
-            - uses: ./.github/actions/setup-database
-            - uses: ./.github/actions/build-app
+            - name: Setup database
+              run: pnpm prisma:generate && pnpm prisma:deploy
+            - name: Build application
+              run: pnpm build
             - name: Start server in background for tests
               run: pnpm start &
             - name: Wait for server to be ready
