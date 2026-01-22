@@ -50,12 +50,16 @@ const SuspendedPage = async () => {
                     ) : (
                         <div className="w-full space-y-6">
                             <hr className="w-full" />
-                            <div className="flex flex-row items-center justify-between">
-                                <div className="text-2xl">
+                            <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:justify-between">
+                                <div className="text-xl sm:text-2xl">
                                     <span>Passer à </span>
                                     <span className="font-bold">l&apos;encaissement ?</span>
                                 </div>
-                                <Link label="Se connecter" href="/auth?redirect=checkout" />
+                                <Link
+                                    label="Se connecter"
+                                    href="/auth?redirect=checkout"
+                                    className="w-full sm:w-auto"
+                                />
                             </div>
                         </div>
                     )}

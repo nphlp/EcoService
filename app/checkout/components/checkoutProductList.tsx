@@ -10,7 +10,7 @@ export default function CheckoutProductList() {
     const { basket } = useBasketStore();
 
     return (
-        <div className="flex w-[600px] flex-col gap-4">
+        <div className="flex flex-col gap-4 md:w-150">
             {basket?.items.map((product, index) => (
                 <CheckoutProductItem key={index} index={index} product={product} />
             ))}
@@ -29,10 +29,20 @@ const CheckoutProductItem = (props: CheckoutProductProps) => {
     const totalPrice = Number((product.price * product.quantity).toFixed(2));
 
     return (
-        <div className={combo("flex justify-between gap-8 rounded-xl", index % 2 === 0 && "bg-gray-50")}>
-            <ImageRatio src={product.image} alt={product.name} className="h-[132px] rounded-lg" mode="preloaded" />
-            <div className="flex flex-col items-end gap-2 py-2 pr-4">
-                <div className="text-right">
+        <div
+            className={combo(
+                "flex flex-col overflow-hidden rounded-xl sm:flex-row sm:justify-between sm:gap-8",
+                index % 2 === 0 && "bg-gray-50",
+            )}
+        >
+            <ImageRatio
+                src={product.image}
+                alt={product.name}
+                className="w-full sm:h-33 sm:w-auto sm:rounded-lg"
+                mode="preloaded"
+            />
+            <div className="flex flex-col items-start gap-2 p-3 sm:items-end sm:p-0 sm:py-2 sm:pr-4">
+                <div className="text-left sm:text-right">
                     <div className="text-2xl font-semibold">{product.name}</div>
                     <div className="line-clamp-2 text-xs text-gray-500">{product.description}</div>
                 </div>

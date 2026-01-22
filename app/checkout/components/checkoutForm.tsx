@@ -107,7 +107,7 @@ const CheckoutButton = (props: CheckoutButtonProps) => {
     const cents = totalPrice?.toString().split(".")[1];
 
     return (
-        <div className="flex w-full flex-row items-end justify-between gap-4">
+        <div className="flex w-full flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
             <div>
                 <div className="text-sm text-gray-500">Total TTC</div>
                 <div className="flex flex-row items-baseline font-bold text-gray-800">
@@ -119,7 +119,7 @@ const CheckoutButton = (props: CheckoutButtonProps) => {
                 id="submit"
                 type="submit"
                 label="Commander"
-                className={{ button: "px-12 text-lg" }}
+                className={{ button: "w-full px-12 text-lg sm:w-auto" }}
                 isLoading={isLoading}
             />
         </div>
