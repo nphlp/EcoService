@@ -3,12 +3,14 @@
 import { combo } from "@lib/combo";
 import { Route } from "next";
 import NextLink, { LinkProps as NextLinkProps } from "next/link";
-import { AnchorHTMLAttributes, MouseEvent } from "react";
+import { AnchorHTMLAttributes, MouseEvent, RefObject } from "react";
 import { ButtonVariant, theme } from "./theme";
 
-export type LinkProps<T extends string> = {
+type OnNavigateEvent = { preventDefault: () => void };
+
+export type LinkProps = {
     label: string;
-    href: Route<T>;
+    href: Route;
     isDisabled?: boolean;
 
     // Styles
@@ -17,9 +19,13 @@ export type LinkProps<T extends string> = {
     noPointer?: boolean;
     noRing?: boolean;
     noPadding?: boolean;
+
+    // Nextjs Link props
+    onNavigate?: (e: OnNavigateEvent) => void;
+    ref?: RefObject<HTMLAnchorElement | null>;
 } &
     // Nextjs Link props
-    Pick<NextLinkProps<T>, "ref" | "replace" | "scroll" | "prefetch" | "onNavigate"> &
+    Pick<NextLinkProps<Route>, "replace" | "scroll" | "prefetch"> &
     // Legacy Link props
     Omit<AnchorHTMLAttributes<HTMLAnchorElement>, "href">;
 
@@ -34,7 +40,7 @@ export type LinkProps<T extends string> = {
  * <Link href="/" label="Home page">Home page</Link>
  * ```
  */
-const Link = <T extends string>(props: LinkProps<T>) => {
+const Link = (props: LinkProps) => {
     const {
         label,
         href,

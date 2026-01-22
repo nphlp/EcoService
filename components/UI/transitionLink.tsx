@@ -1,22 +1,22 @@
 "use client";
 
 import { Route } from "next";
-import Link, { LinkProps } from "next/link";
+import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { MouseEvent, useEffect, useRef } from "react";
-
-type LinkRoutes<T extends string = string> = Route<T>;
+import { AnchorHTMLAttributes, MouseEvent, ReactNode, useEffect, useRef } from "react";
 
 type TransitionLinkProps = {
-    href: LinkRoutes;
-} & LinkProps<string>;
+    href: Route;
+    className?: string;
+    children?: ReactNode;
+} & Omit<AnchorHTMLAttributes<HTMLAnchorElement>, "href">;
 
 const wait = (ms: number) => {
     return new Promise((resolve) => setTimeout(resolve, ms));
 };
 
 export const TransitionLink = (props: TransitionLinkProps) => {
-    const { href, className, children } = props;
+    const { href, className, children, ...others } = props;
 
     const router = useRouter();
     const path = usePathname();
@@ -92,7 +92,7 @@ export const TransitionLink = (props: TransitionLinkProps) => {
     }, [path]);
 
     return (
-        <Link onClick={transitionIn} className={className} {...props}>
+        <Link href={href} onClick={transitionIn} className={className} {...others}>
             {children}
         </Link>
     );
