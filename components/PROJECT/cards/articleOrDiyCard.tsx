@@ -19,8 +19,8 @@ export default function ArticleOrDiyCard(props: ArticleOrDiyCardProps) {
             <Card className="flex h-full flex-col overflow-hidden p-0">
                 <ImageRatio src={Content[0].image} alt={title} mode={mode} />
                 <div className="space-y-2 p-4">
-                    <h2 className="line-clamp-1 text-xl font-semibold">{title}</h2>
-                    <p className="line-clamp-3 text-sm text-gray-600">{Content[0].content}</p>
+                    <h2 className="text-md line-clamp-2 font-semibold sm:text-lg">{title}</h2>
+                    <p className="line-clamp-3 text-xs text-gray-600 sm:text-sm">{Content[0].content}</p>
                     <time dateTime={new Date(createdAt).toISOString()} className="text-sm text-gray-500">
                         {new Date(createdAt).toLocaleDateString("fr-FR")}
                     </time>
@@ -32,17 +32,19 @@ export default function ArticleOrDiyCard(props: ArticleOrDiyCardProps) {
 
 export const ArticleOrDiyCardSkeleton = () => {
     return (
-        <Card className="h-full overflow-hidden p-0">
-            <div className="animate-shimmer aspect-3/2" />
-            <div className="space-y-2 p-4">
-                <div className="animate-shimmer h-7 w-[60%] rounded" />
-                <div className="space-y-1">
-                    <div className="animate-shimmer h-4.5 w-[90%] rounded" />
-                    <div className="animate-shimmer h-4.5 w-[80%] rounded" />
-                    <div className="animate-shimmer h-4.5 w-[60%] rounded" />
+        <div className="size-full rounded-xl p-2">
+            <Card className="h-full overflow-hidden p-0">
+                <div className="animate-shimmer aspect-3/2" />
+                <div className="space-y-2 p-4">
+                    <div className="animate-shimmer h-7 w-[60%] rounded" />
+                    <div className="space-y-1">
+                        <div className="animate-shimmer h-4.5 w-[90%] rounded" />
+                        <div className="animate-shimmer h-4.5 w-[80%] rounded" />
+                        <div className="animate-shimmer h-4.5 w-[60%] rounded" />
+                    </div>
+                    <div className="animate-shimmer h-4.25 w-[30%] rounded" />
                 </div>
-                <div className="animate-shimmer h-4.25 w-[30%] rounded" />
-            </div>
-        </Card>
+            </Card>
+        </div>
     );
 };

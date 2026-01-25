@@ -9,12 +9,20 @@ const middlewarePermissions = process.env.MIDDLEWARE_PERMISSIONS ?? "enabled";
 const NEXT_PUBLIC_BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 if (!NEXT_PUBLIC_BASE_URL) throw new Error("NEXT_PUBLIC_BASE_URL environment variable is not defined");
 
+// Routes that use signature-based auth instead of CSRF (webhooks)
+const csrfExcludedRoutes = ["/api/stripe/webhooks"];
+
 const csrfProtection = async (request: NextRequest) => {
     const mutationMethods = ["POST", "PUT", "PATCH", "DELETE"];
 
     // If not a mutation method, skip CSRF check
     const hasMutationMethod = mutationMethods.includes(request.method);
     if (!hasMutationMethod) return NextResponse.next();
+
+    // Skip CSRF for routes that use signature-based authentication
+    const pathname = request.nextUrl.pathname;
+    const isExcluded = csrfExcludedRoutes.some((route) => pathname.startsWith(route));
+    if (isExcluded) return NextResponse.next();
 
     const origin = request.headers.get("origin");
     const host = request.headers.get("host");

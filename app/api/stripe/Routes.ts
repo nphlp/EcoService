@@ -5,6 +5,7 @@ import { CreateStripeProductProps, CreateStripeProductResponse } from "./product
 import { StripeProductsProps, StripeProductsResponse } from "./products/route";
 import { StripeSearchProductProps, StripeSearchProductResponse } from "./products/search/route";
 import { StripeSelectProductProps, StripeSelectProductResponse } from "./products/select/route";
+import { UpdateFullStripeProductProps, UpdateFullStripeProductResponse } from "./products/update-full/route";
 import { UpdateStripeProductProps, UpdateStripeProductResponse } from "./products/update/route";
 import { StripeWebhookResponse } from "./webhooks/route";
 
@@ -54,6 +55,11 @@ export type Routes = {
     "/stripe/products/update": () => {
         params: UpdateStripeProductProps;
         response: UpdateStripeProductResponse;
+    };
+
+    "/stripe/products/update-full": () => {
+        params: UpdateFullStripeProductProps;
+        response: UpdateFullStripeProductResponse;
     };
 
     // ====== Webhooks  ====== //

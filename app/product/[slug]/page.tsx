@@ -113,7 +113,7 @@ const SuspendedPage = async (props: PageProps) => {
                         />
                     </div>
 
-                    <div className="grid grid-cols-4 gap-3 lg:grid-cols-2">
+                    <div className="grid grid-cols-2 gap-3 md:grid-cols-4 lg:grid-cols-2">
                         <ProductInfo icon={<User />} title="Vendeur agréé" />
                         <ProductInfo icon={<Truck />} title="Livraison rapide" />
                         <ProductInfo icon={<Package2 />} title="Eco-emballage" />

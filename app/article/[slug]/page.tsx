@@ -95,7 +95,7 @@ const SuspendedPage = async (props: PageProps) => {
     if (!article) notFound();
 
     return (
-        <div className="w-full space-y-8 p-12">
+        <div className={combo("mx-auto w-full max-w-400 px-4 md:px-7", "space-y-8 py-12")}>
             <div className="text-center">
                 <h1 className="mb-4 text-3xl font-bold md:text-4xl">{article.title}</h1>
                 {article.Author && (
@@ -110,21 +110,21 @@ const SuspendedPage = async (props: PageProps) => {
                 )}
             </div>
 
-            <div className="mx-auto max-w-225 space-y-12">
+            <div className="space-y-12">
                 {article.Content.map((content, index) => (
                     <div
                         key={index}
                         className={combo(
                             "flex flex-col items-center gap-8",
-                            index % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse",
+                            index % 2 === 0 ? "sm:flex-row" : "sm:flex-row-reverse",
                         )}
                     >
-                        <p className="w-full md:w-2/3">{content.content}</p>
+                        <p className="w-full">{content.content}</p>
 
                         <ImageRatio
                             src={content.image}
                             alt={`Illustration pour ${article.title}`}
-                            className="w-2/3 rounded-lg shadow-md md:w-1/3"
+                            className={combo("flex-none rounded-lg shadow-md", "w-full sm:w-1/3 md:w-1/4 lg:w-1/5")}
                             mode="preloaded"
                         />
                     </div>

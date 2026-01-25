@@ -50,8 +50,8 @@ export default function ProductCard(props: ProductCardProps) {
                 <div className="flex flex-row items-end justify-between gap-1 p-5">
                     <div className="space-y-2">
                         <div>
-                            <h2 className="line-clamp-1 text-xl font-bold">{name}</h2>
-                            <div className="line-clamp-1 text-sm text-gray-500">{description}</div>
+                            <h2 className="line-clamp-2 text-lg font-bold sm:text-xl">{name}</h2>
+                            <div className="line-clamp-1 text-xs text-gray-500 sm:text-sm">{description}</div>
                         </div>
                         <div className="font-bold text-nowrap text-gray-500">{price.toFixed(2)} €</div>
                     </div>
@@ -64,18 +64,20 @@ export default function ProductCard(props: ProductCardProps) {
 
 export const ProductCardSkeleton = () => {
     return (
-        <Card className="size-full overflow-hidden p-0">
-            <div className="animate-shimmer aspect-3/2" />
-            <div className="flex flex-row items-end justify-between gap-1 p-5">
-                <div className="w-full space-y-2">
-                    <div className="w-full space-y-1">
-                        <div className="animate-shimmer h-6.5 w-[70%] rounded" />
-                        <div className="animate-shimmer h-4.5 w-[80%] rounded" />
+        <div className="size-full rounded-xl p-2">
+            <Card className="size-full overflow-hidden p-0">
+                <div className="animate-shimmer aspect-3/2" />
+                <div className="flex flex-row items-end justify-between gap-1 p-5">
+                    <div className="w-full space-y-2">
+                        <div className="w-full space-y-1">
+                            <div className="animate-shimmer h-6.5 w-[70%] rounded" />
+                            <div className="animate-shimmer h-4.5 w-[80%] rounded" />
+                        </div>
+                        <div className="animate-shimmer h-6 w-[30%] rounded" />
                     </div>
-                    <div className="animate-shimmer h-6 w-[30%] rounded" />
+                    <div className="animate-shimmer size-11 shrink-0 rounded-xl" />
                 </div>
-                <div className="animate-shimmer size-11 shrink-0 rounded-xl" />
-            </div>
-        </Card>
+            </Card>
+        </div>
     );
 };

@@ -221,10 +221,9 @@ const AccordionContent = (props: AccordionContentProps) => {
             initial={{ height: open ? "auto" : 0 }}
             animate={{ height: open ? "auto" : 0 }}
             transition={{ duration: 0.3 }}
-            className={combo(className)}
         >
             <hr className="mx-5 border-gray-200" />
-            <div className="p-5">{children}</div>
+            <div className={combo("p-5", className)}>{children}</div>
         </motion.div>
     );
 };

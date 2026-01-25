@@ -2,6 +2,7 @@
 
 import ArticleOrDiyCard, { ArticleOrDiyCardSkeleton } from "@comps/PROJECT/cards/articleOrDiyCard";
 import { usePageQueryParams, useSearchQueryParams } from "@comps/SHARED/queryParamsClientHooks";
+import { combo } from "@lib/combo";
 import { BookOpenText } from "lucide-react";
 import { Route } from "next";
 import useSolid from "@/solid/solid-hook";
@@ -25,7 +26,12 @@ export default function DiyResults(props: DiyResultsProps) {
 
     if (isLoading) {
         return (
-            <div className="grid grid-cols-2 gap-6 lg:grid-cols-3 xl:grid-cols-4">
+            <div
+                className={combo(
+                    "mx-auto max-w-400 px-2 md:px-5",
+                    "grid w-full grid-cols-1 gap-1 sm:grid-cols-2 lg:grid-cols-3 lg:gap-2 xl:grid-cols-4",
+                )}
+            >
                 {Array.from({ length: 5 }).map((_, index) => (
                     <ArticleOrDiyCardSkeleton key={index} />
                 ))}
@@ -46,7 +52,12 @@ export default function DiyResults(props: DiyResultsProps) {
     }
 
     return (
-        <div className="grid grid-cols-2 gap-1 lg:grid-cols-3 lg:gap-2 xl:grid-cols-4">
+        <div
+            className={combo(
+                "mx-auto max-w-400 px-2 md:px-5",
+                "grid w-full grid-cols-1 gap-1 sm:grid-cols-2 lg:grid-cols-3 lg:gap-2 xl:grid-cols-4",
+            )}
+        >
             {diyList.map((diy) => (
                 <ArticleOrDiyCard
                     key={diy.slug}

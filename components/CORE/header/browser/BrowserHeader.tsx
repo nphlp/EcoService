@@ -1,3 +1,4 @@
+import { combo } from "@lib/combo";
 import IconLinks from "./IconLinks";
 import LogoTitle from "./LogoTitle";
 import Navigation from "./Navigation";
@@ -11,7 +12,12 @@ export default async function BrowserHeader(props: BrowserHeaderProps) {
 
     return (
         <div className={className}>
-            <nav className="flex flex-row items-center justify-between gap-5 px-5 py-3">
+            <nav
+                className={combo(
+                    "mx-auto max-w-400 px-4 py-3 md:px-7",
+                    "flex flex-row items-center justify-between gap-5",
+                )}
+            >
                 <LogoTitle />
                 <Navigation />
                 <IconLinks />

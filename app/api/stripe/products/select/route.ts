@@ -22,7 +22,9 @@ export async function GET(request: NextRequest): Promise<NextResponse<ResponseFo
 
         const { id } = stripeSelectProductPropsSchema.parse(params);
 
-        const stripeProduct = await StripeInstance.products.retrieve(id);
+        const stripeProduct = await StripeInstance.products.retrieve(id, {
+            expand: ["default_price"],
+        });
 
         return NextResponse.json({ data: stripeProduct }, { status: 200 });
     } catch (e) {

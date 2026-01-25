@@ -10,22 +10,15 @@ const isTest = process.env.NEXT_TEST_MODE === "true";
 
 // Security headers configuration
 const securityHeaders = [
-    {
-        key: "X-Frame-Options",
-        value: "DENY", // Prevent clickjacking attacks
-    },
-    {
-        key: "X-Content-Type-Options",
-        value: "nosniff", // Prevent MIME type sniffing
-    },
-    {
-        key: "Referrer-Policy",
-        value: "strict-origin-when-cross-origin", // Control referrer information
-    },
-    {
-        key: "Permissions-Policy",
-        value: "camera=(), microphone=(), geolocation=()", // Disable unused browser features
-    },
+    // Prevent clickjacking attacks
+    { key: "X-Frame-Options", value: "DENY" },
+    // Prevent MIME type sniffing
+    { key: "X-Content-Type-Options", value: "nosniff" },
+    // Prevent information leaks via the referrer URL
+    { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+    // Disable unused browser features
+    { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=()" },
+    // Specify authorized sources for content
     {
         key: "Content-Security-Policy",
         value: [
@@ -74,6 +67,9 @@ const nextConfig: NextConfig = {
     // Functions: cacheTag, cacheLife, revalidateTag, updateTag
     cacheComponents: true,
 
+    // Security headers
+    headers: async () => [{ source: "/(.*)", headers: securityHeaders }],
+
     experimental: {
         // View transition API
         viewTransition: true,
@@ -84,16 +80,6 @@ const nextConfig: NextConfig = {
         // Turbopack persistent caching
         turbopackFileSystemCacheForDev: true,
         turbopackFileSystemCacheForBuild: true,
-    },
-
-    // Apply security headers to all routes
-    async headers() {
-        return [
-            {
-                source: "/(.*)",
-                headers: securityHeaders,
-            },
-        ];
     },
 };
 

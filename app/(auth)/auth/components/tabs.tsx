@@ -66,7 +66,7 @@ export default function TabClient(props: TabClientProps) {
     }, [tab]);
 
     return (
-        <div className="min-w-[350px] space-y-3">
+        <div className="min-w-90 space-y-3">
             <motion.div
                 style={{ gap: GAP, padding: PADDING }}
                 className="relative flex flex-row rounded-2xl border border-gray-300 bg-white shadow-md"

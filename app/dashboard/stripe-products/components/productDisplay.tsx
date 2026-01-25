@@ -1,4 +1,7 @@
+"use client";
+
 import { StripeProductsResponse } from "@app/api/stripe/products/route";
+import { usePageQueryParams } from "@comps/SHARED/queryParamsClientHooks";
 import Link from "@comps/UI/button/link";
 import ImageRatio from "@comps/UI/imageRatio";
 import { combo } from "@lib/combo";
@@ -7,28 +10,50 @@ import Stripe from "stripe";
 
 const env = process.env.NODE_ENV;
 
-// TODO: make utils function
-function getImageUrl(imageUrl: string) {
-    if (imageUrl.includes("/v1/files/")) {
-        const fileId = imageUrl.split("/").pop();
-        return `https://files.stripe.com/links/${fileId}`;
+/**
+ * Récupère l'URL de l'image du produit
+ * Priorité : metadata.localImage > images[0] > placeholder
+ */
+function getImageUrl(product: Stripe.Product): string {
+    // Image locale stockée en metadata
+    if (product.metadata?.localImage) {
+        return product.metadata.localImage;
     }
-    return imageUrl;
+
+    // Image Stripe
+    if (product.images?.[0]) {
+        const imageUrl = product.images[0];
+        if (imageUrl.includes("/v1/files/")) {
+            const fileId = imageUrl.split("/").pop();
+            return `https://files.stripe.com/links/${fileId}`;
+        }
+        return imageUrl;
+    }
+
+    // Placeholder
+    return "/images/placeholder.webp";
 }
 
 type ProductDisplayProps = {
     stripeProductList: StripeProductsResponse;
+    take: number;
 };
 
 export default function ProductDisplay(props: ProductDisplayProps) {
-    const { stripeProductList } = props;
+    const { stripeProductList, take } = props;
+    const { page } = usePageQueryParams();
+
+    // Pagination côté client
+    const startIndex = (page - 1) * take;
+    const endIndex = startIndex + take;
+    const paginatedProducts = stripeProductList.slice(startIndex, endIndex);
 
     return (
         <div className="grid grid-cols-1 gap-8 p-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {stripeProductList.map((product, index) => (
+            {paginatedProducts.map((product, index) => (
                 <div key={index} className="group relative">
                     <div className="w-full overflow-hidden rounded-lg">
-                        <ImageRatio src={getImageUrl(product.images[0])} alt={product.name} mode="onPageLoad" />
+                        <ImageRatio src={getImageUrl(product)} alt={product.name} mode="onPageLoad" />
                     </div>
                     <div
                         className={combo(

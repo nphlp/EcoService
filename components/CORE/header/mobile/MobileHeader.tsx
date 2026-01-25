@@ -6,7 +6,7 @@ import LogoutClient from "@comps/UI/logout";
 import { useSession } from "@lib/auth-client";
 import { combo } from "@lib/combo";
 import { Leaf } from "lucide-react";
-import { motion } from "motion/react";
+import { AnimatePresence, motion } from "motion/react";
 import { useState } from "react";
 import { useHeaderStore } from "../headerStore";
 
@@ -57,134 +57,140 @@ const Menu = (props: MenuProps) => {
     const animationDuration = 0.3;
 
     return (
-        <>
-            {/* Background Blur */}
-            <motion.div
-                initial={{ opacity: 0 }}
-                animate={{
-                    display: isMenuOpen ? "block" : "none",
-                    opacity: isMenuOpen ? 1 : 0,
-                    transition: { duration: animationDuration / 6 },
-                }}
-                className={combo("absolute inset-0 z-40 backdrop-blur-[1.5px]")}
-            />
+        <AnimatePresence>
+            {isMenuOpen && (
+                <>
+                    {/* Background Blur */}
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: animationDuration / 6 }}
+                        className="absolute inset-0 z-40 backdrop-blur-[1.5px]"
+                    />
 
-            {/* Background Color */}
-            <motion.div
-                initial={{ opacity: 0 }}
-                animate={{
-                    display: isMenuOpen ? "block" : "none",
-                    opacity: isMenuOpen ? 1 : 0,
-                    transition: { duration: animationDuration / 2 },
-                }}
-                className={combo("absolute inset-0 z-40 bg-black/50")}
-            />
+                    {/* Background Color */}
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: animationDuration / 2 }}
+                        className="absolute inset-0 z-40 bg-black/50"
+                    />
 
-            {/* Background Button */}
-            <motion.button
-                type="button"
-                aria-label="close-menu"
-                onClick={() => setIsMenuOpen(false)}
-                className={combo("absolute inset-0 z-40", !isMenuOpen && "hidden")}
-            />
-
-            {/* Menu */}
-            <nav className={combo("absolute bottom-0 left-0 z-50 w-full px-4 pb-4", !isMenuOpen && "hidden")}>
-                <div className="flex w-full flex-col items-center justify-center gap-2 rounded-2xl border border-gray-300 bg-white p-4 shadow-md">
-                    <Link
-                        href="/"
-                        label="home"
-                        variant="outline"
-                        className={buttonClass}
-                        onClick={() => setIsMenuOpen(false)}
-                    >
-                        Accueil
-                    </Link>
-                    <Link
-                        href="/catalog"
-                        label="catalog"
-                        variant="outline"
-                        className={buttonClass}
-                        onClick={() => setIsMenuOpen(false)}
-                    >
-                        Catalogue
-                    </Link>
-                    <Link
-                        href="/article"
-                        label="articles"
-                        variant="outline"
-                        className={buttonClass}
-                        onClick={() => setIsMenuOpen(false)}
-                    >
-                        Articles
-                    </Link>
-                    <Link
-                        href="/diy"
-                        label="diy"
-                        variant="outline"
-                        className={buttonClass}
-                        onClick={() => setIsMenuOpen(false)}
-                    >
-                        DIY
-                    </Link>
-                    {!session && (
-                        <>
-                            <Link
-                                href="/auth"
-                                label="auth"
-                                variant="outline"
-                                className={buttonClass}
-                                onClick={() => setIsMenuOpen(false)}
-                            >
-                                Authentification
-                            </Link>
-                        </>
-                    )}
-                    {session && (
-                        <>
-                            <Link
-                                href="/profile"
-                                label="profile"
-                                variant="outline"
-                                className={buttonClass}
-                                onClick={() => setIsMenuOpen(false)}
-                            >
-                                Profile
-                            </Link>
-                        </>
-                    )}
-                    <Button
-                        label="basket"
-                        variant="outline"
-                        className={{ button: buttonClass }}
-                        onClick={() => {
-                            setBasketOpen(!basketOpen);
-                            setIsMenuOpen(false);
-                        }}
-                    >
-                        Basket
-                    </Button>
-                    {session && (
-                        <LogoutClient
-                            variant="outline"
-                            onClick={() => setIsMenuOpen(false)}
-                            className={{ button: buttonClass }}
-                        >
-                            Déconnexion
-                        </LogoutClient>
-                    )}
-                    {/* Close button */}
-                    <Button
-                        className={{ button: buttonClass }}
+                    {/* Background Button */}
+                    <motion.button
                         type="button"
-                        label="hide-menu"
-                        variant="default"
+                        aria-label="close-menu"
                         onClick={() => setIsMenuOpen(false)}
+                        className="absolute inset-0 z-40"
+                    />
+
+                    {/* Menu */}
+                    <motion.nav
+                        initial={{ y: 16, opacity: 0 }}
+                        animate={{ y: 0, opacity: 1 }}
+                        exit={{ y: 16, opacity: 0 }}
+                        transition={{ duration: 0.2, ease: "easeOut" }}
+                        className="absolute bottom-0 left-0 z-50 w-full px-4 pb-4"
                     >
-                        Fermer
-                    </Button>
-                </div>
-            </nav>
-        </>
+                        <div className="flex w-full flex-col items-center justify-center gap-2 rounded-2xl border border-gray-300 bg-white p-4 shadow-md">
+                            <Link
+                                href="/"
+                                label="home"
+                                variant="outline"
+                                className={buttonClass}
+                                onClick={() => setIsMenuOpen(false)}
+                            >
+                                Accueil
+                            </Link>
+                            <Link
+                                href="/catalog"
+                                label="catalog"
+                                variant="outline"
+                                className={buttonClass}
+                                onClick={() => setIsMenuOpen(false)}
+                            >
+                                Catalogue
+                            </Link>
+                            <Link
+                                href="/article"
+                                label="articles"
+                                variant="outline"
+                                className={buttonClass}
+                                onClick={() => setIsMenuOpen(false)}
+                            >
+                                Articles
+                            </Link>
+                            <Link
+                                href="/diy"
+                                label="diy"
+                                variant="outline"
+                                className={buttonClass}
+                                onClick={() => setIsMenuOpen(false)}
+                            >
+                                DIY
+                            </Link>
+                            {!session && (
+                                <>
+                                    <Link
+                                        href="/auth"
+                                        label="auth"
+                                        variant="outline"
+                                        className={buttonClass}
+                                        onClick={() => setIsMenuOpen(false)}
+                                    >
+                                        Authentification
+                                    </Link>
+                                </>
+                            )}
+                            {session && (
+                                <>
+                                    <Link
+                                        href="/profile"
+                                        label="profile"
+                                        variant="outline"
+                                        className={buttonClass}
+                                        onClick={() => setIsMenuOpen(false)}
+                                    >
+                                        Profile
+                                    </Link>
+                                </>
+                            )}
+                            <Button
+                                label="basket"
+                                variant="outline"
+                                className={{ button: buttonClass }}
+                                onClick={() => {
+                                    setBasketOpen(!basketOpen);
+                                    setIsMenuOpen(false);
+                                }}
+                            >
+                                Basket
+                            </Button>
+                            {session && (
+                                <LogoutClient
+                                    variant="outline"
+                                    onClick={() => setIsMenuOpen(false)}
+                                    className={{ button: buttonClass }}
+                                >
+                                    Déconnexion
+                                </LogoutClient>
+                            )}
+                            {/* Close button */}
+                            <Button
+                                className={{ button: buttonClass }}
+                                type="button"
+                                label="hide-menu"
+                                variant="default"
+                                onClick={() => setIsMenuOpen(false)}
+                            >
+                                Fermer
+                            </Button>
+                        </div>
+                    </motion.nav>
+                </>
+            )}
+        </AnimatePresence>
     );
 };
