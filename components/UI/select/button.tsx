@@ -27,11 +27,21 @@ const Button = () => {
     // Check if there is a selection
     const hasSelection = !!selectedOption;
 
-    // Handle focus
+    // Handle click (required for mobile devices)
+    const handleClick = (e: MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        // Trigger focus event
+        buttonRef.current?.focus();
+    };
+
+    // Handle focus (required for keyboard navigation)
     const handleFocus = (e: FocusEvent<HTMLButtonElement>) => {
         e.preventDefault();
         e.stopPropagation();
 
+        // Open options dropdown
         setIsOpen(true);
     };
 
@@ -103,6 +113,7 @@ const Button = () => {
                 type="button"
                 onFocus={handleFocus}
                 onBlur={handleBlur}
+                onClick={handleClick}
                 onKeyDown={handleKeyDown}
                 className={combo(theme[variant].button, className?.button)}
             >

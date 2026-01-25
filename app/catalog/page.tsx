@@ -4,6 +4,7 @@ import PriceOrderFilter from "@comps/SHARED/PriceOrderFilter";
 import SearchFilter from "@comps/SHARED/SearchFilter";
 import TakeFilter from "@comps/SHARED/TakeFilter";
 import { createSelectOptions } from "@comps/UI/select/utils";
+import { combo } from "@lib/combo";
 import {
     CategoryFindManyServer,
     CategoryFindUniqueServer,
@@ -79,26 +80,39 @@ const SuspendedPage = async (props: PageProps) => {
 
     return (
         <div className="flex w-full flex-1 flex-col">
-            <h1 className="bg-primary text-secondary px-6 pt-6 text-4xl font-bold">Catalogue</h1>
-            <div className="bg-primary px-6 pt-2 text-white">
-                Retrouvez l&apos;intégralité de nos produits dans notre catalogue.
-            </div>
-            <div className="flex flex-1 flex-col justify-start">
-                <Provider initialProductAmount={initialProductAmount}>
-                    <div className="bg-primary grid grid-cols-1 gap-5 p-6 sm:grid-cols-2 lg:grid-cols-4">
-                        <CategoryFilter
-                            categoryOptions={createSelectOptions(categoryList, { label: "name", slug: "slug" })}
-                        />
-                        <PriceOrderFilter />
-                        <TakeFilter />
-                        <SearchFilter className={{ component: "space-y-0", label: "text-white" }} />
+            <Provider initialProductAmount={initialProductAmount}>
+                <section className="bg-primary w-full">
+                    <div className={combo("mx-auto max-w-400 px-4 md:px-7", "mt-4 space-y-1")}>
+                        <h1 className="text-secondary text-4xl font-bold">Catalogue</h1>
+                        <div className="text-white">
+                            Retrouvez l&apos;intégralité de nos produits dans notre catalogue.
+                        </div>
                     </div>
-                    <div className="flex flex-1 flex-col justify-start">
-                        <Catalog className="p-3 sm:p-6" initialProductList={initialProductList} />
+                </section>
+
+                <div className="flex flex-1 flex-col justify-start">
+                    <section className="bg-primary w-full">
+                        <div
+                            className={combo(
+                                "mx-auto max-w-400 px-4 md:px-7",
+                                "mt-4 mb-5 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4",
+                            )}
+                        >
+                            <CategoryFilter
+                                categoryOptions={createSelectOptions(categoryList, { label: "name", slug: "slug" })}
+                            />
+                            <PriceOrderFilter />
+                            <TakeFilter />
+                            <SearchFilter className={{ component: "space-y-0", label: "text-white" }} />
+                        </div>
+                    </section>
+
+                    <section className="flex flex-1 flex-col justify-start">
+                        <Catalog initialProductList={initialProductList} />
                         <Pagination className="mb-6" path="/catalog" context={Context} />
-                    </div>
-                </Provider>
-            </div>
+                    </section>
+                </div>
+            </Provider>
         </div>
     );
 };
