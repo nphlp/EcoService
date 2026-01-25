@@ -12,6 +12,7 @@ type InputFileProps = {
     required?: boolean;
     onChange: (file: File | null) => void;
     imagePreview: File | null;
+    existingImageUrl?: string;
     classComponent?: string;
     classLabel?: string;
     classContent?: string;
@@ -42,18 +43,22 @@ export default function InputFile(props: InputFileProps) {
         required = true,
         onChange,
         imagePreview,
+        existingImageUrl,
         classComponent,
         classLabel,
         classContent,
         ...others
     } = props;
 
+    const hasImage = imagePreview || existingImageUrl;
+    const imageSource = imagePreview ? URL.createObjectURL(imagePreview) : existingImageUrl;
+
     /** Ref of input image */
     const refInputImage = useRef<HTMLInputElement>(null);
 
     /** Do not trigger onChange event of file input when image is already set */
     const preventDefault = (e: MouseEvent<HTMLLabelElement>) => {
-        if (imagePreview) {
+        if (hasImage) {
             e.preventDefault();
             e.stopPropagation();
         }
@@ -61,7 +66,7 @@ export default function InputFile(props: InputFileProps) {
 
     /** Add image to parent state */
     const handleAddImage = (e: ChangeEvent<HTMLInputElement>) => {
-        if (!imagePreview) onChange(e.target.files?.[0] as File);
+        if (!hasImage) onChange(e.target.files?.[0] as File);
     };
 
     /** Prevent default browser behavior of drag over event */
@@ -75,7 +80,7 @@ export default function InputFile(props: InputFileProps) {
         e.preventDefault();
         e.stopPropagation();
 
-        if (!imagePreview) onChange(e.dataTransfer.files?.[0]);
+        if (!hasImage) onChange(e.dataTransfer.files?.[0]);
     };
 
     /** Reset parent state and input field */
@@ -116,7 +121,7 @@ export default function InputFile(props: InputFileProps) {
 
             {/* Content */}
             <div
-                className={combo(!imagePreview && "cursor-pointer", variant && theme[variant].content, classContent)}
+                className={combo(!hasImage && "cursor-pointer", variant && theme[variant].content, classContent)}
                 onDragOver={preventBrowserDropBehavior}
                 onDrop={handleDrop}
                 // Allow to focus the input when pressing Enter or Space
@@ -126,7 +131,7 @@ export default function InputFile(props: InputFileProps) {
                     if (e.key === "Enter" || e.key === " ") {
                         e.preventDefault();
                         e.stopPropagation();
-                        if (!imagePreview && refInputImage.current) {
+                        if (!hasImage && refInputImage.current) {
                             refInputImage.current.click();
                         }
                     }
@@ -137,20 +142,15 @@ export default function InputFile(props: InputFileProps) {
                     }
                 }}
             >
-                {imagePreview ? (
+                {hasImage && imageSource ? (
                     // Image preview
                     <div className="relative">
-                        <ImageRatio
-                            src={URL.createObjectURL(imagePreview)}
-                            alt="Preview"
-                            className="w-full rounded-xl"
-                            mode="onPageLoad"
-                        />
+                        <ImageRatio src={imageSource} alt="Preview" className="w-full rounded-xl" mode="onPageLoad" />
                         <Button
                             label="Retirer l'image"
                             variant="none"
                             className={{
-                                button: combo(imagePreview && "cursor-pointer", "absolute top-2 right-2 rounded-lg"),
+                                button: combo(hasImage && "cursor-pointer", "absolute top-2 right-2 rounded-lg"),
                             }}
                             onClick={handleReset}
                             onKeyDown={(e) => {
@@ -181,10 +181,10 @@ export default function InputFile(props: InputFileProps) {
                 ref={refInputImage}
                 type="file"
                 onChange={handleAddImage}
-                disabled={!!imagePreview}
+                disabled={!!hasImage}
                 accept="image/*"
                 className="hidden"
-                required={required}
+                required={required && !existingImageUrl}
                 {...others}
             />
         </label>
