@@ -19,8 +19,8 @@ export default function ArticleOrDiyCard(props: ArticleOrDiyCardProps) {
             <Card className="flex h-full flex-col overflow-hidden p-0">
                 <ImageRatio src={Content[0].image} alt={title} mode={mode} />
                 <div className="space-y-2 p-4">
-                    <h2 className="line-clamp-1 text-xl font-semibold">{title}</h2>
-                    <p className="line-clamp-3 text-sm text-gray-600">{Content[0].content}</p>
+                    <h2 className="text-md line-clamp-2 font-semibold sm:text-lg">{title}</h2>
+                    <p className="line-clamp-3 text-xs text-gray-600 sm:text-sm">{Content[0].content}</p>
                     <time dateTime={new Date(createdAt).toISOString()} className="text-sm text-gray-500">
                         {new Date(createdAt).toLocaleDateString("fr-FR")}
                     </time>
