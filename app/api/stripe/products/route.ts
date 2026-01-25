@@ -24,7 +24,7 @@ export async function GET(request: NextRequest): Promise<NextResponse<ResponseFo
         const products = await StripeInstance.products.list({
             expand: ["data.default_price"],
             active: true,
-            limit,
+            limit: limit ?? 100,
         });
 
         return NextResponse.json({ data: products.data });

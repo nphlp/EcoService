@@ -1,4 +1,7 @@
+"use client";
+
 import { StripeProductsResponse } from "@app/api/stripe/products/route";
+import { usePageQueryParams } from "@comps/SHARED/queryParamsClientHooks";
 import Link from "@comps/UI/button/link";
 import ImageRatio from "@comps/UI/imageRatio";
 import { combo } from "@lib/combo";
@@ -33,14 +36,21 @@ function getImageUrl(product: Stripe.Product): string {
 
 type ProductDisplayProps = {
     stripeProductList: StripeProductsResponse;
+    take: number;
 };
 
 export default function ProductDisplay(props: ProductDisplayProps) {
-    const { stripeProductList } = props;
+    const { stripeProductList, take } = props;
+    const { page } = usePageQueryParams();
+
+    // Pagination côté client
+    const startIndex = (page - 1) * take;
+    const endIndex = startIndex + take;
+    const paginatedProducts = stripeProductList.slice(startIndex, endIndex);
 
     return (
         <div className="grid grid-cols-1 gap-8 p-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {stripeProductList.map((product, index) => (
+            {paginatedProducts.map((product, index) => (
                 <div key={index} className="group relative">
                     <div className="w-full overflow-hidden rounded-lg">
                         <ImageRatio src={getImageUrl(product)} alt={product.name} mode="onPageLoad" />
