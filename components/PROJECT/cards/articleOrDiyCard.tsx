@@ -32,17 +32,19 @@ export default function ArticleOrDiyCard(props: ArticleOrDiyCardProps) {
 
 export const ArticleOrDiyCardSkeleton = () => {
     return (
-        <Card className="h-full overflow-hidden p-0">
-            <div className="animate-shimmer aspect-3/2" />
-            <div className="space-y-2 p-4">
-                <div className="animate-shimmer h-7 w-[60%] rounded" />
-                <div className="space-y-1">
-                    <div className="animate-shimmer h-4.5 w-[90%] rounded" />
-                    <div className="animate-shimmer h-4.5 w-[80%] rounded" />
-                    <div className="animate-shimmer h-4.5 w-[60%] rounded" />
+        <div className="size-full rounded-xl p-2">
+            <Card className="h-full overflow-hidden p-0">
+                <div className="animate-shimmer aspect-3/2" />
+                <div className="space-y-2 p-4">
+                    <div className="animate-shimmer h-7 w-[60%] rounded" />
+                    <div className="space-y-1">
+                        <div className="animate-shimmer h-4.5 w-[90%] rounded" />
+                        <div className="animate-shimmer h-4.5 w-[80%] rounded" />
+                        <div className="animate-shimmer h-4.5 w-[60%] rounded" />
+                    </div>
+                    <div className="animate-shimmer h-4.25 w-[30%] rounded" />
                 </div>
-                <div className="animate-shimmer h-4.25 w-[30%] rounded" />
-            </div>
-        </Card>
+            </Card>
+        </div>
     );
 };

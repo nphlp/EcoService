@@ -51,9 +51,14 @@ const SuspendedPage = async (props: PageProps) => {
     const initialArticleList = await ArticleFindManyServer(articleFetchParams({ page, search }));
 
     return (
-        <div className="container mx-auto flex flex-1 flex-col space-y-6 px-5 py-10">
+        <div className="flex w-full flex-1 flex-col space-y-6 py-10">
             <Provider initialArticleAmount={initialArticleAmount}>
-                <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
+                <section
+                    className={combo(
+                        "mx-auto max-w-400 px-4 md:px-7",
+                        "flex w-full flex-col items-center justify-between gap-4 md:flex-row",
+                    )}
+                >
                     <h1 className="text-center text-3xl font-bold md:text-4xl">Nos articles</h1>
                     <div className={combo("group flex flex-row items-center justify-center gap-4")}>
                         <Search
@@ -69,7 +74,7 @@ const SuspendedPage = async (props: PageProps) => {
                             noLabel
                         />
                     </div>
-                </div>
+                </section>
                 <ArticleResults initialArticleList={initialArticleList} />
                 <Pagination path="/article" takeOverride={6} context={Context} />
             </Provider>
