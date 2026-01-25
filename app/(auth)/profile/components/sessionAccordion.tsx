@@ -2,10 +2,9 @@ import { Accordion, AccordionButton, AccordionContent } from "@comps/UI/accordio
 import Logout from "@comps/UI/logout";
 import { Session, SessionList, getSessionList } from "@lib/auth-server";
 import { LogOut } from "lucide-react";
-import Solid from "@/solid/solid-fetch";
-import LocationMap from "./locationMap";
-import SessionManager, { SessionAndLocation } from "./sessionManager";
-import { getBrowser, getOs, locationString } from "./utils";
+import ProfileInfo from "./profileInfo";
+import SessionManager from "./sessionManager";
+import { getBrowser, getOs } from "./utils";
 
 type SessionAccordionProps = {
     session: NonNullable<Session>;
@@ -24,10 +23,34 @@ export default async function SessionAccordion(props: SessionAccordionProps) {
     return (
         <Accordion>
             <AccordionButton>
-                <div className="text-lg font-bold">Sessions</div>
-                <div className="text-xs text-gray-500">Gérer vos sessions actives.</div>
+                <div className="text-lg font-bold">Profile & Sessions</div>
+                <div className="text-xs text-gray-500">
+                    Consulter vos informations personnelles et gérer vos sessions actives.
+                </div>
             </AccordionButton>
-            <AccordionContent>
+            <AccordionContent className="space-y-4">
+                <div className="space-y-4">
+                    <ProfileInfo session={session} />
+                    <div className="flex flex-row items-center justify-between gap-2">
+                        <div className="flex flex-1 flex-col gap-2">
+                            <div className="text-xs font-bold text-gray-700">Expédiés</div>
+                            <div className="text-xl text-gray-500">3</div>
+                        </div>
+                        <div className="flex flex-1 flex-col gap-2">
+                            <div className="text-xs font-bold text-gray-700">En livraison</div>
+                            <div className="text-xl text-gray-500">2</div>
+                        </div>
+                        <div className="flex flex-1 flex-col gap-2">
+                            <div className="text-xs font-bold text-gray-700">Livrés</div>
+                            <div className="text-xl text-gray-500">47</div>
+                        </div>
+                        <div className="flex flex-1 flex-col gap-2">
+                            <div className="text-xs font-bold text-gray-700">Retournés</div>
+                            <div className="text-xl text-gray-500">5</div>
+                        </div>
+                    </div>
+                </div>
+
                 <div className="space-y-5">
                     <CurrentSession session={session} />
                     <OtherSessions sessionList={sessionListWithoutCurrentSession} />
@@ -45,9 +68,6 @@ const CurrentSession = async (props: CurrentSessionProps) => {
     const { session } = props;
 
     const userAgent = session.session.userAgent ?? "";
-    const ipAddress = session.session.ipAddress ?? "";
-
-    const location = await Solid({ route: "/location", params: { ipAddress } });
 
     return (
         <div className="space-y-2 rounded-lg border border-gray-300 px-5 py-3">
@@ -60,7 +80,6 @@ const CurrentSession = async (props: CurrentSessionProps) => {
                             <span className="text-xs text-gray-500"> • </span>
                             <span className="text-xs text-gray-500">{`${getBrowser(userAgent)}, ${getOs(userAgent)}`}</span>
                         </div>
-                        <div className="text-2xs line-clamp-1 text-gray-500">{locationString(location)}</div>
                     </div>
                 </div>
                 <Logout variant="outline" className={{ button: "rounded-md px-3 py-1.5 text-xs" }}>
@@ -68,7 +87,6 @@ const CurrentSession = async (props: CurrentSessionProps) => {
                     <LogOut className="size-4" />
                 </Logout>
             </div>
-            <LocationMap location={location} />
         </div>
     );
 };
@@ -84,19 +102,5 @@ const OtherSessions = async (props: OtherSessionsProps) => {
         (a, b) => new Date(b.expiresAt).getTime() - new Date(a.expiresAt).getTime(),
     );
 
-    const location = await Promise.all(
-        orderedSessionList.map(({ ipAddress }) =>
-            Solid({
-                route: "/location",
-                params: { ipAddress: ipAddress ?? "" },
-            }),
-        ),
-    );
-
-    const sessionAndLocationList: SessionAndLocation[] = orderedSessionList.map((session, index) => ({
-        session,
-        location: location[index],
-    }));
-
-    return <SessionManager sessionAndLocationList={sessionAndLocationList} />;
+    return <SessionManager sessionList={orderedSessionList} />;
 };

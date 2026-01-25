@@ -1,6 +1,5 @@
 "use client";
 
-import { LocationResponse } from "@app/api/location/route";
 import Button from "@comps/UI/button/button";
 import Modal from "@comps/UI/modal/modal";
 import { revokeOtherSessions, revokeSession } from "@lib/auth-client";
@@ -8,39 +7,37 @@ import { type SessionList } from "@lib/auth-server";
 import { X } from "lucide-react";
 import { Dispatch, SetStateAction } from "react";
 import { Fragment, ReactNode, createContext, useContext, useState } from "react";
-import { getBrowser, getOs, locationString } from "./utils";
-
-export type SessionAndLocation = {
-    session: SessionList[number];
-    location: LocationResponse;
-};
+import { getBrowser, getOs } from "./utils";
 
 type ContextType = {
-    data: SessionAndLocation[];
-    setData: Dispatch<SetStateAction<SessionAndLocation[]>>;
+    data: SessionList;
+    setData: Dispatch<SetStateAction<SessionList>>;
 };
 
 const Context = createContext<ContextType>({} as ContextType);
 
 type ProviderProps = {
-    init: SessionAndLocation[];
+    sessionList: SessionList;
     children: ReactNode;
 };
 
 const Provider = (props: ProviderProps) => {
-    const { init, children } = props;
-    const [data, setData] = useState<SessionAndLocation[]>(init);
+    const { sessionList, children } = props;
+
+    const [data, setData] = useState<SessionList>(sessionList);
+
     return <Context.Provider value={{ data, setData }}>{children}</Context.Provider>;
 };
 
 type SessionManagerProps = {
-    sessionAndLocationList: SessionAndLocation[];
+    sessionList: SessionList;
 };
 
 export default function SessionManager(props: SessionManagerProps) {
-    const { sessionAndLocationList: init } = props;
+    const { sessionList } = props;
+
     return (
-        <Provider init={init}>
+        <Provider sessionList={sessionList}>
             <SessionList />
         </Provider>
     );
@@ -48,7 +45,9 @@ export default function SessionManager(props: SessionManagerProps) {
 
 const SessionList = () => {
     const { data, setData } = useContext(Context);
+
     const [isModalOpen, setIsModalOpen] = useState(false);
+
     return (
         <div className="space-y-2">
             <div className="flex flex-row items-baseline justify-between">
@@ -87,10 +86,10 @@ const SessionList = () => {
             {/* Other sessions list */}
             <div className="space-y-2 rounded-lg border border-gray-300 px-5 py-3">
                 {data.length ? (
-                    data.map((sessionAndLocation, index) => (
+                    data.map((session, index) => (
                         <Fragment key={index}>
                             {index > 0 && <hr className="border-gray-300" />}
-                            <SessionItem sessionAndLocation={sessionAndLocation} />
+                            <SessionItem session={session} />
                         </Fragment>
                     ))
                 ) : (
@@ -102,12 +101,11 @@ const SessionList = () => {
 };
 
 type SessionItemProps = {
-    sessionAndLocation: SessionAndLocation;
+    session: SessionList[number];
 };
 
 const SessionItem = (props: SessionItemProps) => {
-    const { sessionAndLocation } = props;
-    const { session, location } = sessionAndLocation;
+    const { session } = props;
 
     const { setData } = useContext(Context);
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -132,7 +130,6 @@ const SessionItem = (props: SessionItemProps) => {
                 <div className="flex w-full flex-row items-center justify-between gap-3">
                     <div className="text-sm">
                         <div className="font-semibold">{`${getBrowser(userAgent)} • ${getOs(userAgent)}`}</div>
-                        <div className="text-2xs line-clamp-1 w-full text-gray-500">{locationString(location)}</div>
                     </div>
                     <div className="text-right text-gray-500">
                         <div className="text-2xs">Dernière activité le </div>
@@ -174,8 +171,8 @@ const SessionItem = (props: SessionItemProps) => {
                             onClick={() => {
                                 revokeSession({ token: session.token });
                                 setIsModalOpen(false);
-                                setData((prevData: SessionAndLocation[]) =>
-                                    prevData.filter((item: SessionAndLocation) => item.session.token !== session.token),
+                                setData((prevData: SessionList) =>
+                                    prevData.filter((item: SessionList[number]) => item.token !== session.token),
                                 );
                             }}
                         />
