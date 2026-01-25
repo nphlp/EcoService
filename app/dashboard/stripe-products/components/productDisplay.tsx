@@ -7,13 +7,28 @@ import Stripe from "stripe";
 
 const env = process.env.NODE_ENV;
 
-// TODO: make utils function
-function getImageUrl(imageUrl: string) {
-    if (imageUrl.includes("/v1/files/")) {
-        const fileId = imageUrl.split("/").pop();
-        return `https://files.stripe.com/links/${fileId}`;
+/**
+ * Récupère l'URL de l'image du produit
+ * Priorité : metadata.localImage > images[0] > placeholder
+ */
+function getImageUrl(product: Stripe.Product): string {
+    // Image locale stockée en metadata
+    if (product.metadata?.localImage) {
+        return product.metadata.localImage;
     }
-    return imageUrl;
+
+    // Image Stripe
+    if (product.images?.[0]) {
+        const imageUrl = product.images[0];
+        if (imageUrl.includes("/v1/files/")) {
+            const fileId = imageUrl.split("/").pop();
+            return `https://files.stripe.com/links/${fileId}`;
+        }
+        return imageUrl;
+    }
+
+    // Placeholder
+    return "/images/placeholder.webp";
 }
 
 type ProductDisplayProps = {
@@ -28,7 +43,7 @@ export default function ProductDisplay(props: ProductDisplayProps) {
             {stripeProductList.map((product, index) => (
                 <div key={index} className="group relative">
                     <div className="w-full overflow-hidden rounded-lg">
-                        <ImageRatio src={getImageUrl(product.images[0])} alt={product.name} mode="onPageLoad" />
+                        <ImageRatio src={getImageUrl(product)} alt={product.name} mode="onPageLoad" />
                     </div>
                     <div
                         className={combo(
