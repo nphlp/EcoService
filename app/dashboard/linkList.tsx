@@ -7,11 +7,19 @@ import { combo } from "@lib/combo";
 import { CreditCard, FilePlus, LayoutDashboard, PackagePlus } from "lucide-react";
 // import { Route } from "next";
 import { usePathname } from "next/navigation";
+import { useSidebarStore } from "./sidebarStore";
 
 // import { MouseEvent, useState } from "react";
 
 export default function LinkList() {
     const path = usePathname();
+    const { setIsOpen } = useSidebarStore();
+
+    const closeSidebarOnMobile = () => {
+        if (window.innerWidth < 768) {
+            setIsOpen(false);
+        }
+    };
 
     // const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -21,7 +29,7 @@ export default function LinkList() {
     // };
 
     return (
-        <div className="space-y-1">
+        <div className="space-y-2 md:space-y-1">
             {/* <Modal
                 setIsModalOpen={setIsModalOpen}
                 isModalOpen={isModalOpen}
@@ -39,48 +47,52 @@ export default function LinkList() {
                 label="Dashboard"
                 variant="outline"
                 className={combo(
-                    "flex w-full items-center justify-start gap-2 text-sm",
+                    "flex w-full items-center justify-start gap-3 py-4 text-base md:gap-2 md:py-2 md:text-sm",
                     path === "/dashboard" && "font-bold",
                 )}
                 href="/dashboard"
+                onClick={closeSidebarOnMobile}
             >
-                <LayoutDashboard className="size-4" />
+                <LayoutDashboard className="size-5 md:size-4" />
                 Dashboard
             </Link>
             <Link
                 label="Créer un produit"
                 variant="outline"
                 className={combo(
-                    "flex w-full items-center justify-start gap-2 text-sm",
+                    "flex w-full items-center justify-start gap-3 py-4 text-base md:gap-2 md:py-2 md:text-sm",
                     path === "/dashboard/create-product" && "font-bold",
                 )}
                 href="/dashboard/create-product"
+                onClick={closeSidebarOnMobile}
             >
-                <PackagePlus className="size-4" />
+                <PackagePlus className="size-5 md:size-4" />
                 Créer un produit
             </Link>
             <Link
                 label="Créer un contenu"
                 variant="outline"
                 className={combo(
-                    "flex w-full items-center justify-start gap-2 text-sm",
+                    "flex w-full items-center justify-start gap-3 py-4 text-base md:gap-2 md:py-2 md:text-sm",
                     path === "/dashboard/create-content" && "font-bold",
                 )}
                 href="/dashboard/create-content"
+                onClick={closeSidebarOnMobile}
             >
-                <FilePlus className="size-4" />
+                <FilePlus className="size-5 md:size-4" />
                 Créer un contenu
             </Link>
             <Link
                 label="Produits stripe"
                 variant="outline"
                 className={combo(
-                    "flex w-full items-center justify-start gap-2 text-sm",
+                    "flex w-full items-center justify-start gap-3 py-4 text-base md:gap-2 md:py-2 md:text-sm",
                     path === "/dashboard/stripe-products" && "font-bold",
                 )}
                 href="/dashboard/stripe-products"
+                onClick={closeSidebarOnMobile}
             >
-                <CreditCard className="size-4" />
+                <CreditCard className="size-5 md:size-4" />
                 Produits Stripe
             </Link>
             {/* <Link
