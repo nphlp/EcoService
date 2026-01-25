@@ -3,12 +3,10 @@
 import { Accordion, AccordionButton, AccordionContent } from "@comps/UI/accordion";
 import Button from "@comps/UI/button/button";
 import Input from "@comps/UI/input/input";
-import InputImage from "@comps/UI/inputImage";
 import InputPassword from "@comps/UI/inputPassword";
 import { changeEmail, changePassword, updateUser, useSession } from "@lib/auth-client";
 import { Session } from "@lib/auth-server";
 import { UpdateLastnameProcess } from "@process/ProfileUpdate";
-import { imageToBase64 } from "@utils/base64";
 import { useState } from "react";
 
 type EditionAccordionProps = {
@@ -35,7 +33,6 @@ export default function EditionAccordion(props: EditionAccordionProps) {
                     <UpdateFirstnameForm session={session} />
                     <UpdateEmailForm session={session} />
                     <UpdatePasswordForm />
-                    <UpdateImageForm />
                 </div>
             </AccordionContent>
         </Accordion>
@@ -211,46 +208,6 @@ const UpdatePasswordForm = () => {
                 value={newPassword}
                 required={false}
                 classPasswordComponent="w-full"
-            />
-            <Button label="Modifier" isLoading={isLoading} type="submit" />
-        </form>
-    );
-};
-
-const UpdateImageForm = () => {
-    const [image, setImage] = useState<File | null>(null);
-    const [isLoading, setIsLoading] = useState(false);
-
-    const handleImageUpdate = async (e: React.FormEvent) => {
-        // Prevent refresh and check if data exists
-        e.preventDefault();
-        if (!image) return;
-
-        // Set loading state
-        setIsLoading(true);
-
-        // Update database through Better Auth API
-        try {
-            const encodedImage = await imageToBase64(image);
-            if (!encodedImage) return;
-            await updateUser({ image: encodedImage });
-        } catch {
-            console.error("Erreur lors de la modification de l'image");
-        }
-
-        // Reset form and stop loading
-        setImage(null);
-        setIsLoading(false);
-    };
-
-    return (
-        <form onSubmit={handleImageUpdate} className="flex flex-col items-center gap-2">
-            <InputImage
-                label="Image"
-                onChange={setImage}
-                imagePreview={image}
-                required={false}
-                classComponent="w-full"
             />
             <Button label="Modifier" isLoading={isLoading} type="submit" />
         </form>
