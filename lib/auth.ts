@@ -19,6 +19,7 @@ export const auth = betterAuth({
     trustedOrigins: [NEXT_PUBLIC_BASE_URL],
     emailAndPassword: {
         enabled: true,
+        minPasswordLength: 10,
         sendResetPassword: async ({ user, url }: { user: { email: string; name: string }; url: string }) => {
             await SendEmailAction({
                 subject: `Reset your password`,

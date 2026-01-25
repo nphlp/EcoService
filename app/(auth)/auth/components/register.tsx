@@ -33,7 +33,15 @@ export default function RegisterClient() {
         setIsLoading(true);
 
         if (!firstname || !lastname || !email || !password) {
-            setMessage("Please fill all fields.");
+            setMessage("Veuillez remplir tous les champs.");
+            setMode("warning");
+            setIsFeedbackOpen(true);
+            setIsLoading(false);
+            return;
+        }
+
+        if (password.length < 10) {
+            setMessage("Le mot de passe doit contenir au moins 10 caractères.");
             setMode("warning");
             setIsFeedbackOpen(true);
             setIsLoading(false);
@@ -52,7 +60,7 @@ export default function RegisterClient() {
                 const userData = await UpdateLastnameProcess({ lastname });
 
                 if (userData) {
-                    setMessage("Successfully registered.");
+                    setMessage("Inscription réussie.");
                     setMode("success");
                     setIsFeedbackOpen(true);
 
@@ -61,10 +69,10 @@ export default function RegisterClient() {
                         router.push(redirect ?? "/profile");
                     }, 2000);
                 } else {
-                    throw new Error("Something went wrong.");
+                    throw new Error("Une erreur est survenue.");
                 }
             } else {
-                throw new Error("Failed to register.");
+                throw new Error("Échec de l'inscription.");
             }
         } catch (error) {
             setMessage((error as Error).message);

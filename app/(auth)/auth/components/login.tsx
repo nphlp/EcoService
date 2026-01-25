@@ -31,7 +31,7 @@ export default function LoginClient() {
         setIsLoading(true);
 
         if (!email || !password) {
-            setMessage("Please fill all fields.");
+            setMessage("Veuillez remplir tous les champs.");
             setMode("warning");
             setIsFeedbackOpen(true);
             setIsLoading(false);
@@ -44,7 +44,7 @@ export default function LoginClient() {
         });
 
         if (data) {
-            setMessage("Successfully logged in.");
+            setMessage("Connexion réussie.");
             setMode("success");
             setIsFeedbackOpen(true);
 
@@ -55,7 +55,7 @@ export default function LoginClient() {
                 router.push(redirect ?? redirectAccordingRole);
             }, 1000);
         } else if (error) {
-            setMessage("Failed to login, invalid credentials.");
+            setMessage("Identifiants invalides.");
             setMode("error");
             setIsFeedbackOpen(true);
             setIsLoading(false);
@@ -75,14 +75,24 @@ export default function LoginClient() {
                     <Input label="Email" type="email" setValue={setEmail} value={email} />
                     <InputPassword label="Mot de passe" setValue={setPassword} value={password} required={false} />
                 </div>
-                <Link
-                    className="rounded px-1 text-sm text-gray-500"
-                    href="/auth?tab=register"
-                    label="not-registered-yet"
-                    variant="underline"
-                >
-                    Pas encore inscrit ?
-                </Link>
+                <div className="flex flex-col items-center gap-1">
+                    <Link
+                        className="rounded px-1 text-sm text-gray-500"
+                        href="/forgot-password"
+                        label="forgot-password"
+                        variant="underline"
+                    >
+                        Mot de passe oublié ?
+                    </Link>
+                    <Link
+                        className="rounded px-1 text-sm text-gray-500"
+                        href="/auth?tab=register"
+                        label="not-registered-yet"
+                        variant="underline"
+                    >
+                        Pas encore inscrit ?
+                    </Link>
+                </div>
                 <Feedback message={message} mode={mode} isFeedbackOpen={isFeedbackOpen} />
                 <Button type="submit" label="login" isLoading={isLoading}>
                     Connexion
