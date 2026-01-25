@@ -41,7 +41,6 @@ const SuspendedPage = async () => {
     return (
         <div className="w-full">
             <section
-                className="flex flex-row items-center justify-between gap-12 p-8 backdrop-blur-md"
                 style={{
                     backgroundImage: "url('/home.webp')",
                     backgroundSize: "cover",
@@ -50,29 +49,35 @@ const SuspendedPage = async () => {
                     backgroundColor: "rgba(0, 0, 0, 0.4)",
                 }}
             >
-                <div className="w-full text-4xl font-bold text-nowrap sm:text-5xl md:text-4xl lg:text-5xl xl:text-6xl">
-                    <div className="text-white text-shadow-lg">Passez au</div>
-                    <div className="text-secondary text-shadow-lg">zéro déchet</div>
-                </div>
-
-                <div className="flex flex-row items-center justify-center gap-8">
-                    <ImageRatio
-                        src="/images/illustrations/BRVqq2uak4E.webp"
-                        alt="produit"
-                        className={combo("max-md:hidden", imageClass)}
-                        mode="preloaded"
-                    />
-                    <ImageRatio
-                        src="/images/illustrations/cTmJbqysgV8.webp"
-                        alt="produit"
-                        className={combo("max-md:hidden", imageClass)}
-                        mode="preloaded"
-                    />
+                <div
+                    className={combo(
+                        "mx-auto max-w-400 px-4 py-8 md:px-7",
+                        "flex flex-row items-center justify-between gap-12",
+                    )}
+                >
+                    <div className="xs:text-5xl w-full text-4xl font-bold text-nowrap md:text-4xl lg:text-5xl xl:text-6xl">
+                        <div className="text-white text-shadow-lg">Passez au</div>
+                        <div className="text-secondary text-shadow-lg">zéro déchet</div>
+                    </div>
+                    <div className="flex flex-row items-center justify-center gap-8">
+                        <ImageRatio
+                            src="/images/illustrations/BRVqq2uak4E.webp"
+                            alt="produit"
+                            className={combo("max-md:hidden", imageClass)}
+                            mode="preloaded"
+                        />
+                        <ImageRatio
+                            src="/images/illustrations/cTmJbqysgV8.webp"
+                            alt="produit"
+                            className={combo("max-md:hidden", imageClass)}
+                            mode="preloaded"
+                        />
+                    </div>
                 </div>
             </section>
 
-            <div className="space-y-16 px-7 py-16">
-                <section className="flex flex-col items-center gap-12 px-2 text-center lg:flex-row lg:justify-between lg:text-left">
+            <div className={combo("mx-auto max-w-400 px-4 py-16 md:px-7", "space-y-16")}>
+                <section className="flex flex-col items-center gap-12 text-center lg:flex-row lg:justify-between lg:text-left">
                     <div className="space-y-4 lg:w-1/2">
                         <h1 className="text-secondary text-xl font-bold md:text-3xl">Réinventez Votre Quotidien !</h1>
                         <p className="text-gray-700">
@@ -116,6 +121,22 @@ const SuspendedPage = async () => {
                     title="Nos articles"
                     description="Plongez dans l'univers de nos créateurs engagés et découvrez les valeurs qui animent chaque produit. Nos articles vous font rencontrer les artisans derrière nos collections et explorent les enjeux d'une consommation plus responsable."
                 />
+
+                <section className="mx-auto max-w-300 space-y-4 text-center">
+                    <h2 className="text-secondary text-xl font-bold md:text-2xl">
+                        Ensemble, construisons un avenir durable
+                    </h2>
+                    <p className="text-gray-700">
+                        Chaque petit geste compte. En adoptant des habitudes de consommation responsables, vous
+                        contribuez à réduire les déchets, préserver les ressources naturelles et protéger notre planète
+                        pour les générations futures.
+                    </p>
+                    <p className="text-gray-700">
+                        Rejoignez notre communauté de consommateurs engagés et découvrez comment transformer votre
+                        quotidien, un produit à la fois.
+                    </p>
+                    <p className="text-gray-700">Parce que le changement commence chez soi.</p>
+                </section>
             </div>
         </div>
     );
