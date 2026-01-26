@@ -163,12 +163,12 @@ export default function SearchModal(props: SearchModalProps) {
                     "flex justify-center py-20",
                     // Responsive
                     "px-3 md:px-7",
-                    "w-full md:w-2/3 lg:w-1/2",
+                    "w-full max-w-180",
                 ),
                 card: combo(
                     "h-fit w-full space-y-5",
                     // Responsive
-                    "p-3 md:p-5",
+                    "px-4 py-3 md:px-6 md:py-4",
                 ),
             }}
             isModalOpen={searchOpen}

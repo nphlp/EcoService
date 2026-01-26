@@ -134,24 +134,29 @@ const Item = (props: ItemProps) => {
             variant="none"
             href={href}
             onClick={handleClick}
-            className={combo("group", "w-full gap-4", "bg-gray-100 hover:bg-gray-200", "rounded-md px-4 py-1.5")}
+            className={combo(
+                "group",
+                "w-full gap-4",
+                "bg-gray-100 hover:bg-gray-200",
+                "rounded-md px-2 py-1.5 sm:px-4",
+            )}
         >
             {imageUrl ? (
                 <ImageRatio src={imageUrl} alt={title.complete} className="h-16 shrink-0 rounded" mode="onPageLoad" />
             ) : null}
             <div className="flex w-full flex-col">
-                <h5 className="line-clamp-1 text-lg font-medium">
+                <h5 className="line-clamp-1 text-base font-medium sm:text-lg">
                     <span>{title.before}</span>
                     <span className="rounded-sm bg-amber-200 font-bold">{title.highlighted}</span>
                     <span>{title.after}</span>
                 </h5>
-                <p className="line-clamp-2 text-sm text-gray-500">
+                <p className="line-clamp-2 text-xs text-gray-500 md:text-sm">
                     <span>{description.before}</span>
                     <span className="rounded-sm bg-amber-200 font-bold">{description.highlighted}</span>
                     <span>{description.after}</span>
                 </p>
             </div>
-            <div className="px-2">
+            <div className="px-2 max-[360px]:hidden">
                 <ArrowRightIcon className="size-6 text-gray-500 group-hover:text-black" />
             </div>
         </Link>
