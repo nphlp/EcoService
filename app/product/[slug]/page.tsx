@@ -63,7 +63,7 @@ const SuspendedPage = async (props: PageProps) => {
     const { name, image, price, description, stock, Category } = product;
 
     return (
-        <div className="w-full max-w-300 flex-1 space-y-8 overflow-x-hidden p-7 px-4 md:px-7">
+        <div className="w-full max-w-300 space-y-8 overflow-x-hidden px-4 py-7 md:px-7">
             <Link label="Retour aux produits" href="/catalog" variant="ghost">
                 <ArrowLeft className="mr-2 size-4" />
                 Retour aux produits
@@ -78,7 +78,7 @@ const SuspendedPage = async (props: PageProps) => {
                     mode="preloaded"
                 />
 
-                <div className="w-full space-y-6">
+                <div className="flex w-full flex-col gap-6">
                     <div>
                         {Category && (
                             <div className="bg-primary/10 text-primary mb-2 w-fit rounded-full px-3 py-1 text-sm">
@@ -122,7 +122,9 @@ const SuspendedPage = async (props: PageProps) => {
                 </div>
             </div>
 
-            <ProductSlider productList={recommendedProductList} title="Nos recommandations" />
+            <div className="my-2">
+                <ProductSlider productList={recommendedProductList} title="Nos recommandations" />
+            </div>
         </div>
     );
 };
