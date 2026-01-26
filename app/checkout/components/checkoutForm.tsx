@@ -43,6 +43,9 @@ export default function CheckoutProvider(props: CheckoutProviderProps) {
 const CheckoutForm = () => {
     const paymentElementOptions: StripePaymentElementOptions = {
         layout: "accordion",
+        wallets: {
+            link: "never",
+        },
     };
 
     const stripe = useStripe();

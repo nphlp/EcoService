@@ -1,8 +1,16 @@
 # Todo
 
-## Dashboard on mobile
+## useSession
 
-- Retravailler les paddings
+- Créer des problèmes d'hydratation
+
+## Menu mobile
+
+- Ré-aranger
+
+## Recherche
+
+- Moteur de recherche sur mobile
 
 ## Logs
 
