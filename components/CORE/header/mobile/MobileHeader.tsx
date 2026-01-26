@@ -66,7 +66,7 @@ const Menu = (props: MenuProps) => {
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                         transition={{ duration: animationDuration / 6 }}
-                        className="absolute inset-0 z-40 backdrop-blur-[1.5px]"
+                        className="fixed inset-0 z-40 backdrop-blur-[1.5px]"
                     />
 
                     {/* Background Color */}
@@ -75,7 +75,7 @@ const Menu = (props: MenuProps) => {
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                         transition={{ duration: animationDuration / 2 }}
-                        className="absolute inset-0 z-40 bg-black/50"
+                        className="fixed inset-0 z-40 bg-black/50"
                     />
 
                     {/* Background Button */}
@@ -83,7 +83,7 @@ const Menu = (props: MenuProps) => {
                         type="button"
                         aria-label="close-menu"
                         onClick={() => setIsMenuOpen(false)}
-                        className="absolute inset-0 z-40"
+                        className="fixed inset-0 z-40"
                     />
 
                     {/* Menu */}
@@ -92,7 +92,7 @@ const Menu = (props: MenuProps) => {
                         animate={{ y: 0, opacity: 1 }}
                         exit={{ y: 16, opacity: 0 }}
                         transition={{ duration: 0.2, ease: "easeOut" }}
-                        className="absolute bottom-0 left-0 z-50 w-full px-4 pb-4"
+                        className="fixed bottom-0 left-0 z-50 w-full px-4 pb-4"
                     >
                         <nav className="flex w-full flex-col items-center justify-center gap-2 rounded-2xl border border-gray-300 bg-white p-4 shadow-md">
                             <Link
