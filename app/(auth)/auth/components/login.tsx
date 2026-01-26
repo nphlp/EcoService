@@ -53,6 +53,11 @@ export default function LoginClient() {
 
             setTimeout(() => {
                 router.push(redirect ?? redirectAccordingRole);
+            }, 200);
+
+            setTimeout(() => {
+                setEmail("");
+                setPassword("");
             }, 1000);
         } else if (error) {
             setMessage("Identifiants invalides.");
