@@ -6,7 +6,19 @@ import Link from "@comps/UI/button/link";
 import LogoutClient from "@comps/UI/logout";
 import { useSession } from "@lib/auth-client";
 import { combo } from "@lib/combo";
-import { BookOpen, Home, Leaf, LogIn, LogOut, Search, ShoppingBag, ShoppingCart, User, Wrench } from "lucide-react";
+import {
+    BookOpen,
+    Home,
+    Leaf,
+    LogIn,
+    LogOut,
+    PanelsTopLeft,
+    Search,
+    ShoppingBag,
+    ShoppingCart,
+    User,
+    Wrench,
+} from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { useState } from "react";
 import { useHeaderStore } from "../headerStore";
@@ -54,6 +66,9 @@ const Menu = (props: MenuProps) => {
     const { data: session } = useSession();
     const { basket } = useBasketStore();
     const { basketOpen, setBasketOpen, searchOpen, setSearchOpen } = useHeaderStore();
+
+    const role = session?.user.role;
+    const canAccessDashboard = role === "ADMIN" || role === "EMPLOYEE" || role === "VENDOR";
 
     const buttonClass = "w-full py-3 justify-start gap-3";
     const iconButtonClass = "py-3 gap-2";
@@ -186,6 +201,19 @@ const Menu = (props: MenuProps) => {
                                         Connexion
                                     </Link>
                                 </div>
+                            )}
+
+                            {canAccessDashboard && (
+                                <Link
+                                    href="/dashboard"
+                                    label="dashboard"
+                                    variant="outline"
+                                    className={buttonClass}
+                                    onClick={() => setIsMenuOpen(false)}
+                                >
+                                    <PanelsTopLeft size={20} />
+                                    Dashboard
+                                </Link>
                             )}
 
                             {/* Profile & Logout (logged in) */}

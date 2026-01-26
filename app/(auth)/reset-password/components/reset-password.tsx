@@ -79,7 +79,12 @@ export default function ResetPassword(props: ResetPasswordProps) {
 
         setTimeout(() => {
             router.push("/auth?tab=login");
-        }, 2000);
+        }, 200);
+
+        setTimeout(() => {
+            setPassword("");
+            setConfirmPassword("");
+        }, 1000);
     };
 
     if (!token) {

@@ -64,10 +64,16 @@ export default function RegisterClient() {
                     setMode("success");
                     setIsFeedbackOpen(true);
 
-                    // Redirect to profile page
                     setTimeout(() => {
                         router.push(redirect ?? "/profile");
-                    }, 2000);
+                    }, 200);
+
+                    setTimeout(() => {
+                        setFirstname("");
+                        setLastname("");
+                        setEmail("");
+                        setPassword("");
+                    }, 1000);
                 } else {
                     throw new Error("Une erreur est survenue.");
                 }
