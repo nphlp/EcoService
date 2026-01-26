@@ -95,7 +95,7 @@ const SuspendedPage = async (props: PageProps) => {
     if (!article) notFound();
 
     return (
-        <div className={combo("mx-auto w-full max-w-400 px-4 md:px-7", "space-y-8 py-12")}>
+        <div className={combo("mx-auto w-full max-w-400 overflow-x-hidden px-4 md:px-7", "space-y-8 py-12")}>
             <div className="text-center">
                 <h1 className="mb-4 text-3xl font-bold md:text-4xl">{article.title}</h1>
                 {article.Author && (

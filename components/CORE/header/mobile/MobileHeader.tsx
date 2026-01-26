@@ -20,7 +20,7 @@ export default function MobileHeader(props: MobileHeaderProps) {
     const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
 
     return (
-        <div className={className}>
+        <header className={className}>
             {/* Open menu */}
             <Button
                 type="button"
@@ -38,7 +38,7 @@ export default function MobileHeader(props: MobileHeaderProps) {
             </Button>
 
             <Menu isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
-        </div>
+        </header>
     );
 }
 
@@ -87,14 +87,14 @@ const Menu = (props: MenuProps) => {
                     />
 
                     {/* Menu */}
-                    <motion.nav
+                    <motion.div
                         initial={{ y: 16, opacity: 0 }}
                         animate={{ y: 0, opacity: 1 }}
                         exit={{ y: 16, opacity: 0 }}
                         transition={{ duration: 0.2, ease: "easeOut" }}
                         className="absolute bottom-0 left-0 z-50 w-full px-4 pb-4"
                     >
-                        <div className="flex w-full flex-col items-center justify-center gap-2 rounded-2xl border border-gray-300 bg-white p-4 shadow-md">
+                        <nav className="flex w-full flex-col items-center justify-center gap-2 rounded-2xl border border-gray-300 bg-white p-4 shadow-md">
                             <Link
                                 href="/"
                                 label="home"
@@ -187,8 +187,8 @@ const Menu = (props: MenuProps) => {
                             >
                                 Fermer
                             </Button>
-                        </div>
-                    </motion.nav>
+                        </nav>
+                    </motion.div>
                 </>
             )}
         </AnimatePresence>

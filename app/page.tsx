@@ -39,7 +39,7 @@ const SuspendedPage = async () => {
     const productList = await ProductFindManyServer(ProductFetchParams);
 
     return (
-        <div className="w-full">
+        <div className="w-full space-y-16 pb-16">
             <section
                 style={{
                     backgroundImage: "url('/home.webp')",
@@ -51,11 +51,11 @@ const SuspendedPage = async () => {
             >
                 <div
                     className={combo(
-                        "mx-auto max-w-400 px-4 py-8 md:px-7",
+                        "mx-auto max-w-400 px-4 py-16 md:px-7",
                         "flex flex-row items-center justify-between gap-12",
                     )}
                 >
-                    <div className="xs:text-5xl w-full text-4xl font-bold text-nowrap md:text-4xl lg:text-5xl xl:text-6xl">
+                    <div className={combo("w-full font-bold text-nowrap", "text-5xl lg:text-6xl")}>
                         <div className="text-white text-shadow-lg">Passez au</div>
                         <div className="text-secondary text-shadow-lg">zéro déchet</div>
                     </div>
@@ -76,34 +76,39 @@ const SuspendedPage = async () => {
                 </div>
             </section>
 
-            <div className={combo("mx-auto max-w-400 px-4 py-16 md:px-7", "space-y-16")}>
-                <section className="flex flex-col items-center gap-12 text-center lg:flex-row lg:justify-between lg:text-left">
-                    <div className="space-y-4 lg:w-1/2">
-                        <h1 className="text-secondary text-xl font-bold md:text-3xl">Réinventez Votre Quotidien !</h1>
-                        <p className="text-gray-700">
-                            Dans un monde où la surconsommation génère des tonnes de déchets chaque jour, le zéro déchet
-                            apparaît comme une solution incontournable pour préserver notre environnement.
-                        </p>
-                        <p className="text-gray-700">
-                            En choisissant des alternatives durables comme les produits réutilisables, les achats en
-                            vrac et les objets réparables, vous pouvez diminuer considérablement votre impact écologique
-                            tout en réalisant des économies.
-                        </p>
-                        <p className="text-gray-700">
-                            Ce mode de vie repose sur un principe simple : réduire au maximum la production de déchets
-                            en favorisant le réemploi, la réutilisation et le recyclage. En choisissant des alternatives
-                            durables comme les produits réutilisables, les achats en vrac et les objets réparables, vous
-                            pouvez diminuer considérablement votre impact écologique tout en réalisant des économies.
-                        </p>
-                    </div>
-                    <ImageRatio
-                        src="/images/illustrations/gtdSDl5IkKw.webp"
-                        alt="produit"
-                        className="rounded-lg shadow-md max-lg:w-full lg:h-80"
-                        mode="preloaded"
-                    />
-                </section>
+            <section
+                className={combo(
+                    "mx-auto max-w-400 px-4 md:px-7",
+                    "flex flex-col items-center gap-12 text-center lg:flex-row lg:justify-between lg:text-left",
+                )}
+            >
+                <div className="space-y-4 lg:w-1/2">
+                    <h1 className="text-secondary text-xl font-bold md:text-3xl">Réinventez Votre Quotidien !</h1>
+                    <p className="text-gray-700">
+                        Dans un monde où la surconsommation génère des tonnes de déchets chaque jour, le zéro déchet
+                        apparaît comme une solution incontournable pour préserver notre environnement.
+                    </p>
+                    <p className="text-gray-700">
+                        En choisissant des alternatives durables comme les produits réutilisables, les achats en vrac et
+                        les objets réparables, vous pouvez diminuer considérablement votre impact écologique tout en
+                        réalisant des économies.
+                    </p>
+                    <p className="text-gray-700">
+                        Ce mode de vie repose sur un principe simple : réduire au maximum la production de déchets en
+                        favorisant le réemploi, la réutilisation et le recyclage. En choisissant des alternatives
+                        durables comme les produits réutilisables, les achats en vrac et les objets réparables, vous
+                        pouvez diminuer considérablement votre impact écologique tout en réalisant des économies.
+                    </p>
+                </div>
+                <ImageRatio
+                    src="/images/illustrations/gtdSDl5IkKw.webp"
+                    alt="produit"
+                    className="rounded-lg shadow-md max-lg:w-full lg:h-80"
+                    mode="preloaded"
+                />
+            </section>
 
+            <section className={combo("mx-auto max-w-400 px-4 md:px-7", "space-y-16 overflow-x-hidden")}>
                 <ProductSlider
                     productList={productList}
                     title="Nos produits vedettes"
@@ -121,23 +126,23 @@ const SuspendedPage = async () => {
                     title="Nos articles"
                     description="Plongez dans l'univers de nos créateurs engagés et découvrez les valeurs qui animent chaque produit. Nos articles vous font rencontrer les artisans derrière nos collections et explorent les enjeux d'une consommation plus responsable."
                 />
+            </section>
 
-                <section className="mx-auto max-w-300 space-y-4 text-center">
-                    <h2 className="text-secondary text-xl font-bold md:text-2xl">
-                        Ensemble, construisons un avenir durable
-                    </h2>
-                    <p className="text-gray-700">
-                        Chaque petit geste compte. En adoptant des habitudes de consommation responsables, vous
-                        contribuez à réduire les déchets, préserver les ressources naturelles et protéger notre planète
-                        pour les générations futures.
-                    </p>
-                    <p className="text-gray-700">
-                        Rejoignez notre communauté de consommateurs engagés et découvrez comment transformer votre
-                        quotidien, un produit à la fois.
-                    </p>
-                    <p className="text-gray-700">Parce que le changement commence chez soi.</p>
-                </section>
-            </div>
+            <section className={combo("mx-auto max-w-300 px-4 md:px-7", "space-y-4 text-center")}>
+                <h2 className="text-secondary text-xl font-bold md:text-2xl">
+                    Ensemble, construisons un avenir durable
+                </h2>
+                <p className="text-gray-700">
+                    Chaque petit geste compte. En adoptant des habitudes de consommation responsables, vous contribuez à
+                    réduire les déchets, préserver les ressources naturelles et protéger notre planète pour les
+                    générations futures.
+                </p>
+                <p className="text-gray-700">
+                    Rejoignez notre communauté de consommateurs engagés et découvrez comment transformer votre
+                    quotidien, un produit à la fois.
+                </p>
+                <p className="text-gray-700">Parce que le changement commence chez soi.</p>
+            </section>
         </div>
     );
 };

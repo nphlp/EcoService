@@ -205,7 +205,7 @@ const Arrow = () => {
         <>
             <Button
                 label="Previous"
-                className={{ button: combo(style, "rounded-full p-2", "-left-2 md:-left-4") }}
+                className={{ button: combo(style, "rounded-full p-2", "-left-2 md:-left-4", "disabled:opacity-30") }}
                 onClick={() => emblaApi?.scrollPrev()}
                 disabled={!canScroll.prev}
             >
@@ -213,7 +213,7 @@ const Arrow = () => {
             </Button>
             <Button
                 label="Next"
-                className={{ button: combo(style, "rounded-full p-2", "-right-2 md:-right-4") }}
+                className={{ button: combo(style, "rounded-full p-2", "-right-2 md:-right-4", "disabled:opacity-30") }}
                 onClick={() => emblaApi?.scrollNext()}
                 disabled={!canScroll.next}
             >

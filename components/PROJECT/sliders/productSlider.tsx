@@ -14,7 +14,7 @@ export default function ProductSlider(props: ProductSliderProps) {
     if (!productList.length) return null;
 
     return (
-        <section className="flex flex-col items-center space-y-6">
+        <div className="flex flex-col items-center space-y-6">
             <h2 className="text-center text-4xl font-bold">{title}</h2>
             {description && <p className="max-w-300 text-center">{description}</p>}
             <Carousel gap="0.5rem" withArrows>
@@ -28,6 +28,6 @@ export default function ProductSlider(props: ProductSliderProps) {
                     </Slide>
                 ))}
             </Carousel>
-        </section>
+        </div>
     );
 }

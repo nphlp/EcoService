@@ -63,7 +63,7 @@ const SuspendedPage = async (props: PageProps) => {
     const { name, image, price, description, stock, Category } = product;
 
     return (
-        <div className="w-full max-w-300 flex-1 space-y-8 p-7">
+        <div className="w-full max-w-300 flex-1 space-y-8 overflow-x-hidden p-7 px-4 md:px-7">
             <Link label="Retour aux produits" href="/catalog" variant="ghost">
                 <ArrowLeft className="mr-2 size-4" />
                 Retour aux produits
