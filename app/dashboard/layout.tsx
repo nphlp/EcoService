@@ -1,9 +1,8 @@
 import { getSession } from "@lib/auth-server";
 import { unauthorized } from "next/navigation";
 import { ReactNode } from "react";
-import LinkList from "./linkList";
-import MainContent from "./mainContent";
-import SidebarLayout from "./sidebarLayout";
+import LinkList from "./components/linkList";
+import Sidebar from "./components/sidebar";
 
 type LayoutProps = {
     children: ReactNode;
@@ -22,10 +21,10 @@ export default async function Layout(props: LayoutProps) {
 
     return (
         <div className="flex w-full flex-1 flex-row border-t border-gray-300">
-            <SidebarLayout className="bg-gray-100">
+            <Sidebar className="bg-gray-100">
                 <LinkList />
-            </SidebarLayout>
-            <MainContent className="bg-gray-50">{children}</MainContent>
+            </Sidebar>
+            <div className="flex w-full flex-1 flex-col overflow-y-auto bg-gray-50">{children}</div>
         </div>
     );
 }

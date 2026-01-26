@@ -1,10 +1,11 @@
+import { combo } from "@lib/combo";
 import { hasRole } from "@permissions/hasRole";
 import { CategoryFindManyServer } from "@services/server";
 import { Metadata } from "next";
 import { unauthorized } from "next/navigation";
 import { connection } from "next/server";
 import { Suspense } from "react";
-import SidebarToggleButton from "../sidebarToggleButton";
+import SidebarToggleButton from "../components/sidebarToggleButton";
 import ProductCreationForm from "./productCreationForm";
 
 export const metadata: Metadata = {
@@ -36,13 +37,13 @@ const SuspendedPage = async () => {
     }
 
     return (
-        <div className="flex h-full flex-col">
+        <>
             <SidebarToggleButton title={metadata.title as string} />
             <div className="flex flex-1 flex-col items-center justify-center">
-                <div className="flex w-full flex-col items-center justify-start">
+                <div className={combo("flex w-full flex-col items-center justify-start", "px-4 py-4 md:px-7")}>
                     <ProductCreationForm categoryList={categoryList} />
                 </div>
             </div>
-        </div>
+        </>
     );
 };

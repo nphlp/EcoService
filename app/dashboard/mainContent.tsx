@@ -1,7 +1,0 @@
-import { combo } from "@lib/combo";
-import { ReactNode } from "react";
-
-export default function MainContent(props: { className?: string; children: ReactNode }) {
-    const { className, children } = props;
-    return <div className={combo("flex w-full flex-1 flex-col overflow-y-auto", className)}>{children}</div>;
-}

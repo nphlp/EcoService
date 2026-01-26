@@ -1,10 +1,11 @@
+import { combo } from "@lib/combo";
 import { hasRole } from "@permissions/hasRole";
 import { ArticleFindUniqueServer, DiyFindUniqueServer } from "@services/server";
 import { Metadata } from "next";
 import { notFound, unauthorized } from "next/navigation";
 import { connection } from "next/server";
 import { Suspense } from "react";
-import SidebarToggleButton from "../../../sidebarToggleButton";
+import SidebarToggleButton from "../../../components/sidebarToggleButton";
 import ContentEditForm from "./contentEditForm";
 
 export const metadata: Metadata = {
@@ -64,13 +65,13 @@ const SuspendedPage = async (props: PageProps) => {
     }
 
     return (
-        <div className="flex h-full flex-col">
+        <>
             <SidebarToggleButton title={metadata.title as string} />
-            <div className="flex flex-1 flex-col items-center py-8">
-                <div className="flex w-full flex-col items-center justify-start">
+            <div className="flex flex-1 flex-col items-center justify-center">
+                <div className={combo("flex w-full flex-col items-center justify-start", "px-4 py-4 md:px-7")}>
                     <ContentEditForm type={type} content={content} />
                 </div>
             </div>
-        </div>
+        </>
     );
 };

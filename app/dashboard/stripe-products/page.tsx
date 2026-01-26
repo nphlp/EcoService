@@ -5,7 +5,7 @@ import { unauthorized } from "next/navigation";
 import { connection } from "next/server";
 import { Suspense } from "react";
 import Solid from "@/solid/solid-fetch";
-import SidebarToggleButton from "../sidebarToggleButton";
+import SidebarToggleButton from "../components/sidebarToggleButton";
 import { Context } from "./components/context";
 import ProductDisplay from "./components/productDisplay";
 import Provider from "./components/provider";
@@ -34,20 +34,18 @@ const SuspendedPage = async () => {
 
     return (
         <Provider itemsAmount={stripeProductList.length}>
-            <main className="flex w-full flex-1 flex-col">
-                <SidebarToggleButton title={metadata.title as string} />
-                <Suspense>
-                    <div className="flex-1">
-                        <ProductDisplay stripeProductList={stripeProductList} take={ITEMS_PER_PAGE} />
-                    </div>
-                    <Pagination
-                        path="/dashboard/stripe-products"
-                        context={Context}
-                        takeOverride={ITEMS_PER_PAGE}
-                        className="pb-6"
-                    />
-                </Suspense>
-            </main>
+            <SidebarToggleButton title={metadata.title as string} />
+            <Suspense>
+                <div className="w-full flex-1 px-4 py-4 md:px-7">
+                    <ProductDisplay stripeProductList={stripeProductList} take={ITEMS_PER_PAGE} />
+                </div>
+                <Pagination
+                    path="/dashboard/stripe-products"
+                    context={Context}
+                    takeOverride={ITEMS_PER_PAGE}
+                    className="mb-4"
+                />
+            </Suspense>
         </Provider>
     );
 };

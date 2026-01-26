@@ -101,7 +101,7 @@ export default function ProductCreationForm(props: ProductCreationFormPros) {
     };
 
     return (
-        <Card className="rounded-3xl p-8 md:w-[600px]">
+        <Card className="w-full rounded-3xl p-8 md:max-w-200">
             <form className="space-y-4">
                 <Input label="Nom du produit" type="text" setValue={setName} value={name} autoFocus />
 

@@ -139,19 +139,19 @@ export default function ContentCreationForm() {
     };
 
     return (
-        <Card className="w-full max-w-3xl rounded-3xl p-8">
+        <Card className="w-full max-w-200 rounded-3xl p-8">
             <form className="space-y-8">
                 {/* Type selection */}
-                <div className="space-y-3">
-                    <label className="text-sm font-medium text-gray-700">Type de contenu</label>
-                    <div className="grid grid-cols-2 gap-4">
+                <div>
+                    <label className="text-sm font-semibold text-gray-700">Type de contenu</label>
+                    <div className="grid grid-cols-2 gap-4 pt-1">
                         <button
                             type="button"
                             onClick={() => setContentType("article")}
                             className={combo(
                                 "flex cursor-pointer flex-col items-center gap-3 rounded-2xl border-2 p-6 transition-all",
                                 isArticle
-                                    ? "border-blue-500 bg-blue-50 text-blue-700"
+                                    ? "border-blue-200 bg-blue-50 text-blue-500"
                                     : "border-gray-200 bg-white text-gray-500 hover:border-gray-300 hover:bg-gray-50",
                             )}
                         >
@@ -164,7 +164,7 @@ export default function ContentCreationForm() {
                             className={combo(
                                 "flex cursor-pointer flex-col items-center gap-3 rounded-2xl border-2 p-6 transition-all",
                                 isDiy
-                                    ? "border-amber-500 bg-amber-50 text-amber-700"
+                                    ? "border-amber-200/70 bg-amber-50 text-amber-500"
                                     : "border-gray-200 bg-white text-gray-500 hover:border-gray-300 hover:bg-gray-50",
                             )}
                         >
@@ -191,7 +191,7 @@ export default function ContentCreationForm() {
                                 key={block.id}
                                 className={combo(
                                     "relative rounded-2xl border-2 p-5",
-                                    isArticle ? "border-blue-100 bg-blue-50/30" : "border-amber-100 bg-amber-50/30",
+                                    isArticle ? "border-blue-100 bg-blue-50/30" : "border-amber-200/70 bg-amber-50",
                                 )}
                             >
                                 {/* Block number badge */}
@@ -209,7 +209,7 @@ export default function ContentCreationForm() {
                                     <button
                                         type="button"
                                         onClick={() => handleRemoveBlock(block.id)}
-                                        className="absolute -top-2 -right-2 rounded-full bg-white p-1.5 text-gray-400 shadow-md transition-colors hover:bg-red-50 hover:text-red-500"
+                                        className="absolute -top-3 -right-3 cursor-pointer rounded-full border border-gray-100 bg-white p-1.5 text-gray-400 shadow-md transition-colors hover:border-gray-300 hover:bg-red-50 hover:text-red-500"
                                     >
                                         <Trash2 className="size-4" />
                                     </button>
@@ -222,10 +222,10 @@ export default function ContentCreationForm() {
                                         </label>
                                         <textarea
                                             className={combo(
-                                                "min-h-32 w-full rounded-xl border-2 p-4 text-sm transition-colors focus:outline-none",
+                                                "field-sizing-content min-h-32 w-full rounded-xl border-2 px-4 py-3 text-sm transition-colors focus:outline-none",
                                                 isArticle
                                                     ? "border-blue-100 bg-white focus:border-blue-300"
-                                                    : "border-amber-100 bg-white focus:border-amber-300",
+                                                    : "border-amber-200/70 bg-white focus:border-amber-400",
                                             )}
                                             value={block.content}
                                             onChange={(e) => handleContentChange(block.id, e.target.value)}
@@ -246,10 +246,10 @@ export default function ContentCreationForm() {
                             type="button"
                             onClick={handleAddBlock}
                             className={combo(
-                                "flex w-full items-center justify-center gap-2 rounded-2xl border-2 border-dashed p-4 font-medium transition-colors",
+                                "flex w-full cursor-pointer items-center justify-center gap-2 rounded-2xl border-2 border-dashed px-4 py-1.5 font-medium transition-colors",
                                 isArticle
                                     ? "border-blue-200 text-blue-500 hover:border-blue-300 hover:bg-blue-50"
-                                    : "border-amber-200 text-amber-500 hover:border-amber-300 hover:bg-amber-50",
+                                    : "border-amber-300 text-amber-500 hover:border-amber-500 hover:bg-amber-50",
                             )}
                         >
                             <Plus className="size-5" />
@@ -258,7 +258,7 @@ export default function ContentCreationForm() {
                     </div>
                 )}
 
-                <Feedback message={message} mode={mode} isFeedbackOpen={isFeedbackOpen} />
+                {contentType && <Feedback message={message} mode={mode} isFeedbackOpen={isFeedbackOpen} />}
 
                 {/* Submit button */}
                 {contentType && (
