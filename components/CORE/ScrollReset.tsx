@@ -20,9 +20,9 @@ const SuspensedScrollReset = () => {
     const pathname = usePathname();
 
     useEffect(() => {
-        const mainElement = document.getElementById("main");
-        if (mainElement) {
-            mainElement.scrollTo(0, 0);
+        const htmlElement = document.querySelector("html");
+        if (htmlElement) {
+            htmlElement.scrollTo(0, 0);
         }
     }, [pathname]);
 

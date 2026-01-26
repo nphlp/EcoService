@@ -97,7 +97,7 @@ export default function ProductEditForm(props: ProductEditFormProps) {
     const currentImageUrl = product.images?.[0] ?? product.metadata?.localImage ?? "";
 
     return (
-        <Card className="rounded-3xl p-8 md:w-[600px]">
+        <Card className="w-full max-w-200 rounded-3xl p-8">
             <form className="space-y-4">
                 <Input label="Nom du produit" type="text" setValue={setName} value={name} autoFocus />
 

@@ -23,7 +23,7 @@ export default async function SessionAccordion(props: SessionAccordionProps) {
     return (
         <Accordion>
             <AccordionButton>
-                <div className="text-lg font-bold">Profile & Sessions</div>
+                <div className="text-lg font-bold">Profil & Sessions</div>
                 <div className="text-xs text-gray-500">
                     Consulter vos informations personnelles et gérer vos sessions actives.
                 </div>

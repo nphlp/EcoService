@@ -16,8 +16,8 @@ import { Metadata } from "next";
 import { unauthorized } from "next/navigation";
 import { connection } from "next/server";
 import { JSX, Suspense, cloneElement } from "react";
-import ContentList from "./contentList";
-import SidebarToggleButton from "./sidebarToggleButton";
+import ContentList from "./components/contentList";
+import SidebarToggleButton from "./components/sidebarToggleButton";
 
 export const metadata: Metadata = {
     title: "Dashboard",
@@ -59,7 +59,7 @@ const SuspendedPage = async () => {
     return (
         <>
             <SidebarToggleButton title={metadata.title as string} />
-            <div className="space-y-8 p-6">
+            <div className="space-y-8 p-4 py-4 md:px-7">
                 <section>
                     <h2 className="mb-4 text-lg font-semibold text-gray-700">Statistiques</h2>
                     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">

@@ -155,7 +155,7 @@ export default function ContentEditForm(props: ContentEditFormProps) {
     };
 
     return (
-        <Card className="w-full max-w-3xl rounded-3xl p-8">
+        <Card className="w-full max-w-200 rounded-3xl p-8">
             <form className="space-y-8">
                 <Input label={labels.title} type="text" setValue={setTitle} value={title} autoFocus />
 
@@ -198,7 +198,7 @@ export default function ContentEditForm(props: ContentEditFormProps) {
                                     </label>
                                     <textarea
                                         className={combo(
-                                            "min-h-32 w-full rounded-xl border-2 p-4 text-sm transition-colors focus:outline-none",
+                                            "field-sizing-content min-h-32 w-full rounded-xl border-2 px-4 py-3 text-sm transition-colors focus:outline-none",
                                             isArticle
                                                 ? "border-blue-100 bg-white focus:border-blue-300"
                                                 : "border-amber-100 bg-white focus:border-amber-300",

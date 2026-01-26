@@ -15,7 +15,7 @@ export type StylesType = {
 const structure: StructureType = {
     component: combo(
         // Position
-        "absolute top-0 left-0 z-50 h-screen w-screen",
+        "fixed top-0 left-0 z-50 h-screen w-screen",
         // Scroll
         "overflow-auto",
     ),

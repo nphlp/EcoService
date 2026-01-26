@@ -9,8 +9,6 @@ import { CreditCard, FilePlus, LayoutDashboard, PackagePlus } from "lucide-react
 import { usePathname } from "next/navigation";
 import { useSidebarStore } from "./sidebarStore";
 
-// import { MouseEvent, useState } from "react";
-
 export default function LinkList() {
     const path = usePathname();
     const { setIsOpen } = useSidebarStore();
@@ -21,28 +19,8 @@ export default function LinkList() {
         }
     };
 
-    // const [isModalOpen, setIsModalOpen] = useState(false);
-
-    // const handleDisabledLink = (e: MouseEvent<HTMLAnchorElement>) => {
-    //     e.preventDefault();
-    //     setIsModalOpen(true);
-    // };
-
     return (
         <div className="space-y-2 md:space-y-1">
-            {/* <Modal
-                setIsModalOpen={setIsModalOpen}
-                isModalOpen={isModalOpen}
-                className={{ card: "flex flex-col items-center gap-4 py-8" }}
-                withCross
-            >
-                <Hammer className="size-18 stroke-[1.3px] text-gray-700" />
-                <div className="space-y-2 text-center">
-                    <h1 className="text-xl font-semibold">En cours de développement</h1>
-                    <p>Ce lien n&apos;est pas encore actif car la page est en construction.</p>
-                </div>
-            </Modal> */}
-
             <Link
                 label="Dashboard"
                 variant="outline"
@@ -95,13 +73,6 @@ export default function LinkList() {
                 <CreditCard className="size-5 md:size-4" />
                 Produits Stripe
             </Link>
-            {/* <Link
-                label="Créer un vendeur"
-                variant="outline"
-                className={combo("w-full text-sm", path === "/dashboard/create-vendor" && "font-bold")}
-                href={"/dashboard/create-vendor" as Route}
-                onClick={handleDisabledLink}
-            /> */}
         </div>
     );
 }

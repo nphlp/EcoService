@@ -1,3 +1,4 @@
+import { HEADER_HEIGHT } from "@comps/CORE/config";
 import { combo } from "@lib/combo";
 import IconLinks from "./IconLinks";
 import LogoTitle from "./LogoTitle";
@@ -11,7 +12,7 @@ export default async function BrowserHeader(props: BrowserHeaderProps) {
     const { className } = props;
 
     return (
-        <div className={className}>
+        <header style={{ height: `${HEADER_HEIGHT}rem` }} className={combo("sticky inset-x-0 top-0 z-10", className)}>
             <nav
                 className={combo(
                     "mx-auto max-w-400 px-4 py-3 md:px-7",
@@ -22,6 +23,6 @@ export default async function BrowserHeader(props: BrowserHeaderProps) {
                 <Navigation />
                 <IconLinks />
             </nav>
-        </div>
+        </header>
     );
 }

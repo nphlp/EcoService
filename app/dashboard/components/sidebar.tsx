@@ -6,7 +6,7 @@ import { AnimatePresence, motion } from "motion/react";
 import { ReactNode } from "react";
 import { useSidebarStore } from "./sidebarStore";
 
-export default function SidebarLayout(props: { width?: number; className?: string; children: ReactNode }) {
+export default function Sidebar(props: { width?: number; className?: string; children: ReactNode }) {
     const { width = 250, className, children } = props;
     const { isOpen, setIsOpen } = useSidebarStore();
 
@@ -24,7 +24,7 @@ export default function SidebarLayout(props: { width?: number; className?: strin
                     animate={{ x: isOpen ? 0 : -width }}
                     transition={{ duration: 0.3 }}
                     style={{ width }}
-                    className={combo("h-full overflow-hidden", "border-r-1 border-gray-300", "space-y-2 p-5")}
+                    className={combo("h-full overflow-hidden", "border-r border-gray-300", "space-y-2 p-5")}
                 >
                     {children}
                 </motion.div>

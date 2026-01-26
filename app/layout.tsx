@@ -4,6 +4,7 @@ import Header from "@comps/CORE/Header";
 import ScrollReset from "@comps/CORE/ScrollReset";
 import Search from "@comps/CORE/Search";
 import BasketSync from "@comps/CORE/basket/basketSync";
+import { HEADER_HEIGHT } from "@comps/CORE/config";
 import { combo } from "@lib/combo";
 import "@public/globals.css";
 import type { Metadata } from "next";
@@ -35,21 +36,22 @@ export default async function Layout(props: LayoutProps) {
     const lang = "fr";
 
     return (
-        <html lang={lang} className={combo("h-full", inter.className)}>
-            <body className="flex h-full flex-col">
+        <html lang={lang} className={combo("min-h-full", inter.className)}>
+            <body className="h-full antialiased">
                 <NuqsAdapter>
                     <Header />
                     <Search />
                     <Basket />
                     <BasketSync />
-                    <div id="main" className="flex-1 overflow-y-auto">
-                        <main className="flex min-h-full flex-col items-center justify-center">
-                            <Suspense>{children}</Suspense>
-                        </main>
-                        <Footer />
-                    </div>
+                    <main
+                        style={{ minHeight: `calc(100vh - ${HEADER_HEIGHT}rem)` }}
+                        className="flex flex-col items-center justify-center"
+                    >
+                        <Suspense>{children}</Suspense>
+                    </main>
+                    <Footer />
+                    <ScrollReset />
                 </NuqsAdapter>
-                <ScrollReset />
             </body>
         </html>
     );
