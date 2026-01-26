@@ -39,7 +39,7 @@ const SuspendedPage = async () => {
     const productList = await ProductFindManyServer(ProductFetchParams);
 
     return (
-        <div className="w-full space-y-16 pb-16">
+        <div className="w-full space-y-16 overflow-x-hidden pb-16">
             <section
                 style={{
                     backgroundImage: "url('/home.webp')",
@@ -108,7 +108,7 @@ const SuspendedPage = async () => {
                 />
             </section>
 
-            <section className={combo("mx-auto max-w-400 px-4 md:px-7", "space-y-16 overflow-x-hidden")}>
+            <section className={combo("mx-auto max-w-400 px-4 md:px-7", "space-y-16")}>
                 <ProductSlider
                     productList={productList}
                     title="Nos produits vedettes"

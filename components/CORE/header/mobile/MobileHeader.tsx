@@ -28,7 +28,7 @@ export default function MobileHeader(props: MobileHeaderProps) {
                 variant="none"
                 className={{
                     button: combo(
-                        "absolute right-5 bottom-5 z-50 rounded-full border border-gray-500 bg-white p-3 shadow-md",
+                        "fixed right-5 bottom-5 z-50 rounded-full border border-gray-500 bg-white p-3 shadow-md",
                         isMenuOpen && "hidden",
                     ),
                 }}
